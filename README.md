@@ -39,6 +39,8 @@ docker compose up -d
 docker compose stop
 ```
 
+Sau khi chạy xong docker, có thể tiến hành bật backend từ idle.
+
 ## Kết nối hệ quản trị với cơ sở dữ liệu
 
 <img width="690" height="556" alt="image" src="https://github.com/user-attachments/assets/7e1c0fec-0612-45fa-a74a-16edabc6733c" />
