@@ -1,3 +1,33 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
+    properties:
+      "[mail.smtp.auth]": true
+      "[mail.smtp.starttls.enable]": true
+      "[mail.smtp.starttls.required]": true
+
+
   application:
     name: tmdt
+  datasource:
+    url: jdbc:mysql://localhost:3306/bookstore
+    username: oilia
+    password: 123456
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+server:
+  port: 8080
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+  folder: tmdt
