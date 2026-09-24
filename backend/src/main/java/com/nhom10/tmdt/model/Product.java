@@ -1,7 +1,7 @@
 package com.nhom10.tmdt.model;
 
+import com.nhom10.tmdt.enums.ProductType;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -31,10 +32,13 @@ public class Product {
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name="product_type")
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
+
     @OneToMany(mappedBy = "product")
     private List<ProductCustomItem> productCustomItems;
 
-    // private Factory factory;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
     private Category category;
@@ -45,5 +49,23 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> productImages;
+
+    @Column(name="base_price")
+    private double basePrice;
+
+    // here
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name="wish_list_id")
+    private WishList wishList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="sale_id")
+    private Sales sale;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductMil> productMils;
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
 }
 

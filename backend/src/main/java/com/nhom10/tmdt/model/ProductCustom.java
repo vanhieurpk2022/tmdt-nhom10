@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductCustom {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="bottle_Type")
@@ -32,8 +33,6 @@ public class ProductCustom {
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
-
-    private Product product;
-    @OneToMany(mappedBy = "productCustom", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "productCustom")
     private List<ProductCustomItem> items;
 }

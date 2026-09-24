@@ -19,4 +19,10 @@ public class Role {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="user_role", joinColumns = @JoinColumn(name="role_id"),
+        inverseJoinColumns = @JoinColumn(name="user_id")
+    )
+    private User user;
 }

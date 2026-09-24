@@ -3,12 +3,14 @@ package com.nhom10.tmdt.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity
-@Table(name="refund_evidence")
+@Table(name = "refund_evidence")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,11 +22,11 @@ public class RefundEvidence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // @ManyToOne
-    // @JoinColumn(name = "refund_id", nullable = false)
-    //private Refund refund;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "refund_id")
+    private Refund refund;
 
-    @Column(name = "file_url", nullable = false)
+    @Column(name = "file_url")
     private String fileUrl;
 
     @Column(name = "content_type")
@@ -35,4 +37,6 @@ public class RefundEvidence {
 
     @Column(name = "uploaded_at")
     private LocalDateTime uploadedAt;
+
+
 }

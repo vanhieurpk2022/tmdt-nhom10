@@ -6,24 +6,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import javax.annotation.processing.Generated;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="cart_item")
+@Table(name = "review_image")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem {
+public class ReviewImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int quantity;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="product_id")
-    private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="cart_id")
-     private Cart cart;
+    @JoinColumn(name = "review_id")
+    private Review review;
+
+    @Column(name="image_url")
+    private String imageUrl;
+
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
 }

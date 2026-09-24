@@ -1,4 +1,7 @@
 spring:
+  data:
+    rest:
+      base-path: /api
   mail:
     host: smtp.gmail.com
     port: 587

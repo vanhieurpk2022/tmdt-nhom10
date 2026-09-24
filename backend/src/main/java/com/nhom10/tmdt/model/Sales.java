@@ -7,30 +7,35 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name="sales")
+@Table(name = "sales")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sales {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
-    @Column(name ="discount_rate" )
+    @Column(name = "discount_rate")
     private double discountRate;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
-    @Column(name="end_date")
+    @Column(name = "end_date")
     private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus status;
 
-    // private Product product;
+    @OneToMany(mappedBy = "sale")
+    private List<Product> product;
+
 }
