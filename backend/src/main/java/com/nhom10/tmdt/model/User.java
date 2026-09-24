@@ -45,8 +45,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "user")
-    private List<User> users;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),

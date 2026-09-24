@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name="roles")
 @Data
@@ -24,5 +26,5 @@ public class Role {
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="role_id"),
         inverseJoinColumns = @JoinColumn(name="user_id")
     )
-    private User user;
+    private List<User> user;
 }
