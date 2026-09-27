@@ -27,9 +27,11 @@ public class Product {
     private String description;
 
 
-    @Formula("(SELECT MIN(pm.price) FROM product_mil pm WHERE pm.product_id = id AND pm.is_active = true)")
     @Column(name="min_price")
     private Double price;
+
+    @Column(name="min_base_price")
+    private Double minBasePrice;
 
     @Column(name="created_at")
     private LocalDateTime createdAt;
