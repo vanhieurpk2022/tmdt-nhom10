@@ -2,30 +2,34 @@ package com.nhom10.tmdt.model;
 
 import com.nhom10.tmdt.enums.ProductType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Formula;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name="product")
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String name;
     private String description;
-    private double price;
 
-    @Column(name="stock_quantity")
-    private int stockQuantity;
+
+    @Formula("(SELECT MIN(pm.price) FROM product_mil pm WHERE pm.product_id = id AND pm.is_active = true)")
+    @Column(name="min_price")
+    private Double price;
 
     @Column(name="created_at")
     private LocalDateTime createdAt;
@@ -49,9 +53,6 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> productImages;
-
-    @Column(name="base_price")
-    private double basePrice;
 
     // here
     @ManyToOne(fetch =  FetchType.LAZY)
