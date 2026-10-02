@@ -35,7 +35,6 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<Refund> refunds;
 
-
     @Column(name = "subtotal_price", nullable = false)
     private Double subtotalPrice;
 
