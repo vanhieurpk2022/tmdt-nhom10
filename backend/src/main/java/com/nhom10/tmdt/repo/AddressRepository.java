@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @RepositoryRestResource(path = "address")
 public interface AddressRepository extends JpaRepository<Address,Long> {
+
 }

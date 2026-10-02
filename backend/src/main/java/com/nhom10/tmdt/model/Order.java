@@ -32,6 +32,8 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
+    @OneToMany(mappedBy = "order")
+    private List<Refund> refunds;
 
 
     @Column(name = "subtotal_price", nullable = false)

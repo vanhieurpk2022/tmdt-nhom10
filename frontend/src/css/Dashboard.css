@@ -1,0 +1,89 @@
+/* Thêm các biến này vào :root trong src/index.css */
+:root {
+  --color-bg-page: #F9FAFB;
+  --color-surface: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-text-muted: #6B7280;
+  --color-success: #059669;
+  --color-info: #2563EB;
+  --color-warning: #F59E0B;
+  --color-neutral: #9CA3AF;
+}
+
+.dash-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  height: 100%;
+}
+
+.dash-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.dash-muted { color: var(--color-text-muted); font-size: 0.75rem; }
+.dash-link { color: var(--color-primary); font-size: 0.75rem; font-weight: 600; text-decoration: none; }
+.dash-link:hover { color: var(--color-primary-dark); }
+
+/* Icon tròn trong StatCard */
+.stat-icon {
+  width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-size: 0.8rem; flex-shrink: 0;
+}
+.stat-icon.tone-danger  { color: var(--color-primary); background: color-mix(in srgb, var(--color-primary) 12%, white); }
+.stat-icon.tone-success { color: var(--color-success); background: color-mix(in srgb, var(--color-success) 12%, white); }
+.stat-icon.tone-info    { color: var(--color-info);    background: color-mix(in srgb, var(--color-info) 12%, white); }
+.stat-icon.tone-warning { color: var(--color-warning); background: color-mix(in srgb, var(--color-warning) 14%, white); }
+
+/* Bộ chọn khoảng thời gian */
+.range-tabs {
+  display: inline-flex; padding: 3px; gap: 2px;
+  background: #F3F4F6; border-radius: 10px;
+}
+.range-tabs button {
+  border: 0; background: transparent; padding: 4px 12px;
+  font-size: 0.75rem; color: var(--color-text-muted); border-radius: 8px;
+}
+.range-tabs button.active {
+  background: var(--color-surface); color: var(--color-bg-dark);
+  font-weight: 700; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Thanh tiến độ */
+.reason-bar { height: 6px; border-radius: 999px; background: #F3F4F6; overflow: hidden; }
+.reason-bar > span { display: block; height: 100%; border-radius: 999px; }
+
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+.escrow-badge {
+  font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+  background: #F3F4F6; color: var(--color-text-muted);
+}
+
+/* Nút phụ (Xuất báo cáo) và nút chính (Phê duyệt) */
+.btn-outline-soft {
+  --bs-btn-color: var(--color-bg-dark);
+  --bs-btn-border-color: var(--color-border);
+  --bs-btn-bg: var(--color-surface);
+  --bs-btn-hover-color: var(--color-bg-dark);
+  --bs-btn-hover-bg: #F3F4F6;
+  --bs-btn-hover-border-color: var(--color-border);
+  --bs-btn-border-radius: 10px;
+  font-size: 0.8rem;
+}
+.btn-approve {
+  --bs-btn-color: var(--color-text-light);
+  --bs-btn-bg: var(--color-primary);
+  --bs-btn-border-color: var(--color-primary);
+  --bs-btn-hover-color: var(--color-text-light);
+  --bs-btn-hover-bg: var(--color-primary-dark);
+  --bs-btn-hover-border-color: var(--color-primary-dark);
+  --bs-btn-border-radius: 10px;
+  font-size: 0.8rem; font-weight: 600;
+}
