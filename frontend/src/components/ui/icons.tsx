@@ -139,3 +139,80 @@ export function BellIcon(props: IconProps) {
     </Icon>
   )
 }
+
+export function ArrowRightIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </Icon>
+  )
+}
+
+export function PlusIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </Icon>
+  )
+}
+
+export function StarIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="m12 3 2.8 5.67 6.26.91-4.53 4.41 1.07 6.23L12 17.28l-5.6 2.94 1.07-6.23-4.53-4.41 6.26-.91L12 3Z" />
+    </Icon>
+  )
+}
+
+export function TruckIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 6h11v10H3V6Z" />
+      <path d="M14 9h4l3 3v4h-7V9Z" />
+      <circle cx="7" cy="18" r="2" />
+      <circle cx="17" cy="18" r="2" />
+    </Icon>
+  )
+}
+
+export function ShieldCheckIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+      <path d="m9 12 2 2 4-4" />
+    </Icon>
+  )
+}
+
+export function LeafIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M5 21c8-2 14-9 14-18-9 0-16 6-18 14 2 0 4 1 4 4Z" />
+      <path d="M9 15c2-3 5-5 10-8" />
+    </Icon>
+  )
+}
+
+export function CreditCardIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M3 10h18" />
+      <path d="M7 15h3" />
+    </Icon>
+  )
+}
+
+export function GiftIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M20 12v8H4v-8" />
+      <path d="M2 7h20v5H2V7Z" />
+      <path d="M12 22V7" />
+      <path d="M12 7H8.5A2.5 2.5 0 1 1 11 4.5V7Z" />
+      <path d="M12 7h3.5A2.5 2.5 0 1 0 13 4.5V7Z" />
+    </Icon>
+  )
+}
