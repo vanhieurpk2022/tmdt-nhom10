@@ -1,0 +1,48 @@
+.footer-brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: #12141a;
+}
+
+.footer-col-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: #111827;
+}
+
+.footer-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.footer-link-list a {
+  font-size: 13.5px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-link-list a:hover {
+  color: #111827;
+}
+
+.footer-social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 15px;
+  transition: all 0.15s ease;
+}
+
+.footer-social-btn:hover {
+  background-color: #12141a !important;
+  border-color: #12141a !important;
+  color: #fff !important;
+}
