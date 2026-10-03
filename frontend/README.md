@@ -13,7 +13,7 @@
 
 ## Cài đặt lần đầu
 
-Mở terminal tại thư mục `frontend`:
+Mở terminal tại thư mục gốc project, sau đó chạy:
 
 ```bash
 cd frontend
@@ -30,52 +30,52 @@ Trong thư mục `frontend`, chạy:
 npm run dev
 ```
 
-Sau đó mở đường dẫn Vite hiển thị trong terminal, thường là:
+Sau khi chạy thành công, Vite sẽ in ra đường dẫn trong terminal. Thường là:
 
 ```text
-http://localhost:5173
+http://localhost:5173/
 ```
 
-## Kiểm tra build
+Hoặc:
 
-Trước khi commit hoặc push code frontend, nên chạy:
-
-```bash
-npm run build
+```text
+http://127.0.0.1:5173/
 ```
 
-Nếu build thành công thì frontend có thể đóng gói production.
+Mở một trong hai đường dẫn đó trên trình duyệt để xem giao diện.
 
-## Kiểm tra lint
+## Kiểm tra trước khi commit
 
-Chạy:
+Nên chạy lần lượt từng lệnh, không chạy song song:
 
 ```bash
 npm run lint
+npm run build
 ```
 
-Lệnh này giúp kiểm tra lỗi code style và một số lỗi TypeScript/React cơ bản.
+Trong đó:
+
+- `npm run lint`: kiểm tra lỗi code style và một số lỗi React/TypeScript cơ bản.
+- `npm run build`: kiểm tra frontend có build production thành công không.
 
 ## Cấu trúc thư mục quan trọng
 
 ```text
 frontend/src
 ├── components
-│   └── ui              # Component shadcn/ui
+│   ├── layout          # Header, Footer, AppLayout
+│   └── ui              # Component shadcn/ui và icon dùng chung
 ├── lib
 │   └── utils.ts        # Hàm tiện ích, hiện có hàm cn()
-├── App.tsx             # Component gốc tạm thời
+├── App.tsx             # Component gốc
 ├── index.css           # Tailwind theme và CSS global
 └── main.tsx            # Điểm render React app
 ```
 
-Sau này khi làm giao diện thật, có thể mở rộng thêm:
+Sau này khi làm các màn hình thật, có thể mở rộng thêm:
 
 ```text
 frontend/src
-├── components
-│   ├── layout          # Header, Footer, AppLayout
-│   └── ui
 ├── data                # Mock data
 ├── pages               # HomePage, CartPage, CheckoutPage...
 └── services            # API service sau này nối backend
@@ -89,6 +89,7 @@ Ví dụ:
 
 ```tsx
 import { Button } from '@/components/ui/button'
+import { AppLayout } from '@/components/layout/AppLayout'
 import { cn } from '@/lib/utils'
 ```
 
@@ -173,6 +174,6 @@ npx shadcn@latest add card
 ```bash
 npm install      # Cài thư viện
 npm run dev      # Chạy frontend khi code
-npm run build    # Kiểm tra build production
 npm run lint     # Kiểm tra lint
+npm run build    # Kiểm tra build production
 ```

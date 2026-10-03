@@ -1,24 +1,24 @@
-import { Button } from '@/components/ui/button'
+import { AppLayout } from '@/components/layout/AppLayout'
 
 function App() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center gap-6 px-6 text-center">
-        <div className="space-y-3">
-          <p className="text-sm font-medium text-muted-foreground">
-            Tailwind CSS + shadcn/ui
+    <AppLayout defaultAccountOpen>
+      <section className="mx-auto flex min-h-[520px] max-w-[1240px] items-center px-5 py-16 md:px-8">
+        <div className="max-w-2xl">
+          <p className="mb-3 text-sm font-semibold uppercase text-rose-600">
+            Layout preview
           </p>
-          <h1 className="text-4xl font-semibold text-balance md:text-5xl">
-            Frontend foundation is ready
+          <h1 className="text-4xl font-semibold tracking-normal text-slate-950 md:text-5xl">
+            Header và footer đã sẵn sàng cho các trang ecommerce.
           </h1>
-          <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
-            This screen is a small setup check. Next we can replace it with the
-            shared layout, header, footer, and ecommerce pages.
+          <p className="mt-5 text-base leading-7 text-slate-600">
+            Đây là vùng nội dung tạm để kiểm tra khung giao diện. Các trang
+            Home, Cart, Checkout và Order History sẽ được đặt vào giữa layout
+            này ở bước tiếp theo.
           </p>
         </div>
-        <Button>Start building UI</Button>
       </section>
-    </main>
+    </AppLayout>
   )
 }
 
