@@ -1,0 +1,43 @@
+.header-topbar {
+  background-color: #12141a;
+  font-size: 13px;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
+.search-wrapper {
+  max-width: 420px;
+}
+
+.search-icon-left {
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.search-shortcut {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+}
+
+.user-avatar-circle {
+  width: 38px;
+  height: 38px;
+}
+
+.dropdown-menu-custom {
+  min-width: 270px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.09);
+}
+
+.badge-delivery {
+  background-color: #fef3c7;
+  color: #b45309;
+}
