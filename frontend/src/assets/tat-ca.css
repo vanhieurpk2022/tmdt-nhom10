@@ -80,21 +80,34 @@
 }
 
 .suggestion-tag {
-  font-size: 12.5px;
-  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 16px;
   border-radius: 9999px;
   border: 1px solid #e5e7eb;
-  color: #374151;
-  background: #fff;
+  color: #4b5563;
+  background-color: #ffffff;
+  cursor: pointer;
   text-decoration: none;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.4;
+  outline: none;
 }
 
-.suggestion-tag:hover,
+.suggestion-tag:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
 .suggestion-tag.active {
-  background: #12141a;
-  border-color: #12141a;
-  color: #fff;
+  background-color: #11141a;
+  border-color: #11141a;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .product-card {

@@ -9,6 +9,12 @@
   border-radius: 10px;
 }
 
+/* Menu links không bị xuống dòng */
+.header-nav-link {
+  white-space: nowrap;
+  font-size: 14.5px;
+}
+
 .search-wrapper {
   max-width: 420px;
 }
