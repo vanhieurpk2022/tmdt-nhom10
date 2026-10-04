@@ -13,8 +13,8 @@ export function Header() {
     };
 
     const cart = {
-        quantity: 0,
-        total: 0,
+        quantity: 3,
+        total: 189,
     };
 
     return (
