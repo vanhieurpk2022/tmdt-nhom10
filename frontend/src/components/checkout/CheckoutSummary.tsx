@@ -1,5 +1,6 @@
 import { faChevronDown, faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router";
 import type { CartItem } from "../../data/cartData";
 import { checkoutTotals } from "../../data/checkoutData";
 
@@ -55,9 +56,9 @@ export default function CheckoutSummary({ items }: CheckoutSummaryProps) {
                 <strong>{formatPrice(total)}</strong>
             </div>
 
-            <button className="btn checkout-continue-btn" type="button">
+            <Link to="/online-payment" className="btn checkout-continue-btn">
                 Tiếp tục
-            </button>
+            </Link>
         </aside>
     );
 }
