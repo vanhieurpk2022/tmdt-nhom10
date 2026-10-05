@@ -5,7 +5,7 @@ interface NavItemProps {
 
 export default function NavItem({ content, active = false }: NavItemProps) {
     return (
-        <button className={`border-0 bg-transparent fw-bold ${active ? "text-danger" : "text-dark"}`}>
+        <button className={`nav-item-button border-0 bg-transparent fw-bold ${active ? "active" : ""}`} type="button">
             {content}
         </button>
     );

@@ -5,12 +5,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Header } from './components/layout/Header';
 import Footer from './components/layout/Footer';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import HomePage from './pages/HomePage';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import OnlinePaymentPage from './pages/OnlinePaymentPage';
+import OrderHistoryPage from './pages/OrderHistoryPage';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/online-payment" element={<OnlinePaymentPage />} />
+        <Route path="/order-success" element={<OrderSuccessPage />} />
+        <Route path="/orders" element={<OrderHistoryPage />} />
+      </Routes>
       <Footer />
     </BrowserRouter>
 

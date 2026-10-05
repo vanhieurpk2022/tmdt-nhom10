@@ -1,8 +1,6 @@
-import type { User } from './User';
-
 export class Role {
   id?: number;
-  name: string = '';
+  name: string = "";
 
   constructor(init?: Partial<Role>) {
     Object.assign(this, init);

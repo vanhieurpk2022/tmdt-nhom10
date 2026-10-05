@@ -1,61 +1,10 @@
-:root {
-  --color-primary: #E11D48;       /* hồng đỏ chủ đạo: nút, điểm nhấn, role */
-  --color-primary-dark: #B80035;  /* đỏ đậm: hover, active */
-  --color-bg-dark: #111827;          /* nền tối: sidebar, text đậm */
-  --color-text-light: #FFFAF9;         /* trắng ấm: nền trang, text trên nền tối */
-  --color-bg-sidebaritem: #9CA3AF;
-}
-
-.search-box {
-    width: 100%;
-    height: 40px;
-    border: 1px solid #E5E7EB;
-    border-radius: 999px;
-    background-color: #F9FAFB;
-}
-
-.search-icon {
-    color: #6B7280;
-    font-size: 15.3px;
-}
-
-.search-input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 16px;
-    color: #374151;
-}
-
-.search-input::placeholder {
-    color: #9CA3AF;
-}
-
-.search-input:focus {
-    outline: none;
-    box-shadow: none;
-}
-.user-dropdown-menu {
-    margin-right: -50px !important;
-}
-.footer-title {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.footer-link {
-    font-size: 12px;
-    line-height: 1.7;
-}
-
-.footer-description {
-    font-size: 11px;
-    line-height: 1.6;
-    max-width: 230px;
-}
-
-.footer-copyright {
-    font-size: 10px;
-}
+@import "./css/base.css";
+@import "./css/layout.css";
+@import "./css/shared.css";
+@import "./css/pages/home.css";
+@import "./css/pages/cart.css";
+@import "./css/pages/checkout.css";
+@import "./css/pages/online-payment.css";
+@import "./css/pages/order-success.css";
+@import "./css/pages/order-history.css";
+@import "./css/responsive.css";
