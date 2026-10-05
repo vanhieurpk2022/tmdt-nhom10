@@ -18,6 +18,7 @@ import ProfilePage from './pages/ProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import AddressBookPage from './pages/AddressBookPage';
 import FavoriteProductsPage from './pages/FavoriteProductsPage';
+import NotificationsPage from './pages/NotificationsPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -36,6 +37,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/addresses" element={<AddressBookPage />} />
         <Route path="/favorites" element={<FavoriteProductsPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
