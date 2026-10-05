@@ -1,4 +1,4 @@
-import { faBoxOpen, faClockRotateLeft, faReceipt } from "@fortawesome/free-solid-svg-icons";
+import { faBoxOpen, faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { OrderHistoryItem } from "../../data/orderHistoryData";
 

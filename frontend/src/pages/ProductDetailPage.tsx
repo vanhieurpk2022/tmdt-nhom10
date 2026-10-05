@@ -1,5 +1,5 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faStar, faLeaf, faShieldHalved, faTruckFast, faMinus, faPlus, faCartShopping, faBolt, faChevronDown, faChevronUp, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faLeaf, faShieldHalved, faTruckFast, faMinus, faPlus, faCartShopping, faBolt, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link } from "react-router";
