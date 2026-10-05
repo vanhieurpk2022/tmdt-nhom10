@@ -214,25 +214,32 @@ export default function ProductsPage() {
                                 </div>
                             </div>
 
-                            {/* Nông trại */}
+                            {/* Gian Hàng */}
                             <div className="filter-group mb-4">
-                                <h6 className="filter-title fs-7 text-uppercase text-muted fw-bold mb-3">Nông trại & Xuất xứ</h6>
+                                <h6 className="filter-title fs-7 text-uppercase text-muted fw-bold mb-3">Gian hàng</h6>
+                                <div className="mb-3 position-relative">
+                                    <input type="text" className="form-control form-control-sm bg-light border-0 ps-3 py-2" placeholder="Tìm kiếm gian hàng..." />
+                                </div>
                                 <div className="d-flex flex-column gap-2">
                                     <label className="d-flex justify-content-between align-items-center custom-checkbox">
-                                        <div><input type="checkbox" className="form-check-input me-2" defaultChecked /> Đà Lạt Organic</div>
+                                        <div><input type="checkbox" className="form-check-input me-2" defaultChecked /> Xưởng Thảo Dược Mysore</div>
                                         <span className="text-muted fs-7">(14)</span>
                                     </label>
                                     <label className="d-flex justify-content-between align-items-center custom-checkbox">
-                                        <div><input type="checkbox" className="form-check-input me-2" /> Bảo Lộc Farm</div>
+                                        <div><input type="checkbox" className="form-check-input me-2" /> Xưởng Thảo Mộc Hưng Yên</div>
                                         <span className="text-muted fs-7">(8)</span>
                                     </label>
                                     <label className="d-flex justify-content-between align-items-center custom-checkbox">
-                                        <div><input type="checkbox" className="form-check-input me-2" /> Hà Giang Native</div>
-                                        <span className="text-muted fs-7">(6)</span>
+                                        <div><input type="checkbox" className="form-check-input me-2" /> Xưởng Chưng Cất Cố Đô Huế</div>
+                                        <span className="text-muted fs-7">(5)</span>
                                     </label>
                                     <label className="d-flex justify-content-between align-items-center custom-checkbox">
-                                        <div><input type="checkbox" className="form-check-input me-2" /> Nhập khẩu Pháp</div>
+                                        <div><input type="checkbox" className="form-check-input me-2" /> Hợp Tác Xã Provence</div>
                                         <span className="text-muted fs-7">(12)</span>
+                                    </label>
+                                    <label className="d-flex justify-content-between align-items-center custom-checkbox">
+                                        <div><input type="checkbox" className="form-check-input me-2" /> Đà Lạt Organic</div>
+                                        <span className="text-muted fs-7">(2)</span>
                                     </label>
                                 </div>
                             </div>
