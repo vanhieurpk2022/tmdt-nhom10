@@ -12,6 +12,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import OnlinePaymentPage from './pages/OnlinePaymentPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import ProductsPage from './pages/ProductsPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/products" element={<ProductsPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/online-payment" element={<OnlinePaymentPage />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
