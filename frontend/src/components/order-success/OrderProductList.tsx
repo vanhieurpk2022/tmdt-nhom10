@@ -13,12 +13,12 @@ function formatPrice(price: number) {
 export default function OrderProductList({ items }: OrderProductListProps) {
     return (
         <section className="order-success-card">
-            <div className="order-success-section-heading">
+            <div className="order-success-section-heading d-flex align-items-center justify-content-between">
                 <h2>Sản phẩm đã đặt</h2>
                 <span>{items.length} sản phẩm</span>
             </div>
 
-            <div className="order-success-product-list">
+            <div className="order-success-product-list d-flex flex-column">
                 {items.map((item) => (
                     <article className="order-success-product-row" key={item.id}>
                         <img src={item.image} alt={item.name} />

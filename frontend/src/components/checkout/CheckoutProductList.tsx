@@ -20,7 +20,7 @@ export default function CheckoutProductList({ items }: CheckoutProductListProps)
                 action={<span className="checkout-muted-count">{items.length} sản phẩm</span>}
             />
 
-            <div className="checkout-product-list">
+            <div className="checkout-product-list d-flex flex-column">
                 {items.map((item) => (
                     <article className="checkout-product-row" key={item.id}>
                         <div className="checkout-product-thumb">

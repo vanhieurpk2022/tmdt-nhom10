@@ -24,15 +24,15 @@ export default function ProductSection({
 }: ProductSectionProps) {
     return (
         <section className={`home-section ${flashSale ? "home-flash-section" : ""}`}>
-            <div className="home-section-heading">
+            <div className="home-section-heading d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between">
                 <div>
                     {flashSale ? (
-                        <div className="home-flash-title">
-                            <span>
+                        <div className="home-flash-title d-flex align-items-center flex-wrap">
+                            <span className="d-inline-flex align-items-center">
                                 <FontAwesomeIcon icon={faBolt} />
                                 Flash Sale
                             </span>
-                            <div className="home-countdown" aria-label="Thời gian còn lại">
+                            <div className="home-countdown d-inline-flex align-items-center" aria-label="Thời gian còn lại">
                                 <b>02</b>
                                 <em>:</em>
                                 <b>45</b>
@@ -51,7 +51,7 @@ export default function ProductSection({
 
                 <div className="d-flex align-items-center gap-3 flex-wrap justify-content-end">
                     {tabs && (
-                        <div className="home-section-tabs">
+                        <div className="home-section-tabs d-flex">
                             {tabs.map((tab, index) => (
                                 <button className={index === 0 ? "active" : ""} type="button" key={tab}>
                                     {tab}
@@ -59,7 +59,7 @@ export default function ProductSection({
                             ))}
                         </div>
                     )}
-                    <a className="home-section-action" href="#products">
+                    <a className="home-section-action d-inline-flex align-items-center" href="#products">
                         {actionLabel}
                         <FontAwesomeIcon icon={faArrowRight} />
                     </a>

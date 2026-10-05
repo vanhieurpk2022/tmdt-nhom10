@@ -38,21 +38,21 @@ export default function OrderHistoryFilters({
 
     return (
         <section className="order-history-toolbar">
-            <div className="order-history-filter-tabs" aria-label="Lọc đơn hàng theo trạng thái">
+            <div className="order-history-filter-tabs d-flex flex-wrap" aria-label="Lọc đơn hàng theo trạng thái">
                 {filterOptions.map((option) => (
                     <button
-                        className={activeFilter === option.value ? "active" : ""}
+                        className={`d-inline-flex align-items-center ${activeFilter === option.value ? "active" : ""}`}
                         key={option.value}
                         type="button"
                         onClick={() => onFilterChange(option.value)}
                     >
                         {option.label}
-                        <span>{countByFilter(option.value)}</span>
+                        <span className="d-inline-flex align-items-center justify-content-center">{countByFilter(option.value)}</span>
                     </button>
                 ))}
             </div>
 
-            <label className="order-history-search">
+            <label className="order-history-search d-flex align-items-center">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                 <input
                     type="search"

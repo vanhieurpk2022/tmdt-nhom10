@@ -50,7 +50,7 @@ export default function CartPage() {
                 <div className="row g-4 align-items-start">
                     <div className="col-12 col-xl-8">
                         <section className="cart-card">
-                            <div className="cart-card-heading">
+                            <div className="cart-card-heading d-flex align-items-start justify-content-between">
                                 <div>
                                     <h1>Giỏ hàng</h1>
                                     <p>Hệ thống đã tự động cập nhật giá mới nhất cho các sản phẩm đã mua của bạn.</p>

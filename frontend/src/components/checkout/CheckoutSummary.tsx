@@ -56,7 +56,7 @@ export default function CheckoutSummary({ items }: CheckoutSummaryProps) {
                 <strong>{formatPrice(total)}</strong>
             </div>
 
-            <Link to="/online-payment" className="btn checkout-continue-btn">
+            <Link to="/online-payment" className="btn checkout-continue-btn d-flex align-items-center justify-content-center fw-bold w-100">
                 Tiếp tục
             </Link>
         </aside>

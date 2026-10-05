@@ -16,7 +16,7 @@ export default function OrderHistoryList({ orders }: OrderHistoryListProps) {
     }
 
     return (
-        <section className="order-history-list" aria-label="Danh sách đơn hàng">
+        <section className="order-history-list d-flex flex-column" aria-label="Danh sách đơn hàng">
             {orders.map((order) => (
                 <OrderHistoryCard key={order.id} order={order} />
             ))}

@@ -18,7 +18,7 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
 
     return (
         <aside className="cart-summary-card">
-            <div className="cart-summary-heading">
+            <div className="cart-summary-heading d-flex align-items-center justify-content-between">
                 <h2>Xác nhận</h2>
                 <span>{selectedItems.length} sản phẩm</span>
             </div>
@@ -55,7 +55,10 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
                 <strong>{formatPrice(total)}</strong>
             </div>
 
-            <Link to="/checkout" className={`btn cart-continue-btn ${selectedItems.length === 0 ? "disabled" : ""}`}>
+            <Link
+                to="/checkout"
+                className={`btn cart-continue-btn d-flex align-items-center justify-content-center fw-bold w-100 ${selectedItems.length === 0 ? "disabled" : ""}`}
+            >
                 Tiếp tục
             </Link>
         </aside>

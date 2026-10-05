@@ -6,13 +6,13 @@ import { orderSuccessInfo } from "../../data/orderSuccessData";
 export default function OrderShippingInfo() {
     return (
         <section className="order-success-card">
-            <div className="order-success-section-heading">
+            <div className="order-success-section-heading d-flex align-items-center justify-content-between">
                 <h2>Thông tin giao hàng</h2>
                 <span>{orderSuccessInfo.estimatedDelivery}</span>
             </div>
 
             <div className="order-success-shipping-grid">
-                <div>
+                <div className="d-flex align-items-start">
                     <span>
                         <FontAwesomeIcon icon={faLocationDot} />
                     </span>
@@ -22,7 +22,7 @@ export default function OrderShippingInfo() {
                         <p>{receiverInfo.address}</p>
                     </div>
                 </div>
-                <div>
+                <div className="d-flex align-items-start">
                     <span>
                         <FontAwesomeIcon icon={faTruckFast} />
                     </span>

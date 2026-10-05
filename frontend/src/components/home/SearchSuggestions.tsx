@@ -8,7 +8,7 @@ export default function SearchSuggestions() {
         <section className="home-search-suggestions" aria-label="Gợi ý tìm kiếm">
             <div className="container-fluid px-4 px-lg-5">
                 <div className="d-flex align-items-center gap-2 flex-wrap">
-                    <span className="home-suggestion-label">
+                    <span className="home-suggestion-label d-inline-flex align-items-center">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                         Gợi ý tìm kiếm:
                     </span>

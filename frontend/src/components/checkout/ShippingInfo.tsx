@@ -34,8 +34,8 @@ export default function ShippingInfo() {
                 </div>
             </div>
 
-            <div className="checkout-note-card">
-                <div className="checkout-note-icon">
+            <div className="checkout-note-card d-flex align-items-center">
+                <div className="checkout-note-icon d-inline-flex align-items-center justify-content-center">
                     <FontAwesomeIcon icon={faCommentDots} />
                 </div>
                 <div>

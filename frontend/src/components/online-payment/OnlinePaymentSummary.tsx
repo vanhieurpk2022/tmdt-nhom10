@@ -19,12 +19,12 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
 
     return (
         <aside className="online-payment-summary-card">
-            <div className="online-payment-summary-heading">
+            <div className="online-payment-summary-heading d-flex align-items-start justify-content-between">
                 <h2>Thông tin đơn hàng</h2>
                 <span>{onlinePaymentInfo.orderCode}</span>
             </div>
 
-            <div className="online-payment-summary-products">
+            <div className="online-payment-summary-products d-flex flex-column">
                 {items.map((item) => (
                     <div className="online-payment-summary-line" key={item.id}>
                         <img src={item.image} alt={item.name} />
@@ -37,7 +37,7 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
                 ))}
             </div>
 
-            <div className="online-payment-summary-adjustments">
+            <div className="online-payment-summary-adjustments d-flex flex-column">
                 <div>
                     <span>Tạm tính</span>
                     <strong>{formatPrice(subtotal)}</strong>
@@ -58,10 +58,10 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
             </div>
 
             <div className="d-grid gap-2">
-                <Link to="/order-success" className="btn online-payment-confirm-btn">
+                <Link to="/order-success" className="btn online-payment-confirm-btn fw-bold w-100">
                     Tôi đã thanh toán
                 </Link>
-                <Link to="/checkout" className="btn online-payment-back-btn">
+                <Link to="/checkout" className="btn online-payment-back-btn fw-bold w-100">
                     Đổi phương thức thanh toán
                 </Link>
             </div>

@@ -20,7 +20,7 @@ export default function PaymentMethodList({ methods }: PaymentMethodListProps) {
         <section className="checkout-block">
             <CheckoutSectionTitle index={3} title="Chọn phương thức thanh toán" />
 
-            <div className="checkout-payment-list">
+            <div className="checkout-payment-list d-flex flex-column">
                 {methods.map((method) => (
                     <label className={`checkout-payment-option ${method.selected ? "active" : ""}`} key={method.id}>
                         <input type="radio" name="paymentMethod" defaultChecked={method.selected} />
@@ -36,8 +36,8 @@ export default function PaymentMethodList({ methods }: PaymentMethodListProps) {
                 ))}
             </div>
 
-            <div className="checkout-security-note">
-                <span>
+            <div className="checkout-security-note d-flex align-items-center">
+                <span className="d-inline-flex align-items-center justify-content-center">
                     <FontAwesomeIcon icon={faShieldHalved} />
                 </span>
                 <div>
