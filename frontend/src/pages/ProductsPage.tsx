@@ -1,5 +1,5 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faStar, faFire, faLeaf } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faFire, faLeaf, faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import "../css/pages/products.css";
@@ -257,7 +257,19 @@ export default function ProductsPage() {
                             </div>
                         </div>
 
-                        <p className="text-muted fs-7 mb-4">Hiển thị <strong>9 sản phẩm</strong> phù hợp tiêu chí</p>
+                        <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center gap-3 mb-4">
+                            <p className="text-muted fs-7 mb-0">Hiển thị <strong>9 sản phẩm</strong> phù hợp tiêu chí</p>
+                            <div className="d-flex align-items-center gap-2">
+                                <span className="text-muted fs-7 text-nowrap">Sắp xếp:</span>
+                                <select className="form-select form-select-sm border-0 bg-white shadow-sm fw-semibold text-dark px-3 py-2 rounded-pill" style={{ minWidth: "180px", cursor: "pointer" }}>
+                                    <option value="popular">Mặc định (Phổ biến)</option>
+                                    <option value="newest">Hàng mới về</option>
+                                    <option value="bestseller">Bán chạy nhất</option>
+                                    <option value="price-asc">Giá: Thấp đến Cao</option>
+                                    <option value="price-desc">Giá: Cao đến Thấp</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                             {MOCK_PRODUCTS.map((product) => (
@@ -295,7 +307,8 @@ export default function ProductsPage() {
 
                                                 <div className="row g-2">
                                                     <div className="col-6">
-                                                        <button className="btn btn-outline-primary w-100 fw-bold bg-white text-primary btn-add-cart" disabled={product.stock === 'Hết hàng'}>
+                                                        <button className="btn btn-outline-primary w-100 fw-bold bg-white text-primary btn-add-cart d-flex align-items-center justify-content-center gap-2" disabled={product.stock === 'Hết hàng'}>
+                                                            <FontAwesomeIcon icon={faBagShopping} />
                                                             Thêm giỏ
                                                         </button>
                                                     </div>
