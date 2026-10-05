@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function HeroBanner() {
     return (
         <section className="home-hero">
-            <div className="home-hero-content">
+            <div className="home-hero-content d-flex flex-column flex-xl-row align-items-start align-items-xl-center justify-content-between">
                 <div className="home-hero-copy">
-                    <span className="home-hero-badge">
+                    <span className="home-hero-badge d-inline-flex align-items-center">
                         <FontAwesomeIcon icon={faSeedling} />
                         Workshop miễn phí mỗi tuần
                     </span>
@@ -20,7 +20,7 @@ export default function HeroBanner() {
                             Tham gia ngay
                             <FontAwesomeIcon icon={faArrowRight} />
                         </button>
-                        <a className="home-hero-link" href="#workshop">
+                        <a className="home-hero-link d-inline-flex align-items-center" href="#workshop">
                             Xem lịch workshop
                             <FontAwesomeIcon icon={faCalendarDays} />
                         </a>
@@ -34,7 +34,7 @@ export default function HeroBanner() {
                     />
                 </div>
             </div>
-            <div className="home-hero-dots" aria-hidden="true">
+            <div className="home-hero-dots d-flex align-items-center justify-content-center" aria-hidden="true">
                 <span className="active" />
                 <span />
                 <span />

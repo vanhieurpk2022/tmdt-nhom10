@@ -5,23 +5,17 @@
 }
 
 .order-success-hero {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
     margin-bottom: 24px;
     padding: 36px;
     text-align: center;
 }
 
 .order-success-icon {
-    align-items: center;
     background: #dcfce7;
     border-radius: 999px;
     color: #16a34a;
-    display: flex;
     font-size: 34px;
     height: 72px;
-    justify-content: center;
     margin-bottom: 18px;
     width: 72px;
 }
@@ -31,7 +25,6 @@
     border: 1px solid #bbf7d0;
     border-radius: 999px;
     color: #15803d;
-    display: inline-flex;
     font-size: 13px;
     font-weight: 900;
     margin-bottom: 14px;
@@ -55,12 +48,10 @@
 }
 
 .order-success-code {
-    align-items: center;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 999px;
     color: #475569;
-    display: inline-flex;
     gap: 10px;
     margin-top: 22px;
     padding: 10px 18px;
@@ -83,11 +74,8 @@
 }
 
 .order-success-section-heading {
-    align-items: center;
     border-bottom: 1px solid #e2e8f0;
-    display: flex;
     gap: 16px;
-    justify-content: space-between;
     margin-bottom: 20px;
     padding-bottom: 16px;
 }
@@ -167,11 +155,9 @@
 }
 
 .order-success-shipping-grid > div {
-    align-items: flex-start;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
-    display: flex;
     gap: 14px;
     padding: 18px;
 }

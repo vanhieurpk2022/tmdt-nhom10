@@ -31,7 +31,7 @@ export default function CartTable({
     return (
         <div className="cart-table-wrap">
             <div className="cart-table-header">
-                <label className="cart-check">
+                <label className="cart-check d-inline-flex align-items-center justify-content-center">
                     <input type="checkbox" checked={allSelected} onChange={onToggleAll} />
                     <span />
                 </label>
@@ -43,24 +43,24 @@ export default function CartTable({
             <div className="cart-table-body">
                 {items.map((item) => (
                     <article className="cart-row" key={item.id}>
-                        <label className="cart-check">
+                        <label className="cart-check d-inline-flex align-items-center justify-content-center">
                             <input type="checkbox" checked={item.selected} onChange={() => onToggleItem(item.id)} />
                             <span />
                         </label>
 
-                        <div className="cart-product-cell">
+                        <div className="cart-product-cell d-flex align-items-center">
                             <div className="cart-product-thumb">
                                 <img src={item.image} alt={item.name} />
                             </div>
                             <div className="cart-product-info">
-                                <div className="cart-product-title-line">
+                                <div className="cart-product-title-line d-flex align-items-center flex-wrap">
                                     <h3>{item.name}</h3>
                                     {item.inStock && <span className="cart-stock-badge">Còn hàng</span>}
                                 </div>
                                 <p>
                                     {item.variant} / {item.origin}
                                 </p>
-                                <span className="cart-factory-pill">
+                                <span className="cart-factory-pill d-inline-flex align-items-center">
                                     <FontAwesomeIcon icon={faIndustry} />
                                     Xưởng: {item.factoryName} • #{item.factoryCode}
                                 </span>
@@ -69,7 +69,7 @@ export default function CartTable({
 
                         <strong className="cart-price">{formatPrice(item.price)}</strong>
 
-                        <div className="cart-row-actions">
+                        <div className="cart-row-actions d-flex align-items-center">
                             <QuantityControl
                                 quantity={item.quantity}
                                 onDecrease={() => onDecrease(item.id)}

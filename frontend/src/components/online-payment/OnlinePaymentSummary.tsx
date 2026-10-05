@@ -19,12 +19,12 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
 
     return (
         <aside className="online-payment-summary-card">
-            <div className="online-payment-summary-heading">
+            <div className="online-payment-summary-heading d-flex align-items-start justify-content-between">
                 <h2>Thông tin đơn hàng</h2>
                 <span>{onlinePaymentInfo.orderCode}</span>
             </div>
 
-            <div className="online-payment-summary-products">
+            <div className="online-payment-summary-products d-flex flex-column">
                 {items.map((item) => (
                     <div className="online-payment-summary-line" key={item.id}>
                         <img src={item.image} alt={item.name} />
@@ -37,7 +37,7 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
                 ))}
             </div>
 
-            <div className="online-payment-summary-adjustments">
+            <div className="online-payment-summary-adjustments d-flex flex-column">
                 <div>
                     <span>Tạm tính</span>
                     <strong>{formatPrice(subtotal)}</strong>

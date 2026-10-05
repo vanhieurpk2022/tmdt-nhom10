@@ -27,19 +27,19 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
 
     return (
         <article className="order-history-card">
-            <div className="order-history-card-head">
+            <div className="order-history-card-head d-flex align-items-start justify-content-between">
                 <div>
                     <span>Mã đơn hàng</span>
                     <h2>{order.code}</h2>
                     <p>{order.createdAt}</p>
                 </div>
-                <div className={`order-history-status ${order.status}`}>
+                <div className={`order-history-status d-inline-flex align-items-center ${order.status}`}>
                     <FontAwesomeIcon icon={statusIcons[order.status]} />
                     {orderStatusLabels[order.status]}
                 </div>
             </div>
 
-            <div className="order-history-products">
+            <div className="order-history-products d-flex flex-column">
                 {order.products.slice(0, 2).map((product) => (
                     <div className="order-history-product" key={product.id}>
                         <img src={product.image} alt={product.name} />

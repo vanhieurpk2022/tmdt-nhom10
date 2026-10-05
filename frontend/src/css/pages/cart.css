@@ -9,11 +9,8 @@
 }
 
 .cart-card-heading {
-    align-items: flex-start;
     border-bottom: 1px solid #e2e8f0;
-    display: flex;
     gap: 20px;
-    justify-content: space-between;
     margin-bottom: 28px;
     padding-bottom: 24px;
 }
@@ -80,11 +77,8 @@
 }
 
 .cart-check {
-    align-items: center;
     cursor: pointer;
-    display: inline-flex;
     height: 22px;
-    justify-content: center;
     margin: 0;
     width: 22px;
 }
@@ -113,8 +107,6 @@
 }
 
 .cart-product-cell {
-    align-items: center;
-    display: flex;
     gap: 14px;
     min-width: 0;
 }
@@ -130,9 +122,6 @@
 }
 
 .cart-product-title-line {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
     gap: 8px;
 }
 
@@ -156,12 +145,10 @@
 }
 
 .cart-factory-pill {
-    align-items: center;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
     color: #64748b;
-    display: inline-flex;
     font-size: 11px;
     font-weight: 700;
     gap: 6px;
@@ -179,8 +166,6 @@
 }
 
 .cart-row-actions {
-    align-items: center;
-    display: flex;
     gap: 16px;
     justify-content: flex-start;
 }
@@ -241,10 +226,7 @@
 }
 
 .cart-summary-heading {
-    align-items: center;
     border-bottom: 1px solid #e2e8f0;
-    display: flex;
-    justify-content: space-between;
     margin-bottom: 20px;
     padding-bottom: 18px;
 }

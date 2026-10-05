@@ -51,23 +51,17 @@
 
 .online-payment-status,
 .online-payment-method,
-.online-payment-security,
-.online-payment-summary-heading {
-    align-items: center;
-    display: flex;
+.online-payment-security {
     gap: 14px;
 }
 
 .online-payment-status > span,
 .online-payment-method > span {
-    align-items: center;
     background: #fff1f2;
     border-radius: 12px;
     color: var(--color-primary);
-    display: inline-flex;
     flex: 0 0 44px;
     height: 44px;
-    justify-content: center;
     width: 44px;
 }
 
@@ -138,12 +132,9 @@
 }
 
 .online-payment-countdown {
-    align-items: center;
     background: #fff7ed;
     border: 1px solid #fed7aa;
     border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
     margin-bottom: 14px;
     padding: 12px 14px;
 }
@@ -174,8 +165,6 @@
 .online-payment-info-list {
     border-bottom: 1px solid #e2e8f0;
     border-top: 1px solid #e2e8f0;
-    display: flex;
-    flex-direction: column;
     gap: 0;
     margin: 22px 0;
     padding: 10px 0;
@@ -244,9 +233,7 @@
 }
 
 .online-payment-summary-heading {
-    align-items: flex-start;
     border-bottom: 1px solid #e2e8f0;
-    justify-content: space-between;
     margin-bottom: 18px;
     padding-bottom: 18px;
 }
@@ -271,8 +258,6 @@
 }
 
 .online-payment-summary-products {
-    display: flex;
-    flex-direction: column;
     gap: 10px;
 }
 
@@ -325,8 +310,6 @@
 .online-payment-summary-adjustments {
     border-bottom: 1px solid #e2e8f0;
     border-top: 1px solid #e2e8f0;
-    display: flex;
-    flex-direction: column;
     gap: 8px;
     margin: 18px 0;
     padding: 14px 0;

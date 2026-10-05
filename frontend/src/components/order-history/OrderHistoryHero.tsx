@@ -19,7 +19,7 @@ export default function OrderHistoryHero({ orders }: OrderHistoryHeroProps) {
     return (
         <section className="order-history-hero">
             <div>
-                <span className="order-history-label">
+                <span className="order-history-label d-inline-flex align-items-center">
                     <FontAwesomeIcon icon={faClockRotateLeft} />
                     Lịch sử mua hàng
                 </span>
@@ -30,17 +30,17 @@ export default function OrderHistoryHero({ orders }: OrderHistoryHeroProps) {
             </div>
 
             <div className="order-history-stats">
-                <article>
+                <article className="d-flex flex-column">
                     <FontAwesomeIcon icon={faReceipt} />
                     <span>Tổng đơn</span>
                     <strong>{orders.length}</strong>
                 </article>
-                <article>
+                <article className="d-flex flex-column">
                     <FontAwesomeIcon icon={faBoxOpen} />
                     <span>Đã giao</span>
                     <strong>{completedOrders}</strong>
                 </article>
-                <article>
+                <article className="d-flex flex-column">
                     <FontAwesomeIcon icon={faReceipt} />
                     <span>Tổng chi tiêu</span>
                     <strong>{formatPrice(totalPaid)}</strong>

@@ -77,8 +77,6 @@
 }
 
 :is(.order-success-product-list, .order-history-products) {
-    display: flex;
-    flex-direction: column;
     gap: 12px;
 }
 

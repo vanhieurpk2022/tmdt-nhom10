@@ -3,8 +3,6 @@
 }
 
 .home-page-content {
-    display: flex;
-    flex-direction: column;
     gap: 28px;
     padding-bottom: 48px;
 }
@@ -16,9 +14,7 @@
 }
 
 .home-suggestion-label {
-    align-items: center;
     color: var(--color-stone-500);
-    display: inline-flex;
     font-size: 12px;
     font-weight: 700;
     gap: 6px;
@@ -51,11 +47,8 @@
 }
 
 .home-hero-content {
-    align-items: center;
     background: linear-gradient(90deg, #111827 0, #1f2937 52%, #111827 100%);
-    display: flex;
     gap: 28px;
-    justify-content: space-between;
     min-height: 384px;
     padding: 48px;
 }
@@ -65,11 +58,9 @@
 }
 
 .home-hero-badge {
-    align-items: center;
     background: var(--color-primary);
     border-radius: 999px;
     color: #fff;
-    display: inline-flex;
     font-size: 12px;
     font-weight: 800;
     gap: 8px;
@@ -115,9 +106,7 @@
 }
 
 .home-hero-link {
-    align-items: center;
     color: #e7e5e4;
-    display: inline-flex;
     font-size: 14px;
     font-weight: 700;
     gap: 8px;
@@ -144,11 +133,8 @@
 }
 
 .home-hero-dots {
-    align-items: center;
     bottom: 18px;
-    display: flex;
     gap: 10px;
-    justify-content: center;
     left: 0;
     position: absolute;
     right: 0;
@@ -180,11 +166,8 @@
 }
 
 .home-section-heading {
-    align-items: center;
     border-bottom: 1px solid var(--color-stone-100);
-    display: flex;
     gap: 16px;
-    justify-content: space-between;
     margin-bottom: 22px;
     padding-bottom: 18px;
 }
@@ -209,9 +192,7 @@
 }
 
 .home-section-action {
-    align-items: center;
     color: var(--color-brand-green);
-    display: inline-flex;
     font-size: 12px;
     font-weight: 800;
     gap: 6px;
@@ -224,18 +205,13 @@
 }
 
 .home-flash-title {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
     gap: 12px;
 }
 
 .home-flash-title > span {
-    align-items: center;
     background: var(--color-amber);
     border-radius: 8px;
     color: #fff;
-    display: inline-flex;
     font-size: 12px;
     font-weight: 800;
     gap: 6px;
@@ -245,8 +221,6 @@
 }
 
 .home-countdown {
-    align-items: center;
-    display: inline-flex;
     gap: 6px;
 }
 
@@ -279,7 +253,6 @@
 .home-section-tabs {
     background: #f5f7f5;
     border-radius: 999px;
-    display: flex;
     padding: 3px;
 }
 
@@ -344,8 +317,6 @@
 }
 
 .home-product-body {
-    display: flex;
-    flex-direction: column;
     gap: 8px;
     padding: 14px;
 }
@@ -376,10 +347,7 @@
 }
 
 .home-product-rating {
-    align-items: center;
     color: #a16207;
-    display: flex;
-    flex-wrap: wrap;
     font-size: 11px;
     font-weight: 700;
     gap: 4px;
@@ -399,10 +367,7 @@
 }
 
 .home-product-footer {
-    align-items: center;
-    display: flex;
     gap: 10px;
-    justify-content: space-between;
     min-height: 42px;
 }
 
@@ -480,10 +445,7 @@
 
 .home-promo-overlay {
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.88) 0, rgba(0, 0, 0, 0.42) 55%, rgba(0, 0, 0, 0.08) 100%);
-    display: flex;
-    flex-direction: column;
     height: 100%;
-    justify-content: flex-end;
     padding: 32px;
     position: relative;
     z-index: 1;
@@ -545,13 +507,10 @@
 }
 
 .home-commitment-icon {
-    align-items: center;
     background: #e5ece5;
     border-radius: 16px;
     color: var(--color-brand-green);
-    display: inline-flex;
     height: 40px;
-    justify-content: center;
     margin-bottom: 8px;
     width: 40px;
 }
@@ -564,12 +523,9 @@
 }
 
 .home-commitment-card {
-    align-items: center;
     background: #fff;
     border: 1px solid var(--color-stone-100);
     border-radius: 8px;
-    display: flex;
-    flex-direction: column;
     gap: 8px;
     height: 100%;
     padding: 22px;
@@ -577,13 +533,10 @@
 }
 
 .home-commitment-card span {
-    align-items: center;
     background: #f4f7f4;
     border-radius: 999px;
     color: var(--color-brand-green);
-    display: inline-flex;
     height: 48px;
-    justify-content: center;
     width: 48px;
 }
 

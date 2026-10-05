@@ -18,11 +18,6 @@
         width: 100%;
     }
 
-    .home-hero-content {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
     .home-hero-image-wrap {
         flex: none;
         width: min(100%, 520px);
@@ -73,11 +68,6 @@
     .home-section,
     .home-commitment {
         padding: 20px;
-    }
-
-    .home-section-heading {
-        align-items: flex-start;
-        flex-direction: column;
     }
 
     .home-promo-grid {

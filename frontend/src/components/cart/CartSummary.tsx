@@ -18,7 +18,7 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
 
     return (
         <aside className="cart-summary-card">
-            <div className="cart-summary-heading">
+            <div className="cart-summary-heading d-flex align-items-center justify-content-between">
                 <h2>Xác nhận</h2>
                 <span>{selectedItems.length} sản phẩm</span>
             </div>

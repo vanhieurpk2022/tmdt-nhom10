@@ -8,7 +8,7 @@ export default function PromoBanners() {
             {promoBanners.map((banner) => (
                 <article className="home-promo-card" key={banner.title}>
                     <img src={banner.image} alt={banner.title} />
-                    <div className="home-promo-overlay">
+                    <div className="home-promo-overlay d-flex flex-column justify-content-end">
                         <span className={`home-promo-eyebrow ${banner.accent}`}>{banner.eyebrow}</span>
                         <h3>{banner.title}</h3>
                         <p>{banner.description}</p>

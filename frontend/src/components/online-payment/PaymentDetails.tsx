@@ -16,8 +16,8 @@ function formatPrice(price: number) {
 export default function PaymentDetails({ amount }: PaymentDetailsProps) {
     return (
         <section className="online-payment-detail-card">
-            <div className="online-payment-method">
-                <span>
+            <div className="online-payment-method d-flex align-items-center">
+                <span className="d-inline-flex align-items-center justify-content-center">
                     <FontAwesomeIcon icon={faWallet} />
                 </span>
                 <div>
@@ -26,7 +26,7 @@ export default function PaymentDetails({ amount }: PaymentDetailsProps) {
                 </div>
             </div>
 
-            <div className="online-payment-info-list">
+            <div className="online-payment-info-list d-flex flex-column">
                 <div>
                     <span>Mã đơn hàng</span>
                     <strong>{onlinePaymentInfo.orderCode}</strong>

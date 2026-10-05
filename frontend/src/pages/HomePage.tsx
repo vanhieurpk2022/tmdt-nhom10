@@ -9,7 +9,7 @@ export default function HomePage() {
     return (
         <main className="home-page">
             <SearchSuggestions />
-            <div className="container-fluid px-4 px-lg-5 home-page-content">
+            <div className="container-fluid px-4 px-lg-5 home-page-content d-flex flex-column">
                 <HeroBanner />
                 <ProductSection
                     title="Flash Sale"

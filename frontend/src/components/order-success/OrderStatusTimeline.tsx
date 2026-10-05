@@ -3,7 +3,7 @@ import { orderTimeline } from "../../data/orderSuccessData";
 export default function OrderStatusTimeline() {
     return (
         <section className="order-success-card">
-            <div className="order-success-section-heading">
+            <div className="order-success-section-heading d-flex align-items-center justify-content-between">
                 <h2>Tiến trình xử lý</h2>
                 <span>Đang chuẩn bị</span>
             </div>

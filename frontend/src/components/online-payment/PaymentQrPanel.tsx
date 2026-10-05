@@ -5,8 +5,8 @@ import { onlinePaymentInfo } from "../../data/onlinePaymentData";
 export default function PaymentQrPanel() {
     return (
         <section className="online-payment-qr-card">
-            <div className="online-payment-status">
-                <span>
+            <div className="online-payment-status d-flex align-items-center">
+                <span className="d-inline-flex align-items-center justify-content-center">
                     <FontAwesomeIcon icon={faClock} />
                 </span>
                 <div>
@@ -26,14 +26,14 @@ export default function PaymentQrPanel() {
                 </div>
             </div>
 
-            <div className="online-payment-countdown">
+            <div className="online-payment-countdown d-flex align-items-center justify-content-between">
                 <span>Còn lại</span>
                 <strong>
                     {onlinePaymentInfo.expiredInMinutes}:{String(onlinePaymentInfo.expiredInSeconds).padStart(2, "0")}
                 </strong>
             </div>
 
-            <div className="online-payment-security">
+            <div className="online-payment-security d-flex align-items-center justify-content-center">
                 <FontAwesomeIcon icon={faShieldHalved} />
                 Giao dịch được bảo mật bằng mã hóa SSL 256-bit
             </div>
