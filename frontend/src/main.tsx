@@ -16,6 +16,7 @@ import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProfilePage from './pages/ProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import AddressBookPage from './pages/AddressBookPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -32,6 +33,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/product-detail" element={<ProductDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
+        <Route path="/addresses" element={<AddressBookPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

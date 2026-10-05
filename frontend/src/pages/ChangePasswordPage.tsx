@@ -30,7 +30,7 @@ export default function ChangePasswordPage() {
                 <div className="row g-4">
                     {/* Sidebar */}
                     <div className="col-12 col-lg-3">
-                        <div className="bg-white rounded-4 shadow-sm p-4 h-100">
+                        <div className="bg-white rounded-4 shadow-sm p-4">
                             {/* Profile Info */}
                             <div className="d-flex align-items-center gap-3 mb-4">
                                 <div className="profile-avatar-lg bg-primary bg-opacity-10 text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center flex-shrink-0">
@@ -50,7 +50,7 @@ export default function ChangePasswordPage() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#" className="text-decoration-none d-block px-3 py-2 rounded-3 text-muted fw-bold hover-bg-light mb-2">
+                                    <Link to="/addresses" className="text-decoration-none d-block px-3 py-2 rounded-3 text-muted fw-bold hover-bg-light mb-2">
                                         Sổ địa chỉ
                                     </Link>
                                 </li>
@@ -86,7 +86,7 @@ export default function ChangePasswordPage() {
 
                     {/* Main Content */}
                     <div className="col-12 col-lg-9">
-                        <div className="bg-white rounded-4 shadow-sm p-4 px-lg-5 pb-lg-5 pt-lg-4 h-100">
+                        <div className="bg-white rounded-4 shadow-sm p-4 px-lg-5 pb-lg-5 pt-lg-4">
                             <h2 className="h4 fw-bold text-dark mb-2">Đổi mật khẩu</h2>
                             <p className="text-muted fs-7 mb-4">Cập nhật mật khẩu định kỳ để tăng mức độ an toàn cho tài khoản Oilia của bạn.</p>
 
