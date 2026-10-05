@@ -47,10 +47,10 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
                         </div>
                     </div>
                     <div className="d-flex align-items-center gap-2">
-                        <button className="btn home-icon-btn" type="button" aria-label="Thêm vào yêu thích">
+                        <button className="btn home-icon-btn d-inline-flex align-items-center justify-content-center" type="button" aria-label="Thêm vào yêu thích">
                             <FontAwesomeIcon icon={faHeart} />
                         </button>
-                        <button className="btn home-buy-btn" type="button">
+                        <button className="btn home-buy-btn d-inline-flex align-items-center gap-2 fw-bold" type="button">
                             <FontAwesomeIcon icon={compact ? faPlus : faCartShopping} />
                             {!compact && "Chọn mua"}
                         </button>

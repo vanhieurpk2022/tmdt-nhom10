@@ -50,11 +50,11 @@ export default function OrderSuccessSummary({ items }: OrderSuccessSummaryProps)
                 <strong>{formatPrice(total)}</strong>
             </div>
 
-            <div className="order-success-actions">
-                <Link to="/orders" className="btn order-success-primary-btn">
+            <div className="order-success-actions d-grid gap-2 mx-auto">
+                <Link to="/orders" className="btn order-success-primary-btn fw-bold">
                     Xem lịch sử mua hàng
                 </Link>
-                <Link to="/" className="btn order-success-secondary-btn">
+                <Link to="/" className="btn order-success-secondary-btn fw-bold">
                     Tiếp tục mua sắm
                 </Link>
             </div>

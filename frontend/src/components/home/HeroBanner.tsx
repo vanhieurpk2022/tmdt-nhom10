@@ -16,7 +16,7 @@ export default function HeroBanner() {
                         dưới sự hướng dẫn từ các chuyên gia Aromatherapy hàng đầu.
                     </p>
                     <div className="d-flex align-items-center gap-3 flex-wrap">
-                        <button className="btn home-primary-btn" type="button">
+                        <button className="btn home-primary-btn d-inline-flex align-items-center gap-2 fw-bold" type="button">
                             Tham gia ngay
                             <FontAwesomeIcon icon={faArrowRight} />
                         </button>

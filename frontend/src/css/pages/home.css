@@ -98,13 +98,9 @@
 
 .home-primary-btn,
 .home-buy-btn {
-    align-items: center;
     background: var(--color-primary) !important;
     border: 0 !important;
     color: #fff !important;
-    display: inline-flex;
-    font-weight: 800 !important;
-    gap: 8px;
 }
 
 .home-primary-btn {
@@ -434,13 +430,10 @@
 }
 
 .home-icon-btn {
-    align-items: center;
     border: 1px solid var(--color-stone-200) !important;
     border-radius: 8px !important;
     color: var(--color-stone-500) !important;
-    display: inline-flex !important;
     height: 32px;
-    justify-content: center;
     padding: 0 !important;
     width: 32px;
 }
@@ -530,16 +523,12 @@
 }
 
 .home-promo-btn {
-    align-items: center;
     align-self: flex-start;
     background: rgba(255, 255, 255, 0.2) !important;
     border: 0 !important;
     border-radius: 8px !important;
     color: #fff !important;
-    display: inline-flex !important;
     font-size: 12px !important;
-    font-weight: 800 !important;
-    gap: 8px;
     padding: 8px 16px !important;
 }
 

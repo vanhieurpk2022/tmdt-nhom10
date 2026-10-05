@@ -55,7 +55,10 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
                 <strong>{formatPrice(total)}</strong>
             </div>
 
-            <Link to="/checkout" className={`btn cart-continue-btn ${selectedItems.length === 0 ? "disabled" : ""}`}>
+            <Link
+                to="/checkout"
+                className={`btn cart-continue-btn d-flex align-items-center justify-content-center fw-bold w-100 ${selectedItems.length === 0 ? "disabled" : ""}`}
+            >
                 Tiếp tục
             </Link>
         </aside>

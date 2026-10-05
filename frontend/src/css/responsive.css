@@ -189,15 +189,6 @@
         grid-template-columns: 1fr;
     }
 
-    .order-success-product-row {
-        align-items: flex-start;
-        grid-template-columns: 54px minmax(0, 1fr);
-    }
-
-    .order-success-product-row strong {
-        grid-column: 2;
-    }
-
     .order-history-hero h1 {
         font-size: 28px;
         line-height: 36px;
@@ -220,15 +211,6 @@
 
     .order-history-card-head {
         flex-direction: column;
-    }
-
-    .order-history-product {
-        align-items: flex-start;
-        grid-template-columns: 54px minmax(0, 1fr);
-    }
-
-    .order-history-product strong {
-        grid-column: 2;
     }
 
     .order-history-actions {

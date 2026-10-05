@@ -279,9 +279,7 @@
 .online-payment-summary-adjustments div,
 .online-payment-summary-total {
     align-items: flex-start;
-    display: flex;
     gap: 12px;
-    justify-content: space-between;
 }
 
 .online-payment-summary-line {
@@ -292,10 +290,8 @@
 }
 
 .online-payment-summary-line img {
-    border: 1px solid #e2e8f0;
     border-radius: 9px;
     height: 48px;
-    object-fit: cover;
     padding: 3px;
     width: 48px;
 }
@@ -338,13 +334,7 @@
 
 .online-payment-summary-adjustments span,
 .online-payment-summary-adjustments strong {
-    color: #64748b;
     font-size: 13px;
-    font-weight: 800;
-}
-
-.online-payment-summary-adjustments strong {
-    color: #111827;
 }
 
 .online-payment-summary-total {
@@ -352,16 +342,8 @@
     margin-bottom: 18px;
 }
 
-.online-payment-summary-total span {
-    color: #111827;
-    font-size: 15px;
-    font-weight: 900;
-}
-
 .online-payment-summary-total strong {
-    color: var(--color-primary);
     font-size: 24px;
-    font-weight: 900;
     line-height: 32px;
 }
 

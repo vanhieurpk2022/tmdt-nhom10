@@ -74,12 +74,12 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
                 </div>
             </div>
 
-            <div className="order-history-actions">
-                <button className="btn order-history-outline-btn" type="button">
+            <div className="order-history-actions d-flex flex-wrap gap-2 justify-content-end">
+                <button className="btn order-history-outline-btn fw-bold" type="button">
                     Xem chi tiết
                 </button>
                 {order.status === "completed" && (
-                    <button className="btn order-history-primary-btn" type="button">
+                    <button className="btn order-history-primary-btn fw-bold" type="button">
                         Mua lại
                     </button>
                 )}

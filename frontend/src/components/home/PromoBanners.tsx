@@ -12,7 +12,7 @@ export default function PromoBanners() {
                         <span className={`home-promo-eyebrow ${banner.accent}`}>{banner.eyebrow}</span>
                         <h3>{banner.title}</h3>
                         <p>{banner.description}</p>
-                        <button className="btn home-promo-btn" type="button">
+                        <button className="btn home-promo-btn d-inline-flex align-items-center gap-2 fw-bold" type="button">
                             {banner.actionLabel}
                             <FontAwesomeIcon icon={faArrowRight} />
                         </button>
