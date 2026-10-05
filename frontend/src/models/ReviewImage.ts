@@ -1,3 +1,5 @@
+import type { Review } from "./Review";
+
 export class ReviewImage {
   id?: number;
   imageUrl?: string;

@@ -1,9 +1,11 @@
+import type { Factory } from './Factory';
+
 export class FactoryImage {
   id?: number;
   imageUrl?: string;
-  /** Java `isAvatar` serialize thành "avatar". */
+  /** Java `isAvatar` => Jackson serialize thành "avatar" */
   avatar: boolean = false;
-  /** Java `isBanner` serialize thành "banner". */
+  /** Java `isBanner` => Jackson serialize thành "banner" */
   banner: boolean = false;
 
   constructor(init?: Partial<FactoryImage>) {
