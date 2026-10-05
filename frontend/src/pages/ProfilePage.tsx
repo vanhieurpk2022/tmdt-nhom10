@@ -50,7 +50,7 @@ export default function ProfilePage() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#" className="text-decoration-none d-block px-3 py-2 rounded-3 text-muted fw-bold hover-bg-light mb-2">
+                                    <Link to="/change-password" className="text-decoration-none d-block px-3 py-2 rounded-3 text-muted fw-bold hover-bg-light mb-2">
                                         Đổi mật khẩu
                                     </Link>
                                 </li>
@@ -81,7 +81,7 @@ export default function ProfilePage() {
 
                     {/* Main Content */}
                     <div className="col-12 col-lg-9">
-                        <div className="bg-white rounded-4 shadow-sm p-4 p-lg-5">
+                        <div className="bg-white rounded-4 shadow-sm p-4 px-lg-5 pb-lg-5 pt-lg-4 h-100">
                             <h2 className="h4 fw-bold text-dark mb-2">Thông tin cá nhân</h2>
                             <p className="text-muted fs-7 mb-4">Cập nhật hồ sơ để mua sắm, giao nhận và chăm sóc khách hàng thuận tiện hơn.</p>
 
