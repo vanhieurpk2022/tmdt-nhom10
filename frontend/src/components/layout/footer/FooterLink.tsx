@@ -12,40 +12,40 @@ interface FooterLinkGroup {
 
 const footerLinkGroups: FooterLinkGroup[] = [
     {
-        title: "Categories",
+        title: "Danh mục",
         links: [
-            { label: "Fashion", path: "/fashion" },
-            { label: "Jewelry", path: "/jewelry" },
-            { label: "Sportswear", path: "/sportswear" },
-            { label: "Electronics", path: "/electronics" },
-            { label: "Indoor", path: "/indoor" },
+            { label: "Tinh dầu", path: "/products" },
+            { label: "Nến thơm", path: "/candles" },
+            { label: "Máy khuếch tán", path: "/diffusers" },
+            { label: "Bộ quà tặng", path: "/gift-sets" },
+            { label: "Workshop", path: "/workshop" },
         ],
     },
     {
-        title: "Shopping",
+        title: "Mua sắm",
         links: [
-            { label: "Payments", path: "/payments" },
-            { label: "Delivery options", path: "/delivery" },
-            { label: "Buyer protection", path: "/buyer-protection" },
+            { label: "Thanh toán", path: "/payments" },
+            { label: "Giao hàng", path: "/delivery" },
+            { label: "Bảo vệ người mua", path: "/buyer-protection" },
         ],
     },
     {
-        title: "Customer care",
+        title: "Chăm sóc",
         links: [
-            { label: "Help center", path: "/help" },
-            { label: "Terms & Conditions", path: "/terms" },
-            { label: "Privacy policy", path: "/privacy" },
-            { label: "Returns & refund", path: "/returns" },
-            { label: "Survey & feedback", path: "/feedback" },
+            { label: "Trung tâm hỗ trợ", path: "/help" },
+            { label: "Điều khoản", path: "/terms" },
+            { label: "Chính sách riêng tư", path: "/privacy" },
+            { label: "Đổi trả & hoàn tiền", path: "/returns" },
+            { label: "Góp ý", path: "/feedback" },
         ],
     },
     {
-        title: "Pages",
+        title: "Oilia",
         links: [
-            { label: "About Us", path: "/about" },
-            { label: "Shop", path: "/shop" },
-            { label: "Contact Us", path: "/contact" },
-            { label: "Services", path: "/services" },
+            { label: "Về chúng tôi", path: "/about" },
+            { label: "Cửa hàng", path: "/shop" },
+            { label: "Liên hệ", path: "/contact" },
+            { label: "Dịch vụ", path: "/services" },
             { label: "Blog", path: "/blog" },
         ],
     },
@@ -56,12 +56,14 @@ export default function FooterLinks() {
         <div className="row row-cols-2 row-cols-md-4 g-3">
             {footerLinkGroups.map((group) => (
                 <div className="col" key={group.title}>
-                    <h6 className="fw-bold footer-title"> {group.title}</h6>
+                    <h6 className="fw-bold footer-title">{group.title}</h6>
 
                     <ul className="list-unstyled mb-0">
                         {group.links.map((link) => (
                             <li key={link.path} className="mb-1">
-                                <Link to={link.path} className="text-decoration-none text-dark footer-link"  > {link.label} </Link>
+                                <Link to={link.path} className="text-decoration-none text-dark footer-link">
+                                    {link.label}
+                                </Link>
                             </li>
                         ))}
                     </ul>

@@ -6,11 +6,13 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Header } from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import { BrowserRouter } from 'react-router';
+import HomePage from './pages/HomePage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Header />
+      <HomePage />
       <Footer />
     </BrowserRouter>
 

@@ -1,20 +1,16 @@
 export default function FooterBrand() {
     return (
         <div className="footer-brand">
-
             <div className="d-flex align-items-center gap-2 mb-3">
-                <div className="bg-dark rounded-1" style={{ width: "28px", height: "28px", }} />
-
-                <span className="fs-5 fw-semibold"> Oilia</span>
+                <div className="bg-dark rounded-1" style={{ width: "28px", height: "28px" }} />
+                <span className="fs-5 fw-semibold">Oilia</span>
             </div>
 
             <p className="text-muted small mb-0 footer-description">
-                Welcome to Estrella, where brilliance meets innovation!
+                Oilia mang tinh dầu thiên nhiên, nến thơm và bộ quà thư giãn đến gần hơn với từng không gian sống.
                 <br />
-                We are a leading company dedicated to delivering
-                exceptional products and services to cater to your needs.
+                Mỗi sản phẩm được chọn lọc từ thảo mộc tinh khiết và quy trình thân thiện với môi trường.
             </p>
-
         </div>
     );
 }
