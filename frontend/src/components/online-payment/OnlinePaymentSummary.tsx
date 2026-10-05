@@ -58,9 +58,9 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
             </div>
 
             <div className="d-grid gap-2">
-                <button className="btn online-payment-confirm-btn" type="button">
+                <Link to="/order-success" className="btn online-payment-confirm-btn">
                     Tôi đã thanh toán
-                </button>
+                </Link>
                 <Link to="/checkout" className="btn online-payment-back-btn">
                     Đổi phương thức thanh toán
                 </Link>
