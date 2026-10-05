@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
+import OnlinePaymentPage from './pages/OnlinePaymentPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/online-payment" element={<OnlinePaymentPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
