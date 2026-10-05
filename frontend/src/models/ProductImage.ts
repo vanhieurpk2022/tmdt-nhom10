@@ -1,5 +1,3 @@
-import type { Product } from "./Product";
-
 export class ProductImage {
   id?: number;
   imageUrl?: string;
