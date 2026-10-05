@@ -1,4 +1,4 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faIndustry, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { CartItem } from "../../data/cartData";
 import QuantityControl from "./QuantityControl";
@@ -53,10 +53,17 @@ export default function CartTable({
                                 <img src={item.image} alt={item.name} />
                             </div>
                             <div className="cart-product-info">
-                                <h3>{item.name}</h3>
+                                <div className="cart-product-title-line">
+                                    <h3>{item.name}</h3>
+                                    {item.inStock && <span className="cart-stock-badge">Còn hàng</span>}
+                                </div>
                                 <p>
                                     {item.variant} / {item.origin}
                                 </p>
+                                <span className="cart-factory-pill">
+                                    <FontAwesomeIcon icon={faIndustry} />
+                                    Xưởng: {item.factoryName} • #{item.factoryCode}
+                                </span>
                             </div>
                         </div>
 
