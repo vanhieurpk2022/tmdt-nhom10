@@ -1,14 +1,7 @@
-import {
-    faBox,
-    faCircleInfo,
-    faComment,
-    faGear,
-    faHeart,
-    faRightFromBracket,
-    faUser,
-} from "@fortawesome/free-solid-svg-icons";
 import UserMenuItem from "./UserMenuItem/UserMenuItem";
+import { faUser, faBox, faHeart, faComment, faGear, faCircleInfo, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import UserNav from "./UserMenuItem/UserNav";
+
 
 interface UserMenuProps {
     username: string;
@@ -30,5 +23,6 @@ export default function UserMenu({ username, avatar, email }: UserMenuProps) {
                 <UserMenuItem icon={faRightFromBracket} content="Đăng xuất" danger />
             </ul>
         </div>
+
     );
 }
