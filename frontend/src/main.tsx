@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Header } from './components/layout/Header';
 import Footer from './components/layout/Footer';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -24,32 +24,45 @@ import RegisterPage from './pages/RegisterPage';
 import RegisterFactoryPage from './pages/RegisterFactoryPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import VerifyRecoveryCodePage from './pages/VerifyRecoveryCodePage';
+
+const MainLayout = () => (
+  <>
+    <Header />
+    <Outlet />
+    <Footer />
+  </>
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/online-payment" element={<OnlinePaymentPage />} />
-        <Route path="/order-success" element={<OrderSuccessPage />} />
-        <Route path="/orders" element={<OrderHistoryPage />} />
-        <Route path="/product-detail" element={<ProductDetailPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/change-password" element={<ChangePasswordPage />} />
-        <Route path="/addresses" element={<AddressBookPage />} />
-        <Route path="/favorites" element={<FavoriteProductsPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
+
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/online-payment" element={<OnlinePaymentPage />} />
+          <Route path="/order-success" element={<OrderSuccessPage />} />
+          <Route path="/orders" element={<OrderHistoryPage />} />
+          <Route path="/product-detail" element={<ProductDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
+          <Route path="/addresses" element={<AddressBookPage />} />
+          <Route path="/favorites" element={<FavoriteProductsPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+        </Route>
+
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-factory" element={<RegisterFactoryPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/verify-recovery" element={<VerifyRecoveryCodePage />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
 
   </StrictMode>,
