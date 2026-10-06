@@ -1,0 +1,91 @@
+.product-detail-page {
+    --bs-primary: var(--color-primary);
+    --bs-primary-rgb: 225, 29, 72;
+}
+
+.product-detail-page .fs-7 {
+    font-size: 0.85rem;
+}
+
+.product-detail-page .fs-8 {
+    font-size: 0.75rem;
+}
+
+.fw-black {
+    font-weight: 900;
+}
+
+.hover-opacity-100:hover {
+    opacity: 1 !important;
+}
+
+.hover-border-primary:hover {
+    border-color: var(--bs-primary) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.transition-all {
+    transition: all 0.2s ease;
+}
+
+.stock-dot {
+    width: 6px;
+    height: 6px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar {
+    height: 6px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 10px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-thumb:hover {
+    background: #d1d5db;
+}
+
+.product-detail-page .btn-primary {
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: var(--color-primary-dark, #b80035);
+    --bs-btn-hover-border-color: var(--color-primary-dark, #b80035);
+    --bs-btn-active-bg: var(--color-primary-dark, #b80035);
+    --bs-btn-active-border-color: var(--color-primary-dark, #b80035);
+    --bs-btn-disabled-bg: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
+}
+
+.product-detail-page .btn-outline-primary {
+    --bs-btn-color: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: var(--bs-primary);
+    --bs-btn-hover-border-color: var(--bs-primary);
+    --bs-btn-active-bg: var(--bs-primary);
+    --bs-btn-active-border-color: var(--bs-primary);
+    --bs-btn-disabled-color: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
+}
+
+.custom-accordion .accordion-button:not(.collapsed) {
+    color: var(--bs-dark);
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.custom-accordion .accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0, 0, 0, 0.125);
+}
+
+.hover-underline:hover {
+    text-decoration: underline !important;
+}
