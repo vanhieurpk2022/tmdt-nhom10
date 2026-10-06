@@ -20,6 +20,8 @@ import AddressBookPage from './pages/AddressBookPage';
 import FavoriteProductsPage from './pages/FavoriteProductsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import RegisterFactoryPage from './pages/RegisterFactoryPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -40,6 +42,8 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/favorites" element={<FavoriteProductsPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register-factory" element={<RegisterFactoryPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
