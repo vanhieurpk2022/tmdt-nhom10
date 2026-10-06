@@ -37,6 +37,7 @@ export default function OrderHistoryFilters({
     }
 
     return (
+
         <section className="bg-white rounded-4 shadow-sm p-3 d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
             <div className="d-flex flex-wrap gap-2" aria-label="Lọc đơn hàng theo trạng thái">
                 {filterOptions.map((option) => {
@@ -73,6 +74,7 @@ export default function OrderHistoryFilters({
                     onChange={(event) => onSearchChange(event.target.value)}
                 />
             </div>
+            </label>
         </section>
     );
 }
