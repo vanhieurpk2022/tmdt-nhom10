@@ -43,12 +43,11 @@ export default function OrderHistoryFilters({
                 {filterOptions.map((option) => {
                     const isActive = activeFilter === option.value;
                     const count = countByFilter(option.value);
-                    
+
                     return (
                         <button
-                            className={`btn btn-sm rounded-pill d-inline-flex align-items-center px-3 py-2 fw-bold ${
-                                isActive ? "btn-dark text-white" : "btn-white border text-muted"
-                            }`}
+                            className={`btn btn-sm rounded-pill d-inline-flex align-items-center px-3 py-2 fw-bold ${isActive ? "btn-dark text-white" : "btn-white border text-muted"
+                                }`}
                             key={option.value}
                             type="button"
                             onClick={() => onFilterChange(option.value)}
@@ -74,7 +73,6 @@ export default function OrderHistoryFilters({
                     onChange={(event) => onSearchChange(event.target.value)}
                 />
             </div>
-            </label>
         </section>
     );
 }
