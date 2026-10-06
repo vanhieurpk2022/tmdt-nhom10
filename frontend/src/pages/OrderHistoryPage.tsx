@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
-import OrderHistoryBreadcrumb from "../components/order-history/OrderHistoryBreadcrumb";
 import OrderHistoryFilters, { type OrderHistoryFilter } from "../components/order-history/OrderHistoryFilters";
 import OrderHistoryHero from "../components/order-history/OrderHistoryHero";
 import OrderHistoryList from "../components/order-history/OrderHistoryList";
 import { orderHistoryItems } from "../data/orderHistoryData";
+import AccountLayout from "../components/layout/AccountLayout";
+
 
 export default function OrderHistoryPage() {
     const [activeFilter, setActiveFilter] = useState<OrderHistoryFilter>("all");
@@ -24,21 +25,20 @@ export default function OrderHistoryPage() {
     }, [activeFilter, searchValue]);
 
     return (
-        <main className="order-history-page">
-            <div className="container-fluid px-4 px-lg-5">
-                <div className="order-history-content">
-                    <OrderHistoryBreadcrumb />
-                    <OrderHistoryHero orders={orderHistoryItems} />
-                    <OrderHistoryFilters
-                        activeFilter={activeFilter}
-                        orders={orderHistoryItems}
-                        searchValue={searchValue}
-                        onFilterChange={setActiveFilter}
-                        onSearchChange={setSearchValue}
-                    />
-                    <OrderHistoryList orders={filteredOrders} />
-                </div>
-            </div>
-        </main>
+                <AccountLayout breadcrumbCurrent="Đơn hàng của tôi">
+                        <div className="d-flex flex-column gap-4">
+                            <OrderHistoryHero orders={orderHistoryItems} />
+                            
+                            <OrderHistoryFilters
+                                activeFilter={activeFilter}
+                                orders={orderHistoryItems}
+                                searchValue={searchValue}
+                                onFilterChange={setActiveFilter}
+                                onSearchChange={setSearchValue}
+                            />
+                            
+                            <OrderHistoryList orders={filteredOrders} />
+                        </div>
+                            </AccountLayout>
     );
 }
