@@ -22,6 +22,7 @@ import NotificationsPage from './pages/NotificationsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterFactoryPage from './pages/RegisterFactoryPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -44,6 +45,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-factory" element={<RegisterFactoryPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
