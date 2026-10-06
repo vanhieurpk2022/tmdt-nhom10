@@ -25,6 +25,7 @@ import RegisterFactoryPage from './pages/RegisterFactoryPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import VerifyRecoveryCodePage from './pages/VerifyRecoveryCodePage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 const MainLayout = () => (
   <>
@@ -54,14 +55,13 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/favorites" element={<FavoriteProductsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
         </Route>
-
-
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-factory" element={<RegisterFactoryPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/verify-recovery" element={<VerifyRecoveryCodePage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Routes>
     </BrowserRouter>
 

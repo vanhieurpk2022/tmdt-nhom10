@@ -1,14 +1,15 @@
-import { Eye } from 'react-bootstrap-icons';
+import { InfoCircleFill } from 'react-bootstrap-icons';
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
     return (
         <div className="login-page d-flex align-items-center justify-content-center bg-light" style={{ minHeight: 'calc(100vh - 100px)' }}>
             <div className="container py-5">
+                <div className="mb-3 text-secondary" style={{ fontSize: '12px', marginLeft: '10px' }}>
+                    Đặt lại mật khẩu khách hàng
+                </div>
                 <div className="row g-0 rounded-4 overflow-hidden shadow-lg login-container bg-white mx-auto" style={{ maxWidth: '1100px' }}>
 
-
                     <div className="col-lg-6 login-left-panel p-4 p-md-5 text-white d-flex flex-column justify-content-center position-relative" style={{ backgroundColor: '#111827' }}>
-
                         <div className="position-absolute top-0 end-0 translate-middle-y" style={{ width: '300px', height: '300px', backgroundColor: 'rgba(225, 29, 72, 0.1)', borderRadius: '50%', filter: 'blur(50px)' }}></div>
                         <div className="position-absolute bottom-0 start-0 translate-middle-y" style={{ width: '200px', height: '200px', backgroundColor: 'rgba(52, 82, 55, 0.2)', borderRadius: '50%', filter: 'blur(50px)' }}></div>
 
@@ -64,63 +65,65 @@ export default function LoginPage() {
                         </div>
                     </div>
 
-                    {/* form nhập */}
+
                     <div className="col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center position-relative">
-                        <div className="login-form-container mx-auto" style={{ width: '100%', maxWidth: '400px' }}>
+                        <div className="login-form-container mx-auto" style={{ width: '100%', maxWidth: '440px' }}>
                             <div className="d-inline-block px-3 py-1 rounded-pill mb-4" style={{ backgroundColor: '#fff1f2', color: 'var(--color-primary)', fontSize: '11px', fontWeight: '800', letterSpacing: '0.5px' }}>
-                                TÀI KHOẢN KHÁCH HÀNG
+                                ĐẶT LẠI MẬT KHẨU
                             </div>
 
-                            <h2 className="fw-bolder mb-2" style={{ color: '#111827' }}>Chào mừng bạn trở lại</h2>
-                            <p className="text-secondary mb-4 pb-2" style={{ fontSize: '14px' }}>Đăng nhập để tiếp tục mua sắm và quản lý đơn hàng tinh dầu của bạn.</p>
+                            <div className="d-flex align-items-center mb-4" style={{ width: '100px' }}>
+                                <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
+                                <div style={{ flex: 1, height: '2px', backgroundColor: '#e2e8f0', margin: '0 4px' }}></div>
+                                <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
+                                <div style={{ flex: 1, height: '2px', backgroundColor: '#e2e8f0', margin: '0 4px' }}></div>
+                                <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
+                            </div>
+
+                            <h2 className="fw-bolder mb-2" style={{ color: '#111827' }}>Tạo mật khẩu mới</h2>
+                            <p className="text-secondary mb-4 pb-2" style={{ fontSize: '14px' }}>Tạo mật khẩu mới có ít nhất 8 ký tự để bảo vệ tài khoản tốt hơn.</p>
+
+                            <div className="d-flex p-3 rounded-3 mb-4" style={{ backgroundColor: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                                <div className="me-3 mt-1" style={{ color: '#3b82f6' }}>
+                                    <div className="rounded-circle d-flex align-items-center justify-content-center" style={{ width: '20px', height: '20px', backgroundColor: '#eff6ff' }}>
+                                        <InfoCircleFill size={12} />
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 className="mb-1 fw-bold" style={{ fontSize: '13px', color: '#111827' }}>Gợi ý mật khẩu mạnh</h6>
+                                    <p className="mb-0 text-secondary" style={{ fontSize: '12px' }}>Sử dụng chữ hoa, chữ thường, số và ký tự đặc biệt để tăng độ an toàn.</p>
+                                </div>
+                            </div>
 
                             <form>
                                 <div className="mb-3">
-                                    <label className="form-label fw-bold" style={{ fontSize: '13px', color: '#111827' }}>Email</label>
-                                    <input type="email" className="form-control form-control-lg bg-transparent" placeholder="name@email.com" style={{ fontSize: '14px', borderRadius: '8px' }} />
+                                    <label className="form-label fw-bold mb-2" style={{ fontSize: '13px', color: '#111827' }}>Mật khẩu mới</label>
+                                    <input type="password" className="form-control form-control-lg bg-transparent" style={{ fontSize: '14px', borderRadius: '8px' }} />
                                 </div>
+
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold mb-2" style={{ fontSize: '13px', color: '#111827' }}>Xác nhận mật khẩu mới</label>
+                                    <input type="password" className="form-control form-control-lg bg-transparent" style={{ fontSize: '14px', borderRadius: '8px' }} />
+                                </div>
+
                                 <div className="mb-4">
-                                    <label className="form-label fw-bold" style={{ fontSize: '13px', color: '#111827' }}>Mật khẩu</label>
-                                    <div className="position-relative">
-                                        <input type="password" className="form-control form-control-lg bg-transparent" placeholder="Nhập mật khẩu" style={{ fontSize: '14px', borderRadius: '8px', paddingRight: '40px' }} />
-                                        <button type="button" className="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent text-secondary">
-                                            <Eye />
-                                        </button>
+                                    <div className="d-flex align-items-center mb-1" style={{ fontSize: '12px', color: '#64748b' }}>
+                                        <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span> Ít nhất 8 ký tự
+                                    </div>
+                                    <div className="d-flex align-items-center mb-1" style={{ fontSize: '12px', color: '#64748b' }}>
+                                        <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span> Bao gồm chữ và số
+                                    </div>
+                                    <div className="d-flex align-items-center" style={{ fontSize: '12px', color: '#64748b' }}>
+                                        <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span> Bao gồm 1 kí tự in hoa và 1 kí tự đặc biệt
                                     </div>
                                 </div>
 
-                                <div className="d-flex justify-content-between align-items-center mb-4 pb-2">
-                                    <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" id="rememberMe" />
-                                        <label className="form-check-label text-secondary" htmlFor="rememberMe" style={{ fontSize: '13px' }}>
-                                            Ghi nhớ đăng nhập
-                                        </label>
-                                    </div>
-                                    <a href="/forgot-password" className="text-decoration-none fw-bold" style={{ fontSize: '13px', color: 'var(--color-primary)' }}>Quên mật khẩu?</a>
-                                </div>
-
-                                <button type="submit" className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-4" style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}>
-                                    ĐĂNG NHẬP
-                                </button>
-
-                                <div className="position-relative mb-4 text-center">
-                                    <hr className="text-secondary opacity-25" />
-                                    <span className="position-absolute top-50 start-50 translate-middle bg-white px-3 text-secondary" style={{ fontSize: '12px' }}>hoặc</span>
-                                </div>
-
-                                <div className="text-center" style={{ fontSize: '14px' }}>
-                                    <span className="text-secondary">Bạn chưa có tài khoản? </span>
-                                    <a href="/register" className="text-decoration-none fw-bold" style={{ color: 'var(--color-primary)' }}>Đăng ký ngay</a>
-                                </div>
+                                <a href="/login" className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-2 text-center text-decoration-none d-block" style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}>
+                                    CẬP NHẬT MẬT KHẨU
+                                </a>
                             </form>
                         </div>
                     </div>
-                </div>
-
-                <div className="text-center mt-4">
-                    <p className="text-secondary mx-auto" style={{ fontSize: '12px', maxWidth: '700px' }}>
-                        NORDIC là nền tảng trung gian giúp khách hàng tiếp cận sản phẩm tinh dầu từ nhiều xưởng cung cấp trong một hệ thống thống nhất.
-                    </p>
                 </div>
             </div>
         </div>
