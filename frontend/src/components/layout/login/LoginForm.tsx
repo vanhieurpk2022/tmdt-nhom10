@@ -1,14 +1,44 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
-import { Link } from 'react-router';
-
-
+import { Link, useNavigate } from 'react-router';
+import { authService } from '../../../api/AuthService';
+import { ROUTES } from '../../../routes/routes';
+import { useAuth } from "../../../api/AuthContext";
 
 export function LoginForm() {
     const [enable, setEnable] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPasssword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const { setUser, setIsAuthenticated } = useAuth();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(false);
+        try {
+            const response = await authService.login({
+                email,
+                password,
+                rememberMe
+            });
+
+            if (response.status === 200) {
+                setUser(response.data.user);
+                setIsAuthenticated(true);
+
+                navigate(ROUTES.HOME);
+            }
+
+        } catch (error) {
+            console.error(error);
+            setErrorMessage("Đăng nhập thất bại. Vui lòng thử lại!");
+        }
+        setLoading(false)
+    };
+
     return (
         <div className="col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center position-relative">
             <div className="login-form-container mx-auto" style={{ width: '100%', maxWidth: '400px' }}>
@@ -19,12 +49,12 @@ export function LoginForm() {
                 <h2 className="fw-bolder mb-2" style={{ color: '#111827' }}>Chào mừng bạn trở lại</h2>
                 <p className="text-secondary mb-4 pb-2" style={{ fontSize: '14px' }}>Đăng nhập để tiếp tục mua sắm và quản lý đơn hàng tinh dầu của bạn.</p>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label className="form-label fw-bold" style={{ fontSize: '13px', color: '#111827' }}>Email</label>
                         <input type="email" value={email} className="form-control form-control-lg bg-transparent" onChange={(e) => { setEmail(e.target.value) }} placeholder="Nhập email" style={{ fontSize: '14px', borderRadius: '8px' }} />
                     </div>
-                    <div className="mb-4">
+                    <div className="">
                         <label className="form-label fw-bold" style={{ fontSize: '13px', color: '#111827' }}>Mật khẩu</label>
                         <div className="position-relative">
                             <input type={enable ? "text" : "password"} value={password} onChange={(e) => { setPasssword(e.target.value) }} className="form-control form-control-lg bg-transparent" placeholder="Nhập mật khẩu" style={{ fontSize: '14px', borderRadius: '8px', paddingRight: '40px' }} />
@@ -34,6 +64,7 @@ export function LoginForm() {
 
                         </div>
                     </div>
+                    <div className='text-center mb-4 mt-2 text-danger' style={{ fontSize: "12px" }}>{errorMessage}</div>
 
                     <div className="d-flex justify-content-between align-items-center mb-4 pb-2">
                         <div className="form-check">
@@ -45,8 +76,15 @@ export function LoginForm() {
                         <a href="/forgot-password" className="text-decoration-none fw-bold" style={{ fontSize: '13px', color: 'var(--color-primary)' }}>Quên mật khẩu?</a>
                     </div>
 
-                    <button type="submit" className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-4" style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}>
-                        ĐĂNG NHẬP
+                    <button type="submit" disabled={loading} className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-4" style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}>
+                        {loading ? (
+                            <>
+                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Đang xử lý...
+                            </>
+                        ) : (
+                            'Đăng nhập'
+                        )}
                     </button>
 
                     <div className="position-relative mb-4 text-center">

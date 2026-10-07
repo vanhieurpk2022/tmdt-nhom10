@@ -10,7 +10,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,38 +49,89 @@ public class EmailServieImp implements EmailSevice {
             <title>Xác thực tài khoản</title>
         </head>
 
-        <body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: Arial, sans-serif;">
+        <body style="
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        ">
 
-            <div style="max-width: 600px; margin: 40px auto; background-color: #ffffff;
-                        padding: 40px; border-radius: 10px;">
+            <div style="
+                max-width: 600px;
+                margin: 40px auto;
+                background-color: #ffffff;
+                padding: 40px;
+                border-radius: 10px;
+            ">
 
-                <h2>Xác thực tài khoản</h2>
+                <h2 style="text-align: center;">
+                    Xác thực tài khoản
+                </h2>
 
                 <p>
-                    Cảm ơn bạn đã đăng ký tài khoản.
-                    Vui lòng bấm vào link bên dưới:
+                    Cảm ơn bạn đã đăng ký tài khoản Oilia.
+                </p>
+
+                <p>
+                    Vui lòng bấm vào nút bên dưới để xác thực tài khoản:
                 </p>
 
                 <div style="text-align: center; margin: 30px 0;">
-                    <span style="font-size: 16px; font-weight: bold;">
+                    <a href="%s"
+                       style="
+                           display: inline-block;
+                           padding: 12px 24px;
+                           background-color: #2563eb;
+                           color: #ffffff;
+                           text-decoration: none;
+                           border-radius: 6px;
+                           font-weight: bold;
+                       ">
+                        Xác thực tài khoản
+                    </a>
+                </div>
+
+                <p>
+                    Hoặc sử dụng mã xác thực:
+                </p>
+
+                <div style="
+                    text-align: center;
+                    margin: 20px 0;
+                    padding: 15px;
+                    background-color: #f3f4f6;
+                    border-radius: 6px;
+                ">
+                    <span style="
+                        font-size: 20px;
+                        font-weight: bold;
+                        letter-spacing: 2px;
+                    ">
                         %s
                     </span>
                 </div>
 
                 <p>
-                    Đường dẫn có hiệu lực trong <strong>5 phút</strong>.
+                    Mã xác thực và đường dẫn có hiệu lực trong
+                    <strong>5 phút</strong>.
+                </p>
+
+                <p style="font-size: 13px; color: #777;">
+                    Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email.
                 </p>
 
             </div>
 
         </body>
         </html>
-        """.formatted(Endpoints.HOST+"/verify-email?email="+to+"&code="+code);
+        """.formatted(Endpoints.HOST+"/verify-email?email="+to+"&code="+code, code);
         sendMessage(mailFrom,to,"Xác thực tài khoản - Oilia",html);
     }
 
     @Override
     public String generateCode() {
-        return UUID.randomUUID().toString();
+        return new Random().ints(6,1,10)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining());
     }
 }

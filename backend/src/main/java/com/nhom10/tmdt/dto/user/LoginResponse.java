@@ -9,6 +9,7 @@ public record LoginResponse(
     public record UserResponse(
             Long id,
             String email,
-            String fullName
+            String fullName,
+            String avatar
     ) {}
 }

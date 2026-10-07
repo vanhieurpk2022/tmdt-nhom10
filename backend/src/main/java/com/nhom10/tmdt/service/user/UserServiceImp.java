@@ -31,6 +31,12 @@ public class UserServiceImp implements UserService {
     private final RoleRepository roleRepository;
     private final EmailSevice emailSevice;
 
+    @Override
+    public LoginResponse.UserResponse getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(()->  new AppException(ErrorCode.NOT_FOUND));
+        return  new LoginResponse.UserResponse(user.getId(),user.getEmail(),user.getFullname(),user.getAvatarUrl());
+    }
+
     // đang lấy username -> email
     @Override
     public void register(CreateUserRequest request) {
@@ -78,11 +84,12 @@ public class UserServiceImp implements UserService {
         List<String> roles = user.getRoles().stream().map(Role::getName).toList();
 
         String accessToken = jwtService.generateToken(user.getEmail(),"", user.getFullname(),user.isVerify(),roles);
-        long expiresIn = jwtService.getExpirationSeconds();
+        long expiresIn = jwtService.getExpirationSeconds(request.rememberMe());
         LoginResponse.UserResponse userDto = new LoginResponse.UserResponse(
                 user.getId(),
                 user.getEmail(),
-                user.getFullname());
+                user.getFullname(),
+                user.getAvatarUrl());
 
         return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
     }

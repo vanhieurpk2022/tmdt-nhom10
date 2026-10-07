@@ -1,5 +1,6 @@
 package com.nhom10.tmdt.repo;
 
+import com.nhom10.tmdt.dto.user.LoginResponse;
 import com.nhom10.tmdt.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -10,6 +11,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
      User findByUsername(String username);
     Optional<User> findByEmail(String email);
-
     boolean existsUserByEmail(String email);
 }
