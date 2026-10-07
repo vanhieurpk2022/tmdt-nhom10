@@ -1,6 +1,5 @@
-package com.nhom10.tmdt.service;
+package com.nhom10.tmdt.service.imp;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface CloudinarySevice {

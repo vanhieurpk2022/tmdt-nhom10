@@ -1,4 +1,7 @@
 spring:
+  data:
+    rest:
+      base-path: /v1
   mail:
     host: smtp.gmail.com
     port: 587
@@ -26,10 +29,17 @@ spring:
     show-sql: true
 server:
   port: 8080
-
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: 1800000
 
 cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME}
   api-key: ${CLOUDINARY_API_KEY}
   api-secret: ${CLOUDINARY_API_SECRET}
   folder: tmdt
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG

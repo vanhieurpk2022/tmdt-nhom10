@@ -2,6 +2,7 @@ package com.nhom10.tmdt.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ public class WishList {
     private Long id;
 
     @Column(name="update_at")
+    @UpdateTimestamp
     private LocalDateTime updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

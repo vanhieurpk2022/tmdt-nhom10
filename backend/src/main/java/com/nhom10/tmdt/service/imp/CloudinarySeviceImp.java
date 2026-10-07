@@ -1,18 +1,13 @@
 package com.nhom10.tmdt.service.imp;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.api.exceptions.ApiException;
 import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.enums.ErrorCode;
-import com.nhom10.tmdt.service.CloudinarySevice;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 

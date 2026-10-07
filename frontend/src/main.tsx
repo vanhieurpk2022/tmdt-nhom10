@@ -26,6 +26,7 @@ import VerifyEmailPage from './pages/VerifyEmailPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import VerifyRecoveryCodePage from './pages/VerifyRecoveryCodePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import { ROUTES } from './routes/routes';
 
 const MainLayout = () => (
   <>
@@ -39,29 +40,30 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-
         <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/online-payment" element={<OnlinePaymentPage />} />
-          <Route path="/order-success" element={<OrderSuccessPage />} />
-          <Route path="/orders" element={<OrderHistoryPage />} />
-          <Route path="/product-detail" element={<ProductDetailPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/change-password" element={<ChangePasswordPage />} />
-          <Route path="/addresses" element={<AddressBookPage />} />
-          <Route path="/favorites" element={<FavoriteProductsPage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path={ROUTES.HOME} element={<HomePage />} />
+          <Route path={ROUTES.CART} element={<CartPage />} />
+          <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
+          <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
+          <Route path={ROUTES.ONLINE_PAYMENT} element={<OnlinePaymentPage />} />
+          <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
+          <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
+          <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
+          <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+          <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePasswordPage />} />
+          <Route path={ROUTES.ADDRESSES} element={<AddressBookPage />} />
+          <Route path={ROUTES.FAVORITES} element={<FavoriteProductsPage />} />
+          <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+          <Route path={ROUTES.REGISTER_FACTORY} element={<RegisterFactoryPage />} />
+          <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
+          <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+          <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
+          <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
         </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/register-factory" element={<RegisterFactoryPage />} />
-        <Route path="/verify-email" element={<VerifyEmailPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/verify-recovery" element={<VerifyRecoveryCodePage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+
       </Routes>
     </BrowserRouter>
 

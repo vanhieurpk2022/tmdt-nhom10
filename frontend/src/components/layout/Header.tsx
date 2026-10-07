@@ -1,9 +1,12 @@
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Cart from "./header/Cart";
 import LogoHeader from "./header/LogoHeader";
 import NavItem from "./header/NavItem";
+import { NonLogin } from "./header/NonLogin";
 import NotifyAbove from "./header/NotifyAbove";
 import SearchBox from "./header/SearchBox";
 import UserMenu from "./header/UserMenu";
+import { ROUTES } from "../../routes/routes";
 
 export function Header() {
     const user = {
@@ -28,10 +31,10 @@ export function Header() {
                     </div>
 
                     <nav className="d-flex align-items-center gap-3 gap-xl-4 flex-shrink-0 site-nav" aria-label="Điều hướng chính">
-                        <NavItem content="Trang Chủ" active />
-                        <NavItem content="Sản phẩm" />
-                        <NavItem content="Xưởng" />
-                        <NavItem content="Ưu đãi" />
+                        <NavItem href={ROUTES.HOME} content="Trang Chủ" active />
+                        <NavItem href={ROUTES.PRODUCTS} content="Sản phẩm" />
+                        <NavItem href={ROUTES.HOME} content="Xưởng" />
+                        <NavItem href={ROUTES.HOME} content="Ưu đãi" />
                     </nav>
 
                     <div className="flex-grow-1 d-flex justify-content-center px-4 site-search-wrap">
@@ -41,10 +44,13 @@ export function Header() {
                     </div>
 
                     <div className="d-flex align-items-center gap-4 flex-shrink-0 site-user-actions">
-                        <UserMenu username={user.username} email={user.email} avatar={user.avatar} />
+                        {/* <UserMenu username={user.username} email={user.email} avatar={user.avatar} /> */}
+                        <NonLogin avatar={faUser} />
                         <span className="site-header-divider" />
                         <Cart quantity={cart.quantity} total={cart.total} />
                     </div>
+
+
                 </div>
             </div>
         </>

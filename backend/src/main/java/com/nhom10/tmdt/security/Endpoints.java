@@ -1,7 +1,7 @@
 package com.nhom10.tmdt.security;
 
 public class Endpoints {
-    public static final String font_end_host = "http://localhost:3000";
+    public static final String HOST = "http://localhost:3000";
     public static final String[] PUBLIC_GET = {
             "/books",
             "/books/**",
