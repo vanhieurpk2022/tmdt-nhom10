@@ -25,20 +25,20 @@ export default function OrderHistoryPage() {
     }, [activeFilter, searchValue]);
 
     return (
-                <AccountLayout breadcrumbCurrent="Đơn hàng của tôi">
-                        <div className="d-flex flex-column gap-4">
-                            <OrderHistoryHero orders={orderHistoryItems} />
-                            
-                            <OrderHistoryFilters
-                                activeFilter={activeFilter}
-                                orders={orderHistoryItems}
-                                searchValue={searchValue}
-                                onFilterChange={setActiveFilter}
-                                onSearchChange={setSearchValue}
-                            />
-                            
-                            <OrderHistoryList orders={filteredOrders} />
-                        </div>
-                            </AccountLayout>
+        <AccountLayout breadcrumbCurrent="Đơn hàng của tôi">
+            <div className="d-flex flex-column gap-4">
+                <OrderHistoryHero orders={orderHistoryItems} />
+
+                <OrderHistoryFilters
+                    activeFilter={activeFilter}
+                    orders={orderHistoryItems}
+                    searchValue={searchValue}
+                    onFilterChange={setActiveFilter}
+                    onSearchChange={setSearchValue}
+                />
+
+                <OrderHistoryList orders={filteredOrders} />
+            </div>
+        </AccountLayout>
     );
 }

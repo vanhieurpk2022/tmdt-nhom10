@@ -3,6 +3,9 @@ package com.nhom10.tmdt.model;
 import com.nhom10.tmdt.enums.FactoryStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +30,11 @@ public class Factory {
     @Enumerated(EnumType.STRING)
     private FactoryStatus factoryStatus;
     @Column(name="created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt = LocalDateTime.now();
+
     @Column(name="updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
 

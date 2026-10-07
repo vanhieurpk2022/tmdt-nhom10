@@ -887,7 +887,7 @@ INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantit
 INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (234, 230, 10, 150000, 150000, 100);
 INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (235, 231, 50, 230000, 230000, 100);
 
-INSERT INTO `roles` (id, name) VALUES (1, 'ROLE_ADMIN');
-INSERT INTO `roles` (id, name) VALUES (2, 'ROLE_USER');
-INSERT INTO `roles` (id, name) VALUES (3, 'ROLE_STAFF');
-INSERT INTO `roles` (id, name) VALUES (4, 'ROLE_FACTORY');
+INSERT INTO `roles` (id, name) VALUES (1, 'ADMIN');
+INSERT INTO `roles` (id, name) VALUES (2, 'USER');
+INSERT INTO `roles` (id, name) VALUES (3, 'STAFF');
+INSERT INTO `roles` (id, name) VALUES (4, 'FACTORY');

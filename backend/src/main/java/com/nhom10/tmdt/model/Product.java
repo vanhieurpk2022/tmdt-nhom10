@@ -3,7 +3,9 @@ package com.nhom10.tmdt.model;
 import com.nhom10.tmdt.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,8 +36,11 @@ public class Product {
     private Double minBasePrice;
 
     @Column(name="created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt ;
+
     @Column(name="updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Column(name="product_type")

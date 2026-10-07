@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "refund_evidence")
@@ -37,6 +38,7 @@ public class RefundEvidence {
     private Long size;
 
     @Column(name = "uploaded_at")
+    @UpdateTimestamp
     private LocalDateTime uploadedAt;
 
 

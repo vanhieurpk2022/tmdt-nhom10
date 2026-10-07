@@ -2,6 +2,7 @@ package com.nhom10.tmdt.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,7 @@ public class ProductImage {
     private String imageUrl;
 
     @Column(name="updated_at")
+    @UpdateTimestamp
     private LocalDateTime uploadedAt;
 
 
