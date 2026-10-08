@@ -72,6 +72,9 @@ public class User {
     @Column(name="code_active")
     private String codeActive;
 
+    @Column(name="avatar_url")
+    private String avatarUrl;
+
     @Column(name="verify_code_expires_at")
     private LocalDateTime verifyCodeExpiresAt;
 }

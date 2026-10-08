@@ -35,8 +35,9 @@ public class JwtService {
                 .signWith(key)
                 .compact();
     }
-    public long getExpirationSeconds() {
-        return expirationMs / 1000;
+    public long getExpirationSeconds(boolean checkbox) {
+        return  checkbox?(30L*24*60*60):(15L*60);
+
     }
     private Claims extractAllClaims(String token){
         return Jwts.parser().

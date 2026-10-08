@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -63,9 +64,13 @@ public class SecurityConfiguration {
         http.cors(cors -> {
             cors.configurationSource(request -> {
                 CorsConfiguration corsConfig = new CorsConfiguration();
-                corsConfig.addAllowedOrigin("*");
-                corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-                corsConfig.addAllowedHeader("*");
+
+                corsConfig.setAllowedOrigins(List.of(Endpoints.HOST));
+
+                corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+                corsConfig.setAllowCredentials(true); // Giữ nguyên để cho phép truyền nhận HttpOnly Cookie
+
                 return corsConfig;
             });
         });

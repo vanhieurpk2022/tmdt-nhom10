@@ -7,18 +7,17 @@ import NotifyAbove from "./header/NotifyAbove";
 import SearchBox from "./header/SearchBox";
 import UserMenu from "./header/UserMenu";
 import { ROUTES } from "../../routes/routes";
+import { useAuth } from "../../api/AuthContext";
+
+
 
 export function Header() {
-    const user = {
-        username: "Minh Hậu",
-        email: "minhhau@nordic.vn",
-        avatar: "",
-    };
-
+    const { user } = useAuth();
     const cart = {
         quantity: 3,
         total: 189,
     };
+
 
     return (
         <>
@@ -44,8 +43,12 @@ export function Header() {
                     </div>
 
                     <div className="d-flex align-items-center gap-4 flex-shrink-0 site-user-actions">
-                        {/* <UserMenu username={user.username} email={user.email} avatar={user.avatar} /> */}
-                        <NonLogin avatar={faUser} />
+                        {user ? (<UserMenu fullname={user.fullName} email={user.email} avatar={user.avatar} />)
+                            :
+                            (<NonLogin avatar={faUser} />)
+                        }
+
+
                         <span className="site-header-divider" />
                         <Cart quantity={cart.quantity} total={cart.total} />
                     </div>
