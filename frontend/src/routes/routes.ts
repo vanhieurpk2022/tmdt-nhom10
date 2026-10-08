@@ -16,8 +16,9 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   REGISTER_FACTORY: "/register-factory",
-  VERIFY_EMAIL: "/verify-email",
   FORGOT_PASSWORD: "/forgot-password",
   VERIFY_RECOVERY: "/verify-recovery",
   RESET_PASSWORD: "/reset-password",
+  VERIFY_ACCOUNT:"/verify",
+  VERIFY_SUCCESS:"/verify-email"
 } as const;

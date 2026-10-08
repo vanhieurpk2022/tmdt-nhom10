@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
@@ -90,27 +92,6 @@ public class EmailServieImp implements EmailSevice {
                         Xác thực tài khoản
                     </a>
                 </div>
-
-                <p>
-                    Hoặc sử dụng mã xác thực:
-                </p>
-
-                <div style="
-                    text-align: center;
-                    margin: 20px 0;
-                    padding: 15px;
-                    background-color: #f3f4f6;
-                    border-radius: 6px;
-                ">
-                    <span style="
-                        font-size: 20px;
-                        font-weight: bold;
-                        letter-spacing: 2px;
-                    ">
-                        %s
-                    </span>
-                </div>
-
                 <p>
                     Mã xác thực và đường dẫn có hiệu lực trong
                     <strong>5 phút</strong>.
@@ -124,7 +105,7 @@ public class EmailServieImp implements EmailSevice {
 
         </body>
         </html>
-        """.formatted(Endpoints.HOST+"/verify-email?email="+to+"&code="+code, code);
+        """.formatted(Endpoints.HOST+"/verify-email?email="+ URLEncoder.encode(to, StandardCharsets.UTF_8) +"&code="+URLEncoder.encode(code, StandardCharsets.UTF_8));
         sendMessage(mailFrom,to,"Xác thực tài khoản - Oilia",html);
     }
 
@@ -133,5 +114,10 @@ public class EmailServieImp implements EmailSevice {
         return new Random().ints(6,1,10)
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining());
+    }
+
+    @Override
+    public String generateToken() {
+        return UUID.randomUUID().toString();
     }
 }

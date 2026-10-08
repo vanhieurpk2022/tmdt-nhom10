@@ -20,7 +20,10 @@ public record CreateUserRequest(
         String phone,
 
         @NotBlank @Size(min = 6, message = "Mật khẩu tối thiểu 6 ký tự")
-        String password
+        String password,
+
+         @NotBlank @Size(min = 6, message = "Mật khẩu tối thiểu 6 ký tự")
+         String verifyPassword
 ) {
 
 }

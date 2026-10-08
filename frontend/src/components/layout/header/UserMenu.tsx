@@ -14,13 +14,13 @@ interface UserMenuProps {
 
 export default function UserMenu({ fullname, avatar, email }: UserMenuProps) {
     const navigate = useNavigate();
-    const { setUser, setIsAuthenticated } = useAuth();
+    const { setUser } = useAuth();
     const handleLogout = async () => {
+        setUser(null);
+        navigate(ROUTES.HOME, { replace: true });
+
         try {
             await authService.logout();
-            setUser(null);
-            setIsAuthenticated(false);
-            navigate(ROUTES.HOME);
         } catch (error) {
             console.error("Đăng xuất thất bại:", error);
         }

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router';
 import { authService } from '../../../api/AuthService';
 import { ROUTES } from '../../../routes/routes';
 import { useAuth } from "../../../api/AuthContext";
+import axios from 'axios';
 
 export function LoginForm() {
     const [enable, setEnable] = useState(false);
@@ -11,13 +12,12 @@ export function LoginForm() {
     const [password, setPasssword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
-    const { setUser, setIsAuthenticated } = useAuth();
+    const { setUser, loading, setLoading } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(false);
+        setLoading(true)
         try {
             const response = await authService.login({
                 email,
@@ -27,16 +27,32 @@ export function LoginForm() {
 
             if (response.status === 200) {
                 setUser(response.data.user);
-                setIsAuthenticated(true);
-
-                navigate(ROUTES.HOME);
+                navigate(ROUTES.HOME, { replace: true });
             }
 
         } catch (error) {
-            console.error(error);
-            setErrorMessage("Đăng nhập thất bại. Vui lòng thử lại!");
+            if (axios.isAxiosError(error)) {
+                console.log(error.response);
+                if (!error.response) {
+                    setErrorMessage("Không kết nối được máy chủ, vui lòng thử lại");
+                } else if (error.response.data?.status == 410) {
+                    sessionStorage.setItem("pendingVerifyEmail", email);
+                    sessionStorage.setItem("pendingVerifySource", "login");
+                    navigate(ROUTES.VERIFY_ACCOUNT, {
+                        replace: true,
+                        state: { email, fromLogin: true },
+                    });
+                    return;
+                } else {
+                    setErrorMessage(error.response.data?.message);
+                }
+            } else {
+                setErrorMessage("Đã có lỗi xảy ra");
+            }
+        } finally {
+
+            setLoading(false)
         }
-        setLoading(false)
     };
 
     return (

@@ -5,6 +5,7 @@ import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
+import com.nhom10.tmdt.dto.verify.VerifyRequest;
 import com.nhom10.tmdt.service.user.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -25,7 +26,11 @@ import java.util.Arrays;
 public class UserController {
 
     private final UserService userService;
-
+    @PostMapping("/resend")
+    public ApiResponse<Void> resend(@RequestBody String email) {
+        userService.resendCode(email);
+        return new ApiResponse<>(200, "Đăng xuất thành công");
+    }
     @PostMapping("/logout")
     public ApiResponse<Void> logout(HttpServletResponse response) {
 
@@ -63,9 +68,9 @@ public class UserController {
         return new ApiResponse<>(200, "Lấy thông tin người dùng thành công", user);
     }
 
+    // {email}/{code} này là PathVariable
     @GetMapping("/verify-email")
-    public ApiResponse<Void> verify(@RequestParam String email,
-                                    @RequestParam String code){
+    public ApiResponse<Void> verify(@RequestParam String email,@RequestParam String code){
         userService.verifyEmail(email,code);
         return new ApiResponse<>(200,"Xác thực tài khoản thành công");
     }

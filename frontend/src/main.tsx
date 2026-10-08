@@ -28,6 +28,10 @@ import VerifyRecoveryCodePage from './pages/VerifyRecoveryCodePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import { ROUTES } from './routes/routes';
 import { AuthProvider } from './api/AuthContext';
+import { VerifyAccount } from './pages/VerifyAccount';
+import RequireVerifyState from './api/RequireVerifyState';
+import { VerifyEmailSuccess } from './pages/VerifyEmailSuccess';
+import RequireVerifyEmail from './api/ProtectVerifyEmail';
 
 const MainLayout = () => (
   <>
@@ -56,13 +60,19 @@ createRoot(document.getElementById('root')!).render(
             <Route path={ROUTES.ADDRESSES} element={<AddressBookPage />} />
             <Route path={ROUTES.FAVORITES} element={<FavoriteProductsPage />} />
             <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
-            <Route path={ROUTES.LOGIN} element={<LoginPage />} />
             <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
             <Route path={ROUTES.REGISTER_FACTORY} element={<RegisterFactoryPage />} />
-            <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
             <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
             <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
             <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
+            <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+            <Route element={<RequireVerifyEmail />} >
+              <Route path={ROUTES.VERIFY_SUCCESS} element={<VerifyEmailSuccess />} />
+            </Route>
+            <Route element={<RequireVerifyState />} >
+              <Route path={ROUTES.VERIFY_ACCOUNT} element={<VerifyAccount />} />
+            </Route>
+
           </Route>
 
 

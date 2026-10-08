@@ -1,5 +1,7 @@
 package com.nhom10.tmdt.dto.user;
 
+import java.util.List;
+
 public record LoginResponse(
         String accessToken,
         String tokenType,
@@ -10,6 +12,7 @@ public record LoginResponse(
             Long id,
             String email,
             String fullName,
-            String avatar
+            String avatar,
+            List<String> role
     ) {}
 }

@@ -7,35 +7,18 @@ import NotifyAbove from "./header/NotifyAbove";
 import SearchBox from "./header/SearchBox";
 import UserMenu from "./header/UserMenu";
 import { ROUTES } from "../../routes/routes";
-import { useEffect, useState } from "react";
-import { useAuth, type UserResponse } from "../../api/AuthContext";
-import { authService } from "../../api/AuthService";
+import { useAuth } from "../../api/AuthContext";
 
 
 
 export function Header() {
-    const { user, setUser, setIsAuthenticated } = useAuth();
+    const { user } = useAuth();
     const cart = {
         quantity: 3,
         total: 189,
     };
 
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const res = await authService.getCurrentUser();
 
-                if (res.status == 200) {
-                    setUser(res.data);
-                    setIsAuthenticated(true);
-                }
-            } catch (error) {
-                setUser(null);
-                setIsAuthenticated(false);
-            }
-        };
-        loadUser();
-    }, [])
     return (
         <>
             <NotifyAbove firstContent="Free Shipping on orders over $150" secondContent="Sử dụng mã: TINHDAU10 giảm 10%" />

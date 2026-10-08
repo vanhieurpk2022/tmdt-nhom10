@@ -13,6 +13,7 @@ import com.nhom10.tmdt.repo.RoleRepository;
 import com.nhom10.tmdt.repo.UserRepository;
 import com.nhom10.tmdt.service.imp.EmailSevice;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,18 +35,25 @@ public class UserServiceImp implements UserService {
     @Override
     public LoginResponse.UserResponse getUserByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(()->  new AppException(ErrorCode.NOT_FOUND));
-        return  new LoginResponse.UserResponse(user.getId(),user.getEmail(),user.getFullname(),user.getAvatarUrl());
+        List<String> roles = user.getRoles().stream().map(Role::getName).toList();
+
+        return  new LoginResponse.UserResponse(user.getId(),user.getEmail(),user.getFullname(),user.getAvatarUrl(),roles);
     }
 
     // đang lấy username -> email
     @Override
     public void register(CreateUserRequest request) {
+
         String email = request.email().trim().toLowerCase();
 
         if(userRepository.existsUserByEmail(email)) {
            throw new AppException(ErrorCode.EMAIL_EXISTED);
        }
-        String getCode = emailSevice.generateCode();
+        if(!request.password().equals(request.verifyPassword()) ){
+            throw new AppException(ErrorCode.NOT_MATCH_PASSWORD);
+        }
+
+        String getCode = emailSevice.generateToken();
        Role userRole = roleRepository.findByName(RoleName.USER.name()).orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
         emailSevice.sendActiveAccount(email,getCode);
 
@@ -68,7 +76,7 @@ public class UserServiceImp implements UserService {
         if(!user.isVerify()){
             if(user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())){
                 // họ quên xác thực cần gửi mail lại
-                String getCode = emailSevice.generateCode();
+                String getCode = emailSevice.generateToken();
                 emailSevice.sendActiveAccount(user.getEmail(),getCode);
 
                 user.setVerifyCodeExpiresAt(LocalDateTime.now().plusMinutes(5));
@@ -89,7 +97,7 @@ public class UserServiceImp implements UserService {
                 user.getId(),
                 user.getEmail(),
                 user.getFullname(),
-                user.getAvatarUrl());
+                user.getAvatarUrl(),roles);
 
         return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
     }
@@ -99,7 +107,11 @@ public class UserServiceImp implements UserService {
         if(email.isEmpty() || code.isEmpty()){
             throw new AppException(ErrorCode.NOT_FOUND);
         }
+
         User user = userRepository.findByEmail(email).orElseThrow(()-> new AppException(ErrorCode.NOT_FOUND));
+        if(user.isVerify()){
+            throw new AppException(ErrorCode.VERIFY);
+        }
         if(user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())){
             throw new AppException(ErrorCode.VERIFY_CODE_EXPIRED);
         }
@@ -110,6 +122,24 @@ public class UserServiceImp implements UserService {
         user.setCodeActive(null);
         user.setVerifyCodeExpiresAt(null);
         userRepository.save(user);
+    }
+
+    @Override
+    public void resendCode(String email) {
+        if(email.isEmpty() ){
+            throw new AppException(ErrorCode.NOT_FOUND);
+        }
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new AppException(ErrorCode.NOT_FOUND));
+        if(!user.isVerify()){
+            String getCode = emailSevice.generateToken();
+            user.setCodeActive(getCode);
+            user.setVerifyCodeExpiresAt(LocalDateTime.now().plusMinutes(5));
+            emailSevice.sendActiveAccount(email,getCode);
+            userRepository.save(user);
+        }else{
+            throw new AppException(ErrorCode.VERIFY);
+        }
+
     }
 
 

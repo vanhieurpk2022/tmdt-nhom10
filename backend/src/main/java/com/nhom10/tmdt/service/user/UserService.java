@@ -10,4 +10,5 @@ public interface UserService {
      void register(CreateUserRequest request);
      LoginResponse login(LoginRequest request);
      void verifyEmail(String email, String code);
+     void resendCode(String email);
 }

@@ -25,10 +25,6 @@ export interface RegisterResponse{
     email:string;
     phone:string;
     password:string;
+    verifyPassword:string;
 }
 
-interface ApiResponse<T> {
-  code: number;
-  message: string;
-  data: T;
-}
