@@ -5,6 +5,7 @@ import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.enums.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,7 +27,7 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleValidation(MethodArgumentNotValidException ex) {
         String message = ex.getBindingResult().getFieldErrors().stream()
-                .map(f -> f.getField() + ": " + f.getDefaultMessage())
+                .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining("; "));
         ApiResponse<Void> body = new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), message);
         return ResponseEntity.badRequest().body(body);

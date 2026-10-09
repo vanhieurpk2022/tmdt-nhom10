@@ -89,7 +89,7 @@ export function LoginForm() {
                                 Ghi nhớ đăng nhập
                             </label>
                         </div>
-                        <a href="/forgot-password" className="text-decoration-none fw-bold" style={{ fontSize: '13px', color: 'var(--color-primary)' }}>Quên mật khẩu?</a>
+                        <Link to={ROUTES.FORGOT_PASSWORD} className="text-decoration-none fw-bold" style={{ fontSize: '13px', color: 'var(--color-primary)' }}>Quên mật khẩu?</Link>
                     </div>
 
                     <button type="submit" disabled={loading} className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-4" style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}>

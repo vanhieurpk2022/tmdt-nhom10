@@ -35,22 +35,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const loadUser = async () => {
             try {
                 const res = await authService.getCurrentUser();
+
                 if (cancelled) return;
 
-                if (res && res.status === 200) {
+                if (res?.status === 200) {
                     setUser(res.data);
                 } else {
                     setUser(null);
                 }
             } catch {
-                if (!cancelled) setUser(null);
+                if (!cancelled) {
+                    setUser(null);
+                }
             } finally {
-                if (!cancelled) setLoading(false);
+                if (!cancelled) {
+                    setLoading(false);
+                }
             }
         };
 
         loadUser();
-        return () => { cancelled = true; };
+
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     useEffect(() => {

@@ -12,7 +12,7 @@ import { useAuth } from "../../api/AuthContext";
 
 
 export function Header() {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const cart = {
         quantity: 3,
         total: 189,
@@ -43,9 +43,10 @@ export function Header() {
                     </div>
 
                     <div className="d-flex align-items-center gap-4 flex-shrink-0 site-user-actions">
-                        {user ? (<UserMenu fullname={user.fullName} email={user.email} avatar={user.avatar} />)
-                            :
-                            (<NonLogin avatar={faUser} />)
+                        {loading ? (null) :
+                            user ? (<UserMenu fullname={user.fullName} email={user.email} avatar={user.avatar} />)
+                                :
+                                (<NonLogin avatar={faUser} />)
                         }
 
 

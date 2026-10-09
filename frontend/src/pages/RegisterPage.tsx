@@ -141,7 +141,7 @@ export default function RegisterPage() {
 
                                 <div className="text-center" style={{ fontSize: '14px' }}>
                                     <span className="text-secondary">Đã có tài khoản? </span>
-                                    <a href="/login" className="text-decoration-none fw-bold" style={{ color: 'var(--color-primary)' }}>Đăng nhập</a>
+                                    <Link to={ROUTES.LOGIN} className="text-decoration-none fw-bold" style={{ color: 'var(--color-primary)' }}>Đăng nhập</Link>
                                 </div>
                             </form>
                         </div>
