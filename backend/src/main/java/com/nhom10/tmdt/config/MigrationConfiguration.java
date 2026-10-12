@@ -23,6 +23,9 @@ public class MigrationConfiguration {
 
     @Bean
     public ApplicationRunner runFlyway(Flyway flyway) {
-        return args -> flyway.migrate();
+        return args -> {
+            flyway.repair();
+            flyway.migrate();
+        };
     }
 }
