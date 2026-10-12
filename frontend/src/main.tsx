@@ -32,6 +32,7 @@ import { VerifyAccount } from './pages/VerifyAccount';
 import RequireVerifyState from './api/RequireVerifyState';
 import { VerifyEmailSuccess } from './pages/VerifyEmailSuccess';
 import RequireVerifyEmail from './api/ProtectVerifyEmail';
+import { Admin } from './pages/Admin';
 
 const MainLayout = () => (
   <>
@@ -43,9 +44,13 @@ const MainLayout = () => (
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+
     <BrowserRouter>
+
       <AuthProvider>
         <Routes>
+          <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
+
           <Route element={<MainLayout />}>
             <Route path={ROUTES.HOME} element={<HomePage />} />
             <Route path={ROUTES.CART} element={<CartPage />} />
