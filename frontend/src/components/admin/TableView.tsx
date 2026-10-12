@@ -25,10 +25,6 @@ interface TableViewProps {
 }
 
 export function TableView({ orders, columns }: TableViewProps) {
-    const prev = renderToStaticMarkup(<ChevronBarLeft />);
-    const next = renderToStaticMarkup(<ChevronBarRight />);
-    const first = renderToStaticMarkup(<ChevronDoubleLeft />);
-    const last = renderToStaticMarkup(<ChevronDoubleRight />);
     return (
         <DataTable
             data={orders}
