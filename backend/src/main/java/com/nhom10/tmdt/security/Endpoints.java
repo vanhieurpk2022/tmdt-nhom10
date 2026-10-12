@@ -22,8 +22,9 @@ public class Endpoints {
             "/users/*/listFavoriteBooks",
             "/favorite-books/*/book",
             "/vnpay/**",
-
+            "/products/**",
     };
+
 
     public static final String[] PUBLIC_POST = {
             "/user/register",
