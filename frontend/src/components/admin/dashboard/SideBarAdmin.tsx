@@ -1,9 +1,14 @@
-import { faHouse, faBuilding, faUsers, faTicket, faBoxArchive, faTag, faClipboardCheck, faHeadset } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faBuilding, faUsers, faBoxArchive, faTag, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import { LogoBranch } from "./LogoBranch";
 import { BadgeAccount } from "./BadgeAccount";
 import SideBarItem from "./SideBarItem";
 
-function SidebarAdmin() {
+interface SidebarAdminProps {
+    isDashboard?: boolean;
+    isWorkshopManagement?: boolean;
+}
+
+function SidebarAdmin({ isDashboard = false, isWorkshopManagement = false }: SidebarAdminProps) {
     return (
         <>
             <div className="d-flex flex-column h-100" style={{ backgroundColor: "var(--color-bg-dark)" }}>
@@ -18,8 +23,8 @@ function SidebarAdmin() {
                     </div>
                 </div>
                 <div className="mt-3">
-                    <SideBarItem place={faHouse} content="Tổng quan" isActive={true} />
-                    <SideBarItem place={faBuilding} content="Xưởng" isActive={false} />
+                    <SideBarItem place={faHouse} content="Tổng quan" isActive={isDashboard} />
+                    <SideBarItem place={faBuilding} content="Xưởng" isActive={isWorkshopManagement} />
                     <SideBarItem place={faUsers} content="Khách hàng" isActive={false} />
                     <SideBarItem place={faBoxArchive} content="Đơn hàng" isActive={false} />
                     <SideBarItem place={faTag} content="Khuyến mãi" isActive={false} />

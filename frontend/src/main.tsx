@@ -33,6 +33,9 @@ import RequireVerifyState from './api/RequireVerifyState';
 import { VerifyEmailSuccess } from './pages/VerifyEmailSuccess';
 import RequireVerifyEmail from './api/ProtectVerifyEmail';
 import { Admin } from './pages/Admin';
+import WorkshopManagement from './pages/WorkshopManagement';
+import UserManager from './pages/UserManager';
+
 
 const MainLayout = () => (
   <>
@@ -46,9 +49,10 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
 
     <BrowserRouter>
-
       <AuthProvider>
         <Routes>
+          <Route path="/test" element={<UserManager />} />
+
           <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
 
           <Route element={<MainLayout />}>

@@ -57,11 +57,11 @@ export function TableView({ orders, columns }: TableViewProps) {
                 ),
                 1: (_: unknown, row: OrderTable) => (
                     <div className="d-flex flex-column gap-1">
-                        <div className="d-flex flex-wrap align-items-baseline gap-2">
+                        <div className="d-flex flex-row flex-wrap align-items-baseline gap-2">
                             <span className="fw-semibold">{row.product}</span>
                             <span className="small text-body-secondary">Nốt: {row.notes}</span>
                         </div>
-                        <div className="d-flex align-items-center gap-2">
+                        <div className="d-flex flex-row align-items-center gap-2">
                             <span className="fw-semibold opacity-75">{row.lab}</span>
                             <Dot />
                             <span className="small text-body-secondary">{row.workshop}</span>

@@ -4,11 +4,13 @@ import {
 import PageHeader from "./PageHeader";
 import StatCard from "./StartCard";
 import RevenueCard, { type RevenueItem } from "./RevenueCard";
-import "../../css/pages/dashboard.css";
+import "../../../css/pages/dashboard/dashboard.css";
 import type { CancelReason } from "./CancelRateCard";
 import CancelRateCard from "./CancelRateCard";
 import { TableView, type OrderTable } from "./TableView";
 import type { DataTableProps } from "datatables.net-react";
+import { useState } from "react";
+import { ModalApprove } from "./ModalApprove";
 
 const cancelReasons: CancelReason[] = [
     { label: "Chờ nguyên liệu & tinh dầu nhập khẩu", percent: 38, count: 7, color: "var(--color-primary)" },
@@ -67,14 +69,16 @@ const columns: DataTableProps['columns'] = [
 
 
 function OperationsOverview() {
+    const [showApprove, setShowApprove] = useState(false);
 
 
     return (
         <main className="p-4 d-flex flex-column gap-4" style={{ backgroundColor: "var(--color-bg-page)", minHeight: "100vh" }}>
             <PageHeader
                 title="Trung tâm Điều phối & Quản trị Sàn B2B - Olla ScentOS"
-                pendingCount={5}
+                pendingCount={5} onApprove={() => setShowApprove(true)}
             />
+            <ModalApprove show={showApprove} onClose={() => setShowApprove(false)} />
 
             <section className="row g-3">
                 <div className="col-12 col-md-6 col-xl-3">

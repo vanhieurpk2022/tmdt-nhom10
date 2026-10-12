@@ -1,6 +1,6 @@
-import OperationsOverview from "../components/admin/OperationOverview";
-import SidebarAdmin from "../components/admin/SideBarAdmin";
-import "../css/pages/admin.css";
+import OperationsOverview from "../components/admin/dashboard/OperationOverview";
+import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
+import "../css/pages/dashboard/admin.css";
 
 export function Admin() {
 
@@ -8,7 +8,7 @@ export function Admin() {
         <div className="d-flex">
             {/* Sidebar: rộng cố định, đứng yên khi cuộn trang */}
             <aside style={{ width: 350, flexShrink: 0 }} className="position-sticky top-0 vh-100">
-                <SidebarAdmin />
+                <SidebarAdmin isDashboard={true} />
             </aside>
 
             {/* Nội dung: chiếm hết phần còn lại */}
