@@ -35,6 +35,9 @@ public class Product {
     @Column(name="min_base_price")
     private Double minBasePrice;
 
+    @Column(name="total_sold")
+    private Long totalSold;
+
     @Column(name="created_at")
     @CreationTimestamp
     private LocalDateTime createdAt ;

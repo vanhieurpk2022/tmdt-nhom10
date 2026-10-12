@@ -101,11 +101,12 @@ public class ProductService {
 
     // Build Sort từ tham số sort
     private Sort buildSort(String sort) {
+        if (sort == null) return Sort.by(Sort.Direction.ASC, "id");
         return switch (sort) {
-            case "newest"    -> Sort.by(Sort.Direction.DESC, "createdAt");
-            case "price-asc" -> Sort.by(Sort.Direction.ASC, "price");
-            case "price-desc"-> Sort.by(Sort.Direction.DESC, "price");
-            default          -> Sort.by(Sort.Direction.ASC, "id"); // popular / mặc định: ID tăng dần (các sản phẩm đầy đủ nhất)
+            case "bestseller" -> Sort.by(Sort.Direction.DESC, "totalSold");
+            case "price-asc"  -> Sort.by(Sort.Direction.ASC, "price");
+            case "price-desc" -> Sort.by(Sort.Direction.DESC, "price");
+            default           -> Sort.by(Sort.Direction.ASC, "id"); // popular / mặc định: ID tăng dần
         };
     }
 
@@ -118,15 +119,17 @@ public class ProductService {
 
         // Rating trung bình
         double avgRating = 0;
-        long totalSold = 0;
         if (p.getReviews() != null && !p.getReviews().isEmpty()) {
             avgRating = p.getReviews().stream()
                     .mapToInt(Review::getRating).average().orElse(0);
         }
 
-        // Tổng số đã bán thực tế (tính dựa trên số review và hệ số giao dịch)
-        int reviewCount = (p.getReviews() != null) ? p.getReviews().size() : 0;
-        totalSold = reviewCount > 0 ? (reviewCount * 35L + ((p.getId() * 11) % 40)) : (15L + (p.getId() % 20));
+        // Tổng số đã bán
+        long totalSold = (p.getTotalSold() != null && p.getTotalSold() > 0)
+                ? p.getTotalSold()
+                : (p.getReviews() != null && !p.getReviews().isEmpty()
+                        ? (p.getReviews().size() * 35L + ((p.getId() * 11) % 40))
+                        : (15L + (p.getId() % 20)));
 
         // Tình trạng kho: tổng stockQuantity từ tất cả ProductMil
         int totalStock = 0;
