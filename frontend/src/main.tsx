@@ -54,8 +54,6 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/test" element={<AdminSupport />} />
-
           <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
           <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
           <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />

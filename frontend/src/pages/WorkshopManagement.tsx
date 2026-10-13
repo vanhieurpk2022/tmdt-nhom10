@@ -227,10 +227,13 @@ export function WorkshopManagement() {
             : `Áp dụng tỷ lệ chiết khấu mới cho ${selectedList.length} xưởng đã chọn.`;
 
     return (
-        <div className="row">
-            <div className="col-2">
+        <div className="row g-0 min-vh-100 bg-light">
+            <aside
+                className="col-12 col-xl-2 flex-shrink-0 position-sticky top-0 align-self-start"
+                style={{ height: "100vh" }}
+            >
                 <SidebarAdmin isWorkshopManagement={true} />
-            </div>
+            </aside>
             <div className="col">
                 <div className="wm-page">
 

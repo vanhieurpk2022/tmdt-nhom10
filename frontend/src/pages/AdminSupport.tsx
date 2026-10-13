@@ -16,11 +16,6 @@ import {
     faArrowDownAZ,
     faArrowUpAZ,
     faSort,
-    faTicket,
-    faMoneyBill,
-    faChartSimple,
-    faCartShopping,
-    faPlus,
     faMagnifyingGlass,
     faEnvelope,
     faPhone,
@@ -33,7 +28,6 @@ import { faEye, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import StatCard from "../components/admin/dashboard/StartCard";
-import PromotionEffectChart from "../components/admin/statistics/PromotionEffectChart";
 import { useState } from "react";
 import { DisputeStatus, DisputeType, type Dispute } from "../enums/Dispute";
 import { User } from "../models/User";

@@ -1,22 +1,39 @@
-import DataTable, { Column } from "datatables.net-react";
-import DtCore from "datatables.net-bs5";
-import "datatables.net-bs5/css";
-import Select from "datatables.net-select-bs5";
-import { renderToStaticMarkup } from "react-dom/server";
 import {
-    ShieldCheck,
-    FileEarmarkPdf,
-    FileEarmarkImage,
-    FileEarmark,
-    GeoAltFill,
-    BoxSeam,
-    CheckLg,
-    XLg,
-    type Icon,
-} from "react-bootstrap-icons";
+    createFilteredRowModel,
+    createColumnHelper,
+    createSortedRowModel,
+    createPaginatedRowModel,
+    tableFeatures,
+    useTable,
+    rowSortingFeature,
+    rowPaginationFeature,
+    rowSelectionFeature,
+    columnFilteringFeature,
+    globalFilteringFeature,
+    filterFn_includesString,
+    sortFn_alphanumeric,
+    sortFn_basic,
+    type PaginationState,
+
+} from "@tanstack/react-table";
+import {
+    faArrowDownAZ,
+    faArrowUpAZ,
+    faSort,
+    faMagnifyingGlass,
+    faLocationDot,
+    faFlask,
+    faCheck,
+    faXmark,
+    faFilePdf,
+    faFileImage,
+    faFile,
+    faChevronLeft,
+    faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 import "../../../css/pages/dashboard/modal.css";
-DataTable.use(DtCore);
-DataTable.use(Select);
 
 interface WorkshopDoc {
     name: string;
@@ -32,7 +49,7 @@ interface Workshop {
     docs: WorkshopDoc[];
 }
 
-const data: Workshop[] = [
+export const ExampleData: Workshop[] = [
     {
         code: "REQ-2026-081",
         name: "AromaBio Tech Lab",
@@ -82,117 +99,378 @@ const data: Workshop[] = [
         ],
     },
 ];
-export function DataTableApprove() {
-    const DEFAULT_THUMB =
-        "data:image/svg+xml;utf8," +
-        encodeURIComponent(
-            `<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#adb5bd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+
+const DEFAULT_THUMB =
+    "data:image/svg+xml;utf8," +
+    encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#adb5bd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect width="24" height="24" fill="#f1f3f5" stroke="none"/>
             <path d="M3 21h18M5 21V9l5 3V9l5 3V5h4v16"/>
         </svg>`
-        );
+    );
 
-    const escapeHtml = (s: string) =>
-        s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+const PAGE_SIZES = [5, 10, 20, 50];
 
-    const renderAvatar = (w: Workshop) => {
-        const src = w.thumbnail?.trim() ? w.thumbnail : DEFAULT_THUMB;
-        return `
-        <img class="ws-avatar" src="${escapeHtml(src)}" alt="${escapeHtml(w.name)}"
-             loading="lazy"
-             onerror="this.onerror=null;this.src='${DEFAULT_THUMB}'" />`;
-    };
-    const svg = (I: Icon, className = "", size = 16) =>
-        renderToStaticMarkup(<I size={size} className={className} />);
+const getFileIcon = (name: string) => {
+    const ext = name.split(".").pop()?.toLowerCase() ?? "";
 
-    const fileIcon = (name: string) => {
-        const ext = name.split(".").pop()?.toLowerCase();
-        if (ext === "pdf") return svg(FileEarmarkPdf, "text-danger", 18);
-        if (["jpg", "jpeg", "png"].includes(ext ?? "")) return svg(FileEarmarkImage, "text-primary", 18);
-        return svg(FileEarmark, "text-secondary", 18);
-    };
-    return (<DataTable
-        data={data}
-        className="table table-hover align-middle workshop-table"
-        options={{
-            info: false,
-            language: {
-                search: "",
-                searchPlaceholder: "Tìm theo tên xưởng...",
-                lengthMenu: "_MENU_ dòng / trang",
-                zeroRecords: "Không tìm thấy kết quả phù hợp",
-                paginate: { previous: "‹", next: "›" },
-            },
-            select: { style: "os", selector: "td:first-child" },
-            order: [[1, "asc"]],
-            columnDefs: [
-                { targets: [0, 4], orderable: false, searchable: false },
-                { targets: 0, width: "40px" },
-                { targets: 4, width: "170px", className: "text-center" },
-            ],
-            layout: {
-                topStart: "search",
-                topEnd: "pageLength",
-                bottomEnd: "paging",
-            },
-        }}
-    >
-        <Column data={null} title="" render={DtCore.render.select()} />
+    if (ext === "pdf") {
+        return <FontAwesomeIcon icon={faFilePdf} className="text-danger" />;
+    }
 
-        <Column
-            title="Mã hồ sơ / Tên xưởng"
-            data="name"
-            render={(_v: string, _t: string, row: Workshop) => `
-                        <div class="d-flex align-items-center gap-3">
-                            ${renderAvatar(row)}
-                            <div>
-                                <div class="fw-bold">${row.name}</div>
-                                <span class="badge bg-secondary-subtle text-secondary-emphasis fw-normal">${row.code}</span>
-                            </div>
-                        </div>`}
-        />
+    if (["jpg", "jpeg", "png"].includes(ext)) {
+        return <FontAwesomeIcon icon={faFileImage} className="text-primary" />;
+    }
 
-        <Column
-            title="Địa chỉ & công suất"
-            data="address"
-            render={(_v: string, _t: string, row: Workshop) => `
-            <div class="mb-1">
-                <i class="fa-solid fa-location-dot text-secondary me-2"></i>${row.address}
+    return <FontAwesomeIcon icon={faFile} className="text-secondary" />;
+};
+
+// TODO: gọi API duyệt / hủy hồ sơ
+const handleApprove = (code: string) => {
+    console.log("approve", code);
+};
+
+const handleCancel = (code: string) => {
+    console.log("cancel", code);
+};
+
+const features = tableFeatures({
+    rowSortingFeature,
+    rowPaginationFeature,
+    rowSelectionFeature,
+    columnFilteringFeature,
+    globalFilteringFeature,
+
+    sortedRowModel: createSortedRowModel(),
+    filteredRowModel: createFilteredRowModel(),
+    paginatedRowModel: createPaginatedRowModel(),
+
+    sortFns: {
+        alphanumeric: sortFn_alphanumeric,
+        basic: sortFn_basic,
+    },
+
+    filterFns: {
+        includesString: filterFn_includesString,
+    },
+});
+
+const columnHelper = createColumnHelper<typeof features, Workshop>();
+const columns = columnHelper.columns([
+    columnHelper.display({
+        id: "select",
+        header: ({ table }) => (
+            <input
+                type="checkbox"
+                className="form-check-input"
+                checked={table.getIsAllRowsSelected()}
+                onChange={table.getToggleAllRowsSelectedHandler()}
+            />
+        ),
+        cell: ({ row }) => (
+            <input
+                type="checkbox"
+                className="form-check-input"
+                checked={row.getIsSelected()}
+                onChange={row.getToggleSelectedHandler()}
+            />
+        ),
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("name", {
+        header: "Mã hồ sơ / Tên xưởng",
+        cell: info => {
+            const row = info.row.original;
+            const src = row.thumbnail?.trim() ? row.thumbnail : DEFAULT_THUMB;
+
+            return (
+                <div className="d-flex align-items-center gap-3">
+                    <img
+                        className="ws-avatar"
+                        src={src}
+                        alt={row.name}
+                        loading="lazy"
+                        onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = DEFAULT_THUMB;
+                        }}
+                    />
+
+                    <div>
+                        <div className="fw-bold">{row.name}</div>
+                        <span className="badge bg-secondary-subtle text-secondary-emphasis fw-normal">
+                            {row.code}
+                        </span>
+                    </div>
+                </div>
+            );
+        },
+        sortFn: "alphanumeric",
+    }),
+
+    columnHelper.accessor("address", {
+        header: "Địa chỉ & công suất",
+        cell: info => {
+            const row = info.row.original;
+
+            return (
+                <>
+                    <div className="mb-1">
+                        <FontAwesomeIcon icon={faLocationDot} className="text-secondary me-2" />
+                        {row.address}
+                    </div>
+
+                    <span className="badge bg-info-subtle text-info-emphasis fw-normal">
+                        <FontAwesomeIcon icon={faFlask} className="me-1" />
+                        {row.capacity}
+                    </span>
+                </>
+            );
+        },
+        sortFn: "alphanumeric",
+    }),
+
+    columnHelper.accessor("docs", {
+        header: "Hồ sơ & giấy phép",
+        cell: info => (
+            <div className="d-flex flex-column gap-1">
+                {info.getValue().map((doc) => (
+                    <a
+                        key={doc.name}
+                        href={`https://${doc.url}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="doc-chip text-decoration-none"
+                    >
+                        {getFileIcon(doc.name)}
+                        <span className="text-truncate">{doc.name}</span>
+                    </a>
+                ))}
             </div>
-            <span class="badge bg-info-subtle text-info-emphasis fw-normal">
-                <i class="fa-solid fa-flask me-1"></i>${row.capacity}
-            </span>`}
-        />
+        ),
+        enableSorting: false,
+        enableGlobalFilter: false,
+    }),
 
-        <Column
-            title="Hồ sơ & giấy phép"
-            data="docs"
-            render={(_v: WorkshopDoc[], _t: string, row: Workshop) =>
-                `<div class="d-flex flex-column gap-1">` +
-                row.docs
-                    .map((doc) => `
-                                    <a href="https://${doc.url}" target="_blank" rel="noreferrer"
-                                    class="doc-chip text-decoration-none">
-                                        ${fileIcon(doc.name)}
-                                        <span class="text-truncate">${doc.name}</span>
-                                    </a>`)
-                    .join("")
-            }
-        />
+    columnHelper.display({
+        id: "actions",
+        header: "Thao tác",
+        cell: info => {
+            const workshop = info.row.original;
 
-        <Column
-            data={null}
-            title="Thao tác"
-            render={(_v: any, _t: string, row: Workshop) => `
-            <div class="d-flex gap-2 justify-content-center">
-                <button class="btn btn-sm btn-success px-3" data-action="approve" data-code="${row.code}">
-                    <i class="fa-solid fa-check me-1"></i>Duyệt
-                </button>
-                <button class="btn btn-sm btn-outline-danger px-3" data-action="cancel" data-code="${row.code}">
-                    <i class="fa-solid fa-xmark me-1"></i>Hủy
-                </button>
-            </div>`}
-        />
-    </DataTable>
+            return (
+                <div className="d-flex gap-2 justify-content-center">
+                    {/* Duyệt */}
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-success px-3"
+                        onClick={() => handleApprove(workshop.code)}
+                    >
+                        <FontAwesomeIcon icon={faCheck} className="me-1" />
+                        Duyệt
+                    </button>
+
+                    {/* Hủy */}
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-outline-danger px-3"
+                        onClick={() => handleCancel(workshop.code)}
+                    >
+                        <FontAwesomeIcon icon={faXmark} className="me-1" />
+                        Hủy
+                    </button>
+                </div>
+            );
+        },
+        enableSorting: false,
+    }),
+]);
+
+export function DataTableApprove() {
+    const [search, setSearch] = useState("");
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
+
+    const table = useTable({
+        data: ExampleData,
+        columns,
+        features,
+        state: { pagination },
+        onPaginationChange: setPagination,
+        initialState: {
+            sorting: [{ id: "name", desc: false }],
+        },
+    });
+
+    const { pageIndex, pageSize } = pagination;
+
+    return (
+        <section className="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div className="card-body p-0">
+                {/* Table heading */}
+                <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4 border-bottom">
+                    <div>
+                        <h5 className="fw-bold mb-1">
+                            Danh sách xưởng chờ duyệt
+                        </h5>
+
+                        <p className="text-secondary small mb-0">
+                            Xem xét hồ sơ, giấy phép và công suất trước khi duyệt xưởng.
+                        </p>
+                    </div>
+
+                    <span className="badge rounded-pill bg-light text-dark border px-3 py-2">
+                        {table.getFilteredRowModel().rows.length} hồ sơ
+                    </span>
+                </div>
+
+                {/* Toolbar */}
+                <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4">
+                    <div className="input-group" style={{ maxWidth: "350px" }}>
+                        <span className="input-group-text bg-white">
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        </span>
+
+                        <input
+                            type="search"
+                            className="form-control"
+                            placeholder="Tìm theo tên xưởng..."
+                            value={search}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSearch(value);
+                                table.setGlobalFilter(value);
+                            }}
+                        />
+                    </div>
+
+                    <select
+                        className="form-select w-auto"
+                        value={pageSize}
+                        onChange={(e) => table.setPageSize(Number(e.target.value))}
+                    >
+                        {PAGE_SIZES.map((size) => (
+                            <option key={size} value={size}>
+                                {size} dòng / trang
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Scrollable table */}
+                <div className="table-responsive admin-table-scroll">
+                    <table className="table table-hover align-middle mb-0 workshop-table">
+                        <thead>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <tr key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => {
+                                        const sorted = header.column.getIsSorted();
+
+                                        return (
+                                            <th
+                                                key={header.id}
+                                                className="text-nowrap"
+                                            >
+                                                {header.isPlaceholder ? null : (
+                                                    <div
+                                                        className="d-flex align-items-center gap-2"
+                                                        onClick={header.column.getToggleSortingHandler()}
+                                                        style={{
+                                                            cursor: header.column.getCanSort()
+                                                                ? "pointer"
+                                                                : "default",
+                                                        }}
+                                                    >
+                                                        <table.FlexRender
+                                                            header={header}
+                                                        />
+
+                                                        {header.column.getCanSort() && (
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    sorted === "asc"
+                                                                        ? faArrowDownAZ
+                                                                        : sorted === "desc"
+                                                                            ? faArrowUpAZ
+                                                                            : faSort
+                                                                }
+                                                                className={
+                                                                    sorted
+                                                                        ? "text-danger"
+                                                                        : "text-secondary"
+                                                                }
+                                                                size="sm"
+                                                            />
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </th>
+                                        );
+                                    })}
+                                </tr>
+                            ))}
+                        </thead>
+
+                        <tbody>
+                            {table.getRowModel().rows.map((row) => (
+                                <tr key={row.id}>
+                                    {row.getAllCells().map((cell) => (
+                                        <td key={cell.id}>
+                                            <table.FlexRender cell={cell} />
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+
+                            {table.getRowModel().rows.length === 0 && (
+                                <tr>
+                                    <td
+                                        colSpan={table.getHeaderGroups()[0]?.headers.length ?? 1}
+                                        className="text-center py-5 text-secondary"
+                                    >
+                                        Không tìm thấy kết quả phù hợp.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Table footer */}
+                <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 px-3 px-lg-4 py-3 border-top">
+                    <span className="text-secondary small">
+                        Tổng cộng {table.getFilteredRowModel().rows.length} bản ghi
+                        {" · "}đã chọn {table.getSelectedRowModel().rows.length}
+                    </span>
+
+                    <div className="d-flex align-items-center gap-2">
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-outline-secondary"
+                            onClick={() => table.previousPage()}
+                            disabled={!table.getCanPreviousPage()}
+                        >
+                            <FontAwesomeIcon icon={faChevronLeft} />
+                        </button>
+
+                        <span className="small text-secondary">
+                            Trang {pageIndex + 1} / {Math.max(table.getPageCount(), 1)}
+                        </span>
+
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-outline-secondary"
+                            onClick={() => table.nextPage()}
+                            disabled={!table.getCanNextPage()}
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     );
 }

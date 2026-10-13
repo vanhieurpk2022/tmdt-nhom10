@@ -1,16 +1,14 @@
 import type { OrderStatus } from '../enums/OrderStatus';
-import type { OrderItem } from './OrderItem';
+import type { Product } from './Product';
+import type { User } from './User';
 
-export class Order {
+export interface Order {
   id?: number;
-  orderItems?: OrderItem[];
-  subtotalPrice?: number;
-  status?: OrderStatus;
+  user?: User;
+  product?: Product;
   totalPrice?: number;
-  discountAmount?: number;
   createdAt?: string;
+  status?: OrderStatus
 
-  constructor(init?: Partial<Order>) {
-    Object.assign(this, init);
-  }
 }
+export type OrderCreateRequest = Omit<Order, "id" | "status">;

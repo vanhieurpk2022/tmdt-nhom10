@@ -1,336 +1,548 @@
-import { useMemo, useState } from "react";
-import DataTable, { type Column, type RowKey } from "../components/admin/datatable/DataTable";
+import {
+    createFilteredRowModel,
+    createColumnHelper,
+    createSortedRowModel,
+    tableFeatures,
+    useTable,
+    rowSortingFeature,
+    columnFilteringFeature,
+    globalFilteringFeature,
+    filterFn_includesString,
+    sortFn_alphanumeric,
+    sortFn_basic,
+    sortFn_datetime,
+} from "@tanstack/react-table";
+import {
+    faArrowDownAZ,
+    faArrowUpAZ,
+    faSort,
+    faMagnifyingGlass,
+    faEnvelope,
+    faPhone,
+    faTag,
+    faEye,
+    faPenToSquare,
+    faTrash,
+    faBagShopping,
+    faClock,
+    faSpinner,
+    faCircleCheck,
+    faDownload,
+    faCirclePlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
+import StatCard from "../components/admin/dashboard/StartCard";
+import { useState } from "react";
+import { OrderStatus } from "../enums/OrderStatus";
+import { ProductType } from "../enums/ProductType";
+import type { Order } from "../models/Order";
+import { User } from "../models/User";
+import { Product } from "../models/Product";
+import CustomBadge from "../components/admin/badge/CustomBadge";
 
-/* ================== Kiểu dữ liệu ================== */
-type OrderStatus = "pending" | "processing" | "shipping" | "delivered" | "cancelling";
-type ProductType = "pha trộn" | "có sẵn";
+export const ExampleData: Order[] = [
+    {
+        id: 1,
+        user: new User({
+            id: 101,
+            fullname: "nguyenvana",
+            email: "vana@gmail.com",
+            phone: "0901234567",
+        }),
+        product: new Product({
+            id: 201,
+            name: "Tinh dầu sả chanh",
+            price: 150000,
+        }),
+        totalPrice: 300000,
+        createdAt: "2026-10-10T08:30:00Z",
+        status: OrderStatus.PENDING,
+    },
+    {
+        id: 2,
+        user: new User({
+            id: 102,
+            fullname: "tranthib",
+            email: "thib@gmail.com",
+            phone: "0912345678",
+        }),
+        product: new Product({
+            id: 202,
+            name: "Tinh dầu bạc hà",
+            price: 200000,
+        }),
+        totalPrice: 200000,
+        createdAt: "2026-10-11T10:15:00Z",
+        status: OrderStatus.CONFIRMED,
+    },
+    {
+        id: 3,
+        user: new User({
+            id: 103,
+            fullname: "phamminhc",
+            email: "minhc@gmail.com",
+            phone: "0934567890",
+        }),
+        product: new Product({
+            id: 203,
+            name: "Tinh dầu oải hương",
+            price: 250000,
+        }),
+        totalPrice: 500000,
+        createdAt: "2026-10-12T14:45:00Z",
+        status: OrderStatus.DELIVERED,
+    },
+];
 
-interface Order {
-    id: string;
-    customer: { name: string; phone: string; address: string };
-    product: { name: string; type: ProductType };
-    workshop: string;
-    orderedAt: string; // ISO
-    total: number;
-    status: OrderStatus;
-}
-
-const STATUS: Record<OrderStatus, { label: string; color: string }> = {
-    pending: { label: "Chờ xác nhận", color: "warning" },
-    processing: { label: "Đang gia công", color: "info" },
-    shipping: { label: "Đang giao", color: "primary" },
-    delivered: { label: "Đã giao", color: "success" },
-    cancelling: { label: "Đang hủy", color: "danger" },
+// bắt buộc khai báo đủ
+export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
+    [OrderStatus.PENDING]: {
+        label: "Chờ xác nhận",
+        badge: "bg-warning-subtle text-warning-emphasis",
+    },
+    [OrderStatus.CONFIRMED]: {
+        label: "Đã xác nhận",
+        badge: "bg-primary-subtle text-primary-emphasis",
+    },
+    [OrderStatus.PROCESSING]: {
+        label: "Đang gia công",
+        badge: "bg-info-subtle text-info-emphasis",
+    },
+    [OrderStatus.DELIVERING]: {
+        label: "Đang giao",
+        badge: "bg-primary-subtle text-primary-emphasis",
+    },
+    [OrderStatus.SHIPPED]: {
+        label: "Đã gửi hàng",
+        badge: "bg-info-subtle text-info-emphasis",
+    },
+    [OrderStatus.DELIVERED]: {
+        label: "Đã giao",
+        badge: "bg-success-subtle text-success-emphasis",
+    },
+    [OrderStatus.CANCELLED]: {
+        label: "Đã hủy",
+        badge: "bg-danger-subtle text-danger-emphasis",
+    },
+    [OrderStatus.RETURNED]: {
+        label: "Đã trả hàng",
+        badge: "bg-secondary-subtle text-secondary-emphasis",
+    },
+    [OrderStatus.REFUNDED]: {
+        label: "Đã hoàn tiền",
+        badge: "bg-dark-subtle text-dark-emphasis",
+    },
 };
 
-/* ================== Dữ liệu mẫu (142 đơn) ================== */
-const CUSTOMERS = [
-    { name: "Nguyễn Văn A", phone: "090 123 4567", address: "Đống Đa, Hà Nội" },
-    { name: "Trần Thị B", phone: "091 555 8899", address: "Quận 3, TP.HCM" },
-    { name: "Lê Minh C", phone: "098 222 3344", address: "Biên Hòa, Đồng Nai" },
-];
-const PRODUCTS: Order["product"][] = [
-    { name: "Tinh dầu Lavender Pháp (10ml) + Tràm Trà", type: "pha trộn" },
-    { name: "Nến thơm Sả Chanh (200g)", type: "có sẵn" },
-    { name: "Nước hoa Oud Gỗ (30ml)", type: "pha trộn" },
-];
-const WORKSHOPS = ["Nordic Lab TP.HCM", "Mộc Perfume Lab Hà Nội", "Scentora Đồng Nai", "Hestia Aroma Hà Nội"];
-const STATUSES = Object.keys(STATUS) as OrderStatus[];
-
-const DATA: Order[] = Array.from({ length: 142 }, (_, i) => ({
-    id: `#ND-${84210 - i}`,
-    customer: CUSTOMERS[i % CUSTOMERS.length],
-    product: PRODUCTS[i % PRODUCTS.length],
-    workshop: WORKSHOPS[i % WORKSHOPS.length],
-    orderedAt: new Date(Date.now() - i * 86_400_000).toISOString(),
-    total: 800_000 + (i % 5) * 150_000,
-    status: STATUSES[(i * 2) % STATUSES.length],
-}));
-
-const formatMoney = (n: number) => `${n.toLocaleString("vi-VN")}đ`;
-const formatDate = (iso: string) => new Date(iso).toLocaleDateString("vi-VN");
-
-/* ================== Cột của bảng ================== */
-const columns: Column<Order>[] = [
-    {
-        key: "id",
-        title: "Mã đơn",
-        sortable: true,
-        render: (v: string) => <span className="fw-bold text-danger">{v}</span>,
+export const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
+    [ProductType.CUSTOM]: {
+        label: "Tùy chỉnh",
+        badge: "bg-purple-subtle text-purple-emphasis",
     },
-    {
-        key: "customer",
-        title: "Khách hàng",
-        sortable: true,
-        sorter: (a, b) => a.customer.name.localeCompare(b.customer.name, "vi"),
-        render: (_, r) => (
-            <div style={{ lineHeight: 1.35 }}>
-                <div className="fw-bold">{r.customer.name}</div>
-                <div className="small">{r.customer.phone}</div>
-                <div className="small text-body-secondary">{r.customer.address}</div>
-            </div>
-        ),
+    [ProductType.NORMAL]: {
+        label: "Thường",
+        badge: "bg-primary-subtle text-primary-emphasis",
     },
-    {
-        key: "product",
-        title: "Sản phẩm",
-        width: 280,
-        render: (_, r) => (
-            <div className="d-flex align-items-center gap-2">
-                <div
-                    className="rounded-2 border bg-light d-flex align-items-center justify-content-center flex-shrink-0 fs-5"
-                    style={{ width: 36, height: 44 }}
-                >
-                    🧴
+};
+
+const features = tableFeatures({
+    rowSortingFeature,
+    columnFilteringFeature,
+    globalFilteringFeature,
+
+    sortedRowModel: createSortedRowModel(),
+    filteredRowModel: createFilteredRowModel(),
+
+    sortFns: {
+        alphanumeric: sortFn_alphanumeric,
+        basic: sortFn_basic,
+        datetime: sortFn_datetime,
+    },
+
+    filterFns: {
+        includesString: filterFn_includesString,
+    },
+});
+
+const columnHelper = createColumnHelper<typeof features, Order>();
+const columns = columnHelper.columns([
+    columnHelper.accessor("id", {
+        header: "Mã đơn hàng",
+        cell: info => <b>{info.getValue()}</b>,
+        sortFn: "alphanumeric",
+    }),
+
+    columnHelper.accessor("user", {
+        header: "Người dùng",
+        cell: info => {
+            const value = info.getValue();
+
+            if (!value) {
+                return <span className="text-muted">Không tồn tại người dùng</span>;
+            }
+
+            return (
+                <div className="d-flex flex-column gap-1 overflow-x-hidden">
+                    <span className="fw-semibold text-dark ">
+                        {value.id} - {value.fullname || "Chưa cập nhật"}
+                    </span>
+
+                    <span className="small text-muted">
+                        <FontAwesomeIcon icon={faEnvelope} className="me-2" />
+                        {value.email || "Chưa có email"}
+                    </span>
+
+                    <span className="small text-secondary">
+                        <FontAwesomeIcon icon={faPhone} className="me-2" />
+                        {value.phone || "Chưa có số điện thoại"}
+                    </span>
                 </div>
-                <div className="small" style={{ lineHeight: 1.35 }}>
-                    <div className="fw-semibold">{r.product.name}</div>
-                    <div className="text-danger" style={{ fontSize: 11 }}>
-                        Loại: {r.product.type}
-                    </div>
+            );
+        },
+    }),
+
+    columnHelper.accessor("product", {
+        header: "Sản phẩm",
+        cell: info => {
+            const value = info.getValue();
+
+            if (!value) {
+                return <span className="text-muted">Không tồn tại sản phẩm</span>;
+            }
+
+            const type = value.productType;
+            const conf = type ? ProductTypeBadge[type] : undefined;
+
+            return (
+                <div className="d-flex flex-column gap-1 overflow-x-hidden">
+                    <span className="fw-semibold text-dark ">
+                        {value.id} - {value.name || "Chưa cập nhật"}
+                    </span>
+
+                    <span className="small text-muted">
+                        <FontAwesomeIcon icon={faTag} className="me-2" />
+                        {value.price?.toLocaleString("vi-VN") ?? "Chưa có giá"}
+                    </span>
+
+                    {conf && (
+                        <div>
+                            <CustomBadge label={conf.label} badge={conf.badge} />
+                        </div>
+                    )}
                 </div>
-            </div>
-        ),
-    },
-    {
-        key: "workshop",
-        title: "Xưởng chế tác",
-        sortable: true,
-        render: (v: string) => <span className="small">{v}</span>,
-    },
-    {
-        key: "orderedAt",
-        title: "Ngày đặt",
-        sortable: true,
-        render: (v: string) => <span className="small">{formatDate(v)}</span>,
-    },
-    {
-        key: "total",
-        title: "Tổng tiền",
-        sortable: true,
-        render: (v: number) => <span className="fw-bold text-danger">{formatMoney(v)}</span>,
-    },
-    {
-        key: "status",
-        title: "Trạng thái",
-        sortable: true,
-        render: (v: OrderStatus) => (
-            <span className={`badge bg-${STATUS[v].color}-subtle text-${STATUS[v].color}-emphasis fw-semibold`}>
-                {STATUS[v].label}
-            </span>
-        ),
-    },
-    {
-        key: "actions",
-        title: "Thao tác",
-        align: "center",
-        render: (_, r) => (
-            <button
-                type="button"
-                className="btn btn-sm btn-link text-dark"
-                aria-label={`Xem đơn ${r.id}`}
-                onClick={() => console.log("Xem chi tiết", r)}
-            >
-                <i className="bi bi-eye fs-6" />
-            </button>
-        ),
-    },
-];
+            );
+        },
+    }),
 
-/* ================== Thẻ thống kê ================== */
-interface Stat {
-    label: string;
-    value: string;
-    note?: string;
-    noteClass?: string;
-    dotClass?: string;
-    icon?: string;
-}
+    columnHelper.accessor("totalPrice", {
+        header: "Tổng",
+        cell: info => info.getValue()?.toLocaleString("vi-VN"),
+    }),
 
-const STATS: Stat[] = [
-    { label: "Tất cả đơn", value: "1,420", note: "+12%", noteClass: "text-success", icon: "bi-clipboard-check" },
-    { label: "Chờ xác nhận", value: "28", note: "Cần duyệt", noteClass: "text-body-secondary", dotClass: "bg-dark" },
-    { label: "Đang gia công", value: "46", note: "Tại 4 xưởng", noteClass: "text-danger", dotClass: "bg-info-subtle" },
-    { label: "Đang giao hàng", value: "814", note: "Đơn hàng", noteClass: "text-primary", dotClass: "bg-primary" },
-    { label: "Đã giao hàng", value: "814", note: "Đơn hàng", noteClass: "text-success", dotClass: "bg-success" },
-    { label: "Hoàn thành / Trả", value: "493", note: "Hủy: 0.8%", noteClass: "text-danger", icon: "bi-check-circle" },
-];
+    columnHelper.accessor("status", {
+        header: "Trạng thái",
+        cell: info => {
+            const value = info.getValue();
+            if (!value) return "không tồn tại";
+            const conf = OrderStatusBadge[value];
 
-const StatCard = ({ s }: { s: Stat }) => (
-    <div className="card border-0 shadow-sm rounded-3 h-100">
-        <div className="card-body py-3 px-3">
-            <div className="d-flex justify-content-between align-items-center small text-body-secondary mb-1">
-                <span>{s.label}</span>
-                {s.dotClass && <span className={`rounded-circle d-inline-block ${s.dotClass}`} style={{ width: 8, height: 8 }} />}
-                {s.icon && <i className={`bi ${s.icon} text-success`} />}
-            </div>
-            <div className="d-flex justify-content-between align-items-end">
-                <span className="fs-4 fw-bold lh-1">{s.value}</span>
-                <span className={`small fw-semibold ${s.noteClass ?? ""}`}>{s.note}</span>
-            </div>
-        </div>
-    </div>
-);
+            return <CustomBadge label={conf.label} badge={conf.badge} />;
+        },
+    }),
 
-/* ================== Trang ================== */
-const THEME_CSS = `
-.orders-page .form-check-input:checked,
-.orders-page .form-check-input:indeterminate{background-color:#e11d48;border-color:#e11d48}
-.orders-page .pagination{--bs-pagination-active-bg:#e11d48;--bs-pagination-active-border-color:#e11d48;--bs-pagination-color:#374151}
-.orders-page .table thead th{background:#e8eefc}
-`;
+    columnHelper.accessor("createdAt", {
+        header: "Ngày tạo",
+        cell: info => {
+            const value = info.getValue();
 
-type RangeFilter = "all" | "7" | "30";
+            if (!value) {
+                return <span className="text-muted">Không tồn tại</span>;
+            }
+
+            return new Date(value).toLocaleDateString("vi-VN");
+        },
+        sortFn: "datetime",
+    }),
+
+    columnHelper.display({
+        id: "actions",
+        header: "Hành động",
+        cell: info => {
+            const order = info.row.original;
+
+            return (
+                <div className="d-flex align-items-center gap-2 ">
+                    {/* Xem chi tiết */}
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-outline-primary"
+                        title="Xem chi tiết"
+                        data-order-id={order.id}
+                    >
+                        <FontAwesomeIcon icon={faEye} />
+                    </button>
+
+                    {/* Chỉnh sửa */}
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-outline-success"
+                        title="Chỉnh sửa"
+                        data-order-id={order.id}
+                    >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                    </button>
+
+                    {/* Xóa */}
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-outline-danger"
+                        title="Xóa"
+                        data-order-id={order.id}
+                    >
+                        <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                </div>
+            );
+        },
+    }),
+]);
 
 export default function AdminOrder() {
-    const [keyword, setKeyword] = useState("");
-    const [range, setRange] = useState<RangeFilter>("all");
-    const [workshop, setWorkshop] = useState("all");
-    const [status, setStatus] = useState<"all" | OrderStatus>("all");
-    const [selected, setSelected] = useState<RowKey[]>([]);
+    const [search, setSearch] = useState("");
 
-    const workshops = useMemo(() => Array.from(new Set(DATA.map((o) => o.workshop))), []);
+    const table = useTable({
+        data: ExampleData,
+        columns,
+        features,
+    });
 
-    const filtered = useMemo(() => {
-        const kw = keyword.trim().toLowerCase();
-        const minTime = range === "all" ? 0 : Date.now() - Number(range) * 86_400_000;
-        return DATA.filter(
-            (o) =>
-                (!kw ||
-                    [o.id, o.customer.name, o.customer.phone, o.product.name].some((t) => t.toLowerCase().includes(kw))) &&
-                new Date(o.orderedAt).getTime() >= minTime &&
-                (workshop === "all" || o.workshop === workshop) &&
-                (status === "all" || o.status === status)
-        );
-    }, [keyword, range, workshop, status]);
-
+    const countByStatus = (...statuses: OrderStatus[]) =>
+        ExampleData.filter(
+            (order) =>
+                order.status !== undefined &&
+                statuses.includes(order.status)
+        ).length;
     return (
-        <div className="d-flex flex-row">
+        <div className="row g-0 min-vh-100 bg-light">
+            {/* Sidebar */}
+
             <aside
                 className="col-12 col-xl-2 flex-shrink-0 position-sticky top-0 align-self-start"
                 style={{ height: "100vh" }}
             >
                 <SidebarAdmin isOrder={true} />
-
             </aside>
-            <div className="col"><div className="orders-page bg-body-tertiary min-vh-100 p-4">
-                <style>{THEME_CSS}</style>
 
-                {/* Tiêu đề trang */}
-                <div className="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+            {/* Main content */}
+            <main className="col-12 col-xl-10 p-3 p-lg-4 admin-content overflow-x-auto">
+                {/* Header */}
+                <div className="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
                     <div>
-                        <h1 className="h3 fw-bold mb-1">Quản lý đơn đặt hàng</h1>
-                        <p className="small text-body-secondary mb-0" style={{ maxWidth: 420 }}>
-                            Giám sát dây chuyền pha chế hương thủ công, bao gói niêm phong và luồng điều vận liên xưởng B2B2C.
+                        <div className="text-danger fw-semibold small mb-2">
+                            QUẢN LÝ ĐƠN HÀNG
+                        </div>
+
+                        <h2 className="fw-bold text-dark mb-2">
+                            Quản lý đơn đặt hàng
+                        </h2>
+
+                        <p className="text-secondary mb-0">
+                            Giám sát dây chuyền pha chế hương thủ công, bao gói niêm phong
+                            và luồng điều vận liên xưởng B2B2C.
                         </p>
                     </div>
+
                     <div className="d-flex gap-2">
                         <button type="button" className="btn btn-light border fw-semibold">
-                            <i className="bi bi-download me-2" />
+                            <FontAwesomeIcon icon={faDownload} className="me-2" />
                             Xuất file vận đơn
                         </button>
+
                         <button type="button" className="btn btn-danger fw-semibold">
-                            <i className="bi bi-plus-circle me-2" />
+                            <FontAwesomeIcon icon={faCirclePlus} className="me-2" />
                             Tạo đơn điều phối
                         </button>
                     </div>
                 </div>
 
-                {/* Thẻ thống kê */}
-                <div className="row row-cols-2 row-cols-md-3 row-cols-xl-6 g-3 mb-4">
-                    {STATS.map((s) => (
-                        <div className="col" key={s.label}>
-                            <StatCard s={s} />
-                        </div>
-                    ))}
-                </div>
+                {/* Statistic cards */}
+                <section className="row g-3 mb-4">
+                    <div className="col-12 col-md-6 col-xxl-3">
+                        <StatCard
+                            label="TỔNG ĐƠN HÀNG"
+                            value={String(ExampleData.length)}
+                            icon={faBagShopping}
+                            tone="danger"
+                            note="Tất cả đơn hàng"
+                        />
+                    </div>
 
-                {/* Bộ lọc */}
-                <div className="card border-0 shadow-sm rounded-3 mb-3">
-                    <div className="card-body">
-                        <div className="row g-2">
-                            <div className="col-12 col-lg-4">
-                                <div className="input-group">
-                                    <span className="input-group-text bg-light border-0">
-                                        <i className="bi bi-search" />
-                                    </span>
-                                    <input
-                                        className="form-control bg-light border-0"
-                                        placeholder="Tìm kiếm mã vận đơn, tên khách, SĐT, mẻ hương..."
-                                        value={keyword}
-                                        onChange={(e) => setKeyword(e.target.value)}
-                                    />
-                                </div>
+                    <div className="col-12 col-md-6 col-xxl-3">
+                        <StatCard
+                            label="CHỜ XÁC NHẬN"
+                            value={String(countByStatus(OrderStatus.PENDING))}
+                            icon={faClock}
+                            tone="warning"
+                            note="Cần được tiếp nhận"
+                        />
+                    </div>
+
+                    <div className="col-12 col-md-6 col-xxl-3">
+                        <StatCard
+                            label="ĐANG XỬ LÝ"
+                            value={String(
+                                countByStatus(
+                                    OrderStatus.CONFIRMED,
+                                    OrderStatus.PROCESSING,
+                                    OrderStatus.DELIVERING,
+                                    OrderStatus.SHIPPED,
+                                ),
+                            )}
+                            icon={faSpinner}
+                            tone="info"
+                            note="Đang gia công & vận chuyển"
+                        />
+                    </div>
+
+                    <div className="col-12 col-md-6 col-xxl-3">
+                        <StatCard
+                            label="ĐÃ GIAO"
+                            value={String(countByStatus(OrderStatus.DELIVERED))}
+                            icon={faCircleCheck}
+                            tone="success"
+                            note="Đơn hoàn tất"
+                        />
+                    </div>
+                </section>
+
+                {/* Order table */}
+                <section className="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div className="card-body p-0">
+                        {/* Table heading */}
+                        <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4 border-bottom">
+                            <div>
+                                <h5 className="fw-bold mb-1">
+                                    Danh sách đơn hàng
+                                </h5>
+
+                                <p className="text-secondary small mb-0">
+                                    Quản lý thông tin khách hàng, sản phẩm và tiến độ đơn hàng.
+                                </p>
                             </div>
-                            <div className="col-12 col-md-4 col-lg-2">
-                                <select
-                                    className="form-select bg-light border-0"
-                                    value={range}
-                                    onChange={(e) => setRange(e.target.value as RangeFilter)}
-                                >
-                                    <option value="all">Thời gian đặt hàng</option>
-                                    <option value="7">7 ngày gần đây</option>
-                                    <option value="30">30 ngày gần đây</option>
-                                </select>
+
+                            <span className="badge rounded-pill bg-light text-dark border px-3 py-2">
+                                {table.getRowModel().rows.length} đơn hàng
+                            </span>
+                        </div>
+
+                        {/* Scrollable table */}
+                        <div className="table-responsive admin-table-scroll">
+                            <div className="input-group mb-3" style={{ maxWidth: "350px" }}>
+                                <span className="input-group-text bg-white">
+                                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                                </span>
+
+                                <input
+                                    type="search"
+                                    className="form-control"
+                                    placeholder="Tìm mã đơn hàng, trạng thái..."
+                                    value={search}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setSearch(value);
+                                        table.setGlobalFilter(value);
+                                    }}
+                                />
                             </div>
-                            <div className="col-12 col-md-4 col-lg-3">
-                                <select className="form-select bg-light border-0" value={workshop} onChange={(e) => setWorkshop(e.target.value)}>
-                                    <option value="all">Tất cả xưởng gia công ({workshops.length})</option>
-                                    {workshops.map((w) => (
-                                        <option key={w} value={w}>
-                                            {w}
-                                        </option>
+
+                            <table className="table table-hover align-middle mb-0 admin-order-table">
+                                <thead>
+                                    {table.getHeaderGroups().map((headerGroup) => (
+                                        <tr key={headerGroup.id}>
+                                            {headerGroup.headers.map((header) => {
+                                                const sorted =
+                                                    header.column.getIsSorted();
+
+                                                return (
+                                                    <th
+                                                        key={header.id}
+                                                        className="text-nowrap"
+                                                    >
+                                                        {header.isPlaceholder ? null : (
+                                                            <div
+                                                                className="d-flex align-items-center gap-2"
+                                                                onClick={header.column.getToggleSortingHandler()}
+                                                                style={{
+                                                                    cursor: header.column.getCanSort()
+                                                                        ? "pointer"
+                                                                        : "default",
+                                                                }}
+                                                            >
+                                                                <table.FlexRender
+                                                                    header={header}
+                                                                />
+
+                                                                {header.column.getCanSort() && (
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            sorted === "asc"
+                                                                                ? faArrowDownAZ
+                                                                                : sorted === "desc"
+                                                                                    ? faArrowUpAZ
+                                                                                    : faSort
+                                                                        }
+                                                                        className={
+                                                                            sorted
+                                                                                ? "text-danger"
+                                                                                : "text-secondary"
+                                                                        }
+                                                                        size="sm"
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </th>
+                                                );
+                                            })}
+                                        </tr>
                                     ))}
-                                </select>
-                            </div>
-                            <div className="col-12 col-md-4 col-lg-3">
-                                <select
-                                    className="form-select bg-light border-0"
-                                    value={status}
-                                    onChange={(e) => setStatus(e.target.value as "all" | OrderStatus)}
-                                >
-                                    <option value="all">Tất cả trạng thái</option>
-                                    {STATUSES.map((s) => (
-                                        <option key={s} value={s}>
-                                            {STATUS[s].label}
-                                        </option>
+                                </thead>
+
+                                <tbody>
+                                    {table.getRowModel().rows.map((row) => (
+                                        <tr key={row.id}>
+                                            {row.getAllCells().map((cell) => (
+                                                <td key={cell.id}>
+                                                    <table.FlexRender cell={cell} />
+                                                </td>
+                                            ))}
+                                        </tr>
                                     ))}
-                                </select>
-                            </div>
+
+                                    {table.getRowModel().rows.length === 0 && (
+                                        <tr>
+                                            <td
+                                                colSpan={table.getHeaderGroups()[0]?.headers.length ?? 1}
+                                                className="text-center py-5 text-secondary"
+                                            >
+                                                Chưa có đơn hàng nào.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Table footer */}
+                        <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 px-3 px-lg-4 py-3 border-top">
+                            <span className="text-secondary small">
+                                Tổng cộng {table.getRowModel().rows.length} bản ghi
+                            </span>
                         </div>
                     </div>
-                </div>
-
-                {/* Bảng – tái sử dụng DataTable */}
-                <DataTable<Order>
-                    data={filtered}
-                    columns={columns}
-                    rowKey="id"
-                    selectable
-                    selectedRowKeys={selected}
-                    onSelectionChange={(keys) => setSelected(keys)}
-                    totalLabel="đơn"
-                    emptyText="Không có đơn hàng phù hợp"
-                    header={
-                        <div className="d-flex justify-content-between align-items-center px-4 py-3 small border-bottom">
-                            <span className="text-body-secondary">
-                                Tổng số <b className="text-body">{filtered.length}</b> đơn đặt hàng trực tiếp
-                            </span>
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-link text-dark text-decoration-none fw-semibold p-0"
-                                disabled={selected.length === 0}
-                                onClick={() => console.log("In phiếu giao loạt", selected)}
-                            >
-                                <i className="bi bi-printer me-1" />
-                                In phiếu giao loạt{selected.length > 0 && ` (${selected.length})`}
-                            </button>
-                        </div>
-                    }
-                />
-            </div></div>
-        </div >
-
+                </section>
+            </main>
+        </div>
     );
 }
