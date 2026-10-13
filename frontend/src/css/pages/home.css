@@ -422,6 +422,11 @@
     white-space: nowrap;
 }
 
+.home-buy-btn:disabled {
+    background: #fda4af !important;
+    cursor: wait;
+}
+
 .home-promo-grid {
     display: grid;
     gap: 24px;

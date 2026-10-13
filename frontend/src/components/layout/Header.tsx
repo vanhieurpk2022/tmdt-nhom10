@@ -8,19 +8,19 @@ import SearchBox from "./header/SearchBox";
 import UserMenu from "./header/UserMenu";
 import { ROUTES } from "../../routes/routes";
 import { useAuth } from "../../api/AuthContext";
+import { useCart } from "../../api/CartContext";
+import CartToast from "../cart/CartToast";
 
 
 
 export function Header() {
     const { user } = useAuth();
-    const cart = {
-        quantity: 3,
-        total: 189,
-    };
+    const { summary } = useCart();
 
 
     return (
         <>
+            <CartToast />
             <NotifyAbove firstContent="Free Shipping on orders over $150" secondContent="Sử dụng mã: TINHDAU10 giảm 10%" />
 
             <div className="bg-white site-header">
@@ -50,7 +50,7 @@ export function Header() {
 
 
                         <span className="site-header-divider" />
-                        <Cart quantity={cart.quantity} total={cart.total} />
+                        <Cart quantity={summary.totalItems} total={summary.total} />
                     </div>
 
 

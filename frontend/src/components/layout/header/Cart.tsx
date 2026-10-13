@@ -6,6 +6,12 @@ interface CartProps {
     total: number;
 }
 
+const currencyFormatter = new Intl.NumberFormat("vi-VN");
+
+function formatCurrency(value: number) {
+    return `${currencyFormatter.format(value)}đ`;
+}
+
 export default function Cart({ quantity, total }: CartProps) {
     return (
         <Link to="/cart" className="text-decoration-none text-reset">
@@ -23,7 +29,7 @@ export default function Cart({ quantity, total }: CartProps) {
                     <span className="text-uppercase text-secondary" style={{ fontSize: "14px" }}>
                         Cart
                     </span>
-                    <span className="fw-bold fs-5">${total.toFixed(2)}</span>
+                    <span className="fw-bold fs-5">{formatCurrency(total)}</span>
                 </div>
             </div>
         </Link>

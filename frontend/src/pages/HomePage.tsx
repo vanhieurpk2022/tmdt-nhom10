@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useCart } from "../api/CartContext";
+import { cartService } from "../api/CartService";
 import { productService } from "../api/ProductService";
 import type { ProductCard as ApiProductCard } from "../api/ProductService";
 import BrandCommitment from "../components/home/BrandCommitment";
@@ -39,10 +41,12 @@ function toHomeProduct(product: ApiProductCard, index: number, tag: string): Hom
 }
 
 export default function HomePage() {
+    const { applyCart, showCartNotice } = useCart();
     const [homeNewestProducts, setHomeNewestProducts] = useState<HomeProduct[]>(newestProducts);
     const [homeBestSellerProducts, setHomeBestSellerProducts] = useState<HomeProduct[]>(bestSellerProducts);
     const [isLoadingHomeProducts, setIsLoadingHomeProducts] = useState(true);
     const [homeProductError, setHomeProductError] = useState("");
+    const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
 
     useEffect(() => {
         let isMounted = true;
@@ -62,12 +66,12 @@ export default function HomePage() {
                 setHomeNewestProducts(
                     newestResult.length > 0
                         ? newestResult.map((product, index) => toHomeProduct(product, index, "Mới"))
-                        : newestProducts
+                        : newestProducts,
                 );
                 setHomeBestSellerProducts(
                     bestSellerResult.length > 0
                         ? bestSellerResult.map((product, index) => toHomeProduct(product, index, "Bán chạy"))
-                        : bestSellerProducts
+                        : bestSellerProducts,
                 );
             } catch (error) {
                 console.error(error);
@@ -90,6 +94,28 @@ export default function HomePage() {
         };
     }, []);
 
+    const markAdding = (productId: number) => {
+        setAddingProductIds((currentIds) => (currentIds.includes(productId) ? currentIds : [...currentIds, productId]));
+    };
+
+    const unmarkAdding = (productId: number) => {
+        setAddingProductIds((currentIds) => currentIds.filter((currentId) => currentId !== productId));
+    };
+
+    const addProductToCart = async (product: HomeProduct) => {
+        try {
+            markAdding(product.id);
+            const updatedCart = await cartService.addItem({ productId: product.id, quantity: 1 });
+            applyCart(updatedCart);
+            showCartNotice(`Đã thêm ${product.name} vào giỏ hàng.`);
+        } catch (error) {
+            console.error(error);
+            showCartNotice("Chưa thêm được sản phẩm vào giỏ hàng. Vui lòng đăng nhập hoặc thử lại.", "error");
+        } finally {
+            unmarkAdding(product.id);
+        }
+    };
+
     return (
         <main className="home-page">
             <SearchSuggestions />
@@ -100,6 +126,8 @@ export default function HomePage() {
                     products={flashSaleProducts}
                     actionLabel="Xem tất cả ưu đãi"
                     flashSale
+                    addingProductIds={addingProductIds}
+                    onAddToCart={addProductToCart}
                 />
                 <ProductSection
                     eyebrow="Bộ sưu tập mới nhất"
@@ -108,6 +136,8 @@ export default function HomePage() {
                     actionLabel="Xem tất cả sản phẩm mới"
                     isLoading={isLoadingHomeProducts}
                     errorMessage={homeProductError}
+                    addingProductIds={addingProductIds}
+                    onAddToCart={addProductToCart}
                 />
                 <ProductSection
                     eyebrow="Được yêu thích nhất"
@@ -116,6 +146,8 @@ export default function HomePage() {
                     actionLabel="Xem bảng xếp hạng"
                     tabs={["Thư giãn", "Kháng khuẩn", "Tập trung"]}
                     isLoading={isLoadingHomeProducts}
+                    addingProductIds={addingProductIds}
+                    onAddToCart={addProductToCart}
                 />
                 <PromoBanners />
                 <BrandCommitment />

@@ -67,6 +67,145 @@
     margin-right: -50px !important;
 }
 
+.cart-toast {
+    align-items: flex-start;
+    animation: cart-toast-in 0.22s ease-out;
+    background: #fff;
+    border: 1px solid #dbe7df;
+    border-left: 5px solid #16a34a;
+    border-radius: 14px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+    color: #111827;
+    display: flex;
+    gap: 12px;
+    max-width: min(520px, calc(100vw - 32px));
+    min-width: min(460px, calc(100vw - 32px));
+    overflow: hidden;
+    padding: 16px 16px 18px;
+    position: fixed;
+    right: 28px;
+    top: 92px;
+    z-index: 1080;
+}
+
+.cart-toast-success {
+    border-color: #bbf7d0;
+}
+
+.cart-toast-error {
+    border-color: #fecdd3;
+    border-left-color: var(--color-primary);
+}
+
+.cart-toast-icon {
+    border-radius: 999px;
+    flex: 0 0 40px;
+    font-size: 18px;
+    height: 40px;
+    margin-top: 2px;
+    width: 40px;
+}
+
+.cart-toast-success .cart-toast-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.cart-toast-error .cart-toast-icon {
+    background: #fff1f2;
+    color: var(--color-primary);
+}
+
+.cart-toast-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.cart-toast-content strong {
+    color: #0f172a;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.cart-toast-content span {
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.cart-toast-action {
+    align-self: flex-start;
+    background: #111827;
+    border: 0 !important;
+    border-radius: 999px;
+    color: #fff !important;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 16px;
+    margin-top: 6px;
+    padding: 7px 13px !important;
+    text-decoration: none;
+}
+
+.cart-toast-action:hover {
+    background: var(--color-primary-dark);
+}
+
+.cart-toast-action-button {
+    height: auto;
+}
+
+.cart-toast-close {
+    border: 0 !important;
+    color: #64748b !important;
+    flex: 0 0 28px;
+    height: 28px;
+    margin-left: 4px;
+    padding: 0 !important;
+    width: 28px;
+}
+
+.cart-toast-progress {
+    animation: cart-toast-progress 3.5s linear forwards;
+    background: #16a34a;
+    bottom: 0;
+    height: 3px;
+    left: 0;
+    position: absolute;
+    transform-origin: left;
+    width: 100%;
+}
+
+.cart-toast-error .cart-toast-progress {
+    background: var(--color-primary);
+}
+
+@keyframes cart-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes cart-toast-progress {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
 .footer-title {
     font-size: 13px;
     font-weight: 600;

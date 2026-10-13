@@ -4,6 +4,8 @@ import type { HomeProduct } from "../../data/homeData";
 
 interface ProductCardProps {
     product: HomeProduct;
+    isAdding?: boolean;
+    onAddToCart?: (product: HomeProduct) => void;
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
@@ -13,7 +15,7 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, isAdding = false, onAddToCart }: ProductCardProps) {
     return (
         <article className="home-product-card">
             <div className="home-product-image-box">
@@ -56,9 +58,14 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <button className="btn home-icon-btn d-inline-flex align-items-center justify-content-center" type="button" aria-label="Thêm vào yêu thích">
                             <FontAwesomeIcon icon={faHeart} />
                         </button>
-                        <button className="btn home-buy-btn d-inline-flex align-items-center gap-2 fw-bold" type="button">
+                        <button
+                            className="btn home-buy-btn d-inline-flex align-items-center gap-2 fw-bold"
+                            type="button"
+                            onClick={() => onAddToCart?.(product)}
+                            disabled={isAdding}
+                        >
                             <FontAwesomeIcon icon={faCartShopping} />
-                            Chọn mua
+                            {isAdding ? "Đang thêm" : "Chọn mua"}
                         </button>
                     </div>
                 </div>
