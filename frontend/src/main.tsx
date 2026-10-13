@@ -35,6 +35,9 @@ import RequireVerifyEmail from './api/ProtectVerifyEmail';
 import { Admin } from './pages/Admin';
 import WorkshopManagement from './pages/WorkshopManagement';
 import UserManager from './pages/UserManager';
+import AdminOrder from './pages/AdminOrder';
+import { AdminSale } from './pages/AdminSale';
+import { AdminSupport } from './pages/AdminSupport';
 
 
 const MainLayout = () => (
@@ -51,9 +54,14 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/test" element={<UserManager />} />
+          <Route path="/test" element={<AdminSupport />} />
 
+          <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
           <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
+          <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
+          <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
+          <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
+          <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
 
           <Route element={<MainLayout />}>
             <Route path={ROUTES.HOME} element={<HomePage />} />

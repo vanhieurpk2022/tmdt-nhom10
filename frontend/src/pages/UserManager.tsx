@@ -99,9 +99,13 @@ export default function UserManager() {
 
     return (
         <div className="row">
-            <div className="col-2">
-                <SidebarAdmin />
-            </div>
+            <aside
+                className="col-12 col-xl-2 flex-shrink-0 position-sticky top-0 align-self-start"
+                style={{ height: "100vh" }}
+            >
+                <SidebarAdmin isCustomer={true} />
+
+            </aside>
             <div className="col">
 
                 <main className="csv-page">

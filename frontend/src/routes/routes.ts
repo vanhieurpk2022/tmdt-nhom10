@@ -21,5 +21,10 @@ export const ROUTES = {
   RESET_PASSWORD: "/reset-password",
   VERIFY_ACCOUNT: "/verify",
   VERIFY_SUCCESS: "/verify-email",
-  ADMIN_DASHBOARD: "/admin-dashboard"
+  ADMIN_DASHBOARD: "/admin-dashboard",
+  ADMIN_WORKSHOP: "/admin-workshop",
+  ADMIN_CUSTOMER: "/admin-customer",
+  ADMIN_ORDER: "/admin-order",
+  AdMIN_SALE: "/admin-sale",
+  ADMIN_SUPPORT: "/admin-support"
 } as const;

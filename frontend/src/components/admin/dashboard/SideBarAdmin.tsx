@@ -2,13 +2,18 @@ import { faHouse, faBuilding, faUsers, faBoxArchive, faTag, faHeadset } from "@f
 import { LogoBranch } from "./LogoBranch";
 import { BadgeAccount } from "./BadgeAccount";
 import SideBarItem from "./SideBarItem";
+import { ROUTES } from "../../../routes/routes";
 
 interface SidebarAdminProps {
     isDashboard?: boolean;
     isWorkshopManagement?: boolean;
+    isCustomer?: boolean;
+    isOrder?: boolean;
+    isVoucher?: boolean;
+    isSupport?: boolean;
 }
 
-function SidebarAdmin({ isDashboard = false, isWorkshopManagement = false }: SidebarAdminProps) {
+function SidebarAdmin({ isDashboard = false, isWorkshopManagement = false, isCustomer = false, isOrder = false, isSupport = false, isVoucher = false }: SidebarAdminProps) {
     return (
         <>
             <div className="d-flex flex-column h-100" style={{ backgroundColor: "var(--color-bg-dark)" }}>
@@ -23,12 +28,12 @@ function SidebarAdmin({ isDashboard = false, isWorkshopManagement = false }: Sid
                     </div>
                 </div>
                 <div className="mt-3">
-                    <SideBarItem place={faHouse} content="Tổng quan" isActive={isDashboard} />
-                    <SideBarItem place={faBuilding} content="Xưởng" isActive={isWorkshopManagement} />
-                    <SideBarItem place={faUsers} content="Khách hàng" isActive={false} />
-                    <SideBarItem place={faBoxArchive} content="Đơn hàng" isActive={false} />
-                    <SideBarItem place={faTag} content="Khuyến mãi" isActive={false} />
-                    <SideBarItem place={faHeadset} content="Phản hồi" isActive={false} />
+                    <SideBarItem to={ROUTES.ADMIN_DASHBOARD} place={faHouse} content="Tổng quan" isActive={isDashboard} />
+                    <SideBarItem to={ROUTES.ADMIN_WORKSHOP} place={faBuilding} content="Xưởng" isActive={isWorkshopManagement} />
+                    <SideBarItem to={ROUTES.ADMIN_CUSTOMER} place={faUsers} content="Khách hàng" isActive={isCustomer} />
+                    <SideBarItem to={ROUTES.ADMIN_ORDER} place={faBoxArchive} content="Đơn hàng" isActive={isOrder} />
+                    <SideBarItem to={ROUTES.AdMIN_SALE} place={faTag} content="Khuyến mãi" isActive={isVoucher} />
+                    <SideBarItem to={ROUTES.ADMIN_SUPPORT} place={faHeadset} content="Phản hồi" isActive={isSupport} />
                 </div>
                 <div className="mt-auto">
                     <BadgeAccount name="Minh Hậu" role="quản trị viên " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuDGi1_AVK3XUdN5cS9tUBuYhgg9UhK3zN0hA_3b6M-Q&s=10" />
