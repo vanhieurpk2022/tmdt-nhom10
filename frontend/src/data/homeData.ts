@@ -9,6 +9,7 @@ export interface HomeProduct {
     unit: string;
     rating: number;
     reviews: number;
+    metricLabel?: string;
     tag?: string;
     soldPercent?: number;
 }

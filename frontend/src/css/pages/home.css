@@ -204,6 +204,12 @@
     color: var(--color-primary);
 }
 
+.home-section-alert {
+    border-radius: 8px;
+    color: var(--color-slate-500);
+    font-size: 13px;
+}
+
 .home-flash-title {
     gap: 12px;
 }
@@ -286,6 +292,11 @@
     border-color: #fecdd3;
     box-shadow: 0 12px 30px rgba(17, 24, 39, 0.08);
     transform: translateY(-2px);
+}
+
+.home-product-card-placeholder {
+    min-height: 100%;
+    pointer-events: none;
 }
 
 .home-product-image-box {
@@ -409,14 +420,6 @@
     min-height: 32px;
     padding: 6px 12px !important;
     white-space: nowrap;
-}
-
-.home-product-card-compact .home-buy-btn {
-    background: #eef7ef !important;
-    color: var(--color-brand-green) !important;
-    min-width: 32px;
-    padding: 0 !important;
-    width: 32px;
 }
 
 .home-promo-grid {

@@ -1,6 +1,7 @@
 package com.nhom10.tmdt.repo;
 
 import com.nhom10.tmdt.model.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     // Đếm số sản phẩm theo từng factory
     @Query("SELECT p.factory.id, COUNT(p) FROM Product p WHERE p.factory IS NOT NULL GROUP BY p.factory.id")
     List<Object[]> countByFactory();
+
+    @Query("SELECT p FROM Product p ORDER BY p.createdAt DESC, p.id DESC")
+    List<Product> findNewestProducts(Pageable pageable);
+
+    @Query("SELECT p FROM Product p ORDER BY COALESCE(p.totalSold, 0) DESC, p.id DESC")
+    List<Product> findBestSellerProducts(Pageable pageable);
 }
