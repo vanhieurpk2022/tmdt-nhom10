@@ -89,4 +89,18 @@ export const productService = {
         });
         return res.data.data;
     },
+
+    getNewestProducts: async (limit = 4): Promise<ProductCard[]> => {
+        const res = await api.get<ApiResponse<ProductCard[]>>("/products/newest", {
+            params: { limit },
+        });
+        return res.data.data;
+    },
+
+    getBestSellerProducts: async (limit = 4): Promise<ProductCard[]> => {
+        const res = await api.get<ApiResponse<ProductCard[]>>("/products/best-sellers", {
+            params: { limit },
+        });
+        return res.data.data;
+    },
 };

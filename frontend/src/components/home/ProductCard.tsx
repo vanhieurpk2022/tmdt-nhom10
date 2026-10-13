@@ -8,6 +8,7 @@ interface ProductCardProps {
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
+const fallbackImage = "/images/home/lavender-france.png";
 
 function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
@@ -18,7 +19,13 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
         <article className={`home-product-card ${compact ? "home-product-card-compact" : ""}`}>
             <div className="home-product-image-box">
                 {product.tag && <span className="home-product-tag">{product.tag}</span>}
-                <img src={product.image} alt={product.name} />
+                <img
+                    src={product.image}
+                    alt={product.name}
+                    onError={(event) => {
+                        event.currentTarget.src = fallbackImage;
+                    }}
+                />
             </div>
 
             <div className="home-product-body d-flex flex-column">
@@ -29,7 +36,7 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
                 <div className="home-product-rating d-flex align-items-center flex-wrap">
                     <FontAwesomeIcon icon={faStar} />
                     <span>{product.rating.toFixed(1)}</span>
-                    <span>({product.reviews} đánh giá)</span>
+                    <span>({product.metricLabel ?? `${product.reviews} đánh giá`})</span>
                 </div>
 
                 {product.soldPercent && (
