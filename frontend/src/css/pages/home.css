@@ -210,6 +210,12 @@
     font-size: 13px;
 }
 
+.home-cart-feedback {
+    border-radius: 8px;
+    color: var(--color-slate-600);
+    font-size: 13px;
+}
+
 .home-flash-title {
     gap: 12px;
 }
@@ -420,6 +426,11 @@
     min-height: 32px;
     padding: 6px 12px !important;
     white-space: nowrap;
+}
+
+.home-buy-btn:disabled {
+    background: #fda4af !important;
+    cursor: wait;
 }
 
 .home-promo-grid {

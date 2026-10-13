@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { cartService } from "../api/CartService";
 import { productService } from "../api/ProductService";
 import type { ProductCard as ApiProductCard } from "../api/ProductService";
 import BrandCommitment from "../components/home/BrandCommitment";
@@ -43,6 +44,8 @@ export default function HomePage() {
     const [homeBestSellerProducts, setHomeBestSellerProducts] = useState<HomeProduct[]>(bestSellerProducts);
     const [isLoadingHomeProducts, setIsLoadingHomeProducts] = useState(true);
     const [homeProductError, setHomeProductError] = useState("");
+    const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
+    const [cartMessage, setCartMessage] = useState("");
 
     useEffect(() => {
         let isMounted = true;
@@ -90,16 +93,45 @@ export default function HomePage() {
         };
     }, []);
 
+    const markAdding = (productId: number) => {
+        setAddingProductIds((currentIds) => (currentIds.includes(productId) ? currentIds : [...currentIds, productId]));
+    };
+
+    const unmarkAdding = (productId: number) => {
+        setAddingProductIds((currentIds) => currentIds.filter((currentId) => currentId !== productId));
+    };
+
+    const addProductToCart = async (product: HomeProduct) => {
+        try {
+            markAdding(product.id);
+            setCartMessage("");
+            await cartService.addItem({ productId: product.id, quantity: 1 });
+            setCartMessage(`Đã thêm ${product.name} vào giỏ hàng.`);
+        } catch (error) {
+            console.error(error);
+            setCartMessage("Chưa thêm được sản phẩm vào giỏ hàng. Vui lòng đăng nhập hoặc thử lại.");
+        } finally {
+            unmarkAdding(product.id);
+        }
+    };
+
     return (
         <main className="home-page">
             <SearchSuggestions />
             <div className="container-fluid px-4 px-lg-5 home-page-content d-flex flex-column">
+                {cartMessage && (
+                    <div className="alert alert-light border home-cart-feedback mb-0" role="status">
+                        {cartMessage}
+                    </div>
+                )}
                 <HeroBanner />
                 <ProductSection
                     title="Flash Sale"
                     products={flashSaleProducts}
                     actionLabel="Xem tất cả ưu đãi"
                     flashSale
+                    addingProductIds={addingProductIds}
+                    onAddToCart={addProductToCart}
                 />
                 <ProductSection
                     eyebrow="Bộ sưu tập mới nhất"
@@ -108,6 +140,8 @@ export default function HomePage() {
                     actionLabel="Xem tất cả sản phẩm mới"
                     isLoading={isLoadingHomeProducts}
                     errorMessage={homeProductError}
+                    addingProductIds={addingProductIds}
+                    onAddToCart={addProductToCart}
                 />
                 <ProductSection
                     eyebrow="Được yêu thích nhất"
@@ -116,6 +150,8 @@ export default function HomePage() {
                     actionLabel="Xem bảng xếp hạng"
                     tabs={["Thư giãn", "Kháng khuẩn", "Tập trung"]}
                     isLoading={isLoadingHomeProducts}
+                    addingProductIds={addingProductIds}
+                    onAddToCart={addProductToCart}
                 />
                 <PromoBanners />
                 <BrandCommitment />

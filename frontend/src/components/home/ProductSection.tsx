@@ -12,6 +12,8 @@ interface ProductSectionProps {
     tabs?: string[];
     isLoading?: boolean;
     errorMessage?: string;
+    addingProductIds?: number[];
+    onAddToCart?: (product: HomeProduct) => void;
 }
 
 export default function ProductSection({
@@ -23,6 +25,8 @@ export default function ProductSection({
     tabs,
     isLoading = false,
     errorMessage,
+    addingProductIds = [],
+    onAddToCart,
 }: ProductSectionProps) {
     return (
         <section className={`home-section ${flashSale ? "home-flash-section" : ""}`}>
@@ -89,7 +93,11 @@ export default function ProductSection({
                       ))
                     : products.map((product) => (
                           <div className="col-12 col-sm-6 col-lg-3" key={product.id}>
-                              <ProductCard product={product} />
+                              <ProductCard
+                                  product={product}
+                                  isAdding={addingProductIds.includes(product.id)}
+                                  onAddToCart={onAddToCart}
+                              />
                           </div>
                       ))}
             </div>
