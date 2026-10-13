@@ -26,6 +26,28 @@ public class ProductController {
     }
 
     /**
+     * GET /api/products/newest
+     * Lấy sản phẩm mới nhất để hiển thị trên trang chủ.
+     */
+    @GetMapping("/newest")
+    public ApiResponse<List<ProductCardResponse>> getNewestProducts(
+            @RequestParam(defaultValue = "4") Integer limit
+    ) {
+        return new ApiResponse<>(200, "Lấy danh sách sản phẩm mới nhất thành công", productService.getNewestProducts(limit));
+    }
+
+    /**
+     * GET /api/products/best-sellers
+     * Lấy sản phẩm bán chạy để hiển thị trên trang chủ.
+     */
+    @GetMapping("/best-sellers")
+    public ApiResponse<List<ProductCardResponse>> getBestSellerProducts(
+            @RequestParam(defaultValue = "4") Integer limit
+    ) {
+        return new ApiResponse<>(200, "Lấy danh sách sản phẩm bán chạy thành công", productService.getBestSellerProducts(limit));
+    }
+
+    /**
      * GET /api/products/filter
      * Lọc sản phẩm theo các tiêu chí: category, factory, giá, rating, sort, phân trang.
      */

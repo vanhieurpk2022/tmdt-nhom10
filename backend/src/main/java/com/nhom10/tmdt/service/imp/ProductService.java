@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ProductService {
 
+    private static final int DEFAULT_HOME_PRODUCT_LIMIT = 4;
+    private static final int MAX_HOME_PRODUCT_LIMIT = 12;
+
     private final ProductRepository productRepo;
     private final CategoryRepository categoryRepo;
     private final FactoryRepository factoryRepo;
@@ -60,6 +63,28 @@ public class ProductService {
                 .toList();
 
         return new ProductPageResponse(cards, page.getTotalElements(), page.getTotalPages(), page.getNumber());
+    }
+
+    // Product sections for the home page
+    public List<ProductCardResponse> getNewestProducts(Integer limit) {
+        Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
+        return productRepo.findNewestProducts(pageable).stream()
+                .map(this::toCard)
+                .toList();
+    }
+
+    public List<ProductCardResponse> getBestSellerProducts(Integer limit) {
+        Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
+        return productRepo.findBestSellerProducts(pageable).stream()
+                .map(this::toCard)
+                .toList();
+    }
+
+    private int normalizeHomeProductLimit(Integer limit) {
+        if (limit == null || limit <= 0) {
+            return DEFAULT_HOME_PRODUCT_LIMIT;
+        }
+        return Math.min(limit, MAX_HOME_PRODUCT_LIMIT);
     }
 
     // Build JPA Specification từ filter request
