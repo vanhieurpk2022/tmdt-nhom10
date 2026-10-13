@@ -1,16 +1,23 @@
 export interface CartItem {
     id: number;
+    productId?: number;
     name: string;
     variant: string;
     origin: string;
+    description?: string;
     factoryName: string;
     factoryCode: string;
     price: number;
+    basePrice?: number;
     quantity: number;
     selected: boolean;
     image: string;
     inStock: boolean;
+    stockQuantity?: number;
+    stockStatus?: string;
 }
+
+export const fallbackCartImage = "/images/home/lavender-france.png";
 
 export const cartItems: CartItem[] = [
     {
