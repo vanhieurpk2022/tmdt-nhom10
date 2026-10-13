@@ -10,7 +10,6 @@ interface ProductSectionProps {
     actionLabel: string;
     flashSale?: boolean;
     tabs?: string[];
-    compactCards?: boolean;
     isLoading?: boolean;
     errorMessage?: string;
 }
@@ -22,7 +21,6 @@ export default function ProductSection({
     actionLabel,
     flashSale = false,
     tabs,
-    compactCards = false,
     isLoading = false,
     errorMessage,
 }: ProductSectionProps) {
@@ -91,7 +89,7 @@ export default function ProductSection({
                       ))
                     : products.map((product) => (
                           <div className="col-12 col-sm-6 col-lg-3" key={product.id}>
-                              <ProductCard product={product} compact={compactCards} />
+                              <ProductCard product={product} />
                           </div>
                       ))}
             </div>

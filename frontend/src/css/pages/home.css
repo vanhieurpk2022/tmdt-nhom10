@@ -422,14 +422,6 @@
     white-space: nowrap;
 }
 
-.home-product-card-compact .home-buy-btn {
-    background: #eef7ef !important;
-    color: var(--color-brand-green) !important;
-    min-width: 32px;
-    padding: 0 !important;
-    width: 32px;
-}
-
 .home-promo-grid {
     display: grid;
     gap: 24px;

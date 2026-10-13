@@ -106,7 +106,6 @@ export default function HomePage() {
                     title="Sản Phẩm Mới Về"
                     products={homeNewestProducts}
                     actionLabel="Xem tất cả sản phẩm mới"
-                    compactCards
                     isLoading={isLoadingHomeProducts}
                     errorMessage={homeProductError}
                 />
