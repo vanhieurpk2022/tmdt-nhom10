@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCart } from "../api/CartContext";
 import { cartService, type CartResponse, type CartItemResponse } from "../api/CartService";
 import CartBreadcrumb from "../components/cart/CartBreadcrumb";
 import CartSummary from "../components/cart/CartSummary";
@@ -37,18 +38,20 @@ function toCartItem(item: CartItemResponse, selected: boolean, index: number): C
 }
 
 export default function CartPage() {
+    const { applyCart: applyCartSummary } = useCart();
     const [items, setItems] = useState<CartItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [updatingItemIds, setUpdatingItemIds] = useState<number[]>([]);
 
     const applyCart = useCallback((cart: CartResponse) => {
+        applyCartSummary(cart);
         setItems((currentItems) => {
             const selectedById = new Map(currentItems.map((item) => [item.id, item.selected]));
 
             return cart.items.map((item, index) => toCartItem(item, selectedById.get(item.id) ?? true, index));
         });
-    }, []);
+    }, [applyCartSummary]);
 
     const loadCart = useCallback(async () => {
         try {

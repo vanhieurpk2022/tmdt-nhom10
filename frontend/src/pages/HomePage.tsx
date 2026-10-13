@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCart } from "../api/CartContext";
 import { cartService } from "../api/CartService";
 import { productService } from "../api/ProductService";
 import type { ProductCard as ApiProductCard } from "../api/ProductService";
@@ -40,12 +41,12 @@ function toHomeProduct(product: ApiProductCard, index: number, tag: string): Hom
 }
 
 export default function HomePage() {
+    const { applyCart, showCartNotice } = useCart();
     const [homeNewestProducts, setHomeNewestProducts] = useState<HomeProduct[]>(newestProducts);
     const [homeBestSellerProducts, setHomeBestSellerProducts] = useState<HomeProduct[]>(bestSellerProducts);
     const [isLoadingHomeProducts, setIsLoadingHomeProducts] = useState(true);
     const [homeProductError, setHomeProductError] = useState("");
     const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
-    const [cartMessage, setCartMessage] = useState("");
 
     useEffect(() => {
         let isMounted = true;
@@ -65,12 +66,12 @@ export default function HomePage() {
                 setHomeNewestProducts(
                     newestResult.length > 0
                         ? newestResult.map((product, index) => toHomeProduct(product, index, "Mới"))
-                        : newestProducts
+                        : newestProducts,
                 );
                 setHomeBestSellerProducts(
                     bestSellerResult.length > 0
                         ? bestSellerResult.map((product, index) => toHomeProduct(product, index, "Bán chạy"))
-                        : bestSellerProducts
+                        : bestSellerProducts,
                 );
             } catch (error) {
                 console.error(error);
@@ -104,12 +105,12 @@ export default function HomePage() {
     const addProductToCart = async (product: HomeProduct) => {
         try {
             markAdding(product.id);
-            setCartMessage("");
-            await cartService.addItem({ productId: product.id, quantity: 1 });
-            setCartMessage(`Đã thêm ${product.name} vào giỏ hàng.`);
+            const updatedCart = await cartService.addItem({ productId: product.id, quantity: 1 });
+            applyCart(updatedCart);
+            showCartNotice(`Đã thêm ${product.name} vào giỏ hàng.`);
         } catch (error) {
             console.error(error);
-            setCartMessage("Chưa thêm được sản phẩm vào giỏ hàng. Vui lòng đăng nhập hoặc thử lại.");
+            showCartNotice("Chưa thêm được sản phẩm vào giỏ hàng. Vui lòng đăng nhập hoặc thử lại.", "error");
         } finally {
             unmarkAdding(product.id);
         }
@@ -119,11 +120,6 @@ export default function HomePage() {
         <main className="home-page">
             <SearchSuggestions />
             <div className="container-fluid px-4 px-lg-5 home-page-content d-flex flex-column">
-                {cartMessage && (
-                    <div className="alert alert-light border home-cart-feedback mb-0" role="status">
-                        {cartMessage}
-                    </div>
-                )}
                 <HeroBanner />
                 <ProductSection
                     title="Flash Sale"

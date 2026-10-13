@@ -210,12 +210,6 @@
     font-size: 13px;
 }
 
-.home-cart-feedback {
-    border-radius: 8px;
-    color: var(--color-slate-600);
-    font-size: 13px;
-}
-
 .home-flash-title {
     gap: 12px;
 }
