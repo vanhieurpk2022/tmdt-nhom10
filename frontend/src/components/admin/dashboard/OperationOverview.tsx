@@ -21,14 +21,15 @@ import {
     faSort,
     faMagnifyingGlass,
     faBagShopping,
-    faChartColumn,
-    faShieldHalved,
+    faTruckFast,
+    faStar,
     faTriangleExclamation,
     faChevronLeft,
     faChevronRight,
     faClock,
     faShop,
-    faFlask,
+    faShieldHalved,
+    faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
@@ -38,7 +39,7 @@ import CustomBadge from "../badge/CustomBadge";
 import { ModalApprove } from "./ModalApprove";
 import "../../../css/pages/dashboard/dashboard.css";
 
-type OrderStatus = "Chờ xác nhận" | "Đang sản xuất" | "Hoàn thành" | "Đã hủy";
+type OrderStatus = "Chờ xác nhận" | "Đang chuẩn bị hàng" | "Đã giao" | "Đã hủy";
 
 interface OrderTable {
     code: string;
@@ -47,8 +48,8 @@ interface OrderTable {
     shop: string;
     product: string;
     notes: string;
-    lab: string;
-    workshop: string;
+    totalAmount: number;
+    deadline: string;
     status: OrderStatus;
 }
 
@@ -67,54 +68,56 @@ interface RevenueItem {
     highlight?: boolean;
 }
 
+const formatVnd = (value: number) => value.toLocaleString("vi-VN") + " ₫";
+
 export const ExampleData: OrderTable[] = [
     {
         code: "DH-2026-1024",
         time: "10 phút trước",
         customer: "Nguyễn Hoàng Nam",
         shop: "Maison De Saigon",
-        product: "Amber Oud EDP 50ml",
+        product: "Amber Oud EDP 50ml (SL: 200 chai)",
         notes: "Trầm hương Lào & hổ phách",
-        lab: "Mộc Perfume Lab",
-        workshop: "WS-102 (GMP ASEAN)",
+        totalAmount: 45000000,
+        deadline: "Hạn giao: 25/10/2026",
         status: "Chờ xác nhận",
     },
     {
         code: "DH-2026-1025",
-        time: "10 phút trước",
-        customer: "Nguyễn Hoàng Nam",
-        shop: "Maison De Saigon",
-        product: "Amber Oud EDP 50ml",
-        notes: "Trầm hương Lào & hổ phách",
-        lab: "Mộc Perfume Lab",
-        workshop: "WS-102 (GMP ASEAN)",
-        status: "Chờ xác nhận",
+        time: "2 giờ trước",
+        customer: "Trần Minh Thư",
+        shop: "L'Apothiquaire Indie",
+        product: "White Tea & Fig EDP 30ml (SL: 500 chai)",
+        notes: "Trà trắng, sung ngọt & xạ hương",
+        totalAmount: 82500000,
+        deadline: "Hạn giao: 28/10/2026",
+        status: "Đang chuẩn bị hàng",
     },
     {
         code: "DH-2026-1026",
-        time: "10 phút trước",
-        customer: "Nguyễn Hoàng Nam",
-        shop: "Maison De Saigon",
-        product: "Amber Oud EDP 50ml",
-        notes: "Trầm hương Lào & hổ phách",
-        lab: "Mộc Perfume Lab",
-        workshop: "WS-102 (GMP ASEAN)",
-        status: "Chờ xác nhận",
+        time: "1 ngày trước",
+        customer: "Lê Quốc Bảo",
+        shop: "Scent Studio VN",
+        product: "Vetiver Bourbon Extrait 100ml (SL: 150 chai)",
+        notes: "Cỏ hương bài & gỗ tuyết tùng",
+        totalAmount: 60000000,
+        deadline: "Đã giao đúng hạn",
+        status: "Đã giao",
     },
 ];
 
 export const cancelReasons: CancelReason[] = [
-    { label: "Chờ nguyên liệu & tinh dầu nhập khẩu", percent: 38, count: 7, color: "var(--color-primary)" },
-    { label: "Xưởng quá tải công suất sản xuất", percent: 29, count: 5, color: "var(--color-warning)" },
-    { label: "Khách đổi công thức / Nốt hương điều chỉnh", percent: 21, count: 4, color: "var(--color-info)" },
-    { label: "Lý do khác (Thỏa thuận song phương)", percent: 12, count: 2, color: "var(--color-neutral)" },
+    { label: "Khách đổi ý / Thay đổi yêu cầu mùi hương", percent: 45, count: 4, color: "var(--color-info)" },
+    { label: "Hết nguyên liệu / Tạm ngừng nhận mẫu này", percent: 30, count: 3, color: "var(--color-primary)" },
+    { label: "Không thống nhất được thời gian giao hàng", percent: 15, count: 1, color: "var(--color-warning)" },
+    { label: "Xưởng xác nhận trễ hạn (Quá 24h)", percent: 10, count: 1, color: "var(--color-neutral)" },
 ];
 
 export const revenueItems: RevenueItem[] = [
-    { label: "Đã giải ngân xưởng", amount: 913300000, percent: 49.4, color: "var(--color-info)" },
-    { label: "Chờ giải ngân (Pending)", amount: 542800000, percent: 29.3, color: "var(--color-warning)" },
-    { label: "Phí sàn thu được (Take-rate)", amount: 268500000, percent: 14.5, color: "var(--color-success)" },
-    { label: "Tạm giữ Escrow (Tranh chấp)", amount: 125400000, percent: 6.8, color: "var(--color-primary)", highlight: true },
+    { label: "Đã đối soát (Có thể rút về ngân hàng)", amount: 285000000, percent: 63.3, color: "var(--color-success)" },
+    { label: "Chờ đối soát (Đơn đang xử lý / chờ khách nhận)", amount: 112500000, percent: 25.0, color: "var(--color-warning)" },
+    { label: "Phí cố định & Hoa hồng sàn (Commission Fee)", amount: 36000000, percent: 8.0, color: "var(--color-info)" },
+    { label: "Đang tạm giữ do Khiếu nại / Trả hàng", amount: 16500000, percent: 3.7, color: "var(--color-primary)", highlight: true },
 ];
 
 export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
@@ -122,11 +125,11 @@ export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: strin
         label: "Chờ xác nhận",
         badge: "bg-warning-subtle text-warning-emphasis",
     },
-    "Đang sản xuất": {
-        label: "Đang sản xuất",
+    "Đang chuẩn bị hàng": {
+        label: "Đang chuẩn bị hàng",
         badge: "bg-primary-subtle text-primary-emphasis",
     },
-    "Hoàn thành": {
+    "Đã giao": {
         label: "Hoàn thành",
         badge: "bg-success-subtle text-success-emphasis",
     },
@@ -137,9 +140,7 @@ export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: strin
 };
 
 const PAGE_SIZES = [5, 10, 20, 50];
-const TOTAL_REVENUE = 1850000000;
-
-const formatVnd = (value: number) => value.toLocaleString("vi-VN") + " ₫";
+const TOTAL_SELLER_REVENUE = 450000000;
 
 const features = tableFeatures({
     rowSortingFeature,
@@ -164,18 +165,21 @@ const features = tableFeatures({
 const columnHelper = createColumnHelper<typeof features, OrderTable>();
 const columns = columnHelper.columns([
     columnHelper.accessor("code", {
-        header: "Mã đơn / Khách hàng",
+        header: "Mã đơn / Khách đặt hàng",
         cell: info => {
             const row = info.row.original;
 
             return (
                 <div className="d-flex flex-column gap-1">
-                    <b>{row.code}</b>
+                    {/* Đặt Mã đơn và Thời gian nằm cùng 1 hàng ngang */}
+                    <div className="d-flex align-items-center flex-wrap gap-2">
+                        <b>{row.code}</b>
 
-                    <span className="small text-muted">
-                        <FontAwesomeIcon icon={faClock} className="me-2" />
-                        {row.time}
-                    </span>
+                        <span className="small text-muted">
+                            <FontAwesomeIcon icon={faClock} className="me-1" />
+                            {row.time}
+                        </span>
+                    </div>
 
                     <span className="fw-semibold text-dark">{row.customer}</span>
 
@@ -190,7 +194,7 @@ const columns = columnHelper.columns([
     }),
 
     columnHelper.accessor("product", {
-        header: "Sản phẩm",
+        header: "Sản phẩm đặt gia công",
         cell: info => {
             const row = info.row.original;
 
@@ -204,27 +208,27 @@ const columns = columnHelper.columns([
         sortFn: "alphanumeric",
     }),
 
-    columnHelper.accessor("lab", {
-        header: "Lab / Xưởng",
+    columnHelper.accessor("totalAmount", {
+        header: "Giá trị đơn / Hạn giao",
         cell: info => {
             const row = info.row.original;
 
             return (
                 <div className="d-flex flex-column gap-1">
-                    <span className="fw-semibold">{row.lab}</span>
+                    <span className="fw-bold text-dark">{formatVnd(row.totalAmount)}</span>
 
                     <span className="badge bg-info-subtle text-info-emphasis fw-normal align-self-start">
-                        <FontAwesomeIcon icon={faFlask} className="me-1" />
-                        {row.workshop}
+                        <FontAwesomeIcon icon={faCalendarCheck} className="me-1" />
+                        {row.deadline}
                     </span>
                 </div>
             );
         },
-        sortFn: "alphanumeric",
+        sortFn: "basic",
     }),
 
     columnHelper.accessor("status", {
-        header: "Trạng thái",
+        header: "Trạng thái đơn",
         cell: info => {
             const conf = OrderStatusBadge[info.getValue()];
 
@@ -271,8 +275,10 @@ function DonutChart({ data, centerLabel, centerValue }: DonutProps) {
         </div>
     );
 }
-
-function OperationsOverview() {
+interface OperationsOverviewProps {
+    isShow?: boolean;
+}
+function OperationsOverview({ isShow }: OperationsOverviewProps) {
     const [showApprove, setShowApprove] = useState(false);
     const [search, setSearch] = useState("");
     const [pagination, setPagination] = useState<PaginationState>({
@@ -295,11 +301,12 @@ function OperationsOverview() {
             className="p-4 d-flex flex-column gap-4"
             style={{ backgroundColor: "var(--color-bg-page)", minHeight: "100vh" }}
         >
-            {/* Header */}
+            {/* Header Kênh Người Bán */}
             <PageHeader
-                title="Trung tâm Điều phối & Quản trị Sàn B2B - Olla ScentOS"
+                title="Kênh Người Bán & Đối Tác Gia Công - Mộc Perfume Lab"
                 pendingCount={5}
                 onApprove={() => setShowApprove(true)}
+                isShow={isShow}
             />
 
             <ModalApprove show={showApprove} onClose={() => setShowApprove(false)} />
@@ -308,41 +315,41 @@ function OperationsOverview() {
             <section className="row g-3">
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
-                        label="Tổng đơn khách đặt (GMV sàn)"
-                        value="142"
+                        label="Đơn đặt hàng của Shop"
+                        value="36"
                         icon={faBagShopping}
                         tone="danger"
-                        note="840 đơn/tháng"
+                        note="5 đơn mới chờ xác nhận"
                     />
                 </div>
 
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
-                        label="Hiệu suất khớp lệnh & xưởng"
-                        value="94.6%"
-                        icon={faChartColumn}
+                        label="Tỷ lệ giao hàng đúng hạn"
+                        value="96.8%"
+                        icon={faTruckFast}
                         tone="success"
-                        note="18 xưởng gia công đối tác"
+                        note="Đạt chuẩn Shop Uy Tín"
                     />
                 </div>
 
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
-                        label="Chuẩn hóa sàn (IFRA / GMP)"
-                        value="99.2%"
-                        icon={faShieldHalved}
+                        label="Đánh giá Gian hàng & Hồ sơ"
+                        value="4.9 / 5"
+                        icon={faStar}
                         tone="info"
-                        actionText="Giám định sản"
+                        actionText="128 đánh giá từ khách"
                     />
                 </div>
 
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
-                        label="Tranh chấp & khiếu nại (Escrow)"
-                        value="04"
+                        label="Trả hàng / Hoàn tiền / Khiếu nại"
+                        value="01"
                         icon={faTriangleExclamation}
                         tone="warning"
-                        actionText="Xử lý ngay"
+                        actionText="Phản hồi khiếu nại"
                     />
                 </div>
             </section>
@@ -355,14 +362,14 @@ function OperationsOverview() {
                         <div className="card-body p-3 p-lg-4">
                             <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
                                 <div>
-                                    <h5 className="fw-bold mb-1">Tỷ lệ hủy đơn</h5>
+                                    <h5 className="fw-bold mb-1">Tỷ lệ đơn hủy của Shop</h5>
                                     <p className="text-secondary small mb-0">
-                                        Chỉ tiêu SLA: &lt; 4.0%
+                                        Giới hạn cho phép của sàn: &lt; 4.0%
                                     </p>
                                 </div>
 
                                 <span className="badge rounded-pill bg-light text-dark border px-3 py-2">
-                                    3.2%
+                                    2.4%
                                 </span>
                             </div>
 
@@ -373,7 +380,7 @@ function OperationsOverview() {
                                         value: r.percent,
                                         color: r.color,
                                     }))}
-                                    centerValue="3.2%"
+                                    centerValue="2.4%"
                                     centerLabel="Tỷ lệ hủy"
                                 />
 
@@ -408,9 +415,9 @@ function OperationsOverview() {
                     <div className="card border-0 shadow-sm rounded-4 h-100">
                         <div className="card-body p-3 p-lg-4">
                             <div className="mb-3">
-                                <h5 className="fw-bold mb-1">Dòng tiền sàn</h5>
+                                <h5 className="fw-bold mb-1">Doanh thu & Ví Người Bán</h5>
                                 <p className="text-secondary small mb-0">
-                                    Tổng giá trị: {formatVnd(TOTAL_REVENUE)}
+                                    Tổng doanh thu đơn hàng tháng này: {formatVnd(TOTAL_SELLER_REVENUE)}
                                 </p>
                             </div>
 
@@ -421,8 +428,8 @@ function OperationsOverview() {
                                         value: r.percent,
                                         color: r.color,
                                     }))}
-                                    centerValue="49.4%"
-                                    centerLabel="GIẢI NGÂN"
+                                    centerValue="63.3%"
+                                    centerLabel="THỰC NHẬN"
                                 />
 
                                 <ul className="list-unstyled mb-0 d-flex flex-column gap-2 flex-grow-1">
@@ -451,7 +458,7 @@ function OperationsOverview() {
 
                             <div className="text-secondary small mt-3">
                                 <FontAwesomeIcon icon={faShieldHalved} className="me-2" />
-                                Bảo chứng bởi Olla Escrow System
+                                Sàn tự động giải ngân vào Ví Người Bán sau khi khách xác nhận đã nhận hàng
                             </div>
                         </div>
                     </div>
@@ -464,10 +471,10 @@ function OperationsOverview() {
                     {/* Table heading */}
                     <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4 border-bottom">
                         <div>
-                            <h5 className="fw-bold mb-1">Đơn hàng mới nhất</h5>
+                            <h5 className="fw-bold mb-1">Đơn đặt hàng từ khách</h5>
 
                             <p className="text-secondary small mb-0">
-                                Theo dõi đơn đặt, sản phẩm và xưởng gia công phụ trách.
+                                Quản lý đơn khách đặt qua sàn, giá trị thanh toán và thời hạn giao hàng.
                             </p>
                         </div>
 
@@ -486,7 +493,7 @@ function OperationsOverview() {
                             <input
                                 type="search"
                                 className="form-control"
-                                placeholder="Tìm mã đơn, sản phẩm..."
+                                placeholder="Tìm mã đơn, tên khách, sản phẩm..."
                                 value={search}
                                 onChange={(e) => {
                                     const value = e.target.value;

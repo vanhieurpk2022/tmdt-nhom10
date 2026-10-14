@@ -22,7 +22,6 @@ import NotificationsPage from './pages/NotificationsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterFactoryPage from './pages/RegisterFactoryPage';
-import VerifyEmailPage from './pages/VerifyEmailPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import VerifyRecoveryCodePage from './pages/VerifyRecoveryCodePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
@@ -38,6 +37,7 @@ import UserManager from './pages/UserManager';
 import AdminOrder from './pages/AdminOrder';
 import { AdminSale } from './pages/AdminSale';
 import { AdminSupport } from './pages/AdminSupport';
+import { FactoryDashBoard } from './pages/FactoryDashBoard';
 
 
 const MainLayout = () => (
@@ -54,6 +54,8 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          <Route path="/test" element={<FactoryDashBoard />} />
+
           <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
           <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
           <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />

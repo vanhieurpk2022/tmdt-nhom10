@@ -7,9 +7,10 @@ interface PageHeaderProps {
     pendingCount?: number;
     onExport?: () => void;
     onApprove?: () => void;
+    isShow?: boolean;
 }
 
-function PageHeader({ title, pendingCount = 0, onExport, onApprove }: PageHeaderProps) {
+function PageHeader({ title, pendingCount = 0, onExport, onApprove, isShow }: PageHeaderProps) {
     return (
         <header className="d-flex flex-wrap justify-content-between align-items-end gap-3">
             <div>
@@ -21,7 +22,7 @@ function PageHeader({ title, pendingCount = 0, onExport, onApprove }: PageHeader
                     <FontAwesomeIcon icon={faFileExport} />
                     Xuất báo cáo Sàn (Audit Log)
                 </button>
-                <button className="btn btn-approve d-flex align-items-center gap-2" onClick={onApprove}>
+                {(!isShow) ? <button className="btn btn-approve d-flex align-items-center gap-2" onClick={onApprove}>
                     <FontAwesomeIcon icon={faUserCheck} />
                     Phê duyệt
                     {pendingCount > 0 && (
@@ -29,7 +30,8 @@ function PageHeader({ title, pendingCount = 0, onExport, onApprove }: PageHeader
                             {pendingCount}
                         </span>
                     )}
-                </button>
+                </button> : " "}
+
             </div>
         </header>
     );
