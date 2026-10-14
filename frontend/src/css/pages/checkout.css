@@ -66,6 +66,42 @@
     gap: 12px;
 }
 
+.checkout-alert {
+    border-radius: 12px;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.checkout-empty-state {
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    color: #64748b;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    min-height: 116px;
+    padding: 22px;
+    text-align: center;
+}
+
+.checkout-empty-state strong {
+    color: #111827;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.checkout-empty-state span {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
 .checkout-product-row {
     align-items: center;
     border: 1px solid #dbe3ee;
@@ -315,7 +351,9 @@
 
 .checkout-summary-line {
     align-items: flex-start;
+    display: flex;
     gap: 14px;
+    justify-content: space-between;
     margin-bottom: 12px;
 }
 
@@ -330,10 +368,22 @@
 
 .checkout-summary-line p {
     color: #475569;
+    min-width: 0;
 }
 
 .checkout-summary-line strong {
     white-space: nowrap;
+}
+
+.checkout-summary-empty {
+    background: #f8fafc;
+    border-radius: 10px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    margin: 0;
+    padding: 14px;
 }
 
 .checkout-promo-select {
@@ -367,6 +417,8 @@
 .checkout-summary-adjustments div,
 .checkout-summary-total {
     align-items: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .checkout-summary-adjustments div + div {

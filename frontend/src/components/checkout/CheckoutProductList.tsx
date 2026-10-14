@@ -3,6 +3,7 @@ import CheckoutSectionTitle from "./CheckoutSectionTitle";
 
 interface CheckoutProductListProps {
     items: CartItem[];
+    isLoading?: boolean;
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
@@ -11,7 +12,7 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
-export default function CheckoutProductList({ items }: CheckoutProductListProps) {
+export default function CheckoutProductList({ items, isLoading = false }: CheckoutProductListProps) {
     return (
         <section className="checkout-block">
             <CheckoutSectionTitle
@@ -21,7 +22,21 @@ export default function CheckoutProductList({ items }: CheckoutProductListProps)
             />
 
             <div className="checkout-product-list d-flex flex-column">
-                {items.map((item) => (
+                {isLoading && (
+                    <div className="checkout-empty-state">
+                        <div className="spinner-border spinner-border-sm text-danger" role="status" aria-hidden="true" />
+                        <span>Đang tải sản phẩm thanh toán...</span>
+                    </div>
+                )}
+
+                {!isLoading && items.length === 0 && (
+                    <div className="checkout-empty-state">
+                        <strong>Chưa có sản phẩm để thanh toán</strong>
+                        <span>Hãy quay lại giỏ hàng và chọn sản phẩm cần đặt.</span>
+                    </div>
+                )}
+
+                {!isLoading && items.map((item) => (
                     <article className="checkout-product-row" key={item.id}>
                         <div className="checkout-product-thumb">
                             <img src={item.image} alt={item.name} />
@@ -29,7 +44,7 @@ export default function CheckoutProductList({ items }: CheckoutProductListProps)
                         <div className="checkout-product-main">
                             <div className="d-flex align-items-center gap-2 flex-wrap">
                                 <h3>{item.name}</h3>
-                                <span>Còn hàng</span>
+                                <span>{item.stockStatus ?? (item.inStock ? "Còn hàng" : "Hết hàng")}</span>
                             </div>
                             <p>{item.variant} • {item.origin}</p>
                             <p>Xưởng: {item.factoryName} • #{item.factoryCode}</p>

@@ -1,11 +1,13 @@
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faCreditCard, faMoneyBillWave, faQrcode, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { PaymentMethod } from "../../data/checkoutData";
 import CheckoutSectionTitle from "./CheckoutSectionTitle";
 
 interface PaymentMethodListProps {
     methods: PaymentMethod[];
+    selectedMethodId: string;
+    onSelectMethod: (methodId: string) => void;
 }
 
 const methodIcons: Record<PaymentMethod["type"], IconDefinition | null> = {
@@ -15,15 +17,20 @@ const methodIcons: Record<PaymentMethod["type"], IconDefinition | null> = {
     cod: faMoneyBillWave,
 };
 
-export default function PaymentMethodList({ methods }: PaymentMethodListProps) {
+export default function PaymentMethodList({ methods, selectedMethodId, onSelectMethod }: PaymentMethodListProps) {
     return (
         <section className="checkout-block">
             <CheckoutSectionTitle index={3} title="Chọn phương thức thanh toán" />
 
             <div className="checkout-payment-list d-flex flex-column">
                 {methods.map((method) => (
-                    <label className={`checkout-payment-option ${method.selected ? "active" : ""}`} key={method.id}>
-                        <input type="radio" name="paymentMethod" defaultChecked={method.selected} />
+                    <label className={`checkout-payment-option ${method.id === selectedMethodId ? "active" : ""}`} key={method.id}>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            checked={method.id === selectedMethodId}
+                            onChange={() => onSelectMethod(method.id)}
+                        />
                         <span className="checkout-payment-check" />
                         <div>
                             <strong>{method.name}</strong>

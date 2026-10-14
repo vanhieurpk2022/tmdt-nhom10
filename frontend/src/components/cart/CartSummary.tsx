@@ -7,9 +7,17 @@ interface CartSummaryProps {
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
+const checkoutCartItemIdsKey = "oilia_checkout_cart_item_ids";
 
 function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
+}
+
+function saveCheckoutSelection(selectedItems: CartItem[]) {
+    window.sessionStorage.setItem(
+        checkoutCartItemIdsKey,
+        JSON.stringify(selectedItems.map((item) => item.id)),
+    );
 }
 
 export default function CartSummary({ selectedItems, subtotal }: CartSummaryProps) {
@@ -63,6 +71,7 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
 
             <Link
                 to="/checkout"
+                onClick={() => saveCheckoutSelection(selectedItems)}
                 className={`btn cart-continue-btn d-flex align-items-center justify-content-center fw-bold w-100 ${selectedItems.length === 0 ? "disabled" : ""}`}
             >
                 Tiếp tục

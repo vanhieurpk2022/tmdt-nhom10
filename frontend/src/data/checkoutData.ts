@@ -23,15 +23,15 @@ export const receiverInfo: ReceiverInfo = {
 export const paymentMethods: PaymentMethod[] = [
     {
         id: "momo",
-        name: "Ví Momo",
-        description: "Thanh toán nhanh chóng và an toàn qua ví điện tử Momo",
+        name: "Ví MoMo",
+        description: "Thanh toán nhanh chóng và an toàn qua ví điện tử MoMo",
         type: "momo",
         selected: true,
     },
     {
         id: "bank-card",
         name: "Thẻ ngân hàng (ATM / Visa / Mastercard)",
-        description: "Thẻ nội địa NAPAS và thẻ quốc tế Visa, Master",
+        description: "Thẻ nội địa NAPAS và thẻ quốc tế Visa, Mastercard",
         type: "card",
     },
     {
@@ -43,7 +43,7 @@ export const paymentMethods: PaymentMethod[] = [
     {
         id: "cod",
         name: "Thanh toán khi nhận hàng (COD)",
-        description: "Kiểm tra hàng và thanh toán tiền mặt cho bưu tá",
+        description: "Kiểm tra hàng và thanh toán tiền mặt khi nhận hàng",
         type: "cod",
     },
 ];
