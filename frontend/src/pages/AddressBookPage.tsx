@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import AccountLayout from "../components/layout/AccountLayout";
 import { addressService, type AddressItem, type AddressPayload } from "../api/AddressService";
+import { locationService, type LocationItem } from "../api/LocationService";
 
 // Trang Sổ địa chỉ - Quản lý danh sách địa chỉ giao hàng của người dùng
 export default function AddressBookPage() {
@@ -18,6 +19,25 @@ export default function AddressBookPage() {
     const returnTo = searchParams.get("returnTo");
     const canReturnAfterSelect = Boolean(returnTo?.startsWith("/") && !returnTo.startsWith("//"));
 
+    // State danh mục địa giới hành chính (Tỉnh / Huyện / Xã)
+    const [provinces, setProvinces] = useState<LocationItem[]>([]);
+    const [districts, setDistricts] = useState<LocationItem[]>([]);
+    const [wards, setWards] = useState<LocationItem[]>([]);
+
+    const [selectedProvinceCode, setSelectedProvinceCode] = useState<string | number>("");
+    const [selectedDistrictCode, setSelectedDistrictCode] = useState<string | number>("");
+    const [selectedWardCode, setSelectedWardCode] = useState<string | number>("");
+
+    const [loadingLocations, setLoadingLocations] = useState<{
+        provinces: boolean;
+        districts: boolean;
+        wards: boolean;
+    }>({
+        provinces: false,
+        districts: false,
+        wards: false,
+    });
+
     // Dữ liệu form thêm / sửa địa chỉ
     const [formData, setFormData] = useState<AddressPayload>({
         recipentName: "",
@@ -29,10 +49,26 @@ export default function AddressBookPage() {
         isDefault: false,
     });
 
-    // Tải danh sách địa chỉ khi mở trang
+    // Tải danh sách địa chỉ và danh mục tỉnh thành khi mở trang
     useEffect(() => {
         fetchAddresses();
+        loadProvinces();
     }, []);
+
+    // Tải danh sách Tỉnh / Thành phố
+    const loadProvinces = async () => {
+        setLoadingLocations((prev) => ({ ...prev, provinces: true }));
+        try {
+            const list = await locationService.getProvinces();
+            setProvinces(list);
+            return list;
+        } catch (error) {
+            console.error("Lỗi khi tải danh sách tỉnh/thành:", error);
+            return [];
+        } finally {
+            setLoadingLocations((prev) => ({ ...prev, provinces: false }));
+        }
+    };
 
     // Hàm gọi API lấy danh sách địa chỉ
     const fetchAddresses = async () => {
@@ -49,22 +85,31 @@ export default function AddressBookPage() {
     };
 
     // Mở modal thêm địa chỉ mới
-    const handleOpenAddModal = () => {
+    const handleOpenAddModal = async () => {
         setEditingAddress(null);
+        setSelectedProvinceCode("");
+        setSelectedDistrictCode("");
+        setSelectedWardCode("");
+        setDistricts([]);
+        setWards([]);
         setFormData({
             recipentName: "",
             phoneNumber: "",
-            city: "Thành phố Hồ Chí Minh",
+            city: "",
             district: "",
             ward: "",
             street: "",
             isDefault: addresses.length === 0,
         });
         setShowModal(true);
+
+        if (provinces.length === 0) {
+            await loadProvinces();
+        }
     };
 
-    // Mở modal sửa địa chỉ
-    const handleOpenEditModal = (addr: AddressItem) => {
+    // Mở modal sửa địa chỉ (tự động so khớp chuẩn hóa với danh mục GHN)
+    const handleOpenEditModal = async (addr: AddressItem) => {
         setEditingAddress(addr);
         setFormData({
             recipentName: addr.recipentName || "",
@@ -76,13 +121,129 @@ export default function AddressBookPage() {
             isDefault: addr.isDefault,
         });
         setShowModal(true);
+
+        // Nạp và so khớp danh mục phân cấp
+        let currentProvinces = provinces;
+        if (currentProvinces.length === 0) {
+            currentProvinces = await loadProvinces();
+        }
+
+        const matchedProvince = locationService.findMatchingLocation(currentProvinces, addr.city);
+        if (matchedProvince) {
+            setSelectedProvinceCode(matchedProvince.code);
+            setLoadingLocations((prev) => ({ ...prev, districts: true }));
+            try {
+                const districtList = await locationService.getDistricts(matchedProvince.code);
+                setDistricts(districtList);
+
+                const matchedDistrict = locationService.findMatchingLocation(districtList, addr.district);
+                if (matchedDistrict) {
+                    setSelectedDistrictCode(matchedDistrict.code);
+                    setLoadingLocations((prev) => ({ ...prev, wards: true }));
+                    try {
+                        const wardList = await locationService.getWards(matchedDistrict.code);
+                        setWards(wardList);
+
+                        const matchedWard = locationService.findMatchingLocation(wardList, addr.ward);
+                        if (matchedWard) {
+                            setSelectedWardCode(matchedWard.code);
+                        } else {
+                            setSelectedWardCode("");
+                        }
+                    } finally {
+                        setLoadingLocations((prev) => ({ ...prev, wards: false }));
+                    }
+                } else {
+                    setSelectedDistrictCode("");
+                    setSelectedWardCode("");
+                    setWards([]);
+                }
+            } finally {
+                setLoadingLocations((prev) => ({ ...prev, districts: false }));
+            }
+        } else {
+            setSelectedProvinceCode("");
+            setSelectedDistrictCode("");
+            setSelectedWardCode("");
+            setDistricts([]);
+            setWards([]);
+        }
+    };
+
+    // Khi người dùng chọn Tỉnh / Thành phố
+    const handleProvinceChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const code = e.target.value;
+        const selected = provinces.find((p) => String(p.code) === String(code));
+        setSelectedProvinceCode(code);
+        setSelectedDistrictCode("");
+        setSelectedWardCode("");
+        setDistricts([]);
+        setWards([]);
+        setFormData((prev) => ({
+            ...prev,
+            city: selected ? selected.name : "",
+            district: "",
+            ward: "",
+        }));
+
+        if (code) {
+            setLoadingLocations((prev) => ({ ...prev, districts: true }));
+            try {
+                const list = await locationService.getDistricts(code);
+                setDistricts(list);
+            } finally {
+                setLoadingLocations((prev) => ({ ...prev, districts: false }));
+            }
+        }
+    };
+
+    // Khi người dùng chọn Quận / Huyện
+    const handleDistrictChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const code = e.target.value;
+        const selected = districts.find((d) => String(d.code) === String(code));
+        setSelectedDistrictCode(code);
+        setSelectedWardCode("");
+        setWards([]);
+        setFormData((prev) => ({
+            ...prev,
+            district: selected ? selected.name : "",
+            ward: "",
+        }));
+
+        if (code) {
+            setLoadingLocations((prev) => ({ ...prev, wards: true }));
+            try {
+                const list = await locationService.getWards(code);
+                setWards(list);
+            } finally {
+                setLoadingLocations((prev) => ({ ...prev, wards: false }));
+            }
+        }
+    };
+
+    // Khi người dùng chọn Phường / Xã
+    const handleWardChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const code = e.target.value;
+        const selected = wards.find((w) => String(w.code) === String(code));
+        setSelectedWardCode(code);
+        setFormData((prev) => ({
+            ...prev,
+            ward: selected ? selected.name : "",
+        }));
     };
 
     // Xử lý gửi form thêm hoặc cập nhật địa chỉ
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.recipentName.trim() || !formData.phoneNumber.trim() || !formData.street.trim()) {
-            alert("Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ cụ thể.");
+        if (
+            !formData.recipentName.trim() ||
+            !formData.phoneNumber.trim() ||
+            !formData.street.trim() ||
+            !formData.city.trim() ||
+            !formData.district.trim() ||
+            !formData.ward.trim()
+        ) {
+            alert("Vui lòng điền đầy đủ họ tên, số điện thoại, chọn Tỉnh/Thành phố, Quận/Huyện, Phường/Xã và địa chỉ cụ thể.");
             return;
         }
 
@@ -329,37 +490,77 @@ export default function AddressBookPage() {
 
                                     <div className="row g-3 mb-3">
                                         <div className="col-12 col-md-4">
-                                            <label className="form-label fw-bold text-dark fs-7">Tỉnh / Thành phố</label>
-                                            <input
-                                                type="text"
-                                                className="form-control rounded-3 py-2 text-dark"
-                                                placeholder="Ví dụ: TP Hồ Chí Minh"
-                                                value={formData.city}
-                                                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                                            <label className="form-label fw-bold text-dark fs-7">
+                                                Tỉnh / Thành phố <span className="text-danger">*</span>
+                                            </label>
+                                            <select
+                                                className="form-select rounded-3 py-2 text-dark"
+                                                value={selectedProvinceCode}
+                                                onChange={handleProvinceChange}
+                                                disabled={loadingLocations.provinces}
                                                 required
-                                            />
+                                            >
+                                                <option value="">
+                                                    {loadingLocations.provinces
+                                                        ? "-- Đang tải danh sách... --"
+                                                        : "-- Chọn Tỉnh / Thành phố --"}
+                                                </option>
+                                                {provinces.map((p) => (
+                                                    <option key={p.code} value={p.code}>
+                                                        {p.name}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                         <div className="col-12 col-md-4">
-                                            <label className="form-label fw-bold text-dark fs-7">Quận / Huyện</label>
-                                            <input
-                                                type="text"
-                                                className="form-control rounded-3 py-2 text-dark"
-                                                placeholder="Ví dụ: Quận 7"
-                                                value={formData.district}
-                                                onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                                            <label className="form-label fw-bold text-dark fs-7">
+                                                Quận / Huyện <span className="text-danger">*</span>
+                                            </label>
+                                            <select
+                                                className="form-select rounded-3 py-2 text-dark"
+                                                value={selectedDistrictCode}
+                                                onChange={handleDistrictChange}
+                                                disabled={!selectedProvinceCode || loadingLocations.districts}
                                                 required
-                                            />
+                                            >
+                                                <option value="">
+                                                    {loadingLocations.districts
+                                                        ? "-- Đang tải danh sách... --"
+                                                        : !selectedProvinceCode
+                                                        ? "-- Chọn Tỉnh/TP trước --"
+                                                        : "-- Chọn Quận / Huyện --"}
+                                                </option>
+                                                {districts.map((d) => (
+                                                    <option key={d.code} value={d.code}>
+                                                        {d.name}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                         <div className="col-12 col-md-4">
-                                            <label className="form-label fw-bold text-dark fs-7">Phường / Xã</label>
-                                            <input
-                                                type="text"
-                                                className="form-control rounded-3 py-2 text-dark"
-                                                placeholder="Ví dụ: Phường Tân Phong"
-                                                value={formData.ward}
-                                                onChange={(e) => setFormData({ ...formData, ward: e.target.value })}
+                                            <label className="form-label fw-bold text-dark fs-7">
+                                                Phường / Xã <span className="text-danger">*</span>
+                                            </label>
+                                            <select
+                                                className="form-select rounded-3 py-2 text-dark"
+                                                value={selectedWardCode}
+                                                onChange={handleWardChange}
+                                                disabled={!selectedDistrictCode || loadingLocations.wards}
                                                 required
-                                            />
+                                            >
+                                                <option value="">
+                                                    {loadingLocations.wards
+                                                        ? "-- Đang tải danh sách... --"
+                                                        : !selectedDistrictCode
+                                                        ? "-- Chọn Quận/Huyện trước --"
+                                                        : "-- Chọn Phường / Xã --"}
+                                                </option>
+                                                {wards.map((w) => (
+                                                    <option key={w.code} value={w.code}>
+                                                        {w.name}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                     </div>
 
