@@ -37,8 +37,12 @@ public class GhnShippingProperties {
         return normalized;
     }
 
+    public boolean hasToken() {
+        return token != null && !token.isBlank();
+    }
+
     public boolean isReady() {
-        return token != null && !token.isBlank()
+        return hasToken()
                 && shopId > 0
                 && fromDistrictId > 0
                 && fromWardCode != null
