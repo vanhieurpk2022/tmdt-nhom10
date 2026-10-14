@@ -9,7 +9,6 @@ import { BrowserRouter, Route, Routes, Outlet } from 'react-router';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
-import OnlinePaymentPage from './pages/OnlinePaymentPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import ProductsPage from './pages/ProductsPage';
@@ -86,7 +85,6 @@ createRoot(document.getElementById('root')!).render(
               <Route path={ROUTES.CART} element={<CartPage />} />
               <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
               <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
-              <Route path={ROUTES.ONLINE_PAYMENT} element={<OnlinePaymentPage />} />
               <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
               <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
               <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />

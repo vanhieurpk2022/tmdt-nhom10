@@ -23,10 +23,8 @@ const fallbackCheckoutImages = [
 const checkoutCartItemIdsKey = "oilia_checkout_cart_item_ids";
 
 const paymentMethodMap: Record<string, PaymentMethod> = {
-    momo: "MOMO",
-    "bank-card": "BANK_CARD",
-    vietqr: "BANK_TRANSFER",
     cod: "COD",
+    vnpay: "VNPAY",
 };
 
 const defaultDeliveryNote = "Giao trong giờ hành chính, gọi trước khi đến.";
@@ -83,7 +81,7 @@ export default function CheckoutPage() {
     const { applyCart, refreshCart } = useCart();
     const [checkoutItems, setCheckoutItems] = useState<CartItem[]>([]);
     const [addresses, setAddresses] = useState<AddressItem[]>([]);
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(paymentMethods[0]?.id ?? "momo");
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(paymentMethods[0]?.id ?? "cod");
     const [deliveryNote, setDeliveryNote] = useState(defaultDeliveryNote);
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -133,7 +131,7 @@ export default function CheckoutPage() {
             return;
         }
 
-        const paymentMethod = paymentMethodMap[selectedPaymentMethod] ?? "MOMO";
+        const paymentMethod = paymentMethodMap[selectedPaymentMethod] ?? "COD";
 
         try {
             setIsSubmitting(true);
@@ -150,7 +148,7 @@ export default function CheckoutPage() {
             window.sessionStorage.removeItem(checkoutCartItemIdsKey);
             await refreshCart();
 
-            navigate(paymentMethod === "COD" ? ROUTES.ORDER_SUCCESS : ROUTES.ONLINE_PAYMENT, {
+            navigate(ROUTES.ORDER_SUCCESS, {
                 state: { order },
             });
         } catch (error) {

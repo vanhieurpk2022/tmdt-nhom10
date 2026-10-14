@@ -305,19 +305,11 @@
     width: 44px;
 }
 
-.checkout-payment-mark.momo {
-    background: #be0a78;
+.checkout-payment-mark.vnpay {
+    background: #005baa;
     color: #fff;
-    font-size: 13px;
-    text-transform: lowercase;
 }
 
-.checkout-payment-mark.card {
-    background: #eff6ff;
-    color: #1d4ed8;
-}
-
-.checkout-payment-mark.qr,
 .checkout-payment-mark.cod {
     background: #f8fafc;
     color: #475569;

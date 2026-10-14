@@ -1,21 +1,18 @@
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { faCreditCard, faMoneyBillWave, faQrcode, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBillWave, faShieldHalved, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { PaymentMethod } from "../../data/checkoutData";
 import CheckoutSectionTitle from "./CheckoutSectionTitle";
 
 interface PaymentMethodListProps {
     methods: PaymentMethod[];
-    selectedMethodId: string;
-    onSelectMethod: (methodId: string) => void;
+    selectedMethodId: PaymentMethod["id"];
+    onSelectMethod: (methodId: PaymentMethod["id"]) => void;
 }
 
-const methodIcons: Record<PaymentMethod["type"], IconDefinition | null> = {
-    momo: null,
-    card: faCreditCard,
-    qr: faQrcode,
+const methodIcons = {
     cod: faMoneyBillWave,
-};
+    vnpay: faWallet,
+} satisfies Record<PaymentMethod["type"], typeof faMoneyBillWave>;
 
 export default function PaymentMethodList({ methods, selectedMethodId, onSelectMethod }: PaymentMethodListProps) {
     return (
@@ -37,7 +34,7 @@ export default function PaymentMethodList({ methods, selectedMethodId, onSelectM
                             <p>{method.description}</p>
                         </div>
                         <span className={`checkout-payment-mark ${method.type}`}>
-                            {method.type === "momo" ? "mo" : <FontAwesomeIcon icon={methodIcons[method.type] as IconDefinition} />}
+                            <FontAwesomeIcon icon={methodIcons[method.type]} />
                         </span>
                     </label>
                 ))}
@@ -48,8 +45,8 @@ export default function PaymentMethodList({ methods, selectedMethodId, onSelectM
                     <FontAwesomeIcon icon={faShieldHalved} />
                 </span>
                 <div>
-                    <strong>Thanh toán online nhanh chóng, an toàn</strong>
-                    <p>Bảo mật thông tin mã hóa SSL 256-bit tiêu chuẩn ngân hàng</p>
+                    <strong>Thanh toán qua VNPay an toàn, tiện lợi</strong>
+                    <p>Với COD, bạn chỉ thanh toán tiền mặt sau khi đã nhận và kiểm tra hàng.</p>
                 </div>
             </div>
         </section>

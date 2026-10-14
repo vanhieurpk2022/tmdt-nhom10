@@ -2,7 +2,7 @@ import type { CartItem } from "../data/cartData";
 import { fallbackCartImage } from "../data/cartData";
 import api from "./api";
 
-export type PaymentMethod = "COD" | "MOMO" | "BANK_CARD" | "BANK_TRANSFER";
+export type PaymentMethod = "COD" | "VNPAY";
 
 export interface CreateOrderRequest {
     addressId: number;
@@ -53,12 +53,10 @@ export function formatOrderCode(orderId: number) {
 export function getPaymentMethodLabel(paymentMethod?: PaymentMethod) {
     const labels: Record<PaymentMethod, string> = {
         COD: "Thanh toán khi nhận hàng",
-        MOMO: "Ví MoMo",
-        BANK_CARD: "Thẻ ngân hàng",
-        BANK_TRANSFER: "Chuyển khoản QR",
+        VNPAY: "Thanh toán qua VNPay",
     };
 
-    return paymentMethod ? labels[paymentMethod] : "Ví MoMo";
+    return paymentMethod ? labels[paymentMethod] : "Thanh toán khi nhận hàng";
 }
 
 export function saveLastOrder(order: OrderResponse) {

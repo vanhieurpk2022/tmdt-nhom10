@@ -2,8 +2,8 @@ export const orderSuccessInfo = {
     orderCode: "OLIA-20261004-018",
     createdAt: "04/10/2026, 19:58",
     status: "Đặt hàng thành công",
-    paymentStatus: "Thanh toán thành công",
-    paymentMethod: "Ví Momo",
+    paymentStatus: "Đơn hàng đã được ghi nhận",
+    paymentMethod: "Thanh toán khi nhận hàng",
     estimatedDelivery: "07/10/2026 - 09/10/2026",
 };
 
