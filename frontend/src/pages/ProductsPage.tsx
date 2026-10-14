@@ -2,6 +2,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faStar, faFire, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router";
 import "../css/pages/products.css";
 import {
     productService,
@@ -296,13 +297,16 @@ export default function ProductsPage() {
                                     return (
                                         <div className="col" key={product.id}>
                                             <div className="card h-100 product-card border-0 shadow-sm rounded-4 overflow-hidden">
+                                                {/* Ảnh sản phẩm - click để xem chi tiết */}
                                                 <div className="position-relative">
-                                                    <img
-                                                        src={product.thumbnailUrl ?? "/images/home/lavender-france.png"}
-                                                        className="card-img-top product-img"
-                                                        alt={product.name}
-                                                        onError={(e) => { (e.target as HTMLImageElement).src = "/images/home/lavender-france.png"; }}
-                                                    />
+                                                    <Link to={`/product-detail/${product.id}`}>
+                                                        <img
+                                                            src={product.thumbnailUrl ?? "/images/home/lavender-france.png"}
+                                                            className="card-img-top product-img"
+                                                            alt={product.name}
+                                                            onError={(e) => { (e.target as HTMLImageElement).src = "/images/home/lavender-france.png"; }}
+                                                        />
+                                                    </Link>
                                                     <button className="btn btn-light bg-white rounded-circle position-absolute top-0 end-0 m-3 p-2 shadow-sm d-flex align-items-center justify-content-center text-muted fav-btn">
                                                         <FontAwesomeIcon icon={faHeart} />
                                                     </button>
@@ -313,7 +317,11 @@ export default function ProductsPage() {
                                                         <span className="fw-bold fs-7">{product.avgRating.toFixed(1)}</span>
                                                         <span className="text-muted fs-7">({product.totalSold}+ đã bán)</span>
                                                     </div>
-                                                    <h5 className="card-title fs-6 fw-bold mb-1 product-title">{product.name}</h5>
+                                                    <h5 className="card-title fs-6 fw-bold mb-1 product-title">
+                                                        <Link to={`/product-detail/${product.id}`} className="text-dark text-decoration-none hover-primary">
+                                                            {product.name}
+                                                        </Link>
+                                                    </h5>
                                                     <p className="card-text text-muted fs-7 mb-3 product-desc">{product.description}</p>
 
                                                     <div className="mt-auto">

@@ -57,6 +57,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
               <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
               <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
+              <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetailPage />} />
               <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
               <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePasswordPage />} />
               <Route path={ROUTES.ADDRESSES} element={<AddressBookPage />} />
