@@ -32,8 +32,8 @@ public class GhnShippingClient {
     private static final String WARD_ENDPOINT = "/shiip/public-api/master-data/ward";
 
     private final GhnShippingProperties properties;
-    private final ObjectMapper objectMapper;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
