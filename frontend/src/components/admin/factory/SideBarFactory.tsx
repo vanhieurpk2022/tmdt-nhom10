@@ -6,14 +6,15 @@ import { BadgeAccount } from "../dashboard/BadgeAccount";
 
 interface SidebarAdminProps {
     isDashboard?: boolean;
-    isWorkshopManagement?: boolean;
-    isCustomer?: boolean;
+    isProduct?: boolean;
+    isStaff?: boolean;
     isOrder?: boolean;
     isVoucher?: boolean;
     isSupport?: boolean;
+    isProfile?: boolean;
 }
 
-function SideBarFactory({ isDashboard = false, isWorkshopManagement = false, isCustomer = false, isOrder = false, isSupport = false, isVoucher = false }: SidebarAdminProps) {
+function SideBarFactory({ isProfile = false, isDashboard = false, isProduct = false, isStaff = false, isOrder = false, isSupport = false, isVoucher = false }: SidebarAdminProps) {
     return (
         <>
             <div className="d-flex flex-column h-100" style={{ backgroundColor: "var(--color-bg-dark)" }}>
@@ -29,12 +30,12 @@ function SideBarFactory({ isDashboard = false, isWorkshopManagement = false, isC
                 </div>
                 <div className="mt-3">
                     <SideBarItem to={ROUTES.FACTORY_DASHBOARD} place={faHouse} content="Tổng quan" isActive={isDashboard} />
-                    <SideBarItem to={ROUTES.FACTORY_PRODUCT} place={faBuilding} content="Sản phẩm" isActive={isWorkshopManagement} />
-                    <SideBarItem to={ROUTES.FACTORY_STAFF} place={faBoxArchive} content="Nhân viên" isActive={isOrder} />
-                    <SideBarItem to={ROUTES.FACTORY_ORDER} place={faUsers} content="Đơn hàng" isActive={isCustomer} />
-                    <SideBarItem to={ROUTES.FACTORY_PROFILE} place={faTag} content="Hồ sơ" isActive={isVoucher} />
-                    <SideBarItem to={ROUTES.FACTORY_SALE} place={faHeadset} content="Khuyến mãi" isActive={isSupport} />
+                    <SideBarItem to={ROUTES.FACTORY_PRODUCT} place={faBuilding} content="Sản phẩm" isActive={isProduct} />
+                    <SideBarItem to={ROUTES.FACTORY_ORDER} place={faBoxArchive} content="Đơn hàng" isActive={isOrder} />
+                    <SideBarItem to={ROUTES.FACTORY_STAFF} place={faUsers} content="Nhân viên" isActive={isStaff} />
+                    <SideBarItem to={ROUTES.FACTORY_SALE} place={faHeadset} content="Khuyến mãi" isActive={isVoucher} />
                     <SideBarItem to={ROUTES.FACTORY_SUPPORT} place={faHeadset} content="Phản hồi" isActive={isSupport} />
+                    <SideBarItem to={ROUTES.FACTORY_PROFILE} place={faTag} content="Hồ sơ" isActive={isProfile} />
                 </div>
                 <div className="mt-auto">
                     <BadgeAccount name="Minh Hậu" role="Xưởng " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuDGi1_AVK3XUdN5cS9tUBuYhgg9UhK3zN0hA_3b6M-Q&s=10" />

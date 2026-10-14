@@ -126,6 +126,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void resendCode(String email) {
+        System.out.println(email);
         if(email.isEmpty() ){
             throw new AppException(ErrorCode.NOT_FOUND);
         }

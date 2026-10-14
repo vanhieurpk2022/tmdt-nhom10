@@ -38,6 +38,12 @@ import AdminOrder from './pages/AdminOrder';
 import { AdminSale } from './pages/AdminSale';
 import { AdminSupport } from './pages/AdminSupport';
 import { FactoryDashBoard } from './pages/FactoryDashBoard';
+import FactoryProfile from './pages/FactoryProfile';
+import FactorySupport from './pages/FactorySupport';
+import FactoryOrder from './pages/FactoryOrder';
+import FactorySale from './pages/FactorySale';
+import FactoryProductPage from './pages/FactoryProduct';
+import FactoryStaff from './pages/FactoryStaff';
 
 
 const MainLayout = () => (
@@ -54,7 +60,13 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/test" element={<FactoryDashBoard />} />
+          <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryDashBoard />} />
+          <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProfile />} />
+          <Route path={ROUTES.FACTORY_SUPPORT} element={<FactorySupport />} />
+          <Route path={ROUTES.FACTORY_ORDER} element={<FactoryOrder />} />
+          <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProductPage />} />
+          <Route path={ROUTES.FACTORY_STAFF} element={<FactoryStaff />} />
+          <Route path={ROUTES.FACTORY_SALE} element={<FactorySale />} />
 
           <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
           <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />

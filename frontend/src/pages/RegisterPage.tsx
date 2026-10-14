@@ -36,10 +36,7 @@ export default function RegisterPage() {
                 sessionStorage.setItem("pendingVerifyEmail", email);
                 sessionStorage.setItem("pendingVerifySource", "register");
 
-                setInterval(() => {
-                    navigate(ROUTES.VERIFY_ACCOUNT, { replace: true, state: { email } });
-                }, 2000);
-
+                navigate(ROUTES.VERIFY_ACCOUNT, { replace: true, state: { email } });
             }
 
         } catch (error) {
