@@ -23,6 +23,13 @@ export interface UpdateProfileRequest {
     avatarUrl?: string;
 }
 
+// Kiểu dữ liệu gửi đi khi đổi mật khẩu
+export interface ChangePasswordRequest {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
 interface ApiResponse<T> {
     status: number;
     message: string;
@@ -41,5 +48,10 @@ export const profileService = {
     updateProfile: async (request: UpdateProfileRequest): Promise<UserProfile> => {
         const res = await api.put<ApiResponse<UserProfile>>("/user/profile", request);
         return res.data.data;
+    },
+
+    /** Đổi mật khẩu tài khoản người dùng */
+    changePassword: async (request: ChangePasswordRequest): Promise<void> => {
+        await api.post<ApiResponse<void>>("/user/change-password", request);
     },
 };

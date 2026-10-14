@@ -18,7 +18,9 @@ public enum ErrorCode {
     VERIFY_CODE_FAIL(401,"Vui lòng kiểm tra lại mã xác thực"),
     NOT_MATCH_PASSWORD(401, "Mật khẩu không khớp"),
     VERIFY(401, "Tài khoản đã được xác thực"),
-    ADDRESS_NOT_FOUND(404, "Không tìm thấy địa chỉ");
+    ADDRESS_NOT_FOUND(404, "Không tìm thấy địa chỉ"),
+    CURRENT_PASSWORD_INCORRECT(400, "Mật khẩu hiện tại không chính xác"),
+    PASSWORD_SAME_AS_OLD(400, "Mật khẩu mới không được trùng với mật khẩu hiện tại");
 
    private final int code;
    private final String message;

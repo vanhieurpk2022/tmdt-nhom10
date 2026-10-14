@@ -1,5 +1,6 @@
 package com.nhom10.tmdt.service.user;
 
+import com.nhom10.tmdt.dto.user.ChangePasswordRequest;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
@@ -19,4 +20,7 @@ public interface UserService {
 
      // Cập nhật thông tin hồ sơ cá nhân
      UserProfileResponse updateProfile(String email, UpdateProfileRequest request);
+
+     // Đổi mật khẩu tài khoản
+     void changePassword(String email, ChangePasswordRequest request);
 }

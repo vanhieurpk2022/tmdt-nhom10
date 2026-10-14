@@ -108,4 +108,18 @@ public class AccountController {
         addressService.setDefaultAddress(email, id);
         return new ApiResponse<>(200, "Đặt làm địa chỉ mặc định thành công", null);
     }
+
+    /**
+     * POST /api/user/change-password
+     * Đổi mật khẩu tài khoản
+     */
+    @PostMapping("/change-password")
+    public ApiResponse<Void> changePassword(
+            Authentication authentication,
+            @RequestBody com.nhom10.tmdt.dto.user.ChangePasswordRequest request
+    ) {
+        String email = authentication.getName();
+        userService.changePassword(email, request);
+        return new ApiResponse<>(200, "Đổi mật khẩu thành công", null);
+    }
 }

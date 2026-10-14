@@ -200,5 +200,36 @@ public class UserServiceImp implements UserService {
                 saved.isVerify()
         );
     }
+
+    // Đổi mật khẩu tài khoản người dùng
+    @Override
+    public void changePassword(String email, com.nhom10.tmdt.dto.user.ChangePasswordRequest request) {
+        if (request.currentPassword() == null || request.currentPassword().isBlank()
+                || request.newPassword() == null || request.newPassword().isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+
+        // Kiểm tra khớp mật khẩu xác nhận
+        if (request.confirmPassword() != null && !request.newPassword().equals(request.confirmPassword())) {
+            throw new AppException(ErrorCode.NOT_MATCH_PASSWORD);
+        }
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        // Kiểm tra mật khẩu hiện tại
+        if (!bCryptPasswordEncoder.matches(request.currentPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.CURRENT_PASSWORD_INCORRECT);
+        }
+
+        // Kiểm tra mật khẩu mới không được trùng mật khẩu hiện tại
+        if (bCryptPasswordEncoder.matches(request.newPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.PASSWORD_SAME_AS_OLD);
+        }
+
+        // Mã hóa mật khẩu mới và lưu vào cơ sở dữ liệu
+        user.setPassword(bCryptPasswordEncoder.encode(request.newPassword().trim()));
+        userRepository.save(user);
+    }
 }
 
