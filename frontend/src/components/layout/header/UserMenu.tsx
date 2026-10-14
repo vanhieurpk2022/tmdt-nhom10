@@ -30,11 +30,11 @@ export default function UserMenu({ fullname, avatar, email }: UserMenuProps) {
         <div className="dropdown">
             <UserNav fullname={fullname} email={email} avatar={avatar} />
             <ul className="dropdown-menu rounded-5 dropdown-menu-end user-dropdown-menu" style={{ width: "355px", height: "555px" }}>
-                <UserMenuItem to="#" icon={faUser} content="Hồ sơ cá nhân" active />
-                <UserMenuItem to="#" icon={faBox} content="Đơn hàng của tôi" badge="3 đang giao" />
-                <UserMenuItem to="#" icon={faHeart} content="Sản phẩm yêu thích" />
+                <UserMenuItem to={ROUTES.PROFILE} icon={faUser} content="Hồ sơ cá nhân" active />
+                <UserMenuItem to={ROUTES.ORDERS} icon={faBox} content="Đơn hàng của tôi" badge="3 đang giao" />
+                <UserMenuItem to={ROUTES.FAVORITES} icon={faHeart} content="Sản phẩm yêu thích" />
                 <UserMenuItem to="#" icon={faComment} content="Cộng đồng người sành" badge="Mới" />
-                <UserMenuItem to="#" icon={faGear} content="Cài đặt tài khoản" />
+                <UserMenuItem to={ROUTES.CHANGE_PASSWORD} icon={faGear} content="Cài đặt tài khoản" />
                 <UserMenuItem to="#" icon={faCircleInfo} content="Trung tâm hỗ trợ" badge="24/7" />
                 <UserMenuItem to="" action={handleLogout} icon={faRightFromBracket} content="Đăng xuất" danger />
             </ul>
