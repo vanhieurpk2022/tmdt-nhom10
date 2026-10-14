@@ -30,6 +30,11 @@ public class User {
     private String password;
     private String email;
     private String phone;
+    private String birthday;
+    private String gender;
+
+    @Column(name="preferred_area")
+    private String preferredArea;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
@@ -40,7 +45,8 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "User", cascade = {CascadeType.ALL})
+    // Danh sách địa chỉ giao hàng của người dùng
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Address> address;
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
