@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import { addressService, type AddressItem } from "../api/AddressService";
 import { useCart } from "../api/CartContext";
 import { cartService, type CartItemResponse, type CartResponse } from "../api/CartService";
+import { orderService, saveLastOrder, type PaymentMethod } from "../api/OrderService";
 import CheckoutBreadcrumb from "../components/checkout/CheckoutBreadcrumb";
 import CheckoutProductList from "../components/checkout/CheckoutProductList";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
@@ -9,6 +11,7 @@ import PaymentMethodList from "../components/checkout/PaymentMethodList";
 import ShippingInfo from "../components/checkout/ShippingInfo";
 import { fallbackCartImage, type CartItem } from "../data/cartData";
 import { paymentMethods } from "../data/checkoutData";
+import { ROUTES } from "../routes/routes";
 
 const fallbackCheckoutImages = [
     "/images/home/lavender-france.png",
@@ -16,7 +19,17 @@ const fallbackCheckoutImages = [
     "/images/home/grapefruit-cold-pressed.png",
     "/images/home/lemongrass.png",
 ];
+
 const checkoutCartItemIdsKey = "oilia_checkout_cart_item_ids";
+
+const paymentMethodMap: Record<string, PaymentMethod> = {
+    momo: "MOMO",
+    "bank-card": "BANK_CARD",
+    vietqr: "BANK_TRANSFER",
+    cod: "COD",
+};
+
+const defaultDeliveryNote = "Giao trong giờ hành chính, gọi trước khi đến.";
 
 function getStoredCheckoutItemIds() {
     const rawValue = window.sessionStorage.getItem(checkoutCartItemIdsKey);
@@ -30,6 +43,11 @@ function getStoredCheckoutItemIds() {
     } catch {
         return null;
     }
+}
+
+function getCheckoutErrorMessage(error: unknown) {
+    const apiError = error as { response?: { data?: { message?: string } } };
+    return apiError.response?.data?.message || "Chưa thể tạo đơn hàng. Vui lòng kiểm tra lại thông tin và thử lại.";
 }
 
 function toCartItem(item: CartItemResponse, index: number): CartItem {
@@ -61,11 +79,14 @@ function getDefaultAddress(addresses: AddressItem[]) {
 }
 
 export default function CheckoutPage() {
-    const { applyCart } = useCart();
+    const navigate = useNavigate();
+    const { applyCart, refreshCart } = useCart();
     const [checkoutItems, setCheckoutItems] = useState<CartItem[]>([]);
     const [addresses, setAddresses] = useState<AddressItem[]>([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(paymentMethods[0]?.id ?? "momo");
+    const [deliveryNote, setDeliveryNote] = useState(defaultDeliveryNote);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const selectedAddress = useMemo(() => getDefaultAddress(addresses), [addresses]);
@@ -102,6 +123,44 @@ export default function CheckoutPage() {
         }
     }, [applyCheckoutCart]);
 
+    const handleCreateOrder = useCallback(async () => {
+        if (!selectedAddress) {
+            setErrorMessage("Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng.");
+            return;
+        }
+        if (checkoutItems.length === 0) {
+            setErrorMessage("Vui lòng chọn sản phẩm trong giỏ hàng trước khi đặt hàng.");
+            return;
+        }
+
+        const paymentMethod = paymentMethodMap[selectedPaymentMethod] ?? "MOMO";
+
+        try {
+            setIsSubmitting(true);
+            setErrorMessage("");
+
+            const order = await orderService.createOrder({
+                addressId: selectedAddress.id,
+                cartItemIds: checkoutItems.map((item) => item.id),
+                paymentMethod,
+                note: deliveryNote.trim() || undefined,
+            });
+
+            saveLastOrder(order);
+            window.sessionStorage.removeItem(checkoutCartItemIdsKey);
+            await refreshCart();
+
+            navigate(paymentMethod === "COD" ? ROUTES.ORDER_SUCCESS : ROUTES.ONLINE_PAYMENT, {
+                state: { order },
+            });
+        } catch (error) {
+            console.error(error);
+            setErrorMessage(getCheckoutErrorMessage(error));
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, [checkoutItems, deliveryNote, navigate, refreshCart, selectedAddress, selectedPaymentMethod]);
+
     useEffect(() => {
         loadCheckoutData();
     }, [loadCheckoutData]);
@@ -126,7 +185,12 @@ export default function CheckoutPage() {
                             )}
 
                             <CheckoutProductList items={checkoutItems} isLoading={isLoading} />
-                            <ShippingInfo address={selectedAddress} isLoading={isLoading} />
+                            <ShippingInfo
+                                address={selectedAddress}
+                                deliveryNote={deliveryNote}
+                                isLoading={isLoading}
+                                onDeliveryNoteChange={setDeliveryNote}
+                            />
                             <PaymentMethodList
                                 methods={paymentMethods}
                                 selectedMethodId={selectedPaymentMethod}
@@ -139,7 +203,9 @@ export default function CheckoutPage() {
                         <CheckoutSummary
                             items={checkoutItems}
                             isLoading={isLoading}
+                            isSubmitting={isSubmitting}
                             hasAddress={Boolean(selectedAddress)}
+                            onContinue={handleCreateOrder}
                         />
                     </div>
                 </div>

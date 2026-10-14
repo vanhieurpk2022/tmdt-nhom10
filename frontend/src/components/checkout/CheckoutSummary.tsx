@@ -1,13 +1,14 @@
 import { faChevronDown, faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router";
 import type { CartItem } from "../../data/cartData";
 import { checkoutTotals } from "../../data/checkoutData";
 
 interface CheckoutSummaryProps {
     items: CartItem[];
     isLoading?: boolean;
+    isSubmitting?: boolean;
     hasAddress?: boolean;
+    onContinue: () => void;
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
@@ -16,13 +17,19 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
-export default function CheckoutSummary({ items, isLoading = false, hasAddress = true }: CheckoutSummaryProps) {
+export default function CheckoutSummary({
+    items,
+    isLoading = false,
+    isSubmitting = false,
+    hasAddress = true,
+    onContinue,
+}: CheckoutSummaryProps) {
     const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
     const originalSubtotal = items.reduce((total, item) => total + (item.basePrice ?? item.price) * item.quantity, 0);
     const productDiscount = Math.max(originalSubtotal - subtotal, 0);
     const shippingFee = items.length > 0 ? checkoutTotals.shippingFee : 0;
     const total = subtotal + shippingFee;
-    const isDisabled = isLoading || items.length === 0 || !hasAddress;
+    const isDisabled = isLoading || isSubmitting || items.length === 0 || !hasAddress;
 
     return (
         <aside className="checkout-summary-card">
@@ -72,12 +79,14 @@ export default function CheckoutSummary({ items, isLoading = false, hasAddress =
                 <strong>{formatPrice(total)}</strong>
             </div>
 
-            <Link
-                to="/online-payment"
-                className={`btn checkout-continue-btn d-flex align-items-center justify-content-center fw-bold w-100 ${isDisabled ? "disabled" : ""}`}
+            <button
+                className="btn checkout-continue-btn d-flex align-items-center justify-content-center fw-bold w-100"
+                type="button"
+                disabled={isDisabled}
+                onClick={onContinue}
             >
-                Tiếp tục
-            </Link>
+                {isSubmitting ? "Đang tạo đơn..." : "Tiếp tục"}
+            </button>
         </aside>
     );
 }

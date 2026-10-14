@@ -1,3 +1,9 @@
+import { useLocation } from "react-router";
+import {
+    getLastOrder,
+    toCartItemsFromOrder,
+    type OrderResponse,
+} from "../api/OrderService";
 import OrderProductList from "../components/order-success/OrderProductList";
 import OrderShippingInfo from "../components/order-success/OrderShippingInfo";
 import OrderStatusTimeline from "../components/order-success/OrderStatusTimeline";
@@ -6,18 +12,25 @@ import OrderSuccessHero from "../components/order-success/OrderSuccessHero";
 import OrderSuccessSummary from "../components/order-success/OrderSuccessSummary";
 import { cartItems } from "../data/cartData";
 
+interface OrderSuccessLocationState {
+    order?: OrderResponse;
+}
+
 export default function OrderSuccessPage() {
-    const orderedItems = cartItems.filter((item) => item.selected);
+    const location = useLocation();
+    const state = location.state as OrderSuccessLocationState | null;
+    const order = state?.order ?? getLastOrder();
+    const orderedItems = order ? toCartItemsFromOrder(order) : cartItems.filter((item) => item.selected);
 
     return (
         <main className="order-success-page">
             <div className="container-fluid px-4 px-lg-5">
                 <div className="order-success-content">
                     <OrderSuccessBreadcrumb />
-                    <OrderSuccessHero />
-                    <OrderSuccessSummary items={orderedItems} />
+                    <OrderSuccessHero order={order ?? undefined} />
+                    <OrderSuccessSummary items={orderedItems} order={order ?? undefined} />
                     <OrderStatusTimeline />
-                    <OrderShippingInfo />
+                    <OrderShippingInfo order={order ?? undefined} />
                     <OrderProductList items={orderedItems} />
                 </div>
             </div>

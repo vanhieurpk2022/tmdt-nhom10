@@ -176,7 +176,7 @@
 }
 
 .checkout-address-card span,
-.checkout-note-card span {
+.checkout-note-card label {
     color: #94a3b8;
     display: block;
     font-size: 12px;
@@ -186,8 +186,7 @@
     text-transform: uppercase;
 }
 
-.checkout-address-card strong,
-.checkout-note-card strong {
+.checkout-address-card strong {
     color: #111827;
     display: block;
     font-size: 15px;
@@ -199,6 +198,35 @@
     gap: 14px;
     margin-top: 12px;
     padding: 18px 20px;
+}
+
+.checkout-note-content {
+    flex: 1;
+}
+
+.checkout-note-input {
+    border-color: #dbe3ee;
+    border-radius: 10px;
+    color: #111827;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 22px;
+    min-height: 86px;
+    resize: vertical;
+}
+
+.checkout-note-input:focus {
+    border-color: #e11d48;
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);
+}
+
+.checkout-note-content small {
+    color: #94a3b8;
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 6px;
+    text-align: right;
 }
 
 .checkout-note-icon {
@@ -441,5 +469,13 @@
 
 .checkout-continue-btn {
     width: 100%;
+}
+
+.checkout-continue-btn:disabled {
+    background: #6b7280;
+    border-color: #6b7280;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.85;
 }
 

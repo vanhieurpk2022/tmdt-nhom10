@@ -1,10 +1,16 @@
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    formatOrderCode,
+    getPaymentMethodLabel,
+    type OrderResponse,
+} from "../../api/OrderService";
 import { onlinePaymentInfo, onlinePaymentSteps } from "../../data/onlinePaymentData";
 
 interface PaymentDetailsProps {
     amount: number;
+    order?: OrderResponse;
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
@@ -13,7 +19,11 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
-export default function PaymentDetails({ amount }: PaymentDetailsProps) {
+export default function PaymentDetails({ amount, order }: PaymentDetailsProps) {
+    const orderCode = order ? formatOrderCode(order.id) : onlinePaymentInfo.orderCode;
+    const paymentCode = order ? `PAY-${orderCode}-${Math.round(amount)}` : onlinePaymentInfo.paymentCode;
+    const methodName = getPaymentMethodLabel(order?.paymentMethod);
+
     return (
         <section className="online-payment-detail-card">
             <div className="online-payment-method d-flex align-items-center">
@@ -21,7 +31,7 @@ export default function PaymentDetails({ amount }: PaymentDetailsProps) {
                     <FontAwesomeIcon icon={faWallet} />
                 </span>
                 <div>
-                    <strong>{onlinePaymentInfo.methodName}</strong>
+                    <strong>{methodName}</strong>
                     <p>Thanh toán qua {onlinePaymentInfo.providerName}</p>
                 </div>
             </div>
@@ -29,21 +39,21 @@ export default function PaymentDetails({ amount }: PaymentDetailsProps) {
             <div className="online-payment-info-list d-flex flex-column">
                 <div>
                     <span>Mã đơn hàng</span>
-                    <strong>{onlinePaymentInfo.orderCode}</strong>
+                    <strong>{orderCode}</strong>
                     <button type="button" aria-label="Sao chép mã đơn hàng">
                         <FontAwesomeIcon icon={faCopy} />
                     </button>
                 </div>
                 <div>
                     <span>Mã thanh toán</span>
-                    <strong>{onlinePaymentInfo.paymentCode}</strong>
+                    <strong>{paymentCode}</strong>
                     <button type="button" aria-label="Sao chép mã thanh toán">
                         <FontAwesomeIcon icon={faCopy} />
                     </button>
                 </div>
                 <div>
                     <span>Người nhận</span>
-                    <strong>{onlinePaymentInfo.accountName}</strong>
+                    <strong>{order?.recipientName ?? onlinePaymentInfo.accountName}</strong>
                 </div>
                 <div>
                     <span>Số tiền</span>

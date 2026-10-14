@@ -1,10 +1,16 @@
 import { Link } from "react-router";
+import {
+    formatOrderCode,
+    type OrderResponse,
+} from "../../api/OrderService";
 import type { CartItem } from "../../data/cartData";
 import { checkoutTotals } from "../../data/checkoutData";
 import { onlinePaymentInfo } from "../../data/onlinePaymentData";
+import { ROUTES } from "../../routes/routes";
 
 interface OnlinePaymentSummaryProps {
     items: CartItem[];
+    order?: OrderResponse;
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
@@ -13,15 +19,18 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
-export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProps) {
-    const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
-    const total = subtotal - checkoutTotals.discount + checkoutTotals.shippingFee;
+export default function OnlinePaymentSummary({ items, order }: OnlinePaymentSummaryProps) {
+    const subtotal = order?.subtotalPrice ?? items.reduce((total, item) => total + item.price * item.quantity, 0);
+    const discount = order?.discountAmount ?? checkoutTotals.discount;
+    const shippingFee = order?.shippingFee ?? checkoutTotals.shippingFee;
+    const total = order?.totalPrice ?? subtotal - discount + shippingFee;
+    const orderCode = order ? formatOrderCode(order.id) : onlinePaymentInfo.orderCode;
 
     return (
         <aside className="online-payment-summary-card">
             <div className="online-payment-summary-heading d-flex align-items-start justify-content-between">
                 <h2>Thông tin đơn hàng</h2>
-                <span>{onlinePaymentInfo.orderCode}</span>
+                <span>{orderCode}</span>
             </div>
 
             <div className="online-payment-summary-products d-flex flex-column">
@@ -44,11 +53,11 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
                 </div>
                 <div>
                     <span>Giảm giá</span>
-                    <strong>-{formatPrice(checkoutTotals.discount)}</strong>
+                    <strong>-{formatPrice(discount)}</strong>
                 </div>
                 <div>
                     <span>Phí vận chuyển</span>
-                    <strong>{formatPrice(checkoutTotals.shippingFee)}</strong>
+                    <strong>{formatPrice(shippingFee)}</strong>
                 </div>
             </div>
 
@@ -58,10 +67,10 @@ export default function OnlinePaymentSummary({ items }: OnlinePaymentSummaryProp
             </div>
 
             <div className="d-grid gap-2">
-                <Link to="/order-success" className="btn online-payment-confirm-btn fw-bold w-100">
+                <Link to={ROUTES.ORDER_SUCCESS} state={{ order }} className="btn online-payment-confirm-btn fw-bold w-100">
                     Tôi đã thanh toán
                 </Link>
-                <Link to="/checkout" className="btn online-payment-back-btn fw-bold w-100">
+                <Link to={ROUTES.CHECKOUT} className="btn online-payment-back-btn fw-bold w-100">
                     Đổi phương thức thanh toán
                 </Link>
             </div>

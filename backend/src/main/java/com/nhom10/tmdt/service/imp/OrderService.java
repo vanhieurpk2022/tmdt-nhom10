@@ -23,8 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Service
@@ -52,9 +54,10 @@ public class OrderService {
         Address address = addressRepository.findByIdAndUserEmail(request.addressId(), email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy địa chỉ giao hàng"));
 
-        cartItems.forEach(this::validateCartItem);
+        List<CartItem> selectedCartItems = resolveSelectedCartItems(cartItems, request.cartItemIds());
+        selectedCartItems.forEach(this::validateCartItem);
 
-        double subtotal = cartItems.stream()
+        double subtotal = selectedCartItems.stream()
                 .mapToDouble(item -> resolvePrice(item.getProduct()) * item.getQuantity())
                 .sum();
         double discountAmount = 0.0;
@@ -75,14 +78,34 @@ public class OrderService {
                 .build();
 
         Order savedOrder = orderRepository.saveAndFlush(order);
-        List<OrderItem> savedItems = orderItemRepository.saveAllAndFlush(cartItems.stream()
+        List<OrderItem> savedItems = orderItemRepository.saveAllAndFlush(selectedCartItems.stream()
                 .map(item -> toOrderItem(savedOrder, item))
                 .toList());
         savedOrder.setOrderItems(savedItems);
 
-        cartItemRepository.deleteAllByCartUserEmail(email);
+        cartItemRepository.deleteAll(selectedCartItems);
 
         return toResponse(savedOrder, savedItems);
+    }
+
+    private List<CartItem> resolveSelectedCartItems(List<CartItem> cartItems, List<Long> cartItemIds) {
+        if (cartItemIds == null || cartItemIds.isEmpty()) {
+            return cartItems;
+        }
+
+        Set<Long> selectedIds = new HashSet<>(cartItemIds);
+        List<CartItem> selectedItems = cartItems.stream()
+                .filter(item -> selectedIds.contains(item.getId()))
+                .toList();
+
+        if (selectedItems.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng chọn sản phẩm để đặt hàng");
+        }
+        if (selectedItems.size() != selectedIds.size()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Một số sản phẩm đã chọn không còn trong giỏ hàng");
+        }
+
+        return selectedItems;
     }
 
     private void validateCartItem(CartItem item) {
