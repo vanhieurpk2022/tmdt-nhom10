@@ -30,6 +30,11 @@ public class User {
     private String password;
     private String email;
     private String phone;
+    private String birthday;
+    private String gender;
+
+    @Column(name="preferred_area")
+    private String preferredArea;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default

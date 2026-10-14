@@ -142,5 +142,63 @@ public class UserServiceImp implements UserService {
 
     }
 
+    // Lấy thông tin hồ sơ cá nhân của người dùng theo email
+    @Override
+    public com.nhom10.tmdt.dto.user.UserProfileResponse getProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
+        return new com.nhom10.tmdt.dto.user.UserProfileResponse(
+                user.getId(),
+                user.getFullname(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getBirthday(),
+                user.getGender(),
+                user.getPreferredArea(),
+                user.getAvatarUrl(),
+                user.isVerify()
+        );
+    }
+
+    // Cập nhật thông tin hồ sơ cá nhân
+    @Override
+    public com.nhom10.tmdt.dto.user.UserProfileResponse updateProfile(String email, com.nhom10.tmdt.dto.user.UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        if (request.fullname() != null && !request.fullname().isBlank()) {
+            user.setFullname(request.fullname().trim());
+        }
+        if (request.phone() != null) {
+            user.setPhone(request.phone().trim());
+        }
+        if (request.birthday() != null) {
+            user.setBirthday(request.birthday().trim());
+        }
+        if (request.gender() != null) {
+            user.setGender(request.gender().trim());
+        }
+        if (request.preferredArea() != null) {
+            user.setPreferredArea(request.preferredArea().trim());
+        }
+        if (request.avatarUrl() != null && !request.avatarUrl().isBlank()) {
+            user.setAvatarUrl(request.avatarUrl().trim());
+        }
+
+        User saved = userRepository.save(user);
+
+        return new com.nhom10.tmdt.dto.user.UserProfileResponse(
+                saved.getId(),
+                saved.getFullname(),
+                saved.getEmail(),
+                saved.getPhone(),
+                saved.getBirthday(),
+                saved.getGender(),
+                saved.getPreferredArea(),
+                saved.getAvatarUrl(),
+                saved.isVerify()
+        );
+    }
 }
+
