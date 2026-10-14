@@ -1,17 +1,22 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faLocationDot, faPhone, faUser, faSpinner, faTrash, faPenToSquare, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import AccountLayout from "../components/layout/AccountLayout";
 import { addressService, type AddressItem, type AddressPayload } from "../api/AddressService";
 
 // Trang Sổ địa chỉ - Quản lý danh sách địa chỉ giao hàng của người dùng
 export default function AddressBookPage() {
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const [addresses, setAddresses] = useState<AddressItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [actionLoading, setActionLoading] = useState<boolean>(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [editingAddress, setEditingAddress] = useState<AddressItem | null>(null);
     const [message, setMessage] = useState<{ text: string; type: "success" | "danger" } | null>(null);
+    const returnTo = searchParams.get("returnTo");
+    const canReturnAfterSelect = Boolean(returnTo?.startsWith("/") && !returnTo.startsWith("//"));
 
     // Dữ liệu form thêm / sửa địa chỉ
     const [formData, setFormData] = useState<AddressPayload>({
@@ -94,6 +99,9 @@ export default function AddressBookPage() {
             }
             setShowModal(false);
             await fetchAddresses();
+            if (canReturnAfterSelect && formData.isDefault) {
+                navigate(returnTo as string);
+            }
         } catch (error) {
             console.error("Lỗi khi lưu địa chỉ:", error);
             setMessage({ text: "Lưu địa chỉ thất bại. Vui lòng thử lại.", type: "danger" });
@@ -119,12 +127,20 @@ export default function AddressBookPage() {
     };
 
     // Xử lý đặt địa chỉ làm mặc định
-    const handleSetDefault = async (id: number) => {
+    const handleSelectAddress = async (address: AddressItem) => {
+        if (canReturnAfterSelect && address.isDefault) {
+            navigate(returnTo as string);
+            return;
+        }
+
         setActionLoading(true);
         try {
-            await addressService.setDefaultAddress(id);
+            await addressService.setDefaultAddress(address.id);
             setMessage({ text: "Đã đặt làm địa chỉ mặc định!", type: "success" });
             await fetchAddresses();
+            if (canReturnAfterSelect) {
+                navigate(returnTo as string);
+            }
         } catch (error) {
             console.error("Lỗi khi đặt địa chỉ mặc định:", error);
             setMessage({ text: "Không thể đặt địa chỉ mặc định. Vui lòng thử lại.", type: "danger" });
@@ -237,12 +253,21 @@ export default function AddressBookPage() {
                                                 </button>
                                                 <button
                                                     className="btn btn-sm btn-link text-muted text-decoration-none fw-bold ms-auto"
-                                                    onClick={() => handleSetDefault(addr.id)}
+                                                    onClick={() => handleSelectAddress(addr)}
                                                     disabled={actionLoading}
                                                 >
-                                                    Đặt làm mặc định
+                                                    {canReturnAfterSelect ? "Chọn địa chỉ này" : "Đặt làm mặc định"}
                                                 </button>
                                             </>
+                                        )}
+                                        {canReturnAfterSelect && addr.isDefault && (
+                                            <button
+                                                className="btn btn-sm btn-link text-muted text-decoration-none fw-bold ms-auto"
+                                                onClick={() => handleSelectAddress(addr)}
+                                                disabled={actionLoading}
+                                            >
+                                                Chọn địa chỉ này
+                                            </button>
                                         )}
                                     </div>
                                 </div>

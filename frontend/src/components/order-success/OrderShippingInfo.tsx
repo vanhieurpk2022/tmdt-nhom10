@@ -1,9 +1,19 @@
 import { faLocationDot, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { OrderResponse } from "../../api/OrderService";
 import { receiverInfo } from "../../data/checkoutData";
 import { orderSuccessInfo } from "../../data/orderSuccessData";
 
-export default function OrderShippingInfo() {
+interface OrderShippingInfoProps {
+    order?: OrderResponse;
+}
+
+export default function OrderShippingInfo({ order }: OrderShippingInfoProps) {
+    const recipientName = order?.recipientName ?? receiverInfo.name;
+    const phoneNumber = order?.phoneNumber ?? receiverInfo.phone;
+    const shippingAddress = order?.shippingAddress ?? receiverInfo.address;
+    const note = order?.note ?? receiverInfo.note;
+
     return (
         <section className="order-success-card">
             <div className="order-success-section-heading d-flex align-items-center justify-content-between">
@@ -17,9 +27,9 @@ export default function OrderShippingInfo() {
                         <FontAwesomeIcon icon={faLocationDot} />
                     </span>
                     <div>
-                        <strong>{receiverInfo.name}</strong>
-                        <p>{receiverInfo.phone}</p>
-                        <p>{receiverInfo.address}</p>
+                        <strong>{recipientName}</strong>
+                        <p>{phoneNumber}</p>
+                        <p>{shippingAddress}</p>
                     </div>
                 </div>
                 <div className="d-flex align-items-start">
@@ -28,7 +38,7 @@ export default function OrderShippingInfo() {
                     </span>
                     <div>
                         <strong>Giao hàng tiêu chuẩn</strong>
-                        <p>{receiverInfo.note}</p>
+                        <p>{note}</p>
                     </div>
                 </div>
             </div>

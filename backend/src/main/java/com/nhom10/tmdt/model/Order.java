@@ -1,6 +1,7 @@
 package com.nhom10.tmdt.model;
 
 import com.nhom10.tmdt.enums.OrderStatus;
+import com.nhom10.tmdt.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,6 +49,25 @@ public class Order {
 
     @Column(name = "discount_amount", nullable = false)
     private Double discountAmount;
+
+    @Column(name = "shipping_fee")
+    private Double shippingFee;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method")
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "recipient_name")
+    private String recipientName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+
+    @Column(name = "note")
+    private String note;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp

@@ -1,36 +1,40 @@
-import { faCreditCard, faMoneyBillWave, faQrcode, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBillWave, faShieldHalved, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { PaymentMethod } from "../../data/checkoutData";
 import CheckoutSectionTitle from "./CheckoutSectionTitle";
 
 interface PaymentMethodListProps {
     methods: PaymentMethod[];
+    selectedMethodId: PaymentMethod["id"];
+    onSelectMethod: (methodId: PaymentMethod["id"]) => void;
 }
 
-const methodIcons: Record<PaymentMethod["type"], IconDefinition | null> = {
-    momo: null,
-    card: faCreditCard,
-    qr: faQrcode,
+const methodIcons = {
     cod: faMoneyBillWave,
-};
+    vnpay: faWallet,
+} satisfies Record<PaymentMethod["type"], typeof faMoneyBillWave>;
 
-export default function PaymentMethodList({ methods }: PaymentMethodListProps) {
+export default function PaymentMethodList({ methods, selectedMethodId, onSelectMethod }: PaymentMethodListProps) {
     return (
         <section className="checkout-block">
             <CheckoutSectionTitle index={3} title="Chọn phương thức thanh toán" />
 
             <div className="checkout-payment-list d-flex flex-column">
                 {methods.map((method) => (
-                    <label className={`checkout-payment-option ${method.selected ? "active" : ""}`} key={method.id}>
-                        <input type="radio" name="paymentMethod" defaultChecked={method.selected} />
+                    <label className={`checkout-payment-option ${method.id === selectedMethodId ? "active" : ""}`} key={method.id}>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            checked={method.id === selectedMethodId}
+                            onChange={() => onSelectMethod(method.id)}
+                        />
                         <span className="checkout-payment-check" />
                         <div>
                             <strong>{method.name}</strong>
                             <p>{method.description}</p>
                         </div>
                         <span className={`checkout-payment-mark ${method.type}`}>
-                            {method.type === "momo" ? "mo" : <FontAwesomeIcon icon={methodIcons[method.type] as IconDefinition} />}
+                            <FontAwesomeIcon icon={methodIcons[method.type]} />
                         </span>
                     </label>
                 ))}
@@ -41,8 +45,8 @@ export default function PaymentMethodList({ methods }: PaymentMethodListProps) {
                     <FontAwesomeIcon icon={faShieldHalved} />
                 </span>
                 <div>
-                    <strong>Thanh toán online nhanh chóng, an toàn</strong>
-                    <p>Bảo mật thông tin mã hóa SSL 256-bit tiêu chuẩn ngân hàng</p>
+                    <strong>Thanh toán qua VNPay an toàn, tiện lợi</strong>
+                    <p>Với COD, bạn chỉ thanh toán tiền mặt sau khi đã nhận và kiểm tra hàng.</p>
                 </div>
             </div>
         </section>
