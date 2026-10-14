@@ -45,7 +45,8 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "User", cascade = {CascadeType.ALL})
+    // Danh sách địa chỉ giao hàng của người dùng
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Address> address;
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)

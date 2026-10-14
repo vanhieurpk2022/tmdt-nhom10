@@ -17,7 +17,8 @@ public enum ErrorCode {
     VERIFY_CODE_EXPIRED(401,"Đường dẫn xác thực đã hết thời hạn"),
     VERIFY_CODE_FAIL(401,"Vui lòng kiểm tra lại mã xác thực"),
     NOT_MATCH_PASSWORD(401, "Mật khẩu không khớp"),
-    VERIFY(401, "Tài khoản đã được xác thực");
+    VERIFY(401, "Tài khoản đã được xác thực"),
+    ADDRESS_NOT_FOUND(404, "Không tìm thấy địa chỉ");
 
    private final int code;
    private final String message;
