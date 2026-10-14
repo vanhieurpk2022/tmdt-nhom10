@@ -67,4 +67,14 @@ public class ProductController {
         );
         return new ApiResponse<>(200, "Lấy danh sách sản phẩm thành công", productService.filterProducts(req));
     }
+
+    /**
+     * GET /api/products/{id}
+     * Lấy thông tin chi tiết của 1 sản phẩm: ảnh, dung tích variants, review, nhà cung cấp.
+     */
+    @GetMapping("/{id}")
+    public ApiResponse<ProductDetailResponse> getProductDetail(@PathVariable Long id) {
+        return new ApiResponse<>(200, "Lấy thông tin chi tiết sản phẩm thành công", productService.getProductDetail(id));
+    }
 }
+
