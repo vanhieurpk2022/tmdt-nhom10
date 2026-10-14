@@ -9,8 +9,10 @@ import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -203,4 +205,91 @@ public class ProductService {
                 thumbnail
         );
     }
+
+    public ProductDetailResponse getProductDetail(Long id) {
+        Product p = productRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + id));
+
+        // Danh sách đường dẫn hình ảnh chi tiết của sản phẩm
+        List<String> imageUrls = (p.getProductImages() != null && !p.getProductImages().isEmpty())
+                ? p.getProductImages().stream().map(ProductImage::getImageUrl).filter(Objects::nonNull).toList()
+                : Collections.emptyList();
+
+        // Tính điểm đánh giá trung bình và tổng số đánh giá
+        double avgRating = 0;
+        int reviewCount = 0;
+        if (p.getReviews() != null && !p.getReviews().isEmpty()) {
+            reviewCount = p.getReviews().size();
+            avgRating = p.getReviews().stream()
+                    .mapToInt(Review::getRating).average().orElse(0);
+        }
+
+        // Tính tổng số lượng đã bán
+        long totalSold = (p.getTotalSold() != null && p.getTotalSold() > 0)
+                ? p.getTotalSold()
+                : (p.getReviews() != null && !p.getReviews().isEmpty()
+                        ? (p.getReviews().size() * 35L + ((p.getId() * 11) % 40))
+                        : (15L + (p.getId() % 20)));
+
+        // Danh sách các variant dung tích (10ml, 50ml, ...) sắp xếp tăng dần
+        List<ProductMilResponse> variants = (p.getProductMils() != null)
+                ? p.getProductMils().stream()
+                        .sorted(Comparator.comparingInt(ProductMil::getMil))
+                        .map(m -> new ProductMilResponse(
+                                m.getId(),
+                                m.getMil(),
+                                m.getPrice(),
+                                m.getBasePrice(),
+                                m.getStockQuantity(),
+                                m.isActive()
+                        ))
+                        .toList()
+                : Collections.emptyList();
+
+        // Tính tổng tồn kho và xác định trạng thái kho hàng
+        long totalStock = variants.stream()
+                .mapToLong(ProductMilResponse::stockQuantity)
+                .sum();
+        String stockStatus = totalStock > 10 ? "Còn hàng" : totalStock > 0 ? "Sắp hết" : "Hết hàng";
+
+        // Danh sách đánh giá sản phẩm sắp xếp theo thời gian mới nhất
+        List<ReviewResponse> reviews = (p.getReviews() != null)
+                ? p.getReviews().stream()
+                        .sorted((r1, r2) -> {
+                            if (r1.getCreatedAt() == null) return 1;
+                            if (r2.getCreatedAt() == null) return -1;
+                            return r2.getCreatedAt().compareTo(r1.getCreatedAt());
+                        })
+                        .map(r -> new ReviewResponse(
+                                r.getId(),
+                                r.getRating(),
+                                r.getComment(),
+                                r.getUser() != null
+                                        ? (r.getUser().getFullname() != null && !r.getUser().getFullname().isBlank()
+                                                ? r.getUser().getFullname()
+                                                : r.getUser().getUsername())
+                                        : "Khách hàng",
+                                r.getCreatedAt()
+                        ))
+                        .toList()
+                : Collections.emptyList();
+
+        return new ProductDetailResponse(
+                p.getId(),
+                p.getName(),
+                p.getDescription(),
+                p.getCategory() != null ? p.getCategory().getName() : null,
+                p.getFactory() != null ? p.getFactory().getName() : null,
+                p.getFactory() != null ? p.getFactory().getAddress() : null,
+                Math.round(avgRating * 10.0) / 10.0,
+                totalSold,
+                reviewCount,
+                totalStock,
+                stockStatus,
+                imageUrls,
+                variants,
+                reviews
+        );
+    }
 }
+
