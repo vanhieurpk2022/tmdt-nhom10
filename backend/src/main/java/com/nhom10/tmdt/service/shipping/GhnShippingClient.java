@@ -140,10 +140,10 @@ public class GhnShippingClient {
     }
 
     private <T> GhnApiResponse<T> get(String endpoint, TypeReference<GhnApiResponse<T>> responseType) {
-        if (!properties.isReady()) {
+        if (!properties.hasToken()) {
             throw new ResponseStatusException(
                     HttpStatus.SERVICE_UNAVAILABLE,
-                    "Chưa cấu hình đầy đủ thông tin GHN"
+                    "Chưa cấu hình GHN Token"
             );
         }
 

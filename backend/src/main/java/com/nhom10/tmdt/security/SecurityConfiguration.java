@@ -42,6 +42,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                .requestMatchers("/shipping/provinces", "/shipping/districts", "/shipping/wards").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
