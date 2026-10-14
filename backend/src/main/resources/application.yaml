@@ -39,6 +39,19 @@ cloudinary:
   api-key: ${CLOUDINARY_API_KEY}
   api-secret: ${CLOUDINARY_API_SECRET}
   folder: tmdt
+ghn:
+  base-url: ${GHN_BASE_URL:https://dev-online-gateway.ghn.vn}
+  token: ${GHN_TOKEN:}
+  shop-id: ${GHN_SHOP_ID:0}
+  from-province-id: ${GHN_FROM_PROVINCE_ID:0}
+  from-district-id: ${GHN_FROM_DISTRICT_ID:0}
+  from-ward-code: ${GHN_FROM_WARD_CODE:}
+  from-address: ${GHN_FROM_ADDRESS:}
+  service-type-id: ${GHN_SERVICE_TYPE_ID:2}
+  default-weight: ${GHN_DEFAULT_WEIGHT:500}
+  default-length: ${GHN_DEFAULT_LENGTH:20}
+  default-width: ${GHN_DEFAULT_WIDTH:15}
+  default-height: ${GHN_DEFAULT_HEIGHT:10}
 logging:
   level:
     org:

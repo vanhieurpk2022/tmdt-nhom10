@@ -1,11 +1,13 @@
 import { faChevronDown, faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { CartItem } from "../../data/cartData";
-import { checkoutTotals } from "../../data/checkoutData";
 
 interface CheckoutSummaryProps {
     items: CartItem[];
+    shippingFee: number;
     isLoading?: boolean;
+    isShippingFeeLoading?: boolean;
+    shippingFeeError?: string;
     isSubmitting?: boolean;
     hasAddress?: boolean;
     onContinue: () => void;
@@ -19,7 +21,10 @@ function formatPrice(price: number) {
 
 export default function CheckoutSummary({
     items,
+    shippingFee,
     isLoading = false,
+    isShippingFeeLoading = false,
+    shippingFeeError = "",
     isSubmitting = false,
     hasAddress = true,
     onContinue,
@@ -27,9 +32,8 @@ export default function CheckoutSummary({
     const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
     const originalSubtotal = items.reduce((total, item) => total + (item.basePrice ?? item.price) * item.quantity, 0);
     const productDiscount = Math.max(originalSubtotal - subtotal, 0);
-    const shippingFee = items.length > 0 ? checkoutTotals.shippingFee : 0;
     const total = subtotal + shippingFee;
-    const isDisabled = isLoading || isSubmitting || items.length === 0 || !hasAddress;
+    const isDisabled = isLoading || isShippingFeeLoading || isSubmitting || items.length === 0 || !hasAddress || Boolean(shippingFeeError);
 
     return (
         <aside className="checkout-summary-card">
@@ -70,9 +74,15 @@ export default function CheckoutSummary({
                 )}
                 <div>
                     <span>Phí vận chuyển</span>
-                    <strong>{formatPrice(shippingFee)}</strong>
+                    <strong className={shippingFeeError ? "text-danger" : ""}>
+                        {isShippingFeeLoading ? "Đang tính..." : shippingFeeError ? "Chưa tính được" : formatPrice(shippingFee)}
+                    </strong>
                 </div>
             </div>
+
+            {shippingFeeError && (
+                <p className="checkout-summary-empty text-danger mb-3">{shippingFeeError}</p>
+            )}
 
             <div className="checkout-summary-total">
                 <span>Tổng tiền</span>

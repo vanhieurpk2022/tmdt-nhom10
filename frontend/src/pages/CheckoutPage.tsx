@@ -4,6 +4,7 @@ import { addressService, type AddressItem } from "../api/AddressService";
 import { useCart } from "../api/CartContext";
 import { cartService, type CartItemResponse, type CartResponse } from "../api/CartService";
 import { orderService, saveLastOrder, type PaymentMethod } from "../api/OrderService";
+import { shippingService } from "../api/ShippingService";
 import CheckoutBreadcrumb from "../components/checkout/CheckoutBreadcrumb";
 import CheckoutProductList from "../components/checkout/CheckoutProductList";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
@@ -48,6 +49,11 @@ function getCheckoutErrorMessage(error: unknown) {
     return apiError.response?.data?.message || "Chưa thể tạo đơn hàng. Vui lòng kiểm tra lại thông tin và thử lại.";
 }
 
+function getShippingFeeErrorMessage(error: unknown) {
+    const apiError = error as { response?: { data?: { message?: string } } };
+    return apiError.response?.data?.message || "Chưa tính được phí vận chuyển. Vui lòng kiểm tra lại địa chỉ giao hàng.";
+}
+
 function toCartItem(item: CartItemResponse, index: number): CartItem {
     const price = item.price ?? item.basePrice ?? 0;
     const inStock = item.stockQuantity > 0 && item.stockStatus !== "Hết hàng";
@@ -83,11 +89,18 @@ export default function CheckoutPage() {
     const [addresses, setAddresses] = useState<AddressItem[]>([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(paymentMethods[0]?.id ?? "cod");
     const [deliveryNote, setDeliveryNote] = useState(defaultDeliveryNote);
+    const [shippingFee, setShippingFee] = useState(0);
+    const [isShippingFeeLoading, setIsShippingFeeLoading] = useState(false);
+    const [shippingFeeError, setShippingFeeError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const selectedAddress = useMemo(() => getDefaultAddress(addresses), [addresses]);
+    const checkoutItemsSignature = useMemo(
+        () => checkoutItems.map((item) => `${item.id}:${item.quantity}`).join("|"),
+        [checkoutItems]
+    );
 
     const applyCheckoutCart = useCallback((cart: CartResponse) => {
         applyCart(cart);
@@ -131,6 +144,15 @@ export default function CheckoutPage() {
             return;
         }
 
+        if (isShippingFeeLoading) {
+            setErrorMessage("Vui lòng chờ hệ thống tính phí vận chuyển.");
+            return;
+        }
+        if (shippingFeeError) {
+            setErrorMessage(shippingFeeError);
+            return;
+        }
+
         const paymentMethod = paymentMethodMap[selectedPaymentMethod] ?? "COD";
 
         try {
@@ -157,11 +179,63 @@ export default function CheckoutPage() {
         } finally {
             setIsSubmitting(false);
         }
-    }, [checkoutItems, deliveryNote, navigate, refreshCart, selectedAddress, selectedPaymentMethod]);
+    }, [
+        checkoutItems,
+        deliveryNote,
+        isShippingFeeLoading,
+        navigate,
+        refreshCart,
+        selectedAddress,
+        selectedPaymentMethod,
+        shippingFeeError,
+    ]);
 
     useEffect(() => {
         loadCheckoutData();
     }, [loadCheckoutData]);
+
+    useEffect(() => {
+        if (!selectedAddress || checkoutItems.length === 0) {
+            setShippingFee(0);
+            setShippingFeeError("");
+            setIsShippingFeeLoading(false);
+            return;
+        }
+
+        let isActive = true;
+
+        async function calculateShippingFee() {
+            try {
+                setIsShippingFeeLoading(true);
+                setShippingFeeError("");
+
+                const quote = await shippingService.calculateFee({
+                    addressId: selectedAddress.id,
+                    cartItemIds: checkoutItems.map((item) => item.id),
+                });
+
+                if (isActive) {
+                    setShippingFee(quote.shippingFee);
+                }
+            } catch (error) {
+                console.error(error);
+                if (isActive) {
+                    setShippingFee(0);
+                    setShippingFeeError(getShippingFeeErrorMessage(error));
+                }
+            } finally {
+                if (isActive) {
+                    setIsShippingFeeLoading(false);
+                }
+            }
+        }
+
+        calculateShippingFee();
+
+        return () => {
+            isActive = false;
+        };
+    }, [checkoutItems, checkoutItemsSignature, selectedAddress]);
 
     return (
         <main className="checkout-page">
@@ -200,7 +274,10 @@ export default function CheckoutPage() {
                     <div className="col-12 col-xl-4">
                         <CheckoutSummary
                             items={checkoutItems}
+                            shippingFee={shippingFee}
                             isLoading={isLoading}
+                            isShippingFeeLoading={isShippingFeeLoading}
+                            shippingFeeError={shippingFeeError}
                             isSubmitting={isSubmitting}
                             hasAddress={Boolean(selectedAddress)}
                             onContinue={handleCreateOrder}
