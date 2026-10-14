@@ -10,6 +10,7 @@ import com.nhom10.tmdt.dto.shipping.GhnFeeResponse;
 import com.nhom10.tmdt.dto.shipping.GhnProvinceResponse;
 import com.nhom10.tmdt.dto.shipping.GhnWardResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GhnShippingClient {
 
     private static final String FEE_ENDPOINT = "/shiip/public-api/v2/shipping-order/fee";
@@ -121,7 +123,7 @@ public class GhnShippingClient {
 
     private GhnFeeResponse parseFeeResponse(HttpResponse<String> response) throws IOException {
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
-            throw shippingGatewayException(null);
+            throw shippingGatewayException("GHN tra HTTP " + response.statusCode() + ": " + response.body(), null);
         }
 
         GhnApiResponse<GhnFeeResponse> apiResponse = objectMapper.readValue(
@@ -131,7 +133,7 @@ public class GhnShippingClient {
         );
 
         if (apiResponse.code() != 200 || apiResponse.data() == null) {
-            throw shippingGatewayException(null);
+            throw shippingGatewayException("GHN tra code " + apiResponse.code() + ": " + apiResponse.message(), null);
         }
 
         return apiResponse.data();
@@ -155,12 +157,12 @@ public class GhnShippingClient {
 
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
-                throw shippingGatewayException(null);
+                throw shippingGatewayException("GHN tra HTTP " + response.statusCode() + ": " + response.body(), null);
             }
 
             GhnApiResponse<T> apiResponse = objectMapper.readValue(response.body(), responseType);
             if (apiResponse.code() != 200) {
-                throw shippingGatewayException(null);
+                throw shippingGatewayException("GHN tra code " + apiResponse.code() + ": " + apiResponse.message(), null);
             }
 
             return apiResponse;
@@ -173,6 +175,15 @@ public class GhnShippingClient {
     }
 
     private ResponseStatusException shippingGatewayException(Throwable cause) {
+        return shippingGatewayException(null, cause);
+    }
+
+    private ResponseStatusException shippingGatewayException(String detail, Throwable cause) {
+        if (detail == null || detail.isBlank()) {
+            log.warn("Khong tinh duoc phi van chuyen tu GHN", cause);
+        } else {
+            log.warn("Khong tinh duoc phi van chuyen tu GHN: {}", detail, cause);
+        }
         return new ResponseStatusException(
                 HttpStatus.BAD_GATEWAY,
                 "Không tính được phí vận chuyển từ GHN",

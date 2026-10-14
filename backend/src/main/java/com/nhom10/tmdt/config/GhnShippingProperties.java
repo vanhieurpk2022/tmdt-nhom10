@@ -28,7 +28,13 @@ public class GhnShippingProperties {
         if (baseUrl == null || baseUrl.isBlank()) {
             return "https://dev-online-gateway.ghn.vn";
         }
-        return baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+
+        String normalized = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        String apiPath = "/shiip/public-api";
+        if (normalized.endsWith(apiPath)) {
+            return normalized.substring(0, normalized.length() - apiPath.length());
+        }
+        return normalized;
     }
 
     public boolean isReady() {
