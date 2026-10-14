@@ -1,7 +1,14 @@
 package com.nhom10.tmdt.security;
 
+import java.util.List;
+
 public class Endpoints {
     public static final String HOST = "http://localhost:5173";
+    public static final List<String> FRONTEND_HOSTS = List.of(
+            "http://localhost:5173",
+            "http://127.0.0.1:5173"
+    );
+
     public static final String[] PUBLIC_GET = {
             "/books",
             "/books/**",
@@ -22,8 +29,9 @@ public class Endpoints {
             "/users/*/listFavoriteBooks",
             "/favorite-books/*/book",
             "/vnpay/**",
-
+            "/products/**",
     };
+
 
     public static final String[] PUBLIC_POST = {
             "/user/register",

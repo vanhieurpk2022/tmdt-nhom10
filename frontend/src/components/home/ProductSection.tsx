@@ -10,7 +10,10 @@ interface ProductSectionProps {
     actionLabel: string;
     flashSale?: boolean;
     tabs?: string[];
-    compactCards?: boolean;
+    isLoading?: boolean;
+    errorMessage?: string;
+    addingProductIds?: number[];
+    onAddToCart?: (product: HomeProduct) => void;
 }
 
 export default function ProductSection({
@@ -20,7 +23,10 @@ export default function ProductSection({
     actionLabel,
     flashSale = false,
     tabs,
-    compactCards = false,
+    isLoading = false,
+    errorMessage,
+    addingProductIds = [],
+    onAddToCart,
 }: ProductSectionProps) {
     return (
         <section className={`home-section ${flashSale ? "home-flash-section" : ""}`}>
@@ -66,12 +72,34 @@ export default function ProductSection({
                 </div>
             </div>
 
+            {errorMessage && <div className="alert alert-light border home-section-alert mb-3">{errorMessage}</div>}
+
             <div className="row g-3">
-                {products.map((product) => (
-                    <div className="col-12 col-sm-6 col-lg-3" key={product.id}>
-                        <ProductCard product={product} compact={compactCards} />
-                    </div>
-                ))}
+                {isLoading
+                    ? Array.from({ length: 4 }).map((_, index) => (
+                          <div className="col-12 col-sm-6 col-lg-3" key={`home-product-loading-${index}`}>
+                              <div className="home-product-card home-product-card-placeholder">
+                                  <div className="placeholder-glow">
+                                      <div className="home-product-image-box placeholder w-100" />
+                                      <div className="home-product-body d-flex flex-column">
+                                          <span className="placeholder col-5" />
+                                          <span className="placeholder col-9" />
+                                          <span className="placeholder col-12" />
+                                          <span className="placeholder col-7" />
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      ))
+                    : products.map((product) => (
+                          <div className="col-12 col-sm-6 col-lg-3" key={product.id}>
+                              <ProductCard
+                                  product={product}
+                                  isAdding={addingProductIds.includes(product.id)}
+                                  onAddToCart={onAddToCart}
+                              />
+                          </div>
+                      ))}
             </div>
         </section>
     );

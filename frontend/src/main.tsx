@@ -27,6 +27,7 @@ import VerifyRecoveryCodePage from './pages/VerifyRecoveryCodePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import { ROUTES } from './routes/routes';
 import { AuthProvider } from './api/AuthContext';
+import { CartProvider } from './api/CartContext';
 import { VerifyAccount } from './pages/VerifyAccount';
 import RequireVerifyState from './api/RequireVerifyState';
 import { VerifyEmailSuccess } from './pages/VerifyEmailSuccess';
@@ -59,6 +60,8 @@ createRoot(document.getElementById('root')!).render(
 
     <BrowserRouter>
       <AuthProvider>
+
+
         <Routes>
           <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryDashBoard />} />
           <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProfile />} />
@@ -74,38 +77,42 @@ createRoot(document.getElementById('root')!).render(
           <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
           <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
           <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
-
-          <Route element={<MainLayout />}>
-            <Route path={ROUTES.HOME} element={<HomePage />} />
-            <Route path={ROUTES.CART} element={<CartPage />} />
-            <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
-            <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
-            <Route path={ROUTES.ONLINE_PAYMENT} element={<OnlinePaymentPage />} />
-            <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
-            <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
-            <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
-            <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
-            <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePasswordPage />} />
-            <Route path={ROUTES.ADDRESSES} element={<AddressBookPage />} />
-            <Route path={ROUTES.FAVORITES} element={<FavoriteProductsPage />} />
-            <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
-            <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-            <Route path={ROUTES.REGISTER_FACTORY} element={<RegisterFactoryPage />} />
-            <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-            <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
-            <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
-            <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-            <Route element={<RequireVerifyEmail />} >
-              <Route path={ROUTES.VERIFY_SUCCESS} element={<VerifyEmailSuccess />} />
-            </Route>
-            <Route element={<RequireVerifyState />} >
-              <Route path={ROUTES.VERIFY_ACCOUNT} element={<VerifyAccount />} />
-            </Route>
-
-          </Route>
-
-
         </Routes>
+        <CartProvider>
+          <Routes>
+
+            <Route element={<MainLayout />}>
+              <Route path={ROUTES.HOME} element={<HomePage />} />
+              <Route path={ROUTES.CART} element={<CartPage />} />
+              <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
+              <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
+              <Route path={ROUTES.ONLINE_PAYMENT} element={<OnlinePaymentPage />} />
+              <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
+              <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
+              <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
+              <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetailPage />} />
+              <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+              <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePasswordPage />} />
+              <Route path={ROUTES.ADDRESSES} element={<AddressBookPage />} />
+              <Route path={ROUTES.FAVORITES} element={<FavoriteProductsPage />} />
+              <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
+              <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+              <Route path={ROUTES.REGISTER_FACTORY} element={<RegisterFactoryPage />} />
+              <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+              <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
+              <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
+              <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+              <Route element={<RequireVerifyEmail />} >
+                <Route path={ROUTES.VERIFY_SUCCESS} element={<VerifyEmailSuccess />} />
+              </Route>
+              <Route element={<RequireVerifyState />} >
+                <Route path={ROUTES.VERIFY_ACCOUNT} element={<VerifyAccount />} />
+              </Route>
+
+            </Route>
+
+          </Routes>
+        </CartProvider>
       </AuthProvider>
 
 

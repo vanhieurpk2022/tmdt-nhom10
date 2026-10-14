@@ -46,6 +46,13 @@
         display: none !important;
     }
 
+    .cart-toast {
+        left: 16px;
+        min-width: 0;
+        right: 16px;
+        top: 88px;
+    }
+
     .home-page-content {
         gap: 20px;
     }
