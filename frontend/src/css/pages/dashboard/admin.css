@@ -1,0 +1,38 @@
+:root {
+    --color-primary: #E11D48;
+    /* hồng đỏ chủ đạo: nút, điểm nhấn, role */
+    --color-primary-dark: #B80035;
+    /* đỏ đậm: hover, active */
+    --color-bg-dark: #111827;
+    /* nền tối: sidebar, text đậm */
+    --color-text-light: #FFFAF9;
+    /* trắng ấm: nền trang, text trên nền tối */
+    --color-bg-sidebaritem: #9CA3AF;
+}
+
+.SideBar-buttonItems {
+    color: var(--color-bg-sidebaritem);
+}
+
+.SideBar-buttonItems:hover {
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.btn.active {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border: none
+}
+
+.btn.logout {
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    border-radius: 14px;
+    color: var(--color-primary)
+}
+
+.btn.logout:hover {
+    color: white;
+
+}

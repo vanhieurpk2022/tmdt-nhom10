@@ -1,0 +1,48 @@
+.workshop-table thead th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bs-secondary-color);
+    white-space: nowrap;
+}
+
+.workshop-table td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.ws-avatar {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #6f42c1, #0d6efd);
+}
+
+.doc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 260px;
+    padding: 4px 10px;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--bs-body-color);
+    transition: background 0.15s;
+}
+
+.doc-chip:hover {
+    background: var(--bs-tertiary-bg);
+}
+
+/* Ô search */
+.dt-search input {
+    min-width: 280px;
+    border-radius: 8px;
+    padding: 6px 12px;
+}

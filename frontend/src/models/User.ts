@@ -5,6 +5,7 @@ import type { Role } from "./Role";
 export class User {
   id?: number;
   username?: string;
+  fullname?: string;
   // password cố ý bỏ, backend không nên trả về, frontend không nên giữ.
   email?: string;
   phone?: string;

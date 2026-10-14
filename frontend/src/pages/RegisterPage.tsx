@@ -36,10 +36,7 @@ export default function RegisterPage() {
                 sessionStorage.setItem("pendingVerifyEmail", email);
                 sessionStorage.setItem("pendingVerifySource", "register");
 
-                setInterval(() => {
-                    navigate(ROUTES.VERIFY_ACCOUNT, { replace: true, state: { email } });
-                }, 2000);
-
+                navigate(ROUTES.VERIFY_ACCOUNT, { replace: true, state: { email } });
             }
 
         } catch (error) {
@@ -141,7 +138,7 @@ export default function RegisterPage() {
 
                                 <div className="text-center" style={{ fontSize: '14px' }}>
                                     <span className="text-secondary">Đã có tài khoản? </span>
-                                    <a href="/login" className="text-decoration-none fw-bold" style={{ color: 'var(--color-primary)' }}>Đăng nhập</a>
+                                    <Link to={ROUTES.LOGIN} className="text-decoration-none fw-bold" style={{ color: 'var(--color-primary)' }}>Đăng nhập</Link>
                                 </div>
                             </form>
                         </div>

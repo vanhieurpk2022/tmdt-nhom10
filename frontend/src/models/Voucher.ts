@@ -1,19 +1,22 @@
-import type { VoucherStatus } from "../enums/VoucherStatus";
+import type { DiscountTypeAdmin } from "../enums/DiscountTypeAdmin";
+import type { VourcherStatusAdmin } from "../enums/VourcherStatusAdmin";
 
-export class Voucher {
-  id?: number;
-  code?: string;
-  discountType?: string;
-  discountValue?: number;
-  maxDiscountAmount?: number;
-  minOrderValue?: number;
-  usageLimit: number = 0;
-  usedCount: number = 0;
-  startDate?: string;
-  endDate?: string;
-  status?: VoucherStatus;
+// types/voucher.ts
 
-  constructor(init?: Partial<Voucher>) {
-    Object.assign(this, init);
-  }
+/** Dữ liệu backend trả về */
+export interface Voucher {
+  id: number;
+  code: string;
+  discountType: DiscountTypeAdmin;
+  discountValue: number;
+  maxDiscountAmount: number | null;
+  minOrderValue: number;
+  usageLimit: number;
+  usedCount: number;
+  startDate: string; // ISO
+  endDate: string;   // ISO
+  status: VourcherStatusAdmin;
 }
+
+export type VoucherCreateRequest = Omit<Voucher, "id" | "usedCount" | "status">;
+export type VoucherUpdateRequest = Partial<VoucherCreateRequest>;
