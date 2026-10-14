@@ -17,6 +17,7 @@ import com.nhom10.tmdt.repo.CartItemRepository;
 import com.nhom10.tmdt.repo.CartRepository;
 import com.nhom10.tmdt.repo.OrderItemRepository;
 import com.nhom10.tmdt.repo.OrderRepository;
+import com.nhom10.tmdt.service.shipping.ShippingFeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,13 +34,12 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private static final double DEFAULT_SHIPPING_FEE = 25_000.0;
-
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final AddressRepository addressRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ShippingFeeService shippingFeeService;
 
     @Transactional
     public OrderResponse createOrderFromCart(String email, CreateOrderRequest request) {
@@ -61,14 +61,15 @@ public class OrderService {
                 .mapToDouble(item -> resolvePrice(item.getProduct()) * item.getQuantity())
                 .sum();
         double discountAmount = 0.0;
-        double total = Math.max(subtotal - discountAmount, 0) + DEFAULT_SHIPPING_FEE;
+        double shippingFee = shippingFeeService.calculateFee(address, selectedCartItems, subtotal);
+        double total = Math.max(subtotal - discountAmount, 0) + shippingFee;
 
         Order order = Order.builder()
                 .user(cart.getUser())
                 .status(OrderStatus.PENDING)
                 .subtotalPrice(subtotal)
                 .discountAmount(discountAmount)
-                .shippingFee(DEFAULT_SHIPPING_FEE)
+                .shippingFee(shippingFee)
                 .totalPrice(total)
                 .paymentMethod(request.paymentMethod())
                 .recipientName(address.getRecipentName())
