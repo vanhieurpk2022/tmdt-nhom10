@@ -14,6 +14,7 @@ import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import FactoriesPage from './pages/FactoriesPage';
 import ProfilePage from './pages/ProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import AddressBookPage from './pages/AddressBookPage';
@@ -47,7 +48,7 @@ import FactorySale from './pages/FactorySale';
 import FactoryProductPage from './pages/FactoryProduct';
 import FactoryStaff from './pages/FactoryStaff';
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy-google-client-id';
 
 const MainLayout = () => (
   <>
@@ -62,31 +63,30 @@ createRoot(document.getElementById('root')!).render(
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <BrowserRouter>
       <AuthProvider>
-
-
-        <Routes>
-          <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryDashBoard />} />
-          <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProfile />} />
-          <Route path={ROUTES.FACTORY_SUPPORT} element={<FactorySupport />} />
-          <Route path={ROUTES.FACTORY_ORDER} element={<FactoryOrder />} />
-          <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProductPage />} />
-          <Route path={ROUTES.FACTORY_STAFF} element={<FactoryStaff />} />
-          <Route path={ROUTES.FACTORY_SALE} element={<FactorySale />} />
-
-          <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
-          <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
-          <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
-          <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
-          <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
-          <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
-        </Routes>
         <CartProvider>
           <Routes>
+            {/* Dashboard routes without MainLayout */}
+            <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryDashBoard />} />
+            <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProfile />} />
+            <Route path={ROUTES.FACTORY_SUPPORT} element={<FactorySupport />} />
+            <Route path={ROUTES.FACTORY_ORDER} element={<FactoryOrder />} />
+            <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProductPage />} />
+            <Route path={ROUTES.FACTORY_STAFF} element={<FactoryStaff />} />
+            <Route path={ROUTES.FACTORY_SALE} element={<FactorySale />} />
 
+            <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
+            <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
+            <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
+            <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
+            <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
+            <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
+
+            {/* Main shop routes with MainLayout */}
             <Route element={<MainLayout />}>
               <Route path={ROUTES.HOME} element={<HomePage />} />
               <Route path={ROUTES.CART} element={<CartPage />} />
               <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
+              <Route path={ROUTES.FACTORIES} element={<FactoriesPage />} />
               <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
               <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
               <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
@@ -109,9 +109,7 @@ createRoot(document.getElementById('root')!).render(
               <Route element={<RequireVerifyState />} >
                 <Route path={ROUTES.VERIFY_ACCOUNT} element={<VerifyAccount />} />
               </Route>
-
             </Route>
-
           </Routes>
         </CartProvider>
       </AuthProvider>

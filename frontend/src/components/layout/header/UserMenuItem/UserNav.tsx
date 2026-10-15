@@ -23,7 +23,14 @@ export default function UserNav({ fullname, avatar, email }: UserNavProps) {
             {/* Khối Avatar */}
             <div className="flex-shrink-0">
                 {avatar ? (
-                    <img src={avatar} width={40} height={40} className="rounded-circle" alt="Avatar" />
+                    <img
+                        src={avatar}
+                        width={40}
+                        height={40}
+                        className="rounded-circle object-fit-cover"
+                        alt={fullname || "Avatar"}
+                        referrerPolicy="no-referrer"
+                    />
                 ) : (
                     <div className="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white" style={{ width: 40, height: 40 }}>
                         {fullname?.charAt(0).toUpperCase() || 'U'}

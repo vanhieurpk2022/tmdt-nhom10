@@ -58,7 +58,7 @@ const getPaginationItems = (currentPage: number, totalPages: number): (number | 
 // Component
 export default function ProductsPage() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const factoryIdParam = searchParams.get("factoryId");
+    const factoryParam = searchParams.get("factoryId") || searchParams.get("factoryIds");
     const sort = PRODUCT_SORT_OPTIONS.find((option) => option.value === searchParams.get("sort"))?.value ?? "popular";
 
     const handleSortChange = (value: string) => {
@@ -107,29 +107,32 @@ export default function ProductsPage() {
 
     // Filter state
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-    const [selectedFactories, setSelectedFactories]   = useState<number[]>(() => {
-        return factoryIdParam ? [Number(factoryIdParam)] : [];
+    const [selectedFactories, setSelectedFactories] = useState<number[]>(() => {
+        if (!factoryParam) return [];
+        return factoryParam.split(",").map((id) => Number(id.trim())).filter((id) => !isNaN(id) && id > 0);
     });
     const [priceRange, setPriceRange] = useState({ min: "", max: "" });
     const [pricePreset, setPricePreset] = useState<string>("");
     const [minRating, setMinRating] = useState<number | undefined>(undefined);
 
     // Products state
-    const [products, setProducts]       = useState<ProductCard[]>([]);
-    const [totalElements, setTotal]     = useState(0);
-    const [totalPages, setTotalPages]   = useState(0);
-    const [currentPage, setPage]        = useState(0);
-    const [loading, setLoading]         = useState(false);
+    const [products, setProducts] = useState<ProductCard[]>([]);
+    const [totalElements, setTotal] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
     const productRequestId = useRef(0);
 
     // Cập nhật selectedFactories khi URL query param thay đổi
     useEffect(() => {
         setSelectedFactories((previous) => {
-            const next = factoryIdParam ? [Number(factoryIdParam)] : [];
+            const next = factoryParam
+                ? factoryParam.split(",").map((id) => Number(id.trim())).filter((id) => !isNaN(id) && id > 0)
+                : [];
             return previous.length === next.length && previous.every((id, index) => id === next[index])
                 ? previous : next;
         });
-    }, [factoryIdParam]);
+    }, [factoryParam]);
 
     useLayoutEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -209,6 +212,7 @@ export default function ProductsPage() {
             const nextParams = new URLSearchParams(previousParams);
             nextParams.delete("sort");
             nextParams.delete("factoryId");
+            nextParams.delete("factoryIds");
             return nextParams;
         });
     };
@@ -322,7 +326,7 @@ export default function ProductsPage() {
                                 </div>
                             </div>
 
-                            <div className="d-flex gap-2">
+                            <div className="d-flex gap-2 products-sidebar-footer">
                                 <button className="btn btn-primary flex-grow-1 fw-bold" onClick={() => fetchProducts(0)} disabled={loading}>
                                     {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Áp dụng"}
                                 </button>
