@@ -61,7 +61,8 @@ public class FactoryService {
                     bannerUrl,
                     gallery,
                     null,
-                    null
+                    null,
+                    f.getCustomServiceFee() != null ? f.getCustomServiceFee() : 25000.0
             );
         }).toList();
     }
@@ -104,7 +105,8 @@ public class FactoryService {
                 bannerUrl,
                 gallery,
                 null,
-                null
+                null,
+                f.getCustomServiceFee() != null ? f.getCustomServiceFee() : 25000.0
         );
     }
 }

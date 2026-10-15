@@ -23,4 +23,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     @Query("SELECT p FROM Product p ORDER BY p.createdAt DESC, p.id DESC")
     List<Product> findNewestProducts(Pageable pageable);
 
+    List<Product> findByFactoryId(Long factoryId);
 }

@@ -41,4 +41,8 @@ public class ProductCustom {
 
     @OneToMany(mappedBy = "productCustom")
     private List<ProductCustomItem> items;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "factory_id")
+    private Factory factory;
 }

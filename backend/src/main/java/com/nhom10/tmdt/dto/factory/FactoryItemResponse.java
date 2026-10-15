@@ -13,5 +13,6 @@ public record FactoryItemResponse(
         String bannerUrl,
         List<String> galleryImages,
         Double minPrice,
-        Double maxPrice
+        Double maxPrice,
+        Double customServiceFee
 ) {}

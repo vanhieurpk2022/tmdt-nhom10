@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/factories/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/custom-scent/**").permitAll()
                 .requestMatchers("/shipping/provinces", "/shipping/districts", "/shipping/wards").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
