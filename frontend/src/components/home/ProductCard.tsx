@@ -1,6 +1,8 @@
 import { faCartShopping, faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router";
 import type { HomeProduct } from "../../data/homeData";
+import { ROUTES } from "../../routes/routes";
 
 interface ProductCardProps {
     product: HomeProduct;
@@ -16,22 +18,30 @@ function formatPrice(price: number) {
 }
 
 export default function ProductCard({ product, isAdding = false, onAddToCart }: ProductCardProps) {
+    const productDetailUrl = `${ROUTES.PRODUCT_DETAIL}/${product.id}`;
+
     return (
         <article className="home-product-card">
             <div className="home-product-image-box">
                 {product.tag && <span className="home-product-tag">{product.tag}</span>}
-                <img
-                    src={product.image}
-                    alt={product.name}
-                    onError={(event) => {
-                        event.currentTarget.src = fallbackImage;
-                    }}
-                />
+                <Link to={productDetailUrl} className="d-block w-100 h-100">
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        onError={(event) => {
+                            event.currentTarget.src = fallbackImage;
+                        }}
+                    />
+                </Link>
             </div>
 
             <div className="home-product-body d-flex flex-column">
                 <span className="home-product-category">{product.category}</span>
-                <h3>{product.name}</h3>
+                <h3>
+                    <Link to={productDetailUrl} className="text-decoration-none text-dark hover-primary">
+                        {product.name}
+                    </Link>
+                </h3>
                 <p>{product.description}</p>
 
                 <div className="home-product-rating d-flex align-items-center flex-wrap">

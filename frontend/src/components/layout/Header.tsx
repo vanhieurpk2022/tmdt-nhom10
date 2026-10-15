@@ -1,4 +1,5 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router";
 import Cart from "./header/Cart";
 import LogoHeader from "./header/LogoHeader";
 import NavItem from "./header/NavItem";
@@ -11,13 +12,15 @@ import { useAuth } from "../../api/AuthContext";
 import { useCart } from "../../api/CartContext";
 import CartToast from "../cart/CartToast";
 
-
-
 export function Header() {
+    const location = useLocation();
+    const pathname = location.pathname;
 
     const { user, loading } = useAuth();
     const { summary } = useCart();
 
+    const isHome = pathname === ROUTES.HOME;
+    const isProducts = pathname.startsWith(ROUTES.PRODUCTS) || pathname.startsWith(ROUTES.PRODUCT_DETAIL);
 
     return (
         <>
@@ -31,8 +34,8 @@ export function Header() {
                     </div>
 
                     <nav className="d-flex align-items-center gap-3 gap-xl-4 flex-shrink-0 site-nav" aria-label="Điều hướng chính">
-                        <NavItem href={ROUTES.HOME} content="Trang Chủ" active />
-                        <NavItem href={ROUTES.PRODUCTS} content="Sản phẩm" />
+                        <NavItem href={ROUTES.HOME} content="Trang Chủ" active={isHome} />
+                        <NavItem href={ROUTES.PRODUCTS} content="Sản phẩm" active={isProducts} />
                         <NavItem href={ROUTES.HOME} content="Xưởng" />
                         <NavItem href={ROUTES.HOME} content="Ưu đãi" />
                     </nav>
