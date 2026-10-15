@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import type { CartItem } from "../../data/cartData";
+import { checkoutCartItemIdsKey } from "../../api/CheckoutSelection";
 
 interface CartSummaryProps {
     selectedItems: CartItem[];
@@ -7,7 +8,6 @@ interface CartSummaryProps {
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
-const checkoutCartItemIdsKey = "oilia_checkout_cart_item_ids";
 
 function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;

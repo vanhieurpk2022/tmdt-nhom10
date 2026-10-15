@@ -1,8 +1,10 @@
 import api from "./api";
+import type { BuyNowSelection } from "./CheckoutSelection";
 
 export interface ShippingFeeRequest {
     addressId: number;
-    cartItemIds: number[];
+    cartItemIds?: number[];
+    buyNow?: BuyNowSelection;
 }
 
 export interface ShippingFeeResponse {

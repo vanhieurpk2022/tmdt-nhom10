@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { authService } from '../../../api/AuthService';
 import { ROUTES } from '../../../routes/routes';
 import { useAuth } from "../../../api/AuthContext";
@@ -13,6 +13,7 @@ export function LoginForm() {
     const [rememberMe, setRememberMe] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const navigate = useNavigate();
+    const location = useLocation();
     const { setUser, loading, setLoading } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -27,7 +28,10 @@ export function LoginForm() {
 
             if (response.status === 200) {
                 setUser(response.data.user);
-                navigate(ROUTES.HOME, { replace: true });
+                const from = location.state?.from;
+                const destination = typeof from === "string" ? from
+                    : from?.pathname ? `${from.pathname}${from.search || ""}${from.hash || ""}` : ROUTES.HOME;
+                navigate(destination.startsWith("/") && !destination.startsWith("//") ? destination : ROUTES.HOME, { replace: true });
             }
 
         } catch (error) {

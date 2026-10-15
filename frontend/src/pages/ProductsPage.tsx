@@ -2,7 +2,12 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faStar, faFire, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
+import { useAuth } from "../api/AuthContext";
+import { useCart } from "../api/CartContext";
+import { cartService } from "../api/CartService";
+import { getBuyNowUrl, getPurchaseErrorMessage } from "../api/CheckoutSelection";
+import { ROUTES } from "../routes/routes";
 import "../css/pages/products.css";
 import {
     productService,
@@ -45,6 +50,38 @@ const getPaginationItems = (currentPage: number, totalPages: number): (number | 
 // Component
 export default function ProductsPage() {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user, loading: authLoading } = useAuth();
+    const { applyCart, showCartNotice } = useCart();
+    const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
+
+    const handleAddToCart = async (product: ProductCard) => {
+        if (!user) {
+            navigate(ROUTES.LOGIN, { state: { from: location } });
+            return;
+        }
+        if (addingProductIds.includes(product.id)) return;
+        setAddingProductIds((ids) => [...ids, product.id]);
+        try {
+            const cart = await cartService.addItem({ productId: product.id, quantity: 1 });
+            applyCart(cart);
+            showCartNotice(`Đã thêm ${product.name} vào giỏ hàng.`);
+        } catch (error) {
+            showCartNotice(getPurchaseErrorMessage(error, "Chưa thêm được sản phẩm vào giỏ hàng."), "error");
+        } finally {
+            setAddingProductIds((ids) => ids.filter((id) => id !== product.id));
+        }
+    };
+
+    const handleBuyNow = (product: ProductCard) => {
+        const checkoutUrl = getBuyNowUrl({ productId: product.id, quantity: 1 });
+        if (!user) {
+            navigate(ROUTES.LOGIN, { state: { from: checkoutUrl } });
+            return;
+        }
+        navigate(checkoutUrl);
+    };
 
     // Filter meta (sidebar data)
     const [meta, setMeta] = useState<FilterMeta>({ categories: [], factories: [] });
@@ -372,15 +409,17 @@ export default function ProductsPage() {
                                                             <div className="col-6">
                                                                 <button
                                                                     className="btn btn-outline-primary w-100 fw-bold bg-white text-primary btn-add-cart d-flex align-items-center justify-content-center gap-2"
-                                                                    disabled={product.stockStatus === "Hết hàng"}
+                                                                    onClick={() => handleAddToCart(product)}
+                                                                    disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
                                                                 >
-                                                                    <FontAwesomeIcon icon={faBagShopping} /> Thêm giỏ
+                                                                    <FontAwesomeIcon icon={addingProductIds.includes(product.id) ? faSpinner : faBagShopping} spin={addingProductIds.includes(product.id)} /> Thêm giỏ
                                                                 </button>
                                                             </div>
                                                             <div className="col-6">
                                                                 <button
                                                                     className="btn btn-primary w-100 fw-bold btn-buy-now"
-                                                                    disabled={product.stockStatus === "Hết hàng"}
+                                                                    onClick={() => handleBuyNow(product)}
+                                                                    disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
                                                                 >
                                                                     Mua ngay
                                                                 </button>
