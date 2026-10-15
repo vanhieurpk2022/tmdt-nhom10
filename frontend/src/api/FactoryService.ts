@@ -1,4 +1,10 @@
-import api, { type ApiResponse } from "./api";
+import api from "./api";
+
+export interface ApiResponse<T> {
+    status: number;
+    message: string;
+    data: T;
+}
 
 export interface FactoryItem {
     id: number;
