@@ -37,5 +37,7 @@ export const ROUTES = {
   FACTORY_PROFILE: "/factory-profile",
   FACTORY_SALE: "/factory-sale",
   FACTORY_PRODUCT: "/factory-product",
-  FACTORY_SUPPORT: "/factory-support"
+  FACTORY_SUPPORT: "/factory-support",
+  FACTORY_FORM: "/factory-register"
+
 } as const;

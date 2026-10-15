@@ -1,16 +1,19 @@
-INSERT INTO `category` VALUES (1, '2026-09-24 15:01:20.053342', 'Tinh dầu', '2026-09-24 15:01:20.053342');
-INSERT INTO `category` VALUES (2, '2026-09-24 15:01:20.057426', 'Dầu nền', '2026-09-24 15:01:20.057426');
-INSERT INTO `category` VALUES (3, '2026-09-24 16:19:36.243012', 'Tinh dầu chiết xuất', '2026-09-24 16:19:36.243012');
-INSERT INTO `category` VALUES (4, '2026-09-24 16:19:36.243417', 'Tinh dầu phối trộn', '2026-09-24 16:19:36.243417');
-INSERT INTO `factory` VALUES (1, 'VFI 10-4, Lô B133-B134-B135, Đường Số 8, KCN Thái Hòa, Xã Đức Lập, Tỉnh Tây Ninh', '2026-09-24 15:01:20.050380', 'Labcos - nguyên liệu và gia công mỹ phẩm; website: https://labcos.com.vn/; liên hệ: 0902 666 746', 'ACTIVE', 'Labcos', '2026-09-24 15:01:20.050380');
-INSERT INTO `factory` VALUES (2, 'Bãi Dài, Tiến Xuân, Thạch Thất, Hà Nội, Việt Nam', '2026-09-24 15:51:20.547748', 'Thương hiệu của Công ty Cổ phần Tinh Dầu Thiên Nhiên Hà Nội; https://tinhdauhanoi.com/; 024 66 543 544', 'ACTIVE', 'VIPSEN', '2026-09-24 15:51:20.547748');
-INSERT INTO `factory` VALUES (3, '247/27 Lê Thị Kim, Ấp 18, Xã Xuân Thới Sơn, TP. Hồ Chí Minh', '2026-09-24 16:19:36.241068', 'Công ty TNHH Thương Mại Sản xuất hương liệu thanh xuân; https://biyokea.vn; CSKH: sales@biyokea.vn; 0979 79 36 76', 'ACTIVE', 'BIYÒKEA', '2026-09-24 16:19:36.241068');
-INSERT INTO `factory` VALUES (4, '265 Thống Nhất, Phường Phú Thọ Hoà, Thành phố Hồ Chí Minh, Việt Nam', '2026-09-24 16:38:06.887528', 'Công ty TNHH Tinh Dầu - Thảo Dược Dalosa Việt Nam; nhập khẩu và phân phối tinh dầu; www.tinhdauduoclieu.vn; Hotline 0967 22 7899', 'ACTIVE', 'DALOSA Việt Nam', '2026-09-24 16:38:06.887528');
-INSERT INTO `factory` VALUES (5, '43R/10 Hồ Văn Huê, Phường 9, Quận Phú Nhuận, TP. Hồ Chí Minh', '2026-09-24 16:41:04.609766', 'Nhà cung cấp/thương hiệu tinh dầu Lê Mai Việt Nam; không xác nhận đây là địa chỉ xưởng sản xuất.', 'ACTIVE', 'Lê Mai Việt Nam', '2026-09-24 16:44:39.000000');
-INSERT INTO `factory` VALUES (6, '\'940 Cách Mạng Tháng 8, Phường 5, Quận Tân Bình, TP.HCM\'', '2026-09-24 16:49:55.315002', 'Thương hiệu bán lẻ và nhập khẩu tinh dầu thiên nhiên thuộc Công ty TNHH HAKU; không xác nhận là nhà máy sản xuất. Văn phòng: Tầng 20, Golden Mansion, 119 Phổ Quang, Phường 9, Quận Phú Nhuận, TP.HCM.', 'ACTIVE', 'HAKU Farm', '2026-09-24 16:49:55.315002');
-INSERT INTO `factory` VALUES (7, '146 Phố Chùa Quỳnh, phường Bạch Mai, Hà Nội', '2026-09-24 16:52:58.309676', 'Cửa hàng tinh dầu thuộc Công ty Cổ phần CCN Việt Nam; website tinhdau100.vn; điện thoại 0972168805. Không mặc định là xưởng sản xuất.', 'ACTIVE', 'Tinh Dầu 100', '2026-09-24 16:52:58.309676');
-INSERT INTO `factory` VALUES (8, 'Lô 17 đường 5, khu dân cư Phú Hữu, P. Phú Hữu, TP. HCM', '2026-09-26 11:47:26.438512', 'Kho Tinh Dầu thuộc Việt Hương Group; đơn vị cung cấp/nhập khẩu tinh dầu thiên nhiên. Hotline 0979 990 333; email info@khotinhdau.com.', 'ACTIVE', 'Kho Tinh Dầu', '2026-09-26 11:47:26.438512');
-INSERT INTO `factory_image` VALUES (1, 'https://haku.vn/wp-content/uploads/2020/04/bang-hieu-haku-farm-tinh-dau.jpg', b'1', b'0', 6);
+
+
+INSERT INTO `category` (`id`, `created_at`, `name`, `updated_at`) VALUES
+(1, '2026-09-24 15:01:20.053342', 'Tinh dầu', '2026-09-24 15:01:20.053342'),
+(2, '2026-09-24 15:01:20.057426', 'Dầu nền', '2026-09-24 15:01:20.057426'),
+(3, '2026-09-24 16:19:36.243012', 'Tinh dầu chiết xuất', '2026-09-24 16:19:36.243012'),
+(4, '2026-09-24 16:19:36.243417', 'Tinh dầu phối trộn', '2026-09-24 16:19:36.243417');
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`) VALUES
+(1, 'VFI 10-4, Lô B133-B134-B135, Đường Số 8, KCN Thái Hòa, Xã Đức Lập, Tỉnh Tây Ninh', '2026-09-24 15:01:20.050380', 'Labcos - nguyên liệu và gia công mỹ phẩm; website: https://labcos.com.vn/; liên hệ: 0902 666 746', 'ACTIVE', 'Labcos', '2026-09-24 15:01:20.050380'),
+(2, 'Bãi Dài, Tiến Xuân, Thạch Thất, Hà Nội, Việt Nam', '2026-09-24 15:51:20.547748', 'Thương hiệu của Công ty Cổ phần Tinh Dầu Thiên Nhiên Hà Nội; https://tinhdauhanoi.com/; 024 66 543 544', 'ACTIVE', 'VIPSEN', '2026-09-24 15:51:20.547748'),
+(3, '247/27 Lê Thị Kim, Ấp 18, Xã Xuân Thới Sơn, TP. Hồ Chí Minh', '2026-09-24 16:19:36.241068', 'Công ty TNHH Thương Mại Sản xuất hương liệu thanh xuân; https://biyokea.vn; CSKH: sales@biyokea.vn; 0979 79 36 76', 'ACTIVE', 'BIYÒKEA', '2026-09-24 16:19:36.241068'),
+(4, '265 Thống Nhất, Phường Phú Thọ Hoà, Thành phố Hồ Chí Minh, Việt Nam', '2026-09-24 16:38:06.887528', 'Công ty TNHH Tinh Dầu - Thảo Dược Dalosa Việt Nam; nhập khẩu và phân phối tinh dầu; www.tinhdauduoclieu.vn; Hotline 0967 22 7899', 'ACTIVE', 'DALOSA Việt Nam', '2026-09-24 16:38:06.887528'),
+(5, '43R/10 Hồ Văn Huê, Phường 9, Quận Phú Nhuận, TP. Hồ Chí Minh', '2026-09-24 16:41:04.609766', 'Nhà cung cấp/thương hiệu tinh dầu Lê Mai Việt Nam; không xác nhận đây là địa chỉ xưởng sản xuất.', 'ACTIVE', 'Lê Mai Việt Nam', '2026-09-24 16:44:39.000000'),
+(6, '940 Cách Mạng Tháng 8, Phường 5, Quận Tân Bình, TP.HCM', '2026-09-24 16:49:55.315002', 'Thương hiệu bán lẻ và nhập khẩu tinh dầu thiên nhiên thuộc Công ty TNHH HAKU; không xác nhận là nhà máy sản xuất. Văn phòng: Tầng 20, Golden Mansion, 119 Phổ Quang, Phường 9, Quận Phú Nhuận, TP.HCM.', 'ACTIVE', 'HAKU Farm', '2026-09-24 16:49:55.315002'),
+(7, '146 Phố Chùa Quỳnh, phường Bạch Mai, Hà Nội', '2026-09-24 16:52:58.309676', 'Cửa hàng tinh dầu thuộc Công ty Cổ phần CCN Việt Nam; website tinhdau100.vn; điện thoại 0972168805. Không mặc định là xưởng sản xuất.', 'ACTIVE', 'Tinh Dầu 100', '2026-09-24 16:52:58.309676'),
+(8, 'Lô 17 đường 5, khu dân cư Phú Hữu, P. Phú Hữu, TP. HCM', '2026-09-26 11:47:26.438512', 'Kho Tinh Dầu thuộc Việt Hương Group; đơn vị cung cấp/nhập khẩu tinh dầu thiên nhiên. Hotline 0979 990 333; email info@khotinhdau.com.', 'ACTIVE', 'Kho Tinh Dầu', '2026-09-26 11:47:26.438512');INSERT INTO `factory_image` VALUES (1, 'https://haku.vn/wp-content/uploads/2020/04/bang-hieu-haku-farm-tinh-dau.jpg', b'1', b'0', 6);
 INSERT INTO `factory_image` VALUES (2, 'https://haku.vn/wp-content/uploads/2020/04/banner-haku-scent-tinh-dau-que.jpg', b'0', b'1', 6);
 INSERT INTO `factory_image` VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO0gbu4n2danx2g6JSS42Xy5smL99zSy9x49b96DWSKQ&s=10', b'0', b'0', 6);
 INSERT INTO `factory_image` VALUES (4, 'https://madagui.com/wp-content/uploads/2021/06/cua-hang-tinh-dau-thien-nhien.jpg', b'0', b'0', 6);

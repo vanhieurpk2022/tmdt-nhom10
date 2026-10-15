@@ -44,8 +44,10 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/v1/factory/**").permitAll()
+                .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/factories/**").permitAll()
+                .requestMatchers( "/factories/**").permitAll()
                 .requestMatchers("/shipping/provinces", "/shipping/districts", "/shipping/wards").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated());

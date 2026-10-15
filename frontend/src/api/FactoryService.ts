@@ -1,4 +1,4 @@
-import api, { type ApiResponse } from "./api";
+import api from "./api";
 
 export interface FactoryItem {
     id: number;
@@ -13,6 +13,27 @@ export interface FactoryItem {
     minPrice?: number | null;
     maxPrice?: number | null;
 }
+interface ApiResponse<T> {
+    status: number;
+    message: string;
+    data: T;
+}
+
+export interface RegisterFactoryRequest {
+    name: string;
+    address: string;
+    accountHolder: string;
+    accountNumber: string;
+    shopPhone: string;
+    fullNameRepre: string;
+    identity: string;
+    typeFactory: number;
+    licenseUrl?: string;
+    cosmeticLicenseUrl?: string;
+    tccsDocUrl?: string;
+    originInvoiceUrl?: string;
+    brandAuthorizationUrl?: string;
+}
 
 export const FactoryApiService = {
     /** Lấy danh sách tất cả xưởng đối tác */
@@ -26,4 +47,17 @@ export const FactoryApiService = {
         const res = await api.get<ApiResponse<FactoryItem>>(`/factories/${id}`);
         return res.data.data;
     },
+
+    /** Đăng kí người bán dạng có Multifile*/
+    regsiterFactory: async (
+        request: RegisterFactoryRequest
+    ): Promise<ApiResponse<void>> => {
+        const res = await api.post<ApiResponse<void>>(
+            "/factories/register",
+            request
+        );
+
+        return res.data;
+    },
+
 };
