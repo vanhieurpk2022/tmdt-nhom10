@@ -349,6 +349,15 @@
     min-height: 40px;
 }
 
+.home-product-card h3 a {
+    color: inherit;
+    transition: color 0.15s ease-in-out;
+}
+
+.home-product-card h3 a:hover {
+    color: #0d6efd !important;
+}
+
 .home-product-card p {
     color: var(--color-stone-500);
     font-size: 11px;
