@@ -74,6 +74,13 @@ public class ProductService {
     // Lọc & phân trang sản phẩm
     public ProductPageResponse filterProducts(ProductFilterRequest req) {
         Specification<Product> spec = buildSpec(req);
+
+        // Thứ tự bán chạy phải dùng cùng một giá trị với totalSold hiển thị trên card.
+        // Một số dữ liệu cũ chưa có product.total_sold nên không thể sắp xếp trực tiếp bằng SQL.
+        if ("bestseller".equalsIgnoreCase(req.sort())) {
+            return filterBySales(spec, req);
+        }
+
         Sort sort = buildSort(req.sort());
         Pageable pageable = PageRequest.of(req.page(), req.size(), sort);
 
@@ -95,10 +102,41 @@ public class ProductService {
     }
 
     public List<ProductCardResponse> getBestSellerProducts(Integer limit) {
-        Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
-        return productRepo.findBestSellerProducts(pageable).stream()
+        int productLimit = normalizeHomeProductLimit(limit);
+        return productRepo.findAll().stream()
+                .sorted(this::compareBySales)
+                .limit(productLimit)
                 .map(this::toCard)
                 .toList();
+    }
+
+    private ProductPageResponse filterBySales(Specification<Product> spec, ProductFilterRequest req) {
+        List<Product> filteredProducts = productRepo.findAll(spec).stream()
+                .sorted(this::compareBySales)
+                .toList();
+
+        int page = Math.max(req.page(), 0);
+        int size = req.size() > 0 ? req.size() : 12;
+        int fromIndex = Math.min(page * size, filteredProducts.size());
+        int toIndex = Math.min(fromIndex + size, filteredProducts.size());
+
+        List<ProductCardResponse> cards = filteredProducts.subList(fromIndex, toIndex).stream()
+                .map(this::toCard)
+                .toList();
+        int totalPages = (int) Math.ceil((double) filteredProducts.size() / size);
+
+        return new ProductPageResponse(cards, filteredProducts.size(), totalPages, page);
+    }
+
+    private int compareBySales(Product left, Product right) {
+        int salesComparison = Long.compare(resolveTotalSold(right), resolveTotalSold(left));
+        if (salesComparison != 0) {
+            return salesComparison;
+        }
+
+        Long leftId = left.getId();
+        Long rightId = right.getId();
+        return Long.compare(rightId == null ? 0 : rightId, leftId == null ? 0 : leftId);
     }
 
     private int normalizeHomeProductLimit(Integer limit) {
@@ -149,11 +187,26 @@ public class ProductService {
     private Sort buildSort(String sort) {
         if (sort == null) return Sort.by(Sort.Direction.ASC, "id");
         return switch (sort) {
-            case "bestseller" -> Sort.by(Sort.Direction.DESC, "totalSold");
             case "price-asc"  -> Sort.by(Sort.Direction.ASC, "price");
             case "price-desc" -> Sort.by(Sort.Direction.DESC, "price");
             default           -> Sort.by(Sort.Direction.ASC, "id"); // popular / mặc định: ID tăng dần
         };
+    }
+
+    /**
+     * Dùng chung cho xếp hạng và số liệu hiển thị trên card.
+     * Dữ liệu cũ chưa có total_sold nên giữ fallback hiện tại để không làm mất số liệu giao diện.
+     */
+    private long resolveTotalSold(Product product) {
+        if (product.getTotalSold() != null && product.getTotalSold() > 0) {
+            return product.getTotalSold();
+        }
+
+        long productId = product.getId() == null ? 0 : product.getId();
+        long reviewCount = product.getReviews() == null ? 0 : product.getReviews().size();
+        return reviewCount > 0
+                ? reviewCount * 35L + ((productId * 11) % 40)
+                : 15L + (productId % 20);
     }
 
     // Chuyển Product entity sang DTO ProductCardResponse
@@ -171,11 +224,7 @@ public class ProductService {
         }
 
         // Tổng số đã bán
-        long totalSold = (p.getTotalSold() != null && p.getTotalSold() > 0)
-                ? p.getTotalSold()
-                : (p.getReviews() != null && !p.getReviews().isEmpty()
-                        ? (p.getReviews().size() * 35L + ((p.getId() * 11) % 40))
-                        : (15L + (p.getId() % 20)));
+        long totalSold = resolveTotalSold(p);
 
         // Tình trạng kho: tổng stockQuantity từ tất cả ProductMil
         int totalStock = 0;
@@ -244,11 +293,7 @@ public class ProductService {
         }
 
         // Tính tổng số lượng đã bán
-        long totalSold = (p.getTotalSold() != null && p.getTotalSold() > 0)
-                ? p.getTotalSold()
-                : (p.getReviews() != null && !p.getReviews().isEmpty()
-                        ? (p.getReviews().size() * 35L + ((p.getId() * 11) % 40))
-                        : (15L + (p.getId() % 20)));
+        long totalSold = resolveTotalSold(p);
 
         // Danh sách các variant dung tích (10ml, 50ml, ...) sắp xếp tăng dần
         List<ProductMilResponse> variants = (p.getProductMils() != null)
