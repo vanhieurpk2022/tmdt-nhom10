@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faArrowRight,
     faArrowLeft,
-    faUpload,
     faPenToSquare,
     faCheck,
     faSliders,
-    faSparkles,
+    faPlus,
+    faMinus,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     SCENT_NOTE_OPTIONS,
@@ -34,14 +34,28 @@ export default function CustomScentPage() {
     const [factories, setFactories] = useState<FactoryItem[]>([]);
     const [selectedFactoryId, setSelectedFactoryId] = useState<number>(1);
 
-    // Lựa chọn 3 tầng hương
-    const topNotes = useMemo(() => SCENT_NOTE_OPTIONS.filter((n) => n.tier === 1), []);
-    const heartNotes = useMemo(() => SCENT_NOTE_OPTIONS.filter((n) => n.tier === 2), []);
-    const baseNotes = useMemo(() => SCENT_NOTE_OPTIONS.filter((n) => n.tier === 3), []);
+    // Danh sách mùi hương lấy trực tiếp từ CSDL theo xưởng
+    const [factoryScents, setFactoryScents] = useState<ScentNoteOption[]>(SCENT_NOTE_OPTIONS);
 
-    const [selectedTopNote, setSelectedTopNote] = useState<ScentNoteOption>(topNotes[0]);
-    const [selectedHeartNote, setSelectedHeartNote] = useState<ScentNoteOption>(heartNotes[0]);
-    const [selectedBaseNote, setSelectedBaseNote] = useState<ScentNoteOption>(baseNotes[0]);
+    // Lựa chọn 3 tầng hương theo xưởng
+    const topNotes = useMemo(() => {
+        const filtered = factoryScents.filter((n) => n.tier === 1);
+        return filtered.length > 0 ? filtered : SCENT_NOTE_OPTIONS.filter((n) => n.tier === 1);
+    }, [factoryScents]);
+
+    const heartNotes = useMemo(() => {
+        const filtered = factoryScents.filter((n) => n.tier === 2);
+        return filtered.length > 0 ? filtered : SCENT_NOTE_OPTIONS.filter((n) => n.tier === 2);
+    }, [factoryScents]);
+
+    const baseNotes = useMemo(() => {
+        const filtered = factoryScents.filter((n) => n.tier === 3);
+        return filtered.length > 0 ? filtered : SCENT_NOTE_OPTIONS.filter((n) => n.tier === 3);
+    }, [factoryScents]);
+
+    const [selectedTopNote, setSelectedTopNote] = useState<ScentNoteOption>(SCENT_NOTE_OPTIONS[0]);
+    const [selectedHeartNote, setSelectedHeartNote] = useState<ScentNoteOption>(SCENT_NOTE_OPTIONS[8]);
+    const [selectedBaseNote, setSelectedBaseNote] = useState<ScentNoteOption>(SCENT_NOTE_OPTIONS[16]);
 
     // Tỷ lệ phần trăm 3 tầng hương
     const [ratioTop, setRatioTop] = useState<number>(30);
@@ -56,7 +70,7 @@ export default function CustomScentPage() {
     const [customNote, setCustomNote] = useState<string>("");
     const [quantity, setQuantity] = useState<number>(1);
 
-    // Tải xưởng từ API
+    // 1. Tải danh sách xưởng từ API
     useEffect(() => {
         FactoryApiService.getAllFactories()
             .then((res) => {
@@ -68,19 +82,68 @@ export default function CustomScentPage() {
             .catch((err) => console.error("Lỗi khi tải danh sách xưởng:", err));
     }, []);
 
+    // 2. Khi đổi xưởng -> Tải danh sách mùi hương thực tế của xưởng đó từ Database
+    useEffect(() => {
+        if (!selectedFactoryId) return;
+        FactoryApiService.getScentsByFactory(selectedFactoryId)
+            .then((scentsDb) => {
+                if (scentsDb && scentsDb.length > 0) {
+                    const mapped: ScentNoteOption[] = scentsDb.map((s) => ({
+                        id: s.id,
+                        tier: s.tier,
+                        name: s.name,
+                        description: s.description,
+                        color: s.color,
+                        defaultRatio: s.tier === 1 ? 30 : s.tier === 2 ? 50 : 20,
+                        extraPrice: Math.round(s.price * 0.1), // Phụ phí hương trích tỷ lệ theo giá gốc tinh dầu của xưởng
+                        origin: s.factoryName,
+                    }));
+                    setFactoryScents(mapped);
+
+                    // Tự động set mặc định nốt đầu tiên của từng tầng thuộc xưởng đó
+                    const tops = mapped.filter((n) => n.tier === 1);
+                    const hearts = mapped.filter((n) => n.tier === 2);
+                    const bases = mapped.filter((n) => n.tier === 3);
+
+                    if (tops.length > 0) setSelectedTopNote(tops[0]);
+                    if (hearts.length > 0) setSelectedHeartNote(hearts[0]);
+                    if (bases.length > 0) setSelectedBaseNote(bases[0]);
+                }
+            })
+            .catch((err) => console.warn("Dùng danh mục tinh dầu dự phòng:", err));
+    }, [selectedFactoryId]);
+
     // Xưởng đang chọn
     const activeFactory = useMemo(() => {
         return factories.find((f) => f.id === selectedFactoryId) || {
             id: 1,
-            name: "Xưởng Đà Lạt Organic — Cao nguyên Lâm Viên",
-            address: "Lâm Đồng",
+            name: "Labcos",
+            address: "Tây Ninh",
+            customServiceFee: 25000,
         };
     }, [factories, selectedFactoryId]);
 
-    // Tính tổng tiền
+    // Phí gia công lấy trực tiếp từ trường customServiceFee của xưởng trong CSDL
+    const factoryFee = useMemo(() => {
+        if (activeFactory && activeFactory.customServiceFee) {
+            return activeFactory.customServiceFee;
+        }
+        return 25000;
+    }, [activeFactory]);
+
+    // Tính tổng tiền động theo dung tích, 3 tầng hương đã chọn, mẫu bao bì và phí xưởng từ CSDL
+    const unitPrice = useMemo(() => {
+        const base = selectedVolume.basePrice;
+        const notesExtra = (selectedTopNote.extraPrice || 0) + 
+                           (selectedHeartNote.extraPrice || 0) + 
+                           (selectedBaseNote.extraPrice || 0);
+        const designExtra = selectedDesign.extraPrice || 0;
+        return base + notesExtra + designExtra + factoryFee;
+    }, [selectedVolume, selectedTopNote, selectedHeartNote, selectedBaseNote, selectedDesign, factoryFee]);
+
     const totalPrice = useMemo(() => {
-        return selectedVolume.basePrice * quantity;
-    }, [selectedVolume, quantity]);
+        return unitPrice * quantity;
+    }, [unitPrice, quantity]);
 
     // Tạo mã lô mẻ pha chế độc bản
     const batchCode = useMemo(() => {
@@ -109,20 +172,20 @@ export default function CustomScentPage() {
                     
                     {/* CỘT TRÁI: PREVIEW CHAI TINH DẦU & CHỌN MẪU THIẾT KẾ */}
                     <div className="col-12 col-lg-5 col-xl-5">
-                        <div className="scent-preview-card">
+                        <div className="card border-0 shadow-sm rounded-4 p-4 p-xl-5 bg-white position-relative">
                             <span className="scent-preview-badge">
                                 <span className="scent-preview-badge-dot" />
                                 Preview vỏ lọ nhãn bao bì
                             </span>
 
-                            {/* MÔ PHỎNG CHAI TINH DẦU */}
+                            {/* MÔ PHỎNG CHAI TINH DẦU THEO THIẾT KẾ ĐỘC BẢN */}
                             <div className="bottle-visual-wrapper">
-                                <div className="bottle-cap" />
-                                <div className={`bottle-body ${selectedDesign.bottleShape}`}>
+                                <div className={`bottle-cap cap-${selectedDesign.capStyle}`} />
+                                <div className={`bottle-body ${selectedDesign.bottleShape} glass-${selectedDesign.glassStyle}`}>
                                     <div className="bottle-liquid-shine" />
                                     
-                                    {/* Nhãn in khắc laser trên chai */}
-                                    <div className="bottle-label-sticker">
+                                    {/* Nhãn in khắc laser trên chai theo style từng mẫu */}
+                                    <div className={`bottle-label-sticker label-${selectedDesign.labelStyle}`}>
                                         <div className="bottle-label-brand">OILIA ATELIER</div>
                                         <div className="bottle-label-title">SIGNATURE</div>
                                         <div className="bottle-label-subtitle">Bespoke Blend</div>
@@ -134,12 +197,15 @@ export default function CustomScentPage() {
                                 </div>
                             </div>
 
-                            <p className="bottle-caption-text">
-                                {selectedDesign.description}
-                            </p>
+                            <div className="text-center mb-3">
+                                <h6 className="fw-bold text-dark mb-1">{selectedDesign.title}</h6>
+                                <p className="text-secondary small mb-0">
+                                    {selectedDesign.description}
+                                </p>
+                            </div>
 
-                            {/* CHỌN MẪU 1, 2, 3 HOẶC UPLOAD */}
-                            <div className="design-sample-selector">
+                            {/* CHỌN MẪU THIẾT KẾ 1, 2, 3 - CĂN GIỮA CHUẨN GỌN GÀNG */}
+                            <div className="d-flex align-items-center justify-content-center gap-2 pt-1">
                                 <span className="fw-semibold text-secondary small me-1">Mẫu</span>
                                 {BOTTLE_DESIGN_OPTIONS.map((opt) => (
                                     <button
@@ -147,19 +213,11 @@ export default function CustomScentPage() {
                                         type="button"
                                         className={`design-sample-btn ${selectedDesign.id === opt.id ? "active" : ""}`}
                                         onClick={() => setSelectedDesign(opt)}
+                                        title={`${opt.title} - ${opt.description}`}
                                     >
                                         {opt.id}
                                     </button>
                                 ))}
-
-                                <button
-                                    type="button"
-                                    className="btn-upload-design"
-                                    onClick={() => alert("Tính năng tải lên file nhãn thiết kế (.ai, .psd, .png) chuẩn bị khả dụng!")}
-                                >
-                                    <FontAwesomeIcon icon={faUpload} />
-                                    Upload
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -168,13 +226,13 @@ export default function CustomScentPage() {
                     <div className="col-12 col-lg-7 col-xl-7">
                         
                         {/* TẦNG 1: TOP NOTE */}
-                        <div className="scent-tier-card">
-                            <div className="scent-tier-header">
-                                <span className="scent-tier-title">Tầng 1 (Nốt đầu)</span>
-                                <span className="scent-tier-ratio-badge">{ratioTop}%</span>
+                        <div className="card border rounded-4 p-3 mb-3 shadow-none bg-white">
+                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                <span className="fw-bold text-dark fs-6">Tầng 1 (Nốt đầu)</span>
+                                <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">{ratioTop}%</span>
                             </div>
                             <select
-                                className="form-select scent-select-box"
+                                className="form-select form-select-lg rounded-3 fs-6"
                                 value={selectedTopNote.id}
                                 onChange={(e) => {
                                     const note = topNotes.find((n) => n.id === Number(e.target.value));
@@ -183,20 +241,20 @@ export default function CustomScentPage() {
                             >
                                 {topNotes.map((n) => (
                                     <option key={n.id} value={n.id}>
-                                        {n.name} — {n.description}
+                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"} - {n.description}
                                     </option>
                                 ))}
                             </select>
                         </div>
 
                         {/* TẦNG 2: HEART NOTE */}
-                        <div className="scent-tier-card">
-                            <div className="scent-tier-header">
-                                <span className="scent-tier-title">Tầng 2 (Nốt giữa)</span>
-                                <span className="scent-tier-ratio-badge">{ratioHeart}%</span>
+                        <div className="card border rounded-4 p-3 mb-3 shadow-none bg-white">
+                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                <span className="fw-bold text-dark fs-6">Tầng 2 (Nốt giữa)</span>
+                                <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">{ratioHeart}%</span>
                             </div>
                             <select
-                                className="form-select scent-select-box"
+                                className="form-select form-select-lg rounded-3 fs-6"
                                 value={selectedHeartNote.id}
                                 onChange={(e) => {
                                     const note = heartNotes.find((n) => n.id === Number(e.target.value));
@@ -205,20 +263,20 @@ export default function CustomScentPage() {
                             >
                                 {heartNotes.map((n) => (
                                     <option key={n.id} value={n.id}>
-                                        {n.name} — {n.description}
+                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"} - {n.description}
                                     </option>
                                 ))}
                             </select>
                         </div>
 
                         {/* TẦNG 3: BASE NOTE */}
-                        <div className="scent-tier-card">
-                            <div className="scent-tier-header">
-                                <span className="scent-tier-title">Tầng 3 (Nốt đáy)</span>
-                                <span className="scent-tier-ratio-badge">{ratioBase}%</span>
+                        <div className="card border rounded-4 p-3 mb-3 shadow-none bg-white">
+                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                <span className="fw-bold text-dark fs-6">Tầng 3 (Nốt đáy)</span>
+                                <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">{ratioBase}%</span>
                             </div>
                             <select
-                                className="form-select scent-select-box"
+                                className="form-select form-select-lg rounded-3 fs-6"
                                 value={selectedBaseNote.id}
                                 onChange={(e) => {
                                     const note = baseNotes.find((n) => n.id === Number(e.target.value));
@@ -227,7 +285,7 @@ export default function CustomScentPage() {
                             >
                                 {baseNotes.map((n) => (
                                     <option key={n.id} value={n.id}>
-                                        {n.name} — {n.description}
+                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"} - {n.description}
                                     </option>
                                 ))}
                             </select>
@@ -236,15 +294,21 @@ export default function CustomScentPage() {
                         {/* CHỌN DUNG TÍCH */}
                         <div className="mb-4">
                             <label className="fw-bold text-dark fs-7 mb-2 d-block">Dung tích</label>
-                            <div className="volume-selector-grid">
+                            <div className="row g-2">
                                 {VOLUME_OPTIONS.map((vol) => (
-                                    <div
-                                        key={vol.ml}
-                                        className={`volume-option-btn ${selectedVolume.ml === vol.ml ? "active" : ""}`}
-                                        onClick={() => setSelectedVolume(vol)}
-                                    >
-                                        <div className="volume-option-ml">{vol.label}</div>
-                                        <div className="volume-option-sub">{vol.sublabel}</div>
+                                    <div key={vol.ml} className="col-4">
+                                        <button
+                                            type="button"
+                                            className={`btn w-100 py-2 rounded-3 text-center border ${
+                                                selectedVolume.ml === vol.ml
+                                                    ? "btn-outline-danger border-2 bg-danger-subtle text-danger fw-bold"
+                                                    : "btn-outline-secondary text-dark"
+                                            }`}
+                                            onClick={() => setSelectedVolume(vol)}
+                                        >
+                                            <div className="fs-6 fw-bold">{vol.label}</div>
+                                            <div className="small text-muted">{vol.sublabel}</div>
+                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -252,49 +316,59 @@ export default function CustomScentPage() {
 
                         {/* CHỌN XƯỞNG CHƯNG CẤT */}
                         <div className="mb-4">
-                            <label className="fw-bold text-dark fs-7 mb-2 d-block">Xưởng chưng cất</label>
+                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                <label className="fw-bold text-dark fs-7 mb-0">Xưởng chưng cất thủ công</label>
+                                <span className="text-muted small">Phí xưởng: +{factoryFee.toLocaleString("vi-VN")}đ</span>
+                            </div>
                             <select
-                                className="form-select scent-select-box"
+                                className="form-select rounded-3"
                                 value={selectedFactoryId}
                                 onChange={(e) => setSelectedFactoryId(Number(e.target.value))}
                             >
                                 {factories.length > 0 ? (
                                     factories.map((f) => (
                                         <option key={f.id} value={f.id}>
-                                            {f.name} — {f.address}
+                                            {f.name} - {f.address}
                                         </option>
                                     ))
                                 ) : (
-                                    <option value={1}>Xưởng Đà Lạt Organic — Cao nguyên Lâm Viên • Dầu thông & Oải hương</option>
+                                    <option value={1}>Xưởng Đà Lạt Organic - Cao nguyên Lâm Viên • Dầu thông & Oải hương</option>
                                 )}
                             </select>
                         </div>
 
                         {/* TỔNG KẾT CÔNG THỨC PHỐI HƯƠNG */}
-                        <div className="scent-summary-box">
-                            <div className="scent-summary-header">
-                                <span className="scent-summary-title">Tổng kết công thức phối hương:</span>
-                                <span className="scent-summary-batch">Mã lô: {batchCode}</span>
+                        <div className="card border border-dashed rounded-4 p-3 p-md-4 mb-4 bg-light">
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <span className="fw-bold text-dark small text-uppercase">Tổng kết công thức phối hương:</span>
+                                <span className="badge bg-secondary font-monospace">Mã: {batchCode}</span>
                             </div>
 
-                            <div className="scent-summary-row">
-                                <span className="scent-summary-label">Hòa phối 3 nốt:</span>
-                                <span className="scent-summary-value">
+                            <div className="d-flex justify-content-between small mb-2">
+                                <span className="text-secondary">Hòa phối 3 nốt:</span>
+                                <span className="fw-semibold text-dark text-end">
                                     {selectedTopNote.name.split(" ")[0]} ({ratioTop}%) + {selectedHeartNote.name.split(" ")[0]} ({ratioHeart}%) + {selectedBaseNote.name.split(" ")[0]} ({ratioBase}%)
                                 </span>
                             </div>
 
-                            <div className="scent-summary-row">
-                                <span className="scent-summary-label">Dung tích:</span>
-                                <span className="scent-summary-value">
-                                    Extrait Pur {selectedVolume.label} ({selectedVolume.sublabel})
+                            <div className="d-flex justify-content-between small mb-2">
+                                <span className="text-secondary">Bao bì & Vỏ lọ:</span>
+                                <span className="fw-semibold text-dark text-end">
+                                    {selectedDesign.title} {selectedDesign.extraPrice > 0 ? `(+${selectedDesign.extraPrice.toLocaleString("vi-VN")}đ)` : "(Mặc định)"}
                                 </span>
                             </div>
 
-                            <div className="scent-summary-row mb-0">
-                                <span className="scent-summary-label">Xưởng chưng cất:</span>
-                                <span className="scent-summary-value text-truncate" style={{ maxWidth: "260px" }}>
-                                    {activeFactory.name}
+                            <div className="d-flex justify-content-between small mb-2">
+                                <span className="text-secondary">Dung tích:</span>
+                                <span className="fw-semibold text-dark text-end">
+                                    Extrait Pur {selectedVolume.label} ({selectedVolume.sublabel}) - {selectedVolume.basePrice.toLocaleString("vi-VN")}đ
+                                </span>
+                            </div>
+
+                            <div className="d-flex justify-content-between small">
+                                <span className="text-secondary">Xưởng chưng cất:</span>
+                                <span className="fw-semibold text-dark text-end text-truncate" style={{ maxWidth: "260px" }}>
+                                    {activeFactory.name} (+{factoryFee.toLocaleString("vi-VN")}đ)
                                 </span>
                             </div>
                         </div>
@@ -306,11 +380,11 @@ export default function CustomScentPage() {
                                     <FontAwesomeIcon icon={faPenToSquare} className="text-danger" />
                                     Ghi chú điều chế & Nhãn in
                                 </label>
-                                <span className="text-muted fs-8">Tối đa 120 ký tự</span>
+                                <span className="text-muted small">Tối đa 120 ký tự</span>
                             </div>
                             <input
                                 type="text"
-                                className="form-control custom-notes-input"
+                                className="form-control rounded-3"
                                 maxLength={120}
                                 placeholder="Ví dụ: Khắc tên 'An Nhiên', giảm nhẹ tỷ lệ nốt đầu, kèm thiệp quà tặng..."
                                 value={customNote}
@@ -319,22 +393,38 @@ export default function CustomScentPage() {
                         </div>
 
                         {/* ACTION BAR: SỐ LƯỢNG, GIÁ & NÚT ĐẶT HÀNG */}
-                        <div className="scent-action-bar">
+                        <div className="d-flex align-items-center justify-content-between gap-3 pt-3 border-top flex-wrap">
                             <div className="d-flex align-items-center gap-3">
-                                <span className="fw-semibold text-secondary small">SL:</span>
-                                <input
-                                    type="number"
-                                    min={1}
-                                    max={50}
-                                    className="scent-qty-input"
-                                    value={quantity}
-                                    onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
-                                />
-                                <div className="d-flex align-items-baseline gap-2 ms-2">
-                                    <span className="text-muted small">Tổng tiền:</span>
-                                    <span className="scent-total-price">
+                                <div className="d-flex align-items-center gap-2">
+                                    <span className="fw-semibold text-secondary small">SL:</span>
+                                    <div className="d-flex align-items-center justify-content-between border rounded-3 px-2 py-1 bg-white shadow-xs" style={{ width: "100px" }}>
+                                        <button
+                                            type="button"
+                                            className="btn btn-link text-secondary p-0 text-decoration-none"
+                                            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                                            disabled={quantity <= 1}
+                                            style={{ width: "24px", height: "24px" }}
+                                        >
+                                            <FontAwesomeIcon icon={faMinus} className="small" />
+                                        </button>
+                                        <span className="fw-bold text-dark px-2">{quantity}</span>
+                                        <button
+                                            type="button"
+                                            className="btn btn-link text-secondary p-0 text-decoration-none"
+                                            onClick={() => setQuantity((q) => Math.min(50, q + 1))}
+                                            disabled={quantity >= 50}
+                                            style={{ width: "24px", height: "24px" }}
+                                        >
+                                            <FontAwesomeIcon icon={faPlus} className="small" />
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div className="ms-1 border-start ps-3">
+                                    <div className="text-muted small lh-1">Tổng tiền</div>
+                                    <div className="fs-4 fw-bolder text-danger lh-sm">
                                         {totalPrice.toLocaleString("vi-VN")}đ
-                                    </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -344,7 +434,7 @@ export default function CustomScentPage() {
                                 </Link>
                                 <button
                                     type="button"
-                                    className="btn-order-bespoke"
+                                    className="btn btn-danger px-4 py-2 rounded-3 fw-bold d-inline-flex align-items-center gap-2 shadow-sm"
                                     onClick={handleOrder}
                                 >
                                     <span>Đặt hàng</span>
