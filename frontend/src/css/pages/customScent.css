@@ -1,0 +1,452 @@
+/* ==========================================================================
+   Custom Scent Bespoke Page (Cá Nhân Hoá Mùi Hương & Thiết Kế Bao Bì)
+   Tone: Đỏ (#dc2626, #b91c1c), Đen/Than (#111827, #0f172a), Vàng hổ phách (#f59e0b)
+   ========================================================================== */
+
+.custom-scent-page {
+    background-color: #fafaf9;
+    min-height: 85vh;
+}
+
+/* Card preview chai bên trái */
+.scent-preview-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px dashed #d6d3d1;
+    padding: 2.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+}
+
+.scent-preview-badge {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+}
+
+.scent-preview-badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #22c55e;
+    border-radius: 50%;
+}
+
+/* Mô phỏng hình ảnh chai tinh dầu nghệ thuật */
+.bottle-visual-wrapper {
+    position: relative;
+    width: 220px;
+    height: 340px;
+    margin: 2.5rem 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Nắp chai */
+.bottle-cap {
+    width: 50px;
+    height: 48px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 6px 6px 2px 2px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 3;
+}
+
+.bottle-cap::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 8px;
+    background: #94a3b8;
+    border-radius: 1px;
+}
+
+/* Thân chai */
+.bottle-body {
+    width: 170px;
+    height: 250px;
+    background: linear-gradient(180deg, rgba(254, 240, 138, 0.45) 0%, rgba(253, 230, 138, 0.7) 60%, rgba(251, 191, 36, 0.85) 100%);
+    border-radius: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 20px 40px -15px rgba(217, 119, 6, 0.25), inset 0 0 20px rgba(255, 255, 255, 0.6);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+/* Kiểu chai tròn / vuông */
+.bottle-body.square {
+    border-radius: 20px;
+}
+.bottle-body.cylinder {
+    border-radius: 36px 36px 20px 20px;
+}
+.bottle-body.apothecary {
+    border-radius: 28px 28px 28px 28px;
+    border-width: 4px;
+}
+
+/* Nhãn in trên thân chai */
+.bottle-label-sticker {
+    width: 120px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 1.15rem 0.65rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.bottle-label-brand {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 0.4rem;
+}
+
+.bottle-label-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #0f172a;
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+}
+
+.bottle-label-subtitle {
+    font-size: 0.65rem;
+    color: #dc2626;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.bottle-label-desc {
+    font-size: 0.58rem;
+    color: #64748b;
+    margin-bottom: 0.6rem;
+}
+
+.bottle-label-volume {
+    font-size: 0.6rem;
+    color: #94a3b8;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+/* Lớp sóng chất lỏng */
+.bottle-liquid-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, transparent 50%, rgba(0, 0, 0, 0.05) 100%);
+    pointer-events: none;
+}
+
+/* Chú thích phía dưới preview chai */
+.bottle-caption-text {
+    font-size: 0.825rem;
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Nút chọn mẫu 1, 2, 3 và Upload */
+.design-sample-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.design-sample-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #d6d3d1;
+    background: #ffffff;
+    color: #44403c;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.design-sample-btn:hover {
+    border-color: #dc2626;
+    color: #dc2626;
+}
+
+.design-sample-btn.active {
+    background: #ffffff;
+    border: 2px solid #dc2626;
+    color: #dc2626;
+}
+
+.btn-upload-design {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    background: #ffffff;
+    border: 1px solid #d6d3d1;
+    color: #1c1917;
+    margin-left: auto;
+    transition: all 0.2s ease;
+}
+
+.btn-upload-design:hover {
+    background: #f5f5f4;
+    border-color: #a8a29e;
+}
+
+/* ================== KHU VỰC CẤU HÌNH TẦNG HƯƠNG ================== */
+.scent-tier-card {
+    background: #ffffff;
+    border: 1px solid #e7e5e4;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.03);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scent-tier-card:hover {
+    border-color: #cbd5e1;
+}
+
+.scent-tier-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.scent-tier-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.scent-tier-ratio-badge {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+}
+
+.scent-select-box {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    font-size: 0.925rem;
+    font-weight: 600;
+    color: #1e293b;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scent-select-box:focus {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+    outline: none;
+}
+
+/* Chọn Dung Tích */
+.volume-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+}
+
+.volume-option-btn {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.85rem 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.volume-option-btn:hover {
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+.volume-option-btn.active {
+    border: 2px solid #dc2626;
+    background: #fff5f5;
+}
+
+.volume-option-ml {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.1;
+}
+
+.volume-option-btn.active .volume-option-ml {
+    color: #dc2626;
+}
+
+.volume-option-sub {
+    font-size: 0.725rem;
+    color: #64748b;
+    margin-top: 0.2rem;
+}
+
+/* Khung tóm tắt công thức phối hương */
+.scent-summary-box {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.scent-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+}
+
+.scent-summary-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #0f172a;
+    text-transform: uppercase;
+}
+
+.scent-summary-batch {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    font-family: monospace;
+}
+
+.scent-summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.scent-summary-label {
+    color: #64748b;
+    flex-shrink: 0;
+    width: 140px;
+}
+
+.scent-summary-value {
+    color: #0f172a;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Ô nhập ghi chú điều chế */
+.custom-notes-input {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.custom-notes-input:focus {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+    outline: none;
+}
+
+/* Thanh hành động đặt hàng */
+.scent-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+.scent-qty-input {
+    width: 60px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.scent-total-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #dc2626;
+    line-height: 1;
+}
+
+.btn-order-bespoke {
+    background: #dc2626;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    padding: 0.75rem 1.75rem;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-order-bespoke:hover {
+    background: #b91c1c;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
