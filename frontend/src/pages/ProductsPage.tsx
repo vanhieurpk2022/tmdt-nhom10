@@ -328,6 +328,7 @@ export default function ProductsPage() {
                                     onChange={(e) => setSort(e.target.value)}
                                 >
                                     <option value="popular">Mặc định (Phổ biến)</option>
+                                    <option value="newest">Sản phẩm mới về</option>
                                     <option value="bestseller">Bán chạy nhất</option>
                                     <option value="price-asc">Giá: Thấp đến Cao</option>
                                     <option value="price-desc">Giá: Cao đến Thấp</option>

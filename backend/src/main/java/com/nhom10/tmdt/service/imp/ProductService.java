@@ -187,6 +187,7 @@ public class ProductService {
     private Sort buildSort(String sort) {
         if (sort == null) return Sort.by(Sort.Direction.ASC, "id");
         return switch (sort) {
+            case "newest"     -> Sort.by(Sort.Direction.DESC, "createdAt", "id");
             case "price-asc"  -> Sort.by(Sort.Direction.ASC, "price");
             case "price-desc" -> Sort.by(Sort.Direction.DESC, "price");
             default           -> Sort.by(Sort.Direction.ASC, "id"); // popular / mặc định: ID tăng dần
