@@ -59,6 +59,7 @@ export default function AccountLayout({ children, breadcrumbCurrent }: AccountLa
                                     <img
                                         src={user.avatar}
                                         alt={displayName}
+                                        referrerPolicy="no-referrer"
                                         width={48}
                                         height={48}
                                         className="rounded-circle object-fit-cover flex-shrink-0"

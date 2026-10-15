@@ -6,7 +6,7 @@ import { profileService, type UserProfile } from "../api/ProfileService";
 import { useAuth } from "../api/AuthContext";
 
 export default function ProfilePage() {
-    const { setUser } = useAuth();
+    const { user, setUser } = useAuth();
 
     // Trạng thái hồ sơ người dùng
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -118,9 +118,19 @@ export default function ProfilePage() {
                         {/* Thẻ hiển thị avatar và trạng thái tài khoản */}
                         <div className="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 rounded-4 border bg-light bg-opacity-50 mb-4 gap-3">
                             <div className="d-flex align-items-center gap-3">
-                                <div className="profile-avatar-xl bg-primary bg-opacity-10 text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center flex-shrink-0">
-                                    {initial}
-                                </div>
+                                {user?.avatar ? (
+                                    <img
+                                        src={user.avatar}
+                                        alt={fullname || "Avatar"}
+                                        referrerPolicy="no-referrer"
+                                        className="profile-avatar-xl rounded-circle object-fit-cover flex-shrink-0"
+                                        style={{ width: "64px", height: "64px" }}
+                                    />
+                                ) : (
+                                    <div className="profile-avatar-xl bg-primary bg-opacity-10 text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center flex-shrink-0">
+                                        {initial}
+                                    </div>
+                                )}
                                 <div>
                                     <div className="fw-bold text-dark fs-5 mb-1">{fullname || profile?.fullname}</div>
                                     <div className="text-muted fs-8">
