@@ -21,6 +21,7 @@ export function Header() {
 
     const isHome = pathname === ROUTES.HOME;
     const isProducts = pathname.startsWith(ROUTES.PRODUCTS) || pathname.startsWith(ROUTES.PRODUCT_DETAIL);
+    const isFactories = pathname.startsWith(ROUTES.FACTORIES);
 
     return (
         <>
@@ -36,7 +37,7 @@ export function Header() {
                     <nav className="d-flex align-items-center gap-3 gap-xl-4 flex-shrink-0 site-nav" aria-label="Điều hướng chính">
                         <NavItem href={ROUTES.HOME} content="Trang Chủ" active={isHome} />
                         <NavItem href={ROUTES.PRODUCTS} content="Sản phẩm" active={isProducts} />
-                        <NavItem href={ROUTES.HOME} content="Xưởng" />
+                        <NavItem href={ROUTES.FACTORIES} content="Xưởng" active={isFactories} />
                         <NavItem href={ROUTES.HOME} content="Ưu đãi" />
                     </nav>
 

@@ -1,0 +1,338 @@
+/* ==========================================================================
+   Factories Page (Danh Sách Xưởng Đối Tác)
+   Tone: Đỏ (#dc2626, #b91c1c) - Đen (#111827, #0f172a) - Trắng/Be
+   ========================================================================== */
+
+.factories-page {
+    background-color: #f8fafc;
+    min-height: 80vh;
+}
+
+/* Hero Section */
+.factories-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b1e 40%, #2a0808 100%);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    padding: 3.5rem 0 3rem;
+}
+
+.factories-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 85% 20%, rgba(220, 38, 38, 0.18) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.factories-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    background: rgba(220, 38, 38, 0.15);
+    border: 1px solid rgba(220, 38, 38, 0.35);
+    color: #fca5a5;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.factories-hero-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.factories-hero-title span {
+    color: #ef4444;
+}
+
+.factories-hero-desc {
+    color: #94a3b8;
+    font-size: 0.975rem;
+    max-width: 680px;
+    line-height: 1.6;
+}
+
+/* Stat pill */
+.factories-stat-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 0.85rem 1.25rem;
+    text-align: center;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.factories-stat-pill:hover {
+    transform: translateY(-2px);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+.factories-stat-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ef4444;
+    line-height: 1;
+}
+
+.factories-stat-label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+}
+
+/* Search and Filters Bar */
+.factories-bar {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    margin-top: -1.75rem;
+    position: relative;
+    z-index: 10;
+}
+
+.factories-search-input {
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 0.65rem 1rem 0.65rem 2.5rem;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.factories-search-input:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    outline: none;
+}
+
+/* Factory Card */
+.factory-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.factory-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 30px -8px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e1;
+}
+
+/* Banner & Avatar */
+.factory-card-banner {
+    height: 130px;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.factory-card-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.factory-card:hover .factory-card-banner img {
+    transform: scale(1.05);
+}
+
+.factory-card-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.factory-card-avatar {
+    position: absolute;
+    bottom: -24px;
+    left: 1.25rem;
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 3px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    overflow: hidden;
+}
+
+.factory-card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 11px;
+}
+
+.factory-card-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.factory-status-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+}
+
+.factory-status-badge.active {
+    background: rgba(16, 185, 129, 0.9);
+    color: #ffffff;
+}
+
+.factory-status-badge.verified {
+    background: rgba(17, 24, 39, 0.85);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* Card Body */
+.factory-card-body {
+    padding: 2rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.factory-card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.35rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.factory-card-title:hover {
+    color: #dc2626;
+}
+
+.factory-card-address {
+    font-size: 0.825rem;
+    color: #64748b;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+    min-height: 2.3em;
+}
+
+.factory-card-desc {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+/* Card meta */
+.factory-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-top: 1px dashed #e2e8f0;
+    border-bottom: 1px dashed #e2e8f0;
+    margin-bottom: 1rem;
+    font-size: 0.825rem;
+}
+
+.factory-meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.factory-meta-label {
+    color: #94a3b8;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.factory-meta-value {
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 0.925rem;
+}
+
+.factory-card-footer {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-view-factory-products {
+    background: #0f172a;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    width: 100%;
+}
+
+.btn-view-factory-products:hover {
+    background: #dc2626;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* Modal detail styling */
+.factory-modal-header-banner {
+    height: 160px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b1e 100%);
+    position: relative;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+}
+
+.factory-modal-header-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
