@@ -10,6 +10,7 @@ import PromoBanners from "../components/home/PromoBanners";
 import SearchSuggestions from "../components/home/SearchSuggestions";
 import type { HomeProduct } from "../data/homeData";
 import { bestSellerProducts, newestProducts } from "../data/homeData";
+import { ROUTES } from "../routes/routes";
 
 const HOME_PRODUCT_LIMIT = 4;
 const fallbackProductImages = [
@@ -126,6 +127,7 @@ export default function HomePage() {
                     title="Sản Phẩm Mới Về"
                     products={homeNewestProducts}
                     actionLabel="Xem tất cả sản phẩm mới"
+                    actionTo={`${ROUTES.PRODUCTS}?sort=newest`}
                     isLoading={isLoadingHomeProducts}
                     errorMessage={homeProductError}
                     addingProductIds={addingProductIds}
@@ -136,6 +138,7 @@ export default function HomePage() {
                     title="Top Sản Phẩm Bán Chạy"
                     products={homeBestSellerProducts}
                     actionLabel="Xem bảng xếp hạng"
+                    actionTo={`${ROUTES.PRODUCTS}?sort=bestseller`}
                     tabs={["Thư giãn", "Kháng khuẩn", "Tập trung"]}
                     isLoading={isLoadingHomeProducts}
                     addingProductIds={addingProductIds}

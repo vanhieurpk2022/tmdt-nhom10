@@ -1,5 +1,6 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router";
 import type { HomeProduct } from "../../data/homeData";
 import ProductCard from "./ProductCard";
 
@@ -8,6 +9,7 @@ interface ProductSectionProps {
     title: string;
     products: HomeProduct[];
     actionLabel: string;
+    actionTo: string;
     tabs?: string[];
     isLoading?: boolean;
     errorMessage?: string;
@@ -20,6 +22,7 @@ export default function ProductSection({
     title,
     products,
     actionLabel,
+    actionTo,
     tabs,
     isLoading = false,
     errorMessage,
@@ -44,10 +47,10 @@ export default function ProductSection({
                             ))}
                         </div>
                     )}
-                    <a className="home-section-action d-inline-flex align-items-center" href="#products">
+                    <Link className="home-section-action d-inline-flex align-items-center" to={actionTo}>
                         {actionLabel}
                         <FontAwesomeIcon icon={faArrowRight} />
-                    </a>
+                    </Link>
                 </div>
             </div>
 
