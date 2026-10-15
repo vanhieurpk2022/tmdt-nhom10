@@ -107,7 +107,7 @@ export default function ProductsPage() {
 
     // Filter state
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-    const [selectedFactories, setSelectedFactories]   = useState<number[]>(() => {
+    const [selectedFactories, setSelectedFactories] = useState<number[]>(() => {
         if (!factoryParam) return [];
         return factoryParam.split(",").map((id) => Number(id.trim())).filter((id) => !isNaN(id) && id > 0);
     });
@@ -116,11 +116,11 @@ export default function ProductsPage() {
     const [minRating, setMinRating] = useState<number | undefined>(undefined);
 
     // Products state
-    const [products, setProducts]       = useState<ProductCard[]>([]);
-    const [totalElements, setTotal]     = useState(0);
-    const [totalPages, setTotalPages]   = useState(0);
-    const [currentPage, setPage]        = useState(0);
-    const [loading, setLoading]         = useState(false);
+    const [products, setProducts] = useState<ProductCard[]>([]);
+    const [totalElements, setTotal] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
     const productRequestId = useRef(0);
 
     // Cập nhật selectedFactories khi URL query param thay đổi
@@ -326,7 +326,7 @@ export default function ProductsPage() {
                                 </div>
                             </div>
 
-                            <div className="d-flex gap-2">
+                            <div className="d-flex gap-2 products-sidebar-footer">
                                 <button className="btn btn-primary flex-grow-1 fw-bold" onClick={() => fetchProducts(0)} disabled={loading}>
                                     {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Áp dụng"}
                                 </button>
