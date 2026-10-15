@@ -23,8 +23,8 @@ export interface ScentProductFromDb {
     factoryId: number;
     factoryName: string;
     tier: 1 | 2 | 3;
-    color: string;
 }
+
 
 export const FactoryApiService = {
     /** Lấy danh sách tất cả xưởng đối tác */

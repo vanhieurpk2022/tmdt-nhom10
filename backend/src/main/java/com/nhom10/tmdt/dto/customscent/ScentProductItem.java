@@ -7,6 +7,6 @@ public record ScentProductItem(
         Double price,
         Long factoryId,
         String factoryName,
-        Integer tier,
-        String color
+        Integer tier
 ) {}
+

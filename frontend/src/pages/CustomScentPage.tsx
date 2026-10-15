@@ -93,7 +93,7 @@ export default function CustomScentPage() {
                         tier: s.tier,
                         name: s.name,
                         description: s.description,
-                        color: s.color,
+                        color: "#fef08a",
                         defaultRatio: s.tier === 1 ? 30 : s.tier === 2 ? 50 : 20,
                         extraPrice: Math.round(s.price * 0.1), // Phụ phí hương trích tỷ lệ theo giá gốc tinh dầu của xưởng
                         origin: s.factoryName,
@@ -241,7 +241,7 @@ export default function CustomScentPage() {
                             >
                                 {topNotes.map((n) => (
                                     <option key={n.id} value={n.id}>
-                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"} - {n.description}
+                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"}
                                     </option>
                                 ))}
                             </select>
@@ -263,7 +263,7 @@ export default function CustomScentPage() {
                             >
                                 {heartNotes.map((n) => (
                                     <option key={n.id} value={n.id}>
-                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"} - {n.description}
+                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"}
                                     </option>
                                 ))}
                             </select>
@@ -285,7 +285,7 @@ export default function CustomScentPage() {
                             >
                                 {baseNotes.map((n) => (
                                     <option key={n.id} value={n.id}>
-                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"} - {n.description}
+                                        {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"}
                                     </option>
                                 ))}
                             </select>
