@@ -31,6 +31,7 @@ export interface FactoryMeta {
     id: number;
     name: string;
     productCount: number;
+    avatarUrl?: string | null;
 }
 
 export interface FilterMeta {

@@ -18,7 +18,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ProductService {
 
@@ -28,6 +27,16 @@ public class ProductService {
     private final ProductRepository productRepo;
     private final CategoryRepository categoryRepo;
     private final FactoryRepository factoryRepo;
+
+    public ProductService(
+            ProductRepository productRepo,
+            CategoryRepository categoryRepo,
+            FactoryRepository factoryRepo
+    ) {
+        this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
+        this.factoryRepo = factoryRepo;
+    }
 
     // Lấy metadata cho sidebar
     public FilterMetaResponse getFilterMeta() {
@@ -45,7 +54,17 @@ public class ProductService {
                 .collect(Collectors.toMap(r -> (Long) r[0], r -> (Long) r[1]));
 
         List<FactoryDto> factories = factoryRepo.findAll().stream()
-                .map(f -> new FactoryDto(f.getId(), f.getName(), facCount.getOrDefault(f.getId(), 0L)))
+                .map(f -> {
+                    String avatarUrl = null;
+                    if (f.getFactoryImages() != null && !f.getFactoryImages().isEmpty()) {
+                        avatarUrl = f.getFactoryImages().stream()
+                                .filter(img -> img.isAvatar() && img.getImageUrl() != null && !img.getImageUrl().isBlank())
+                                .map(img -> img.getImageUrl())
+                                .findFirst()
+                                .orElse(f.getFactoryImages().get(0).getImageUrl());
+                    }
+                    return new FactoryDto(f.getId(), f.getName(), facCount.getOrDefault(f.getId(), 0L), avatarUrl);
+                })
                 .filter(f -> f.productCount() > 0)
                 .toList();
 
