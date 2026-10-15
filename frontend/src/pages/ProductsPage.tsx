@@ -2,7 +2,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faStar, faFire, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import "../css/pages/products.css";
 import {
     productService,
@@ -44,12 +44,17 @@ const getPaginationItems = (currentPage: number, totalPages: number): (number | 
 
 // Component
 export default function ProductsPage() {
+    const [searchParams] = useSearchParams();
+
     // Filter meta (sidebar data)
     const [meta, setMeta] = useState<FilterMeta>({ categories: [], factories: [] });
 
     // Filter state
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-    const [selectedFactories, setSelectedFactories]   = useState<number[]>([]);
+    const [selectedFactories, setSelectedFactories]   = useState<number[]>(() => {
+        const factoryIdParam = searchParams.get("factoryId");
+        return factoryIdParam ? [Number(factoryIdParam)] : [];
+    });
     const [priceRange, setPriceRange] = useState({ min: "", max: "" });
     const [pricePreset, setPricePreset] = useState<string>("");
     const [minRating, setMinRating] = useState<number | undefined>(undefined);
@@ -61,6 +66,14 @@ export default function ProductsPage() {
     const [totalPages, setTotalPages]   = useState(0);
     const [currentPage, setPage]        = useState(0);
     const [loading, setLoading]         = useState(false);
+
+    // Cập nhật selectedFactories khi URL query param thay đổi
+    useEffect(() => {
+        const factoryIdParam = searchParams.get("factoryId");
+        if (factoryIdParam) {
+            setSelectedFactories([Number(factoryIdParam)]);
+        }
+    }, [searchParams]);
 
     // Load sidebar metadata một lần
     useEffect(() => {
@@ -107,6 +120,11 @@ export default function ProductsPage() {
 
     // Fetch khi sort thay đổi (auto-apply)
     useEffect(() => { fetchProducts(0); }, [sort]);
+
+    // Fetch lại khi selectedFactories thay đổi từ URL query
+    useEffect(() => {
+        fetchProducts(0);
+    }, [selectedFactories]);
 
     // Toggle helpers
     const toggleCategory = (id: number) =>
