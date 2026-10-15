@@ -55,7 +55,14 @@
 
     .home-hero-content {
         min-height: auto;
-        padding: 28px;
+        padding: 48px 28px 64px;
+    }
+
+    .home-hero .carousel-control-prev,
+    .home-hero .carousel-control-next {
+        bottom: 8px;
+        top: auto;
+        transform: none;
     }
 
     .home-hero h1 {
