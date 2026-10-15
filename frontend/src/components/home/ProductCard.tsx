@@ -50,12 +50,6 @@ export default function ProductCard({ product, isAdding = false, onAddToCart }: 
                     <span>({product.metricLabel ?? `${product.reviews} đánh giá`})</span>
                 </div>
 
-                {product.soldPercent && (
-                    <div className="home-sale-progress" aria-label={`Đã bán ${product.soldPercent}%`}>
-                        <div style={{ width: `${product.soldPercent}%` }} />
-                    </div>
-                )}
-
                 <div className="home-product-footer d-flex align-items-center justify-content-between">
                     <div>
                         {product.oldPrice && <span className="home-old-price">{formatPrice(product.oldPrice)}</span>}

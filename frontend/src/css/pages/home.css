@@ -161,10 +161,6 @@
     padding: 28px;
 }
 
-.home-flash-section {
-    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
-}
-
 .home-section-heading {
     border-bottom: 1px solid var(--color-stone-100);
     gap: 16px;
@@ -208,52 +204,6 @@
     border-radius: 8px;
     color: var(--color-slate-500);
     font-size: 13px;
-}
-
-.home-flash-title {
-    gap: 12px;
-}
-
-.home-flash-title > span {
-    background: var(--color-amber);
-    border-radius: 8px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 800;
-    gap: 6px;
-    line-height: 16px;
-    padding: 6px 12px;
-    text-transform: uppercase;
-}
-
-.home-countdown {
-    gap: 6px;
-}
-
-.home-countdown b {
-    background: #292524;
-    border-radius: 6px;
-    color: #fff;
-    font-family: "Consolas", monospace;
-    font-size: 12px;
-    line-height: 16px;
-    padding: 4px 10px;
-}
-
-.home-countdown .accent {
-    background: #c88d54;
-}
-
-.home-countdown em {
-    color: var(--color-stone-700);
-    font-style: normal;
-    font-weight: 800;
-}
-
-.home-flash-title small {
-    color: var(--color-stone-500);
-    font-size: 12px;
-    font-weight: 600;
 }
 
 .home-section-tabs {
@@ -371,19 +321,6 @@
     font-size: 11px;
     font-weight: 700;
     gap: 4px;
-}
-
-.home-sale-progress {
-    background: #fed7aa;
-    border-radius: 999px;
-    height: 5px;
-    overflow: hidden;
-}
-
-.home-sale-progress div {
-    background: #f97316;
-    border-radius: inherit;
-    height: 100%;
 }
 
 .home-product-footer {

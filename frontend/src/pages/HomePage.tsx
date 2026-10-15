@@ -9,7 +9,7 @@ import ProductSection from "../components/home/ProductSection";
 import PromoBanners from "../components/home/PromoBanners";
 import SearchSuggestions from "../components/home/SearchSuggestions";
 import type { HomeProduct } from "../data/homeData";
-import { bestSellerProducts, flashSaleProducts, newestProducts } from "../data/homeData";
+import { bestSellerProducts, newestProducts } from "../data/homeData";
 
 const HOME_PRODUCT_LIMIT = 4;
 const fallbackProductImages = [
@@ -121,14 +121,6 @@ export default function HomePage() {
             <SearchSuggestions />
             <div className="container-fluid px-4 px-lg-5 home-page-content d-flex flex-column">
                 <HeroBanner />
-                <ProductSection
-                    title="Flash Sale"
-                    products={flashSaleProducts}
-                    actionLabel="Xem tất cả ưu đãi"
-                    flashSale
-                    addingProductIds={addingProductIds}
-                    onAddToCart={addProductToCart}
-                />
                 <ProductSection
                     eyebrow="Bộ sưu tập mới nhất"
                     title="Sản Phẩm Mới Về"
