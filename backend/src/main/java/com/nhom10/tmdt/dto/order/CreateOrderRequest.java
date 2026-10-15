@@ -1,6 +1,7 @@
 package com.nhom10.tmdt.dto.order;
 
 import com.nhom10.tmdt.enums.PaymentMethod;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -16,6 +17,8 @@ public record CreateOrderRequest(
         PaymentMethod paymentMethod,
 
         @Size(max = 255, message = "Ghi chú không được vượt quá 255 ký tự")
-        String note
+        String note,
+
+        @Valid BuyNowRequest buyNow
 ) {
 }

@@ -8,6 +8,8 @@ public record AddCartItemRequest(
         Long productId,
 
         @Min(value = 1, message = "Số lượng phải lớn hơn 0")
-        Integer quantity
+        Integer quantity,
+
+        Long productMilId
 ) {
 }

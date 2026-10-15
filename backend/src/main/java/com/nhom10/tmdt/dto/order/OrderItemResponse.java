@@ -8,6 +8,8 @@ public record OrderItemResponse(
         String thumbnailUrl,
         int quantity,
         double unitPrice,
-        double lineTotal
+        double lineTotal,
+        Long productMilId,
+        Integer mil
 ) {
 }

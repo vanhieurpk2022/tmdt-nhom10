@@ -28,6 +28,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import { ROUTES } from './routes/routes';
 import { AuthProvider } from './api/AuthContext';
 import { CartProvider } from './api/CartContext';
+import ProtectedRoute from './api/ProtectedRoute';
 import { VerifyAccount } from './pages/VerifyAccount';
 import RequireVerifyState from './api/RequireVerifyState';
 import { VerifyEmailSuccess } from './pages/VerifyEmailSuccess';
@@ -86,7 +87,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path={ROUTES.HOME} element={<HomePage />} />
               <Route path={ROUTES.CART} element={<CartPage />} />
               <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
-              <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
+              <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
               <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
               <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
               <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />

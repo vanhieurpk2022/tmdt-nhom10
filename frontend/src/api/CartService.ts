@@ -3,6 +3,8 @@ import api from "./api";
 export interface CartItemResponse {
     id: number;
     productId: number;
+    productMilId?: number | null;
+    mil?: number | null;
     productName: string;
     description: string | null;
     factoryName: string | null;
@@ -26,6 +28,7 @@ export interface CartResponse {
 
 export interface AddCartItemRequest {
     productId: number;
+    productMilId?: number;
     quantity?: number;
 }
 

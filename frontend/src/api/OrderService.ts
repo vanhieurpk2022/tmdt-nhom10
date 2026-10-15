@@ -1,12 +1,15 @@
 import type { CartItem } from "../data/cartData";
 import { fallbackCartImage } from "../data/cartData";
 import api from "./api";
+import type { BuyNowSelection } from "./CheckoutSelection";
+import type { CartItemResponse } from "./CartService";
 
 export type PaymentMethod = "COD" | "VNPAY";
 
 export interface CreateOrderRequest {
     addressId: number;
-    cartItemIds: number[];
+    cartItemIds?: number[];
+    buyNow?: BuyNowSelection;
     paymentMethod: PaymentMethod;
     note?: string;
 }
@@ -14,6 +17,8 @@ export interface CreateOrderRequest {
 export interface OrderItemResponse {
     id: number;
     productId: number;
+    productMilId?: number | null;
+    mil?: number | null;
     productName: string;
     factoryName: string | null;
     thumbnailUrl: string | null;
@@ -79,7 +84,7 @@ export function toCartItemsFromOrder(order: OrderResponse): CartItem[] {
         id: item.id,
         productId: item.productId,
         name: item.productName,
-        variant: "Sản phẩm tinh dầu",
+        variant: item.mil ? `Dung tích: ${item.mil}ml` : "Sản phẩm tinh dầu",
         origin: "Đã đặt hàng",
         factoryName: item.factoryName || "Oilia Essential",
         factoryCode: `SP-${item.productId}`,
@@ -95,6 +100,11 @@ export function toCartItemsFromOrder(order: OrderResponse): CartItem[] {
 }
 
 export const orderService = {
+    previewBuyNow: async (selection: BuyNowSelection): Promise<CartItemResponse> => {
+        const res = await api.post<ApiResponse<CartItemResponse>>("/orders/buy-now/preview", selection);
+        return res.data.data;
+    },
+
     createOrder: async (request: CreateOrderRequest): Promise<OrderResponse> => {
         const res = await api.post<ApiResponse<OrderResponse>>("/orders", request);
         return res.data.data;

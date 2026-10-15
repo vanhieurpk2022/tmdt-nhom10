@@ -21,7 +21,7 @@ function toCartItem(item: CartItemResponse, selected: boolean, index: number): C
         id: item.id,
         productId: item.productId,
         name: item.productName,
-        variant: item.description || "Sản phẩm tinh dầu",
+        variant: item.mil ? `Dung tích: ${item.mil}ml` : "Sản phẩm tinh dầu",
         origin: `Tồn kho: ${item.stockQuantity}`,
         description: item.description ?? undefined,
         factoryName: item.factoryName || "Oilia Essential",

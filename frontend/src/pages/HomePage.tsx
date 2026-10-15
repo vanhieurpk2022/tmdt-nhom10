@@ -9,7 +9,8 @@ import ProductSection from "../components/home/ProductSection";
 import PromoBanners from "../components/home/PromoBanners";
 import SearchSuggestions from "../components/home/SearchSuggestions";
 import type { HomeProduct } from "../data/homeData";
-import { bestSellerProducts, flashSaleProducts, newestProducts } from "../data/homeData";
+import { bestSellerProducts, newestProducts } from "../data/homeData";
+import { ROUTES } from "../routes/routes";
 
 const HOME_PRODUCT_LIMIT = 4;
 const fallbackProductImages = [
@@ -122,18 +123,11 @@ export default function HomePage() {
             <div className="container-fluid px-4 px-lg-5 home-page-content d-flex flex-column">
                 <HeroBanner />
                 <ProductSection
-                    title="Flash Sale"
-                    products={flashSaleProducts}
-                    actionLabel="Xem tất cả ưu đãi"
-                    flashSale
-                    addingProductIds={addingProductIds}
-                    onAddToCart={addProductToCart}
-                />
-                <ProductSection
                     eyebrow="Bộ sưu tập mới nhất"
                     title="Sản Phẩm Mới Về"
                     products={homeNewestProducts}
                     actionLabel="Xem tất cả sản phẩm mới"
+                    actionTo={`${ROUTES.PRODUCTS}?sort=newest`}
                     isLoading={isLoadingHomeProducts}
                     errorMessage={homeProductError}
                     addingProductIds={addingProductIds}
@@ -144,6 +138,7 @@ export default function HomePage() {
                     title="Top Sản Phẩm Bán Chạy"
                     products={homeBestSellerProducts}
                     actionLabel="Xem bảng xếp hạng"
+                    actionTo={`${ROUTES.PRODUCTS}?sort=bestseller`}
                     tabs={["Thư giãn", "Kháng khuẩn", "Tập trung"]}
                     isLoading={isLoadingHomeProducts}
                     addingProductIds={addingProductIds}

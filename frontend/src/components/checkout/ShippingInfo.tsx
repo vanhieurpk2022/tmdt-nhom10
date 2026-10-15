@@ -1,6 +1,6 @@
 import { faCommentDots, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import type { AddressItem } from "../../api/AddressService";
 import { ROUTES } from "../../routes/routes";
 import CheckoutSectionTitle from "./CheckoutSectionTitle";
@@ -24,13 +24,15 @@ export default function ShippingInfo({
     isLoading = false,
     onDeliveryNoteChange,
 }: ShippingInfoProps) {
+    const location = useLocation();
+    const returnTo = encodeURIComponent(`${location.pathname}${location.search}`);
     return (
         <section className="checkout-block">
             <CheckoutSectionTitle
                 index={2}
                 title="Thông tin người nhận & Địa chỉ giao hàng"
                 action={
-                    <Link className="btn checkout-change-btn" to={`${ROUTES.ADDRESSES}?returnTo=${ROUTES.CHECKOUT}`}>
+                    <Link className="btn checkout-change-btn" to={`${ROUTES.ADDRESSES}?returnTo=${returnTo}`}>
                         <FontAwesomeIcon icon={faPenToSquare} />
                         Thay đổi
                     </Link>

@@ -5,16 +5,13 @@ import com.nhom10.tmdt.dto.order.OrderItemResponse;
 import com.nhom10.tmdt.dto.order.OrderResponse;
 import com.nhom10.tmdt.enums.OrderStatus;
 import com.nhom10.tmdt.model.Address;
-import com.nhom10.tmdt.model.Cart;
 import com.nhom10.tmdt.model.CartItem;
 import com.nhom10.tmdt.model.Order;
 import com.nhom10.tmdt.model.OrderItem;
 import com.nhom10.tmdt.model.Product;
 import com.nhom10.tmdt.model.ProductImage;
-import com.nhom10.tmdt.model.ProductMil;
 import com.nhom10.tmdt.repo.AddressRepository;
 import com.nhom10.tmdt.repo.CartItemRepository;
-import com.nhom10.tmdt.repo.CartRepository;
 import com.nhom10.tmdt.repo.OrderItemRepository;
 import com.nhom10.tmdt.repo.OrderRepository;
 import com.nhom10.tmdt.service.shipping.ShippingFeeService;
@@ -24,48 +21,44 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final AddressRepository addressRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ShippingFeeService shippingFeeService;
+    private final PurchaseItemService purchaseItems;
 
     @Transactional
     public OrderResponse createOrderFromCart(String email, CreateOrderRequest request) {
-        Cart cart = cartRepository.findByUserEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Giỏ hàng đang trống"));
-
-        List<CartItem> cartItems = cartItemRepository.findByCartIdOrderByIdAsc(cart.getId());
-        if (cartItems.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Giỏ hàng đang trống");
-        }
-
         Address address = addressRepository.findByIdAndUserEmail(request.addressId(), email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy địa chỉ giao hàng"));
 
-        List<CartItem> selectedCartItems = resolveSelectedCartItems(cartItems, request.cartItemIds());
-        selectedCartItems.forEach(this::validateCartItem);
+        if (request.buyNow() != null && request.cartItemIds() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Chỉ chọn một hình thức đặt hàng");
+        }
+        List<CartItem> selectedCartItems = request.buyNow() != null
+                ? List.of(purchaseItems.resolve(request.buyNow()))
+                : purchaseItems.selectCartItems(email, request.cartItemIds());
 
         double subtotal = selectedCartItems.stream()
-                .mapToDouble(item -> resolvePrice(item.getProduct()) * item.getQuantity())
+                .mapToDouble(item -> purchaseItems.basePrice(item) * item.getQuantity())
                 .sum();
-        double discountAmount = 0.0;
-        double shippingFee = shippingFeeService.calculateFee(address, selectedCartItems, subtotal);
+        double discountedSubtotal = selectedCartItems.stream()
+                .mapToDouble(item -> purchaseItems.price(item) * item.getQuantity()).sum();
+        double discountAmount = Math.max(subtotal - discountedSubtotal, 0);
+        double shippingFee = shippingFeeService.calculateFee(address, selectedCartItems, discountedSubtotal);
         double total = Math.max(subtotal - discountAmount, 0) + shippingFee;
 
         Order order = Order.builder()
-                .user(cart.getUser())
+                .user(address.getUser())
                 .status(OrderStatus.PENDING)
                 .subtotalPrice(subtotal)
                 .discountAmount(discountAmount)
@@ -84,45 +77,9 @@ public class OrderService {
                 .toList());
         savedOrder.setOrderItems(savedItems);
 
-        cartItemRepository.deleteAll(selectedCartItems);
+        if (request.buyNow() == null) cartItemRepository.deleteAll(selectedCartItems);
 
         return toResponse(savedOrder, savedItems);
-    }
-
-    private List<CartItem> resolveSelectedCartItems(List<CartItem> cartItems, List<Long> cartItemIds) {
-        if (cartItemIds == null || cartItemIds.isEmpty()) {
-            return cartItems;
-        }
-
-        Set<Long> selectedIds = new HashSet<>(cartItemIds);
-        List<CartItem> selectedItems = cartItems.stream()
-                .filter(item -> selectedIds.contains(item.getId()))
-                .toList();
-
-        if (selectedItems.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng chọn sản phẩm để đặt hàng");
-        }
-        if (selectedItems.size() != selectedIds.size()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Một số sản phẩm đã chọn không còn trong giỏ hàng");
-        }
-
-        return selectedItems;
-    }
-
-    private void validateCartItem(CartItem item) {
-        Product product = item.getProduct();
-        double price = resolvePrice(product);
-        int stockQuantity = getStockQuantity(product);
-
-        if (price <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sản phẩm chưa có giá hợp lệ");
-        }
-        if (stockQuantity <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, product.getName() + " đã hết hàng");
-        }
-        if (item.getQuantity() > stockQuantity) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, product.getName() + " vượt quá tồn kho");
-        }
     }
 
     private OrderItem toOrderItem(Order order, CartItem cartItem) {
@@ -130,8 +87,9 @@ public class OrderService {
         return OrderItem.builder()
                 .order(order)
                 .product(product)
+                .productMil(purchaseItems.variant(cartItem))
                 .quantity(cartItem.getQuantity())
-                .unitPrice(resolvePrice(product))
+                .unitPrice(purchaseItems.price(cartItem))
                 .build();
     }
 
@@ -164,7 +122,9 @@ public class OrderService {
                 getThumbnailUrl(product),
                 item.getQuantity(),
                 item.getUnitPrice(),
-                lineTotal
+                lineTotal,
+                item.getProductMil() == null ? null : item.getProductMil().getId(),
+                item.getProductMil() == null ? null : item.getProductMil().getMil()
         );
     }
 
@@ -179,36 +139,6 @@ public class OrderService {
 
     private String normalizeNote(String note) {
         return note == null || note.isBlank() ? null : note.trim();
-    }
-
-    private double resolvePrice(Product product) {
-        if (product.getPrice() != null && product.getPrice() > 0) {
-            return product.getPrice();
-        }
-        return valueOrZero(minProductMilPrice(product));
-    }
-
-    private Double minProductMilPrice(Product product) {
-        if (product.getProductMils() == null || product.getProductMils().isEmpty()) {
-            return null;
-        }
-        return product.getProductMils().stream()
-                .filter(ProductMil::isActive)
-                .map(ProductMil::getPrice)
-                .filter(Objects::nonNull)
-                .filter(price -> price > 0)
-                .min(Double::compareTo)
-                .orElse(null);
-    }
-
-    private int getStockQuantity(Product product) {
-        if (product.getProductMils() == null) {
-            return 0;
-        }
-        return product.getProductMils().stream()
-                .filter(ProductMil::isActive)
-                .mapToInt(ProductMil::getStockQuantity)
-                .sum();
     }
 
     private String getThumbnailUrl(Product product) {

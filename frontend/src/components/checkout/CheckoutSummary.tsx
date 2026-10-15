@@ -64,7 +64,7 @@ export default function CheckoutSummary({
             <div className="checkout-summary-adjustments">
                 <div>
                     <span>Tạm tính</span>
-                    <strong>{formatPrice(subtotal)}</strong>
+                    <strong>{formatPrice(originalSubtotal)}</strong>
                 </div>
                 {productDiscount > 0 && (
                     <div>

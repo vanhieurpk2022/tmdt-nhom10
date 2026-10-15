@@ -1,8 +1,13 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faStar, faFire, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
+import { useAuth } from "../api/AuthContext";
+import { useCart } from "../api/CartContext";
+import { cartService } from "../api/CartService";
+import { getBuyNowUrl, getPurchaseErrorMessage } from "../api/CheckoutSelection";
+import { ROUTES } from "../routes/routes";
 import "../css/pages/products.css";
 import {
     productService,
@@ -12,6 +17,14 @@ import {
 } from "../api/ProductService";
 
 // Helpers
+const PRODUCT_SORT_OPTIONS = [
+    { value: "popular", label: "Mặc định (Phổ biến)" },
+    { value: "newest", label: "Sản phẩm mới về" },
+    { value: "bestseller", label: "Bán chạy nhất" },
+    { value: "price-asc", label: "Giá: Thấp đến Cao" },
+    { value: "price-desc", label: "Giá: Cao đến Thấp" },
+] as const;
+
 const stockBadgeClass = (s: string) =>
     s === "Còn hàng" ? "stock-green" : s === "Sắp hết" ? "stock-yellow" : "stock-red";
 
@@ -44,7 +57,50 @@ const getPaginationItems = (currentPage: number, totalPages: number): (number | 
 
 // Component
 export default function ProductsPage() {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const factoryIdParam = searchParams.get("factoryId");
+    const sort = PRODUCT_SORT_OPTIONS.find((option) => option.value === searchParams.get("sort"))?.value ?? "popular";
+
+    const handleSortChange = (value: string) => {
+        setSearchParams((previousParams) => {
+            const nextParams = new URLSearchParams(previousParams);
+            if (value === "popular") nextParams.delete("sort");
+            else nextParams.set("sort", value);
+            return nextParams;
+        });
+    };
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user, loading: authLoading } = useAuth();
+    const { applyCart, showCartNotice } = useCart();
+    const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
+
+    const handleAddToCart = async (product: ProductCard) => {
+        if (!user) {
+            navigate(ROUTES.LOGIN, { state: { from: location } });
+            return;
+        }
+        if (addingProductIds.includes(product.id)) return;
+        setAddingProductIds((ids) => [...ids, product.id]);
+        try {
+            const cart = await cartService.addItem({ productId: product.id, quantity: 1 });
+            applyCart(cart);
+            showCartNotice(`Đã thêm ${product.name} vào giỏ hàng.`);
+        } catch (error) {
+            showCartNotice(getPurchaseErrorMessage(error, "Chưa thêm được sản phẩm vào giỏ hàng."), "error");
+        } finally {
+            setAddingProductIds((ids) => ids.filter((id) => id !== product.id));
+        }
+    };
+
+    const handleBuyNow = (product: ProductCard) => {
+        const checkoutUrl = getBuyNowUrl({ productId: product.id, quantity: 1 });
+        if (!user) {
+            navigate(ROUTES.LOGIN, { state: { from: checkoutUrl } });
+            return;
+        }
+        navigate(checkoutUrl);
+    };
 
     // Filter meta (sidebar data)
     const [meta, setMeta] = useState<FilterMeta>({ categories: [], factories: [] });
@@ -52,13 +108,11 @@ export default function ProductsPage() {
     // Filter state
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [selectedFactories, setSelectedFactories]   = useState<number[]>(() => {
-        const factoryIdParam = searchParams.get("factoryId");
         return factoryIdParam ? [Number(factoryIdParam)] : [];
     });
     const [priceRange, setPriceRange] = useState({ min: "", max: "" });
     const [pricePreset, setPricePreset] = useState<string>("");
     const [minRating, setMinRating] = useState<number | undefined>(undefined);
-    const [sort, setSort] = useState("popular");
 
     // Products state
     const [products, setProducts]       = useState<ProductCard[]>([]);
@@ -66,14 +120,20 @@ export default function ProductsPage() {
     const [totalPages, setTotalPages]   = useState(0);
     const [currentPage, setPage]        = useState(0);
     const [loading, setLoading]         = useState(false);
+    const productRequestId = useRef(0);
 
     // Cập nhật selectedFactories khi URL query param thay đổi
     useEffect(() => {
-        const factoryIdParam = searchParams.get("factoryId");
-        if (factoryIdParam) {
-            setSelectedFactories([Number(factoryIdParam)]);
-        }
-    }, [searchParams]);
+        setSelectedFactories((previous) => {
+            const next = factoryIdParam ? [Number(factoryIdParam)] : [];
+            return previous.length === next.length && previous.every((id, index) => id === next[index])
+                ? previous : next;
+        });
+    }, [factoryIdParam]);
+
+    useLayoutEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, [location.pathname]);
 
     // Load sidebar metadata một lần
     useEffect(() => {
@@ -82,6 +142,7 @@ export default function ProductsPage() {
 
     // Lọc & lấy dữ liệu sản phẩm
     const fetchProducts = useCallback(async (page = 0) => {
+        const requestId = ++productRequestId.current;
         setLoading(true);
         try {
             // Xử lý preset giá
@@ -107,6 +168,7 @@ export default function ProductsPage() {
             };
 
             const result = await productService.filterProducts(params);
+            if (requestId !== productRequestId.current) return;
             setProducts(result.products);
             setTotal(result.totalElements);
             setTotalPages(result.totalPages);
@@ -114,7 +176,7 @@ export default function ProductsPage() {
         } catch (err) {
             console.error(err);
         } finally {
-            setLoading(false);
+            if (requestId === productRequestId.current) setLoading(false);
         }
     }, [selectedCategories, selectedFactories, priceRange, pricePreset, minRating, sort]);
 
@@ -143,8 +205,12 @@ export default function ProductsPage() {
         setPriceRange({ min: "", max: "" });
         setPricePreset("");
         setMinRating(undefined);
-        setSort("popular");
-        fetchProducts(0);
+        setSearchParams((previousParams) => {
+            const nextParams = new URLSearchParams(previousParams);
+            nextParams.delete("sort");
+            nextParams.delete("factoryId");
+            return nextParams;
+        });
     };
 
     // Render
@@ -288,12 +354,11 @@ export default function ProductsPage() {
                                     className="form-select form-select-sm border-0 bg-white shadow-sm fw-semibold text-dark px-3 py-2 rounded-pill"
                                     style={{ minWidth: "180px", cursor: "pointer" }}
                                     value={sort}
-                                    onChange={(e) => setSort(e.target.value)}
+                                    onChange={(e) => handleSortChange(e.target.value)}
                                 >
-                                    <option value="popular">Mặc định (Phổ biến)</option>
-                                    <option value="bestseller">Bán chạy nhất</option>
-                                    <option value="price-asc">Giá: Thấp đến Cao</option>
-                                    <option value="price-desc">Giá: Cao đến Thấp</option>
+                                    {PRODUCT_SORT_OPTIONS.map((option) => (
+                                        <option key={option.value} value={option.value}>{option.label}</option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
@@ -372,15 +437,17 @@ export default function ProductsPage() {
                                                             <div className="col-6">
                                                                 <button
                                                                     className="btn btn-outline-primary w-100 fw-bold bg-white text-primary btn-add-cart d-flex align-items-center justify-content-center gap-2"
-                                                                    disabled={product.stockStatus === "Hết hàng"}
+                                                                    onClick={() => handleAddToCart(product)}
+                                                                    disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
                                                                 >
-                                                                    <FontAwesomeIcon icon={faBagShopping} /> Thêm giỏ
+                                                                    <FontAwesomeIcon icon={addingProductIds.includes(product.id) ? faSpinner : faBagShopping} spin={addingProductIds.includes(product.id)} /> Thêm giỏ
                                                                 </button>
                                                             </div>
                                                             <div className="col-6">
                                                                 <button
                                                                     className="btn btn-primary w-100 fw-bold btn-buy-now"
-                                                                    disabled={product.stockStatus === "Hết hàng"}
+                                                                    onClick={() => handleBuyNow(product)}
+                                                                    disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
                                                                 >
                                                                     Mua ngay
                                                                 </button>

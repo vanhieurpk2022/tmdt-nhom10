@@ -15,8 +15,10 @@ import {
     faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router";
+import { useAuth } from "../api/AuthContext";
+import { getBuyNowUrl, getPurchaseErrorMessage } from "../api/CheckoutSelection";
 import { useCart } from "../api/CartContext";
 import { cartService } from "../api/CartService";
 import {
@@ -34,6 +36,8 @@ export default function ProductDetailPage() {
     const { id: paramId } = useParams<{ id: string }>();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const { user, loading: authLoading } = useAuth();
     const { applyCart, showCartNotice } = useCart();
 
     const productId = paramId || searchParams.get("id") || "1";
@@ -47,7 +51,6 @@ export default function ProductDetailPage() {
     const [selectedVariant, setSelectedVariant] = useState<ProductMilItem | null>(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
-    const [isBuyingNow, setIsBuyingNow] = useState(false);
 
     const [expandedAccordion, setExpandedAccordion] = useState<Record<string, boolean>>({
         ingredients: true,
@@ -62,6 +65,11 @@ export default function ProductDetailPage() {
             [id]: !prev[id],
         }));
     };
+
+    // Đưa trang lên đầu trước khi hiển thị sản phẩm vừa mở.
+    useLayoutEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, [productId]);
 
     // Tải thông tin chi tiết sản phẩm và danh sách sản phẩm gợi ý
     useEffect(() => {
@@ -78,7 +86,7 @@ export default function ProductDetailPage() {
                 setProduct(detailData);
                 setRelatedProducts(relatedData.filter((p) => p.id !== Number(productId)).slice(0, 4));
                 if (detailData.variants && detailData.variants.length > 0) {
-                    setSelectedVariant(detailData.variants[0]);
+                    setSelectedVariant(detailData.variants.find((v) => v.isActive && v.stockQuantity > 0) ?? detailData.variants[0]);
                 } else {
                     setSelectedVariant(null);
                 }
@@ -101,38 +109,35 @@ export default function ProductDetailPage() {
 
     const handleAddToCart = async () => {
         if (!product) return;
+        if (!user) {
+            navigate(ROUTES.LOGIN, { state: { from: location } });
+            return;
+        }
         try {
             setIsAddingToCart(true);
             const updatedCart = await cartService.addItem({
                 productId: product.id,
+                productMilId: selectedVariant?.id,
                 quantity,
             });
             applyCart(updatedCart);
             showCartNotice(`Đã thêm ${quantity} x ${product.name} vào giỏ hàng.`);
         } catch (err) {
             console.error(err);
-            showCartNotice("Chưa thêm được sản phẩm vào giỏ hàng. Vui lòng đăng nhập hoặc thử lại.", "error");
+            showCartNotice(getPurchaseErrorMessage(err, "Chưa thêm được sản phẩm vào giỏ hàng."), "error");
         } finally {
             setIsAddingToCart(false);
         }
     };
 
-    const handleBuyNow = async () => {
+    const handleBuyNow = () => {
         if (!product) return;
-        try {
-            setIsBuyingNow(true);
-            const updatedCart = await cartService.addItem({
-                productId: product.id,
-                quantity,
-            });
-            applyCart(updatedCart);
-            navigate(ROUTES.CART);
-        } catch (err) {
-            console.error(err);
-            showCartNotice("Vui lòng đăng nhập để tiến hành mua hàng.", "error");
-        } finally {
-            setIsBuyingNow(false);
+        const checkoutUrl = getBuyNowUrl({ productId: product.id, productMilId: selectedVariant?.id, quantity });
+        if (!user) {
+            navigate(ROUTES.LOGIN, { state: { from: checkoutUrl } });
+            return;
         }
+        navigate(checkoutUrl);
     };
 
     if (loading) {
@@ -169,15 +174,15 @@ export default function ProductDetailPage() {
     const currentImage = images[selectedImageIndex] || images[0] || FALLBACK_IMAGE;
 
     // Tính toán đơn giá theo dung tích đã chọn và tỷ lệ giảm giá
-    const currentPrice = selectedVariant?.price ?? product.variants[0]?.price ?? 0;
-    const currentBasePrice = selectedVariant?.basePrice ?? product.variants[0]?.basePrice ?? currentPrice;
+    const currentPrice = selectedVariant?.price ?? selectedVariant?.basePrice ?? 0;
+    const currentBasePrice = selectedVariant?.basePrice ?? currentPrice;
     const discountPercent =
         currentBasePrice > currentPrice && currentBasePrice > 0
             ? Math.round(((currentBasePrice - currentPrice) / currentBasePrice) * 100)
             : 0;
 
     const currentStock = selectedVariant ? selectedVariant.stockQuantity : product.totalStock;
-    const isOutOfStock = currentStock <= 0;
+    const isOutOfStock = currentStock <= 0 || !selectedVariant?.isActive;
 
     return (
         <main className="product-detail-page bg-light py-4">
@@ -373,7 +378,7 @@ export default function ProductDetailPage() {
                                                                 ? "border-primary bg-primary bg-opacity-10 shadow-sm"
                                                                 : "bg-white hover-border-primary"
                                                         }`}
-                                                        onClick={() => setSelectedVariant(v)}
+                                                        onClick={() => { setSelectedVariant(v); setQuantity(1); }}
                                                     >
                                                         {variantDiscount > 0 && (
                                                             <span className="badge bg-danger position-absolute top-0 end-0 translate-middle-y me-2 fs-8">
@@ -409,7 +414,7 @@ export default function ProductDetailPage() {
                                         <button
                                             className="btn btn-link text-muted p-0 text-decoration-none"
                                             onClick={() => setQuantity((q) => q + 1)}
-                                            disabled={isOutOfStock}
+                                            disabled={isOutOfStock || quantity >= currentStock}
                                         >
                                             <FontAwesomeIcon icon={faPlus} />
                                         </button>
@@ -419,7 +424,7 @@ export default function ProductDetailPage() {
                                     <button
                                         className="btn btn-outline-primary w-100 fw-bold h-100 d-flex align-items-center justify-content-center gap-2 py-3 bg-white"
                                         onClick={handleAddToCart}
-                                        disabled={isAddingToCart || isOutOfStock}
+                                        disabled={authLoading || isAddingToCart || isOutOfStock || quantity > currentStock}
                                     >
                                         {isAddingToCart ? (
                                             <FontAwesomeIcon icon={faSpinner} spin />
@@ -433,13 +438,9 @@ export default function ProductDetailPage() {
                                     <button
                                         className="btn btn-primary w-100 fw-bold h-100 d-flex align-items-center justify-content-center gap-2 py-3"
                                         onClick={handleBuyNow}
-                                        disabled={isBuyingNow || isOutOfStock}
+                                        disabled={authLoading || isAddingToCart || isOutOfStock || quantity > currentStock}
                                     >
-                                        {isBuyingNow ? (
-                                            <FontAwesomeIcon icon={faSpinner} spin />
-                                        ) : (
-                                            <FontAwesomeIcon icon={faBolt} />
-                                        )}
+                                        <FontAwesomeIcon icon={faBolt} />
                                         Mua ngay
                                     </button>
                                 </div>

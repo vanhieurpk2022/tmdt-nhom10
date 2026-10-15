@@ -1,3 +1,4 @@
+import { useLayoutEffect } from "react";
 import { useLocation } from "react-router";
 import {
     getLastOrder,
@@ -21,6 +22,10 @@ export default function OrderSuccessPage() {
     const state = location.state as OrderSuccessLocationState | null;
     const order = state?.order ?? getLastOrder();
     const orderedItems = order ? toCartItemsFromOrder(order) : cartItems.filter((item) => item.selected);
+
+    useLayoutEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, [location.key]);
 
     return (
         <main className="order-success-page">

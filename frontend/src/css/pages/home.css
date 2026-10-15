@@ -50,7 +50,27 @@
     background: linear-gradient(90deg, #111827 0, #1f2937 52%, #111827 100%);
     gap: 28px;
     min-height: 384px;
+    height: 100%;
     padding: 48px;
+}
+
+/* Giữ cùng chiều cao cho các slide để phần nội dung bên dưới không bị nhảy. */
+.home-hero .carousel-inner {
+    display: grid;
+}
+
+.home-hero .carousel-item {
+    display: block;
+    float: none;
+    grid-area: 1 / 1;
+    margin-right: 0;
+    visibility: hidden;
+}
+
+.home-hero .carousel-item.active,
+.home-hero .carousel-item-next,
+.home-hero .carousel-item-prev {
+    visibility: visible;
 }
 
 .home-hero-copy {
@@ -132,24 +152,83 @@
     width: 100%;
 }
 
-.home-hero-dots {
-    bottom: 18px;
+.home-hero .carousel-indicators {
+    bottom: 8px;
     gap: 10px;
-    left: 0;
-    position: absolute;
-    right: 0;
+    margin: 0;
 }
 
-.home-hero-dots span {
-    background: rgba(255, 255, 255, 0.45);
+.home-hero .carousel-indicators [data-bs-target] {
+    background-color: #fff;
+    border: 0;
     border-radius: 999px;
     height: 10px;
+    margin: 10px 0;
+    opacity: 0.45;
+    position: relative;
+    transition: width 0.2s ease, opacity 0.2s ease;
     width: 10px;
 }
 
-.home-hero-dots .active {
-    background: #fff;
+.home-hero .carousel-indicators [data-bs-target]::after {
+    content: "";
+    inset: -10px -4px;
+    position: absolute;
+}
+
+.home-hero .carousel-indicators .active {
+    opacity: 1;
     width: 32px;
+}
+
+.home-hero .carousel-control-prev,
+.home-hero .carousel-control-next,
+.home-hero-playback {
+    align-items: center;
+    background: rgba(17, 24, 39, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    width: 32px;
+}
+
+.home-hero .carousel-control-prev,
+.home-hero .carousel-control-next {
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.home-hero .carousel-control-prev {
+    left: 8px;
+}
+
+.home-hero .carousel-control-next {
+    right: 8px;
+}
+
+.home-hero-playback {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    z-index: 2;
+}
+
+.home-hero button:focus-visible,
+.home-hero .carousel-control-prev:focus-visible,
+.home-hero .carousel-control-next:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero .carousel-indicators [data-bs-target] {
+        transition: none;
+    }
 }
 
 .home-section,
@@ -159,10 +238,6 @@
     border-radius: 16px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     padding: 28px;
-}
-
-.home-flash-section {
-    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
 }
 
 .home-section-heading {
@@ -208,52 +283,6 @@
     border-radius: 8px;
     color: var(--color-slate-500);
     font-size: 13px;
-}
-
-.home-flash-title {
-    gap: 12px;
-}
-
-.home-flash-title > span {
-    background: var(--color-amber);
-    border-radius: 8px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 800;
-    gap: 6px;
-    line-height: 16px;
-    padding: 6px 12px;
-    text-transform: uppercase;
-}
-
-.home-countdown {
-    gap: 6px;
-}
-
-.home-countdown b {
-    background: #292524;
-    border-radius: 6px;
-    color: #fff;
-    font-family: "Consolas", monospace;
-    font-size: 12px;
-    line-height: 16px;
-    padding: 4px 10px;
-}
-
-.home-countdown .accent {
-    background: #c88d54;
-}
-
-.home-countdown em {
-    color: var(--color-stone-700);
-    font-style: normal;
-    font-weight: 800;
-}
-
-.home-flash-title small {
-    color: var(--color-stone-500);
-    font-size: 12px;
-    font-weight: 600;
 }
 
 .home-section-tabs {
@@ -371,19 +400,6 @@
     font-size: 11px;
     font-weight: 700;
     gap: 4px;
-}
-
-.home-sale-progress {
-    background: #fed7aa;
-    border-radius: 999px;
-    height: 5px;
-    overflow: hidden;
-}
-
-.home-sale-progress div {
-    background: #f97316;
-    border-radius: inherit;
-    height: 100%;
 }
 
 .home-product-footer {

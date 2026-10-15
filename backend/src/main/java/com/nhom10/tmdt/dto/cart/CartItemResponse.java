@@ -12,6 +12,8 @@ public record CartItemResponse(
         Integer quantity,
         Integer stockQuantity,
         String stockStatus,
-        Double lineTotal
+        Double lineTotal,
+        Long productMilId,
+        Integer mil
 ) {
 }

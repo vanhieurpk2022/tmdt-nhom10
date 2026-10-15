@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router";
+import { checkoutCartItemIdsKey, getBuyNowSelection, getPurchaseErrorMessage } from "../api/CheckoutSelection";
 import { addressService, type AddressItem } from "../api/AddressService";
 import { useCart } from "../api/CartContext";
 import { cartService, type CartItemResponse, type CartResponse } from "../api/CartService";
@@ -21,8 +22,6 @@ const fallbackCheckoutImages = [
     "/images/home/lemongrass.png",
 ];
 
-const checkoutCartItemIdsKey = "oilia_checkout_cart_item_ids";
-
 const paymentMethodMap: Record<string, PaymentMethod> = {
     cod: "COD",
     vnpay: "VNPAY",
@@ -37,10 +36,10 @@ function getStoredCheckoutItemIds() {
     try {
         const parsedValue = JSON.parse(rawValue);
         return Array.isArray(parsedValue)
-            ? parsedValue.filter((id): id is number => typeof id === "number")
-            : null;
+            ? parsedValue.filter((id): id is number => Number.isSafeInteger(id) && id > 0)
+            : [];
     } catch {
-        return null;
+        return [];
     }
 }
 
@@ -61,8 +60,9 @@ function toCartItem(item: CartItemResponse, index: number): CartItem {
     return {
         id: item.id,
         productId: item.productId,
+        productMilId: item.productMilId,
         name: item.productName,
-        variant: item.description || "Sản phẩm tinh dầu",
+        variant: item.mil ? `Dung tích: ${item.mil}ml` : "Sản phẩm tinh dầu",
         origin: `Tồn kho: ${item.stockQuantity}`,
         description: item.description ?? undefined,
         factoryName: item.factoryName || "Oilia Essential",
@@ -84,6 +84,14 @@ function getDefaultAddress(addresses: AddressItem[]) {
 
 export default function CheckoutPage() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const { buyNow, selectionError } = useMemo(() => {
+        try {
+            return { buyNow: getBuyNowSelection(searchParams), selectionError: "" };
+        } catch (error) {
+            return { buyNow: null, selectionError: (error as Error).message };
+        }
+    }, [searchParams]);
     const { applyCart, refreshCart } = useCart();
     const [checkoutItems, setCheckoutItems] = useState<CartItem[]>([]);
     const [addresses, setAddresses] = useState<AddressItem[]>([]);
@@ -109,30 +117,19 @@ export default function CheckoutPage() {
             ? cart.items.filter((item) => selectedIds.includes(item.id))
             : cart.items;
 
-        setCheckoutItems((selectedItems.length > 0 ? selectedItems : cart.items).map(toCartItem));
+        if (selectedIds && selectedItems.length !== selectedIds.length) {
+            throw new Error("Sản phẩm đã chọn không còn trong giỏ hàng. Vui lòng quay lại giỏ hàng và chọn lại.");
+        }
+        setCheckoutItems(selectedItems.map(toCartItem));
     }, [applyCart]);
 
-    const loadCheckoutData = useCallback(async () => {
-        try {
-            setIsLoading(true);
-            setErrorMessage("");
+    const purchaseSelection = useMemo(() => buyNow ? {
+        buyNow: { ...buyNow, productMilId: checkoutItems[0]?.productMilId ?? buyNow.productMilId },
+    } : { cartItemIds: checkoutItems.map((item) => item.id) }, [buyNow, checkoutItems]);
 
-            const [cart, userAddresses] = await Promise.all([
-                cartService.getCart(),
-                addressService.getAddresses(),
-            ]);
-
-            applyCheckoutCart(cart);
-            setAddresses(userAddresses);
-        } catch (error) {
-            console.error(error);
-            setCheckoutItems([]);
-            setAddresses([]);
-            setErrorMessage("Chưa tải được thông tin thanh toán. Vui lòng đăng nhập hoặc thử lại sau.");
-        } finally {
-            setIsLoading(false);
-        }
-    }, [applyCheckoutCart]);
+    useLayoutEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, [searchParams]);
 
     const handleCreateOrder = useCallback(async () => {
         if (!selectedAddress) {
@@ -144,7 +141,7 @@ export default function CheckoutPage() {
             return;
         }
 
-        if (isShippingFeeLoading) {
+        if (isLoading || isSubmitting || isShippingFeeLoading || (!shippingFeeError && shippingFee <= 0)) {
             setErrorMessage("Vui lòng chờ hệ thống tính phí vận chuyển.");
             return;
         }
@@ -161,13 +158,13 @@ export default function CheckoutPage() {
 
             const order = await orderService.createOrder({
                 addressId: selectedAddress.id,
-                cartItemIds: checkoutItems.map((item) => item.id),
+                ...purchaseSelection,
                 paymentMethod,
                 note: deliveryNote.trim() || undefined,
             });
 
             saveLastOrder(order);
-            window.sessionStorage.removeItem(checkoutCartItemIdsKey);
+            if (!buyNow) window.sessionStorage.removeItem(checkoutCartItemIdsKey);
             await refreshCart();
 
             navigate(ROUTES.ORDER_SUCCESS, {
@@ -181,7 +178,12 @@ export default function CheckoutPage() {
         }
     }, [
         checkoutItems,
+        buyNow,
+        purchaseSelection,
         deliveryNote,
+        isLoading,
+        isSubmitting,
+        shippingFee,
         isShippingFeeLoading,
         navigate,
         refreshCart,
@@ -191,8 +193,43 @@ export default function CheckoutPage() {
     ]);
 
     useEffect(() => {
+        let active = true;
+        async function loadCheckoutData() {
+            setIsLoading(true);
+            setErrorMessage("");
+            setCheckoutItems([]);
+            setShippingFee(0);
+            try {
+                if (selectionError) throw new Error(selectionError);
+                if (buyNow) {
+                    const [item, userAddresses] = await Promise.all([
+                        orderService.previewBuyNow(buyNow), addressService.getAddresses(),
+                    ]);
+                    if (!active) return;
+                    setCheckoutItems([toCartItem(item, 0)]);
+                    setAddresses(userAddresses);
+                } else {
+                    const [cart, userAddresses] = await Promise.all([
+                        cartService.getCart(), addressService.getAddresses(),
+                    ]);
+                    if (!active) return;
+                    applyCheckoutCart(cart);
+                    setAddresses(userAddresses);
+                }
+            } catch (error) {
+                if (!active) return;
+                setCheckoutItems([]);
+                setAddresses([]);
+                setErrorMessage(getPurchaseErrorMessage(error,
+                    error instanceof Error && !('response' in error) ? error.message
+                        : "Chưa tải được thông tin thanh toán. Vui lòng đăng nhập hoặc thử lại sau."));
+            } finally {
+                if (active) setIsLoading(false);
+            }
+        }
         loadCheckoutData();
-    }, [loadCheckoutData]);
+        return () => { active = false; };
+    }, [applyCheckoutCart, buyNow, selectionError]);
 
     useEffect(() => {
         if (!selectedAddress || checkoutItems.length === 0) {
@@ -207,11 +244,12 @@ export default function CheckoutPage() {
         async function calculateShippingFee() {
             try {
                 setIsShippingFeeLoading(true);
+                setShippingFee(0);
                 setShippingFeeError("");
 
                 const quote = await shippingService.calculateFee({
                     addressId: selectedAddress.id,
-                    cartItemIds: checkoutItems.map((item) => item.id),
+                    ...purchaseSelection,
                 });
 
                 if (isActive) {
@@ -235,7 +273,7 @@ export default function CheckoutPage() {
         return () => {
             isActive = false;
         };
-    }, [checkoutItems, checkoutItemsSignature, selectedAddress]);
+    }, [checkoutItems, checkoutItemsSignature, purchaseSelection, selectedAddress]);
 
     return (
         <main className="checkout-page">
@@ -276,7 +314,7 @@ export default function CheckoutPage() {
                             items={checkoutItems}
                             shippingFee={shippingFee}
                             isLoading={isLoading}
-                            isShippingFeeLoading={isShippingFeeLoading}
+                            isShippingFeeLoading={isShippingFeeLoading || (Boolean(selectedAddress) && checkoutItems.length > 0 && shippingFee <= 0 && !shippingFeeError)}
                             shippingFeeError={shippingFeeError}
                             isSubmitting={isSubmitting}
                             hasAddress={Boolean(selectedAddress)}
