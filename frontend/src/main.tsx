@@ -15,6 +15,7 @@ import OrderSuccessPage from './pages/OrderSuccessPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import FactoriesPage from './pages/FactoriesPage';
+import CustomScentPage from './pages/CustomScentPage';
 import ProfilePage from './pages/ProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import AddressBookPage from './pages/AddressBookPage';
@@ -87,6 +88,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path={ROUTES.CART} element={<CartPage />} />
               <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
               <Route path={ROUTES.FACTORIES} element={<FactoriesPage />} />
+              <Route path={ROUTES.CUSTOM_SCENT} element={<CustomScentPage />} />
               <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
               <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
               <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />

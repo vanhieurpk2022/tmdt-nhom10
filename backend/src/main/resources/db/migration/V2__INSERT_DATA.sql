@@ -2,14 +2,14 @@ INSERT INTO `category` VALUES (1, '2026-09-24 15:01:20.053342', 'Tinh dầu', '2
 INSERT INTO `category` VALUES (2, '2026-09-24 15:01:20.057426', 'Dầu nền', '2026-09-24 15:01:20.057426');
 INSERT INTO `category` VALUES (3, '2026-09-24 16:19:36.243012', 'Tinh dầu chiết xuất', '2026-09-24 16:19:36.243012');
 INSERT INTO `category` VALUES (4, '2026-09-24 16:19:36.243417', 'Tinh dầu phối trộn', '2026-09-24 16:19:36.243417');
-INSERT INTO `factory` VALUES (1, 'VFI 10-4, Lô B133-B134-B135, Đường Số 8, KCN Thái Hòa, Xã Đức Lập, Tỉnh Tây Ninh', '2026-09-24 15:01:20.050380', 'Labcos - nguyên liệu và gia công mỹ phẩm; website: https://labcos.com.vn/; liên hệ: 0902 666 746', 'ACTIVE', 'Labcos', '2026-09-24 15:01:20.050380');
-INSERT INTO `factory` VALUES (2, 'Bãi Dài, Tiến Xuân, Thạch Thất, Hà Nội, Việt Nam', '2026-09-24 15:51:20.547748', 'Thương hiệu của Công ty Cổ phần Tinh Dầu Thiên Nhiên Hà Nội; https://tinhdauhanoi.com/; 024 66 543 544', 'ACTIVE', 'VIPSEN', '2026-09-24 15:51:20.547748');
-INSERT INTO `factory` VALUES (3, '247/27 Lê Thị Kim, Ấp 18, Xã Xuân Thới Sơn, TP. Hồ Chí Minh', '2026-09-24 16:19:36.241068', 'Công ty TNHH Thương Mại Sản xuất hương liệu thanh xuân; https://biyokea.vn; CSKH: sales@biyokea.vn; 0979 79 36 76', 'ACTIVE', 'BIYÒKEA', '2026-09-24 16:19:36.241068');
-INSERT INTO `factory` VALUES (4, '265 Thống Nhất, Phường Phú Thọ Hoà, Thành phố Hồ Chí Minh, Việt Nam', '2026-09-24 16:38:06.887528', 'Công ty TNHH Tinh Dầu - Thảo Dược Dalosa Việt Nam; nhập khẩu và phân phối tinh dầu; www.tinhdauduoclieu.vn; Hotline 0967 22 7899', 'ACTIVE', 'DALOSA Việt Nam', '2026-09-24 16:38:06.887528');
-INSERT INTO `factory` VALUES (5, '43R/10 Hồ Văn Huê, Phường 9, Quận Phú Nhuận, TP. Hồ Chí Minh', '2026-09-24 16:41:04.609766', 'Nhà cung cấp/thương hiệu tinh dầu Lê Mai Việt Nam; không xác nhận đây là địa chỉ xưởng sản xuất.', 'ACTIVE', 'Lê Mai Việt Nam', '2026-09-24 16:44:39.000000');
-INSERT INTO `factory` VALUES (6, '\'940 Cách Mạng Tháng 8, Phường 5, Quận Tân Bình, TP.HCM\'', '2026-09-24 16:49:55.315002', 'Thương hiệu bán lẻ và nhập khẩu tinh dầu thiên nhiên thuộc Công ty TNHH HAKU; không xác nhận là nhà máy sản xuất. Văn phòng: Tầng 20, Golden Mansion, 119 Phổ Quang, Phường 9, Quận Phú Nhuận, TP.HCM.', 'ACTIVE', 'HAKU Farm', '2026-09-24 16:49:55.315002');
-INSERT INTO `factory` VALUES (7, '146 Phố Chùa Quỳnh, phường Bạch Mai, Hà Nội', '2026-09-24 16:52:58.309676', 'Cửa hàng tinh dầu thuộc Công ty Cổ phần CCN Việt Nam; website tinhdau100.vn; điện thoại 0972168805. Không mặc định là xưởng sản xuất.', 'ACTIVE', 'Tinh Dầu 100', '2026-09-24 16:52:58.309676');
-INSERT INTO `factory` VALUES (8, 'Lô 17 đường 5, khu dân cư Phú Hữu, P. Phú Hữu, TP. HCM', '2026-09-26 11:47:26.438512', 'Kho Tinh Dầu thuộc Việt Hương Group; đơn vị cung cấp/nhập khẩu tinh dầu thiên nhiên. Hotline 0979 990 333; email info@khotinhdau.com.', 'ACTIVE', 'Kho Tinh Dầu', '2026-09-26 11:47:26.438512');
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (1, 'VFI 10-4, Lô B133-B134-B135, Đường Số 8, KCN Thái Hòa, Xã Đức Lập, Tỉnh Tây Ninh', '2026-09-24 15:01:20.050380', 'Labcos - nguyên liệu và gia công mỹ phẩm; website: https://labcos.com.vn/; liên hệ: 0902 666 746', 'ACTIVE', 'Labcos', '2026-09-24 15:01:20.050380', 25000.0);
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (2, 'Bãi Dài, Tiến Xuân, Thạch Thất, Hà Nội, Việt Nam', '2026-09-24 15:51:20.547748', 'Thương hiệu của Công ty Cổ phần Tinh Dầu Thiên Nhiên Hà Nội; https://tinhdauhanoi.com/; 024 66 543 544', 'ACTIVE', 'VIPSEN', '2026-09-24 15:51:20.547748', 35000.0);
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (3, '247/27 Lê Thị Kim, Ấp 18, Xã Xuân Thới Sơn, TP. Hồ Chí Minh', '2026-09-24 16:19:36.241068', 'Công ty TNHH Thương Mại Sản xuất hương liệu thanh xuân; https://biyokea.vn; CSKH: sales@biyokea.vn; 0979 79 36 76', 'ACTIVE', 'BIYÒKEA', '2026-09-24 16:19:36.241068', 40000.0);
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (4, '265 Thống Nhất, Phường Phú Thọ Hoà, Thành phố Hồ Chí Minh, Việt Nam', '2026-09-24 16:38:06.887528', 'Công ty TNHH Tinh Dầu - Thảo Dược Dalosa Việt Nam; nhập khẩu và phân phối tinh dầu; www.tinhdauduoclieu.vn; Hotline 0967 22 7899', 'ACTIVE', 'DALOSA Việt Nam', '2026-09-24 16:38:06.887528', 30000.0);
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (5, '43R/10 Hồ Văn Huê, Phường 9, Quận Phú Nhuận, TP. Hồ Chí Minh', '2026-09-24 16:41:04.609766', 'Nhà cung cấp/thương hiệu tinh dầu Lê Mai Việt Nam; không xác nhận đây là địa chỉ xưởng sản xuất.', 'ACTIVE', 'Lê Mai Việt Nam', '2026-09-24 16:44:39.000000', 20000.0);
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (6, '\'940 Cách Mạng Tháng 8, Phường 5, Quận Tân Bình, TP.HCM\'', '2026-09-24 16:49:55.315002', 'Thương hiệu bán lẻ và nhập khẩu tinh dầu thiên nhiên thuộc Công ty TNHH HAKU; không xác nhận là nhà máy sản xuất. Văn phòng: Tầng 20, Golden Mansion, 119 Phổ Quang, Phường 9, Quận Phú Nhuận, TP.HCM.', 'ACTIVE', 'HAKU Farm', '2026-09-24 16:49:55.315002', 32000.0);
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (7, '146 Phố Chùa Quỳnh, phường Bạch Mai, Hà Nội', '2026-09-24 16:52:58.309676', 'Cửa hàng tinh dầu thuộc Công ty Cổ phần CCN Việt Nam; website tinhdau100.vn; điện thoại 0972168805. Không mặc định là xưởng sản xuất.', 'ACTIVE', 'Tinh Dầu 100', '2026-09-24 16:52:58.309676', 22000.0);
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`, `custom_service_fee`) VALUES (8, 'Lô 17 đường 5, khu dân cư Phú Hữu, P. Phú Hữu, TP. HCM', '2026-09-26 11:47:26.438512', 'Kho Tinh Dầu thuộc Việt Hương Group; đơn vị cung cấp/nhập khẩu tinh dầu thiên nhiên. Hotline 0979 990 333; email info@khotinhdau.com.', 'ACTIVE', 'Kho Tinh Dầu', '2026-09-26 11:47:26.438512', 28000.0);
 INSERT INTO `factory_image` VALUES (1, 'https://haku.vn/wp-content/uploads/2020/04/bang-hieu-haku-farm-tinh-dau.jpg', b'1', b'0', 6);
 INSERT INTO `factory_image` VALUES (2, 'https://haku.vn/wp-content/uploads/2020/04/banner-haku-scent-tinh-dau-que.jpg', b'0', b'1', 6);
 INSERT INTO `factory_image` VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO0gbu4n2danx2g6JSS42Xy5smL99zSy9x49b96DWSKQ&s=10', b'0', b'0', 6);
@@ -2399,3 +2399,228 @@ INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, u
 INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (799, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 266, 5);
 INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (800, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 267, 3);
 INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (801, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 267, 4);
+
+-- Tinh dầu phối hương theo xưởng (Custom Scent)
+
+
+-- 1. XƯỞNG LABCOS (TÂY NINH) - Công nghệ chiết xuất phân tử thảo dược cao cấp & gỗ quý (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(268, 'Tinh dầu Cam Bergamot Đồng Nai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 210000, 250000, 1),
+(269, 'Tinh dầu Chanh Sần Núi Bà Đen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 240000, 280000, 1),
+(270, 'Tinh dầu Bưởi Hồng Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 230000, 270000, 1),
+(271, 'Tinh dầu Quýt Đường Miền Đông', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 220000, 260000, 1),
+(272, 'Tinh dầu Bạc Hà Lục PepperMint Labcos', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 195000, 230000, 1),
+(273, 'Tinh dầu Chanh Không Hạt Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 205000, 240000, 1),
+(274, 'Tinh dầu Lá Chanh Rừng Tân Biên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 225000, 265000, 1),
+(275, 'Tinh dầu Cam Vàng Navel Ép Lạnh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 215000, 255000, 1),
+(276, 'Tinh dầu Hoa Nhài Tây Hồ Thượng Hạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 550000, 620000, 2),
+(277, 'Tinh dầu Phong Lữ Thảo Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 480000, 540000, 2),
+(278, 'Tinh dầu Oải Hương Provence Thượng Hạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 520000, 590000, 2),
+(279, 'Tinh dầu Hoa Hồng Nhung Sa Đéc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 580000, 650000, 2),
+(280, 'Tinh dầu Hoa Cam Neroli Tinh Khiết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 620000, 700000, 2),
+(281, 'Tinh dầu Hoa Hoàng Lan Ylang Extra', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 590000, 660000, 2),
+(282, 'Tinh dầu Hoa Huệ Trắng Tuberose Labcos', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 670000, 750000, 2),
+(283, 'Tinh dầu Hoa Dâm Bụt Hibiscus Thảo Mộc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 460000, 520000, 2),
+(284, 'Tinh dầu Trầm Hương Thượng Uyển', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 1200000, 1350000, 3),
+(285, 'Tinh dầu Đàn Hương Mysore Tinh Khiết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 850000, 920000, 3),
+(286, 'Tinh dầu Gỗ Bách Tây Ninh Tuyển Chọn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 650000, 720000, 3),
+(287, 'Tinh dầu Hổ Phách Cổ Điển Labcos', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 780000, 860000, 3),
+(288, 'Tinh dầu Hoắc Hương Rừng Già', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 490000, 560000, 3),
+(289, 'Tinh dầu Gỗ Trắc Vàng Rừng Lò Gò', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 720000, 810000, 3),
+(290, 'Tinh dầu Rêu Rừng Mưa Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 530000, 600000, 3),
+(291, 'Tinh dầu Vani Bourbon Tinh Chất', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 510000, 580000, 3);
+
+-- 2. XƯỞNG VIPSEN (HÀ NỘI) - Chuyên hoa truyền thống miền Bắc & gia vị dược liệu (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(292, 'Tinh dầu Chanh Vàng Bắc Hà', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 220000, 260000, 1),
+(293, 'Tinh dầu Quýt Bắc Kạn Tiến Vua', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 260000, 310000, 1),
+(294, 'Tinh dầu Gừng Gió Hà Giang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 270000, 320000, 1),
+(295, 'Tinh dầu Vỏ Bưởi Đoan Hùng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 240000, 280000, 1),
+(296, 'Tinh dầu Bạc Hà Sa Pa Sương Núi', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 210000, 250000, 1),
+(297, 'Tinh dầu Chanh Đào Hà Nội Mật Ong', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 235000, 275000, 1),
+(298, 'Tinh dầu Cam Sành Hàm Yên Tuyên Quang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 225000, 265000, 1),
+(299, 'Tinh dầu Lá Tía Tô Xứ Lạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 250000, 290000, 1),
+(300, 'Tinh dầu Hoa Sen Trắng Bách Diệp', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 680000, 750000, 2),
+(301, 'Tinh dầu Hoa Hồng Damask Sa Pa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 580000, 650000, 2),
+(302, 'Tinh dầu Hoa Mộc Lan Thăng Long', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 540000, 610000, 2),
+(303, 'Tinh dầu Hoa Nhài Đêm Quảng Bá', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 560000, 630000, 2),
+(304, 'Tinh dầu Hoa Cúc Vàng Tiến Vua Vipsen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 470000, 530000, 2),
+(305, 'Tinh dầu Hoa Ngũ Sắc Tây Bắc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 410000, 470000, 2),
+(306, 'Tinh dầu Hoa Dành Dành Bạch Ngọc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 520000, 590000, 2),
+(307, 'Tinh dầu Hạt Rau Mùi Cổ Truyền', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 450000, 510000, 2),
+(308, 'Tinh dầu Vani Madagascar Hữu Cơ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 490000, 540000, 3),
+(309, 'Tinh dầu Quế Yên Bái Thượng Phẩm', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 390000, 450000, 3),
+(310, 'Tinh dầu Gỗ Hoàng Đàn Lạng Sơn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 890000, 990000, 3),
+(311, 'Tinh dầu Nhựa Cốm Tây Bắc Vipsen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 460000, 520000, 3),
+(312, 'Tinh dầu Gỗ Pơ Mu Sơn La', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 530000, 600000, 3),
+(313, 'Tinh dầu Hổ Phách Khói Cổ Thạch', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 730000, 820000, 3),
+(314, 'Tinh dầu Gỗ Bách Xanh Ba Vì', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 560000, 630000, 3),
+(315, 'Tinh dầu Nhựa Bồ Đề Thượng Hạng Bắc Kạn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 610000, 690000, 3);
+
+-- 3. XƯỞNG BIYÒKEA (TP.HCM) - Chuyên liệu trình spa trị liệu, thảo mộc & thư giãn (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(316, 'Tinh dầu Bưởi Da Xanh Bến Tre', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 240000, 280000, 1),
+(317, 'Tinh dầu Bạc Hà Âu Chân Mây', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 230000, 270000, 1),
+(318, 'Tinh dầu Lá Trà Xanh Sương Sớm', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 320000, 370000, 1),
+(319, 'Tinh dầu Cam Ngọt Nam Bộ Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 210000, 250000, 1),
+(320, 'Tinh dầu Chanh Thái Kaffir Lime', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 250000, 290000, 1),
+(321, 'Tinh dầu Khuynh Diệp Biyòkea Care', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 190000, 220000, 1),
+(322, 'Tinh dầu Quýt Nhật Mikan Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 260000, 300000, 1),
+(323, 'Tinh dầu Sả Java Khử Mùi Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 180000, 210000, 1),
+(324, 'Tinh dầu Phong Lữ Thảo Geranium', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 390000, 440000, 2),
+(325, 'Tinh dầu Hương Thảo Rosemary Thảo Mộc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 340000, 390000, 2),
+(326, 'Tinh dầu Hoa Oải Hương Biyòkea Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 430000, 490000, 2),
+(327, 'Tinh dầu Ngọc Lan Tây Ylang Phù Sa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 440000, 500000, 2),
+(328, 'Tinh dầu Tràm Trà Tea Tree Kháng Khuẩn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 280000, 330000, 2),
+(329, 'Tinh dầu Hoa Nhài Trị Liệu Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 510000, 580000, 2),
+(330, 'Tinh dầu Hạt Nhục Đậu Khấu Nutmeg Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 360000, 420000, 2),
+(331, 'Tinh dầu Hoa Cúc Vạn Thọ Tagetes', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 370000, 430000, 2),
+(332, 'Tinh dầu Hổ Phách Mật Ong Cổ Điển', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 750000, 830000, 3),
+(333, 'Tinh dầu Đàn Hương Trắng Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 690000, 770000, 3),
+(334, 'Tinh dầu Gỗ Tuyết Tùng Thư Giãn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 510000, 580000, 3),
+(335, 'Tinh dầu Nhũ Hương Frankincense Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 880000, 980000, 3),
+(336, 'Tinh dầu Vani Kem Bơ Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 480000, 550000, 3),
+(337, 'Tinh dầu Một Dược Myrrh Huyền Bí', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 820000, 930000, 3),
+(338, 'Tinh dầu Cỏ Hương Bài Trầm Lặng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 620000, 710000, 3),
+(339, 'Tinh dầu Xạ Hương Thảo Mộc Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 740000, 830000, 3);
+
+-- 4. XƯỞNG DALOSA VIỆT NAM (TP.HCM) - Chuyên tinh dầu nhập khẩu cao cấp quốc tế & thảo dược quý (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(340, 'Tinh dầu Quýt Hồng Lai Vung', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 260000, 300000, 1),
+(341, 'Tinh dầu Cam Hương Bergamot Calabria', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 310000, 360000, 1),
+(342, 'Tinh dầu Bưởi Chùm Grapefruit Florida', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 290000, 340000, 1),
+(343, 'Tinh dầu Chanh Cốm Sicily Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 270000, 320000, 1),
+(344, 'Tinh dầu Bạc Hà Lục Mỹ Spearmint', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 240000, 280000, 1),
+(345, 'Tinh dầu Quả Bách Xù Juniper Berry Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 330000, 380000, 1),
+(346, 'Tinh dầu Hạt Bạch Đậu Khấu Cardamom Guatemala', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 360000, 420000, 1),
+(347, 'Tinh dầu Cỏ Chanh Tây Lemongrass Cochin', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 220000, 260000, 1),
+(348, 'Tinh dầu Oải Hương Pháp Tinh Khiết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 420000, 480000, 2),
+(349, 'Tinh dầu Ngọc Lan Tây Ylang Ylang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 460000, 520000, 2),
+(350, 'Tinh dầu Hoa Nhài Sambac Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 580000, 640000, 2),
+(351, 'Tinh dầu Hoa Cúc La Mã Roman Chamomile', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 640000, 720000, 2),
+(352, 'Tinh dầu Xô Thơm Clary Sage', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 490000, 560000, 2),
+(353, 'Tinh dầu Hoa Hồng Thổ Nhĩ Kỳ Rose Otto', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 890000, 990000, 2),
+(354, 'Tinh dầu Nhựa Thơm Nhũ Hương Olibanum', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 570000, 650000, 2),
+(355, 'Tinh dầu Tiêu Đen Black Pepper Madagascar', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 390000, 450000, 2),
+(356, 'Tinh dầu Hổ Phách Hoàng Gia Amber', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 950000, 1050000, 3),
+(357, 'Tinh dầu Hoàng Đàn Atlas Lâm Viên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 520000, 580000, 3),
+(358, 'Tinh dầu Gỗ Tuyết Tùng Virginia Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 610000, 680000, 3),
+(359, 'Tinh dầu Cỏ Hương Bài Vetiver Haiti', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 670000, 750000, 3),
+(360, 'Tinh dầu Trầm Hương Lào Hoang Dã', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 1150000, 1300000, 3),
+(361, 'Tinh dầu Đậu Tonka Venezuela', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 590000, 670000, 3),
+(362, 'Tinh dầu Xạ Hương Đen Black Musk Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 860000, 960000, 3),
+(363, 'Tinh dầu Gỗ Gụ Cổ Thụ Honduras', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 720000, 810000, 3);
+
+-- 5. XƯỞNG LÊ MAI VIỆT NAM (TP.HCM) - Dòng hương phương Đông mộc mạc làng quê & gia vị rừng (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(364, 'Tinh dầu Gừng Tươi Cao Bằng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 280000, 320000, 1),
+(365, 'Tinh dầu Vỏ Chanh Ta Tươi Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 200000, 240000, 1),
+(366, 'Tinh dầu Vỏ Tắc Mỹ Tho', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 210000, 250000, 1),
+(367, 'Tinh dầu Tràm Gió Huế Nguyên Bản', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 185000, 220000, 1),
+(368, 'Tinh dầu Cam Chua Miền Tây', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 195000, 230000, 1),
+(369, 'Tinh dầu Vỏ Bưởi Năm Roi Vĩnh Long', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 225000, 265000, 1),
+(370, 'Tinh dầu Củ Riềng Rừng Quảng Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 245000, 285000, 1),
+(371, 'Tinh dầu Hạt Rau Ngổ Đồng Nội', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 235000, 275000, 1),
+(372, 'Tinh dầu Hương Thảo Rosemary', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 310000, 360000, 2),
+(373, 'Tinh dầu Sả Chanh Hoàng Liên Sơn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 190000, 220000, 2),
+(374, 'Tinh dầu Hoa Bưởi Quê Nhà Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 390000, 450000, 2),
+(375, 'Tinh dầu Hương Nhu Tía Dân Gian', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 260000, 300000, 2),
+(376, 'Tinh dầu Đinh Hương Nồng Nàn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 350000, 410000, 2),
+(377, 'Tinh dầu Hoa Móng Tay Henna Cổ Truyền', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 330000, 390000, 2),
+(378, 'Tinh dầu Hoa Cúc Bách Nhật Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 370000, 430000, 2),
+(379, 'Tinh dầu Lá Chè Dây Cao Nguyên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 290000, 340000, 2),
+(380, 'Tinh dầu Hoắc Hương Patchouli', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 430000, 490000, 3),
+(381, 'Tinh dầu Gỗ Bách Xanh Mộc Châu', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 510000, 580000, 3),
+(382, 'Tinh dầu Quế Rừng Quảng Ngãi Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 360000, 420000, 3),
+(383, 'Tinh dầu Gỗ Gu Đỏ Tây Nguyên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 570000, 650000, 3),
+(384, 'Tinh dầu Nhựa Bồ Đề An Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 620000, 710000, 3),
+(385, 'Tinh dầu Xạ Hương Thảo Dược Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 680000, 770000, 3),
+(386, 'Tinh dầu Gỗ Dầu Rái Miền Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 480000, 550000, 3),
+(387, 'Tinh dầu Rễ Hương Bài Truyền Thống', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 530000, 610000, 3);
+
+-- 6. XƯỞNG HAKU FARM (TP.HCM) - Tinh dầu phong cách Zen & hương liệu Nhật Bản tinh khiết (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(388, 'Tinh dầu Quýt Yuzu Nhật Bản', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 380000, 440000, 1),
+(389, 'Tinh dầu Chanh Xanh Sudachi Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 410000, 470000, 1),
+(390, 'Tinh dầu Cam Đắng Kabosu Oita', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 390000, 450000, 1),
+(391, 'Tinh dầu Gừng Đỏ Shoga Nhật', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 350000, 400000, 1),
+(392, 'Tinh dầu Bưởi Nhật Natsumikan', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 370000, 430000, 1),
+(393, 'Tinh dầu Bạc Hà Hakka Hokkaido', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 360000, 420000, 1),
+(394, 'Tinh dầu Tiêu Đỏ Sansho Nhật', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 430000, 500000, 1),
+(395, 'Tinh dầu Cỏ Đồ Chơi Igusa Chiếu Tatami', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 340000, 395000, 1),
+(396, 'Tinh dầu Hoa Anh Đào Sakura', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 450000, 510000, 2),
+(397, 'Tinh dầu Hoa Trà Nhật Tsubaki', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 490000, 560000, 2),
+(398, 'Tinh dầu Lá Trà Sencha Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 370000, 430000, 2),
+(399, 'Tinh dầu Trà Đen Ho-ji-cha Rang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 420000, 490000, 2),
+(400, 'Tinh dầu Hoa Sen Nhật Hasu', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 530000, 600000, 2),
+(401, 'Tinh dầu Hoa Tử Đằng Wisteria Ashikaga', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 560000, 640000, 2),
+(402, 'Tinh dầu Hoa Cúc Trắng Kiku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 470000, 540000, 2),
+(403, 'Tinh dầu Lá Tía Tô Xanh Shiso Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 380000, 440000, 2),
+(404, 'Tinh dầu Gỗ Tuyết Tùng Hinoki', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 620000, 690000, 3),
+(405, 'Tinh dầu Gỗ Trắc Bá Hiba Aomori', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 580000, 650000, 3),
+(406, 'Tinh dầu Gỗ Đàn Hương Haku Zen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 770000, 850000, 3),
+(407, 'Tinh dầu Trầm Hương Kyara Quý Tộc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 1500000, 1700000, 3),
+(408, 'Tinh dầu Tre Rừng Sagano Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 460000, 520000, 3),
+(409, 'Tinh dầu Xạ Hương Tinh Khiết Sugi', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 710000, 800000, 3),
+(410, 'Tinh dầu Gỗ Thông Đen Kuro-matsu', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 540000, 620000, 3),
+(411, 'Tinh dầu Nhựa Thông Dầu Shirakaba', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 590000, 670000, 3);
+
+-- 7. XƯỞNG TINH DẦU 100 (HÀ NỘI) - Đậm đà bản sắc tinh dầu dân gian làng nghề trăm năm (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(412, 'Tinh dầu Vỏ Bưởi Diễn Hà Nội', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 230000, 270000, 1),
+(413, 'Tinh dầu Bạc Hà Làng Me Hà Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 210000, 250000, 1),
+(414, 'Tinh dầu Quýt Đường Xứ Nghệ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 220000, 260000, 1),
+(415, 'Tinh dầu Chanh Cốm Trưng Trắc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 195000, 230000, 1),
+(416, 'Tinh dầu Sả Chanh Làng Gốm', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 180000, 215000, 1),
+(417, 'Tinh dầu Cam Bù Hương Sơn Hà Tĩnh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 240000, 280000, 1),
+(418, 'Tinh dầu Gừng Gió Đồng Văn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 250000, 290000, 1),
+(419, 'Tinh dầu Vỏ Quất Cảnh Nhật Tân', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 200000, 240000, 1),
+(420, 'Tinh dầu Hoa Cúc Trắng Chi Cúc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 360000, 410000, 2),
+(421, 'Tinh dầu Hoa Sen Đầm Trị Tây Hồ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 590000, 660000, 2),
+(422, 'Tinh dầu Mùi Già Chiều 30 Tết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 480000, 550000, 2),
+(423, 'Tinh dầu Hoa Nhài Làng Định Công', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 520000, 590000, 2),
+(424, 'Tinh dầu Hoa Ngâu Thanh Lịch', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 410000, 470000, 2),
+(425, 'Tinh dầu Hoa Sói Ướp Trà Lụa Vạn Phúc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 460000, 530000, 2),
+(426, 'Tinh dầu Hoa Lan Móng Rồng Cổ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 490000, 560000, 2),
+(427, 'Tinh dầu Hoa Bưởi Cổ Thụ Bạch Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 380000, 440000, 2),
+(428, 'Tinh dầu Quế Trà Bồng Quảng Ngãi', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 310000, 360000, 3),
+(429, 'Tinh dầu Gỗ Ngọc Am Hà Giang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 640000, 720000, 3),
+(430, 'Tinh dầu Gỗ Trắc Đỏ Làng Nghề', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 530000, 600000, 3),
+(431, 'Tinh dầu Gỗ Xá Xị Bắc Bộ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 490000, 560000, 3),
+(432, 'Tinh dầu Trầm Nụ Làng Quán Trọng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 920000, 1050000, 3),
+(433, 'Tinh dầu Hổ Phách Rừng Già Cúc Phương', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 760000, 850000, 3),
+(434, 'Tinh dầu Gỗ Long Não Cổ Thụ Hà Tây', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 470000, 540000, 3),
+(435, 'Tinh dầu Hắc Mai Biển Đông Bắc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 620000, 710000, 3);
+
+-- 8. XƯỞNG KHO TINH DẦU (VIỆT HƯƠNG GROUP) - Kho tổng quy mô lớn & phong phú nguyên liệu thế giới (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES 
+(436, 'Tinh dầu Cam Ngọt Valencia', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 180000, 210000, 1),
+(437, 'Tinh dầu Quýt Xanh Petitgrain', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 230000, 270000, 1),
+(438, 'Tinh dầu Táo Xanh Crisp Green Apple', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 240000, 280000, 1),
+(439, 'Tinh dầu Bạc Hà Lục Spearmint Mỹ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 220000, 260000, 1),
+(440, 'Tinh dầu Quả Mọng Dại Wild Berries', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 270000, 315000, 1),
+(441, 'Tinh dầu Quả Lê Nashi Nước Anh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 290000, 340000, 1),
+(442, 'Tinh dầu Cam Máu Blood Orange Sicily', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 250000, 295000, 1),
+(443, 'Tinh dầu Lá Húng Tây Basil Genovese', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 260000, 305000, 1),
+(444, 'Tinh dầu Hoa Oải Hương Spike Lavender', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 360000, 410000, 2),
+(445, 'Tinh dầu Hoa Nhài Jasmine Grandiflorum', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 470000, 530000, 2),
+(446, 'Tinh dầu Hoa Linh Lan Muguet Trong Trẻo', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 530000, 600000, 2),
+(447, 'Tinh dầu Hoa Mẫu Đơn Peony Hoàng Gia', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 560000, 630000, 2),
+(448, 'Tinh dầu Hoa Tử Đinh Hương Lilac', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 490000, 560000, 2),
+(449, 'Tinh dầu Hoa Diên Vĩ Iris Florence', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 850000, 950000, 2),
+(450, 'Tinh dầu Hoa Mộc Tê Osmanthus Vàng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 620000, 700000, 2),
+(451, 'Tinh dầu Hoa Phong Lan Đen Black Orchid', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 690000, 780000, 2),
+(452, 'Tinh dầu Xạ Hương Trắng White Musk', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 720000, 800000, 3),
+(453, 'Tinh dầu Gỗ Thông Đỏ Đà Lạt', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 480000, 540000, 3),
+(454, 'Tinh dầu Hổ Phách Đen Dark Amber', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 810000, 900000, 3),
+(455, 'Tinh dầu Gỗ Đàn Hương Úc Thượng Hạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 860000, 960000, 3),
+(456, 'Tinh dầu Rêu Sồi Oakmoss Bí Ẩn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 650000, 730000, 3),
+(457, 'Tinh dầu Da Thuộc Leather Khói Lãng Tử', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 790000, 890000, 3),
+(458, 'Tinh dầu Gỗ Mun Mun-Ebony Đen Tuyền', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 750000, 840000, 3),
+(459, 'Tinh dầu Cỏ Bài Bourbon Xứ Đảo', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 710000, 800000, 3);
+
+
+
+
+
+

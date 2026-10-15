@@ -104,6 +104,7 @@ public class ProductService {
     public List<ProductCardResponse> getBestSellerProducts(Integer limit) {
         int productLimit = normalizeHomeProductLimit(limit);
         return productRepo.findAll().stream()
+                .filter(p -> p.getProductType() == null || p.getProductType() == com.nhom10.tmdt.enums.ProductType.NORMAL)
                 .sorted(this::compareBySales)
                 .limit(productLimit)
                 .map(this::toCard)
@@ -150,6 +151,12 @@ public class ProductService {
     private Specification<Product> buildSpec(ProductFilterRequest req) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            // Chỉ lấy sản phẩm thương mại thông thường (NORMAL), loại trừ nguyên liệu phối hương (CUSTOM)
+            predicates.add(cb.or(
+                    cb.isNull(root.get("productType")),
+                    cb.equal(root.get("productType"), com.nhom10.tmdt.enums.ProductType.NORMAL)
+            ));
 
             // Lọc theo danh mục
             if (req.categoryIds() != null && !req.categoryIds().isEmpty()) {

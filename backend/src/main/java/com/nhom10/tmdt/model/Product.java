@@ -38,6 +38,9 @@ public class Product {
     @Column(name="total_sold")
     private Long totalSold;
 
+    @Column(name="scent_tier")
+    private Integer scentTier; // 1: Top Note, 2: Heart Note, 3: Base Note
+
     @Column(name="created_at")
     @CreationTimestamp
     private LocalDateTime createdAt ;
