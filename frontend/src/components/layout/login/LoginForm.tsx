@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router';
 import { authService } from '../../../api/AuthService';
 import { ROUTES } from '../../../routes/routes';
 import { useAuth } from "../../../api/AuthContext";
+import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
 export function LoginForm() {
@@ -12,8 +13,32 @@ export function LoginForm() {
     const [password, setPasssword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [googleLoading, setGoogleLoading] = useState(false);
     const navigate = useNavigate();
     const { setUser, loading, setLoading } = useAuth();
+
+    const handleGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setGoogleLoading(true);
+            try {
+                const res = await authService.loginWithGoogle(tokenResponse.access_token, rememberMe);
+                if (res?.status === 200) {
+                    setUser(res.data.user);
+                    navigate(ROUTES.HOME, { replace: true });
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    setErrorMessage(error.response?.data?.message || "Đăng nhập Google thất bại");
+                } else {
+                    setErrorMessage("Đăng nhập Google thất bại, vui lòng thử lại");
+                }
+            } finally {
+                setGoogleLoading(false);
+            }
+        },
+        onError: () => setErrorMessage("Đăng nhập Google thất bại, vui lòng thử lại"),
+        flow: 'implicit',
+    });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -107,6 +132,30 @@ export function LoginForm() {
                         <hr className="text-secondary opacity-25" />
                         <span className="position-absolute top-50 start-50 translate-middle bg-white px-3 text-secondary" style={{ fontSize: '12px' }}>hoặc</span>
                     </div>
+
+                    <button
+                        type="button"
+                        onClick={() => handleGoogleLogin()}
+                        disabled={googleLoading || loading}
+                        className="btn w-100 py-2 mb-4 d-flex align-items-center justify-content-center gap-2 border"
+                        style={{
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            color: '#374151',
+                            backgroundColor: '#fff',
+                            borderColor: '#d1d5db',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+                            transition: 'box-shadow 0.2s',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)')}
+                        onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)')}
+                    >
+                        {googleLoading ? (
+                            <span className="spinner-border spinner-border-sm" role="status" />) : (<i className="bi bi-box-arrow-in-right"></i>
+                        )}
+                        Đăng nhập bằng Google
+                    </button>
 
                     <div className="text-center" style={{ fontSize: '14px' }}>
                         <span className="text-secondary">Bạn chưa có tài khoản? </span>

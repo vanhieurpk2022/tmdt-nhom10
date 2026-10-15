@@ -3,6 +3,7 @@ package com.nhom10.tmdt.rest;
 import com.cloudinary.Api;
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
+import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
 import com.nhom10.tmdt.dto.verify.VerifyRequest;
@@ -99,5 +100,26 @@ public class UserController {
        response.addCookie(jwtCookie);
 
        return new ApiResponse<>(200,"Đăng nhập thành công",loginResponse);
+    }
+
+    @PostMapping("/google")
+    public ApiResponse<LoginResponse> loginWithGoogle(
+            @RequestBody GoogleLoginRequest request,
+            HttpServletResponse response) {
+
+        LoginResponse loginResponse = userService.loginWithGoogle(request);
+
+        Cookie jwtCookie = new Cookie("accessToken", loginResponse.accessToken());
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(false);
+        jwtCookie.setPath("/");
+        if (request.rememberMe()) {
+            jwtCookie.setMaxAge((int) loginResponse.expiresIn());
+        } else {
+            jwtCookie.setMaxAge(-1);
+        }
+        response.addCookie(jwtCookie);
+
+        return new ApiResponse<>(200, "Đăng nhập bằng Google thành công", loginResponse);
     }
 }

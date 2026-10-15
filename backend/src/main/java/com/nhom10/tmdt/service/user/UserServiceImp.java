@@ -1,8 +1,13 @@
 package com.nhom10.tmdt.service.user;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.config.JwtService;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
+import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
 import com.nhom10.tmdt.enums.ErrorCode;
@@ -13,14 +18,16 @@ import com.nhom10.tmdt.repo.RoleRepository;
 import com.nhom10.tmdt.repo.UserRepository;
 import com.nhom10.tmdt.service.imp.EmailSevice;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +38,9 @@ public class UserServiceImp implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
     private final EmailSevice emailSevice;
+
+    @Value("${google.client-id}")
+    private String googleClientId;
 
     @Override
     public LoginResponse.UserResponse getUserByEmail(String email) {
@@ -101,6 +111,110 @@ public class UserServiceImp implements UserService {
 
         return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
     }
+
+    @Override
+    public LoginResponse loginWithGoogle(GoogleLoginRequest request) {
+        GoogleIdToken.Payload payload = verifyGoogleToken(request.credential());
+
+        String email = payload.getEmail();
+        String rawName = (String) payload.get("name");
+        String fullname = (rawName != null && !rawName.isBlank()) ? rawName : email.split("@")[0];
+        String avatarUrl = (String) payload.get("picture");
+
+        // tìm và tạo user mới
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            Role userRole = roleRepository.findByName(RoleName.USER.name())
+                    .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+            return userRepository.save(User.builder()
+                    .email(email)
+                    .fullname(fullname)
+                    .avatarUrl(avatarUrl)
+                    .password(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()))
+                    .isVerify(true)
+                    .roles(new HashSet<>(Set.of(userRole)))
+                    .build());
+        });
+
+        // user tồn tại nhưng chưa verify
+        if (!user.isVerify()) {
+            user.setVerify(true);
+            user.setCodeActive(null);
+            user.setVerifyCodeExpiresAt(null);
+            userRepository.save(user);
+        }
+
+        // Cập nhật avatar từ Google nếu chưa có
+        if (avatarUrl != null && (user.getAvatarUrl() == null || user.getAvatarUrl().isBlank())) {
+            user.setAvatarUrl(avatarUrl);
+            userRepository.save(user);
+        }
+
+        // 3. Tạo JWT và trả về
+        List<String> roles = user.getRoles().stream().map(Role::getName).toList();
+        String accessToken = jwtService.generateToken(
+                user.getEmail(), user.getAvatarUrl() != null ? user.getAvatarUrl() : "",
+                user.getFullname(), user.isVerify(), roles);
+        long expiresIn = jwtService.getExpirationSeconds(request.rememberMe());
+
+        LoginResponse.UserResponse userDto = new LoginResponse.UserResponse(
+                user.getId(), user.getEmail(), user.getFullname(), user.getAvatarUrl(), roles);
+
+        return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
+    }
+
+// verify google token
+    private GoogleIdToken.Payload verifyGoogleToken(String credential) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    new NetHttpTransport(), new GsonFactory())
+                    .setAudience(Collections.singletonList(googleClientId))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(credential);
+            if (idToken != null) {
+                return idToken.getPayload();
+            }
+
+            return fetchGoogleUserInfo(credential);
+
+        } catch (AppException e) {
+            throw e;
+        } catch (Exception e) {
+            try {
+                return fetchGoogleUserInfo(credential);
+            } catch (Exception ex) {
+                throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+            }
+        }
+    }
+
+    private GoogleIdToken.Payload fetchGoogleUserInfo(String accessToken) throws Exception {
+        java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+        java.net.http.HttpRequest req = java.net.http.HttpRequest.newBuilder()
+                .uri(java.net.URI.create("https://www.googleapis.com/oauth2/v3/userinfo"))
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        java.net.http.HttpResponse<String> resp = client.send(req,
+                java.net.http.HttpResponse.BodyHandlers.ofString());
+
+        if (resp.statusCode() != 200) {
+            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        }
+
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        com.fasterxml.jackson.databind.JsonNode node = mapper.readTree(resp.body());
+
+        GoogleIdToken.Payload payload = new GoogleIdToken.Payload();
+        payload.setEmail(node.path("email").asText());
+        payload.set("name", node.path("name").asText());
+        payload.set("picture", node.path("picture").asText());
+        payload.setSubject(node.path("sub").asText());
+
+        return payload;
+    }
+
 
     @Override
     public void verifyEmail(String email, String code) {

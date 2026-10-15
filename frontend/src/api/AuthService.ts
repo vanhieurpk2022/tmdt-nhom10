@@ -58,5 +58,13 @@ export const authService = {
             ("/auth/verify-email", {params:{email,code}});
 
         return response.data;
+    },
+
+    loginWithGoogle: async (credential: string, rememberMe: boolean = false) => {
+        const response = await api.post<ApiResponse<LoginResponse>>(
+            "/auth/google",
+            { credential, rememberMe }
+        );
+        return response.data;
     }
-};
+};

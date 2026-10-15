@@ -1,4 +1,5 @@
 import { StrictMode } from 'react'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -45,6 +46,7 @@ import FactorySale from './pages/FactorySale';
 import FactoryProductPage from './pages/FactoryProduct';
 import FactoryStaff from './pages/FactoryStaff';
 
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
 const MainLayout = () => (
   <>
@@ -56,7 +58,7 @@ const MainLayout = () => (
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <BrowserRouter>
       <AuthProvider>
 
@@ -115,6 +117,6 @@ createRoot(document.getElementById('root')!).render(
 
 
     </BrowserRouter>
-
+    </GoogleOAuthProvider>
   </StrictMode>,
 )
