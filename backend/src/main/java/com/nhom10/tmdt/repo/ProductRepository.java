@@ -12,15 +12,16 @@ import java.util.List;
 @RepositoryRestResource(path = "product")
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
-    // Đếm số sản phẩm theo từng category để hiển thị (18), (12)... trong bộ lọc
-    @Query("SELECT p.category.id, COUNT(p) FROM Product p WHERE p.category IS NOT NULL GROUP BY p.category.id")
+    // Đếm số sản phẩm theo từng category để hiển thị (18), (12)... trong bộ lọc (chỉ tính sản phẩm bán lẻ thông thường)
+    @Query("SELECT p.category.id, COUNT(p) FROM Product p WHERE p.category IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.category.id")
     List<Object[]> countByCategory();
 
-    // Đếm số sản phẩm theo từng factory
-    @Query("SELECT p.factory.id, COUNT(p) FROM Product p WHERE p.factory IS NOT NULL GROUP BY p.factory.id")
+    // Đếm số sản phẩm theo từng factory (chỉ tính sản phẩm bán lẻ thông thường)
+    @Query("SELECT p.factory.id, COUNT(p) FROM Product p WHERE p.factory IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.factory.id")
     List<Object[]> countByFactory();
 
-    @Query("SELECT p FROM Product p ORDER BY p.createdAt DESC, p.id DESC")
+    @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) ORDER BY p.createdAt DESC, p.id DESC")
     List<Product> findNewestProducts(Pageable pageable);
 
+    List<Product> findByFactoryId(Long factoryId);
 }

@@ -66,7 +66,8 @@ public class FactoryServiceImp implements FactoryService{
                     bannerUrl,
                     gallery,
                     null,
-                    null
+                    null,
+                    f.getCustomServiceFee() != null ? f.getCustomServiceFee() : 25000.0
             );
         }).toList();
     }
@@ -110,7 +111,8 @@ public class FactoryServiceImp implements FactoryService{
                 bannerUrl,
                 gallery,
                 null,
-                null
+                null,
+                f.getCustomServiceFee() != null ? f.getCustomServiceFee() : 25000.0
         );
     }
 

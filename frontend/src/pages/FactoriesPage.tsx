@@ -229,7 +229,7 @@ export default function FactoriesPage() {
                                             </div>
 
                                             {/* ACTIONS */}
-                                            <div className="factory-card-footer">
+                                            <div className="mt-auto pt-2">
                                                 <Link
                                                     to={`${ROUTES.PRODUCTS}?factoryIds=${factory.id}`}
                                                     className="btn-view-factory-products"

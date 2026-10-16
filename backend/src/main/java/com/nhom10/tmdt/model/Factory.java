@@ -65,6 +65,10 @@ public class Factory {
 
     @Enumerated(EnumType.STRING)
     private FactoryStatus factoryStatus;
+
+    @Column(name="custom_service_fee")
+    private Double customServiceFee;
+
     @Column(name="created_at")
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
