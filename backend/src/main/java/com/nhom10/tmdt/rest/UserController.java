@@ -6,6 +6,7 @@ import com.nhom10.tmdt.dto.user.CreateUserRequest;
 import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
+import com.nhom10.tmdt.dto.verify.ResendRequest;
 import com.nhom10.tmdt.dto.verify.VerifyRequest;
 import com.nhom10.tmdt.service.user.UserService;
 import jakarta.servlet.http.Cookie;
@@ -28,8 +29,8 @@ public class UserController {
 
     private final UserService userService;
     @PostMapping("/resend")
-    public ApiResponse<Void> resend(@RequestBody String email) {
-        userService.resendCode(email);
+    public ApiResponse<Void> resend(@RequestBody ResendRequest request) {
+        userService.resendCode(request.email());
         return new ApiResponse<>(200, "Đăng xuất thành công");
     }
     @PostMapping("/logout")
