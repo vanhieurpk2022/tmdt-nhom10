@@ -1,3 +1,4 @@
+import api from "./api";
 
 export interface FactoryItem {
     id: number;
