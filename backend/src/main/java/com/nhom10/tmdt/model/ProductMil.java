@@ -1,5 +1,6 @@
 package com.nhom10.tmdt.model;
 
+import com.nhom10.tmdt.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -37,5 +38,5 @@ public class ProductMil {
 
     @ColumnDefault("1")
     @Column(name="is_active")
-    private boolean isActive;
+    private boolean  isActive;
 }

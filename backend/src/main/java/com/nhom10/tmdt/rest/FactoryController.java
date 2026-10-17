@@ -2,19 +2,16 @@ package com.nhom10.tmdt.rest;
 
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.factory.FactoryItemResponse;
-import com.nhom10.tmdt.dto.factory.RegisterFactoryRequest;
-import com.nhom10.tmdt.dto.upload.DeleteAssetRequest;
+import com.nhom10.tmdt.dto.factory.FactoryRegisterRequest;
+import com.nhom10.tmdt.dto.factory.FactoryRegisterResponse;
 import com.nhom10.tmdt.service.factory.FactoryService;
-import com.nhom10.tmdt.service.factory.FactoryServiceImp;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -46,9 +43,9 @@ public class FactoryController {
     // nhận nhiều file
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<FactoryItemResponse> registerFactory(@Valid @RequestBody RegisterFactoryRequest request) {
-        factoryService.registerFactory(request);
-        return new ApiResponse<>(201,"Đăng kí người bán thành công");
+    public ApiResponse<Void> registerFactory(@Valid @RequestBody FactoryRegisterRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        factoryService.registerFactory(request,userDetails.getUsername());
+        return new ApiResponse<Void>(201,"Đăng kí người bán thành công");
     }
 
 }

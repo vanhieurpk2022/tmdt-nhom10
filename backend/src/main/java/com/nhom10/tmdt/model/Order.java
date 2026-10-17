@@ -1,5 +1,6 @@
 package com.nhom10.tmdt.model;
 
+import com.nhom10.tmdt.enums.CancelReason;
 import com.nhom10.tmdt.enums.OrderStatus;
 import com.nhom10.tmdt.enums.PaymentMethod;
 import jakarta.persistence.*;
@@ -68,6 +69,16 @@ public class Order {
 
     @Column(name = "note")
     private String note;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cancel_reason")
+    private CancelReason cancelReason;
+
+    @Column(name = "delivered_at")
+    private LocalDateTime deliveredAt;
+
+    @Column(name = "expected_delivery_at")
+    private LocalDateTime expectedDeliveryAt;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp

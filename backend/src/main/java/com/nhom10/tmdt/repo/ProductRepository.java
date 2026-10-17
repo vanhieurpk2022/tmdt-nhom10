@@ -1,10 +1,14 @@
 package com.nhom10.tmdt.repo;
 
+import com.nhom10.tmdt.dto.factory.FactoryProductItem;
+import com.nhom10.tmdt.dto.factory.FactoryProductResponse;
+import com.nhom10.tmdt.dto.factory.FactoryProductStats;
 import com.nhom10.tmdt.model.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
@@ -24,4 +28,40 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<Product> findNewestProducts(Pageable pageable);
 
     List<Product> findByFactoryId(Long factoryId);
+
+    @Query("""
+SELECT new com.nhom10.tmdt.dto.factory.FactoryProductStats(
+    (SELECT COUNT(p) FROM Product p WHERE p.factory.id = :factoryId),
+    (SELECT COUNT(p) FROM Product p
+     WHERE p.factory.id = :factoryId
+       AND EXISTS (SELECT 1 FROM ProductMil m
+                   WHERE m.product = p
+                     AND m.isActive =true )),
+    (SELECT COUNT(p) FROM Product p
+     WHERE p.factory.id = :factoryId
+       AND NOT EXISTS (SELECT 1 FROM ProductMil m
+                       WHERE m.product = p AND m.stockQuantity > 0)),
+    COALESCE((SELECT SUM(item.quantity) FROM OrderItem item
+              WHERE item.product.factory.id = :factoryId), 0L)
+)
+FROM Factory f
+WHERE f.id = :factoryId
+""")
+    FactoryProductStats getStats(@Param("factoryId") Long factoryId);
+
+    @Query("""
+            SELECT new com.nhom10.tmdt.dto.factory.FactoryProductItem(
+                p.id,
+                p.name,
+                COALESCE((SELECT SUM(pm.stockQuantity) FROM ProductMil pm WHERE pm.product = p), 0L),
+                COALESCE((SELECT SUM(item.quantity) FROM OrderItem item WHERE item.product = p), 0L),
+                p.createdAt,
+                c.name
+            )
+            FROM Product p
+            LEFT JOIN p.category c
+            WHERE p.factory.id = :factoryId
+            ORDER BY p.createdAt DESC
+            """)
+    List<FactoryProductItem> getProducts(@Param("factoryId") Long factoryId);
 }

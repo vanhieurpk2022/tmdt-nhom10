@@ -11,6 +11,7 @@ import { ROUTES } from "../../routes/routes";
 import { useAuth } from "../../api/AuthContext";
 import { useCart } from "../../api/CartContext";
 import CartToast from "../cart/CartToast";
+import { useEffect } from "react";
 
 export function Header() {
     const location = useLocation();
@@ -51,7 +52,7 @@ export function Header() {
 
                     <div className="d-flex align-items-center gap-4 flex-shrink-0 site-user-actions">
                         {loading ? (null) :
-                            user ? (<UserMenu fullname={user.fullName} email={user.email} avatar={user.avatar} />)
+                            user ? (<UserMenu fullname={user.fullName} email={user.email} avatar={user.avatar} roles={user.role} />)
                                 :
                                 (<NonLogin avatar={faUser} />)
                         }

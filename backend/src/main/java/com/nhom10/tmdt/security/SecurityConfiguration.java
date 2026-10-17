@@ -44,14 +44,16 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/v1/factory/**").permitAll()
+                .requestMatchers("/v1/product/**").permitAll()
+                .requestMatchers("/manager/**").permitAll()
+                .requestMatchers("/v1/category/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                 .requestMatchers( "/factories/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/custom-scent/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/custom-scent/**").permitAll()
                 .requestMatchers("/shipping/provinces", "/shipping/districts", "/shipping/wards").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/admin/**").permitAll()
                 .anyRequest().authenticated());
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
@@ -76,7 +78,7 @@ public class SecurityConfiguration {
 
                 corsConfig.setAllowedOrigins(Endpoints.FRONTEND_HOSTS);
 
-                corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"));
                 corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
                 corsConfig.setAllowCredentials(true); // Giữ nguyên để cho phép truyền nhận HttpOnly Cookie
 

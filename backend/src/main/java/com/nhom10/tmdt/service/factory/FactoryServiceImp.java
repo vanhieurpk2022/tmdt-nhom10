@@ -1,13 +1,19 @@
 package com.nhom10.tmdt.service.factory;
 
+import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.dto.factory.FactoryItemResponse;
-import com.nhom10.tmdt.dto.factory.RegisterFactoryRequest;
+import com.nhom10.tmdt.dto.factory.FactoryRegisterRequest;
+import com.nhom10.tmdt.dto.factory.DashboardOverviewResponse;
+import com.nhom10.tmdt.enums.ErrorCode;
 import com.nhom10.tmdt.enums.FactoryStatus;
 import com.nhom10.tmdt.model.Factory;
 import com.nhom10.tmdt.model.FactoryImage;
+import com.nhom10.tmdt.model.Order;
+import com.nhom10.tmdt.model.User;
 import com.nhom10.tmdt.repo.FactoryRepository;
+import com.nhom10.tmdt.repo.OrderRepository;
 import com.nhom10.tmdt.repo.ProductRepository;
-import com.nhom10.tmdt.service.cloudinary.CloudinaryService;
+import com.nhom10.tmdt.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +28,8 @@ public class FactoryServiceImp implements FactoryService{
 
     private final FactoryRepository factoryRepo;
     private final ProductRepository productRepo;
-    private final CloudinaryService cloudinaryService;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<FactoryItemResponse> getAllFactories() {
@@ -118,8 +125,11 @@ public class FactoryServiceImp implements FactoryService{
 
     @Override
     @Transactional
-    public void registerFactory(RegisterFactoryRequest request) {
-
+    public void registerFactory(FactoryRegisterRequest request, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if(user.getFactory() !=null) {
+            throw new AppException(ErrorCode.EXITS_FACTORY);
+        }
         Factory factory = Factory.builder()
                 .name(request.name())
                 .address(request.address())
@@ -136,6 +146,16 @@ public class FactoryServiceImp implements FactoryService{
                 .brandAuthorizationUrl(request.brandAuthorizationUrl())
                  .factoryStatus(FactoryStatus.PENDING)
                 .build();
-        factoryRepo.save(factory);
+        factory = factoryRepo.save(factory);
+        user.setFactory(factory);
+        userRepository.save(user);
+
     }
+
+    @Override
+    public DashboardOverviewResponse getStaticsFactory(String id) {
+        return null;
+    }
+
+
 }

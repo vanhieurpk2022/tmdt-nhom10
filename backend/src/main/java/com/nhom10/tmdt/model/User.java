@@ -1,5 +1,6 @@
 package com.nhom10.tmdt.model;
 
+import com.nhom10.tmdt.enums.FactoryRole;
 import com.nhom10.tmdt.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -81,6 +82,9 @@ public class User {
     @Column(name="avatar_url")
     private String avatarUrl;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "factory_role")
+    private FactoryRole factoryRole;
     @Column(name="verify_code_expires_at")
     private LocalDateTime verifyCodeExpiresAt;
 }

@@ -3,6 +3,7 @@ import { ROUTES } from "../../../routes/routes";
 import { LogoBranch } from "../dashboard/LogoBranch";
 import SideBarItem from "../dashboard/SideBarItem";
 import { BadgeAccount } from "../dashboard/BadgeAccount";
+import { useAuth } from "../../../api/AuthContext";
 
 interface SidebarAdminProps {
     isDashboard?: boolean;
@@ -15,6 +16,7 @@ interface SidebarAdminProps {
 }
 
 function SideBarFactory({ isProfile = false, isDashboard = false, isProduct = false, isStaff = false, isOrder = false, isSupport = false, isVoucher = false }: SidebarAdminProps) {
+    const { user, loading } = useAuth();
     return (
         <>
             <div className="d-flex flex-column h-100" style={{ backgroundColor: "var(--color-bg-dark)" }}>
@@ -38,7 +40,13 @@ function SideBarFactory({ isProfile = false, isDashboard = false, isProduct = fa
                     <SideBarItem to={ROUTES.FACTORY_PROFILE} place={faTag} content="Hồ sơ" isActive={isProfile} />
                 </div>
                 <div className="mt-auto">
-                    <BadgeAccount name="Minh Hậu" role="Xưởng " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuDGi1_AVK3XUdN5cS9tUBuYhgg9UhK3zN0hA_3b6M-Q&s=10" />
+                    {user && (
+                        <BadgeAccount
+                            name={user.fullName}
+                            role={user.role.find(r => r === "FACTORY") ?? ""}
+                            src={user.avatar ?? "/assets/default-avatar.png"}
+                        />
+                    )}
                 </div>
 
             </div >

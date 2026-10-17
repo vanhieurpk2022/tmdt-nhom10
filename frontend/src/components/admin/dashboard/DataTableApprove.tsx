@@ -14,7 +14,6 @@ import {
     sortFn_alphanumeric,
     sortFn_basic,
     type PaginationState,
-
 } from "@tanstack/react-table";
 import {
     faArrowDownAZ,
@@ -22,7 +21,6 @@ import {
     faSort,
     faMagnifyingGlass,
     faLocationDot,
-    faFlask,
     faCheck,
     faXmark,
     faFilePdf,
@@ -32,73 +30,12 @@ import {
     faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import axios from "axios";
 import "../../../css/pages/dashboard/modal.css";
-
-interface WorkshopDoc {
-    name: string;
-    url: string;
-}
-
-interface Workshop {
-    code: string;
-    name: string;
-    address: string;
-    capacity: string;
-    thumbnail?: string;
-    docs: WorkshopDoc[];
-}
-
-export const ExampleData: Workshop[] = [
-    {
-        code: "REQ-2026-081",
-        name: "AromaBio Tech Lab",
-        address: "KCN Tân Bình, TP.HCM",
-        capacity: "80.000 chai/tháng",
-        thumbnail: "https://picsum.photos/seed/aroma/80",
-        docs: [
-            { name: "GMP ASEAN.pdf", url: "example.com" },
-            { name: "ISO_22716.jpg", url: "example.com" },
-        ],
-    },
-    {
-        code: "REQ-2026-082",
-        name: "Flora Essence Manufacturing",
-        address: "Long Thành, Đồng Nai",
-        capacity: "120.000 chai/tháng",
-        docs: [
-            { name: "IFRA_Standard_v51.pdf", url: "example.com" },
-            { name: "ISO_9001_2015.pdf", url: "example.com" },
-        ],
-    },
-    {
-        code: "REQ-2026-083",
-        name: "ScentCraft Co-Lab",
-        address: "KCN Quế Võ, Bắc Ninh",
-        capacity: "45.000 chai/tháng",
-        docs: [{ name: "Phieu_tiep_nhan_GMP_VN.pdf", url: "example.com" }],
-    },
-    {
-        code: "REQ-2026-084",
-        name: "VietScent Organic Lab",
-        address: "Đà Lạt, Lâm Đồng",
-        capacity: "30.000 chai/tháng",
-        docs: [
-            { name: "USDA_Organic_Cert.pdf", url: "example.com" },
-            { name: "COA_Nguon_Goc_2026.pdf", url: "example.com" },
-        ],
-    },
-    {
-        code: "REQ-2026-085",
-        name: "Indochine Perfumery Hub",
-        address: "Bến Cát, Bình Dương",
-        capacity: "60.000 chai/tháng",
-        docs: [
-            { name: "GMP_ASEAN_BinhDuong.pdf", url: "example.com" },
-            { name: "IFRA_Certificate_2026.pdf", url: "example.com" },
-        ],
-    },
-];
+import type { FactoryRegisterResponse } from "../../../dto/factory/FactoryRegister";
+import { AdminService } from "../../../api/admin/AdminApi";
+import { FactoryStatus } from "../../../enums/FactoryStatus";
 
 const DEFAULT_THUMB =
     "data:image/svg+xml;utf8," +
@@ -109,7 +46,6 @@ const DEFAULT_THUMB =
         </svg>`
     );
 
-const PAGE_SIZES = [5, 10, 20, 50];
 
 const getFileIcon = (name: string) => {
     const ext = name.split(".").pop()?.toLowerCase() ?? "";
@@ -123,15 +59,6 @@ const getFileIcon = (name: string) => {
     }
 
     return <FontAwesomeIcon icon={faFile} className="text-secondary" />;
-};
-
-// TODO: gọi API duyệt / hủy hồ sơ
-const handleApprove = (code: string) => {
-    console.log("approve", code);
-};
-
-const handleCancel = (code: string) => {
-    console.log("cancel", code);
 };
 
 const features = tableFeatures({
@@ -155,147 +82,189 @@ const features = tableFeatures({
     },
 });
 
-const columnHelper = createColumnHelper<typeof features, Workshop>();
-const columns = columnHelper.columns([
-    columnHelper.display({
-        id: "select",
-        header: ({ table }) => (
-            <input
-                type="checkbox"
-                className="form-check-input"
-                checked={table.getIsAllRowsSelected()}
-                onChange={table.getToggleAllRowsSelectedHandler()}
-            />
-        ),
-        cell: ({ row }) => (
-            <input
-                type="checkbox"
-                className="form-check-input"
-                checked={row.getIsSelected()}
-                onChange={row.getToggleSelectedHandler()}
-            />
-        ),
-        enableSorting: false,
-    }),
+const columnHelper = createColumnHelper<typeof features, FactoryRegisterResponse>();
 
-    columnHelper.accessor("name", {
-        header: "Mã hồ sơ / Tên xưởng",
-        cell: info => {
-            const row = info.row.original;
-            const src = row.thumbnail?.trim() ? row.thumbnail : DEFAULT_THUMB;
+interface DataTableProps {
+    list: FactoryRegisterResponse[];
+    onChanged?: () => void; // component cha truyền xuống để tải lại danh sách
+}
 
-            return (
-                <div className="d-flex align-items-center gap-3">
-                    <img
-                        className="ws-avatar"
-                        src={src}
-                        alt={row.name}
-                        loading="lazy"
-                        onError={(e) => {
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src = DEFAULT_THUMB;
-                        }}
-                    />
-
-                    <div>
-                        <div className="fw-bold">{row.name}</div>
-                        <span className="badge bg-secondary-subtle text-secondary-emphasis fw-normal">
-                            {row.code}
-                        </span>
-                    </div>
-                </div>
-            );
-        },
-        sortFn: "alphanumeric",
-    }),
-
-    columnHelper.accessor("address", {
-        header: "Địa chỉ & công suất",
-        cell: info => {
-            const row = info.row.original;
-
-            return (
-                <>
-                    <div className="mb-1">
-                        <FontAwesomeIcon icon={faLocationDot} className="text-secondary me-2" />
-                        {row.address}
-                    </div>
-
-                    <span className="badge bg-info-subtle text-info-emphasis fw-normal">
-                        <FontAwesomeIcon icon={faFlask} className="me-1" />
-                        {row.capacity}
-                    </span>
-                </>
-            );
-        },
-        sortFn: "alphanumeric",
-    }),
-
-    columnHelper.accessor("docs", {
-        header: "Hồ sơ & giấy phép",
-        cell: info => (
-            <div className="d-flex flex-column gap-1">
-                {info.getValue().map((doc) => (
-                    <a
-                        key={doc.name}
-                        href={`https://${doc.url}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="doc-chip text-decoration-none"
-                    >
-                        {getFileIcon(doc.name)}
-                        <span className="text-truncate">{doc.name}</span>
-                    </a>
-                ))}
-            </div>
-        ),
-        enableSorting: false,
-        enableGlobalFilter: false,
-    }),
-
-    columnHelper.display({
-        id: "actions",
-        header: "Thao tác",
-        cell: info => {
-            const workshop = info.row.original;
-
-            return (
-                <div className="d-flex gap-2 justify-content-center">
-                    {/* Duyệt */}
-                    <button
-                        type="button"
-                        className="btn btn-sm btn-success px-3"
-                        onClick={() => handleApprove(workshop.code)}
-                    >
-                        <FontAwesomeIcon icon={faCheck} className="me-1" />
-                        Duyệt
-                    </button>
-
-                    {/* Hủy */}
-                    <button
-                        type="button"
-                        className="btn btn-sm btn-outline-danger px-3"
-                        onClick={() => handleCancel(workshop.code)}
-                    >
-                        <FontAwesomeIcon icon={faXmark} className="me-1" />
-                        Hủy
-                    </button>
-                </div>
-            );
-        },
-        enableSorting: false,
-    }),
-]);
-
-export function DataTableApprove() {
+export function DataTableApprove({ list, onChanged }: DataTableProps) {
     const [search, setSearch] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [loadingId, setLoadingId] = useState<number | null>(null);
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 10,
     });
 
+    // Duyệt / hủy hồ sơ: gộp chung, chỉ khác status
+    const handleUpdateStatus = async (id: number | undefined, status: FactoryStatus) => {
+        if (!id) return;
+        setLoadingId(id);
+        setErrorMessage("");
+        try {
+            await AdminService.updateStatusFactory(id, status);
+            onChanged?.();
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (!error.response) {
+                    setErrorMessage("Không kết nối được máy chủ, vui lòng thử lại");
+                } else {
+                    setErrorMessage(error.response.data?.message);
+                }
+            }
+        } finally {
+            setLoadingId(null);
+        }
+    };
+
+    const columns = useMemo(
+        () =>
+            columnHelper.columns([
+                columnHelper.display({
+                    id: "select",
+                    header: ({ table }) => (
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            checked={table.getIsAllRowsSelected()}
+                            onChange={table.getToggleAllRowsSelectedHandler()}
+                        />
+                    ),
+                    cell: ({ row }) => (
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            checked={row.getIsSelected()}
+                            onChange={row.getToggleSelectedHandler()}
+                        />
+                    ),
+                    enableSorting: false,
+                }),
+
+                columnHelper.accessor("name", {
+                    header: "Mã hồ sơ / Tên xưởng",
+                    cell: info => {
+                        const row = info.row.original;
+                        const src = row.avatarUrl?.trim() ? row.avatarUrl : DEFAULT_THUMB;
+
+                        return (
+                            <div className="d-flex align-items-center gap-3">
+                                <img
+                                    className="ws-avatar"
+                                    src={src}
+                                    alt={row.name}
+                                    loading="lazy"
+                                    onError={(e) => {
+                                        e.currentTarget.onerror = null;
+                                        e.currentTarget.src = DEFAULT_THUMB;
+                                    }}
+                                />
+
+                                <div>
+                                    <div className="fw-bold">{row.name}</div>
+                                    <span className="badge bg-secondary-subtle text-secondary-emphasis fw-normal">
+                                        HS-{String(row.id).padStart(4, "0")}
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    },
+                    sortFn: "alphanumeric",
+                }),
+
+                columnHelper.accessor("address", {
+                    header: "Địa chỉ",
+                    cell: info => (
+                        <div>
+                            <FontAwesomeIcon icon={faLocationDot} className="text-secondary me-2" />
+                            {info.getValue()}
+                        </div>
+                    ),
+                    sortFn: "alphanumeric",
+                }),
+
+                columnHelper.display({
+                    id: "docs",
+                    header: "Hồ sơ & giấy phép",
+                    cell: info => {
+                        const row = info.row.original;
+                        const docs = [
+                            { label: "Giấy phép", url: row.licenseUrl },
+                            { label: "Hóa đơn nguồn gốc", url: row.originInvoiceUrl },
+                            { label: "Tài liệu TCCS", url: row.tcssDocUrl },
+                        ].filter(d => d.url);
+
+                        if (docs.length === 0) {
+                            return <span className="text-secondary small">Chưa có tài liệu</span>;
+                        }
+
+                        return (
+                            <div className="d-flex flex-column gap-1">
+                                {docs.map(doc => (
+                                    <a
+                                        key={doc.label}
+                                        href={doc.url!}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="doc-chip text-decoration-none"
+                                    >
+                                        {getFileIcon(doc.url!)}
+                                        <span className="text-truncate">{doc.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        );
+                    },
+                    enableSorting: false,
+                }),
+
+                columnHelper.display({
+                    id: "actions",
+                    header: "Thao tác",
+                    cell: info => {
+                        const workshop = info.row.original;
+                        const busy = loadingId === workshop.id;
+
+                        return (
+                            <div className="d-flex gap-2 justify-content-center">
+                                {/* Duyệt */}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-success px-3"
+                                    disabled={busy}
+                                    onClick={() =>
+                                        handleUpdateStatus(workshop.id, FactoryStatus.ACTIVE)
+                                    }
+                                >
+                                    <FontAwesomeIcon icon={faCheck} className="me-1" />
+                                    Duyệt
+                                </button>
+
+                                {/* Hủy (đổi REJECTED theo đúng tên trong enum của bạn) */}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-outline-danger px-3"
+                                    disabled={busy}
+                                    onClick={() =>
+                                        handleUpdateStatus(workshop.id, FactoryStatus.REJECTED)
+                                    }
+                                >
+                                    <FontAwesomeIcon icon={faXmark} className="me-1" />
+                                    Hủy
+                                </button>
+                            </div>
+                        );
+                    },
+                    enableSorting: false,
+                }),
+            ]),
+        [loadingId, onChanged]
+    );
+
     const table = useTable({
-        data: ExampleData,
+        data: list,
         columns,
         features,
         state: { pagination },
@@ -313,9 +282,7 @@ export function DataTableApprove() {
                 {/* Table heading */}
                 <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4 border-bottom">
                     <div>
-                        <h5 className="fw-bold mb-1">
-                            Danh sách xưởng chờ duyệt
-                        </h5>
+                        <h5 className="fw-bold mb-1">Danh sách xưởng chờ duyệt</h5>
 
                         <p className="text-secondary small mb-0">
                             Xem xét hồ sơ, giấy phép và công suất trước khi duyệt xưởng.
@@ -326,6 +293,13 @@ export function DataTableApprove() {
                         {table.getFilteredRowModel().rows.length} hồ sơ
                     </span>
                 </div>
+
+                {/* Error message */}
+                {errorMessage && (
+                    <div className="alert alert-danger mx-3 mx-lg-4 mt-3 mb-0">
+                        {errorMessage}
+                    </div>
+                )}
 
                 {/* Toolbar */}
                 <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4">
@@ -347,17 +321,6 @@ export function DataTableApprove() {
                         />
                     </div>
 
-                    <select
-                        className="form-select w-auto"
-                        value={pageSize}
-                        onChange={(e) => table.setPageSize(Number(e.target.value))}
-                    >
-                        {PAGE_SIZES.map((size) => (
-                            <option key={size} value={size}>
-                                {size} dòng / trang
-                            </option>
-                        ))}
-                    </select>
                 </div>
 
                 {/* Scrollable table */}
@@ -370,10 +333,7 @@ export function DataTableApprove() {
                                         const sorted = header.column.getIsSorted();
 
                                         return (
-                                            <th
-                                                key={header.id}
-                                                className="text-nowrap"
-                                            >
+                                            <th key={header.id} className="text-nowrap">
                                                 {header.isPlaceholder ? null : (
                                                     <div
                                                         className="d-flex align-items-center gap-2"
@@ -384,9 +344,7 @@ export function DataTableApprove() {
                                                                 : "default",
                                                         }}
                                                     >
-                                                        <table.FlexRender
-                                                            header={header}
-                                                        />
+                                                        <table.FlexRender header={header} />
 
                                                         {header.column.getCanSort() && (
                                                             <FontAwesomeIcon

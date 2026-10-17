@@ -2627,3 +2627,151 @@ INSERT INTO `product` (id, name, description, created_at, updated_at, product_ty
 
 
 
+-- test
+INSERT INTO orders (
+    user_id,
+    subtotal_price,
+    status,
+    total_price,
+    discount_amount,
+    shipping_fee,
+    payment_method,
+    recipient_name,
+    phone_number,
+    shipping_address,
+    note,
+    cancel_reason,
+    delivered_at,
+    expected_delivery_at,
+    created_at
+)
+VALUES
+    (
+        1,
+        250000,
+        'PENDING',
+        270000,
+        0,
+        20000,
+        'COD',
+        'Nguyen Van A',
+        '0901234567',
+        '123 Nguyen Trai, Quan 1, TP.HCM',
+        'Giao gio hanh chinh',
+        NULL,
+        NULL,
+        '2026-10-20 18:00:00',
+        '2026-10-17 09:00:00'
+    ),
+    (
+        1,
+        350000,
+        'PROCESSING',
+        370000,
+        0,
+        20000,
+        'COD',
+        'Tran Thi B',
+        '0902345678',
+        '456 Le Loi, Quan 1, TP.HCM',
+        NULL,
+        NULL,
+        NULL,
+        '2026-10-21 18:00:00',
+        '2026-10-17 10:00:00'
+    ),
+    (
+        1,
+        180000,
+        'DELIVERED',
+        200000,
+        0,
+        20000,
+        'COD',
+        'Le Van C',
+        '0903456789',
+        '789 Dien Bien Phu, Binh Thanh, TP.HCM',
+        NULL,
+        NULL,
+        '2026-10-16 15:30:00',
+        '2026-10-17 18:00:00',
+        '2026-10-16 08:00:00'
+    ),
+    (
+        1,
+        420000,
+        'CANCELLED',
+        440000,
+        0,
+        20000,
+        'COD',
+        'Pham Thi D',
+        '0904567890',
+        '12 Vo Van Tan, Quan 3, TP.HCM',
+        'Khach doi y',
+        'CUSTOMER_CHANGED_MIND',
+        NULL,
+        '2026-10-18 18:00:00',
+        '2026-10-15 14:00:00'
+    ),
+    (
+        1,
+        500000,
+        'DELIVERED',
+        520000,
+        0,
+        20000,
+        'COD',
+        'Hoang Van E',
+        '0905678901',
+        '25 Pham Van Dong, Go Vap, TP.HCM',
+        NULL,
+        NULL,
+        '2026-10-15 16:00:00',
+        '2026-10-16 18:00:00',
+        '2026-10-14 11:00:00'
+    );
+
+INSERT INTO order_item (
+    quantity,
+    unit_price,
+    order_id,
+    product_id,
+    product_mil_id
+)
+VALUES
+    (
+        2,
+        125000,
+        1,
+        1,
+        NULL
+    ),
+    (
+        1,
+        350000,
+        2,
+        2,
+        NULL
+    ),
+    (
+        2,
+        90000,
+        3,
+        3,
+        NULL
+    ),
+    (
+        3,
+        140000,
+        4,
+        4,
+        NULL
+    ),
+    (
+        2,
+        250000,
+        5,
+        5,
+        NULL
+    );
