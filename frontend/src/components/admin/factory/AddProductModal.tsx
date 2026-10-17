@@ -1,4 +1,11 @@
-import { useState, useEffect, type FormEvent } from "react";
+import {
+    useState,
+    useEffect,
+    useRef,
+    type FormEvent,
+    type DragEvent,
+    type ChangeEvent,
+} from "react";
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +22,8 @@ import {
 import type { FactoryProductItem } from "../../../dto/factory/FactoryProductRes";
 import { ProductType } from "../../../enums/ProductType";
 import { CategoryService } from "../../../api/category/CategoryDto";
+import { ProductStatus } from "../../../enums/ProductStatus";
+import { cloudinaryService } from "../../../api/UploadApi";
 
 interface AddProductModalProps {
     show: boolean;
@@ -24,6 +33,15 @@ interface AddProductModalProps {
     isEdit?: boolean;
 }
 
+interface ImageItem {
+    id: string;
+    preview: string; // blob URL (ảnh mới) hoặc link cloudinary (ảnh cũ)
+    file?: File; // có file = chưa upload
+}
+
+const MAX_IMAGES = 10;
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB / ảnh
+
 export default function AddProductModal({
     show,
     onHide,
@@ -32,16 +50,21 @@ export default function AddProductModal({
     isEdit = false,
 }: AddProductModalProps) {
     const [name, setName] = useState("");
-    const [DEFAULT_CATEGORIES, setDEFAULT_CATEGORIES] = useState<string[]>([]);
-    const [category, setCategory] = useState<string>("");
+    const [categories, setCategories] = useState<string[]>([]);
+    const [category, setCategory] = useState("");
     const [type, setType] = useState<ProductType>(ProductType.NORMAL);
     const [price, setPrice] = useState<number | "">(0);
     const [stock, setStock] = useState<number | "">(100);
-    const [status, setStatus] = useState<"ACTIVE" | "INACTIVE">("ACTIVE");
-    const [imageUrl, setImageUrl] = useState("");
+    const [status, setStatus] = useState<ProductStatus>("ACTIVE");
+    const [images, setImages] = useState<ImageItem[]>([]);
+    const [isDragging, setIsDragging] = useState(false);
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const imagesRef = useRef<ImageItem[]>([]);
+    imagesRef.current = images;
 
     // Lấy danh mục từ API mỗi khi mở modal
     useEffect(() => {
@@ -54,67 +77,147 @@ export default function AddProductModal({
                     .map((c) => c.name)
                     .filter((n): n is string => !!n);
 
-                setDEFAULT_CATEGORIES(names);
-
-                // Chọn sẵn danh mục: ưu tiên danh mục của sản phẩm đang sửa,
-                // nếu chưa có thì lấy danh mục đầu tiên
-                setCategory((prev) => {
-                    if (prev) return prev;
-                    if (isEdit && initialData?.category) return initialData.category;
-                    return names[0] ?? "";
-                });
+                setCategories(names);
+                setCategory((prev) => prev || names[0] || "");
             } catch (error) {
                 console.error("Failed to load categories", error);
             }
         };
 
         getCategory();
+    }, [show]);
+
+    // Nạp dữ liệu khi mở modal (edit) hoặc reset form (thêm mới)
+    useEffect(() => {
+        if (!show) return;
+
+        setErrorMsg("");
+
+        if (isEdit && initialData) {
+            // TODO: đổi tên field cho đúng với FactoryProductItem của bạn
+            const d = initialData as any;
+            setName(d.name ?? "");
+            setCategory(d.category ?? d.categoryName ?? "");
+            setType(d.type ?? ProductType.NORMAL);
+            setPrice(d.price ?? 0);
+            setStock(d.stock ?? 0);
+            setStatus(d.status ?? "ACTIVE");
+            setDescription(d.description ?? "");
+
+            const urls: string[] = Array.isArray(d.images)
+                ? d.images
+                : d.image
+                    ? [d.image]
+                    : [];
+            setImages(urls.map((u) => ({ id: crypto.randomUUID(), preview: u })));
+        } else {
+            setName("");
+            setType(ProductType.NORMAL);
+            setPrice(0);
+            setStock(100);
+            setStatus("ACTIVE");
+            setDescription("");
+            setImages([]);
+        }
     }, [show, isEdit, initialData]);
+
+    // Giải phóng blob URL khi unmount
+    useEffect(() => {
+        return () => {
+            imagesRef.current.forEach((i) => {
+                if (i.file) URL.revokeObjectURL(i.preview);
+            });
+        };
+    }, []);
+
+    const addFiles = (fileList: FileList | File[]) => {
+        const all = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
+        const valid = all.filter((f) => f.size <= MAX_SIZE);
+
+        if (valid.length < all.length) {
+            setErrorMsg("Một số ảnh vượt quá 5MB nên đã bị bỏ qua.");
+        } else {
+            setErrorMsg("");
+        }
+
+        setImages((prev) => {
+            const slots = Math.max(MAX_IMAGES - prev.length, 0);
+            if (valid.length > slots) {
+                setErrorMsg(`Chỉ được tối đa ${MAX_IMAGES} ảnh.`);
+            }
+            const added = valid.slice(0, slots).map((file) => ({
+                id: crypto.randomUUID(),
+                preview: URL.createObjectURL(file),
+                file,
+            }));
+            return [...prev, ...added];
+        });
+    };
+
+    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+        if (loading) return;
+        addFiles(e.dataTransfer.files);
+    };
+
+    const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) addFiles(e.target.files);
+        e.target.value = ""; // cho phép chọn lại cùng một file
+    };
+
+    const handleRemoveImage = (id: string) => {
+        setImages((prev) => {
+            const target = prev.find((i) => i.id === id);
+            if (target?.file) URL.revokeObjectURL(target.preview);
+            return prev.filter((i) => i.id !== id);
+        });
+    };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setErrorMsg("");
 
         if (!name.trim()) {
-            setErrorMsg("Vui lòng nhập tên sản phẩm!");
+            setErrorMsg("Vui lòng nhập tên sản phẩm");
             return;
         }
-
         if (!category) {
-            setErrorMsg("Vui lòng chọn danh mục sản phẩm!");
+            setErrorMsg("Vui lòng chọn danh mục sản phẩm");
             return;
         }
 
-        const numericPrice = Number(price);
-        if (numericPrice < 0) {
-            setErrorMsg("Giá sản phẩm không được nhỏ hơn 0!");
-            return;
-        }
-
-        const numericStock = Number(stock);
-        if (numericStock < 0) {
-            setErrorMsg("Số lượng tồn kho không được âm!");
-            return;
-        }
-
+        setLoading(true);
         try {
-            setLoading(true);
-            const productPayload: Partial<FactoryProductItem> = {
-                id: initialData?.id,
+            // Upload ảnh mới lên Cloudinary, giữ nguyên ảnh đã có link
+            const imageUrls = await Promise.all(
+                images.map((img) => (img.file ? cloudinaryService.upload(img.file) : img.preview))
+            );
+
+            // TODO: đổi tên field cho khớp FactoryProductItem / API backend
+            const payload = {
                 name: name.trim(),
                 category,
                 type,
-                price: numericPrice,
-                stock: numericStock,
+                price: Number(price) || 0,
+                stock: Number(stock) || 0,
                 status,
-                imageUrl: imageUrl.trim() || undefined,
-                description: description.trim() || undefined,
-            };
+                description: description.trim(),
+                images: imageUrls,
+                image: imageUrls[0] ?? "",
+            } as unknown as Partial<FactoryProductItem>;
 
-            await onSubmit(productPayload);
-            onHide();
-        } catch (err: any) {
-            setErrorMsg(err?.message || "Có lỗi xảy ra khi lưu sản phẩm. Vui lòng thử lại!");
+            const result = await onSubmit(payload);
+
+            if (result !== false) {
+                images.forEach((i) => {
+                    if (i.file) URL.revokeObjectURL(i.preview);
+                });
+                onHide();
+            }
+        } catch (err) {
+            console.error(err);
+            setErrorMsg("Không thể upload ảnh hoặc lưu sản phẩm. Vui lòng thử lại.");
         } finally {
             setLoading(false);
         }
@@ -197,14 +300,15 @@ export default function AddProductModal({
                                     className="form-select"
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
+                                    required
                                     disabled={loading}
                                 >
-                                    {DEFAULT_CATEGORIES.length === 0 && (
+                                    {categories.length === 0 && (
                                         <option value="" disabled>
                                             Đang tải danh mục...
                                         </option>
                                     )}
-                                    {DEFAULT_CATEGORIES.map((cat) => (
+                                    {categories.map((cat) => (
                                         <option key={cat} value={cat}>
                                             {cat}
                                         </option>
@@ -284,7 +388,7 @@ export default function AddProductModal({
                                 id="input-product-status"
                                 className="form-select"
                                 value={status}
-                                onChange={(e) => setStatus(e.target.value as "ACTIVE" | "INACTIVE")}
+                                onChange={(e) => setStatus(e.target.value as ProductStatus)}
                                 disabled={loading}
                             >
                                 <option value="ACTIVE">Đang bán</option>
@@ -292,38 +396,84 @@ export default function AddProductModal({
                             </select>
                         </div>
 
-                        {/* Link ảnh sản phẩm */}
+                        {/* Hình ảnh sản phẩm (kéo thả nhiều ảnh) */}
                         <div className="col-12">
-                            <label htmlFor="input-product-image" className="form-label fw-semibold small text-secondary">
-                                Đường dẫn hình ảnh (URL)
+                            <label className="form-label fw-semibold small text-secondary">
+                                Hình ảnh sản phẩm ({images.length}/{MAX_IMAGES})
                             </label>
-                            <div className="input-group">
-                                <span className="input-group-text bg-light text-muted">
-                                    <FontAwesomeIcon icon={faImage} />
-                                </span>
+
+                            <div
+                                id="dropzone-product-image"
+                                role="button"
+                                tabIndex={0}
+                                className={`border border-2 rounded-3 p-4 text-center ${isDragging ? "border-danger bg-danger-subtle" : "border-secondary-subtle bg-light"
+                                    }`}
+                                style={{
+                                    borderStyle: "dashed",
+                                    cursor: loading ? "not-allowed" : "pointer",
+                                }}
+                                onClick={() => !loading && fileInputRef.current?.click()}
+                                onKeyDown={(e) => {
+                                    if ((e.key === "Enter" || e.key === " ") && !loading) {
+                                        e.preventDefault();
+                                        fileInputRef.current?.click();
+                                    }
+                                }}
+                                onDragOver={(e) => {
+                                    e.preventDefault();
+                                    if (!loading) setIsDragging(true);
+                                }}
+                                onDragLeave={() => setIsDragging(false)}
+                                onDrop={handleDrop}
+                            >
+                                <FontAwesomeIcon icon={faImage} size="2x" className="text-muted mb-2" />
+                                <div className="small text-muted">
+                                    Kéo thả nhiều ảnh vào đây hoặc{" "}
+                                    <span className="text-danger fw-semibold">bấm để chọn</span>
+                                </div>
+                                <div className="small text-muted">Tối đa {MAX_IMAGES} ảnh, mỗi ảnh ≤ 5MB</div>
                                 <input
-                                    type="url"
-                                    id="input-product-image"
-                                    className="form-control"
-                                    placeholder="https://images.unsplash.com/photo-..."
-                                    value={imageUrl}
-                                    onChange={(e) => setImageUrl(e.target.value)}
-                                    disabled={loading}
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    hidden
+                                    onChange={handleSelect}
                                 />
                             </div>
-                            {imageUrl && (
-                                <div className="mt-2 d-flex align-items-center gap-2">
-                                    <img
-                                        src={imageUrl}
-                                        alt="Ảnh xem trước"
-                                        className="rounded border object-fit-cover"
-                                        style={{ width: 64, height: 64 }}
-                                        onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).src =
-                                                "https://placehold.co/100x100?text=Loi+Anh";
-                                        }}
-                                    />
-                                    <span className="small text-muted">Xem trước ảnh đại diện</span>
+
+                            {images.length > 0 && (
+                                <div className="mt-2 d-flex flex-wrap gap-2">
+                                    {images.map((img, index) => (
+                                        <div key={img.id} className="position-relative" style={{ width: 80 }}>
+                                            <img
+                                                src={img.preview}
+                                                alt={`Ảnh ${index + 1}`}
+                                                className={`rounded border object-fit-cover ${index === 0 ? "border-danger border-2" : ""
+                                                    }`}
+                                                style={{ width: 80, height: 80 }}
+                                                onError={(e) => {
+                                                    (e.currentTarget as HTMLImageElement).src =
+                                                        "https://placehold.co/100x100?text=Loi+Anh";
+                                                }}
+                                            />
+                                            {index === 0 && (
+                                                <span className="badge text-bg-danger position-absolute bottom-0 start-0 m-1">
+                                                    Đại diện
+                                                </span>
+                                            )}
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                                style={{ width: 20, height: 20 }}
+                                                onClick={() => handleRemoveImage(img.id)}
+                                                disabled={loading}
+                                                aria-label="Xóa ảnh"
+                                            >
+                                                <FontAwesomeIcon icon={faTimes} size="xs" />
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
@@ -367,7 +517,7 @@ export default function AddProductModal({
                         ) : (
                             <FontAwesomeIcon icon={faCheck} className="me-2" />
                         )}
-                        {isEdit ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}
+                        {loading ? "Đang xử lý..." : isEdit ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}
                     </button>
                 </Modal.Footer>
             </form>

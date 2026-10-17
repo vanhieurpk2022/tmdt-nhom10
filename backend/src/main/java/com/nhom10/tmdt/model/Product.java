@@ -1,5 +1,6 @@
 package com.nhom10.tmdt.model;
 
+import com.nhom10.tmdt.enums.ProductStatus;
 import com.nhom10.tmdt.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -81,5 +82,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 }
 

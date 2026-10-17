@@ -36,12 +36,19 @@ public class FactoryDashboardController {
         return new ApiResponse<>(200,"Lấy dữ liệu thành công",dashboardOverviewResponse);
     }
 
+
+
     @GetMapping("/dashboard/user")
     public ApiResponse<List<FactoryOrderDashBoardResponse>> getTableUser(
             @AuthenticationPrincipal UserDetails user) {
         String email = user.getUsername();
         List<FactoryOrderDashBoardResponse> dashboardOverviewResponse = factoryDashboard.factoryGetUser(email);
         return new ApiResponse<>(200,"Lấy dữ liệu thành công",dashboardOverviewResponse);
+    }
+
+    @PostMapping("/products")
+    public ApiResponse<> createProduct(){
+        return null;
     }
 
     @GetMapping("/products")
