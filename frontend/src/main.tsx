@@ -46,9 +46,10 @@ import FactoryProfile from './pages/FactoryProfile';
 import FactorySupport from './pages/FactorySupport';
 import FactoryOrder from './pages/FactoryOrder';
 import FactorySale from './pages/FactorySale';
-import FactoryProductPage from './pages/FactoryProduct';
+import FactoryProductPage from './pages/FactoryProductPage';
 import FactoryStaff from './pages/FactoryStaff';
 import { RegisterFactoryForm } from './pages/RegisterFactoryForm';
+import { FactoryProductDetails } from './components/admin/factory/product-variant/FactoryProductDetails';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy-google-client-id';
 
@@ -84,6 +85,8 @@ createRoot(document.getElementById('root')!).render(
               <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
               <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
               <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
+              <Route path={`${ROUTES.FACTORY_PRODUCT_DETAILS}/:id`} element={<FactoryProductDetails />}></Route>
+
 
               {/* Main shop routes with MainLayout */}
               <Route element={<MainLayout />}>

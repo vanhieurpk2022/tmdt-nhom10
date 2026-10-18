@@ -2,14 +2,13 @@ package com.nhom10.tmdt.rest;
 
 import com.cloudinary.Api;
 import com.nhom10.tmdt.dto.ApiResponse;
-import com.nhom10.tmdt.dto.factory.DashboardOverviewResponse;
-import com.nhom10.tmdt.dto.factory.FactoryOrderDashBoardResponse;
-import com.nhom10.tmdt.dto.factory.FactoryProductResponse;
+import com.nhom10.tmdt.dto.factory.*;
 import com.nhom10.tmdt.dto.product.ProductCreateMilRequest;
 import com.nhom10.tmdt.dto.product.ProductCreateMilResponse;
 import com.nhom10.tmdt.dto.product.ToggleMilStatusRequest;
 import com.nhom10.tmdt.dto.product.ToggleMilStatusResponse;
 import com.nhom10.tmdt.model.ProductMil;
+import com.nhom10.tmdt.model.User;
 import com.nhom10.tmdt.service.factory.FactoryDashboardService;
 import com.nhom10.tmdt.service.imp.ProductService;
 import com.nhom10.tmdt.service.productmil.ProductMilService;
@@ -47,8 +46,8 @@ public class FactoryDashboardController {
     }
 
     @PostMapping("/products")
-    public ApiResponse<> createProduct(){
-        return null;
+    public ApiResponse<FactoryProductModalResponse> createProduct(@RequestBody FactoryProductModalRequest request, @AuthenticationPrincipal UserDetails userDetails){
+        return new ApiResponse<>(200,"Tạo thành công",factoryDashboard.createProduct(request,userDetails.getUsername()));
     }
 
     @GetMapping("/products")

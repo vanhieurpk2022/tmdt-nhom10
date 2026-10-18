@@ -1,526 +1,395 @@
-import {
-    useState,
-    useEffect,
-    useRef,
-    type FormEvent,
-    type DragEvent,
-    type ChangeEvent,
-} from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faCirclePlus,
-    faPenToSquare,
     faBoxOpen,
-    faImage,
     faTag,
-    faCoins,
-    faBoxesStacked,
-    faCheck,
-    faTimes,
+    faFloppyDisk,
+    faCloudArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
-import type { FactoryProductItem } from "../../../dto/factory/FactoryProductRes";
+
 import { ProductType } from "../../../enums/ProductType";
-import { CategoryService } from "../../../api/category/CategoryDto";
 import { ProductStatus } from "../../../enums/ProductStatus";
+import { FactoryServiceManager } from "../../../api/factory/FactoryService";
+import type { FactoryProductCreateRequest } from "../../../dto/factory/FactoryProductRes";
+import type { Category } from "../../../models/Category";
+import { CategoryService } from "../../../api/category/CategoryDto";
 import { cloudinaryService } from "../../../api/UploadApi";
 
 interface AddProductModalProps {
     show: boolean;
-    onHide: () => void;
-    onSubmit: (productData: Partial<FactoryProductItem>) => Promise<boolean | void> | boolean | void;
-    initialData?: FactoryProductItem | null;
-    isEdit?: boolean;
+    onClose: () => void;
+    onSuccess?: () => void; // gọi lại để cha tải lại danh sách sau khi lưu
 }
 
-interface ImageItem {
-    id: string;
-    preview: string; // blob URL (ảnh mới) hoặc link cloudinary (ảnh cũ)
-    file?: File; // có file = chưa upload
+const INITIAL_FORM: FactoryProductCreateRequest = {
+    name: "",
+    category: "",
+    type: ProductType.NORMAL,
+    status: ProductStatus.ACTIVE,
+    description: "",
+    imageUrls: [],
+};
+
+type FormErrors = Partial<Record<keyof FactoryProductCreateRequest, string>>;
+
+/* ---------- Ảnh xem trước: tạo / hủy object URL đúng lúc ---------- */
+function ImagePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
+    const url = useMemo(() => URL.createObjectURL(file), [file]);
+
+    // Hủy URL khi file đổi hoặc component bị gỡ, tránh rò bộ nhớ
+    useEffect(() => () => URL.revokeObjectURL(url), [url]);
+
+    return (
+        <div className="position-relative border rounded-3 overflow-hidden bg-white">
+            <img
+                src={url}
+                alt={file.name}
+                className="w-100"
+                style={{ height: 120, objectFit: "cover" }}
+            />
+
+            <button
+                type="button"
+                className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle"
+                style={{ width: 28, height: 28, padding: 0 }}
+                onClick={onRemove}
+                aria-label="Xóa ảnh"
+            >
+                ×
+            </button>
+
+            <div className="p-2">
+                <div className="small text-truncate" title={file.name}>
+                    {file.name}
+                </div>
+                <div className="text-secondary small">
+                    {(file.size / 1024 / 1024).toFixed(2)} MB
+                </div>
+            </div>
+        </div>
+    );
 }
 
-const MAX_IMAGES = 10;
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB / ảnh
+export default function AddProductModal({ show, onClose, onSuccess }: AddProductModalProps) {
+    const [categoryOption, setCategoryOption] = useState<Category[]>([]);
+    const [form, setForm] = useState<FactoryProductCreateRequest>(INITIAL_FORM);
+    const [errors, setErrors] = useState<FormErrors>({});
+    const [submitting, setSubmitting] = useState(false);
 
-export default function AddProductModal({
-    show,
-    onHide,
-    onSubmit,
-    initialData,
-    isEdit = false,
-}: AddProductModalProps) {
-    const [name, setName] = useState("");
-    const [categories, setCategories] = useState<string[]>([]);
-    const [category, setCategory] = useState("");
-    const [type, setType] = useState<ProductType>(ProductType.NORMAL);
-    const [price, setPrice] = useState<number | "">(0);
-    const [stock, setStock] = useState<number | "">(100);
-    const [status, setStatus] = useState<ProductStatus>("ACTIVE");
-    const [images, setImages] = useState<ImageItem[]>([]);
+    const [images, setImages] = useState<File[]>([]);
     const [isDragging, setIsDragging] = useState(false);
-    const [description, setDescription] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const imagesRef = useRef<ImageItem[]>([]);
-    imagesRef.current = images;
-
-    // Lấy danh mục từ API mỗi khi mở modal
+    // Tải danh mục một lần
     useEffect(() => {
-        if (!show) return;
-
         const getCategory = async () => {
             try {
                 const res = await CategoryService.getCategory();
-                const names = (res._embedded?.categories ?? [])
-                    .map((c) => c.name)
-                    .filter((n): n is string => !!n);
-
-                setCategories(names);
-                setCategory((prev) => prev || names[0] || "");
+                setCategoryOption(res._embedded.categories);
             } catch (error) {
-                console.error("Failed to load categories", error);
+                console.log("Lỗi không tải được danh mục", error);
             }
         };
-
         getCategory();
-    }, [show]);
-
-    // Nạp dữ liệu khi mở modal (edit) hoặc reset form (thêm mới)
-    useEffect(() => {
-        if (!show) return;
-
-        setErrorMsg("");
-
-        if (isEdit && initialData) {
-            // TODO: đổi tên field cho đúng với FactoryProductItem của bạn
-            const d = initialData as any;
-            setName(d.name ?? "");
-            setCategory(d.category ?? d.categoryName ?? "");
-            setType(d.type ?? ProductType.NORMAL);
-            setPrice(d.price ?? 0);
-            setStock(d.stock ?? 0);
-            setStatus(d.status ?? "ACTIVE");
-            setDescription(d.description ?? "");
-
-            const urls: string[] = Array.isArray(d.images)
-                ? d.images
-                : d.image
-                    ? [d.image]
-                    : [];
-            setImages(urls.map((u) => ({ id: crypto.randomUUID(), preview: u })));
-        } else {
-            setName("");
-            setType(ProductType.NORMAL);
-            setPrice(0);
-            setStock(100);
-            setStatus("ACTIVE");
-            setDescription("");
-            setImages([]);
-        }
-    }, [show, isEdit, initialData]);
-
-    // Giải phóng blob URL khi unmount
-    useEffect(() => {
-        return () => {
-            imagesRef.current.forEach((i) => {
-                if (i.file) URL.revokeObjectURL(i.preview);
-            });
-        };
     }, []);
 
-    const addFiles = (fileList: FileList | File[]) => {
-        const all = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
-        const valid = all.filter((f) => f.size <= MAX_SIZE);
-
-        if (valid.length < all.length) {
-            setErrorMsg("Một số ảnh vượt quá 5MB nên đã bị bỏ qua.");
-        } else {
-            setErrorMsg("");
-        }
-
-        setImages((prev) => {
-            const slots = Math.max(MAX_IMAGES - prev.length, 0);
-            if (valid.length > slots) {
-                setErrorMsg(`Chỉ được tối đa ${MAX_IMAGES} ảnh.`);
-            }
-            const added = valid.slice(0, slots).map((file) => ({
-                id: crypto.randomUUID(),
-                preview: URL.createObjectURL(file),
-                file,
-            }));
-            return [...prev, ...added];
-        });
+    const handleChange = <K extends keyof FactoryProductCreateRequest>(
+        key: K,
+        value: FactoryProductCreateRequest[K]
+    ) => {
+        setForm(prev => ({ ...prev, [key]: value }));
+        setErrors(prev => ({ ...prev, [key]: undefined }));
     };
 
-    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    const resetForm = () => {
+        setForm(INITIAL_FORM);
+        setErrors({});
+        setImages([]);
+        setIsDragging(false);
+    };
+
+    const handleClose = () => {
+        if (submitting) return;
+        resetForm();
+        onClose();
+    };
+
+    const validate = (): boolean => {
+        const next: FormErrors = {};
+        if (!form.name.trim()) next.name = "Vui lòng nhập tên sản phẩm";
+        if (!form.category) next.category = "Vui lòng chọn danh mục";
+        setErrors(next);
+        return Object.keys(next).length === 0;
+    };
+
+    const handleSubmit = async () => {
+        if (!validate()) return;
+
+        try {
+            setSubmitting(true);
+
+            const uploaded = await Promise.all(images.map(file => cloudinaryService.upload(file)));
+            const imageUrls = uploaded.map(res => res.url);
+            const { category, ...rest } = form;
+            const payload = {
+                ...rest,
+                categoryId: Number(category),
+                imageUrls,
+            };
+            // TODO: images chưa được gửi. Muốn gửi ảnh, createProduct cần nhận FormData
+            // (phần JSON + các file trong `images`) và backend dùng @RequestPart.
+            await FactoryServiceManager.createProduct(payload);
+
+            onSuccess?.();
+            resetForm();
+            onClose();
+        } catch (error) {
+            console.log("Lỗi không thêm được sản phẩm", error);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    /* ---------- Ảnh ---------- */
+    const addImages = (files: File[]) => {
+        const imageFiles = files.filter(file => file.type.startsWith("image/"));
+        setImages(prev => [...prev, ...imageFiles]);
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) addImages(Array.from(e.target.files));
+        e.target.value = ""; // cho phép chọn lại đúng file vừa chọn
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setIsDragging(false);
-        if (loading) return;
-        addFiles(e.dataTransfer.files);
     };
 
-    const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) addFiles(e.target.files);
-        e.target.value = ""; // cho phép chọn lại cùng một file
-    };
-
-    const handleRemoveImage = (id: string) => {
-        setImages((prev) => {
-            const target = prev.find((i) => i.id === id);
-            if (target?.file) URL.revokeObjectURL(target.preview);
-            return prev.filter((i) => i.id !== id);
-        });
-    };
-
-    const handleSubmit = async (e: FormEvent) => {
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setErrorMsg("");
+        setIsDragging(false);
+        addImages(Array.from(e.dataTransfer.files));
+    };
 
-        if (!name.trim()) {
-            setErrorMsg("Vui lòng nhập tên sản phẩm");
-            return;
-        }
-        if (!category) {
-            setErrorMsg("Vui lòng chọn danh mục sản phẩm");
-            return;
-        }
-
-        setLoading(true);
-        try {
-            // Upload ảnh mới lên Cloudinary, giữ nguyên ảnh đã có link
-            const imageUrls = await Promise.all(
-                images.map((img) => (img.file ? cloudinaryService.upload(img.file) : img.preview))
-            );
-
-            // TODO: đổi tên field cho khớp FactoryProductItem / API backend
-            const payload = {
-                name: name.trim(),
-                category,
-                type,
-                price: Number(price) || 0,
-                stock: Number(stock) || 0,
-                status,
-                description: description.trim(),
-                images: imageUrls,
-                image: imageUrls[0] ?? "",
-            } as unknown as Partial<FactoryProductItem>;
-
-            const result = await onSubmit(payload);
-
-            if (result !== false) {
-                images.forEach((i) => {
-                    if (i.file) URL.revokeObjectURL(i.preview);
-                });
-                onHide();
-            }
-        } catch (err) {
-            console.error(err);
-            setErrorMsg("Không thể upload ảnh hoặc lưu sản phẩm. Vui lòng thử lại.");
-        } finally {
-            setLoading(false);
-        }
+    const removeImage = (index: number) => {
+        setImages(prev => prev.filter((_, i) => i !== index));
     };
 
     return (
         <Modal
             show={show}
-            onHide={onHide}
+            onHide={handleClose}
             size="lg"
             centered
+            scrollable
             backdrop="static"
-            keyboard={!loading}
+            contentClassName="border-0 shadow rounded-4 overflow-hidden"
         >
-            <form onSubmit={handleSubmit} id="form-product-manage">
-                <Modal.Header closeButton={!loading} className="border-bottom-0 pb-0">
-                    <div className="d-flex align-items-center gap-3">
-                        <div
-                            className={`d-flex align-items-center justify-content-center rounded-3 p-3 ${isEdit ? "bg-warning-subtle text-warning-emphasis" : "bg-danger-subtle text-danger"
-                                }`}
-                            style={{ width: 46, height: 46 }}
-                        >
-                            <FontAwesomeIcon icon={isEdit ? faPenToSquare : faCirclePlus} size="lg" />
-                        </div>
-                        <div>
-                            <Modal.Title as="h5" className="fw-bold mb-0">
-                                {isEdit ? `Chỉnh sửa sản phẩm #${initialData?.id}` : "Thêm sản phẩm mới"}
-                            </Modal.Title>
-                            <small className="text-muted">
-                                {isEdit
-                                    ? "Cập nhật thông tin chi tiết của sản phẩm gian hàng"
-                                    : "Nhập thông tin sản phẩm mới để đăng bán trên sàn"}
-                            </small>
+            <Modal.Header closeButton className="px-4 py-3 bg-light">
+                <div className="d-flex align-items-center gap-3">
+                    <span
+                        className="d-inline-flex align-items-center justify-content-center rounded-3 bg-danger-subtle text-danger"
+                        style={{ width: 42, height: 42 }}
+                    >
+                        <FontAwesomeIcon icon={faBoxOpen} />
+                    </span>
+                    <div>
+                        <Modal.Title as="h5" className="fw-bold mb-0">
+                            Thêm sản phẩm
+                        </Modal.Title>
+                        <div className="small text-secondary">
+                            Nhập thông tin để đăng sản phẩm mới lên gian hàng.
                         </div>
                     </div>
-                </Modal.Header>
+                </div>
+            </Modal.Header>
 
-                <Modal.Body className="py-3 px-4">
-                    {errorMsg && (
-                        <div className="alert alert-danger d-flex align-items-center gap-2 py-2 px-3 mb-3 small" role="alert">
-                            <FontAwesomeIcon icon={faTimes} />
-                            <span>{errorMsg}</span>
-                        </div>
-                    )}
-
-                    <div className="row g-3">
-                        {/* Tên sản phẩm */}
-                        <div className="col-12">
-                            <label htmlFor="input-product-name" className="form-label fw-semibold small text-secondary">
-                                Tên sản phẩm <span className="text-danger">*</span>
-                            </label>
-                            <div className="input-group">
-                                <span className="input-group-text bg-light text-muted">
-                                    <FontAwesomeIcon icon={faBoxOpen} />
-                                </span>
-                                <input
-                                    type="text"
-                                    id="input-product-name"
-                                    className="form-control"
-                                    placeholder="VD: Tinh dầu vỏ bưởi tự nhiên 50ml"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                    disabled={loading}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Danh mục */}
-                        <div className="col-12 col-md-6">
-                            <label htmlFor="input-product-category" className="form-label fw-semibold small text-secondary">
-                                Danh mục sản phẩm <span className="text-danger">*</span>
-                            </label>
-                            <div className="input-group">
-                                <span className="input-group-text bg-light text-muted">
-                                    <FontAwesomeIcon icon={faTag} />
-                                </span>
-                                <select
-                                    id="input-product-category"
-                                    className="form-select"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                    required
-                                    disabled={loading}
-                                >
-                                    {categories.length === 0 && (
-                                        <option value="" disabled>
-                                            Đang tải danh mục...
-                                        </option>
-                                    )}
-                                    {categories.map((cat) => (
-                                        <option key={cat} value={cat}>
-                                            {cat}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-
-                        {/* Loại sản phẩm */}
-                        <div className="col-12 col-md-6">
-                            <label htmlFor="input-product-type" className="form-label fw-semibold small text-secondary">
-                                Loại sản phẩm
-                            </label>
-                            <select
-                                id="input-product-type"
-                                className="form-select"
-                                value={type}
-                                onChange={(e) => setType(e.target.value as ProductType)}
-                                disabled={loading}
-                            >
-                                <option value={ProductType.NORMAL}>Thường (Bán sẵn)</option>
-                                <option value={ProductType.CUSTOM}>Tùy chỉnh (Gia công thiết kế)</option>
-                            </select>
-                        </div>
-
-                        {/* Giá bán */}
-                        <div className="col-12 col-md-4">
-                            <label htmlFor="input-product-price" className="form-label fw-semibold small text-secondary">
-                                Giá bán (VNĐ)
-                            </label>
-                            <div className="input-group">
-                                <span className="input-group-text bg-light text-muted">
-                                    <FontAwesomeIcon icon={faCoins} />
-                                </span>
-                                <input
-                                    type="number"
-                                    id="input-product-price"
-                                    className="form-control"
-                                    placeholder="0"
-                                    min="0"
-                                    step="1000"
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))}
-                                    disabled={loading}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Tồn kho */}
-                        <div className="col-12 col-md-4">
-                            <label htmlFor="input-product-stock" className="form-label fw-semibold small text-secondary">
-                                Tồn kho ban đầu
-                            </label>
-                            <div className="input-group">
-                                <span className="input-group-text bg-light text-muted">
-                                    <FontAwesomeIcon icon={faBoxesStacked} />
-                                </span>
-                                <input
-                                    type="number"
-                                    id="input-product-stock"
-                                    className="form-control"
-                                    placeholder="100"
-                                    min="0"
-                                    value={stock}
-                                    onChange={(e) => setStock(e.target.value === "" ? "" : Number(e.target.value))}
-                                    disabled={loading}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Trạng thái */}
-                        <div className="col-12 col-md-4">
-                            <label htmlFor="input-product-status" className="form-label fw-semibold small text-secondary">
-                                Trạng thái
-                            </label>
-                            <select
-                                id="input-product-status"
-                                className="form-select"
-                                value={status}
-                                onChange={(e) => setStatus(e.target.value as ProductStatus)}
-                                disabled={loading}
-                            >
-                                <option value="ACTIVE">Đang bán</option>
-                                <option value="INACTIVE">Ngừng bán</option>
-                            </select>
-                        </div>
-
-                        {/* Hình ảnh sản phẩm (kéo thả nhiều ảnh) */}
-                        <div className="col-12">
-                            <label className="form-label fw-semibold small text-secondary">
-                                Hình ảnh sản phẩm ({images.length}/{MAX_IMAGES})
-                            </label>
-
-                            <div
-                                id="dropzone-product-image"
-                                role="button"
-                                tabIndex={0}
-                                className={`border border-2 rounded-3 p-4 text-center ${isDragging ? "border-danger bg-danger-subtle" : "border-secondary-subtle bg-light"
-                                    }`}
-                                style={{
-                                    borderStyle: "dashed",
-                                    cursor: loading ? "not-allowed" : "pointer",
-                                }}
-                                onClick={() => !loading && fileInputRef.current?.click()}
-                                onKeyDown={(e) => {
-                                    if ((e.key === "Enter" || e.key === " ") && !loading) {
-                                        e.preventDefault();
-                                        fileInputRef.current?.click();
-                                    }
-                                }}
-                                onDragOver={(e) => {
-                                    e.preventDefault();
-                                    if (!loading) setIsDragging(true);
-                                }}
-                                onDragLeave={() => setIsDragging(false)}
-                                onDrop={handleDrop}
-                            >
-                                <FontAwesomeIcon icon={faImage} size="2x" className="text-muted mb-2" />
-                                <div className="small text-muted">
-                                    Kéo thả nhiều ảnh vào đây hoặc{" "}
-                                    <span className="text-danger fw-semibold">bấm để chọn</span>
-                                </div>
-                                <div className="small text-muted">Tối đa {MAX_IMAGES} ảnh, mỗi ảnh ≤ 5MB</div>
-                                <input
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    multiple
-                                    hidden
-                                    onChange={handleSelect}
-                                />
-                            </div>
-
-                            {images.length > 0 && (
-                                <div className="mt-2 d-flex flex-wrap gap-2">
-                                    {images.map((img, index) => (
-                                        <div key={img.id} className="position-relative" style={{ width: 80 }}>
-                                            <img
-                                                src={img.preview}
-                                                alt={`Ảnh ${index + 1}`}
-                                                className={`rounded border object-fit-cover ${index === 0 ? "border-danger border-2" : ""
-                                                    }`}
-                                                style={{ width: 80, height: 80 }}
-                                                onError={(e) => {
-                                                    (e.currentTarget as HTMLImageElement).src =
-                                                        "https://placehold.co/100x100?text=Loi+Anh";
-                                                }}
-                                            />
-                                            {index === 0 && (
-                                                <span className="badge text-bg-danger position-absolute bottom-0 start-0 m-1">
-                                                    Đại diện
-                                                </span>
-                                            )}
-                                            <button
-                                                type="button"
-                                                className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 p-0 d-flex align-items-center justify-content-center rounded-circle"
-                                                style={{ width: 20, height: 20 }}
-                                                onClick={() => handleRemoveImage(img.id)}
-                                                disabled={loading}
-                                                aria-label="Xóa ảnh"
-                                            >
-                                                <FontAwesomeIcon icon={faTimes} size="xs" />
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Mô tả sản phẩm */}
-                        <div className="col-12">
-                            <label htmlFor="input-product-desc" className="form-label fw-semibold small text-secondary">
-                                Mô tả sản phẩm
-                            </label>
-                            <textarea
-                                id="input-product-desc"
-                                className="form-control"
-                                rows={3}
-                                placeholder="Mô tả thành phần, xuất xứ, công dụng, lưu ý..."
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                disabled={loading}
+            <Modal.Body className="p-4">
+                <div className="row g-3">
+                    {/* Tên sản phẩm */}
+                    <div className="col-12">
+                        <label className="form-label fw-semibold">
+                            Tên sản phẩm <span className="text-danger">*</span>
+                        </label>
+                        <div className="input-group has-validation">
+                            <span className="input-group-text bg-white">
+                                <FontAwesomeIcon icon={faBoxOpen} className="text-secondary" />
+                            </span>
+                            <input
+                                type="text"
+                                className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                                placeholder="VD: Mộc Gỗ Đàn Hương 50ml"
+                                value={form.name}
+                                onChange={e => handleChange("name", e.target.value)}
                             />
+                            {errors.name && <div className="invalid-feedback">{errors.name}</div>}
                         </div>
                     </div>
-                </Modal.Body>
 
-                <Modal.Footer className="border-top-0 pt-0 px-4 pb-3">
-                    <button
-                        type="button"
-                        id="btn-cancel-product-modal"
-                        className="btn btn-light border px-4"
-                        onClick={onHide}
-                        disabled={loading}
-                    >
-                        Hủy bỏ
-                    </button>
-                    <button
-                        type="submit"
-                        id="btn-submit-product-modal"
-                        className={`btn px-4 fw-semibold ${isEdit ? "btn-warning" : "btn-danger"}`}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <span className="spinner-border spinner-border-sm me-2" role="status" />
-                        ) : (
-                            <FontAwesomeIcon icon={faCheck} className="me-2" />
+                    {/* Danh mục */}
+                    <div className="col-12 col-md-6">
+                        <label className="form-label fw-semibold">
+                            Danh mục <span className="text-danger">*</span>
+                        </label>
+                        <div className="input-group has-validation">
+                            <span className="input-group-text bg-white">
+                                <FontAwesomeIcon icon={faTag} className="text-secondary" />
+                            </span>
+                            <select
+                                className={`form-select ${errors.category ? "is-invalid" : ""}`}
+                                value={form.category}
+                                onChange={e => handleChange("category", e.target.value)}
+                            >
+                                <option value="">-- Chọn danh mục --</option>
+                                {categoryOption.map(item => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.category && <div className="invalid-feedback">{errors.category}</div>}
+                        </div>
+                    </div>
+
+                    {/* Loại sản phẩm */}
+                    <div className="col-12 col-md-6">
+                        <label className="form-label fw-semibold">Loại sản phẩm</label>
+                        <select
+                            className="form-select"
+                            value={form.type}
+                            onChange={e => handleChange("type", e.target.value as ProductType)}
+                        >
+                            <option value={ProductType.NORMAL}>Thường</option>
+                            <option value={ProductType.CUSTOM}>Tùy chỉnh</option>
+                        </select>
+                    </div>
+
+                    {/* Trạng thái */}
+                    <div className="col-12">
+                        <label className="form-label fw-semibold">Trạng thái</label>
+                        <select
+                            className="form-select"
+                            value={form.status}
+                            onChange={e => handleChange("status", e.target.value as ProductStatus)}
+                        >
+                            <option value={ProductStatus.ACTIVE}>Đang bán</option>
+                            <option value={ProductStatus.INACTIVE}>Ngừng bán</option>
+                        </select>
+                    </div>
+
+                    {/* Hình ảnh sản phẩm */}
+                    <div className="col-12">
+                        <label className="form-label fw-semibold">Hình ảnh sản phẩm</label>
+
+                        {/* Drop zone */}
+                        <div
+                            className={`rounded-3 p-4 text-center ${isDragging ? "border-danger bg-danger-subtle" : "bg-light"}`}
+                            style={{
+                                border: "2px dashed",
+                                borderColor: isDragging ? undefined : "#dee2e6",
+                                cursor: "pointer",
+                                transition: "all 0.2s ease",
+                            }}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            onClick={() => document.getElementById("product-images")?.click()}
+                        >
+                            <input
+                                id="product-images"
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                className="d-none"
+                                onChange={handleFileChange}
+                            />
+
+                            <div className="mb-3">
+                                <span
+                                    className={`d-inline-flex align-items-center justify-content-center rounded-circle ${isDragging ? "bg-danger text-white" : "bg-danger-subtle text-danger"
+                                        }`}
+                                    style={{ width: 56, height: 56 }}
+                                >
+                                    <FontAwesomeIcon icon={faCloudArrowUp} size="lg" />
+                                </span>
+                            </div>
+
+                            <div className="fw-semibold mb-1">
+                                {isDragging ? "Thả ảnh vào đây" : "Kéo và thả ảnh vào đây"}
+                            </div>
+
+                            <div className="text-secondary small mb-2">
+                                hoặc <span className="text-danger fw-semibold">chọn ảnh từ máy</span>
+                            </div>
+
+                            <div className="text-secondary small">
+                                Có thể chọn nhiều ảnh cùng lúc · PNG, JPG, JPEG, WEBP
+                            </div>
+                        </div>
+
+                        {/* Preview ảnh */}
+                        {images.length > 0 && (
+                            <div className="row g-3 mt-2">
+                                {images.map((file, index) => (
+                                    <div
+                                        key={`${file.name}-${file.lastModified}-${index}`}
+                                        className="col-6 col-sm-4 col-md-3 col-lg-2"
+                                    >
+                                        <ImagePreview file={file} onRemove={() => removeImage(index)} />
+                                    </div>
+                                ))}
+                            </div>
                         )}
-                        {loading ? "Đang xử lý..." : isEdit ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}
-                    </button>
-                </Modal.Footer>
-            </form>
+                    </div>
+
+                    {/* Mô tả */}
+                    <div className="col-12">
+                        <label className="form-label fw-semibold">Mô tả</label>
+                        <textarea
+                            className="form-control"
+                            rows={3}
+                            placeholder="Mô tả ngắn về hương, dung tích, thành phần..."
+                            value={form.description}
+                            onChange={e => handleChange("description", e.target.value)}
+                        />
+                    </div>
+                </div>
+            </Modal.Body>
+
+            <Modal.Footer className="px-4 py-3 bg-light">
+                <button
+                    type="button"
+                    className="btn btn-light border fw-semibold"
+                    onClick={handleClose}
+                    disabled={submitting}
+                >
+                    Hủy
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-danger fw-semibold"
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                >
+                    {submitting ? (
+                        <>
+                            <span className="spinner-border spinner-border-sm me-2" aria-hidden="true" />
+                            Đang lưu...
+                        </>
+                    ) : (
+                        <>
+                            <FontAwesomeIcon icon={faFloppyDisk} className="me-2" />
+                            Lưu sản phẩm
+                        </>
+                    )}
+                </button>
+            </Modal.Footer>
         </Modal>
     );
 }

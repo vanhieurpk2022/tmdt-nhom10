@@ -1,3 +1,5 @@
+import type { ProductStatus } from "../../enums/ProductStatus";
+import type { ProductType } from "../../enums/ProductType";
 
 
 export interface FactoryProductStats {
@@ -15,7 +17,6 @@ export interface FactoryProductVariantItem {
     stockQuantity: number;
     isActive: boolean;
     imageUrl?: string;
-    description?: string;
 }
 
 export interface FactoryProductItem {
@@ -25,15 +26,20 @@ export interface FactoryProductItem {
     sold: number;
     createdAt: string;
     category: string;
-    price?: number;
-    status?: "ACTIVE" | "INACTIVE" | string;
-    type?: string;
-    description?: string;
-    imageUrl?: string;
-    items?: FactoryProductVariantItem[];
+    status?: ProductStatus;
+    type?: ProductType;
+}
+
+export interface FactoryProductCreateRequest {
+    name: string,
+    category: string,
+    type: ProductType,
+    status: ProductStatus,
+    description: string,
+    imageUrls: string[]
 }
 
 export interface FactoryProductResponse {
     stats: FactoryProductStats;
     products: FactoryProductItem[];
-}
+}

@@ -1,8 +1,7 @@
 package com.nhom10.tmdt.service.factory;
 
-import com.nhom10.tmdt.dto.factory.DashboardOverviewResponse;
-import com.nhom10.tmdt.dto.factory.FactoryOrderDashBoardResponse;
-import com.nhom10.tmdt.dto.factory.FactoryProductResponse;
+import com.nhom10.tmdt.dto.factory.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -11,4 +10,6 @@ public interface FactoryDashboardService {
     List<FactoryOrderDashBoardResponse> factoryGetUser(String email);
 
     FactoryProductResponse factoryProductRes(String email);
+
+    FactoryProductModalResponse createProduct(@RequestBody FactoryProductModalRequest request, String email);
 }

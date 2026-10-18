@@ -1,25 +1,22 @@
 package com.nhom10.tmdt.service.factory;
 
 import com.nhom10.tmdt.config.AppException;
-import com.nhom10.tmdt.dto.factory.DashboardOverviewResponse;
-import com.nhom10.tmdt.dto.factory.FactoryOrderDashBoardResponse;
-import com.nhom10.tmdt.dto.factory.FactoryProductResponse;
+import com.nhom10.tmdt.dto.factory.*;
 import com.nhom10.tmdt.enums.CancelReason;
 import com.nhom10.tmdt.enums.ErrorCode;
 import com.nhom10.tmdt.enums.OrderStatus;
 import com.nhom10.tmdt.enums.RevenueType;
-import com.nhom10.tmdt.model.Order;
-import com.nhom10.tmdt.model.Product;
-import com.nhom10.tmdt.model.ProductMil;
-import com.nhom10.tmdt.model.User;
+import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -32,6 +29,8 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ProductMilRepository productMilRepository;
+    private final CategoryRepository categoryRepository;
+    private final ProductImageRepository productImageRepository;
 
     public DashboardOverviewResponse getOverview(String email) {
         User user = userRepository.findByEmail(email).orElseThrow( () -> new AppException(ErrorCode.NOT_FOUND));
@@ -207,5 +206,43 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
         return new FactoryProductResponse(
                 productRepository.getStats(factoryId),
                 productRepository.getProducts(factoryId));
+    }
+
+    @Override
+    @Transactional
+    public FactoryProductModalResponse createProduct(FactoryProductModalRequest request, String email) {
+            User user = userRepository.findByEmail(email).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+        Category category = categoryRepository.findById(request.categoryId()).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+
+        Product p = Product.builder()
+                    .factory(user.getFactory())
+                    .name(request.name())
+                    .category(category)
+                    .productType(request.type())
+                    .status(request.status())
+                    .description(request.description())
+                    .build();
+        Product saved = productRepository.save(p);
+
+        List<String> urls = request.imageUrls() == null
+                ? List.of()
+                : Arrays.asList(request.imageUrls());
+
+        List<ProductImage> images = urls.stream()
+                .map(url -> ProductImage.builder()
+                        .product(saved)
+                        .imageUrl(url)
+                        .build())
+                .toList();
+        productImageRepository.saveAll(images);
+
+        return FactoryProductModalResponse.builder()
+                .name(saved.getName())
+                .categoryId(category.getId())
+                .type(saved.getProductType())
+                .status(saved.getStatus())
+                .description(saved.getDescription())
+                .imageUrls(request.imageUrls())
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 import type { FactoryOrderDashBoard } from "../../dto/factory/FactoryDashBoard";
-import type { FactoryProductItem, FactoryProductResponse, FactoryProductVariantItem } from "../../dto/factory/FactoryProductRes";
+import type { FactoryProductCreateRequest, FactoryProductItem, FactoryProductResponse, FactoryProductVariantItem } from "../../dto/factory/FactoryProductRes";
+import type { ProductImage } from "../../models/ProductImage";
 import api, { type ApiResponse } from "../api";
 
 export const FactoryServiceManager = {
@@ -15,8 +16,8 @@ export const FactoryServiceManager = {
         );
         return res.data;
     },
-    createProduct: async (data: Partial<FactoryProductItem>) => {
-        const res = await api.post<ApiResponse<FactoryProductItem>>(
+    createProduct: async (data: Partial<FactoryProductCreateRequest>) => {
+        const res = await api.post<ApiResponse<FactoryProductCreateRequest>>(
             `/manager/products`,
             data
         );
@@ -77,4 +78,16 @@ export const FactoryServiceManager = {
         );
         return res.data;
     },
-};
+    getProductImages: async (productId: number) => {
+        const res = await api.get<HalProductImages>(
+            `/v1/product-image/search/byProductId?productId=${productId}`
+        );
+        return res.data;
+    }
+};
+
+export interface HalProductImages {
+    _embedded: {
+        productImages: ProductImage[];   // đổi key cho đúng với console.log bên dưới
+    };
+}

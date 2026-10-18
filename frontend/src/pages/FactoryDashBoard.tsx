@@ -19,7 +19,6 @@ import { FactoryServiceManager } from "../api/factory/FactoryService";
 const columnHelper = createColumnHelper<typeof features, FactoryOrderDashBoard>();
 
 
-
 export function FactoryDashBoard() {
     const [orders, setOrders] = useState<FactoryOrderDashBoard[]>([]); // TODO: fill từ API bằng setOrders
     const [pagination, setPagination] = useState<PaginationState>({

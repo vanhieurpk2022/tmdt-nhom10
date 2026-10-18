@@ -46,7 +46,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/v1/product/**").permitAll()
                 .requestMatchers("/manager/**").permitAll()
-                .requestMatchers("/v1/category/**").permitAll()
+                .requestMatchers("/v1/category/**").permitAll() // có xài
+                .requestMatchers("/v1/product-image/**").permitAll() // có xài
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                 .requestMatchers( "/factories/**").permitAll()
