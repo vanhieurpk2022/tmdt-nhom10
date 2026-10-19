@@ -22,7 +22,8 @@ public enum ErrorCode {
     CURRENT_PASSWORD_INCORRECT(400, "Mật khẩu hiện tại không chính xác"),
     PASSWORD_SAME_AS_OLD(400, "Mật khẩu mới không được trùng với mật khẩu hiện tại"),
     NOT_FOUND_FACTORY(411, "Không có xưởng nào đăng kí"),
-    EXITS_FACTORY(412,"Tài khoản này đã có xưởng");
+    EXITS_FACTORY(412,"Tài khoản này đã có xưởng"),
+    CANNOT_DELETE_THUMBNAIL(413,"Cần tồn tại ít nhất 1 thumbnail");
 
 
    private final int code;

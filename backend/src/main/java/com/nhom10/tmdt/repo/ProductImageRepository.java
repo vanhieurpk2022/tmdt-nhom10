@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProductImageRepository extends JpaRepository<ProductImage,Long> {
     @RestResource(path = "byProductId", rel = "byProductId")
     List<ProductImage> findByProductId(Long productId);
+
+    List<ProductImage> findByIsThumbnail(boolean isThumbnail);
 }

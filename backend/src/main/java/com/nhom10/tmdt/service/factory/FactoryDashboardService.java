@@ -1,6 +1,7 @@
 package com.nhom10.tmdt.service.factory;
 
 import com.nhom10.tmdt.dto.factory.*;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -10,6 +11,11 @@ public interface FactoryDashboardService {
     List<FactoryOrderDashBoardResponse> factoryGetUser(String email);
 
     FactoryProductResponse factoryProductRes(String email);
-
+    List<FactoryVariantRes> getProductMil( Long productId);
     FactoryProductModalResponse createProduct(@RequestBody FactoryProductModalRequest request, String email);
+    void updateThumbnail(Long imageId, Long productId);
+    void deleteThumbnail( Long id);
+    void updateFactoryProductMil( Long milId,  FactoryVariantRequest request);
+
+    void changeStatusProductMils(Long milId);
 }

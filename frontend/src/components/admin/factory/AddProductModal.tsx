@@ -224,7 +224,7 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                             <input
                                 type="text"
                                 className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                                placeholder="VD: Mộc Gỗ Đàn Hương 50ml"
+                                placeholder="VD: Mộc Gỗ Đàn Hương"
                                 value={form.name}
                                 onChange={e => handleChange("name", e.target.value)}
                             />

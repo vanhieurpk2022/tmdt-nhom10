@@ -14,15 +14,6 @@ const VariantToolbar = () => {
                     {/* LEFT */}
                     <div className="d-flex flex-column flex-md-row align-items-md-center gap-3">
 
-                        {/* Search */}
-                        <div
-                            className="input-group"
-                            style={{ maxWidth: "320px" }}
-                        >
-
-                            <SearchBox />
-                        </div>
-
 
                     </div>
 

@@ -11,12 +11,27 @@ export interface FactoryProductStats {
 
 export interface FactoryProductVariantItem {
     id: number;
+    productName: string;
     mil: number;
     price: number;
     basePrice?: number | null;
     stockQuantity: number;
     isActive: boolean;
-    imageUrl?: string;
+}
+
+export interface FactoryProductMil {
+    mil: number | null;
+    price: number | null;
+    basePrice?: number | null;
+    stockQuantity: number | null;
+}
+
+export interface EditableVariant {
+    id: number;
+    mil: number;
+    basePrice: number;
+    price: number;
+    stockQuantity: number;
 }
 
 export interface FactoryProductItem {
@@ -28,6 +43,7 @@ export interface FactoryProductItem {
     category: string;
     status?: ProductStatus;
     type?: ProductType;
+    thumbnailUrl: string;
 }
 
 export interface FactoryProductCreateRequest {

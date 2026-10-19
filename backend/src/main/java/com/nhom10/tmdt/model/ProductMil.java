@@ -38,5 +38,6 @@ public class ProductMil {
 
     @ColumnDefault("1")
     @Column(name="is_active")
-    private boolean  isActive;
+    @Builder.Default
+    private boolean  isActive = true;
 }

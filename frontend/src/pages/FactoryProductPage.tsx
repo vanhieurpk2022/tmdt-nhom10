@@ -47,11 +47,11 @@ const ProductStatusBadge: Record<ProductStatus, { label: string; badge: string }
 const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
     [ProductType.CUSTOM]: {
         label: "Tùy chỉnh",
-        badge: "bg-purple-subtle text-purple-emphasis",
+        badge: "bg-warning text-purple-emphasis",
     },
     [ProductType.NORMAL]: {
         label: "Thường",
-        badge: "bg-primary-subtle text-primary-emphasis",
+        badge: "bg-primary text-primary-emphasis",
     },
 };
 
@@ -83,15 +83,20 @@ export default function FactoryProductPage() {
                         const conf = row.type ? ProductTypeBadge[row.type] : undefined;
 
                         return (
-                            <div className="d-flex flex-column gap-1">
-                                <span className="fw-semibold text-dark">{row.name}</span>
+                            <div className="d-flex flex-row gap-3">
+                                {row.thumbnailUrl ? <img width={40} height={40} src={row.thumbnailUrl} /> : <img width={40} height={40} src={"https://placehold.co/600x400"} />}
+                                <div>
 
-                                <div className="d-flex align-items-center gap-2">
-                                    <span className="small text-muted">
-                                        <FontAwesomeIcon icon={faTag} className="me-1" />
-                                        {row.category}
-                                    </span>
-                                    {conf && <CustomBadge label={conf.label} badge={conf.badge} />}
+
+                                    <span className="fw-semibold text-dark">{row.name}</span>
+
+                                    <div className="d-flex align-items-center gap-2">
+                                        <span className="small text-muted">
+                                            <FontAwesomeIcon icon={faTag} className="me-1" />
+                                            {row.category}
+                                        </span>
+                                        {conf && <CustomBadge label={conf.label} badge={conf.badge} />}
+                                    </div>
                                 </div>
                             </div>
                         );

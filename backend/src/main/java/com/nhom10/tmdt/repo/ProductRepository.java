@@ -60,7 +60,8 @@ WHERE f.id = :factoryId
             p.status,
             p.productType,
             p.createdAt,
-            c.name
+            c.name,
+            (SELECT MIN(image.imageUrl) FROM ProductImage image WHERE image.product = p AND image.isThumbnail = true)
         )
         FROM Product p
         LEFT JOIN p.category c

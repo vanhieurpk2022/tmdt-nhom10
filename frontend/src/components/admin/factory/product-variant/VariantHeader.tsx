@@ -1,42 +1,77 @@
 import {
     faArrowLeft,
-    faPlus
+    faPlus,
+    faStar
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { ProductImage } from "../../../../models/ProductImage";
 import { useCallback, useEffect, useState } from "react";
 import { FactoryServiceManager, type HalProductImages } from "../../../../api/factory/FactoryService";
-import type { FactoryProductVariantItem } from "../../../../dto/factory/FactoryProductRes";
+import { Link, Routes } from "react-router";
+import { ROUTES } from "../../../../routes/routes";
+import { Button, CloseButton } from "react-bootstrap";
+import { ModalAddVariant } from "./ModalAddVariant";
+import axios from "axios";
+import { useToastContext } from "../../../toasts/ToastContext";
 
 interface VariantHeaderProps {
     productId: number;
+    onVariants: () => void;
 }
 
-export function VariantHeader({ productId }: VariantHeaderProps) {
+export function VariantHeader({ productId, onVariants }: VariantHeaderProps) {
     const [images, setImages] = useState<ProductImage[]>([]);
 
+    const [loading, setLoading] = useState(true);
+    const { showToast } = useToastContext();
 
-    useEffect(() => {
-        const getImage = async () => {
-            try {
-                const res = await FactoryServiceManager.getProductImages(productId);
+    const getImage = useCallback(async () => {
+        setLoading(true);
 
-                const images = res._embedded.productImages;
-                setImages(images);
-            } catch (error) {
-                console.log("Lỗi không tải được ảnh", error);
-            }
-        };
-
+        try {
+            const res = await FactoryServiceManager.getProductImages(productId);
+            const images = res._embedded.productImages;
+            setImages(images);
+        } catch (error) {
+            console.log("Lỗi không tải được ảnh", error);
+        } finally {
+            setLoading(false);
+        }
     }, [productId]);
 
-    const setThumbnail = (id: number) => {
+    useEffect(() => {
+        getImage();
+    }, [getImage]);
 
+    const setThumbnail = async (id: number, productId: number) => {
+        try {
+            await FactoryServiceManager.updateThumbnail(id, productId);
+            getImage();
+        } catch (error) {
+            console.log("Lỗi đặt thumbnail", error);
+        }
+    }
+    const handleDeleteThumbnail = async (id: number) => {
+        try {
+            await FactoryServiceManager.deleteThumbnail(id);
+            showToast("Thành công", "Xóa thành công", "success");
+            getImage();
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (!error.response) {
+                    showToast("Lỗi", "Không kết nối được máy chủ, vui lòng thử lại", "danger");
+
+                } else {
+                    showToast("Lỗi", error.response.data?.message, "danger");
+                }
+            }
+        }
     }
 
     return (
         <div className="mb-4">
+
 
             {/* ================= HEADER ================= */}
             <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
@@ -45,16 +80,15 @@ export function VariantHeader({ productId }: VariantHeaderProps) {
                 <div className="d-flex align-items-center gap-3">
 
                     {/* Back */}
-                    <button
-                        type="button"
-                        className="btn btn-outline-secondary d-flex align-items-center gap-2 px-3 py-2"
+                    <Button
+                        as={Link as any}
+                        to={ROUTES.FACTORY_PRODUCT}
+                        variant="outline-secondary"
+                        className="d-flex align-items-center gap-2 px-3 py-2"
                     >
                         <FontAwesomeIcon icon={faArrowLeft} />
-
-                        <span>
-                            Quay lại
-                        </span>
-                    </button>
+                        Quay lại
+                    </Button>
 
                     {/* Title */}
                     <div>
@@ -90,16 +124,14 @@ export function VariantHeader({ productId }: VariantHeaderProps) {
                 </div>
 
                 {/* ================= RIGHT ================= */}
-                <button
-                    type="button"
-                    className="btn btn-danger fw-semibold d-flex align-items-center gap-2 px-4 py-2"
+                <Button
+                    variant="danger"
+                    className="fw-semibold d-flex align-items-center gap-2 px-4 py-2"
+                    onClick={onVariants}
                 >
                     <FontAwesomeIcon icon={faPlus} />
-
-                    <span>
-                        Thêm biến thể mới
-                    </span>
-                </button>
+                    <span>Thêm biến thể mới</span>
+                </Button>
             </div>
 
 
@@ -128,143 +160,145 @@ export function VariantHeader({ productId }: VariantHeaderProps) {
 
 
                 <div className="card-body">
+                    {loading ? (<div className="text-center py-5 text-secondary">
+                        Đang tải ảnh...
+                    </div>) :
 
-                    {images.length === 0 ? (
+                        images.length === 0 ? (
 
-                        <div className="text-center py-5">
+                            <div className="text-center py-5">
 
-                            <div className="text-secondary mb-2">
-                                Sản phẩm chưa có ảnh.
+                                <div className="text-secondary mb-2">
+                                    Sản phẩm chưa có ảnh.
+                                </div>
+
                             </div>
 
-                            <button
-                                type="button"
-                                className="btn btn-outline-danger btn-sm"
-                            >
-                                Thêm ảnh
-                            </button>
+                        ) : (
 
-                        </div>
+                            <div className="row g-3">
 
-                    ) : (
+                                {images.map((image, index) => {
 
-                        <div className="row g-3">
+                                    const isThumbnail = image.thumbnail;
+                                    return (
+                                        <div
+                                            key={image.id ?? index}
+                                            className="col-12"
+                                        >
 
-                            {images.map((image, index) => {
+                                            <div className="card border">
 
-                                const isThumbnail = image.isThumbnail;
+                                                <div className="card-body">
 
-                                return (
-                                    <div
-                                        key={image.id ?? index}
-                                        className="col-12"
-                                    >
+                                                    <div className="d-flex align-items-center gap-3">
 
-                                        <div className="card border">
-
-                                            <div className="card-body">
-
-                                                <div className="d-flex align-items-center gap-3">
-
-                                                    {/* ================= IMAGE ================= */}
-                                                    <div
-                                                        className="position-relative flex-shrink-0"
-                                                        style={{
-                                                            width: 120,
-                                                            height: 100,
-                                                        }}
-                                                    >
-
-                                                        <img
-                                                            src={image.imageUrl}
-                                                            alt={`Ảnh sản phẩm ${index + 1}`}
-                                                            className="w-100 h-100 rounded-3 border"
+                                                        {/* ================= IMAGE ================= */}
+                                                        <div
+                                                            className="position-relative flex-shrink-0"
                                                             style={{
-                                                                objectFit: "cover",
+                                                                width: 120,
+                                                                height: 100,
                                                             }}
-                                                        />
+                                                        >
 
-                                                        {isThumbnail && (
-                                                            <span className="position-absolute top-0 start-0 m-2 badge text-bg-danger">
-                                                                Thumbnail
-                                                            </span>
-                                                        )}
-
-                                                    </div>
-
-
-                                                    {/* ================= INFO ================= */}
-                                                    <div className="flex-grow-1">
-
-                                                        <div className="fw-semibold">
-                                                            Ảnh sản phẩm {index + 1}
-                                                        </div>
-
-                                                        <div className="small text-secondary mt-1">
-                                                            ID: #{image.id}
-                                                        </div>
-
-                                                        {image.uploadedAt && (
-                                                            <div className="small text-secondary">
-                                                                Đã tải lên:{" "}
-                                                                {new Date(
-                                                                    image.uploadedAt
-                                                                ).toLocaleDateString(
-                                                                    "vi-VN"
-                                                                )}
-                                                            </div>
-                                                        )}
-
-                                                        <div className="mt-3">
-
-                                                            <button
-                                                                type="button"
-                                                                className={`btn btn-sm ${isThumbnail
-                                                                    ? "btn-danger"
-                                                                    : "btn-outline-danger"
-                                                                    }`}
-                                                                disabled={isThumbnail}
-                                                                onClick={() => {
-                                                                    if (
-                                                                        image.id !==
-                                                                        undefined
-                                                                    ) {
-                                                                        setThumbnail(
-                                                                            image.id
-                                                                        );
-                                                                    }
+                                                            <img
+                                                                src={image.imageUrl}
+                                                                alt={`Ảnh sản phẩm ${index + 1}`}
+                                                                className="w-100 h-100 rounded-3 border"
+                                                                style={{
+                                                                    objectFit: "cover",
                                                                 }}
-                                                            >
-                                                                {isThumbnail
-                                                                    ? "Đang là thumbnail"
-                                                                    : "Đặt làm thumbnail"}
-                                                            </button>
+                                                            />
+
+                                                            {isThumbnail && (
+                                                                <span
+                                                                    className="position-absolute top-0 end-0 m-2 rounded-circle bg-success border border-2 border-white shadow-sm"
+                                                                    style={{ width: 16, height: 16 }}
+                                                                    title="Ảnh thumbnail"
+                                                                />
+                                                            )}
 
                                                         </div>
 
+
+                                                        {/* ================= INFO ================= */}
+                                                        <div className="flex-grow-1">
+
+                                                            <div className="fw-semibold">
+                                                                Ảnh sản phẩm {index + 1}
+                                                            </div>
+
+                                                            <div className="small text-secondary mt-1">
+                                                                ID: #{image.id}
+                                                            </div>
+
+                                                            {image.uploadedAt && (
+                                                                <div className="small text-secondary">
+                                                                    Đã tải lên:{" "}
+                                                                    {new Date(
+                                                                        image.uploadedAt
+                                                                    ).toLocaleDateString(
+                                                                        "vi-VN"
+                                                                    )}
+                                                                </div>
+                                                            )}
+
+                                                            <div className="mt-3">
+
+                                                                <button
+                                                                    type="button"
+                                                                    className={`btn btn-sm ${isThumbnail
+                                                                        ? "btn-danger"
+                                                                        : "btn-outline-danger"
+                                                                        }`}
+                                                                    disabled={isThumbnail}
+                                                                    onClick={() => {
+                                                                        if (
+                                                                            image.id !== undefined
+                                                                        ) {
+                                                                            setThumbnail(image.id, productId);
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {isThumbnail
+                                                                        ? "Đang là thumbnail"
+                                                                        : "Đặt làm thumbnail"}
+                                                                </button>
+
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        {/* ================= DELETE ================= */}
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-sm btn-outline-secondary align-self-start"
+                                                            onClick={() => {
+                                                                if (image.id !== undefined) {
+                                                                    handleDeleteThumbnail(image.id)
+                                                                }
+
+                                                            }}
+                                                        >
+                                                            x
+                                                        </button>
+
                                                     </div>
-
-
-                                                    {/* ================= DELETE ================= */}
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-sm btn-outline-secondary align-self-start"
-                                                    >
-                                                        ×
-                                                    </button>
 
                                                 </div>
 
                                             </div>
 
                                         </div>
+                                    );
+                                })}
 
-                                    </div>
-                                );
-                            })}
+                            </div>
+                        )
 
-                        </div>
-                    )}
+                    }
 
                 </div>
             </div>

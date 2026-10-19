@@ -209,6 +209,17 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     }
 
     @Override
+    public List<FactoryVariantRes> getProductMil(Long productId) {
+        List<ProductMil> productMil = productMilRepository.findByProductId(productId);
+        List<FactoryVariantRes> variantRes =  new ArrayList<>();
+        for(ProductMil p: productMil){
+            Product productName = productRepository.findById(productId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+            variantRes.add(new FactoryVariantRes(p.getId(),productName.getName(),p.getMil(),p.getPrice(),p.getBasePrice(),p.getStockQuantity(),p.isActive()));
+        }
+        return variantRes;
+    }
+
+    @Override
     @Transactional
     public FactoryProductModalResponse createProduct(FactoryProductModalRequest request, String email) {
             User user = userRepository.findByEmail(email).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
@@ -244,5 +255,41 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
                 .description(saved.getDescription())
                 .imageUrls(request.imageUrls())
                 .build();
+    }
+
+    @Override
+    // imageid
+    public void updateThumbnail(Long id, Long productId) {
+        List<ProductImage> productImage = productImageRepository.findByProductId(productId);
+        productImage.forEach((p)->p.setThumbnail(p.getId().equals(id)));
+        productImageRepository.saveAll(productImage);
+    }
+
+    @Override
+    @Transactional
+    public void deleteThumbnail(Long id) {
+        ProductImage image = productImageRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if(image.isThumbnail()){
+            throw new AppException(ErrorCode.CANNOT_DELETE_THUMBNAIL);
+        }
+        productImageRepository.delete(image);    }
+
+    @Override
+    @Transactional
+    public void updateFactoryProductMil(Long milId, FactoryVariantRequest request) {
+        ProductMil productMil = productMilRepository.findById(milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+        productMil.setBasePrice(request.basePrice());
+        productMil.setMil(request.mil());
+        productMil.setStockQuantity(request.stockQuantity());
+        productMil.setPrice(request.price());
+        productMilRepository.save(productMil);
+    }
+
+    @Override
+    @Transactional
+    public void changeStatusProductMils(Long milId) {
+        ProductMil productMil = productMilRepository.findById(milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+        productMil.setActive(!productMil.isActive());
     }
 }

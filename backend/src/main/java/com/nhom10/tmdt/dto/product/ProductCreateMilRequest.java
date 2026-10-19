@@ -7,8 +7,6 @@ public record ProductCreateMilRequest(
         int mil,
         double price,
         double basePrice,
-        int stockQuantity,
-        boolean isActive,
-        String imageUrl
+        int stockQuantity
 ) {
 }

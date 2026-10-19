@@ -14,7 +14,7 @@ import java.util.List;
 public interface ProductMilService {
     List<ProductMil> productMils(Long productId);
     ProductCreateMilResponse createProductMil(Long productId, ProductCreateMilRequest request);
-    void deleteProductMil(Long productId, Long milId);
+    void deleteProductMil(Long milId);
     ProductCreateMilResponse updateProductMil(Long productId, Long milId, ProductCreateMilRequest request);
     ToggleMilStatusResponse toggleStatusProductMil(Long productId, Long milId, ToggleMilStatusRequest request);
 }

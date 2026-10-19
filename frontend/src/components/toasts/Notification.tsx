@@ -1,47 +1,25 @@
+import { Toast, ToastContainer } from "react-bootstrap";
+export type ToastType = "success" | "danger" | "warning" | "info";
+
 interface NotificationProps {
+    show: boolean;
+    onClose: () => void;
     title: string;
     content: string;
-    type?: "success" | "danger" | "warning" | "info";
+    type?: ToastType;
 }
 
-export function Notification({
-    title,
-    content,
-    type = "success",
-}: NotificationProps) {
-
+export function Notification({ show, onClose, title, content, type }: NotificationProps) {
     return (
-        <div
-            aria-live="polite"
-            aria-atomic="true"
-        >
-            <div className="toast-container position-fixed top-0 end-0 p-3">
-
-                <div
-                    className={`toast show text-bg-${type}`}
-                    role="alert"
-                    aria-live="assertive"
-                    aria-atomic="true"
-                >
-                    <div className="toast-header">
-                        <strong className="me-auto">
-                            {title}
-                        </strong>
-
-                        <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="toast"
-                            aria-label="Close"
-                        />
-                    </div>
-
-                    <div className="toast-body">
-                        {content}
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <ToastContainer position="top-end" className="p-3" style={{ zIndex: 2000 }}>
+            <Toast show={show} onClose={onClose} delay={3000} autohide bg={type}>
+                <Toast.Header>
+                    <strong className="me-auto">{title}</strong>
+                </Toast.Header>
+                <Toast.Body className={type === "warning" || type === "info" ? "" : "text-white"}>
+                    {content}
+                </Toast.Body>
+            </Toast>
+        </ToastContainer>
     );
 }

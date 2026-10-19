@@ -33,16 +33,13 @@ public class ProductMilServiceImp implements ProductMilService{
     @Transactional
     public ProductCreateMilResponse createProductMil(Long productId, ProductCreateMilRequest request) {
         Product product = productRepository.getReferenceById(productId);
-        ProductImage image = ProductImage.builder().imageUrl(request.imageUrl()).product(product).build();
         ProductMil productMil = ProductMil.builder()
                 .mil(request.mil())
                 .price(request.price())
                 .basePrice(request.basePrice())
                 .stockQuantity(request.stockQuantity())
-                .isActive(request.isActive())
                 .product(product)
                 .build();
-        productImageRepository.save(image);
         productMilRepository.save(productMil);
 
         return ProductCreateMilResponse.builder()
@@ -51,15 +48,16 @@ public class ProductMilServiceImp implements ProductMilService{
                 .price(request.price())
                 .basePrice(request.basePrice())
                 .stockQuantity(request.stockQuantity())
-                .isActive(request.isActive())
-                .imageUrl(image.getImageUrl())
                 .build();
     }
 
     @Override
-    public void deleteProductMil(Long productId, Long milId) {
-        ProductMil productMil = productMilRepository.findByProductIdAndId(productId,milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
-        productMilRepository.delete(productMil);
+    @Transactional
+    public void deleteProductMil( Long milId) {
+        if (!productMilRepository.existsById(milId)) {
+            throw new AppException(ErrorCode.NOT_FOUND);
+        }
+        productMilRepository.deleteById(milId);
     }
 
     @Override
@@ -84,7 +82,6 @@ public ProductCreateMilResponse updateProductMil(Long productId, Long milId, Pro
     productMil.setPrice(request.price());
     productMil.setBasePrice(request.basePrice());
     productMil.setStockQuantity(request.stockQuantity());
-    productMil.setActive(request.isActive());
     productMilRepository.save(productMil);
 
     return ProductCreateMilResponse.builder()
@@ -94,7 +91,6 @@ public ProductCreateMilResponse updateProductMil(Long productId, Long milId, Pro
             .basePrice(productMil.getBasePrice())
             .stockQuantity(productMil.getStockQuantity())
             .isActive(productMil.isActive())
-            .imageUrl(request.imageUrl())
             .build();
 }
 
