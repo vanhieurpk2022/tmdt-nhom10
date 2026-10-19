@@ -40,6 +40,8 @@ import type { Order } from "../models/Order";
 import { User } from "../models/User";
 import { Product } from "../models/Product";
 import CustomBadge from "../components/admin/badge/CustomBadge";
+import { Link } from "react-router";
+import { ROUTES } from "../routes/routes";
 
 export const ExampleData: Order[] = [
     {
@@ -354,6 +356,7 @@ export default function AdminOrder() {
                     </div>
 
                     <div className="d-flex gap-2">
+                        <Link className="btn btn-outline-primary fw-semibold" to={ROUTES.PAYMENT_REVIEWS}>Đối soát VNPay</Link>
                         <button type="button" className="btn btn-light border fw-semibold">
                             <FontAwesomeIcon icon={faDownload} className="me-2" />
                             Xuất file vận đơn

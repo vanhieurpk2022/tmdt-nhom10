@@ -12,6 +12,8 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import VnPayResultPage from './pages/VnPayResultPage';
+import PaymentReviewsPage from './pages/PaymentReviewsPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import FactoriesPage from './pages/FactoriesPage';
@@ -83,6 +85,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
               <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
               <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
+              <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute><PaymentReviewsPage /></ProtectedRoute>} />
               <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
 
               {/* Main shop routes with MainLayout */}
@@ -95,8 +98,9 @@ createRoot(document.getElementById('root')!).render(
                 <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
                 <Route path={ROUTES.FACTORIES} element={<FactoriesPage />} />
                 <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
-                <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
-                <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
+                <Route path={ROUTES.ORDER_SUCCESS} element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
+                <Route path={ROUTES.VNPAY_RESULT} element={<ProtectedRoute><VnPayResultPage /></ProtectedRoute>} />
+                <Route path={ROUTES.ORDERS} element={<ProtectedRoute><OrderHistoryPage /></ProtectedRoute>} />
                 <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
                 <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetailPage />} />
                 <Route path={ROUTES.PROFILE} element={<ProfilePage />} />

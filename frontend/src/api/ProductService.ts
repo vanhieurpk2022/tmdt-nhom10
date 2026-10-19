@@ -6,8 +6,6 @@ export interface ProductCard {
     description: string;
     factoryName: string;
     price: number;
-    basePrice: number;
-    discountRate: number;
     avgRating: number;
     totalSold: number;
     stockStatus: "Còn hàng" | "Sắp hết" | "Hết hàng";
@@ -54,7 +52,6 @@ export interface ProductMilItem {
     id: number;
     mil: number;
     price: number | null;
-    basePrice: number | null;
     stockQuantity: number;
     isActive: boolean;
 }

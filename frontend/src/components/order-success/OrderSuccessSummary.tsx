@@ -2,16 +2,13 @@ import { Link } from "react-router";
 import {
     formatOrderCode,
     getPaymentMethodLabel,
+    getPaymentStatusLabel,
     type OrderResponse,
 } from "../../api/OrderService";
-import type { CartItem } from "../../data/cartData";
-import { checkoutTotals } from "../../data/checkoutData";
-import { orderSuccessInfo } from "../../data/orderSuccessData";
 import { ROUTES } from "../../routes/routes";
 
 interface OrderSuccessSummaryProps {
-    items: CartItem[];
-    order?: OrderResponse;
+    order: OrderResponse;
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
@@ -20,13 +17,10 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
-export default function OrderSuccessSummary({ items, order }: OrderSuccessSummaryProps) {
-    const subtotal = order?.subtotalPrice ?? items.reduce((total, item) => total + item.price * item.quantity, 0);
-    const discount = order?.discountAmount ?? checkoutTotals.discount;
-    const shippingFee = order?.shippingFee ?? checkoutTotals.shippingFee;
-    const total = order?.totalPrice ?? subtotal - discount + shippingFee;
-    const orderCode = order ? formatOrderCode(order.id) : orderSuccessInfo.orderCode;
-    const paymentMethod = order ? getPaymentMethodLabel(order.paymentMethod) : orderSuccessInfo.paymentMethod;
+export default function OrderSuccessSummary({ order }: OrderSuccessSummaryProps) {
+    const subtotal = order.items.reduce((total, item) => total + item.lineTotal, 0);
+    const orderCode = formatOrderCode(order.id);
+    const paymentMethod = getPaymentMethodLabel(order.paymentMethod);
 
     return (
         <aside className="order-success-summary">
@@ -43,22 +37,22 @@ export default function OrderSuccessSummary({ items, order }: OrderSuccessSummar
                     <strong>{formatPrice(subtotal)}</strong>
                 </div>
                 <div>
-                    <span>Giảm giá</span>
-                    <strong>-{formatPrice(discount)}</strong>
-                </div>
-                <div>
                     <span>Phí vận chuyển</span>
-                    <strong>{formatPrice(shippingFee)}</strong>
+                    <strong>{formatPrice(order.shippingFee)}</strong>
                 </div>
                 <div>
                     <span>Phương thức</span>
                     <strong>{paymentMethod}</strong>
                 </div>
+                <div>
+                    <span>Trạng thái thanh toán</span>
+                    <strong>{getPaymentStatusLabel(order)}</strong>
+                </div>
             </div>
 
             <div className="order-success-summary-total">
                 <span>Tổng thanh toán</span>
-                <strong>{formatPrice(total)}</strong>
+                <strong>{formatPrice(order.totalPrice)}</strong>
             </div>
 
             <div className="order-success-actions d-grid gap-2 mx-auto">

@@ -15,10 +15,10 @@ public record OrderResponse(
         String shippingAddress,
         String note,
         double subtotalPrice,
-        double discountAmount,
         double shippingFee,
         double totalPrice,
         LocalDateTime createdAt,
-        List<OrderItemResponse> items
+        List<OrderItemResponse> items,
+        com.nhom10.tmdt.enums.PaymentStatus paymentStatus
 ) {
 }

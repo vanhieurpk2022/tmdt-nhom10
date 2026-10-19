@@ -80,14 +80,6 @@
         padding: 20px;
     }
 
-    .home-promo-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .home-promo-overlay {
-        padding: 24px;
-    }
-
     .cart-card-heading {
         flex-direction: column;
     }

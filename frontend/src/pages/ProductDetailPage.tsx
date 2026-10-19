@@ -173,13 +173,7 @@ export default function ProductDetailPage() {
 
     const currentImage = images[selectedImageIndex] || images[0] || FALLBACK_IMAGE;
 
-    // Tính toán đơn giá theo dung tích đã chọn và tỷ lệ giảm giá
-    const currentPrice = selectedVariant?.price ?? selectedVariant?.basePrice ?? 0;
-    const currentBasePrice = selectedVariant?.basePrice ?? currentPrice;
-    const discountPercent =
-        currentBasePrice > currentPrice && currentBasePrice > 0
-            ? Math.round(((currentBasePrice - currentPrice) / currentBasePrice) * 100)
-            : 0;
+    const currentPrice = selectedVariant?.price ?? 0;
 
     const currentStock = selectedVariant ? selectedVariant.stockQuantity : product.totalStock;
     const isOutOfStock = currentStock <= 0 || !selectedVariant?.isActive;
@@ -328,16 +322,6 @@ export default function ProductDetailPage() {
                                     {selectedVariant && (
                                         <span className="text-muted fs-6">/ {selectedVariant.mil}ml</span>
                                     )}
-                                    {currentBasePrice > currentPrice && (
-                                        <span className="text-muted text-decoration-line-through fs-6">
-                                            {currentBasePrice.toLocaleString("vi-VN")}đ
-                                        </span>
-                                    )}
-                                    {discountPercent > 0 && (
-                                        <span className="badge bg-danger bg-opacity-10 text-danger fw-bold px-2 py-1">
-                                            -{discountPercent}%
-                                        </span>
-                                    )}
                                 </div>
                                 <span className={`badge rounded-pill px-3 py-2 fw-bold fs-7 ${
                                     isOutOfStock
@@ -365,10 +349,6 @@ export default function ProductDetailPage() {
                                     <div className="row g-3">
                                         {product.variants.map((v) => {
                                             const isSelected = selectedVariant?.id === v.id;
-                                            const variantDiscount =
-                                                v.basePrice && v.price && v.basePrice > v.price
-                                                    ? Math.round(((v.basePrice - v.price) / v.basePrice) * 100)
-                                                    : 0;
 
                                             return (
                                                 <div className="col-4" key={v.id}>
@@ -380,16 +360,11 @@ export default function ProductDetailPage() {
                                                         }`}
                                                         onClick={() => { setSelectedVariant(v); setQuantity(1); }}
                                                     >
-                                                        {variantDiscount > 0 && (
-                                                            <span className="badge bg-danger position-absolute top-0 end-0 translate-middle-y me-2 fs-8">
-                                                                -{variantDiscount}%
-                                                            </span>
-                                                        )}
                                                         <div className={`fw-bold mb-1 ${isSelected ? "text-primary" : "text-dark"}`}>
                                                             {v.mil}ml
                                                         </div>
                                                         <div className={`fs-7 ${isSelected ? "text-primary fw-bold" : "text-muted"}`}>
-                                                            {(v.price ?? v.basePrice ?? 0).toLocaleString("vi-VN")}đ
+                                                            {(v.price ?? 0).toLocaleString("vi-VN")}đ
                                                         </div>
                                                     </div>
                                                 </div>
@@ -633,7 +608,7 @@ export default function ProductDetailPage() {
 
                                                 <div className="d-flex justify-content-between align-items-end mb-1">
                                                     <span className="fs-5 fw-bold text-dark">
-                                                        {(relProduct.price ?? relProduct.basePrice ?? 0).toLocaleString("vi-VN")}đ
+                                                        {(relProduct.price ?? 0).toLocaleString("vi-VN")}đ
                                                     </span>
                                                     <span className="badge rounded-pill fw-normal px-2 py-1 stock-green">
                                                         {relProduct.stockStatus}

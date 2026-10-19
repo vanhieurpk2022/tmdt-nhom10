@@ -1,7 +1,5 @@
 .checkout-page {
-    background:
-        radial-gradient(circle at top left, rgba(52, 82, 55, 0.08), transparent 32%),
-        linear-gradient(180deg, #fff7f8 0, #f8fafc 38%, #ffffff 100%);
+    background: var(--color-page-background);
 }
 
 .checkout-panel {
@@ -406,28 +404,6 @@
     padding: 14px;
 }
 
-.checkout-promo-select {
-    align-items: center;
-    background: #fff;
-    border: 1px solid #dbe3ee;
-    border-radius: 8px;
-    color: #64748b;
-    display: flex;
-    font-size: 13px;
-    font-weight: 800;
-    justify-content: space-between;
-    margin: 20px 0;
-    min-height: 38px;
-    padding: 0 12px;
-    width: 100%;
-}
-
-.checkout-promo-select span {
-    align-items: center;
-    display: inline-flex;
-    gap: 8px;
-}
-
 .checkout-summary-adjustments {
     border-bottom: 1px solid #e2e8f0;
     border-top: 1px solid #e2e8f0;
@@ -469,5 +445,58 @@
     box-shadow: none;
     cursor: not-allowed;
     opacity: 0.85;
+}
+
+.cod-confirmation-modal .modal-content {
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.16);
+}
+
+.cod-confirmation-modal .modal-header,
+.cod-confirmation-modal .modal-body,
+.cod-confirmation-modal .modal-footer {
+    padding: 22px 24px;
+}
+
+.cod-confirmation-modal .modal-title {
+    color: var(--color-bg-dark);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.cod-confirmation-modal .modal-body p {
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.cod-confirmation-total {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px 16px;
+    border-radius: 12px;
+    background: var(--color-page-background);
+    padding: 16px;
+    font-size: 13px;
+}
+
+.cod-confirmation-total strong {
+    color: var(--color-primary);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.cod-confirmation-modal .modal-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.cod-confirmation-modal .modal-footer .btn {
+    min-height: 46px;
+    margin: 0;
+    border-radius: 10px;
 }
 

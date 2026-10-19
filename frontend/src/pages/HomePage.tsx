@@ -6,7 +6,6 @@ import type { ProductCard as ApiProductCard } from "../api/ProductService";
 import BrandCommitment from "../components/home/BrandCommitment";
 import HeroBanner from "../components/home/HeroBanner";
 import ProductSection from "../components/home/ProductSection";
-import PromoBanners from "../components/home/PromoBanners";
 import SearchSuggestions from "../components/home/SearchSuggestions";
 import type { HomeProduct } from "../data/homeData";
 import { bestSellerProducts, newestProducts } from "../data/homeData";
@@ -21,8 +20,7 @@ const fallbackProductImages = [
 ];
 
 function toHomeProduct(product: ApiProductCard, index: number, tag: string): HomeProduct {
-    const price = product.price ?? product.basePrice ?? 0;
-    const oldPrice = product.basePrice && product.basePrice > price ? product.basePrice : undefined;
+    const price = product.price ?? 0;
     const totalSold = Math.max(product.totalSold ?? 0, 0);
 
     return {
@@ -32,7 +30,6 @@ function toHomeProduct(product: ApiProductCard, index: number, tag: string): Hom
         description: product.description || "Sản phẩm tinh dầu được tuyển chọn cho không gian sống thư giãn.",
         image: product.thumbnailUrl || fallbackProductImages[index % fallbackProductImages.length],
         price,
-        oldPrice,
         unit: "chai",
         rating: product.avgRating || 4.8,
         reviews: totalSold,
@@ -144,7 +141,6 @@ export default function HomePage() {
                     addingProductIds={addingProductIds}
                     onAddToCart={addProductToCart}
                 />
-                <PromoBanners />
                 <BrandCommitment />
             </div>
         </main>

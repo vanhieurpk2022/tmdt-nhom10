@@ -21,11 +21,6 @@ function saveCheckoutSelection(selectedItems: CartItem[]) {
 }
 
 export default function CartSummary({ selectedItems, subtotal }: CartSummaryProps) {
-    const originalSubtotal = selectedItems.reduce(
-        (total, item) => total + (item.basePrice ?? item.price) * item.quantity,
-        0,
-    );
-    const discount = Math.max(originalSubtotal - subtotal, 0);
     const total = subtotal;
 
     return (
@@ -53,14 +48,8 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
                 <div className="cart-summary-adjustments">
                     <div>
                         <span>Tạm tính</span>
-                        <strong>{formatPrice(originalSubtotal)}</strong>
+                        <strong>{formatPrice(subtotal)}</strong>
                     </div>
-                    {discount > 0 && (
-                        <div>
-                            <span>Ưu đãi</span>
-                            <strong>-{formatPrice(discount)}</strong>
-                        </div>
-                    )}
                 </div>
             )}
 

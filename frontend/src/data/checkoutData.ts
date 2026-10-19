@@ -1,10 +1,3 @@
-export interface ReceiverInfo {
-    name: string;
-    phone: string;
-    address: string;
-    note: string;
-}
-
 export interface PaymentMethod {
     id: "cod" | "vnpay";
     name: string;
@@ -12,13 +5,6 @@ export interface PaymentMethod {
     type: "cod" | "vnpay";
     selected?: boolean;
 }
-
-export const receiverInfo: ReceiverInfo = {
-    name: "Nguyễn Minh Hậu",
-    phone: "0912 345 678",
-    address: "Tầng 5, Tòa nhà Landmark 81, 720A Điện Biên Phủ, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh",
-    note: "Giao trong giờ hành chính, gọi trước khi đến",
-};
 
 export const paymentMethods: PaymentMethod[] = [
     {
@@ -35,8 +21,3 @@ export const paymentMethods: PaymentMethod[] = [
         type: "vnpay",
     },
 ];
-
-export const checkoutTotals = {
-    discount: 150000,
-    shippingFee: 25000,
-};

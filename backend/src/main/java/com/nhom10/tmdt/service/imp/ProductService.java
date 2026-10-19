@@ -6,7 +6,6 @@ import com.nhom10.tmdt.repo.CategoryRepository;
 import com.nhom10.tmdt.repo.FactoryRepository;
 import com.nhom10.tmdt.repo.ProductRepository;
 import jakarta.persistence.criteria.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -27,15 +26,18 @@ public class ProductService {
     private final ProductRepository productRepo;
     private final CategoryRepository categoryRepo;
     private final FactoryRepository factoryRepo;
+    private final PurchaseItemService purchases;
 
     public ProductService(
             ProductRepository productRepo,
             CategoryRepository categoryRepo,
-            FactoryRepository factoryRepo
+            FactoryRepository factoryRepo,
+            PurchaseItemService purchases
     ) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.factoryRepo = factoryRepo;
+        this.purchases = purchases;
     }
 
     // Lấy metadata cho sidebar
@@ -168,12 +170,22 @@ public class ProductService {
                 predicates.add(root.get("factory").get("id").in(req.factoryIds()));
             }
 
-            // Lọc theo khoảng giá (dùng min_price của product)
+            Subquery<Double> variantPrice = query.subquery(Double.class);
+            Root<ProductMil> variant = variantPrice.from(ProductMil.class);
+            Expression<Double> listedPrice = cb.coalesce(variant.<Double>get("basePrice"), variant.<Double>get("price"));
+            variantPrice.select(cb.min(listedPrice)).where(
+                    cb.equal(variant.get("product"), root), cb.isTrue(variant.get("isActive")), cb.greaterThan(listedPrice, 0.0));
+            Expression<Double> productPrice = cb.coalesce(variantPrice,
+                    cb.coalesce(root.<Double>get("minBasePrice"), root.<Double>get("price")));
             if (req.minPrice() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), req.minPrice()));
+                predicates.add(cb.greaterThanOrEqualTo(productPrice, req.minPrice()));
             }
             if (req.maxPrice() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("price"), req.maxPrice()));
+                predicates.add(cb.lessThanOrEqualTo(productPrice, req.maxPrice()));
+            }
+            if (query.getResultType() != Long.class) {
+                if ("price-asc".equals(req.sort())) query.orderBy(cb.asc(productPrice), cb.asc(root.get("id")));
+                if ("price-desc".equals(req.sort())) query.orderBy(cb.desc(productPrice), cb.asc(root.get("id")));
             }
 
             // Lọc theo rating trung bình
@@ -195,8 +207,7 @@ public class ProductService {
         if (sort == null) return Sort.by(Sort.Direction.ASC, "id");
         return switch (sort) {
             case "newest"     -> Sort.by(Sort.Direction.DESC, "createdAt", "id");
-            case "price-asc"  -> Sort.by(Sort.Direction.ASC, "price");
-            case "price-desc" -> Sort.by(Sort.Direction.DESC, "price");
+            case "price-asc", "price-desc" -> Sort.unsorted();
             default           -> Sort.by(Sort.Direction.ASC, "id"); // popular / mặc định: ID tăng dần
         };
     }
@@ -242,30 +253,10 @@ public class ProductService {
         }
         String stockStatus = totalStock > 10 ? "Còn hàng" : totalStock > 0 ? "Sắp hết" : "Hết hàng";
 
-        // Discount rate từ sale hiện tại
-        double discountRate = (p.getSale() != null) ? p.getSale().getDiscountRate() : 0;
-
-        // Giá hiển thị: nếu min_price null thì lấy min từ productMils
-        Double displayPrice = p.getPrice();
-        Double displayBasePrice = p.getMinBasePrice();
-        if ((displayPrice == null || displayPrice == 0) && p.getProductMils() != null && !p.getProductMils().isEmpty()) {
-            displayPrice = p.getProductMils().stream()
-                    .map(ProductMil::getPrice)
-                    .filter(java.util.Objects::nonNull)
-                    .filter(pr -> pr > 0)
-                    .min(Double::compareTo)
-                    .orElse(null);
-        }
-        if ((displayBasePrice == null || displayBasePrice == 0) && p.getProductMils() != null && !p.getProductMils().isEmpty()) {
-            displayBasePrice = p.getProductMils().stream()
-                    .map(ProductMil::getBasePrice)
-                    .filter(java.util.Objects::nonNull)
-                    .filter(pr -> pr > 0)
-                    .min(Double::compareTo)
-                    .orElse(null);
-        }
-        if (displayPrice == null) displayPrice = displayBasePrice;
-        if (displayBasePrice == null) displayBasePrice = displayPrice;
+        Double fallbackPrice = p.getMinBasePrice() != null ? p.getMinBasePrice() : p.getPrice();
+        Double displayPrice = p.getProductMils() == null ? fallbackPrice : p.getProductMils().stream()
+                .filter(ProductMil::isActive).map(purchases::price).filter(price -> price > 0)
+                .min(Double::compareTo).orElse(fallbackPrice);
 
         return new ProductCardResponse(
                 p.getId(),
@@ -273,8 +264,6 @@ public class ProductService {
                 p.getDescription(),
                 p.getFactory() != null ? p.getFactory().getName() : null,
                 displayPrice,
-                displayBasePrice,
-                discountRate,
                 Math.round(avgRating * 10.0) / 10.0,
                 totalSold,
                 stockStatus,
@@ -310,8 +299,7 @@ public class ProductService {
                         .map(m -> new ProductMilResponse(
                                 m.getId(),
                                 m.getMil(),
-                                m.getPrice(),
-                                m.getBasePrice(),
+                                purchases.price(m),
                                 m.getStockQuantity(),
                                 m.isActive()
                         ))

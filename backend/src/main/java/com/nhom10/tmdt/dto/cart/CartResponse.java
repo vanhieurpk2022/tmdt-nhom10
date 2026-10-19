@@ -7,7 +7,6 @@ public record CartResponse(
         List<CartItemResponse> items,
         Integer totalItems,
         Double subtotal,
-        Double discountTotal,
         Double total
 ) {
 }

@@ -10,7 +10,6 @@ export interface CartItemResponse {
     factoryName: string | null;
     thumbnailUrl: string | null;
     price: number | null;
-    basePrice: number | null;
     quantity: number;
     stockQuantity: number;
     stockStatus: string;
@@ -22,7 +21,6 @@ export interface CartResponse {
     items: CartItemResponse[];
     totalItems: number;
     subtotal: number;
-    discountTotal: number;
     total: number;
 }
 

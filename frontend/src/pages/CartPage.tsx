@@ -14,7 +14,7 @@ const fallbackCartImages = [
 ];
 
 function toCartItem(item: CartItemResponse, selected: boolean, index: number): CartItem {
-    const price = item.price ?? item.basePrice ?? 0;
+    const price = item.price ?? 0;
     const inStock = item.stockQuantity > 0 && item.stockStatus !== "Hết hàng";
 
     return {
@@ -27,7 +27,6 @@ function toCartItem(item: CartItemResponse, selected: boolean, index: number): C
         factoryName: item.factoryName || "Oilia Essential",
         factoryCode: `SP-${item.productId}`,
         price,
-        basePrice: item.basePrice ?? price,
         quantity: item.quantity,
         selected,
         image: item.thumbnailUrl || fallbackCartImages[index % fallbackCartImages.length] || fallbackCartImage,
