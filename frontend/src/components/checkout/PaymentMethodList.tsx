@@ -7,6 +7,8 @@ interface PaymentMethodListProps {
     methods: PaymentMethod[];
     selectedMethodId: PaymentMethod["id"];
     onSelectMethod: (methodId: PaymentMethod["id"]) => void;
+    vnpayAvailable: boolean;
+    vnpayMessage: string;
 }
 
 const methodIcons = {
@@ -14,7 +16,7 @@ const methodIcons = {
     vnpay: faWallet,
 } satisfies Record<PaymentMethod["type"], typeof faMoneyBillWave>;
 
-export default function PaymentMethodList({ methods, selectedMethodId, onSelectMethod }: PaymentMethodListProps) {
+export default function PaymentMethodList({ methods, selectedMethodId, onSelectMethod, vnpayAvailable, vnpayMessage }: PaymentMethodListProps) {
     return (
         <section className="checkout-block">
             <CheckoutSectionTitle index={3} title="Chọn phương thức thanh toán" />
@@ -26,12 +28,13 @@ export default function PaymentMethodList({ methods, selectedMethodId, onSelectM
                             type="radio"
                             name="paymentMethod"
                             checked={method.id === selectedMethodId}
+                            disabled={method.type === "vnpay" && !vnpayAvailable}
                             onChange={() => onSelectMethod(method.id)}
                         />
                         <span className="checkout-payment-check" />
                         <div>
                             <strong>{method.name}</strong>
-                            <p>{method.description}</p>
+                            <p>{method.type === "vnpay" && !vnpayAvailable ? vnpayMessage : method.description}</p>
                         </div>
                         <span className={`checkout-payment-mark ${method.type}`}>
                             <FontAwesomeIcon icon={methodIcons[method.type]} />

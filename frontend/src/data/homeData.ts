@@ -5,21 +5,11 @@ export interface HomeProduct {
     description: string;
     image: string;
     price: number;
-    oldPrice?: number;
     unit: string;
     rating: number;
     reviews: number;
     metricLabel?: string;
     tag?: string;
-}
-
-export interface PromoBanner {
-    title: string;
-    eyebrow: string;
-    description: string;
-    image: string;
-    actionLabel: string;
-    accent: "gold" | "mint";
 }
 
 const imageBase = "/images/home";
@@ -127,25 +117,6 @@ export const bestSellerProducts: HomeProduct[] = [
         unit: "10ml",
         rating: 4.8,
         reviews: 138,
-    },
-];
-
-export const promoBanners: PromoBanner[] = [
-    {
-        eyebrow: "Tiết kiệm đến 35%",
-        title: "Combo Máy Xông Siêu Âm & Tinh Dầu Trị Liệu",
-        description: "Tặng kèm 2 chai tinh dầu tự chọn khi mua máy khuếch tán gốm mộc cao cấp.",
-        image: `${imageBase}/diffuser-combo.png`,
-        actionLabel: "Xem ưu đãi combo",
-        accent: "gold",
-    },
-    {
-        eyebrow: "Bộ quà tặng sang trọng",
-        title: "Hộp Quà Thơm Chữa Lành Cho Người Thương",
-        description: "Thiết kế hộp gỗ mộc tinh xảo, thiệp viết tay theo yêu cầu cá nhân.",
-        image: `${imageBase}/relax-gift-box.png`,
-        actionLabel: "Khám phá bộ sưu tập quà",
-        accent: "mint",
     },
 ];
 

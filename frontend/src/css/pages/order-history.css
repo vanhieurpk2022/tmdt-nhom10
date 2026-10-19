@@ -1,7 +1,5 @@
 .order-history-page {
-    background:
-        radial-gradient(circle at 6% 0%, rgba(255, 235, 240, 0.95) 0, rgba(255, 255, 255, 0) 360px),
-        linear-gradient(180deg, #fff7f9 0%, #ffffff 48%, #f8fafc 100%);
+    background: var(--color-page-background);
 }
 
 .order-history-hero {
@@ -279,20 +277,13 @@
     padding-top: 18px;
 }
 
-.order-history-outline-btn,
-.order-history-primary-btn {
+.order-history-outline-btn {
     border-radius: 10px !important;
     font-size: 14px !important;
     font-weight: 900 !important;
     min-height: 42px;
     padding-left: 18px !important;
     padding-right: 18px !important;
-}
-
-.order-history-primary-btn {
-    background: var(--color-bg-dark) !important;
-    border: 0 !important;
-    color: #fff !important;
 }
 
 .order-history-empty {

@@ -4,6 +4,11 @@ import com.nhom10.tmdt.dto.order.CreateOrderRequest;
 import com.nhom10.tmdt.dto.order.OrderItemResponse;
 import com.nhom10.tmdt.dto.order.OrderResponse;
 import com.nhom10.tmdt.enums.OrderStatus;
+import com.nhom10.tmdt.enums.PaymentMethod;
+import com.nhom10.tmdt.enums.PaymentStatus;
+import com.nhom10.tmdt.service.payment.InventoryReservationService;
+import com.nhom10.tmdt.service.payment.VndMoney;
+import com.nhom10.tmdt.service.payment.VnPayGateway;
 import com.nhom10.tmdt.model.Address;
 import com.nhom10.tmdt.model.CartItem;
 import com.nhom10.tmdt.model.Order;
@@ -14,14 +19,18 @@ import com.nhom10.tmdt.repo.AddressRepository;
 import com.nhom10.tmdt.repo.CartItemRepository;
 import com.nhom10.tmdt.repo.OrderItemRepository;
 import com.nhom10.tmdt.repo.OrderRepository;
+import com.nhom10.tmdt.repo.UserRepository;
+import com.nhom10.tmdt.service.order.CheckoutIdentity;
 import com.nhom10.tmdt.service.shipping.ShippingFeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -35,9 +44,37 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final ShippingFeeService shippingFeeService;
     private final PurchaseItemService purchaseItems;
+    private final InventoryReservationService inventory;
+    private final UserRepository userRepository;
 
-    @Transactional
-    public OrderResponse createOrderFromCart(String email, CreateOrderRequest request) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public OrderResponse createOrderFromCart(String email, CreateOrderRequest request, String key) {
+        if (request.paymentMethod() != PaymentMethod.COD) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng tạo thanh toán qua /payments/vnpay/checkout");
+        }
+        CheckoutIdentity identity = CheckoutIdentity.from(key, request);
+        userRepository.lockByEmail(email).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản"));
+        var existing = orderRepository.findByUserEmailAndCheckoutKey(email, key);
+        if (existing.isPresent()) {
+            identity.verify(existing.get());
+            return response(existing.get());
+        }
+        Order order = placeOrder(email, request, key, identity.fingerprint(), null);
+        return toResponse(order, order.getOrderItems());
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Order createVnpayOrder(String email, CreateOrderRequest request, String checkoutKey,
+                                  String fingerprint, Instant holdUntil) {
+        if (request.paymentMethod() != PaymentMethod.VNPAY || holdUntil == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phương thức thanh toán không hợp lệ");
+        }
+        return placeOrder(email, request, checkoutKey, fingerprint, holdUntil);
+    }
+
+    private Order placeOrder(String email, CreateOrderRequest request, String checkoutKey,
+                             String fingerprint, Instant holdUntil) {
         Address address = addressRepository.findByIdAndUserEmail(request.addressId(), email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy địa chỉ giao hàng"));
 
@@ -48,22 +85,30 @@ public class OrderService {
                 ? List.of(purchaseItems.resolve(request.buyNow()))
                 : purchaseItems.selectCartItems(email, request.cartItemIds());
 
-        double subtotal = selectedCartItems.stream()
-                .mapToDouble(item -> purchaseItems.basePrice(item) * item.getQuantity())
-                .sum();
-        double discountedSubtotal = selectedCartItems.stream()
-                .mapToDouble(item -> purchaseItems.price(item) * item.getQuantity()).sum();
-        double discountAmount = Math.max(subtotal - discountedSubtotal, 0);
-        double shippingFee = shippingFeeService.calculateFee(address, selectedCartItems, discountedSubtotal);
-        double total = Math.max(subtotal - discountAmount, 0) + shippingFee;
+        inventory.reserve(selectedCartItems);
+        long subtotal = 0;
+        for (CartItem item : selectedCartItems) {
+            subtotal = Math.addExact(subtotal, Math.multiplyExact(VndMoney.exact(purchaseItems.price(item)), item.getQuantity()));
+        }
+        long shippingFee = VndMoney.exact((double) shippingFeeService.calculateFee(address, selectedCartItems, subtotal));
+        long total = Math.addExact(subtotal, shippingFee);
+        if (total <= 0 || total > VnPayGateway.MAX_AMOUNT_VND) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Số tiền đơn hàng vượt giới hạn thanh toán");
+        }
 
         Order order = Order.builder()
                 .user(address.getUser())
-                .status(OrderStatus.PENDING)
-                .subtotalPrice(subtotal)
-                .discountAmount(discountAmount)
-                .shippingFee(shippingFee)
-                .totalPrice(total)
+                .status(holdUntil == null ? OrderStatus.PENDING : OrderStatus.PENDING_PAYMENT)
+                .paymentStatus(PaymentStatus.PENDING)
+                .payableAmountVnd(total)
+                .stockHeld(holdUntil != null)
+                .reservationExpiresAt(holdUntil)
+                .checkoutKey(checkoutKey)
+                .checkoutFingerprint(fingerprint)
+                .subtotalPrice((double) subtotal)
+                .discountAmount(0.0)
+                .shippingFee((double) shippingFee)
+                .totalPrice((double) total)
                 .paymentMethod(request.paymentMethod())
                 .recipientName(address.getRecipentName())
                 .phoneNumber(address.getPhoneNumber())
@@ -79,8 +124,25 @@ public class OrderService {
 
         if (request.buyNow() == null) cartItemRepository.deleteAll(selectedCartItems);
 
-        return toResponse(savedOrder, savedItems);
+        return savedOrder;
     }
+
+    @Transactional(readOnly = true)
+    public OrderResponse getOrder(String email, Long id) {
+        Order order = orderRepository.findByIdAndUserEmail(id, email).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng"));
+        return response(order);
+    }
+
+    @Transactional(readOnly = true)
+    public OrderResponse recoverCheckout(String email, String key) {
+        CheckoutIdentity.validateKey(key);
+        Order order = orderRepository.findByUserEmailAndCheckoutKey(email, key).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy yêu cầu đặt hàng"));
+        return response(order);
+    }
+
+    public OrderResponse response(Order order) { return toResponse(order, order.getOrderItems()); }
 
     private OrderItem toOrderItem(Order order, CartItem cartItem) {
         Product product = cartItem.getProduct();
@@ -103,11 +165,11 @@ public class OrderService {
                 order.getShippingAddress(),
                 order.getNote(),
                 valueOrZero(order.getSubtotalPrice()),
-                valueOrZero(order.getDiscountAmount()),
                 valueOrZero(order.getShippingFee()),
                 valueOrZero(order.getTotalPrice()),
                 order.getCreatedAt(),
-                items.stream().map(this::toItemResponse).toList()
+                items.stream().map(this::toItemResponse).toList(),
+                order.getPaymentStatus()
         );
     }
 

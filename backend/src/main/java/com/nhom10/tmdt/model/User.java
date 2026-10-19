@@ -57,6 +57,8 @@ public class User {
     private Factory factory;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @org.springframework.data.rest.core.annotation.RestResource(exported = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Order> orders;
 
     @ManyToMany(fetch = FetchType.LAZY)

@@ -74,17 +74,12 @@ public class PurchaseItemService {
     }
 
     public double price(ProductMil variant) {
-        Double price = variant.getPrice() != null ? variant.getPrice() : variant.getBasePrice();
+        Double price = variant.getBasePrice() != null ? variant.getBasePrice() : variant.getPrice();
         return price != null && Double.isFinite(price) ? price : 0;
     }
 
     public double price(CartItem item) {
         return price(variant(item));
-    }
-
-    public double basePrice(CartItem item) {
-        Double base = variant(item).getBasePrice();
-        return base != null && Double.isFinite(base) ? Math.max(base, price(item)) : price(item);
     }
 
     public int stock(CartItem item) {
@@ -112,7 +107,7 @@ public class PurchaseItemService {
         return new CartItemResponse(item.getId() == null ? product.getId() : item.getId(),
                 product.getId(), product.getName(), product.getDescription(),
                 product.getFactory() == null ? null : product.getFactory().getName(), image,
-                price(item), basePrice(item), item.getQuantity(), stock,
+                price(item), item.getQuantity(), stock,
                 stock <= 0 ? "Hết hàng" : stock <= 10 ? "Sắp hết" : "Còn hàng",
                 price(item) * item.getQuantity(), variant.getId(), variant.getMil());
     }

@@ -28,10 +28,6 @@ const PRODUCT_SORT_OPTIONS = [
 const stockBadgeClass = (s: string) =>
     s === "Còn hàng" ? "stock-green" : s === "Sắp hết" ? "stock-yellow" : "stock-red";
 
-const discountLabel = (basePrice: number, price: number) => {
-    if (!basePrice || !price || basePrice <= price) return null;
-    return `-${Math.round((1 - price / basePrice) * 100)}%`;
-};
 
 const getPaginationItems = (currentPage: number, totalPages: number): (number | string)[] => {
     if (totalPages <= 7) {
@@ -380,7 +376,6 @@ export default function ProductsPage() {
                         ) : (
                             <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                                 {products.map((product) => {
-                                    const label = discountLabel(product.basePrice, product.price);
                                     return (
                                         <div className="col" key={product.id}>
                                             <div className="card h-100 product-card border-0 shadow-sm rounded-4 overflow-hidden">
@@ -426,16 +421,6 @@ export default function ProductsPage() {
                                                             <span className={`badge rounded-pill fw-normal px-2 py-1 ${stockBadgeClass(product.stockStatus)}`}>
                                                                 {product.stockStatus}
                                                             </span>
-                                                        </div>
-                                                        <div className="d-flex align-items-center gap-2 mb-3">
-                                                            {product.basePrice != null && product.price != null && product.basePrice > product.price && (
-                                                                <span className="text-muted text-decoration-line-through fs-7">
-                                                                    {product.basePrice.toLocaleString("vi-VN")}đ
-                                                                </span>
-                                                            )}
-                                                            {label && (
-                                                                <span className="badge bg-danger bg-opacity-10 text-danger fs-8 fw-bold">{label}</span>
-                                                            )}
                                                         </div>
                                                         <div className="row g-2">
                                                             <div className="col-6">

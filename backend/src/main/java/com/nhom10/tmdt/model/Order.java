@@ -2,15 +2,17 @@ package com.nhom10.tmdt.model;
 
 import com.nhom10.tmdt.enums.OrderStatus;
 import com.nhom10.tmdt.enums.PaymentMethod;
+import com.nhom10.tmdt.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", uniqueConstraints = @UniqueConstraint(name = "uk_order_checkout", columnNames = {"user_id", "checkout_key"}))
 @Getter
 @Setter
 @ToString
@@ -23,6 +25,30 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(name = "payable_amount_vnd", updatable = false)
+    private Long payableAmountVnd;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_status", length = 32)
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
+
+    @Column(name = "reservation_expires_at", updatable = false)
+    private Instant reservationExpiresAt;
+
+    @Builder.Default
+    @Column(name = "stock_held", nullable = false)
+    private boolean stockHeld = false;
+
+    @Column(name = "paid_attempt_id")
+    private Long paidAttemptId;
+
+    @Column(name = "checkout_key", length = 80, updatable = false)
+    private String checkoutKey;
+
+    @Column(name = "checkout_fingerprint", length = 64, updatable = false)
+    private String checkoutFingerprint;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

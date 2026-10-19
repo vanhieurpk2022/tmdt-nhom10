@@ -9,9 +9,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Sả Chanh Lemongrass Ấn Độ",
         desc: "Thanh lọc không khí, xua đuổi côn trùng và...",
         origin: "Xưởng Thảo Dược Mysore (Ấn Độ)",
-        price: 145000,
-        oldPrice: 180000,
-        discount: "-19%",
+        price: 180000,
         rating: 4.9,
         sold: "1.8k+",
         stock: "Còn hàng",
@@ -22,9 +20,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Bạc Hà Tươi Peppermint",
         desc: "Giúp tập trung tinh thần, sảng khoái tức thì",
         origin: "Xưởng Thảo Mộc Hưng Yên",
-        price: 160000,
-        oldPrice: 200000,
-        discount: "-20%",
+        price: 200000,
         rating: 5.0,
         sold: "920+",
         stock: "Còn hàng",
@@ -35,9 +31,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Tràm Gió Huế Nguyên Chất",
         desc: "Giữ ấm cơ thể, bảo vệ hô hấp an toàn cho mẹ",
         origin: "Xưởng Chưng Cất Cố Đô Huế",
-        price: 125000,
-        oldPrice: 150000,
-        discount: "-16%",
+        price: 150000,
         rating: 4.9,
         sold: "2.4k+",
         stock: "Sắp hết",
@@ -48,9 +42,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Vỏ Quế Ấm Nồng Yên Bái",
         desc: "Khử mùi không gian ẩm mốc, tạo hơi ấm thư...",
         origin: "Xưởng Quế Rừng Văn Yên (Yên Bái)",
-        price: 155000,
-        oldPrice: 195000,
-        discount: "-20%",
+        price: 195000,
         rating: 4.8,
         sold: "1.1k+",
         stock: "Còn hàng",
@@ -61,9 +53,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Lavender Oải Hương",
         desc: "Vỗ về giấc ngủ sâu, xua tan căng thẳng mệt...",
         origin: "Hợp Tác Xã Thảo Mộc Provence (Pháp)",
-        price: 220000,
-        oldPrice: 260000,
-        discount: "-15%",
+        price: 260000,
         rating: 5.0,
         sold: "3.2k+",
         stock: "Còn hàng",
@@ -74,9 +64,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Trầm Hương Khánh Hoà",
         desc: "Nốt hương thiền định, tĩnh tâm và trừ tà khí",
         origin: "Xưởng Kỳ Nam Vạn Giã (Khánh Hoà)",
-        price: 480000,
-        oldPrice: 550000,
-        discount: "-13%",
+        price: 550000,
         rating: 5.0,
         sold: "450+",
         stock: "Hết hàng",
@@ -87,9 +75,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Cam Ngọt Organic Hoà Bình",
         desc: "Hương thơm thanh ngọt, đánh thức năng...",
         origin: "Nông Trại Hữu Cơ Cao Phong (Hoà Bình)",
-        price: 135000,
-        oldPrice: 170000,
-        discount: "-21%",
+        price: 170000,
         rating: 4.9,
         sold: "1.5k+",
         stock: "Còn hàng",
@@ -100,9 +86,7 @@ const FAVORITE_PRODUCTS = [
         name: "Tinh Dầu Gỗ Hồng Dalbergia Kontum",
         desc: "Hương gỗ nồng ấm quyện hoa hồng, cân...",
         origin: "Vùng Dược Liệu Rừng Gỗ Kon Tum",
-        price: 320000,
-        oldPrice: 390000,
-        discount: "-18%",
+        price: 390000,
         rating: 5.0,
         sold: "680+",
         stock: "Còn hàng",
@@ -161,10 +145,6 @@ export default function FavoriteProductsPage() {
                                                         <span className={`rounded-circle ${product.stock === 'Còn hàng' ? 'bg-success' : product.stock === 'Sắp hết' ? 'bg-warning' : 'bg-danger'}`} style={{width: '6px', height: '6px'}}></span>
                                                         {product.stock}
                                                     </span>
-                                                </div>
-                                                <div className="d-flex align-items-center gap-2 mb-4">
-                                                    <span className="text-muted text-decoration-line-through fs-7">{product.oldPrice.toLocaleString("vi-VN")}đ</span>
-                                                    <span className="badge bg-danger bg-opacity-10 text-danger fs-8 fw-bold">{product.discount}</span>
                                                 </div>
 
                                                 <div className="row g-2">

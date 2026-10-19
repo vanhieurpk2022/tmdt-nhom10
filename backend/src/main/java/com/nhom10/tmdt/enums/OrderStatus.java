@@ -1,6 +1,7 @@
 package com.nhom10.tmdt.enums;
 
 public enum OrderStatus {
+    PENDING_PAYMENT,
     PENDING,        // Chờ xác nhận
     CONFIRMED,      // Đã xác nhận
     PROCESSING,     // Đang xử lý / đóng gói
