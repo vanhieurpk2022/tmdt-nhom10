@@ -84,6 +84,7 @@ public class Product {
     private List<Review> reviews;
 
     @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    @Builder.Default
+    private ProductStatus status = ProductStatus.ACTIVE;
 }
 

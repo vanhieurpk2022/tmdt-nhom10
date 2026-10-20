@@ -1,5 +1,6 @@
 package com.nhom10.tmdt.rest;
 
+import com.cloudinary.Api;
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.factory.*;
 import com.nhom10.tmdt.dto.product.ProductCreateMilRequest;
@@ -34,6 +35,11 @@ public class FactoryDashboardController {
     }
 
 
+    @PatchMapping("/products/{id}")
+    public ApiResponse<Void> updateProduct(@PathVariable Long id, @RequestBody FactoryProductEditRequest request){
+        factoryDashboard.updateProductEdit(id, request);
+    return new ApiResponse<>(200,"Cập nhật thành công");
+    }
 
     @GetMapping("/dashboard/user")
     public ApiResponse<List<FactoryOrderDashBoardResponse>> getTableUser(
@@ -41,6 +47,11 @@ public class FactoryDashboardController {
         String email = user.getUsername();
         List<FactoryOrderDashBoardResponse> dashboardOverviewResponse = factoryDashboard.factoryGetUser(email);
         return new ApiResponse<>(200,"Lấy dữ liệu thành công",dashboardOverviewResponse);
+    }
+
+    @GetMapping("/products/{id}")
+    public ApiResponse<FactoryProductEditRes> getProductEdit(@PathVariable Long id) {
+        return new ApiResponse<>(200,"Lấy dữ liệu thành công",factoryDashboard.getProductEdit(id));
     }
 
     @GetMapping("/productMils/{productId}")
@@ -66,7 +77,7 @@ public class FactoryDashboardController {
     public ApiResponse<ProductCreateMilResponse> createProductMil(@PathVariable Long productId, @RequestBody ProductCreateMilRequest data){
         return new ApiResponse<>(200,"Thêm thành công",productMilService.createProductMil(productId,data));
     }
-    @PutMapping("/products/{productId}/mils/{milId}")
+    @PatchMapping("/products/{productId}/mils/{milId}")
     public ApiResponse<ProductCreateMilResponse> updateProductMil(@PathVariable Long productId, @PathVariable Long milId, @RequestBody  ProductCreateMilRequest data){
         return new ApiResponse<>(200,"Thêm thành công",productMilService.updateProductMil(productId,milId,data));
     }
@@ -100,9 +111,14 @@ public class FactoryDashboardController {
         return new ApiResponse<>(200,"Đã update Thành công");
     }
 
-    @GetMapping("/product-mil/{milId}/mil")
-    public ApiResponse<Void> changeStatusProductMils(@PathVariable Long milId){
-        factoryDashboard.changeStatusProductMils(milId);
+    @PatchMapping("/products/{id}/status")
+    public ApiResponse<Void> changeStatusProductMils(@PathVariable Long id,@RequestBody ChangeStatusProduct rq){
+        factoryDashboard.changeStatusProducts(id,rq);
+        return new ApiResponse<>(200,"Đã update Thành công");
+    }
+    @DeleteMapping("/products/{id}")
+    public ApiResponse<Void> deleteProduct(@PathVariable Long id){
+        factoryDashboard.DeleteProduct(id);
         return new ApiResponse<>(200,"Đã update Thành công");
     }
 }

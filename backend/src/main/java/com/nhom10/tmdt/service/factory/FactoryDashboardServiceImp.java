@@ -2,10 +2,7 @@ package com.nhom10.tmdt.service.factory;
 
 import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.dto.factory.*;
-import com.nhom10.tmdt.enums.CancelReason;
-import com.nhom10.tmdt.enums.ErrorCode;
-import com.nhom10.tmdt.enums.OrderStatus;
-import com.nhom10.tmdt.enums.RevenueType;
+import com.nhom10.tmdt.enums.*;
 import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.*;
 import lombok.RequiredArgsConstructor;
@@ -287,9 +284,45 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     }
 
     @Override
+    public FactoryProductEditRes getProductEdit(Long productId) {
+        Product p = productRepository.findById(productId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        String category = categoryRepository.findById(p.getCategory().getId()).orElseThrow(()-> new AppException(ErrorCode.NOT_FOUND_CATEGORY)).getName();
+
+        return new FactoryProductEditRes(p.getId(),p.getName(),category,p.getProductType(),p.getStatus(),p.getDescription());
+    }
+
+    @Override
     @Transactional
     public void changeStatusProductMils(Long milId) {
         ProductMil productMil = productMilRepository.findById(milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
         productMil.setActive(!productMil.isActive());
+    }
+
+    @Override
+    public void updateProductEdit(Long id, FactoryProductEditRequest request) {
+        Product p = productRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        p.setDescription(request.description());
+        p.setCategory(p.getCategory());
+        p.setName(request.name());
+        p.setProductType(request.type());
+
+        List<ProductImage > productImages = new ArrayList<>();
+        for(String s: request.imageUrls()){
+            productImages.add(ProductImage.builder().imageUrl(s).product(p).build());
+        }
+        productImageRepository.saveAll(productImages);
+        productRepository.save(p);
+    }
+
+    @Override
+    @Transactional
+    public void changeStatusProducts(Long id, ChangeStatusProduct req) {
+        Product product = productRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        product.setStatus(req.status());
+    }
+
+    @Override
+    public void DeleteProduct(Long id) {
+        productRepository.delete(productRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
     }
 }

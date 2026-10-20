@@ -15,39 +15,49 @@ import type { FactoryProductCreateRequest } from "../../../dto/factory/FactoryPr
 import type { Category } from "../../../models/Category";
 import { CategoryService } from "../../../api/category/CategoryDto";
 import { cloudinaryService } from "../../../api/UploadApi";
+import { useToastContext } from "../../toasts/ToastContext";
 
 interface AddProductModalProps {
     show: boolean;
-    onClose: () => void;
     onSuccess?: () => void; // gọi lại để cha tải lại danh sách sau khi lưu
+    product: FactoryProductCreateRequest | null; // null = thêm mới, có giá trị = chỉnh sửa
+    onHide: () => void;
 }
 
 const INITIAL_FORM: FactoryProductCreateRequest = {
+    id: null,
     name: "",
     category: "",
     type: ProductType.NORMAL,
-    status: ProductStatus.ACTIVE,
     description: "",
     imageUrls: [],
 };
 
 type FormErrors = Partial<Record<keyof FactoryProductCreateRequest, string>>;
 
-/* ---------- Ảnh xem trước: tạo / hủy object URL đúng lúc ---------- */
-function ImagePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
-    const url = useMemo(() => URL.createObjectURL(file), [file]);
-
-    // Hủy URL khi file đổi hoặc component bị gỡ, tránh rò bộ nhớ
-    useEffect(() => () => URL.revokeObjectURL(url), [url]);
-
+/* ---------- Thẻ ảnh dùng chung (ảnh cũ và ảnh mới) ---------- */
+function ImageCard({
+    src,
+    name,
+    size,
+    badge,
+    onRemove,
+}: {
+    src: string;
+    name: string;
+    size?: string;
+    badge?: string;
+    onRemove: () => void;
+}) {
     return (
         <div className="position-relative border rounded-3 overflow-hidden bg-white">
-            <img
-                src={url}
-                alt={file.name}
-                className="w-100"
-                style={{ height: 120, objectFit: "cover" }}
-            />
+            <img src={src} alt={name} className="w-100" style={{ height: 120, objectFit: "cover" }} />
+
+            {badge && (
+                <span className="badge bg-dark-subtle text-dark-emphasis position-absolute bottom-0 start-0 m-1">
+                    {badge}
+                </span>
+            )}
 
             <button
                 type="button"
@@ -59,29 +69,47 @@ function ImagePreview({ file, onRemove }: { file: File; onRemove: () => void }) 
                 ×
             </button>
 
-            <div className="p-2">
-                <div className="small text-truncate" title={file.name}>
-                    {file.name}
+            {(name || size) && (
+                <div className="p-2">
+                    <div className="small text-truncate" title={name}>{name}</div>
+                    {size && <div className="text-secondary small">{size}</div>}
                 </div>
-                <div className="text-secondary small">
-                    {(file.size / 1024 / 1024).toFixed(2)} MB
-                </div>
-            </div>
+            )}
         </div>
     );
 }
 
-export default function AddProductModal({ show, onClose, onSuccess }: AddProductModalProps) {
+/* ---------- Ảnh mới: tạo / hủy object URL đúng lúc ---------- */
+function NewImagePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
+    const url = useMemo(() => URL.createObjectURL(file), [file]);
+    useEffect(() => () => URL.revokeObjectURL(url), [url]);
+
+    return (
+        <ImageCard
+            src={url}
+            name={file.name}
+            size={`${(file.size / 1024 / 1024).toFixed(2)} MB`}
+            onRemove={onRemove}
+        />
+    );
+}
+
+export default function AddProductModal({ show, onSuccess, product, onHide }: AddProductModalProps) {
     const [categoryOption, setCategoryOption] = useState<Category[]>([]);
     const [form, setForm] = useState<FactoryProductCreateRequest>(INITIAL_FORM);
     const [errors, setErrors] = useState<FormErrors>({});
     const [submitting, setSubmitting] = useState(false);
+    const { showToast } = useToastContext();
 
-    const [images, setImages] = useState<File[]>([]);
+
+    const [images, setImages] = useState<File[]>([]); // ảnh mới chọn
     const [isDragging, setIsDragging] = useState(false);
 
-    // Tải danh mục một lần
+    const isEdit = !!product;
+
+    // Tải danh mục khi mở modal
     useEffect(() => {
+        if (!show) return;
         const getCategory = async () => {
             try {
                 const res = await CategoryService.getCategory();
@@ -91,7 +119,27 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
             }
         };
         getCategory();
-    }, []);
+    }, [show]);
+
+    // Nạp dữ liệu vào form mỗi khi mở modal (thêm mới hoặc sửa)
+    useEffect(() => {
+        if (!show) return;
+        setErrors({});
+        setImages([]);
+        setIsDragging(false);
+        setForm(
+            product
+                ? {
+                    id: product.id,
+                    name: product.name,
+                    category: product.category ?? "",
+                    type: product.type ?? ProductType.NORMAL,
+                    description: product.description ?? "",
+                    imageUrls: product.imageUrls ?? [], // giữ ảnh cũ để hiển thị
+                }
+                : INITIAL_FORM
+        );
+    }, [show, product]);
 
     const handleChange = <K extends keyof FactoryProductCreateRequest>(
         key: K,
@@ -99,19 +147,6 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
     ) => {
         setForm(prev => ({ ...prev, [key]: value }));
         setErrors(prev => ({ ...prev, [key]: undefined }));
-    };
-
-    const resetForm = () => {
-        setForm(INITIAL_FORM);
-        setErrors({});
-        setImages([]);
-        setIsDragging(false);
-    };
-
-    const handleClose = () => {
-        if (submitting) return;
-        resetForm();
-        onClose();
     };
 
     const validate = (): boolean => {
@@ -128,23 +163,34 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
         try {
             setSubmitting(true);
 
+            // Chỉ upload ảnh mới, ảnh cũ còn lại giữ nguyên URL
             const uploaded = await Promise.all(images.map(file => cloudinaryService.upload(file)));
-            const imageUrls = uploaded.map(res => res.url);
+            const imageUrls = [...form.imageUrls, ...uploaded.map(res => res.url)];
+
             const { category, ...rest } = form;
+            const selected = categoryOption.find(c => c.name === category);
+            if (!selected) {
+                setErrors(prev => ({ ...prev, category: "Danh mục không hợp lệ" }));
+                return;
+            }
             const payload = {
                 ...rest,
-                categoryId: Number(category),
+                categoryId: selected.id,
                 imageUrls,
             };
-            // TODO: images chưa được gửi. Muốn gửi ảnh, createProduct cần nhận FormData
-            // (phần JSON + các file trong `images`) và backend dùng @RequestPart.
-            await FactoryServiceManager.createProduct(payload);
+
+            if (isEdit && form.id != null) {
+                await FactoryServiceManager.updateProduct(form.id, payload);
+                showToast("Thành công", "cập nhật dữ liệu thành công", "success");
+            } else {
+                await FactoryServiceManager.createProduct(payload);
+                showToast("Thành công", "Thêm dữ liệu thành công", "success");
+            }
 
             onSuccess?.();
-            resetForm();
-            onClose();
+            onHide();
         } catch (error) {
-            console.log("Lỗi không thêm được sản phẩm", error);
+            console.log(isEdit ? "Lỗi không cập nhật được sản phẩm" : "Lỗi không thêm được sản phẩm", error);
         } finally {
             setSubmitting(false);
         }
@@ -158,7 +204,7 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) addImages(Array.from(e.target.files));
-        e.target.value = ""; // cho phép chọn lại đúng file vừa chọn
+        e.target.value = "";
     };
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -177,14 +223,20 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
         addImages(Array.from(e.dataTransfer.files));
     };
 
-    const removeImage = (index: number) => {
+    const removeNewImage = (index: number) => {
         setImages(prev => prev.filter((_, i) => i !== index));
     };
+
+    const removeExistingImage = (index: number) => {
+        setForm(prev => ({ ...prev, imageUrls: prev.imageUrls.filter((_, i) => i !== index) }));
+    };
+
+    const hasAnyImage = form.imageUrls.length > 0 || images.length > 0;
 
     return (
         <Modal
             show={show}
-            onHide={handleClose}
+            onHide={onHide}
             size="lg"
             centered
             scrollable
@@ -201,10 +253,12 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                     </span>
                     <div>
                         <Modal.Title as="h5" className="fw-bold mb-0">
-                            Thêm sản phẩm
+                            {isEdit ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm"}
                         </Modal.Title>
                         <div className="small text-secondary">
-                            Nhập thông tin để đăng sản phẩm mới lên gian hàng.
+                            {isEdit
+                                ? `Cập nhật thông tin sản phẩm #${form.id}.`
+                                : "Nhập thông tin để đăng sản phẩm mới lên gian hàng."}
                         </div>
                     </div>
                 </div>
@@ -248,7 +302,7 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                             >
                                 <option value="">-- Chọn danh mục --</option>
                                 {categoryOption.map(item => (
-                                    <option key={item.id} value={item.id}>
+                                    <option key={item.id} value={item.name}>
                                         {item.name}
                                     </option>
                                 ))}
@@ -262,7 +316,7 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                         <label className="form-label fw-semibold">Loại sản phẩm</label>
                         <select
                             className="form-select"
-                            value={form.type}
+                            value={form.type ?? ProductType.NORMAL}
                             onChange={e => handleChange("type", e.target.value as ProductType)}
                         >
                             <option value={ProductType.NORMAL}>Thường</option>
@@ -270,24 +324,10 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                         </select>
                     </div>
 
-                    {/* Trạng thái */}
-                    <div className="col-12">
-                        <label className="form-label fw-semibold">Trạng thái</label>
-                        <select
-                            className="form-select"
-                            value={form.status}
-                            onChange={e => handleChange("status", e.target.value as ProductStatus)}
-                        >
-                            <option value={ProductStatus.ACTIVE}>Đang bán</option>
-                            <option value={ProductStatus.INACTIVE}>Ngừng bán</option>
-                        </select>
-                    </div>
-
                     {/* Hình ảnh sản phẩm */}
                     <div className="col-12">
                         <label className="form-label fw-semibold">Hình ảnh sản phẩm</label>
 
-                        {/* Drop zone */}
                         <div
                             className={`rounded-3 p-4 text-center ${isDragging ? "border-danger bg-danger-subtle" : "bg-light"}`}
                             style={{
@@ -312,8 +352,7 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
 
                             <div className="mb-3">
                                 <span
-                                    className={`d-inline-flex align-items-center justify-content-center rounded-circle ${isDragging ? "bg-danger text-white" : "bg-danger-subtle text-danger"
-                                        }`}
+                                    className={`d-inline-flex align-items-center justify-content-center rounded-circle ${isDragging ? "bg-danger text-white" : "bg-danger-subtle text-danger"}`}
                                     style={{ width: 56, height: 56 }}
                                 >
                                     <FontAwesomeIcon icon={faCloudArrowUp} size="lg" />
@@ -323,25 +362,33 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                             <div className="fw-semibold mb-1">
                                 {isDragging ? "Thả ảnh vào đây" : "Kéo và thả ảnh vào đây"}
                             </div>
-
                             <div className="text-secondary small mb-2">
                                 hoặc <span className="text-danger fw-semibold">chọn ảnh từ máy</span>
                             </div>
-
                             <div className="text-secondary small">
                                 Có thể chọn nhiều ảnh cùng lúc · PNG, JPG, JPEG, WEBP
                             </div>
                         </div>
 
-                        {/* Preview ảnh */}
-                        {images.length > 0 && (
+                        {/* Ảnh hiện có + ảnh mới */}
+                        {hasAnyImage && (
                             <div className="row g-3 mt-2">
+                                {form.imageUrls.map((url, index) => (
+                                    <div key={`old-${url}-${index}`} className="col-6 col-sm-4 col-md-3 col-lg-2">
+                                        <ImageCard
+                                            src={url}
+                                            name=""
+                                            badge="Hiện có"
+                                            onRemove={() => removeExistingImage(index)}
+                                        />
+                                    </div>
+                                ))}
                                 {images.map((file, index) => (
                                     <div
-                                        key={`${file.name}-${file.lastModified}-${index}`}
+                                        key={`new-${file.name}-${file.lastModified}-${index}`}
                                         className="col-6 col-sm-4 col-md-3 col-lg-2"
                                     >
-                                        <ImagePreview file={file} onRemove={() => removeImage(index)} />
+                                        <NewImagePreview file={file} onRemove={() => removeNewImage(index)} />
                                     </div>
                                 ))}
                             </div>
@@ -366,7 +413,7 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                 <button
                     type="button"
                     className="btn btn-light border fw-semibold"
-                    onClick={handleClose}
+                    onClick={onHide}
                     disabled={submitting}
                 >
                     Hủy
@@ -385,7 +432,7 @@ export default function AddProductModal({ show, onClose, onSuccess }: AddProduct
                     ) : (
                         <>
                             <FontAwesomeIcon icon={faFloppyDisk} className="me-2" />
-                            Lưu sản phẩm
+                            {isEdit ? "Cập nhật" : "Lưu sản phẩm"}
                         </>
                     )}
                 </button>

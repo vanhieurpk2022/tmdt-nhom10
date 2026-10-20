@@ -1,79 +1,143 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createColumnHelper, useTable, type PaginationState } from "@tanstack/react-table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faTag,
-    faEye,
-    faPenToSquare,
-    faTrash,
-    faToggleOn,
-    faToggleOff,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTag, faEye, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 import SideBarFactory from "../components/admin/factory/SideBarFactory";
 import CustomBadge from "../components/admin/badge/CustomBadge";
+import ProductOverview from "../components/admin/factory/ProductOverview";
+import { ProductHeader } from "../components/admin/factory/ProductHeader";
+import AddProductModal from "../components/admin/factory/AddProductModal";
+import { useToastContext } from "../components/toasts/ToastContext";
 import { features } from "../components/table/features";
 import { ProductType } from "../enums/ProductType";
-import type { FactoryProductItem, FactoryProductStats } from "../dto/factory/FactoryProductRes";
-import { FactoryServiceManager } from "../api/factory/FactoryService";
-import ProductOverview from "../components/admin/factory/ProductOverview";
 import { ProductStatus } from "../enums/ProductStatus";
-import { useNavigate } from "react-router";
+import { FactoryServiceManager } from "../api/factory/FactoryService";
 import { ROUTES } from "../routes/routes";
+import type {
+    FactoryProductCreateRequest,
+    FactoryProductItem,
+    FactoryProductStats,
+} from "../dto/factory/FactoryProductRes";
+import ConfirmDeleteModal from "../components/toasts/Confirmdeletemodal";
+
+const PLACEHOLDER_IMG = "https://placehold.co/80x80";
 
 const ProductStatusBadge: Record<ProductStatus, { label: string; badge: string }> = {
-    [ProductStatus.ACTIVE]: {
-        label: "Đang bán",
-        badge: "bg-success-subtle text-success-emphasis",
-    },
-    [ProductStatus.INACTIVE]: {
-        label: "Ngừng bán",
-        badge: "bg-secondary-subtle text-secondary-emphasis",
-    },
-    [ProductStatus.OUT_OF_STOCK]: {
-        label: "Hết Hàng",
-        badge: "bg-success-subtle text-success-emphasis",
-    },
-    [ProductStatus.ARCHIVED]: {
-        label: "Đã lưu trữ",
-        badge: "bg-secondary-subtle text-secondary-emphasis",
-    },
-    [ProductStatus.DRAFT]: {
-        label: "Thử nghiệm",
-        badge: "bg-secondary-subtle text-secondary-emphasis",
-    },
+    [ProductStatus.DRAFT]: { label: "Bản nháp", badge: "bg-warning-subtle text-warning-emphasis" },
+    [ProductStatus.ACTIVE]: { label: "Đang bán", badge: "bg-success-subtle text-success-emphasis" },
+    [ProductStatus.OUT_OF_STOCK]: { label: "Hết hàng", badge: "bg-danger-subtle text-danger-emphasis" },
+    [ProductStatus.INACTIVE]: { label: "Ngừng bán", badge: "bg-secondary-subtle text-secondary-emphasis" },
+    [ProductStatus.ARCHIVED]: { label: "Đã lưu trữ", badge: "bg-dark-subtle text-dark-emphasis" },
 };
 
 const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
-    [ProductType.CUSTOM]: {
-        label: "Tùy chỉnh",
-        badge: "bg-warning text-purple-emphasis",
-    },
-    [ProductType.NORMAL]: {
-        label: "Thường",
-        badge: "bg-primary text-primary-emphasis",
-    },
+    [ProductType.CUSTOM]: { label: "Tùy chỉnh", badge: "bg-warning-subtle text-warning-emphasis" },
+    [ProductType.NORMAL]: { label: "Thường", badge: "bg-primary-subtle text-primary-emphasis" },
 };
 
 // Đặt NGOÀI component vì không phụ thuộc state
 const columnHelper = createColumnHelper<typeof features, FactoryProductItem>();
 
-
 export default function FactoryProductPage() {
-    const [products, setProducts] = useState<FactoryProductItem[]>([]);
     const navigate = useNavigate();
-    const handleView = useCallback((id: number) => {
-        navigate(`${ROUTES.FACTORY_PRODUCT_DETAILS}/${id}`);
-    }, [navigate]);
+    const { showToast } = useToastContext();
 
-    // columns phải khai báo TRƯỚC useTable
+    const [products, setProducts] = useState<FactoryProductItem[]>([]);
+    const [stats, setStats] = useState<FactoryProductStats>({
+        totalProducts: 0,
+        forSale: 0,
+        outOfStock: 0,
+        totalSold: 0,
+    });
+    const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
+
+    // Modal thêm / sửa
+    const [stateModal, setStateModal] = useState(false);
+    const [editing, setEditing] = useState<FactoryProductCreateRequest | null>(null);
+
+    // Modal xác nhận xóa
+    const [deleteTarget, setDeleteTarget] = useState<FactoryProductItem | null>(null);
+    const [deleting, setDeleting] = useState(false);
+
+    /* ---------- Tải dữ liệu ---------- */
+    const getProducts = useCallback(async () => {
+        try {
+            const res = await FactoryServiceManager.getProducts();
+            if (res.status === 200) {
+                setStats(res.data.stats);
+                setProducts(res.data.products);
+            }
+        } catch (error) {
+            console.log("Lỗi không tải được dữ liệu", error);
+            showToast("Lỗi", "Không tải được danh sách sản phẩm", "danger");
+        }
+    }, [showToast]);
+
+    useEffect(() => {
+        getProducts();
+    }, [getProducts]);
+
+    /* ---------- Hành động ---------- */
+    const handleView = useCallback(
+        (id: number) => navigate(`${ROUTES.FACTORY_PRODUCT_DETAILS}/${id}`),
+        [navigate]
+    );
+
+    const openAdd = () => {
+        setEditing(null);
+        setStateModal(true);
+    };
+
+    const handleEdit = useCallback(async (id: number) => {
+        try {
+            const res = await FactoryServiceManager.getProductEdit(id);
+            // Nếu service đã bóc `.data` (return res.data.data) thì đổi thành setEditing(res)
+            setEditing(res.data);
+            setStateModal(true);
+        } catch (error) {
+            console.log("Lỗi không tải được sản phẩm", error);
+            showToast("Lỗi", "Không tải được thông tin sản phẩm", "danger");
+        }
+    }, [showToast]);
+
+    const handleChangeStatus = useCallback(async (id: number, status: ProductStatus) => {
+        try {
+            await FactoryServiceManager.changeStatusOfProduct(id, status);
+            showToast("Thành công", "Đã cập nhật trạng thái", "success");
+        } catch (error) {
+            console.log("Lỗi đổi trạng thái", error);
+            showToast("Lỗi", "Không đổi được trạng thái", "danger");
+        } finally {
+            getProducts(); // luôn tải lại: thành công thì cập nhật, lỗi thì select trở về giá trị cũ
+        }
+    }, [getProducts, showToast]);
+
+    const confirmDelete = async () => {
+        if (!deleteTarget) return;
+        try {
+            setDeleting(true);
+            await FactoryServiceManager.deleteProduct(deleteTarget.id);
+            showToast("Thành công", "Xóa sản phẩm thành công", "success");
+            setDeleteTarget(null);
+            getProducts(); // cập nhật cả bảng lẫn thẻ thống kê
+        } catch (error) {
+            console.log("Lỗi không xóa được sản phẩm", error);
+            showToast("Lỗi", "Không xóa được sản phẩm", "danger");
+        } finally {
+            setDeleting(false);
+        }
+    };
+
+    /* ---------- Cột bảng ---------- */
     const columns = useMemo(
         () =>
             columnHelper.columns([
                 columnHelper.accessor("id", {
                     header: "Mã SP",
-                    cell: info => <b>#{info.getValue()}</b>,
-                    sortFn: "alphanumeric",
+                    cell: info => <span className="fw-semibold text-secondary">#{info.getValue()}</span>,
+                    sortFn: "basic",
                 }),
 
                 columnHelper.accessor("name", {
@@ -83,14 +147,20 @@ export default function FactoryProductPage() {
                         const conf = row.type ? ProductTypeBadge[row.type] : undefined;
 
                         return (
-                            <div className="d-flex flex-row gap-3">
-                                {row.thumbnailUrl ? <img width={40} height={40} src={row.thumbnailUrl} /> : <img width={40} height={40} src={"https://placehold.co/600x400"} />}
-                                <div>
-
-
-                                    <span className="fw-semibold text-dark">{row.name}</span>
-
-                                    <div className="d-flex align-items-center gap-2">
+                            <div className="d-flex align-items-center gap-3">
+                                <img
+                                    src={row.thumbnailUrl || PLACEHOLDER_IMG}
+                                    alt={row.name}
+                                    width={48}
+                                    height={48}
+                                    className="rounded border flex-shrink-0"
+                                    style={{ objectFit: "cover" }}
+                                />
+                                <div style={{ minWidth: 0 }}>
+                                    <div className="fw-semibold text-dark text-truncate" style={{ maxWidth: 280 }}>
+                                        {row.name}
+                                    </div>
+                                    <div className="d-flex align-items-center gap-2 mt-1">
                                         <span className="small text-muted">
                                             <FontAwesomeIcon icon={faTag} className="me-1" />
                                             {row.category}
@@ -108,10 +178,10 @@ export default function FactoryProductPage() {
                     header: "Tồn kho",
                     cell: info => {
                         const value = info.getValue();
-                        return (
-                            <span className={value === 0 ? "fw-bold text-danger" : ""}>
-                                {value === 0 ? "Hết hàng" : value}
-                            </span>
+                        return value === 0 ? (
+                            <span className="fw-semibold text-danger">Hết hàng</span>
+                        ) : (
+                            <span>{value}</span>
                         );
                     },
                     sortFn: "basic",
@@ -127,17 +197,32 @@ export default function FactoryProductPage() {
                     header: "Trạng thái",
                     cell: info => {
                         const value = info.getValue();
-                        if (!value) return <CustomBadge label="Không xác định" badge="bg-danger" />;
+                        const product = info.row.original;
+                        const conf = value ? ProductStatusBadge[value] : undefined;
 
-                        const conf = ProductStatusBadge[value];
+                        // OUT_OF_STOCK do hệ thống tự đặt: chỉ hiện khi sản phẩm đang ở trạng thái đó
+                        const options = Object.values(ProductStatus).filter(
+                            s => s !== ProductStatus.OUT_OF_STOCK || s === value
+                        );
+
                         return (
-                            <CustomBadge
-                                label={conf.label}
-                                badge={conf.badge}
-                            />
+                            <select
+                                className={`form-select form-select-sm fw-semibold border-0 ${conf?.badge ?? ""}`}
+                                style={{ minWidth: 130 }}
+                                value={value ?? ""}
+                                onChange={e => handleChangeStatus(product.id, e.target.value as ProductStatus)}
+                                aria-label={`Trạng thái sản phẩm #${product.id}`}
+                            >
+                                {!value && <option value="" disabled>Không xác định</option>}
+                                {options.map(status => (
+                                    <option key={status} value={status}>
+                                        {ProductStatusBadge[status].label}
+                                    </option>
+                                ))}
+                            </select>
                         );
                     },
-                    enableSorting: false,
+                    sortFn: "basic",
                 }),
 
                 columnHelper.accessor("createdAt", {
@@ -151,24 +236,31 @@ export default function FactoryProductPage() {
                     header: "Hành động",
                     cell: info => {
                         const product = info.row.original;
-                        const isActive = product.status === "ACTIVE";
 
                         return (
-                            <div className="d-flex align-items-center gap-2">
-                                <button type="button" className="btn btn-sm btn-outline-primary" title="Xem chi tiết" onClick={() => handleView(product.id)} >
+                            <div className="d-flex align-items-center gap-1">
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-outline-primary"
+                                    title="Xem chi tiết"
+                                    onClick={() => handleView(product.id)}
+                                >
                                     <FontAwesomeIcon icon={faEye} />
                                 </button>
-                                <button type="button" className="btn btn-sm btn-outline-success" title="Chỉnh sửa">
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-outline-success"
+                                    title="Chỉnh sửa"
+                                    onClick={() => handleEdit(product.id)}
+                                >
                                     <FontAwesomeIcon icon={faPenToSquare} />
                                 </button>
                                 <button
                                     type="button"
-                                    className={`btn btn-sm ${isActive ? "btn-outline-warning" : "btn-outline-info"}`}
-                                    title={isActive ? "Ẩn sản phẩm" : "Hiện sản phẩm"}
+                                    className="btn btn-sm btn-outline-danger"
+                                    title="Xóa"
+                                    onClick={() => setDeleteTarget(product)}
                                 >
-                                    <FontAwesomeIcon icon={isActive ? faToggleOff : faToggleOn} />
-                                </button>
-                                <button type="button" className="btn btn-sm btn-outline-danger" title="Xóa">
                                     <FontAwesomeIcon icon={faTrash} />
                                 </button>
                             </div>
@@ -176,36 +268,8 @@ export default function FactoryProductPage() {
                     },
                 }),
             ]),
-        []
+        [handleView, handleEdit, handleChangeStatus]
     );
-    const [pagination, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
-    });
-    const [stats, setStats] = useState<FactoryProductStats>({
-        totalProducts: 0,
-        forSale: 0,
-        outOfStock: 0,
-        totalSold: 0,
-    });
-
-    const getProducts = useCallback(async () => {
-        try {
-            // TODO: đổi tên hàm cho đúng với service của bạn
-            const res = await FactoryServiceManager.getProducts();
-            if (res.status === 200) {
-                setStats(res.data.stats);
-                setProducts(res.data.products);
-            }
-        } catch (error) {
-            console.log("Lỗi không tải được dữ liệu", error);
-        }
-    }, []);
-
-    useEffect(() => {
-        getProducts();
-    }, [getProducts]);
-
 
     const table = useTable({
         data: products,
@@ -217,23 +281,36 @@ export default function FactoryProductPage() {
 
     return (
         <div className="row g-0 min-vh-100 bg-light">
-            {/* Sidebar Xưởng */}
+            {/* Sidebar */}
             <aside
                 className="col-12 col-xl-2 flex-shrink-0 position-sticky top-0 align-self-start"
                 style={{ height: "100vh" }}
             >
-                <SideBarFactory isProduct={true} />
+                <SideBarFactory isProduct />
             </aside>
 
             {/* Nội dung chính */}
-            <div className="col-12 col-xl-10 admin-content overflow-x-auto">
-                <ProductOverview
-                    pageIndex={pagination.pageIndex}
-                    table={table}
-                    stats={stats}
-                    onReload={getProducts}
-                />
-            </div>
+            <main className="col-12 col-xl-10 admin-content overflow-x-auto">
+                <div className="p-3 p-lg-4 d-flex flex-column gap-4">
+                    <ProductHeader onProduct={openAdd} stats={stats} />
+                    <ProductOverview pageIndex={pagination.pageIndex} table={table} />
+                </div>
+            </main>
+
+            <AddProductModal
+                product={editing}
+                show={stateModal}
+                onHide={() => setStateModal(false)}
+                onSuccess={getProducts}
+            />
+
+            <ConfirmDeleteModal
+                show={deleteTarget !== null}
+                itemName={deleteTarget?.name}
+                loading={deleting}
+                onConfirm={confirmDelete}
+                onHide={() => setDeleteTarget(null)}
+            />
         </div>
     );
 }

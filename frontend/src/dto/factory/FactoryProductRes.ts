@@ -46,11 +46,12 @@ export interface FactoryProductItem {
     thumbnailUrl: string;
 }
 
+
 export interface FactoryProductCreateRequest {
+    id: number | null,
     name: string,
     category: string,
     type: ProductType,
-    status: ProductStatus,
     description: string,
     imageUrls: string[]
 }

@@ -1,5 +1,6 @@
 import type { FactoryOrderDashBoard } from "../../dto/factory/FactoryDashBoard";
 import type { FactoryProductCreateRequest, FactoryProductItem, FactoryProductMil, FactoryProductResponse, FactoryProductVariantItem } from "../../dto/factory/FactoryProductRes";
+import type { ProductStatus } from "../../enums/ProductStatus";
 import type { ProductImage } from "../../models/ProductImage";
 import api, { type ApiResponse } from "../api";
 
@@ -23,15 +24,15 @@ export const FactoryServiceManager = {
         );
         return res.data;
     },
-    updateProduct: async (id: number, data: Partial<FactoryProductItem>) => {
-        const res = await api.put<ApiResponse<FactoryProductItem>>(
+    updateProduct: async (id: number, data: Partial<FactoryProductCreateRequest>) => {
+        const res = await api.patch<ApiResponse<void>>(
             `/manager/products/${id}`,
             data
         );
         return res.data;
     },
     deleteProduct: async (id: number) => {
-        const res = await api.delete<ApiResponse<boolean>>(
+        const res = await api.delete<ApiResponse<void>>(
             `/manager/products/${id}`
         );
         return res.data;
@@ -106,11 +107,24 @@ export const FactoryServiceManager = {
         return res.data;
     },
     changeStatusProductMils: async (milId: number) => {
-        const res = await api.get<void>(
+        const res = await api.patch<void>(
             `/manager/product-mil/${milId}/mil`
         );
         return res.data;
     },
+    getProductEdit: async (id: number) => {
+        const res = await api.get<ApiResponse<FactoryProductCreateRequest>>(
+            `/manager/products/${id}`
+        );
+        return res.data;
+    },
+    changeStatusOfProduct: async (id: number, status: ProductStatus) => {
+        const res = await api.patch<void>(
+            `/manager/products/${id}/status`, { status }
+        );
+        return res.data;
+    }
+
 
 };
 

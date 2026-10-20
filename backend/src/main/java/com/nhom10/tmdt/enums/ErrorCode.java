@@ -23,7 +23,10 @@ public enum ErrorCode {
     PASSWORD_SAME_AS_OLD(400, "Mật khẩu mới không được trùng với mật khẩu hiện tại"),
     NOT_FOUND_FACTORY(411, "Không có xưởng nào đăng kí"),
     EXITS_FACTORY(412,"Tài khoản này đã có xưởng"),
-    CANNOT_DELETE_THUMBNAIL(413,"Cần tồn tại ít nhất 1 thumbnail");
+    CANNOT_DELETE_THUMBNAIL(413,"Cần tồn tại ít nhất 1 thumbnail"),
+    NOT_FOUND_PRODUCT(414,"Không tìm thấy sản phẩm")
+    ,
+    NOT_FOUND_CATEGORY(415,"Không tìm thấy loại sản phẩm");
 
 
    private final int code;

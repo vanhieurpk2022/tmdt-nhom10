@@ -5,7 +5,8 @@ import com.nhom10.tmdt.enums.ProductType;
 import lombok.Builder;
 
 @Builder
-public record FactoryProductModalResponse(String name,
+public record FactoryProductModalResponse(
+      String name,
                                           Long categoryId,
                                           ProductType type,
                                           ProductStatus status,

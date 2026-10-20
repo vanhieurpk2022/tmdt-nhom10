@@ -156,7 +156,7 @@ export function FactoryProductDetails() {
 
                         return <CustomBadge label="Đang bán" badge="bg-success" />
                     },
-                    enableSorting: false,
+                    sortFn: "basic",
                 }),
 
                 columnHelper.display({

@@ -17,5 +17,12 @@ public interface FactoryDashboardService {
     void deleteThumbnail( Long id);
     void updateFactoryProductMil( Long milId,  FactoryVariantRequest request);
 
+    FactoryProductEditRes getProductEdit(Long productId);
     void changeStatusProductMils(Long milId);
+
+    void updateProductEdit(Long id, FactoryProductEditRequest request);
+
+    void changeStatusProducts(Long id, ChangeStatusProduct req);
+
+    void DeleteProduct(Long id);
 }

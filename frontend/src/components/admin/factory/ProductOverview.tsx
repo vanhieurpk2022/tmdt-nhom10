@@ -14,22 +14,18 @@ import "../../../css/pages/dashboard/admin.css";
 import "../../../css/pages/dashboard/dashboard.css";
 import type { AppTable } from "../../table/features";
 import { ProductHeader } from "./ProductHeader";
-import type { FactoryProductStats } from "../../../dto/factory/FactoryProductRes";
+import type { FactoryProductCreateRequest, FactoryProductStats } from "../../../dto/factory/FactoryProductRes";
 
 
 /* ---------- Props dành riêng cho Factory Product ---------- */
 interface ProductOverviewProps<TData extends RowData> {
     table: AppTable<TData>;
     pageIndex: number;
-    stats: FactoryProductStats;
-    onReload: () => void;
 }
 
 function ProductOverview<TData extends RowData>({
     table,
     pageIndex,
-    stats,
-    onReload
 }: ProductOverviewProps<TData>) {
     const [search, setSearch] = useState("");
 
@@ -38,15 +34,11 @@ function ProductOverview<TData extends RowData>({
     const isSearching = search.trim() !== "";
 
     return (
-        <main
-            className="p-4 d-flex flex-column gap-4"
-            style={{ backgroundColor: "var(--color-bg-page)", minHeight: "100vh" }}
-        >
-            <ProductHeader onReload={onReload} stats={stats} />
+        <>
 
 
             {/* Product table */}
-            <section className="card border-0 shadow-sm rounded-4 overflow-hidden">
+            < section className="card border-0 shadow-sm rounded-4 overflow-hidden" >
                 <div className="card-body p-0">
                     {/* Table heading */}
                     <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4 border-bottom">
@@ -183,8 +175,8 @@ function ProductOverview<TData extends RowData>({
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </section >
+        </>
     );
 }
 
