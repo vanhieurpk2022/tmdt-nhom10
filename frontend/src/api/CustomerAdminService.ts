@@ -68,6 +68,99 @@ export interface CustomerDetail {
     }>;
 }
 
+interface AdminCustomerRaw {
+    id: number;
+    name: string;
+    fullname?: string;
+    username?: string;
+    email: string;
+    phone?: string;
+    birthday?: string;
+    gender?: string;
+    avatarUrl?: string;
+    statusCode: "ACTIVE" | "BANNED" | "INACTIVE";
+    status: string;
+    emailVerified?: boolean;
+    createdAt?: string;
+    roles?: string[];
+    tier: string;
+    orders: number | string;
+    ltv: number;
+    formulas?: number;
+    formulaNote?: string;
+    recent?: string;
+    recentNote?: string;
+    initials?: string;
+    avatarTone?: string;
+    risk?: boolean;
+
+}
+
+function mapRaw(raw: AdminCustomerRaw): CustomerItem {
+    const displayName = raw.name || raw.fullname || raw.username || raw.email || "Khách hàng";
+    const initials = raw.initials || computeInitials(displayName);
+    const tones = ["pink", "blue", "slate", "mint"];
+    const avatarTone = raw.avatarTone || tones[Math.abs(Number(raw.id) % tones.length)];
+
+    return {
+        id: raw.id,
+        name: displayName,
+        fullname: raw.fullname,
+        username: raw.username,
+        email: raw.email || "",
+        phone: raw.phone || "",
+        birthday: raw.birthday,
+        gender: raw.gender,
+        avatarUrl: raw.avatarUrl,
+        statusCode: raw.statusCode || "ACTIVE",
+        status: raw.status || "Hoạt động",
+        emailVerified: raw.emailVerified ?? false,
+        createdAt: raw.createdAt,
+        roles: raw.roles,
+        tier: raw.tier || "Vãng lai",
+        orders: Number(raw.orders) || 0,
+        ltv: raw.ltv || 0,
+        formulas: raw.formulas || 0,
+        formulaNote: raw.formulaNote || "",
+        recent: raw.recent || "",
+        recentNote: raw.recentNote || "",
+        initials,
+        avatarTone,
+        risk: raw.risk ?? raw.statusCode === "BANNED",
+    };
+}
+
+function computeInitials(name: string): string {
+    if (!name?.trim()) return "KH";
+    const words = name.trim().split(/\s+/);
+    if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+}
+
+interface AdminPageRaw {
+    content: AdminCustomerRaw[];
+    pageNo: number;
+    pageSize: number;
+    totalElements: number;
+    totalPages: number;
+    isLast?: boolean;
+    last?: boolean;
+}
+
+interface AdminStatsRaw {
+    totalCustomers: number;
+    activeCustomers: number;
+    bannedCustomers: number;
+    inactiveCustomers: number;
+    totalRevenue: number;
+}
+
+interface AdminDetailRaw {
+    customer: AdminCustomerRaw;
+    addresses: CustomerDetail["addresses"];
+    recentOrders: CustomerDetail["recentOrders"];
+}
+
 export const CustomerAdminService = {
     getCustomers: async (params?: {
         page?: number;
@@ -77,38 +170,57 @@ export const CustomerAdminService = {
         role?: string;
         sortBy?: string;
         sortDir?: string;
-    }) => {
-        const res = await api.get<ApiResponse<CustomerPageResult>>("/admin/customers", { params });
-        return res.data.data;
+    }): Promise<CustomerPageResult> => {
+        const res = await api.get<ApiResponse<AdminPageRaw>>("/admin/customers", { params });
+        const raw = res.data.data;
+        return {
+            content: (raw.content || []).map(mapRaw),
+            pageNo: raw.pageNo,
+            pageSize: raw.pageSize,
+            totalElements: raw.totalElements,
+            totalPages: raw.totalPages,
+            isLast: raw.isLast ?? raw.last ?? false,
+        };
     },
 
-    getStats: async () => {
-        const res = await api.get<ApiResponse<CustomerStats>>("/admin/customers/stats");
-        return res.data.data;
+    getStats: async (): Promise<CustomerStats> => {
+        const res = await api.get<ApiResponse<AdminStatsRaw>>("/admin/customers/stats");
+        const raw = res.data.data;
+        return {
+            totalCustomers: raw.totalCustomers || 0,
+            activeCustomers: raw.activeCustomers || 0,
+            bannedCustomers: raw.bannedCustomers || 0,
+            inactiveCustomers: raw.inactiveCustomers || 0,
+            totalRevenue: raw.totalRevenue || 0,
+        };
     },
 
-    getDetail: async (id: number | string) => {
-        const res = await api.get<ApiResponse<CustomerDetail>>(`/admin/customers/${id}`);
-        return res.data.data;
+    getDetail: async (id: number | string): Promise<CustomerDetail> => {
+        const res = await api.get<ApiResponse<AdminDetailRaw>>(`/admin/customers/${id}`);
+        const raw = res.data.data;
+        return {
+            customer: mapRaw(raw.customer),
+            addresses: raw.addresses || [],
+            recentOrders: raw.recentOrders || [],
+        };
     },
 
-    updateStatus: async (id: number | string, status: "ACTIVE" | "BANNED" | "INACTIVE") => {
-        const res = await api.put<ApiResponse<CustomerItem>>(`/admin/customers/${id}/status`, { status });
-        return res.data.data;
+    updateStatus: async (id: number | string, status: "ACTIVE" | "BANNED" | "INACTIVE"): Promise<CustomerItem> => {
+        const res = await api.put<ApiResponse<AdminCustomerRaw>>(`/admin/customers/${id}/status`, { status });
+        return mapRaw(res.data.data);
     },
 
-    updateRoles: async (id: number | string, roleNames: string[]) => {
-        const res = await api.put<ApiResponse<CustomerItem>>(`/admin/customers/${id}/roles`, { roleNames });
-        return res.data.data;
+    updateRoles: async (id: number | string, roleNames: string[]): Promise<CustomerItem> => {
+        const res = await api.put<ApiResponse<AdminCustomerRaw>>(`/admin/customers/${id}/roles`, { roleNames });
+        return mapRaw(res.data.data);
     },
 
-    updateInfo: async (id: number | string, data: { fullname?: string; phone?: string; birthday?: string; gender?: string }) => {
-        const res = await api.put<ApiResponse<CustomerItem>>(`/admin/customers/${id}`, data);
-        return res.data.data;
+    updateInfo: async (id: number | string, data: { fullname?: string; phone?: string; birthday?: string; gender?: string }): Promise<CustomerItem> => {
+        const res = await api.put<ApiResponse<AdminCustomerRaw>>(`/admin/customers/${id}`, data);
+        return mapRaw(res.data.data);
     },
 
-    deleteCustomer: async (id: number | string) => {
-        const res = await api.delete<ApiResponse<void>>(`/admin/customers/${id}`);
-        return res.data.data;
-    }
+    deleteCustomer: async (id: number | string): Promise<void> => {
+        await api.delete<ApiResponse<void>>(`/admin/customers/${id}`);
+    },
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeSlash } from 'react-bootstrap-icons';
+import { Eye, EyeSlash, BoxArrowInRight } from 'react-bootstrap-icons';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { authService } from '../../../api/AuthService';
 import { ROUTES } from '../../../routes/routes';
@@ -16,7 +16,43 @@ export function LoginForm() {
     const [googleLoading, setGoogleLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { setUser, loading, setLoading } = useAuth();
+    const { setUser, loading, setLoading, user } = useAuth();
+
+    const redirectAfterLogin = (loggedInUser: any) => {
+        const roles = Array.isArray(loggedInUser?.role)
+            ? loggedInUser.role
+            : (loggedInUser?.role ? [loggedInUser.role] : []);
+        const isAdmin = roles.some((r: any) =>
+            typeof r === "string" && (r === "ADMIN" || r === "ROLE_ADMIN" || r.toUpperCase().includes("ADMIN"))
+        );
+        const isFactory = roles.some((r: any) =>
+            typeof r === "string" && (r === "FACTORY" || r === "ROLE_FACTORY" || r.toUpperCase().includes("FACTORY"))
+        );
+
+        const fromPath = (location.state as any)?.from?.pathname || (location.state as any)?.from;
+
+        if (isAdmin) {
+            if (fromPath && typeof fromPath === "string" && fromPath.startsWith("/admin")) {
+                navigate(fromPath, { replace: true });
+            } else {
+                navigate(ROUTES.ADMIN_DASHBOARD, { replace: true });
+            }
+        } else if (isFactory) {
+            if (fromPath && typeof fromPath === "string" && fromPath.startsWith("/factory")) {
+                navigate(fromPath, { replace: true });
+            } else {
+                navigate(ROUTES.FACTORY_DASHBOARD, { replace: true });
+            }
+        } else {
+            navigate(fromPath && typeof fromPath === "string" && !fromPath.startsWith("/admin") ? fromPath : ROUTES.HOME, { replace: true });
+        }
+    };
+
+    React.useEffect(() => {
+        if (user && !loading) {
+            redirectAfterLogin(user);
+        }
+    }, [user, loading]);
 
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
@@ -25,7 +61,7 @@ export function LoginForm() {
                 const res = await authService.loginWithGoogle(tokenResponse.access_token, rememberMe);
                 if (res?.status === 200) {
                     setUser(res.data.user);
-                    navigate(ROUTES.HOME, { replace: true });
+                    redirectAfterLogin(res.data.user);
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
@@ -53,10 +89,7 @@ export function LoginForm() {
 
             if (response.status === 200) {
                 setUser(response.data.user);
-                const from = location.state?.from;
-                const destination = typeof from === "string" ? from
-                    : from?.pathname ? `${from.pathname}${from.search || ""}${from.hash || ""}` : ROUTES.HOME;
-                navigate(destination.startsWith("/") && !destination.startsWith("//") ? destination : ROUTES.HOME, { replace: true });
+                redirectAfterLogin(response.data.user);
             }
 
         } catch (error) {
@@ -156,7 +189,9 @@ export function LoginForm() {
                         onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)')}
                     >
                         {googleLoading ? (
-                            <span className="spinner-border spinner-border-sm" role="status" />) : (<i className="bi bi-box-arrow-in-right"></i>
+                            <span className="spinner-border spinner-border-sm" role="status" />
+                        ) : (
+                            <BoxArrowInRight size={18} />
                         )}
                         Đăng nhập bằng Google
                     </button>

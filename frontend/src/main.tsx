@@ -30,6 +30,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import { ROUTES } from './routes/routes';
 import { AuthProvider } from './api/AuthContext';
 import { CartProvider } from './api/CartContext';
+import { AdminSidebarProvider } from './api/AdminSidebarContext';
 import ProtectedRoute from './api/ProtectedRoute';
 import { VerifyAccount } from './pages/VerifyAccount';
 import RequireVerifyState from './api/RequireVerifyState';
@@ -66,7 +67,8 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>
-            <Routes>
+            <AdminSidebarProvider>
+              <Routes>
 
 
               {/* Dashboard routes without MainLayout */}
@@ -118,6 +120,7 @@ createRoot(document.getElementById('root')!).render(
                 </Route>
               </Route>
             </Routes>
+            </AdminSidebarProvider>
           </CartProvider>
         </AuthProvider>
 
