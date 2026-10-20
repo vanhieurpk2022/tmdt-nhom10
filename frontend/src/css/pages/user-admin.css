@@ -721,3 +721,228 @@
     font-size: 13px;
     user-select: none;
 }
+
+/* ─── CUSTOMER DETAIL MODAL (SCENT VAULT & PROFILE) ─── */
+.customer-detail-modal-dialog {
+    max-width: 840px;
+    margin: 1.75rem auto;
+}
+
+.customer-detail-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: #e11d48;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(225, 29, 72, 0.25);
+}
+
+.vip-diamond-pill {
+    background-color: #fef3c7;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 4-stat metrics summary strip */
+.detail-metrics-strip {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+
+.detail-metric-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 0 8px;
+}
+
+.detail-metric-col:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background-color: #e2e8f0;
+}
+
+.detail-metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 3px;
+}
+
+.detail-metric-val {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+/* Tabs */
+.detail-nav-tabs {
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0 4px;
+}
+
+.detail-tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.15s ease;
+}
+
+.detail-tab-btn:hover {
+    color: #0f172a;
+}
+
+.detail-tab-btn.active {
+    color: #e11d48;
+}
+
+.detail-tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2.5px;
+    background-color: #e11d48;
+    border-radius: 2px 2px 0 0;
+}
+
+.detail-tab-badge {
+    background-color: #ffe4e6;
+    color: #e11d48;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+}
+
+/* Scent Formula Cards */
+.scent-formula-card {
+    border: 1.5px solid #fda4af;
+    border-radius: 12px;
+    padding: 16px;
+    background-color: #ffffff;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.scent-formula-card.secondary {
+    border: 1px solid #e2e8f0;
+}
+
+.scent-tag-badge {
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.scent-status-ordered {
+    background-color: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #059669;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.scent-workshop-banner {
+    background-color: #f8fafc;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0 14px 0;
+    border: 1px solid #f1f5f9;
+}
+
+/* Pyramid Tiers */
+.scent-pyramid-box {
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.scent-pyramid-box.top {
+    background-color: #fffbeb;
+    border: 1px solid #fef3c7;
+}
+
+.scent-pyramid-box.middle {
+    background-color: #fff1f2;
+    border: 1px solid #ffe4e6;
+}
+
+.scent-pyramid-box.base {
+    background-color: #faf5ff;
+    border: 1px solid #f3e8ff;
+}
+
+.scent-tier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.scent-pyramid-box.top .scent-tier-header { color: #b45309; }
+.scent-pyramid-box.middle .scent-tier-header { color: #be123c; }
+.scent-pyramid-box.base .scent-tier-header { color: #7e22ce; }
+
+.scent-tier-desc {
+    font-size: 12px;
+    color: #334155;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Store Credit Box */
+.store-credit-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+    background-color: #ffffff;
+    margin-bottom: 16px;
+}

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import "../css/pages/user-admin.css";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import { useAdminSidebar } from "../api/AdminSidebarContext";
+import CustomerDetailModal from "../components/admin/customer/CustomerDetailModal";
 import { CustomerAdminService, type CustomerItem, type CustomerStats, type CustomerDetail } from "../api/CustomerAdminService";
 import { authService } from "../api/AuthService";
 import { ROUTES } from "../routes/routes";
@@ -721,6 +722,95 @@ export default function UserManager() {
                     {renderPagination()}
                 </div>
             </div>
+
+            {/* ── MODAL CHI TIẾT HỒ SƠ KHÁCH HÀNG (SCENT VAULT & PROFILE) ── */}
+            {selectedDetail && (
+                <CustomerDetailModal
+                    detail={selectedDetail}
+                    loading={detailLoading}
+                    onClose={() => setSelectedDetail(null)}
+                    onToggleStatus={handleToggleStatusInDetail}
+                />
+            )}
+
+            {/* ── MODAL THÊM KHÁCH HÀNG THỦ CÔNG ── */}
+            {showCreateModal && (
+                <div className="modal show d-block" tabIndex={-1} style={{ backgroundColor: "rgba(15, 23, 42, 0.65)", zIndex: 1050 }}>
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content border-0 rounded-4 shadow">
+                            <form onSubmit={handleCreateCustomer}>
+                                <div className="modal-header border-bottom py-3">
+                                    <h5 className="modal-title fw-bold text-dark fs-5">
+                                        <i className="fa-solid fa-user-plus text-danger me-2" />
+                                        Thêm khách hàng mới
+                                    </h5>
+                                    <button type="button" className="btn-close" onClick={() => setShowCreateModal(false)} />
+                                </div>
+                                <div className="modal-body p-4">
+                                    {createError && (
+                                        <div className="alert alert-danger py-2 small mb-3">
+                                            {createError}
+                                        </div>
+                                    )}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Họ và tên</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Ví dụ: Nguyễn Văn A"
+                                            required
+                                            value={createForm.fullname}
+                                            onChange={(e) => setCreateForm({ ...createForm, fullname: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Email liên hệ</label>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            placeholder="example@gmail.com"
+                                            required
+                                            value={createForm.email}
+                                            onChange={(e) => setCreateForm({ ...createForm, email: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Số điện thoại</label>
+                                        <input
+                                            type="tel"
+                                            className="form-control"
+                                            placeholder="0912345678"
+                                            required
+                                            pattern="^(0|\+84)\d{9}$"
+                                            value={createForm.phone}
+                                            onChange={(e) => setCreateForm({ ...createForm, phone: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Mật khẩu ban đầu</label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            required
+                                            value={createForm.password}
+                                            onChange={(e) => setCreateForm({ ...createForm, password: e.target.value })}
+                                        />
+                                        <small className="text-muted">Mật khẩu mặc định có thể để người dùng đổi sau.</small>
+                                    </div>
+                                </div>
+                                <div className="modal-footer border-top py-2">
+                                    <button type="button" className="btn btn-light border btn-sm px-3" onClick={() => setShowCreateModal(false)}>
+                                        Hủy
+                                    </button>
+                                    <button type="submit" className="btn btn-danger btn-sm px-4 fw-semibold" disabled={createLoading} style={{ backgroundColor: "#e11d48", borderColor: "#e11d48" }}>
+                                        {createLoading ? "Đang tạo..." : "Tạo khách hàng"}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
