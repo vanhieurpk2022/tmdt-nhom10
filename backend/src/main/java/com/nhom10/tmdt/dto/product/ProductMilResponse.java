@@ -4,7 +4,6 @@ public record ProductMilResponse(
         Long id,
         int mil,
         Double price,
-        Double basePrice,
         int stockQuantity,
         boolean isActive
 ) {}

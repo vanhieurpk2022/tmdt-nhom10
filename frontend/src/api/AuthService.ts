@@ -1,6 +1,6 @@
 import api from "./api";
 import type { LoginResponse, UserResponse } from "./AuthContext";
-import type { RegisterRequest, RegisterResponse } from "./UserDto";
+import type { RegisterRequest } from "./UserDto";
 
 interface LoginRequest {
   email: string;
@@ -13,6 +13,9 @@ interface ApiResponse<T> {
   message: string;
   data: T;
 }
+
+// Share only an in-flight lookup. No cached session survives login/logout or later checks.
+let currentUserRequest: Promise<ApiResponse<UserResponse>> | null = null;
 
 
 
@@ -33,12 +36,13 @@ export const authService = {
         return response.data;
     },
 
-    getCurrentUser: async () => {
-        const response = await api.get<ApiResponse<UserResponse>>(
-            "/auth/me"
-        );
-
-        return response.data;
+    getCurrentUser: () => {
+        if (!currentUserRequest) {
+            currentUserRequest = api.get<ApiResponse<UserResponse>>("/auth/me")
+                .then(response => response.data)
+                .finally(() => { currentUserRequest = null; });
+        }
+        return currentUserRequest;
     },
      register: async (data:RegisterRequest) => {
         const response = await api.post<ApiResponse<void>>(
@@ -67,4 +71,4 @@ export const authService = {
         );
         return response.data;
     }
-};
+};

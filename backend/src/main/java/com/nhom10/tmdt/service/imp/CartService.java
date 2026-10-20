@@ -79,7 +79,7 @@ public class CartService {
     public CartResponse clearCart(String email) {
         Cart cart = getOrCreateCart(email);
         cartItemRepository.deleteAllByCartUserEmail(email);
-        return new CartResponse(cart.getId(), List.of(), 0, 0.0, 0.0, 0.0);
+        return new CartResponse(cart.getId(), List.of(), 0, 0.0, 0.0);
     }
 
     private Cart getOrCreateCart(String email) {
@@ -109,9 +109,6 @@ public class CartService {
         int totalItems = items.stream()
                 .mapToInt(CartItemResponse::quantity)
                 .sum();
-        double subtotal = items.stream()
-                .mapToDouble(item -> item.basePrice() * item.quantity())
-                .sum();
         double total = items.stream()
                 .mapToDouble(CartItemResponse::lineTotal)
                 .sum();
@@ -120,8 +117,7 @@ public class CartService {
                 cart.getId(),
                 items,
                 totalItems,
-                subtotal,
-                Math.max(subtotal - total, 0),
+                total,
                 total
         );
     }

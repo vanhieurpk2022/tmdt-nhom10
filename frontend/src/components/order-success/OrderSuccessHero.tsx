@@ -1,25 +1,24 @@
-import { faCircleCheck, faReceipt } from "@fortawesome/free-solid-svg-icons";
+import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatOrderCode, type OrderResponse } from "../../api/OrderService";
-import { orderSuccessInfo } from "../../data/orderSuccessData";
+import { getOrderStatusView } from "../../data/orderSuccessData";
 
 interface OrderSuccessHeroProps {
-    order?: OrderResponse;
+    order: OrderResponse;
 }
 
 export default function OrderSuccessHero({ order }: OrderSuccessHeroProps) {
-    const orderCode = order ? formatOrderCode(order.id) : orderSuccessInfo.orderCode;
+    const orderCode = formatOrderCode(order.id);
+    const view = getOrderStatusView(order.status);
 
     return (
         <section className="order-success-hero d-flex flex-column align-items-center">
             <div className="order-success-icon d-flex align-items-center justify-content-center">
-                <FontAwesomeIcon icon={faCircleCheck} />
+                <FontAwesomeIcon icon={faReceipt} />
             </div>
-            <span className="order-success-label d-inline-flex">{orderSuccessInfo.paymentStatus}</span>
-            <h1>Đặt hàng thành công</h1>
-            <p>
-                Cảm ơn bạn đã mua hàng tại Oilia. Đơn hàng của bạn đã được xác nhận và đang được chuẩn bị để giao đi.
-            </p>
+            <span className="order-success-label d-inline-flex">{view.label}</span>
+            <h1>{order.status === "PENDING" ? "Đặt hàng thành công" : "Thông tin đơn hàng"}</h1>
+            <p>{view.description}</p>
 
             <div className="order-success-code d-inline-flex align-items-center">
                 <FontAwesomeIcon icon={faReceipt} />

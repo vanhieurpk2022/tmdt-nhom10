@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { OrderHistoryItem, OrderStatus } from "../../data/orderHistoryData";
 import { orderStatusLabels } from "../../data/orderHistoryData";
+import { Link } from "react-router";
 
 interface OrderHistoryCardProps {
     order: OrderHistoryItem;
@@ -22,7 +23,6 @@ function formatPrice(price: number) {
 }
 
 export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
-    const total = order.subtotal - order.discount + order.shippingFee;
     const remainingProducts = Math.max(order.products.length - 2, 0);
 
     return (
@@ -69,20 +69,15 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
                 </div>
                 <div>
                     <span>Tổng tiền</span>
-                    <strong className="order-history-total">{formatPrice(total)}</strong>
-                    <p>Đã gồm ưu đãi và phí vận chuyển</p>
+                    <strong className="order-history-total">{formatPrice(order.total)}</strong>
+                    <p>Đã gồm phí vận chuyển</p>
                 </div>
             </div>
 
             <div className="order-history-actions d-flex flex-wrap gap-2 justify-content-end">
-                <button className="btn order-history-outline-btn fw-bold" type="button">
+                <Link className="btn order-history-outline-btn fw-bold" to={order.detailUrl || "/orders"}>
                     Xem chi tiết
-                </button>
-                {order.status === "completed" && (
-                    <button className="btn order-history-primary-btn fw-bold" type="button">
-                        Mua lại
-                    </button>
-                )}
+                </Link>
             </div>
         </article>
     );

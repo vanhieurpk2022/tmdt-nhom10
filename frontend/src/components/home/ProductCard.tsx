@@ -52,7 +52,6 @@ export default function ProductCard({ product, isAdding = false, onAddToCart }: 
 
                 <div className="home-product-footer d-flex align-items-center justify-content-between">
                     <div>
-                        {product.oldPrice && <span className="home-old-price">{formatPrice(product.oldPrice)}</span>}
                         <div className="home-price">
                             {formatPrice(product.price)}
                             <span>/{product.unit}</span>

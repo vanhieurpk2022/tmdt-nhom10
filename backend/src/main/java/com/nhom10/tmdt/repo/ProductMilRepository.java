@@ -12,4 +12,8 @@ public interface ProductMilRepository extends JpaRepository<ProductMil, Long> {
     List<ProductMil> findByProductId(Long productId);
 
     Optional<ProductMil> findByProductIdAndId(Long productId, Long id);
+    @org.springframework.data.rest.core.annotation.RestResource(exported = false)
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @org.springframework.data.jpa.repository.Query("select v from ProductMil v where v.id = :id")
+    java.util.Optional<ProductMil> lockById(Long id);
 }

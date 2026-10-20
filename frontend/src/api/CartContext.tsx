@@ -36,7 +36,7 @@ const CartContext = createContext<CartContextType | null>(null);
 function toCartSummary(cart: CartResponse): CartSummary {
     const totalItems = cart.items.reduce((total, item) => total + item.quantity, 0);
     const total = cart.items.reduce((sum, item) => {
-        const fallbackLineTotal = (item.price ?? item.basePrice ?? 0) * item.quantity;
+        const fallbackLineTotal = (item.price ?? 0) * item.quantity;
         return sum + (item.lineTotal ?? fallbackLineTotal);
     }, 0);
 

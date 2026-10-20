@@ -8,7 +8,6 @@ public record CartItemResponse(
         String factoryName,
         String thumbnailUrl,
         Double price,
-        Double basePrice,
         Integer quantity,
         Integer stockQuantity,
         String stockStatus,

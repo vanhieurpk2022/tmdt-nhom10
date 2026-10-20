@@ -12,6 +12,8 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import VnPayResultPage from './pages/VnPayResultPage';
+import PaymentReviewsPage from './pages/PaymentReviewsPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import FactoriesPage from './pages/FactoriesPage';
@@ -46,7 +48,7 @@ import FactoryProfile from './pages/FactoryProfile';
 import FactorySupport from './pages/FactorySupport';
 import FactoryOrder from './pages/FactoryOrder';
 import FactorySale from './pages/FactorySale';
-import FactoryProductPage from './pages/FactoryProductPage';
+import FactoryProductPage from './pages/FactoryProduct';
 import FactoryStaff from './pages/FactoryStaff';
 import { RegisterFactoryForm } from './pages/RegisterFactoryForm';
 import { FactoryProductDetails } from './components/admin/factory/product-variant/FactoryProductDetails';
@@ -72,23 +74,23 @@ createRoot(document.getElementById('root')!).render(
               <Routes>
 
 
-                {/* Dashboard routes without MainLayout */}
-                <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryDashBoard />} />
-                <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProfile />} />
-                <Route path={ROUTES.FACTORY_SUPPORT} element={<FactorySupport />} />
-                <Route path={ROUTES.FACTORY_ORDER} element={<FactoryOrder />} />
-                <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProductPage />} />
-                <Route path={ROUTES.FACTORY_STAFF} element={<FactoryStaff />} />
-                <Route path={ROUTES.FACTORY_SALE} element={<FactorySale />} />
+              {/* Dashboard routes without MainLayout */}
+              <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryDashBoard />} />
+              <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProfile />} />
+              <Route path={ROUTES.FACTORY_SUPPORT} element={<FactorySupport />} />
+              <Route path={ROUTES.FACTORY_ORDER} element={<FactoryOrder />} />
+              <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProductPage />} />
+              <Route path={ROUTES.FACTORY_STAFF} element={<FactoryStaff />} />
+              <Route path={ROUTES.FACTORY_SALE} element={<FactorySale />} />
 
-                <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
-                <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
-                <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
-                <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
-                <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
-                <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
+              <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
+              <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
+              <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
+              <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
+              <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
+              <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute><PaymentReviewsPage /></ProtectedRoute>} />
+              <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
                 <Route path={`${ROUTES.FACTORY_PRODUCT_DETAILS}/:id`} element={<FactoryProductDetails />}></Route>
-
 
                 {/* Main shop routes with MainLayout */}
                 <Route element={<MainLayout />}>
@@ -103,6 +105,8 @@ createRoot(document.getElementById('root')!).render(
                   <Route path={ROUTES.FACTORIES} element={<FactoriesPage />} />
                   <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                   <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccessPage />} />
+                  <Route path={ROUTES.VNPAY_RESULT} element={<ProtectedRoute><VnPayResultPage /></ProtectedRoute>} />
+
                   <Route path={ROUTES.ORDERS} element={<OrderHistoryPage />} />
                   <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
                   <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetailPage />} />

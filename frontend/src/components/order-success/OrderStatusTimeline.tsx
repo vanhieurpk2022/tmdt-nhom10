@@ -1,15 +1,15 @@
-import { orderTimeline } from "../../data/orderSuccessData";
+import { getOrderProgress, getOrderStatusView } from "../../data/orderSuccessData";
 
-export default function OrderStatusTimeline() {
+export default function OrderStatusTimeline({ status }: { status: string }) {
     return (
         <section className="order-success-card">
             <div className="order-success-section-heading d-flex align-items-center justify-content-between">
                 <h2>Tiến trình xử lý</h2>
-                <span>Đang chuẩn bị</span>
+                <span>{getOrderStatusView(status).label}</span>
             </div>
 
             <div className="order-success-timeline">
-                {orderTimeline.map((item) => (
+                {getOrderProgress(status).map((item) => (
                     <article className={item.active ? "active" : ""} key={item.title}>
                         <span />
                         <div>

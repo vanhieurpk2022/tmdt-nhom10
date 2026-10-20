@@ -28,7 +28,7 @@ export function Header() {
     return (
         <>
             <CartToast />
-            <NotifyAbove firstContent="Free Shipping on orders over $150" secondContent="Sử dụng mã: TINHDAU10 giảm 10%" />
+            <NotifyAbove firstContent="Khám phá tinh dầu tại Oilia" secondContent="Mua sắm dễ dàng, thanh toán thuận tiện" />
 
             <div className="bg-white site-header">
                 <div className="container-fluid px-4 px-lg-5 d-flex align-items-center site-header-inner">
@@ -41,7 +41,6 @@ export function Header() {
                         <NavItem href={ROUTES.PRODUCTS} content="Sản phẩm" active={isProducts} />
                         <NavItem href={ROUTES.CUSTOM_SCENT} content="Phối hương" active={isCustomScent} />
                         <NavItem href={ROUTES.FACTORIES} content="Xưởng" active={isFactories} />
-                        <NavItem href={ROUTES.HOME} content="Ưu đãi" />
                     </nav>
 
                     <div className="flex-grow-1 d-flex justify-content-center px-4 site-search-wrap">
