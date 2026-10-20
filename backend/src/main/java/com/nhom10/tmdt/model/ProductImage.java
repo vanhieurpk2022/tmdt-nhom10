@@ -2,6 +2,7 @@ package com.nhom10.tmdt.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -24,10 +25,14 @@ public class ProductImage {
     @Column(name="image_url")
     private String imageUrl;
 
-    @Column(name="updated_at")
+    @Column(name="uploaded_at")
     @UpdateTimestamp
     private LocalDateTime uploadedAt;
 
+
+    @ColumnDefault("0")
+    @Column(name = "is_thumbnail", nullable = false)
+    private boolean isThumbnail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")

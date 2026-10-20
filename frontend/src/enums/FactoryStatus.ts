@@ -4,6 +4,8 @@ export const FactoryStatus = {
   MAINTENANCE: 'MAINTENANCE',
   SUSPENDED: 'SUSPENDED',
   CLOSED: 'CLOSED',
+  PENDING: 'PENDING',
+  REJECTED: 'REJECTED'
 } as const;
 
 export type FactoryStatus = (typeof FactoryStatus)[keyof typeof FactoryStatus];

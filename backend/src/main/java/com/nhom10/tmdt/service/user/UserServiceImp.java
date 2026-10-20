@@ -11,9 +11,12 @@ import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
 import com.nhom10.tmdt.enums.ErrorCode;
+import com.nhom10.tmdt.enums.FactoryStatus;
 import com.nhom10.tmdt.enums.RoleName;
+import com.nhom10.tmdt.model.Factory;
 import com.nhom10.tmdt.model.Role;
 import com.nhom10.tmdt.model.User;
+import com.nhom10.tmdt.repo.FactoryRepository;
 import com.nhom10.tmdt.repo.RoleRepository;
 import com.nhom10.tmdt.repo.UserRepository;
 import com.nhom10.tmdt.service.imp.EmailSevice;
@@ -23,11 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -37,6 +36,7 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
+    private final FactoryRepository factoryRepository;
     private final EmailSevice emailSevice;
 
     @Value("${google.client-id}")
@@ -44,10 +44,20 @@ public class UserServiceImp implements UserService {
 
     @Override
     public LoginResponse.UserResponse getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()->  new AppException(ErrorCode.NOT_FOUND));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new AppException(ErrorCode.NOT_FOUND)
+                );
+
         List<String> roles = user.getRoles().stream().map(Role::getName).toList();
 
-        return  new LoginResponse.UserResponse(user.getId(),user.getEmail(),user.getFullname(),user.getAvatarUrl(),roles);
+        return new LoginResponse.UserResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getFullname(),
+                user.getAvatarUrl(),
+                roles
+        );
     }
 
     // đang lấy username -> email
@@ -151,6 +161,7 @@ public class UserServiceImp implements UserService {
 
         // 3. Tạo JWT và trả về
         List<String> roles = user.getRoles().stream().map(Role::getName).toList();
+
         String accessToken = jwtService.generateToken(
                 user.getEmail(), user.getAvatarUrl() != null ? user.getAvatarUrl() : "",
                 user.getFullname(), user.isVerify(), roles);

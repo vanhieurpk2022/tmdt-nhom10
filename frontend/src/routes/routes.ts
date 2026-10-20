@@ -41,6 +41,7 @@ export const ROUTES = {
   FACTORY_SALE: "/factory-sale",
   FACTORY_PRODUCT: "/factory-product",
   FACTORY_SUPPORT: "/factory-support",
-  FACTORY_FORM: "/factory-register"
+  FACTORY_FORM: "/factory-register",
+  FACTORY_PRODUCT_DETAILS: "/factory-product"
 
 } as const;

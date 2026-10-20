@@ -79,7 +79,7 @@ public class Factory {
 
 
     @OneToMany(mappedBy = "factory")
-    private List<User> User;
+    private List<User> users;
 
     @OneToMany(mappedBy = "factory")
     private List<Product> products;

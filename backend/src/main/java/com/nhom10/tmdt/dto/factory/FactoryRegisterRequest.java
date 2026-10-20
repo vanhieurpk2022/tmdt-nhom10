@@ -2,9 +2,8 @@ package com.nhom10.tmdt.dto.factory;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
-public record RegisterFactoryRequest(
+public record FactoryRegisterRequest(
         @NotBlank(message = "Tên gian hàng không được để trống")
         String name,
 

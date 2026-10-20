@@ -1,4 +1,4 @@
-import { faBox, faCircleInfo, faComment, faGear, faHeart, faRightFromBracket, faSignature, faUser, } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faCircleInfo, faComment, faGear, faHeart, faRightFromBracket, faSadTear, faSignature, faUser, } from "@fortawesome/free-solid-svg-icons";
 import UserMenuItem from "./UserMenuItem/UserMenuItem";
 import UserNav from "./UserMenuItem/UserNav";
 import { authService } from "../../../api/AuthService";
@@ -10,9 +10,10 @@ interface UserMenuProps {
     fullname: string;
     avatar?: string;
     email: string;
+    roles: string[];
 }
 
-export default function UserMenu({ fullname, avatar, email }: UserMenuProps) {
+export default function UserMenu({ fullname, avatar, email, roles }: UserMenuProps) {
     const navigate = useNavigate();
     const { setUser } = useAuth();
     const handleLogout = async () => {
@@ -32,7 +33,14 @@ export default function UserMenu({ fullname, avatar, email }: UserMenuProps) {
             <ul className="dropdown-menu rounded-5 dropdown-menu-end user-dropdown-menu" style={{ width: "355px", height: "555px" }}>
                 <UserMenuItem to={ROUTES.PROFILE} icon={faUser} content="Hồ sơ cá nhân" active />
                 <UserMenuItem to={ROUTES.ORDERS} icon={faBox} content="Đơn hàng của tôi" badge="3 đang giao" />
-                <UserMenuItem to={ROUTES.FACTORY_FORM} icon={faSignature} content="Đăng kí bán hàng" />
+                {roles.some(role => role === "FACTORY") && <UserMenuItem to={ROUTES.FACTORY_DASHBOARD} icon={faSadTear} content="Quản lí xưởng" />}
+                {!roles.some(role => role === "FACTORY") && (
+                    <UserMenuItem
+                        to={ROUTES.FACTORY_FORM}
+                        icon={faSignature}
+                        content="Đăng kí bán hàng"
+                    />
+                )}
                 <UserMenuItem to={ROUTES.FAVORITES} icon={faHeart} content="Sản phẩm yêu thích" />
                 <UserMenuItem to={ROUTES.CHANGE_PASSWORD} icon={faGear} content="Cài đặt tài khoản" />
                 <UserMenuItem to="#" icon={faCircleInfo} content="Trung tâm hỗ trợ" badge="24/7" />
