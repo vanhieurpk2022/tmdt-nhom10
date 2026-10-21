@@ -6,6 +6,7 @@ import com.nhom10.tmdt.enums.PaymentMethod;
 import com.nhom10.tmdt.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ public class Order {
 
     @Builder.Default
     @Column(name = "stock_held", nullable = false)
+    @ColumnDefault("b'0'")
     private boolean stockHeld = false;
 
     @Column(name = "paid_attempt_id")
