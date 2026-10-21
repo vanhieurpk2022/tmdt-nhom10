@@ -7,6 +7,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.config.JwtService;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
+import com.nhom10.tmdt.dto.user.FacebookLoginRequest;
 import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
@@ -171,6 +172,104 @@ public class UserServiceImp implements UserService {
                 user.getId(), user.getEmail(), user.getFullname(), user.getAvatarUrl(), roles);
 
         return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
+    }
+
+    @Override
+    public LoginResponse loginWithFacebook(FacebookLoginRequest request) {
+        if (request.accessToken() == null || request.accessToken().isBlank()) {
+            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        }
+
+        FacebookUserInfo fbUser = fetchFacebookUserInfo(request.accessToken());
+
+        String email = fbUser.email();
+        if (email == null || email.isBlank()) {
+            email = "fb_" + fbUser.id() + "@facebook.com";
+        }
+
+        String fullname = (fbUser.name() != null && !fbUser.name().isBlank()) ? fbUser.name() : "Facebook User";
+        String avatarUrl = fbUser.avatarUrl();
+
+        final String userEmail = email;
+        User user = userRepository.findByEmail(userEmail).orElseGet(() -> {
+            Role userRole = roleRepository.findByName(RoleName.USER.name())
+                    .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+            return userRepository.save(User.builder()
+                    .email(userEmail)
+                    .fullname(fullname)
+                    .avatarUrl(avatarUrl)
+                    .password(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()))
+                    .isVerify(true)
+                    .roles(new HashSet<>(Set.of(userRole)))
+                    .build());
+        });
+
+        if (!user.isVerify()) {
+            user.setVerify(true);
+            user.setCodeActive(null);
+            user.setVerifyCodeExpiresAt(null);
+            userRepository.save(user);
+        }
+
+        if (avatarUrl != null && (user.getAvatarUrl() == null || user.getAvatarUrl().isBlank())) {
+            user.setAvatarUrl(avatarUrl);
+            userRepository.save(user);
+        }
+
+        List<String> roles = user.getRoles().stream().map(Role::getName).toList();
+
+        String accessToken = jwtService.generateToken(
+                user.getEmail(), user.getAvatarUrl() != null ? user.getAvatarUrl() : "",
+                user.getFullname(), user.isVerify(), roles);
+        long expiresIn = jwtService.getExpirationSeconds(request.rememberMe());
+
+        LoginResponse.UserResponse userDto = new LoginResponse.UserResponse(
+                user.getId(), user.getEmail(), user.getFullname(), user.getAvatarUrl(), roles);
+
+        return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
+    }
+
+    private record FacebookUserInfo(String id, String name, String email, String avatarUrl) {}
+
+    private FacebookUserInfo fetchFacebookUserInfo(String accessToken) {
+        try {
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            String uri = "https://graph.facebook.com/me?fields=id,name,email,picture.type(large)&access_token="
+                    + java.net.URLEncoder.encode(accessToken, java.nio.charset.StandardCharsets.UTF_8);
+
+            java.net.http.HttpRequest req = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(uri))
+                    .GET()
+                    .build();
+
+            java.net.http.HttpResponse<String> resp = client.send(req,
+                    java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            if (resp.statusCode() != 200) {
+                throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+            }
+
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            com.fasterxml.jackson.databind.JsonNode node = mapper.readTree(resp.body());
+
+            String id = node.path("id").asText(null);
+            if (id == null || id.isBlank()) {
+                throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+            }
+
+            String name = node.hasNonNull("name") ? node.path("name").asText() : null;
+            String email = node.hasNonNull("email") ? node.path("email").asText() : null;
+            String avatarUrl = null;
+            if (node.has("picture") && node.get("picture").has("data")) {
+                avatarUrl = node.get("picture").get("data").path("url").asText(null);
+            }
+
+            return new FacebookUserInfo(id, name, email, avatarUrl);
+        } catch (AppException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        }
     }
 
 // verify google token

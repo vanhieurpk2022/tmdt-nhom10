@@ -70,5 +70,13 @@ export const authService = {
             { credential, rememberMe }
         );
         return response.data;
+    },
+
+    loginWithFacebook: async (accessToken: string, rememberMe: boolean = false) => {
+        const response = await api.post<ApiResponse<LoginResponse>>(
+            "/auth/facebook",
+            { accessToken, rememberMe }
+        );
+        return response.data;
     }
 };

@@ -2,6 +2,7 @@ package com.nhom10.tmdt.service.user;
 
 import com.nhom10.tmdt.dto.user.ChangePasswordRequest;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
+import com.nhom10.tmdt.dto.user.FacebookLoginRequest;
 import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
@@ -14,6 +15,7 @@ public interface UserService {
      void register(CreateUserRequest request);
      LoginResponse login(LoginRequest request);
      LoginResponse loginWithGoogle(GoogleLoginRequest request);
+     LoginResponse loginWithFacebook(FacebookLoginRequest request);
      void verifyEmail(String email, String code);
      void resendCode(String email);
 
