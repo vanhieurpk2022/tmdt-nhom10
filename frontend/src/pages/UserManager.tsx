@@ -604,7 +604,6 @@ export default function UserManager() {
                                     <th>Khách hàng (ID &amp; Họ tên)</th>
                                     <th>Liên hệ</th>
                                     <th>Phân hạng</th>
-                                    <th>Công thức hương tạo (USP)</th>
                                     <th>Đơn hàng &amp; LTV</th>
                                     <th>Hoạt động gần nhất</th>
                                     <th>Trạng thái</th>
@@ -614,14 +613,14 @@ export default function UserManager() {
                             <tbody>
                                 {loading ? (
                                     <tr>
-                                        <td colSpan={9} className="text-center py-5">
+                                        <td colSpan={8} className="text-center py-5">
                                             <span className="spinner-border text-danger me-2" role="status" />
                                             Đang tải dữ liệu từ máy chủ...
                                         </td>
                                     </tr>
                                 ) : filteredCustomers.length === 0 ? (
                                     <tr>
-                                        <td colSpan={9} className="text-center py-5 text-muted">
+                                        <td colSpan={8} className="text-center py-5 text-muted">
                                             <i className="fa-solid fa-users-slash fs-2 mb-2 d-block opacity-50" />
                                             Không tìm thấy khách hàng nào phù hợp với bộ lọc.
                                         </td>
@@ -673,20 +672,7 @@ export default function UserManager() {
                                                     </span>
                                                 </td>
 
-                                                {/* Cột 5: Công thức hương  */}
-                                                <td>
-                                                    <div className="usp-cell">
-                                                        <span className={`usp-formula-title ${cust.risk ? "text-danger" : ""}`}>
-                                                            <i className="fa-solid fa-flask me-1" />
-                                                            {cust.formulas} công thức
-                                                        </span>
-                                                        <span className={`usp-formula-sub ${cust.risk ? "text-danger" : ""}`}>
-                                                            {cust.formulaNote || (cust.orders > 0 ? `${cust.orders} lô đang xử lý` : "Chưa có công thức")}
-                                                        </span>
-                                                    </div>
-                                                </td>
-
-                                                {/* Cột 6: Đơn hàng */}
+                                                {/* Cột 5: Đơn hàng */}
                                                 <td>
                                                     <div className="ltv-cell">
                                                         <span className={`ltv-amount ${cust.risk ? "text-danger" : ""}`}>

@@ -22,6 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 
     // --- Quản trị khách hàng & thống kê user ---
     long countByUserId(Long userId);
+    long countByStatus(OrderStatus status);
 
     @Query("SELECT COALESCE(SUM(o.totalPrice), 0.0) FROM Order o WHERE o.user.id = :userId AND o.status != com.nhom10.tmdt.enums.OrderStatus.CANCELLED")
     Double sumTotalPriceByUserId(@Param("userId") Long userId);

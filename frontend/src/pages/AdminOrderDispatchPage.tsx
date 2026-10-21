@@ -28,6 +28,7 @@ import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { ROUTES } from "../routes/routes";
 import { CustomerAdminService, type CustomerItem } from "../api/CustomerAdminService";
 import { FactoryApiService, type FactoryItem } from "../api/FactoryService";
+import { AdminOrderService } from "../api/AdminOrderService";
 import "../css/pages/admin-order-dispatch.css";
 
 interface CustomerOption {
@@ -54,22 +55,19 @@ export default function AdminOrderDispatchPage() {
     const navigate = useNavigate();
     const { isCollapsed: isSidebarCollapsed } = useAdminSidebar();
 
-    // Customer Selection
     const [customer, setCustomer] = useState<CustomerOption>(DEFAULT_CUSTOMER);
     const [searchKeyword, setSearchKeyword] = useState<string>("0901234567 - Nguyễn Văn A");
     const [showCustomerModal, setShowCustomerModal] = useState<boolean>(false);
     const [realCustomers, setRealCustomers] = useState<CustomerItem[]>([]);
 
-    // Operation Notes
     const [operationNotes, setOperationNotes] = useState<string>(
         "Giao giờ hành chính (9h - 17h), bọc chống sốc kỹ 3 lớp cho chai tinh dầu thủy tinh thủ công, dán tem vỡ niêm phong Oilia Atelier."
     );
 
-    // Quantity & Pricing
     const [quantity, setQuantity] = useState<number>(1);
     const baseUnitPrice = 800000;
     const shippingFee = 35000;
-    const discountAmount = 35000; // Voucher SCENTFIRST20
+    const discountAmount = 35000;
     const voucherCode = "SCENTFIRST20";
 
     const subTotal = baseUnitPrice * quantity;
@@ -77,15 +75,12 @@ export default function AdminOrderDispatchPage() {
 
     const formatVnd = (val: number) => (val || 0).toLocaleString("vi-VN") + "đ";
 
-    // Workshop Selection
     const [factories, setFactories] = useState<FactoryItem[]>([]);
     const [selectedWorkshop, setSelectedWorkshop] = useState<string>("Nordic Lab TP.HCM (Quận 7)");
 
-    // Action loading / Feedback
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "info" } | null>(null);
 
-    // Load actual factories & customers if available
     useEffect(() => {
         FactoryApiService.getAllFactories()
             .then((list) => {
@@ -94,7 +89,6 @@ export default function AdminOrderDispatchPage() {
                 }
             })
             .catch(() => {
-                /* fallback to defaults */
             });
 
         CustomerAdminService.getCustomers(0, 15)
@@ -113,16 +107,32 @@ export default function AdminOrderDispatchPage() {
         setTimeout(() => setToastMessage(null), 4000);
     };
 
-    // Handle Issue Order (Phát hành đơn)
-    const handleIssueOrder = () => {
+    const handleIssueOrder = async () => {
         setSubmitting(true);
-        setTimeout(() => {
-            setSubmitting(false);
-            showToast("Phát hành lệnh điều phối gia công thành công! Đã gửi thông báo tới xưởng chế tác.", "success");
+        try {
+            const customerIdNum = typeof customer.id === "number" ? customer.id : Number(customer.id) || undefined;
+            await AdminOrderService.createDispatchOrder({
+                userId: customerIdNum,
+                recipientName: customer.name,
+                phoneNumber: customer.phone,
+                shippingAddress: customer.address,
+                note: `[Điều phối: ${selectedWorkshop}] - ${operationNotes}`,
+                quantity: quantity,
+                unitPrice: baseUnitPrice,
+                shippingFee: shippingFee,
+                discountAmount: discountAmount,
+                voucherCode: voucherCode,
+            });
+            showToast("Phát hành lệnh điều phối gia công thành công! Đã lưu vào cơ sở dữ liệu và chuyển về xưởng.", "success");
             setTimeout(() => {
                 navigate(ROUTES.ADMIN_ORDER);
             }, 1200);
-        }, 800);
+        } catch (err: any) {
+            console.error("Lỗi khi tạo đơn điều phối:", err);
+            showToast(err?.response?.data?.message || "Không thể phát hành đơn điều phối. Vui lòng thử lại!", "info");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     // Handle Save Draft (Lưu bản nháp)
@@ -150,7 +160,6 @@ export default function AdminOrderDispatchPage() {
 
     return (
         <div className="d-flex min-vh-100 w-100 admin-dispatch-page">
-            {/* Sidebar matching UserManager */}
             <aside
                 className="flex-shrink-0 position-sticky top-0 align-self-start"
                 style={{
@@ -165,9 +174,8 @@ export default function AdminOrderDispatchPage() {
                 <SidebarAdmin isOrder={true} />
             </aside>
 
-            {/* Main Content Area */}
             <div className="flex-grow-1 p-3 p-lg-4 overflow-x-auto" style={{ minWidth: 0 }}>
-                {/* Toast Notification */}
+
                 {toastMessage && (
                     <div
                         className={`alert alert-${toastMessage.type === "success" ? "success" : "primary"} d-flex align-items-center justify-content-between mb-3 py-2 px-3 shadow-sm rounded-3`}

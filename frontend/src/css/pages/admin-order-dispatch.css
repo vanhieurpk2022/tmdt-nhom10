@@ -1,15 +1,10 @@
-/* CSS for Admin Order Dispatch (Tạo đơn điều phối vận hành) */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-
 .admin-dispatch-page {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: #f8fafc;
     color: #1e293b;
     font-size: 13px;
     min-height: 100vh;
 }
 
-/* Breadcrumb */
 .dispatch-breadcrumb {
     display: flex;
     align-items: center;
@@ -29,7 +24,6 @@
     font-size: 14px;
 }
 
-/* Stepper Banner */
 .stepper-banner-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -118,7 +112,6 @@
     background-color: #16a34a;
 }
 
-/* Dispatch Cards */
 .dispatch-section-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -156,7 +149,6 @@
     color: #0284c7;
 }
 
-/* Info Box / Customer Highlight */
 .customer-highlight-box {
     background-color: #f1f6fc;
     border: 1px solid #e2ecf7;
@@ -189,7 +181,6 @@
     color: #334155;
 }
 
-/* Product & Formula */
 .product-dispatch-card {
     background-color: #f1f6fc;
     border: 1px solid #e2ecf7;
@@ -228,7 +219,6 @@
     line-height: 1;
 }
 
-/* Quantity Control */
 .qty-stepper {
     display: inline-flex;
     align-items: center;
@@ -267,7 +257,6 @@
     text-align: center;
 }
 
-/* Formula Progress Multi-color Bar */
 .formula-multi-progress {
     display: flex;
     height: 10px;
@@ -321,7 +310,6 @@
     background-color: #1e293b;
 }
 
-/* Summary Box */
 .summary-card-sticky {
     position: sticky;
     top: 24px;
