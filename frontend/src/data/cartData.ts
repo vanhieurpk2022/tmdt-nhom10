@@ -9,7 +9,6 @@ export interface CartItem {
     factoryName: string;
     factoryCode: string;
     price: number;
-    basePrice?: number;
     quantity: number;
     selected: boolean;
     image: string;

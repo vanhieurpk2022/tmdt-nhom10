@@ -7,6 +7,8 @@ export const ROUTES = {
   CART: "/cart",
   CHECKOUT: "/checkout",
   ORDER_SUCCESS: "/order-success",
+  VNPAY_RESULT: "/payment/vnpay/result",
+  PAYMENT_REVIEWS: "/admin-payment-reviews",
   ORDERS: "/orders",
   PROFILE: "/profile",
   CHANGE_PASSWORD: "/change-password",
@@ -39,6 +41,7 @@ export const ROUTES = {
   FACTORY_SALE: "/factory-sale",
   FACTORY_PRODUCT: "/factory-product",
   FACTORY_SUPPORT: "/factory-support",
-  FACTORY_FORM: "/factory-register"
+  FACTORY_FORM: "/factory-register",
+  FACTORY_PRODUCT_DETAILS: "/factory-product"
 
 } as const;

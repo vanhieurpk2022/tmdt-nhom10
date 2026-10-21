@@ -3,15 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DataTableApprove } from "./DataTableApprove";
 import { ShieldCheck } from "react-bootstrap-icons";
 import { Modal } from "react-bootstrap";
+import type { FactoryRegisterResponse } from "../../../dto/factory/FactoryRegister";
 
 
 
 interface ModalApproveProps {
     show: boolean;
     onClose: () => void;
+    list: FactoryRegisterResponse[];
+    onChanged?: () => void;
 }
 
-export function ModalApprove({ show, onClose }: ModalApproveProps) {
+export function ModalApprove({ show, onClose, list, onChanged }: ModalApproveProps) {
     return (
 
         <Modal show={show} onHide={onClose} size="xl" centered scrollable>
@@ -31,13 +34,13 @@ export function ModalApprove({ show, onClose }: ModalApproveProps) {
                         style={{ fontSize: 12, color: "#be123c", background: "#fff1f2", borderColor: "#fecdd3" }}
                     >
                         <span className="rounded-circle" style={{ width: 6, height: 6, background: "#e11d48" }} />
-                        5 yêu cầu chờ duyệt
+                        {`${list.length}`} yêu cầu chờ duyệt
                     </span>
                 </div>
             </Modal.Header>
 
             <Modal.Body>
-                <DataTableApprove />
+                <DataTableApprove list={list} onChanged={onChanged} />
             </Modal.Body>
         </Modal>
     );

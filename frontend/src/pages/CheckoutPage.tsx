@@ -1,26 +1,22 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { useAuth } from "../api/AuthContext";
+import { beginCheckout, clearPendingCheckout, getPendingCheckout, isDefinitiveCheckoutFailure, type PendingCheckout } from "../api/CheckoutSession";
 import { checkoutCartItemIdsKey, getBuyNowSelection, getPurchaseErrorMessage } from "../api/CheckoutSelection";
 import { addressService, type AddressItem } from "../api/AddressService";
 import { useCart } from "../api/CartContext";
 import { cartService, type CartItemResponse, type CartResponse } from "../api/CartService";
-import { orderService, saveLastOrder, type PaymentMethod } from "../api/OrderService";
+import { orderService, saveLastOrder, type CheckoutResult, type PaymentMethod, type PaymentAvailability } from "../api/OrderService";
 import { shippingService } from "../api/ShippingService";
 import CheckoutBreadcrumb from "../components/checkout/CheckoutBreadcrumb";
 import CheckoutProductList from "../components/checkout/CheckoutProductList";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
+import CodConfirmationModal from "../components/checkout/CodConfirmationModal";
 import PaymentMethodList from "../components/checkout/PaymentMethodList";
 import ShippingInfo from "../components/checkout/ShippingInfo";
 import { fallbackCartImage, type CartItem } from "../data/cartData";
 import { paymentMethods } from "../data/checkoutData";
 import { ROUTES } from "../routes/routes";
-
-const fallbackCheckoutImages = [
-    "/images/home/lavender-france.png",
-    "/images/home/tea-tree-australia.png",
-    "/images/home/grapefruit-cold-pressed.png",
-    "/images/home/lemongrass.png",
-];
 
 const paymentMethodMap: Record<string, PaymentMethod> = {
     cod: "COD",
@@ -53,8 +49,8 @@ function getShippingFeeErrorMessage(error: unknown) {
     return apiError.response?.data?.message || "Chưa tính được phí vận chuyển. Vui lòng kiểm tra lại địa chỉ giao hàng.";
 }
 
-function toCartItem(item: CartItemResponse, index: number): CartItem {
-    const price = item.price ?? item.basePrice ?? 0;
+function toCartItem(item: CartItemResponse): CartItem {
+    const price = item.price ?? 0;
     const inStock = item.stockQuantity > 0 && item.stockStatus !== "Hết hàng";
 
     return {
@@ -68,10 +64,9 @@ function toCartItem(item: CartItemResponse, index: number): CartItem {
         factoryName: item.factoryName || "Oilia Essential",
         factoryCode: `SP-${item.productId}`,
         price,
-        basePrice: item.basePrice ?? price,
         quantity: item.quantity,
         selected: true,
-        image: item.thumbnailUrl || fallbackCheckoutImages[index % fallbackCheckoutImages.length] || fallbackCartImage,
+        image: item.thumbnailUrl || fallbackCartImage,
         inStock,
         stockQuantity: item.stockQuantity,
         stockStatus: item.stockStatus,
@@ -85,6 +80,7 @@ function getDefaultAddress(addresses: AddressItem[]) {
 export default function CheckoutPage() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const { user } = useAuth();
     const { buyNow, selectionError } = useMemo(() => {
         try {
             return { buyNow: getBuyNowSelection(searchParams), selectionError: "" };
@@ -102,13 +98,40 @@ export default function CheckoutPage() {
     const [shippingFeeError, setShippingFeeError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showCodConfirmation, setShowCodConfirmation] = useState(false);
+    const submitting = useRef(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [recoveryRequired, setRecoveryRequired] = useState(false);
+    const [recoveryVersion, setRecoveryVersion] = useState(0);
+    const [vnpayAvailability, setVnpayAvailability] = useState<PaymentAvailability>({
+        available: false, message: "Đang kiểm tra phương thức thanh toán…",
+    });
+
+    useEffect(() => {
+        let active = true;
+        orderService.vnpayAvailability().then(result => { if (active) setVnpayAvailability(result); })
+            .catch(() => { if (active) setVnpayAvailability({ available: false,
+                message: "Chưa kiểm tra được VNPay. Vui lòng tải lại trang hoặc chọn COD.",
+            }); });
+        return () => { active = false; };
+    }, []);
 
     const selectedAddress = useMemo(() => getDefaultAddress(addresses), [addresses]);
-    const checkoutItemsSignature = useMemo(
-        () => checkoutItems.map((item) => `${item.id}:${item.quantity}`).join("|"),
-        [checkoutItems]
-    );
+
+    const completeCheckout = useCallback((pending: PendingCheckout, result: CheckoutResult) => {
+        if (!user) return;
+        clearPendingCheckout(user.id, pending.key);
+        saveLastOrder(result.order);
+        if (!pending.request.buyNow) sessionStorage.removeItem(checkoutCartItemIdsKey);
+        void refreshCart().catch(() => undefined);
+        if (result.payment?.paymentUrl) {
+            window.location.assign(result.payment.paymentUrl);
+        } else if (result.order.paymentMethod === "VNPAY") {
+            navigate(`${ROUTES.VNPAY_RESULT}?orderId=${result.order.id}`, { replace: true });
+        } else {
+            navigate(`${ROUTES.ORDER_SUCCESS}?orderId=${result.order.id}`, { replace: true });
+        }
+    }, [navigate, refreshCart, user]);
 
     const applyCheckoutCart = useCallback((cart: CartResponse) => {
         applyCart(cart);
@@ -132,6 +155,7 @@ export default function CheckoutPage() {
     }, [searchParams]);
 
     const handleCreateOrder = useCallback(async () => {
+        if (!user || recoveryRequired) return;
         if (!selectedAddress) {
             setErrorMessage("Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng.");
             return;
@@ -151,46 +175,73 @@ export default function CheckoutPage() {
         }
 
         const paymentMethod = paymentMethodMap[selectedPaymentMethod] ?? "COD";
+        if (paymentMethod === "VNPAY" && !vnpayAvailability.available) {
+            setErrorMessage(vnpayAvailability.message);
+            return;
+        }
+        if (submitting.current) return;
+        submitting.current = true;
 
+        let pending: PendingCheckout | null = null;
         try {
             setIsSubmitting(true);
             setErrorMessage("");
 
-            const order = await orderService.createOrder({
+            const request = {
                 addressId: selectedAddress.id,
                 ...purchaseSelection,
                 paymentMethod,
                 note: deliveryNote.trim() || undefined,
-            });
-
-            saveLastOrder(order);
-            if (!buyNow) window.sessionStorage.removeItem(checkoutCartItemIdsKey);
-            await refreshCart();
-
-            navigate(ROUTES.ORDER_SUCCESS, {
-                state: { order },
-            });
+            };
+            pending = beginCheckout(user.id, request);
+            const result = await orderService.submitCheckout(pending);
+            completeCheckout(pending, result);
         } catch (error) {
-            console.error(error);
-            setErrorMessage(getCheckoutErrorMessage(error));
+            if (pending && isDefinitiveCheckoutFailure(error)) clearPendingCheckout(user.id, pending.key);
+            const needsRecovery = Boolean(getPendingCheckout(user.id));
+            setRecoveryRequired(needsRecovery);
+            if (needsRecovery) setShowCodConfirmation(false);
+            setErrorMessage(error instanceof Error && !("response" in error)
+                ? error.message : getCheckoutErrorMessage(error));
+            if ((error as { response?: { status?: number } }).response?.status === 503 && paymentMethod === "VNPAY") {
+                orderService.vnpayAvailability().then(setVnpayAvailability).catch(() => undefined);
+            }
         } finally {
+            submitting.current = false;
             setIsSubmitting(false);
         }
     }, [
         checkoutItems,
-        buyNow,
+        completeCheckout,
         purchaseSelection,
         deliveryNote,
         isLoading,
         isSubmitting,
         shippingFee,
         isShippingFeeLoading,
-        navigate,
-        refreshCart,
+        recoveryRequired,
         selectedAddress,
         selectedPaymentMethod,
         shippingFeeError,
+        vnpayAvailability,
+        user,
     ]);
+
+    function handleContinue() {
+        if (submitting.current) return;
+        setErrorMessage("");
+        if ((paymentMethodMap[selectedPaymentMethod] ?? "COD") === "COD") {
+            setShowCodConfirmation(true);
+            return;
+        }
+        void handleCreateOrder();
+    }
+
+    function handleCancelConfirmation() {
+        if (submitting.current) return;
+        setShowCodConfirmation(false);
+        setErrorMessage("");
+    }
 
     useEffect(() => {
         let active = true;
@@ -200,13 +251,29 @@ export default function CheckoutPage() {
             setCheckoutItems([]);
             setShippingFee(0);
             try {
+                if (!user) return;
+                const pending = getPendingCheckout(user.id);
+                setRecoveryRequired(Boolean(pending));
+                if (pending) {
+                    try {
+                        const result = await orderService.resumeCheckout(pending);
+                        if (active) completeCheckout(pending, result);
+                        return;
+                    } catch (error) {
+                        if (!active) return;
+                        if (!isDefinitiveCheckoutFailure(error)) throw error;
+                        clearPendingCheckout(user.id, pending.key);
+                        setRecoveryRequired(false);
+                        setErrorMessage(getCheckoutErrorMessage(error));
+                    }
+                }
                 if (selectionError) throw new Error(selectionError);
                 if (buyNow) {
                     const [item, userAddresses] = await Promise.all([
                         orderService.previewBuyNow(buyNow), addressService.getAddresses(),
                     ]);
                     if (!active) return;
-                    setCheckoutItems([toCartItem(item, 0)]);
+                    setCheckoutItems([toCartItem(item)]);
                     setAddresses(userAddresses);
                 } else {
                     const [cart, userAddresses] = await Promise.all([
@@ -229,13 +296,10 @@ export default function CheckoutPage() {
         }
         loadCheckoutData();
         return () => { active = false; };
-    }, [applyCheckoutCart, buyNow, selectionError]);
+    }, [applyCheckoutCart, buyNow, selectionError, completeCheckout, recoveryVersion, user]);
 
     useEffect(() => {
         if (!selectedAddress || checkoutItems.length === 0) {
-            setShippingFee(0);
-            setShippingFeeError("");
-            setIsShippingFeeLoading(false);
             return;
         }
 
@@ -273,7 +337,7 @@ export default function CheckoutPage() {
         return () => {
             isActive = false;
         };
-    }, [checkoutItems, checkoutItemsSignature, purchaseSelection, selectedAddress]);
+    }, [checkoutItems, purchaseSelection, selectedAddress]);
 
     return (
         <main className="checkout-page">
@@ -293,6 +357,13 @@ export default function CheckoutPage() {
                                     {errorMessage}
                                 </div>
                             )}
+                            {recoveryRequired && <div className="alert alert-info" role="status">
+                                <p>Đang xác nhận yêu cầu đặt hàng trước. Vui lòng khôi phục để tránh tạo đơn trùng.</p>
+                                <button className="btn btn-outline-primary" disabled={isLoading || isSubmitting}
+                                    onClick={() => { setRecoveryVersion(version => version + 1); }}>
+                                    {isLoading ? "Đang khôi phục…" : "Khôi phục yêu cầu đặt hàng"}
+                                </button>
+                            </div>}
 
                             <CheckoutProductList items={checkoutItems} isLoading={isLoading} />
                             <ShippingInfo
@@ -305,6 +376,8 @@ export default function CheckoutPage() {
                                 methods={paymentMethods}
                                 selectedMethodId={selectedPaymentMethod}
                                 onSelectMethod={setSelectedPaymentMethod}
+                                vnpayAvailable={vnpayAvailability.available}
+                                vnpayMessage={vnpayAvailability.message}
                             />
                         </section>
                     </div>
@@ -312,17 +385,26 @@ export default function CheckoutPage() {
                     <div className="col-12 col-xl-4">
                         <CheckoutSummary
                             items={checkoutItems}
-                            shippingFee={shippingFee}
+                            shippingFee={selectedAddress && checkoutItems.length > 0 ? shippingFee : 0}
                             isLoading={isLoading}
-                            isShippingFeeLoading={isShippingFeeLoading || (Boolean(selectedAddress) && checkoutItems.length > 0 && shippingFee <= 0 && !shippingFeeError)}
-                            shippingFeeError={shippingFeeError}
-                            isSubmitting={isSubmitting}
+                            isShippingFeeLoading={Boolean(selectedAddress) && checkoutItems.length > 0 && (isShippingFeeLoading || (shippingFee <= 0 && !shippingFeeError))}
+                            shippingFeeError={selectedAddress && checkoutItems.length > 0 ? shippingFeeError : ""}
+                            isSubmitting={isSubmitting || recoveryRequired}
                             hasAddress={Boolean(selectedAddress)}
-                            onContinue={handleCreateOrder}
+                            paymentUnavailable={selectedPaymentMethod === "vnpay" && !vnpayAvailability.available}
+                            onContinue={handleContinue}
                         />
                     </div>
                 </div>
             </div>
+            <CodConfirmationModal
+                show={showCodConfirmation}
+                total={checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0) + shippingFee}
+                isSubmitting={isSubmitting}
+                errorMessage={errorMessage}
+                onCancel={handleCancelConfirmation}
+                onConfirm={() => { void handleCreateOrder(); }}
+            />
         </main>
     );
 }

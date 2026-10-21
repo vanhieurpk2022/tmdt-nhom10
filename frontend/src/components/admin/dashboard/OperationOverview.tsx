@@ -1,20 +1,4 @@
-import {
-    createFilteredRowModel,
-    createColumnHelper,
-    createSortedRowModel,
-    createPaginatedRowModel,
-    tableFeatures,
-    useTable,
-    rowSortingFeature,
-    rowPaginationFeature,
-    columnFilteringFeature,
-    globalFilteringFeature,
-    filterFn_includesString,
-    sortFn_alphanumeric,
-    sortFn_basic,
-    type PaginationState,
-} from "@tanstack/react-table";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import type { RowData } from "@tanstack/react-table";
 import {
     faArrowDownAZ,
     faArrowUpAZ,
@@ -26,275 +10,39 @@ import {
     faTriangleExclamation,
     faChevronLeft,
     faChevronRight,
-    faClock,
-    faShop,
-    faShieldHalved,
-    faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+
 import PageHeader from "./PageHeader";
 import StatCard from "./StartCard";
-import CustomBadge from "../badge/CustomBadge";
-import { ModalApprove } from "./ModalApprove";
 import "../../../css/pages/dashboard/dashboard.css";
+import type { AppTable } from "../../table/features";
+import { formatVnd } from "../../format/FormatMoney";
+import { PieChartStatistics } from "../statistics/PieChartStatistics";
+import { BarChartStatistic } from "../statistics/BarChartStatistic";
 
-type OrderStatus = "Chờ xác nhận" | "Đang chuẩn bị hàng" | "Đã giao" | "Đã hủy";
+// 1. Import 2 component biểu đồ mới (Sửa lại đường dẫn cho đúng với thư mục của bạn)
 
-interface OrderTable {
-    code: string;
-    time: string;
-    customer: string;
-    shop: string;
-    product: string;
-    notes: string;
-    totalAmount: number;
-    deadline: string;
-    status: OrderStatus;
-}
-
-interface CancelReason {
-    label: string;
-    percent: number;
-    count: number;
-    color: string;
-}
-
-interface RevenueItem {
-    label: string;
-    amount: number;
-    percent: number;
-    color: string;
-    highlight?: boolean;
-}
-
-const formatVnd = (value: number) => value.toLocaleString("vi-VN") + " ₫";
-
-export const ExampleData: OrderTable[] = [
-    {
-        code: "DH-2026-1024",
-        time: "10 phút trước",
-        customer: "Nguyễn Hoàng Nam",
-        shop: "Maison De Saigon",
-        product: "Amber Oud EDP 50ml (SL: 200 chai)",
-        notes: "Trầm hương Lào & hổ phách",
-        totalAmount: 45000000,
-        deadline: "Hạn giao: 25/10/2026",
-        status: "Chờ xác nhận",
-    },
-    {
-        code: "DH-2026-1025",
-        time: "2 giờ trước",
-        customer: "Trần Minh Thư",
-        shop: "L'Apothiquaire Indie",
-        product: "White Tea & Fig EDP 30ml (SL: 500 chai)",
-        notes: "Trà trắng, sung ngọt & xạ hương",
-        totalAmount: 82500000,
-        deadline: "Hạn giao: 28/10/2026",
-        status: "Đang chuẩn bị hàng",
-    },
-    {
-        code: "DH-2026-1026",
-        time: "1 ngày trước",
-        customer: "Lê Quốc Bảo",
-        shop: "Scent Studio VN",
-        product: "Vetiver Bourbon Extrait 100ml (SL: 150 chai)",
-        notes: "Cỏ hương bài & gỗ tuyết tùng",
-        totalAmount: 60000000,
-        deadline: "Đã giao đúng hạn",
-        status: "Đã giao",
-    },
-];
-
-export const cancelReasons: CancelReason[] = [
-    { label: "Khách đổi ý / Thay đổi yêu cầu mùi hương", percent: 45, count: 4, color: "var(--color-info)" },
-    { label: "Hết nguyên liệu / Tạm ngừng nhận mẫu này", percent: 30, count: 3, color: "var(--color-primary)" },
-    { label: "Không thống nhất được thời gian giao hàng", percent: 15, count: 1, color: "var(--color-warning)" },
-    { label: "Xưởng xác nhận trễ hạn (Quá 24h)", percent: 10, count: 1, color: "var(--color-neutral)" },
-];
-
-export const revenueItems: RevenueItem[] = [
-    { label: "Đã đối soát (Có thể rút về ngân hàng)", amount: 285000000, percent: 63.3, color: "var(--color-success)" },
-    { label: "Chờ đối soát (Đơn đang xử lý / chờ khách nhận)", amount: 112500000, percent: 25.0, color: "var(--color-warning)" },
-    { label: "Phí cố định & Hoa hồng sàn (Commission Fee)", amount: 36000000, percent: 8.0, color: "var(--color-info)" },
-    { label: "Đang tạm giữ do Khiếu nại / Trả hàng", amount: 16500000, percent: 3.7, color: "var(--color-primary)", highlight: true },
-];
-
-export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
-    "Chờ xác nhận": {
-        label: "Chờ xác nhận",
-        badge: "bg-warning-subtle text-warning-emphasis",
-    },
-    "Đang chuẩn bị hàng": {
-        label: "Đang chuẩn bị hàng",
-        badge: "bg-primary-subtle text-primary-emphasis",
-    },
-    "Đã giao": {
-        label: "Hoàn thành",
-        badge: "bg-success-subtle text-success-emphasis",
-    },
-    "Đã hủy": {
-        label: "Đã hủy",
-        badge: "bg-secondary-subtle text-secondary-emphasis",
-    },
-};
-
-const PAGE_SIZES = [5, 10, 20, 50];
 const TOTAL_SELLER_REVENUE = 450000000;
 
-const features = tableFeatures({
-    rowSortingFeature,
-    rowPaginationFeature,
-    columnFilteringFeature,
-    globalFilteringFeature,
-
-    sortedRowModel: createSortedRowModel(),
-    filteredRowModel: createFilteredRowModel(),
-    paginatedRowModel: createPaginatedRowModel(),
-
-    sortFns: {
-        alphanumeric: sortFn_alphanumeric,
-        basic: sortFn_basic,
-    },
-
-    filterFns: {
-        includesString: filterFn_includesString,
-    },
-});
-
-const columnHelper = createColumnHelper<typeof features, OrderTable>();
-const columns = columnHelper.columns([
-    columnHelper.accessor("code", {
-        header: "Mã đơn / Khách đặt hàng",
-        cell: info => {
-            const row = info.row.original;
-
-            return (
-                <div className="d-flex flex-column gap-1">
-                    {/* Đặt Mã đơn và Thời gian nằm cùng 1 hàng ngang */}
-                    <div className="d-flex align-items-center flex-wrap gap-2">
-                        <b>{row.code}</b>
-
-                        <span className="small text-muted">
-                            <FontAwesomeIcon icon={faClock} className="me-1" />
-                            {row.time}
-                        </span>
-                    </div>
-
-                    <span className="fw-semibold text-dark">{row.customer}</span>
-
-                    <span className="small text-secondary">
-                        <FontAwesomeIcon icon={faShop} className="me-2" />
-                        {row.shop}
-                    </span>
-                </div>
-            );
-        },
-        sortFn: "alphanumeric",
-    }),
-
-    columnHelper.accessor("product", {
-        header: "Sản phẩm đặt gia công",
-        cell: info => {
-            const row = info.row.original;
-
-            return (
-                <div className="d-flex flex-column gap-1">
-                    <span className="fw-semibold">{row.product}</span>
-                    <span className="small text-secondary">{row.notes}</span>
-                </div>
-            );
-        },
-        sortFn: "alphanumeric",
-    }),
-
-    columnHelper.accessor("totalAmount", {
-        header: "Giá trị đơn / Hạn giao",
-        cell: info => {
-            const row = info.row.original;
-
-            return (
-                <div className="d-flex flex-column gap-1">
-                    <span className="fw-bold text-dark">{formatVnd(row.totalAmount)}</span>
-
-                    <span className="badge bg-info-subtle text-info-emphasis fw-normal align-self-start">
-                        <FontAwesomeIcon icon={faCalendarCheck} className="me-1" />
-                        {row.deadline}
-                    </span>
-                </div>
-            );
-        },
-        sortFn: "basic",
-    }),
-
-    columnHelper.accessor("status", {
-        header: "Trạng thái đơn",
-        cell: info => {
-            const conf = OrderStatusBadge[info.getValue()];
-
-            return <CustomBadge label={conf.label} badge={conf.badge} />;
-        },
-        enableSorting: false,
-    }),
-]);
-
-interface DonutProps {
-    data: { name: string; value: number; color: string }[];
-    centerLabel?: string;
-    centerValue?: string;
-}
-
-function DonutChart({ data, centerLabel, centerValue }: DonutProps) {
-    return (
-        <div className="position-relative" style={{ width: 180, height: 180 }}>
-            <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                    <Pie
-                        data={data}
-                        dataKey="value"
-                        nameKey="name"
-                        innerRadius={58}
-                        outerRadius={84}
-                        paddingAngle={2}
-                        stroke="none"
-                    >
-                        {data.map((item) => (
-                            <Cell key={item.name} fill={item.color} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                </PieChart>
-            </ResponsiveContainer>
-
-            {centerValue && (
-                <div className="position-absolute top-50 start-50 translate-middle text-center pe-none">
-                    <div className="fw-bold fs-5">{centerValue}</div>
-                    {centerLabel && <div className="small text-secondary">{centerLabel}</div>}
-                </div>
-            )}
-        </div>
-    );
-}
-interface OperationsOverviewProps {
+/* ---------- Props dành riêng cho Factory Dashboard ---------- */
+interface OperationsOverviewProps<TData extends RowData> {
     isShow?: boolean;
+    table: AppTable<TData>;
+    pageIndex: number;
 }
-function OperationsOverview({ isShow }: OperationsOverviewProps) {
-    const [showApprove, setShowApprove] = useState(false);
+
+function OperationsOverview<TData extends RowData>({
+    isShow,
+    table,
+    pageIndex,
+}: OperationsOverviewProps<TData>) {
     const [search, setSearch] = useState("");
-    const [pagination, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
-    });
 
-    const table = useTable({
-        data: ExampleData,
-        columns,
-        features,
-        state: { pagination },
-        onPaginationChange: setPagination,
-    });
-
-    const { pageIndex, pageSize } = pagination;
+    const totalRows = table.getFilteredRowModel().rows.length;
+    const hasRows = table.getRowModel().rows.length > 0;
+    const isSearching = search.trim() !== "";
 
     return (
         <main
@@ -304,12 +52,8 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
             {/* Header Kênh Người Bán */}
             <PageHeader
                 title="Kênh Người Bán & Đối Tác Gia Công - Mộc Perfume Lab"
-                pendingCount={5}
-                onApprove={() => setShowApprove(true)}
                 isShow={isShow}
             />
-
-            <ModalApprove show={showApprove} onClose={() => setShowApprove(false)} />
 
             {/* Statistic cards */}
             <section className="row g-3">
@@ -319,7 +63,7 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                         value="36"
                         icon={faBagShopping}
                         tone="danger"
-                        note="5 đơn mới chờ xác nhận"
+                        note="đơn mới chờ xác nhận"
                     />
                 </div>
 
@@ -354,114 +98,16 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                 </div>
             </section>
 
-            {/* Charts */}
+            {/* 2. Khu vực Charts đã được thay bằng CancelRatePieChart và RevenueBarChart */}
             <section className="row g-3">
-                {/* Cancel rate */}
+                {/* Cancel rate PieChart */}
                 <div className="col-12 col-xl-5">
-                    <div className="card border-0 shadow-sm rounded-4 h-100">
-                        <div className="card-body p-3 p-lg-4">
-                            <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
-                                <div>
-                                    <h5 className="fw-bold mb-1">Tỷ lệ đơn hủy của Shop</h5>
-                                    <p className="text-secondary small mb-0">
-                                        Giới hạn cho phép của sàn: &lt; 4.0%
-                                    </p>
-                                </div>
-
-                                <span className="badge rounded-pill bg-light text-dark border px-3 py-2">
-                                    2.4%
-                                </span>
-                            </div>
-
-                            <div className="d-flex align-items-center gap-4 flex-wrap">
-                                <DonutChart
-                                    data={cancelReasons.map((r) => ({
-                                        name: r.label,
-                                        value: r.percent,
-                                        color: r.color,
-                                    }))}
-                                    centerValue="2.4%"
-                                    centerLabel="Tỷ lệ hủy"
-                                />
-
-                                <ul className="list-unstyled mb-0 d-flex flex-column gap-2 flex-grow-1">
-                                    {cancelReasons.map((reason) => (
-                                        <li
-                                            key={reason.label}
-                                            className="d-flex align-items-start gap-2 small"
-                                        >
-                                            <span
-                                                className="rounded-circle flex-shrink-0 mt-1"
-                                                style={{
-                                                    width: 10,
-                                                    height: 10,
-                                                    backgroundColor: reason.color,
-                                                }}
-                                            />
-                                            <span className="flex-grow-1">{reason.label}</span>
-                                            <span className="fw-semibold text-nowrap">
-                                                {reason.percent}% ({reason.count})
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <PieChartStatistics />
                 </div>
 
-                {/* Revenue */}
+                {/* Revenue BarChart */}
                 <div className="col-12 col-xl-7">
-                    <div className="card border-0 shadow-sm rounded-4 h-100">
-                        <div className="card-body p-3 p-lg-4">
-                            <div className="mb-3">
-                                <h5 className="fw-bold mb-1">Doanh thu & Ví Người Bán</h5>
-                                <p className="text-secondary small mb-0">
-                                    Tổng doanh thu đơn hàng tháng này: {formatVnd(TOTAL_SELLER_REVENUE)}
-                                </p>
-                            </div>
-
-                            <div className="d-flex align-items-center gap-4 flex-wrap">
-                                <DonutChart
-                                    data={revenueItems.map((r) => ({
-                                        name: r.label,
-                                        value: r.percent,
-                                        color: r.color,
-                                    }))}
-                                    centerValue="63.3%"
-                                    centerLabel="THỰC NHẬN"
-                                />
-
-                                <ul className="list-unstyled mb-0 d-flex flex-column gap-2 flex-grow-1">
-                                    {revenueItems.map((item) => (
-                                        <li
-                                            key={item.label}
-                                            className={`d-flex align-items-center gap-2 small ${item.highlight ? "fw-semibold text-danger" : ""
-                                                }`}
-                                        >
-                                            <span
-                                                className="rounded-circle flex-shrink-0"
-                                                style={{
-                                                    width: 10,
-                                                    height: 10,
-                                                    backgroundColor: item.color,
-                                                }}
-                                            />
-                                            <span className="flex-grow-1">{item.label}</span>
-                                            <span className="fw-semibold text-nowrap">
-                                                {formatVnd(item.amount)}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div className="text-secondary small mt-3">
-                                <FontAwesomeIcon icon={faShieldHalved} className="me-2" />
-                                Sàn tự động giải ngân vào Ví Người Bán sau khi khách xác nhận đã nhận hàng
-                            </div>
-                        </div>
-                    </div>
+                    <BarChartStatistic totalRevenue={formatVnd(TOTAL_SELLER_REVENUE)} />
                 </div>
             </section>
 
@@ -472,19 +118,18 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                     <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4 border-bottom">
                         <div>
                             <h5 className="fw-bold mb-1">Đơn đặt hàng từ khách</h5>
-
                             <p className="text-secondary small mb-0">
                                 Quản lý đơn khách đặt qua sàn, giá trị thanh toán và thời hạn giao hàng.
                             </p>
                         </div>
 
                         <span className="badge rounded-pill bg-light text-dark border px-3 py-2">
-                            {table.getFilteredRowModel().rows.length} đơn hàng
+                            {totalRows} đơn hàng
                         </span>
                     </div>
 
                     {/* Toolbar */}
-                    <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 p-lg-4">
+                    <div className="p-3 p-lg-4">
                         <div className="input-group" style={{ maxWidth: "350px" }}>
                             <span className="input-group-text bg-white">
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -502,18 +147,6 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                                 }}
                             />
                         </div>
-
-                        <select
-                            className="form-select w-auto"
-                            value={pageSize}
-                            onChange={(e) => table.setPageSize(Number(e.target.value))}
-                        >
-                            {PAGE_SIZES.map((size) => (
-                                <option key={size} value={size}>
-                                    {size} dòng / trang
-                                </option>
-                            ))}
-                        </select>
                     </div>
 
                     {/* Scrollable table */}
@@ -524,27 +157,19 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                                     <tr key={headerGroup.id}>
                                         {headerGroup.headers.map((header) => {
                                             const sorted = header.column.getIsSorted();
+                                            const canSort = header.column.getCanSort();
 
                                             return (
-                                                <th
-                                                    key={header.id}
-                                                    className="text-nowrap"
-                                                >
+                                                <th key={header.id} className="text-nowrap">
                                                     {header.isPlaceholder ? null : (
                                                         <div
                                                             className="d-flex align-items-center gap-2"
                                                             onClick={header.column.getToggleSortingHandler()}
-                                                            style={{
-                                                                cursor: header.column.getCanSort()
-                                                                    ? "pointer"
-                                                                    : "default",
-                                                            }}
+                                                            style={{ cursor: canSort ? "pointer" : "default" }}
                                                         >
-                                                            <table.FlexRender
-                                                                header={header}
-                                                            />
+                                                            <table.FlexRender header={header} />
 
-                                                            {header.column.getCanSort() && (
+                                                            {canSort && (
                                                                 <FontAwesomeIcon
                                                                     icon={
                                                                         sorted === "asc"
@@ -553,11 +178,7 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                                                                                 ? faArrowUpAZ
                                                                                 : faSort
                                                                     }
-                                                                    className={
-                                                                        sorted
-                                                                            ? "text-danger"
-                                                                            : "text-secondary"
-                                                                    }
+                                                                    className={sorted ? "text-danger" : "text-secondary"}
                                                                     size="sm"
                                                                 />
                                                             )}
@@ -581,13 +202,15 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                                     </tr>
                                 ))}
 
-                                {table.getRowModel().rows.length === 0 && (
+                                {!hasRows && (
                                     <tr>
                                         <td
                                             colSpan={table.getHeaderGroups()[0]?.headers.length ?? 1}
                                             className="text-center py-5 text-secondary"
                                         >
-                                            Chưa có đơn hàng nào.
+                                            {isSearching
+                                                ? "Không tìm thấy kết quả phù hợp."
+                                                : "Chưa có đơn hàng nào."}
                                         </td>
                                     </tr>
                                 )}
@@ -597,9 +220,7 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
 
                     {/* Table footer */}
                     <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 px-3 px-lg-4 py-3 border-top">
-                        <span className="text-secondary small">
-                            Tổng cộng {table.getFilteredRowModel().rows.length} bản ghi
-                        </span>
+                        <span className="text-secondary small">Tổng cộng {totalRows} bản ghi</span>
 
                         <div className="d-flex align-items-center gap-2">
                             <button
@@ -607,6 +228,7 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                                 className="btn btn-sm btn-outline-secondary"
                                 onClick={() => table.previousPage()}
                                 disabled={!table.getCanPreviousPage()}
+                                aria-label="Trang trước"
                             >
                                 <FontAwesomeIcon icon={faChevronLeft} />
                             </button>
@@ -620,6 +242,7 @@ function OperationsOverview({ isShow }: OperationsOverviewProps) {
                                 className="btn btn-sm btn-outline-secondary"
                                 onClick={() => table.nextPage()}
                                 disabled={!table.getCanNextPage()}
+                                aria-label="Trang sau"
                             >
                                 <FontAwesomeIcon icon={faChevronRight} />
                             </button>

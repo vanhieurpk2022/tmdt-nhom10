@@ -1,5 +1,3 @@
-import { faChevronDown, faTag } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { CartItem } from "../../data/cartData";
 
 interface CheckoutSummaryProps {
@@ -10,6 +8,7 @@ interface CheckoutSummaryProps {
     shippingFeeError?: string;
     isSubmitting?: boolean;
     hasAddress?: boolean;
+    paymentUnavailable?: boolean;
     onContinue: () => void;
 }
 
@@ -27,13 +26,12 @@ export default function CheckoutSummary({
     shippingFeeError = "",
     isSubmitting = false,
     hasAddress = true,
+    paymentUnavailable = false,
     onContinue,
 }: CheckoutSummaryProps) {
     const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
-    const originalSubtotal = items.reduce((total, item) => total + (item.basePrice ?? item.price) * item.quantity, 0);
-    const productDiscount = Math.max(originalSubtotal - subtotal, 0);
     const total = subtotal + shippingFee;
-    const isDisabled = isLoading || isShippingFeeLoading || isSubmitting || items.length === 0 || !hasAddress || Boolean(shippingFeeError);
+    const isDisabled = isLoading || isShippingFeeLoading || isSubmitting || paymentUnavailable || items.length === 0 || !hasAddress || Boolean(shippingFeeError);
 
     return (
         <aside className="checkout-summary-card">
@@ -53,25 +51,11 @@ export default function CheckoutSummary({
                 )}
             </div>
 
-            <button className="checkout-promo-select" type="button">
-                <span>
-                    <FontAwesomeIcon icon={faTag} />
-                    Chọn mã khuyến mãi
-                </span>
-                <FontAwesomeIcon icon={faChevronDown} />
-            </button>
-
             <div className="checkout-summary-adjustments">
                 <div>
                     <span>Tạm tính</span>
-                    <strong>{formatPrice(originalSubtotal)}</strong>
+                    <strong>{formatPrice(subtotal)}</strong>
                 </div>
-                {productDiscount > 0 && (
-                    <div>
-                        <span>Ưu đãi sản phẩm</span>
-                        <strong>-{formatPrice(productDiscount)}</strong>
-                    </div>
-                )}
                 <div>
                     <span>Phí vận chuyển</span>
                     <strong className={shippingFeeError ? "text-danger" : ""}>

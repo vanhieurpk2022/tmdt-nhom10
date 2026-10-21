@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FactoryApiService, type RegisterFactoryRequest } from "../api/FactoryService";
 import { cloudinaryService, type UploadedAsset } from "../api/UploadApi";
+import { Notification } from "../components/toasts/Notification";
 import axios from "axios";
 
 export function RegisterFactoryForm() {
+
+    type Toast = { type: "success" | "danger"; title: string; text: string } | null;
+
+
     // 1. State Thông Tin Định Danh
     const [typeBussiness, setTypeBussiness] = useState(false);
     const [typeIndividual, setTypeindividual] = useState(true); // Mặc định chọn Cá nhân
@@ -26,14 +31,20 @@ export function RegisterFactoryForm() {
     const [accountHolder, setAccountHolder] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
 
-    const [error, setError] = useState<String | null>("");
+    const [toast, setToast] = useState<Toast>(null);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!toast) return;
+        const timer = setTimeout(() => setToast(null), 4000);
+        return () => clearTimeout(timer);
+    }, [toast]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (loading) return; // chặn bấm nhiều lần
 
-        setError(null);
+        setToast(null);
         setLoading(true);
 
         const uploaded: UploadedAsset[] = []; // gom lại để xoá nếu có lỗi
@@ -76,22 +87,34 @@ export function RegisterFactoryForm() {
             };
 
             const res = await FactoryApiService.regsiterFactory(request);
-            console.log("Đăng ký gian hàng thành công:", res);
+            if (res.status == 200) {
+                setToast({
+                    type: "success", title: "Thành công", text: "Đăng kí thành công!"
+                });
+            }
         } catch (err) {
             // Dọn file đã upload; lỗi khi dọn không được che mất lỗi gốc
             await cloudinaryService.deleteUploads(uploaded).catch(console.error);
 
             if (axios.isAxiosError(err)) {
                 if (!err.response) {
-                    setError("Không kết nối được máy chủ, vui lòng thử lại");
+                    setToast({
+                        type: "danger", title: "Lỗi", text: "Không kết nối được máy chủ, vui lòng thử lại"
+                    });
                 } else {
-                    setError(err.response.data?.message);
+                    setToast({
+                        type: "danger", title: "Lỗi", text: err.response.data?.message
+                    });
                 }
             } else if (err instanceof Error) {
                 // Lỗi validate file (quá 10MB, sai định dạng) hoặc lỗi upload Cloudinary (dùng fetch)
-                setError(err.message);
+                setToast({
+                    type: "danger", title: "Lỗi", text: err.message
+                });
             } else {
-                setError("Đăng ký thất bại, vui lòng thử lại");
+                setToast({
+                    type: "danger", title: "Lỗi", text: "Đăng ký thất bại, vui lòng thử lại"
+                });
             }
         } finally {
             setLoading(false);
@@ -404,16 +427,12 @@ export function RegisterFactoryForm() {
                         </div>
                     </fieldset>
 
-                    {error && (
-                        <div className="alert alert-danger" role="alert">
-                            {error}
-                        </div>
-                    )}
-
-                    {error && (
-                        <div className="alert alert-danger" role="alert">
-                            {error}
-                        </div>
+                    {toast && (
+                        <Notification
+                            title={toast.title}
+                            content={toast.text}
+                            type={toast.type}
+                        />
                     )}
 
                     <button

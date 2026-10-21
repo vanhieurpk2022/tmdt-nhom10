@@ -1,6 +1,7 @@
 package com.nhom10.tmdt.security;
 
 import lombok.RequiredArgsConstructor;
+import com.nhom10.tmdt.config.VnPayProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,9 +21,11 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfiguration {
     private final JwtFilter jwtFilter;
+    private final VnPayProperties vnPayProperties;
 
-    public SecurityConfiguration(JwtFilter jwtFilter) {
+    public SecurityConfiguration(JwtFilter jwtFilter, VnPayProperties vnPayProperties) {
         this.jwtFilter = jwtFilter;
+        this.vnPayProperties = vnPayProperties;
     }
 
     @Bean
@@ -43,15 +46,19 @@ public class SecurityConfiguration {
         // Cấu hình phân quyền cho endpoint
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/error").permitAll()
+                .requestMatchers(HttpMethod.GET, "/payments/vnpay/ipn", "/payments/vnpay/return").permitAll()
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/v1/factory/**").permitAll()
+                .requestMatchers("/v1/product/**").permitAll()
+                .requestMatchers("/manager/**").permitAll()
+                .requestMatchers("/v1/category/**").permitAll() // có xài
+                .requestMatchers("/v1/product-image/**").permitAll() // có xài
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                 .requestMatchers( "/factories/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/custom-scent/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/custom-scent/**").permitAll()
                 .requestMatchers("/shipping/provinces", "/shipping/districts", "/shipping/wards").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/admin/**").permitAll()
                 .anyRequest().authenticated());
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
@@ -74,10 +81,15 @@ public class SecurityConfiguration {
             cors.configurationSource(request -> {
                 CorsConfiguration corsConfig = new CorsConfiguration();
 
-                corsConfig.setAllowedOrigins(Endpoints.FRONTEND_HOSTS);
+                var allowedOrigins = new java.util.ArrayList<>(Endpoints.FRONTEND_HOSTS);
+                var resultUrl = vnPayProperties.getFrontendResultUrl();
+                if (resultUrl != null && resultUrl.getHost() != null) {
+                    allowedOrigins.add(resultUrl.getScheme() + "://" + resultUrl.getRawAuthority());
+                }
+                corsConfig.setAllowedOrigins(allowedOrigins);
 
-                corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+                corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"));
+                corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept", "Idempotency-Key"));
                 corsConfig.setAllowCredentials(true); // Giữ nguyên để cho phép truyền nhận HttpOnly Cookie
 
                 return corsConfig;

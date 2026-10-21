@@ -321,605 +321,606 @@ INSERT INTO `product` (id, name, description, created_at, updated_at, product_ty
 INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (266, 'Tinh dầu Nhục Đậu Khấu', 'Tinh dầu Nhục Đậu Khấu từ hạt Myristica fragrans, chưng cất hơi nước; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.456207', '2026-09-26 11:47:26.456207', 'NORMAL', 3, 8, NULL, NULL, 700000, 770000);
 INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (267, 'Tinh dầu Sả Hoa Hồng', 'Tinh dầu Sả Hoa Hồng là tinh dầu từ một loài sả; NCC công bố chiết xuất hoàn toàn từ thiên nhiên, nguồn Ấn Độ.', '2026-09-26 11:47:26.456462', '2026-09-26 11:47:26.456462', 'NORMAL', 3, 8, NULL, NULL, 190000, 220000);
 
-INSERT INTO `product_image` VALUES (1, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bac-ha.jpg', '2026-09-26 13:02:11.928582', 1);
-INSERT INTO `product_image` VALUES (2, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 1);
-INSERT INTO `product_image` VALUES (3, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bach-dan-chanh-2.jpg', '2026-09-26 13:02:11.928582', 2);
-INSERT INTO `product_image` VALUES (4, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 2);
-INSERT INTO `product_image` VALUES (5, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-cam-ngot.jpg', '2026-09-26 13:02:11.928582', 3);
-INSERT INTO `product_image` VALUES (6, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 3);
-INSERT INTO `product_image` VALUES (7, 'https://labcos.com.vn/wp-content/uploads/tinhdauchanh.jpg', '2026-09-26 13:02:11.928582', 4);
-INSERT INTO `product_image` VALUES (8, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 4);
-INSERT INTO `product_image` VALUES (9, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-go-hong-2.jpg', '2026-09-26 13:02:11.928582', 5);
-INSERT INTO `product_image` VALUES (10, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 5);
-INSERT INTO `product_image` VALUES (11, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-gung-1-1.jpg', '2026-09-26 13:02:11.928582', 6);
-INSERT INTO `product_image` VALUES (12, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 6);
-INSERT INTO `product_image` VALUES (13, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-cam.jpg', '2026-09-26 13:02:11.928582', 7);
-INSERT INTO `product_image` VALUES (14, 'https://upload.wikimedia.org/wikipedia/commons/5/57/Orange_blossom.jpg', '2026-09-26 13:02:11.928582', 7);
-INSERT INTO `product_image` VALUES (15, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-hong.jpg', '2026-09-26 13:02:11.928582', 8);
-INSERT INTO `product_image` VALUES (16, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 8);
-INSERT INTO `product_image` VALUES (17, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-nhai-2.jpg', '2026-09-26 13:02:11.928582', 9);
-INSERT INTO `product_image` VALUES (18, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 9);
-INSERT INTO `product_image` VALUES (19, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hung-que.jpg', '2026-09-26 13:02:11.928582', 10);
-INSERT INTO `product_image` VALUES (20, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 10);
-INSERT INTO `product_image` VALUES (21, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-huong-nhu-2.jpg', '2026-09-26 13:02:11.928582', 11);
-INSERT INTO `product_image` VALUES (22, 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Starr_030202-0053_Ocimum_gratissimum.jpg', '2026-09-26 13:02:11.928582', 11);
-INSERT INTO `product_image` VALUES (23, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-khuynh-diep.jpg', '2026-09-26 13:02:11.928582', 12);
-INSERT INTO `product_image` VALUES (24, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 12);
-INSERT INTO `product_image` VALUES (25, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-nghe-1.jpg', '2026-09-26 13:02:11.928582', 13);
-INSERT INTO `product_image` VALUES (26, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 13);
-INSERT INTO `product_image` VALUES (27, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-ngoc-lan-tay.jpg', '2026-09-26 13:02:11.928582', 14);
-INSERT INTO `product_image` VALUES (28, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 14);
-INSERT INTO `product_image` VALUES (29, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-oai-huong-1.jpg', '2026-09-26 13:02:11.928582', 15);
-INSERT INTO `product_image` VALUES (30, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 15);
-INSERT INTO `product_image` VALUES (31, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-phong-lu.jpg', '2026-09-26 13:02:11.928582', 16);
-INSERT INTO `product_image` VALUES (32, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 16);
-INSERT INTO `product_image` VALUES (33, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-po-mu.jpg', '2026-09-26 13:02:11.928582', 17);
-INSERT INTO `product_image` VALUES (34, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 17);
-INSERT INTO `product_image` VALUES (35, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-quyt.jpg', '2026-09-26 13:02:11.928582', 18);
-INSERT INTO `product_image` VALUES (36, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 18);
-INSERT INTO `product_image` VALUES (37, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-chanh.jpg', '2026-09-26 13:02:11.928582', 19);
-INSERT INTO `product_image` VALUES (38, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 19);
-INSERT INTO `product_image` VALUES (39, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-java.jpg', '2026-09-26 13:02:11.928582', 20);
-INSERT INTO `product_image` VALUES (40, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 20);
-INSERT INTO `product_image` VALUES (41, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tra-xanh.jpg', '2026-09-26 13:02:11.928582', 21);
-INSERT INTO `product_image` VALUES (42, 'https://upload.wikimedia.org/wikipedia/commons/4/46/Pu%27er_tea%2C_Green_tea%2C_Chinese_tea%2C_Rostov-on-Don%2C_Russia.jpg', '2026-09-26 13:02:11.928582', 21);
-INSERT INTO `product_image` VALUES (43, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-trac-bach-diep.jpg', '2026-09-26 13:02:11.928582', 22);
-INSERT INTO `product_image` VALUES (44, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 22);
-INSERT INTO `product_image` VALUES (45, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-gio.jpg', '2026-09-26 13:02:11.928582', 23);
-INSERT INTO `product_image` VALUES (46, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 23);
-INSERT INTO `product_image` VALUES (47, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-tra-2.jpg', '2026-09-26 13:02:11.928582', 24);
-INSERT INTO `product_image` VALUES (48, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 24);
-INSERT INTO `product_image` VALUES (49, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-buoi-3.jpg', '2026-09-26 13:02:11.928582', 25);
-INSERT INTO `product_image` VALUES (50, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 25);
-INSERT INTO `product_image` VALUES (51, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-que.jpg', '2026-09-26 13:02:11.928582', 26);
-INSERT INTO `product_image` VALUES (52, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 26);
-INSERT INTO `product_image` VALUES (53, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-ARGAN.jpg', '2026-09-26 13:02:11.928582', 27);
-INSERT INTO `product_image` VALUES (54, 'https://upload.wikimedia.org/wikipedia/commons/1/10/Argania_spinosa_MHNT.BOT.2010.12.2.jpg', '2026-09-26 13:02:11.928582', 27);
-INSERT INTO `product_image` VALUES (55, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-CAM-GAO.jpg', '2026-09-26 13:02:11.928582', 28);
-INSERT INTO `product_image` VALUES (56, 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Green_rice_sheaves_planted_in_a_paddy_field_with_long_shadows_at_golden_hour_in_Don_Det_Laos.jpg', '2026-09-26 13:02:11.928582', 28);
-INSERT INTO `product_image` VALUES (57, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-DAU-DUA.jpg', '2026-09-26 13:02:11.928582', 29);
-INSERT INTO `product_image` VALUES (58, 'https://upload.wikimedia.org/wikipedia/commons/8/88/Coconut_on_coconut_tree.png', '2026-09-26 13:02:11.928582', 29);
-INSERT INTO `product_image` VALUES (59, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-GAC.jpg', '2026-09-26 13:02:11.928582', 30);
-INSERT INTO `product_image` VALUES (60, 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Momordica_cochinchinensis_seeds%2C_by_Omar_Hoftun.jpg', '2026-09-26 13:02:11.928582', 30);
-INSERT INTO `product_image` VALUES (61, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/BUOI-DA-XANH.png', '2026-09-26 13:02:11.928582', 31);
-INSERT INTO `product_image` VALUES (62, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 31);
-INSERT INTO `product_image` VALUES (63, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/HINH-LONG-NAO1.jpg', '2026-09-26 13:02:11.928582', 32);
-INSERT INTO `product_image` VALUES (64, 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Cinnamomum_camphora_Vergelegen.jpg', '2026-09-26 13:02:11.928582', 32);
-INSERT INTO `product_image` VALUES (65, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-tram-gio-600x600-1.jpg', '2026-09-26 13:02:11.928582', 33);
-INSERT INTO `product_image` VALUES (66, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 33);
-INSERT INTO `product_image` VALUES (67, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-dinh-huong.jpg', '2026-09-26 13:02:11.928582', 34);
-INSERT INTO `product_image` VALUES (68, 'https://upload.wikimedia.org/wikipedia/commons/2/28/Gewuerze_004_2024_08_10.jpg', '2026-09-26 13:02:11.928582', 34);
-INSERT INTO `product_image` VALUES (69, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-trau-khong.jpg', '2026-09-26 13:02:11.928582', 35);
-INSERT INTO `product_image` VALUES (70, 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Piper_betle_%28504522647%29.jpg', '2026-09-26 13:02:11.928582', 35);
-INSERT INTO `product_image` VALUES (71, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-huong-nhu.jpg', '2026-09-26 13:02:11.928582', 36);
-INSERT INTO `product_image` VALUES (72, 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Starr_030202-0053_Ocimum_gratissimum.jpg', '2026-09-26 13:02:11.928582', 36);
-INSERT INTO `product_image` VALUES (73, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-o%E1%BA%A3i-h%C6%B0%C6%A1ng.jpg', '2026-09-26 13:02:11.928582', 37);
-INSERT INTO `product_image` VALUES (74, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 37);
-INSERT INTO `product_image` VALUES (75, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/sa-chanh2-3.jpg', '2026-09-26 13:02:11.928582', 38);
-INSERT INTO `product_image` VALUES (76, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 38);
-INSERT INTO `product_image` VALUES (77, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-bac-ha.jpg', '2026-09-26 13:02:11.928582', 39);
-INSERT INTO `product_image` VALUES (78, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 39);
-INSERT INTO `product_image` VALUES (79, 'https://tinhdauhanoi.com/wp-content/uploads/2020/06/avatar-san-pham-hung-chanh.jpg', '2026-09-26 13:02:11.928582', 40);
-INSERT INTO `product_image` VALUES (80, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 40);
-INSERT INTO `product_image` VALUES (81, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-tram-tra.jpg', '2026-09-26 13:02:11.928582', 41);
-INSERT INTO `product_image` VALUES (82, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 41);
-INSERT INTO `product_image` VALUES (83, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-bach-dan-chanh2-3.jpg', '2026-09-26 13:02:11.928582', 42);
-INSERT INTO `product_image` VALUES (84, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 42);
-INSERT INTO `product_image` VALUES (85, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hung-que-600x600-1.jpg', '2026-09-26 13:02:11.928582', 43);
-INSERT INTO `product_image` VALUES (86, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 43);
-INSERT INTO `product_image` VALUES (87, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-san-pham-cay-mui.jpg', '2026-09-26 13:02:11.928582', 44);
-INSERT INTO `product_image` VALUES (88, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 44);
-INSERT INTO `product_image` VALUES (89, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-khuynh-diep-2.jpg', '2026-09-26 13:02:11.928582', 45);
-INSERT INTO `product_image` VALUES (90, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 45);
-INSERT INTO `product_image` VALUES (91, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hung-que-600x600-1.jpg', '2026-09-26 13:02:11.928582', 46);
-INSERT INTO `product_image` VALUES (92, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 46);
-INSERT INTO `product_image` VALUES (93, 'https://tinhdauhanoi.com/wp-content/uploads/2025/12/La-tia-to-01-scaled-1-1.jpg', '2026-09-26 13:02:11.928582', 47);
-INSERT INTO `product_image` VALUES (94, 'https://upload.wikimedia.org/wikipedia/commons/4/46/Perilla_frutescens_in_Gimpo.jpg', '2026-09-26 13:02:11.928582', 47);
-INSERT INTO `product_image` VALUES (95, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hoa-buoi.jpg', '2026-09-26 13:02:11.928582', 48);
-INSERT INTO `product_image` VALUES (96, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 48);
-INSERT INTO `product_image` VALUES (97, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-chanh.jpg', '2026-09-26 13:02:11.928582', 49);
-INSERT INTO `product_image` VALUES (98, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 49);
-INSERT INTO `product_image` VALUES (99, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-cam-ngot.jpg', '2026-09-26 13:02:11.928582', 50);
-INSERT INTO `product_image` VALUES (100, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 50);
-INSERT INTO `product_image` VALUES (101, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-hoa-h%E1%BB%93i.jpg', '2026-09-26 13:02:11.928582', 51);
-INSERT INTO `product_image` VALUES (102, 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Dried_Star_Anise_Fruit_Seeds.jpg', '2026-09-26 13:02:11.928582', 51);
-INSERT INTO `product_image` VALUES (103, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-geranium.jpg', '2026-09-26 13:02:11.928582', 52);
-INSERT INTO `product_image` VALUES (104, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-gia-si-ktd.jpg', '2026-09-26 13:02:11.928582', 52);
-INSERT INTO `product_image` VALUES (105, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-Mu-u-600x600-1.jpg', '2026-09-26 13:02:11.928582', 53);
-INSERT INTO `product_image` VALUES (106, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 53);
-INSERT INTO `product_image` VALUES (107, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-mang-tang.jpg', '2026-09-26 13:02:11.928582', 54);
-INSERT INTO `product_image` VALUES (108, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Litsea_cubeba_2014-02-08.jpg', '2026-09-26 13:02:11.928582', 54);
-INSERT INTO `product_image` VALUES (109, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-chanh.jpg', '2026-09-26 13:02:11.928582', 55);
-INSERT INTO `product_image` VALUES (110, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 55);
-INSERT INTO `product_image` VALUES (111, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-gung.jpg', '2026-09-26 13:02:11.928582', 56);
-INSERT INTO `product_image` VALUES (112, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 56);
-INSERT INTO `product_image` VALUES (113, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-ngai-cuu.jpg', '2026-09-26 13:02:11.928582', 57);
-INSERT INTO `product_image` VALUES (114, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 57);
-INSERT INTO `product_image` VALUES (115, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avata-sa-Java.jpg', '2026-09-26 13:02:11.928582', 58);
-INSERT INTO `product_image` VALUES (116, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 58);
-INSERT INTO `product_image` VALUES (117, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-50ML.webp', '2026-09-26 13:02:11.928582', 59);
-INSERT INTO `product_image` VALUES (118, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-1000ML.webp', '2026-09-26 13:02:11.928582', 59);
-INSERT INTO `product_image` VALUES (119, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-4.png', '2026-09-26 13:02:11.928582', 59);
-INSERT INTO `product_image` VALUES (120, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-10ML.webp', '2026-09-26 13:02:11.928582', 60);
-INSERT INTO `product_image` VALUES (121, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-500ML.webp', '2026-09-26 13:02:11.928582', 60);
-INSERT INTO `product_image` VALUES (122, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-100ML.webp', '2026-09-26 13:02:11.928582', 60);
-INSERT INTO `product_image` VALUES (123, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-8.webp', '2026-09-26 13:02:11.928582', 61);
-INSERT INTO `product_image` VALUES (124, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 61);
-INSERT INTO `product_image` VALUES (125, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 61);
-INSERT INTO `product_image` VALUES (126, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-6.webp', '2026-09-26 13:02:11.928582', 62);
-INSERT INTO `product_image` VALUES (127, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-1.png', '2026-09-26 13:02:11.928582', 62);
-INSERT INTO `product_image` VALUES (128, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-4.png', '2026-09-26 13:02:11.928582', 62);
-INSERT INTO `product_image` VALUES (129, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 63);
-INSERT INTO `product_image` VALUES (130, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 63);
-INSERT INTO `product_image` VALUES (131, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 63);
-INSERT INTO `product_image` VALUES (132, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-11.webp', '2026-09-26 13:02:11.928582', 64);
-INSERT INTO `product_image` VALUES (133, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 64);
-INSERT INTO `product_image` VALUES (134, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 64);
-INSERT INTO `product_image` VALUES (135, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-10ML.webp', '2026-09-26 13:02:11.928582', 65);
-INSERT INTO `product_image` VALUES (136, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-500MLX.webp', '2026-09-26 13:02:11.928582', 65);
-INSERT INTO `product_image` VALUES (137, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-100ML.webp', '2026-09-26 13:02:11.928582', 65);
-INSERT INTO `product_image` VALUES (138, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-10ML.webp', '2026-09-26 13:02:11.928582', 66);
-INSERT INTO `product_image` VALUES (139, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-500ML.webp', '2026-09-26 13:02:11.928582', 66);
-INSERT INTO `product_image` VALUES (140, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-100ML.webp', '2026-09-26 13:02:11.928582', 66);
-INSERT INTO `product_image` VALUES (141, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 67);
-INSERT INTO `product_image` VALUES (142, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 67);
-INSERT INTO `product_image` VALUES (143, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-100ML.webp', '2026-09-26 13:02:11.928582', 67);
-INSERT INTO `product_image` VALUES (144, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-10ML.webp', '2026-09-26 13:02:11.928582', 68);
-INSERT INTO `product_image` VALUES (145, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-500ML.webp', '2026-09-26 13:02:11.928582', 68);
-INSERT INTO `product_image` VALUES (146, 'https://biyokea.vn/wp-content/uploads/2025/08/cuc-la-ma-2.png', '2026-09-26 13:02:11.928582', 68);
-INSERT INTO `product_image` VALUES (147, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 69);
-INSERT INTO `product_image` VALUES (148, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-1.png', '2026-09-26 13:02:11.928582', 69);
-INSERT INTO `product_image` VALUES (149, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-3.png', '2026-09-26 13:02:11.928582', 69);
-INSERT INTO `product_image` VALUES (150, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-10ML.webp', '2026-09-26 13:02:11.928582', 70);
-INSERT INTO `product_image` VALUES (151, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-500ML.webp', '2026-09-26 13:02:11.928582', 70);
-INSERT INTO `product_image` VALUES (152, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-100ML.webp', '2026-09-26 13:02:11.928582', 70);
-INSERT INTO `product_image` VALUES (153, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-10ML.webp', '2026-09-26 13:02:11.928582', 71);
-INSERT INTO `product_image` VALUES (154, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-500ML.jpg', '2026-09-26 13:02:11.928582', 71);
-INSERT INTO `product_image` VALUES (155, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-100ML.webp', '2026-09-26 13:02:11.928582', 71);
-INSERT INTO `product_image` VALUES (156, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 72);
-INSERT INTO `product_image` VALUES (157, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 72);
-INSERT INTO `product_image` VALUES (158, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 72);
-INSERT INTO `product_image` VALUES (159, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-10ML.webp', '2026-09-26 13:02:11.928582', 73);
-INSERT INTO `product_image` VALUES (160, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-500ML.webp', '2026-09-26 13:02:11.928582', 73);
-INSERT INTO `product_image` VALUES (161, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-100ML.webp', '2026-09-26 13:02:11.928582', 73);
-INSERT INTO `product_image` VALUES (162, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 74);
-INSERT INTO `product_image` VALUES (163, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 74);
-INSERT INTO `product_image` VALUES (164, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-100ML.webp', '2026-09-26 13:02:11.928582', 74);
-INSERT INTO `product_image` VALUES (165, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-10ML.webp', '2026-09-26 13:02:11.928582', 75);
-INSERT INTO `product_image` VALUES (166, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-500ML.webp', '2026-09-26 13:02:11.928582', 75);
-INSERT INTO `product_image` VALUES (167, 'https://biyokea.vn/wp-content/uploads/2025/08/hoa-cam-1.png', '2026-09-26 13:02:11.928582', 75);
-INSERT INTO `product_image` VALUES (168, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-HOA-HOI-10ML.webp', '2026-09-26 13:02:11.928582', 76);
-INSERT INTO `product_image` VALUES (169, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-3-768x768.png', '2026-09-26 13:02:11.928582', 76);
-INSERT INTO `product_image` VALUES (170, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-1.png', '2026-09-26 13:02:11.928582', 76);
-INSERT INTO `product_image` VALUES (171, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-10ML-1-600x600.webp', '2026-09-26 13:02:11.928582', 77);
-INSERT INTO `product_image` VALUES (172, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-500ML-1.webp', '2026-09-26 13:02:11.928582', 77);
-INSERT INTO `product_image` VALUES (173, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-1.png', '2026-09-26 13:02:11.928582', 77);
-INSERT INTO `product_image` VALUES (174, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-10ML.webp', '2026-09-26 13:02:11.928582', 78);
-INSERT INTO `product_image` VALUES (175, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-3.png', '2026-09-26 13:02:11.928582', 78);
-INSERT INTO `product_image` VALUES (176, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-1.png', '2026-09-26 13:02:11.928582', 78);
-INSERT INTO `product_image` VALUES (177, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 79);
-INSERT INTO `product_image` VALUES (178, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 79);
-INSERT INTO `product_image` VALUES (179, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 79);
-INSERT INTO `product_image` VALUES (180, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-10ML.webp', '2026-09-26 13:02:11.928582', 80);
-INSERT INTO `product_image` VALUES (181, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-500ML.webp', '2026-09-26 13:02:11.928582', 80);
-INSERT INTO `product_image` VALUES (182, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-100ML.webp', '2026-09-26 13:02:11.928582', 80);
-INSERT INTO `product_image` VALUES (183, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 81);
-INSERT INTO `product_image` VALUES (184, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-500ML.webp', '2026-09-26 13:02:11.928582', 81);
-INSERT INTO `product_image` VALUES (185, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-100ML.webp', '2026-09-26 13:02:11.928582', 81);
-INSERT INTO `product_image` VALUES (186, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-10ML.webp', '2026-09-26 13:02:11.928582', 82);
-INSERT INTO `product_image` VALUES (187, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-500ML.webp', '2026-09-26 13:02:11.928582', 82);
-INSERT INTO `product_image` VALUES (188, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-100ML.webp', '2026-09-26 13:02:11.928582', 82);
-INSERT INTO `product_image` VALUES (189, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-10ML.webp', '2026-09-26 13:02:11.928582', 83);
-INSERT INTO `product_image` VALUES (190, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-500ML.webp', '2026-09-26 13:02:11.928582', 83);
-INSERT INTO `product_image` VALUES (191, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-100ML.webp', '2026-09-26 13:02:11.928582', 83);
-INSERT INTO `product_image` VALUES (192, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-10ML.webp', '2026-09-26 13:02:11.928582', 84);
-INSERT INTO `product_image` VALUES (193, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-500ML.webp', '2026-09-26 13:02:11.928582', 84);
-INSERT INTO `product_image` VALUES (194, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-100ML.webp', '2026-09-26 13:02:11.928582', 84);
-INSERT INTO `product_image` VALUES (195, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-14-10ML.webp', '2026-09-26 13:02:11.928582', 85);
-INSERT INTO `product_image` VALUES (196, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-500ML.webp', '2026-09-26 13:02:11.928582', 85);
-INSERT INTO `product_image` VALUES (197, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-100ML.webp', '2026-09-26 13:02:11.928582', 85);
-INSERT INTO `product_image` VALUES (198, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-10ML.webp', '2026-09-26 13:02:11.928582', 86);
-INSERT INTO `product_image` VALUES (199, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-500ML.webp', '2026-09-26 13:02:11.928582', 86);
-INSERT INTO `product_image` VALUES (200, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-100ML.webp', '2026-09-26 13:02:11.928582', 86);
-INSERT INTO `product_image` VALUES (201, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-10ML.webp', '2026-09-26 13:02:11.928582', 87);
-INSERT INTO `product_image` VALUES (202, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-500ML.webp', '2026-09-26 13:02:11.928582', 87);
-INSERT INTO `product_image` VALUES (203, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-100ML.webp', '2026-09-26 13:02:11.928582', 87);
-INSERT INTO `product_image` VALUES (204, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-10ML.webp', '2026-09-26 13:02:11.928582', 88);
-INSERT INTO `product_image` VALUES (205, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-500ML.webp', '2026-09-26 13:02:11.928582', 88);
-INSERT INTO `product_image` VALUES (206, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-100ML.webp', '2026-09-26 13:02:11.928582', 88);
-INSERT INTO `product_image` VALUES (207, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-10ML.webp', '2026-09-26 13:02:11.928582', 89);
-INSERT INTO `product_image` VALUES (208, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-500ML.webp', '2026-09-26 13:02:11.928582', 89);
-INSERT INTO `product_image` VALUES (209, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-100ML.webp', '2026-09-26 13:02:11.928582', 89);
-INSERT INTO `product_image` VALUES (210, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-10ML.webp', '2026-09-26 13:02:11.928582', 90);
-INSERT INTO `product_image` VALUES (211, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-500ML.webp', '2026-09-26 13:02:11.928582', 90);
-INSERT INTO `product_image` VALUES (212, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-100ML.webp', '2026-09-26 13:02:11.928582', 90);
-INSERT INTO `product_image` VALUES (213, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-10ML.webp', '2026-09-26 13:02:11.928582', 91);
-INSERT INTO `product_image` VALUES (214, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-500ML.webp', '2026-09-26 13:02:11.928582', 91);
-INSERT INTO `product_image` VALUES (215, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-100ML.webp', '2026-09-26 13:02:11.928582', 91);
-INSERT INTO `product_image` VALUES (216, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-10ML.webp', '2026-09-26 13:02:11.928582', 92);
-INSERT INTO `product_image` VALUES (217, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-TD006-500ML.jpg', '2026-09-26 13:02:11.928582', 92);
-INSERT INTO `product_image` VALUES (218, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-100ML.webp', '2026-09-26 13:02:11.928582', 92);
-INSERT INTO `product_image` VALUES (219, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-10ML.webp', '2026-09-26 13:02:11.928582', 93);
-INSERT INTO `product_image` VALUES (220, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-500ML.webp', '2026-09-26 13:02:11.928582', 93);
-INSERT INTO `product_image` VALUES (221, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-100ML.webp', '2026-09-26 13:02:11.928582', 93);
-INSERT INTO `product_image` VALUES (222, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-10ML.webp', '2026-09-26 13:02:11.928582', 94);
-INSERT INTO `product_image` VALUES (223, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-500ML.webp', '2026-09-26 13:02:11.928582', 94);
-INSERT INTO `product_image` VALUES (224, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-100ML.webp', '2026-09-26 13:02:11.928582', 94);
-INSERT INTO `product_image` VALUES (225, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-10ML.webp', '2026-09-26 13:02:11.928582', 95);
-INSERT INTO `product_image` VALUES (226, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-500ML.webp', '2026-09-26 13:02:11.928582', 95);
-INSERT INTO `product_image` VALUES (227, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-100ML.webp', '2026-09-26 13:02:11.928582', 95);
-INSERT INTO `product_image` VALUES (228, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-10ML.webp', '2026-09-26 13:02:11.928582', 96);
-INSERT INTO `product_image` VALUES (229, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-500ML.webp', '2026-09-26 13:02:11.928582', 96);
-INSERT INTO `product_image` VALUES (230, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-100ML.webp', '2026-09-26 13:02:11.928582', 96);
-INSERT INTO `product_image` VALUES (231, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-9.webp', '2026-09-26 13:02:11.928582', 97);
-INSERT INTO `product_image` VALUES (232, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-50ML.webp', '2026-09-26 13:02:11.928582', 97);
-INSERT INTO `product_image` VALUES (233, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-500ML.webp', '2026-09-26 13:02:11.928582', 97);
-INSERT INTO `product_image` VALUES (234, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-10ML.webp', '2026-09-26 13:02:11.928582', 98);
-INSERT INTO `product_image` VALUES (235, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 98);
-INSERT INTO `product_image` VALUES (236, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-100ML.webp', '2026-09-26 13:02:11.928582', 98);
-INSERT INTO `product_image` VALUES (237, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-10ML.webp', '2026-09-26 13:02:11.928582', 99);
-INSERT INTO `product_image` VALUES (238, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-500ML.webp', '2026-09-26 13:02:11.928582', 99);
-INSERT INTO `product_image` VALUES (239, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-100ML.webp', '2026-09-26 13:02:11.928582', 99);
-INSERT INTO `product_image` VALUES (240, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 100);
-INSERT INTO `product_image` VALUES (241, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-500ML.webp', '2026-09-26 13:02:11.928582', 100);
-INSERT INTO `product_image` VALUES (242, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-100ML.webp', '2026-09-26 13:02:11.928582', 100);
-INSERT INTO `product_image` VALUES (243, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-YLANG-10ML.webp', '2026-09-26 13:02:11.928582', 101);
-INSERT INTO `product_image` VALUES (244, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-1.png', '2026-09-26 13:02:11.928582', 101);
-INSERT INTO `product_image` VALUES (245, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-4.png', '2026-09-26 13:02:11.928582', 101);
-INSERT INTO `product_image` VALUES (246, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 102);
-INSERT INTO `product_image` VALUES (247, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 102);
-INSERT INTO `product_image` VALUES (248, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 102);
-INSERT INTO `product_image` VALUES (249, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-10ML.webp', '2026-09-26 13:02:11.928582', 103);
-INSERT INTO `product_image` VALUES (250, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 103);
-INSERT INTO `product_image` VALUES (251, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-100ML.webp', '2026-09-26 13:02:11.928582', 103);
-INSERT INTO `product_image` VALUES (252, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 104);
-INSERT INTO `product_image` VALUES (253, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-1-768x768.png', '2026-09-26 13:02:11.928582', 104);
-INSERT INTO `product_image` VALUES (254, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-2-768x768.png', '2026-09-26 13:02:11.928582', 104);
-INSERT INTO `product_image` VALUES (255, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 105);
-INSERT INTO `product_image` VALUES (256, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-3-768x768.png', '2026-09-26 13:02:11.928582', 105);
-INSERT INTO `product_image` VALUES (257, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-4-768x768.png', '2026-09-26 13:02:11.928582', 105);
-INSERT INTO `product_image` VALUES (258, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-10ML.webp', '2026-09-26 13:02:11.928582', 106);
-INSERT INTO `product_image` VALUES (259, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-500ML.webp', '2026-09-26 13:02:11.928582', 106);
-INSERT INTO `product_image` VALUES (260, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-100ML.webp', '2026-09-26 13:02:11.928582', 106);
-INSERT INTO `product_image` VALUES (261, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH.png', '2026-09-26 13:02:11.928582', 107);
-INSERT INTO `product_image` VALUES (262, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH-EXTRA-500ML.webp', '2026-09-26 13:02:11.928582', 107);
-INSERT INTO `product_image` VALUES (263, 'https://biyokea.vn/wp-content/uploads/2025/07/tinh-dau-sa-chanh-1-768x768.png', '2026-09-26 13:02:11.928582', 107);
-INSERT INTO `product_image` VALUES (264, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-10ML.jpg', '2026-09-26 13:02:11.928582', 108);
-INSERT INTO `product_image` VALUES (265, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-1000ML.jpg', '2026-09-26 13:02:11.928582', 108);
-INSERT INTO `product_image` VALUES (266, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-100ML.jpg', '2026-09-26 13:02:11.928582', 108);
-INSERT INTO `product_image` VALUES (267, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-10ML.webp', '2026-09-26 13:02:11.928582', 109);
-INSERT INTO `product_image` VALUES (268, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-500ML.webp', '2026-09-26 13:02:11.928582', 109);
-INSERT INTO `product_image` VALUES (269, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-100ML.webp', '2026-09-26 13:02:11.928582', 109);
-INSERT INTO `product_image` VALUES (270, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 110);
-INSERT INTO `product_image` VALUES (271, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-1000ML.webp', '2026-09-26 13:02:11.928582', 110);
-INSERT INTO `product_image` VALUES (272, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-100ML.webp', '2026-09-26 13:02:11.928582', 110);
-INSERT INTO `product_image` VALUES (273, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 111);
-INSERT INTO `product_image` VALUES (274, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 111);
-INSERT INTO `product_image` VALUES (275, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-100ML.webp', '2026-09-26 13:02:11.928582', 111);
-INSERT INTO `product_image` VALUES (276, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-10ML.webp', '2026-09-26 13:02:11.928582', 112);
-INSERT INTO `product_image` VALUES (277, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-500ML.webp', '2026-09-26 13:02:11.928582', 112);
-INSERT INTO `product_image` VALUES (278, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-100ML.webp', '2026-09-26 13:02:11.928582', 112);
-INSERT INTO `product_image` VALUES (279, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-10ML.webp', '2026-09-26 13:02:11.928582', 113);
-INSERT INTO `product_image` VALUES (280, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-500ML.webp', '2026-09-26 13:02:11.928582', 113);
-INSERT INTO `product_image` VALUES (281, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-100ML.webp', '2026-09-26 13:02:11.928582', 113);
-INSERT INTO `product_image` VALUES (282, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 114);
-INSERT INTO `product_image` VALUES (283, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 114);
-INSERT INTO `product_image` VALUES (284, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 114);
-INSERT INTO `product_image` VALUES (285, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-10ML.webp', '2026-09-26 13:02:11.928582', 115);
-INSERT INTO `product_image` VALUES (286, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-500ML.webp', '2026-09-26 13:02:11.928582', 115);
-INSERT INTO `product_image` VALUES (287, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-100ML.webp', '2026-09-26 13:02:11.928582', 115);
-INSERT INTO `product_image` VALUES (288, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-10ML.webp', '2026-09-26 13:02:11.928582', 116);
-INSERT INTO `product_image` VALUES (289, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-500ML.webp', '2026-09-26 13:02:11.928582', 116);
-INSERT INTO `product_image` VALUES (290, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-100ML.webp', '2026-09-26 13:02:11.928582', 116);
-INSERT INTO `product_image` VALUES (291, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-10ML.webp', '2026-09-26 13:02:11.928582', 117);
-INSERT INTO `product_image` VALUES (292, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-500ML.webp', '2026-09-26 13:02:11.928582', 117);
-INSERT INTO `product_image` VALUES (293, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-100ML.webp', '2026-09-26 13:02:11.928582', 117);
-INSERT INTO `product_image` VALUES (294, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-10ML.webp', '2026-09-26 13:02:11.928582', 118);
-INSERT INTO `product_image` VALUES (295, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-1000ML.webp', '2026-09-26 13:02:11.928582', 118);
-INSERT INTO `product_image` VALUES (296, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-100ML.webp', '2026-09-26 13:02:11.928582', 118);
-INSERT INTO `product_image` VALUES (297, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-10ML.webp', '2026-09-26 13:02:11.928582', 119);
-INSERT INTO `product_image` VALUES (298, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-1000ML.webp', '2026-09-26 13:02:11.928582', 119);
-INSERT INTO `product_image` VALUES (299, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-100ML.webp', '2026-09-26 13:02:11.928582', 119);
-INSERT INTO `product_image` VALUES (300, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-10ML.webp', '2026-09-26 13:02:11.928582', 120);
-INSERT INTO `product_image` VALUES (301, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-1000ML.webp', '2026-09-26 13:02:11.928582', 120);
-INSERT INTO `product_image` VALUES (302, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-100ML.webp', '2026-09-26 13:02:11.928582', 120);
-INSERT INTO `product_image` VALUES (303, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-10ML.webp', '2026-09-26 13:02:11.928582', 121);
-INSERT INTO `product_image` VALUES (304, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-1000ML.webp', '2026-09-26 13:02:11.928582', 121);
-INSERT INTO `product_image` VALUES (305, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-100ML.webp', '2026-09-26 13:02:11.928582', 121);
-INSERT INTO `product_image` VALUES (306, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-10ML.webp', '2026-09-26 13:02:11.928582', 122);
-INSERT INTO `product_image` VALUES (307, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-1000ML.webp', '2026-09-26 13:02:11.928582', 122);
-INSERT INTO `product_image` VALUES (308, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-100ML.webp', '2026-09-26 13:02:11.928582', 122);
-INSERT INTO `product_image` VALUES (309, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-10ML.webp', '2026-09-26 13:02:11.928582', 123);
-INSERT INTO `product_image` VALUES (310, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-1000ML.webp', '2026-09-26 13:02:11.928582', 123);
-INSERT INTO `product_image` VALUES (311, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-100ML.webp', '2026-09-26 13:02:11.928582', 123);
-INSERT INTO `product_image` VALUES (312, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 124);
-INSERT INTO `product_image` VALUES (313, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 124);
-INSERT INTO `product_image` VALUES (314, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 125);
-INSERT INTO `product_image` VALUES (315, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 125);
-INSERT INTO `product_image` VALUES (316, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 126);
-INSERT INTO `product_image` VALUES (317, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 126);
-INSERT INTO `product_image` VALUES (318, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 127);
-INSERT INTO `product_image` VALUES (319, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 127);
-INSERT INTO `product_image` VALUES (320, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 128);
-INSERT INTO `product_image` VALUES (321, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 128);
-INSERT INTO `product_image` VALUES (322, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 129);
-INSERT INTO `product_image` VALUES (323, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 129);
-INSERT INTO `product_image` VALUES (324, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 130);
-INSERT INTO `product_image` VALUES (325, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 130);
-INSERT INTO `product_image` VALUES (326, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 131);
-INSERT INTO `product_image` VALUES (327, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 131);
-INSERT INTO `product_image` VALUES (328, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 132);
-INSERT INTO `product_image` VALUES (329, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 132);
-INSERT INTO `product_image` VALUES (330, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 133);
-INSERT INTO `product_image` VALUES (331, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 133);
-INSERT INTO `product_image` VALUES (332, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 134);
-INSERT INTO `product_image` VALUES (333, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 134);
-INSERT INTO `product_image` VALUES (334, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 135);
-INSERT INTO `product_image` VALUES (335, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 135);
-INSERT INTO `product_image` VALUES (336, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 136);
-INSERT INTO `product_image` VALUES (337, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 136);
-INSERT INTO `product_image` VALUES (338, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 137);
-INSERT INTO `product_image` VALUES (339, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 137);
-INSERT INTO `product_image` VALUES (340, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 138);
-INSERT INTO `product_image` VALUES (341, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 138);
-INSERT INTO `product_image` VALUES (342, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-2-1-768x768.webp', '2026-09-26 13:02:11.928582', 139);
-INSERT INTO `product_image` VALUES (343, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-1-768x768.webp', '2026-09-26 13:02:11.928582', 139);
-INSERT INTO `product_image` VALUES (344, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 140);
-INSERT INTO `product_image` VALUES (345, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 140);
-INSERT INTO `product_image` VALUES (346, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-768x768.jpg', '2026-09-26 13:02:11.928582', 141);
-INSERT INTO `product_image` VALUES (347, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-2-768x768.jpg', '2026-09-26 13:02:11.928582', 141);
-INSERT INTO `product_image` VALUES (348, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 142);
-INSERT INTO `product_image` VALUES (349, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 142);
-INSERT INTO `product_image` VALUES (350, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-768x768.jpg', '2026-09-26 13:02:11.928582', 143);
-INSERT INTO `product_image` VALUES (351, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-2-768x768.jpg', '2026-09-26 13:02:11.928582', 143);
-INSERT INTO `product_image` VALUES (352, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 144);
-INSERT INTO `product_image` VALUES (353, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 144);
-INSERT INTO `product_image` VALUES (354, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-la-ngo-gai-ngo-tay-mui-tau-eryngium-foetidum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 145);
-INSERT INTO `product_image` VALUES (355, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 145);
-INSERT INTO `product_image` VALUES (356, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 146);
-INSERT INTO `product_image` VALUES (357, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 146);
-INSERT INTO `product_image` VALUES (358, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 147);
-INSERT INTO `product_image` VALUES (359, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 147);
-INSERT INTO `product_image` VALUES (360, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 148);
-INSERT INTO `product_image` VALUES (361, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 148);
-INSERT INTO `product_image` VALUES (362, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 149);
-INSERT INTO `product_image` VALUES (363, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 149);
-INSERT INTO `product_image` VALUES (364, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 150);
-INSERT INTO `product_image` VALUES (365, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 150);
-INSERT INTO `product_image` VALUES (366, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-1-768x768.webp', '2026-09-26 13:02:11.928582', 151);
-INSERT INTO `product_image` VALUES (367, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-2-1-768x768.webp', '2026-09-26 13:02:11.928582', 151);
-INSERT INTO `product_image` VALUES (368, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 152);
-INSERT INTO `product_image` VALUES (369, 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Thymus_vulgaris_mit_Botrytis_cinerea_Befall%2C_Jan_Hinrichs-Berger-1.jpg', '2026-09-26 13:02:11.928582', 152);
-INSERT INTO `product_image` VALUES (370, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 13:02:11.928582', 153);
-INSERT INTO `product_image` VALUES (371, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 153);
-INSERT INTO `product_image` VALUES (372, 'https://product.hstatic.net/1000187742/product/bac_ha_luc3_e1bb64224f934f38bcea4989106fced6_grande.png', '2026-09-26 13:02:11.928582', 154);
-INSERT INTO `product_image` VALUES (373, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 154);
-INSERT INTO `product_image` VALUES (374, 'https://product.hstatic.net/1000187742/product/bach_dan_chanh3_e93b64a88159414ba15b597880fa9e07_grande.png', '2026-09-26 13:02:11.928582', 155);
-INSERT INTO `product_image` VALUES (375, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 155);
-INSERT INTO `product_image` VALUES (376, 'https://product.hstatic.net/1000187742/product/cam_huong3_ed0af8443f634614b06e2957301957cf_grande.png', '2026-09-26 13:02:11.928582', 156);
-INSERT INTO `product_image` VALUES (377, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 156);
-INSERT INTO `product_image` VALUES (378, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 13:02:11.928582', 157);
-INSERT INTO `product_image` VALUES (379, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 157);
-INSERT INTO `product_image` VALUES (380, 'https://product.hstatic.net/1000187742/product/chanh3_81053877a0c042aeb79c098ec6d79bae_grande.png', '2026-09-26 13:02:11.928582', 158);
-INSERT INTO `product_image` VALUES (381, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 158);
-INSERT INTO `product_image` VALUES (382, 'https://product.hstatic.net/1000187742/product/chanh_san3_20f0efbdb78b4cfe89153bbfeb5d3412_grande.png', '2026-09-26 13:02:11.928582', 159);
-INSERT INTO `product_image` VALUES (383, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 159);
-INSERT INTO `product_image` VALUES (384, 'https://product.hstatic.net/1000187742/product/cuc_xanh_la_ma3_e563f43b91ff48838570c67c28318f02_grande.png', '2026-09-26 13:02:11.928582', 160);
-INSERT INTO `product_image` VALUES (385, 'https://upload.wikimedia.org/wikipedia/commons/7/72/Camomille_sauvage_%28Matricaria_chamomilla%29%2C_coquelicots_%28Papaver_rhoeas%29_au_bord_d%27un_champ_d%27orge_%28Hordeum_vulgare%29.jpg', '2026-09-26 13:02:11.928582', 160);
-INSERT INTO `product_image` VALUES (386, 'https://product.hstatic.net/1000187742/product/co_gung3_7624ce0a725a489d805366289143c539_grande.png', '2026-09-26 13:02:11.928582', 161);
-INSERT INTO `product_image` VALUES (387, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 161);
-INSERT INTO `product_image` VALUES (388, 'https://product.hstatic.net/1000187742/product/_dai_hoi3_89e5d93dec85420198f74abd346fde4a_grande.png', '2026-09-26 13:02:11.928582', 162);
-INSERT INTO `product_image` VALUES (389, 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Dried_Star_Anise_Fruit_Seeds.jpg', '2026-09-26 13:02:11.928582', 162);
-INSERT INTO `product_image` VALUES (390, 'https://product.hstatic.net/1000187742/product/dan_huong3_cb0a6802c01e4eec97d848c2ed81cb6f_grande.png', '2026-09-26 13:02:11.928582', 163);
-INSERT INTO `product_image` VALUES (391, 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Santalum_album_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-128.jpg', '2026-09-26 13:02:11.928582', 163);
-INSERT INTO `product_image` VALUES (392, 'https://product.hstatic.net/1000187742/product/do_tung3_3cc6fe2285e04a8b8565c38f548519eb_grande.png', '2026-09-26 13:02:11.928582', 164);
-INSERT INTO `product_image` VALUES (393, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 164);
-INSERT INTO `product_image` VALUES (394, 'https://product.hstatic.net/1000187742/product/don_sam3_763f9de7abf14423878ab9c224d0b11e_grande.png', '2026-09-26 13:02:11.928582', 165);
-INSERT INTO `product_image` VALUES (395, 'https://upload.wikimedia.org/wikipedia/commons/3/38/Salvia_sclarea_-_Paskulak_02.jpg', '2026-09-26 13:02:11.928582', 165);
-INSERT INTO `product_image` VALUES (396, 'https://product.hstatic.net/1000187742/product/go_hong3_8aa221536cc64e52839c4fa1a290f6b1_grande.png', '2026-09-26 13:02:11.928582', 166);
-INSERT INTO `product_image` VALUES (397, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 166);
-INSERT INTO `product_image` VALUES (398, 'https://product.hstatic.net/1000187742/product/go_thong3_40030bad30ba4f55a8fb82d083d8c181_grande.png', '2026-09-26 13:02:11.928582', 167);
-INSERT INTO `product_image` VALUES (399, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 167);
-INSERT INTO `product_image` VALUES (400, 'https://product.hstatic.net/1000187742/product/hat_ngo3_0caa27f6995c4fd8bbbc5a3f9cdcee00_grande.png', '2026-09-26 13:02:11.928582', 168);
-INSERT INTO `product_image` VALUES (401, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 168);
-INSERT INTO `product_image` VALUES (402, 'https://product.hstatic.net/1000187742/product/hoang_dan3_49af7d1e64c54d80b4be86cf32d04e12_grande.png', '2026-09-26 13:02:11.928582', 169);
-INSERT INTO `product_image` VALUES (403, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 169);
-INSERT INTO `product_image` VALUES (404, 'https://product.hstatic.net/1000187742/product/hoac_huong3_36368172098f4bfcb6b9450eab944a30_grande.png', '2026-09-26 13:02:11.928582', 170);
-INSERT INTO `product_image` VALUES (405, 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Starr-121108-1096-Pogostemon_cablin-leaves_and_flowers-Pali_o_Waipio-Maui_%2824827691409%29.jpg', '2026-09-26 13:02:11.928582', 170);
-INSERT INTO `product_image` VALUES (406, 'https://product.hstatic.net/1000187742/product/hung_que3_9c0f8d2534be46b9bb589d9c19dd576f_grande.png', '2026-09-26 13:02:11.928582', 171);
-INSERT INTO `product_image` VALUES (407, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 171);
-INSERT INTO `product_image` VALUES (408, 'https://product.hstatic.net/1000187742/product/huong_nhu3_aa679dd2aca84e40834d850de8363f8d_grande.png', '2026-09-26 13:02:11.928582', 172);
-INSERT INTO `product_image` VALUES (409, 'https://upload.wikimedia.org/wikipedia/commons/3/32/Ocimum_Basilicum_leaf_lighted_by_the_left.jpg', '2026-09-26 13:02:11.928582', 172);
-INSERT INTO `product_image` VALUES (410, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 13:02:11.928582', 173);
-INSERT INTO `product_image` VALUES (411, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 173);
-INSERT INTO `product_image` VALUES (412, 'https://product.hstatic.net/1000187742/product/khuynh_diep_globulus3_48215d45e1234257a98575b855d900f3_grande.png', '2026-09-26 13:02:11.928582', 174);
-INSERT INTO `product_image` VALUES (413, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 174);
-INSERT INTO `product_image` VALUES (414, 'https://product.hstatic.net/1000187742/product/la_chanh3_acd0c732ebbd4d0e91594648dc4b6d43_grande.png', '2026-09-26 13:02:11.928582', 175);
-INSERT INTO `product_image` VALUES (415, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 175);
-INSERT INTO `product_image` VALUES (416, 'https://product.hstatic.net/1000187742/product/nghe3_ac3a1d8f172648ceb799552007f890af_grande.png', '2026-09-26 13:02:11.928582', 176);
-INSERT INTO `product_image` VALUES (417, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 176);
-INSERT INTO `product_image` VALUES (418, 'https://product.hstatic.net/1000187742/product/ngoc_lan_tay3_bcdfd0d9f8ff4a5fa6c6e87c4517a967_grande.png', '2026-09-26 13:02:11.928582', 177);
-INSERT INTO `product_image` VALUES (419, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 177);
-INSERT INTO `product_image` VALUES (420, 'https://product.hstatic.net/1000187742/product/nhu_huong3_8cf49fc1cf524072a7deed4ae83e1725_grande.png', '2026-09-26 13:02:11.928582', 178);
-INSERT INTO `product_image` VALUES (421, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 178);
-INSERT INTO `product_image` VALUES (422, 'https://product.hstatic.net/1000187742/product/oai_huong3_02c0768efee04eac9f2b73edabd140a0_grande.png', '2026-09-26 13:02:11.928582', 179);
-INSERT INTO `product_image` VALUES (423, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 179);
-INSERT INTO `product_image` VALUES (424, 'https://product.hstatic.net/1000187742/product/phong_lu3_32f757c261e4489eb5db210b2d73f312_grande.png', '2026-09-26 13:02:11.928582', 180);
-INSERT INTO `product_image` VALUES (425, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 180);
-INSERT INTO `product_image` VALUES (426, 'https://product.hstatic.net/1000187742/product/po_mu3_47b086995b9f4bf39d0503935dca3dd3_grande.png', '2026-09-26 13:02:11.928582', 181);
-INSERT INTO `product_image` VALUES (427, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 181);
-INSERT INTO `product_image` VALUES (428, 'https://product.hstatic.net/1000187742/product/que_ceylon3_f3a72e966bad4815b27fd5d5a0999e1c_grande.png', '2026-09-26 13:02:11.928582', 182);
-INSERT INTO `product_image` VALUES (429, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 182);
-INSERT INTO `product_image` VALUES (430, 'https://product.hstatic.net/1000187742/product/quyt3_5b968236f4da4f0a99094d09beed714d_grande.png', '2026-09-26 13:02:11.928582', 183);
-INSERT INTO `product_image` VALUES (431, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 183);
-INSERT INTO `product_image` VALUES (432, 'https://product.hstatic.net/1000187742/product/ra_huong3_e911ea39a57a4225a32e54ac5df36c0d_grande.png', '2026-09-26 13:02:11.928582', 184);
-INSERT INTO `product_image` VALUES (433, 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Cinnamomum_camphora_Vergelegen.jpg', '2026-09-26 13:02:11.928582', 184);
-INSERT INTO `product_image` VALUES (434, 'https://product.hstatic.net/1000187742/product/sa_chanh3_e03eb497c4ef4660a7bfd4f246cd22d3_grande.png', '2026-09-26 13:02:11.928582', 185);
-INSERT INTO `product_image` VALUES (435, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 185);
-INSERT INTO `product_image` VALUES (436, 'https://product.hstatic.net/1000187742/product/sa_hong3_e2a532cfdac1435f9e7ff3db7e6afc7d_grande.png', '2026-09-26 13:02:11.928582', 186);
-INSERT INTO `product_image` VALUES (437, 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Cymbopogon_martinii_Image.jpg', '2026-09-26 13:02:11.928582', 186);
-INSERT INTO `product_image` VALUES (438, 'https://product.hstatic.net/1000187742/product/sa_java3_e71de700cced463194c372d771f0cc51_grande.png', '2026-09-26 13:02:11.928582', 187);
-INSERT INTO `product_image` VALUES (439, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 187);
-INSERT INTO `product_image` VALUES (440, 'https://product.hstatic.net/1000187742/product/thi_la_tay3_2683f93b7cbb44e3a0b3e160c5993954_grande.png', '2026-09-26 13:02:11.928582', 188);
-INSERT INTO `product_image` VALUES (441, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 188);
-INSERT INTO `product_image` VALUES (442, 'https://product.hstatic.net/1000187742/product/_tieu_hong3_3d7bb707c52e4643811fd4c50303b48e_grande.png', '2026-09-26 13:02:11.928582', 189);
-INSERT INTO `product_image` VALUES (443, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 189);
-INSERT INTO `product_image` VALUES (444, 'https://product.hstatic.net/1000187742/product/tram_gio3_1e165259230d4443acbf4cb706caa2b6_grande.png', '2026-09-26 13:02:11.928582', 190);
-INSERT INTO `product_image` VALUES (445, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 190);
-INSERT INTO `product_image` VALUES (446, 'https://product.hstatic.net/1000187742/product/tram_tra3_b9eaab460d8b4264a2ec57c1b7b9c17d_grande.png', '2026-09-26 13:02:11.928582', 191);
-INSERT INTO `product_image` VALUES (447, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 191);
-INSERT INTO `product_image` VALUES (448, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 192);
-INSERT INTO `product_image` VALUES (449, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 192);
-INSERT INTO `product_image` VALUES (450, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 193);
-INSERT INTO `product_image` VALUES (451, 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Piper_betle_%28504522647%29.jpg', '2026-09-26 13:02:11.928582', 193);
-INSERT INTO `product_image` VALUES (452, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 194);
-INSERT INTO `product_image` VALUES (453, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 194);
-INSERT INTO `product_image` VALUES (454, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 195);
-INSERT INTO `product_image` VALUES (455, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 195);
-INSERT INTO `product_image` VALUES (456, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 13:02:11.928582', 196);
-INSERT INTO `product_image` VALUES (457, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 196);
-INSERT INTO `product_image` VALUES (458, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 13:02:11.928582', 197);
-INSERT INTO `product_image` VALUES (459, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 197);
-INSERT INTO `product_image` VALUES (460, 'https://product.hstatic.net/1000187742/product/hoang_dan_organic3_a9b3cc28e6984384a6de0a10db5b4fad_grande.png', '2026-09-26 13:02:11.928582', 198);
-INSERT INTO `product_image` VALUES (461, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 198);
-INSERT INTO `product_image` VALUES (462, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 13:02:11.928582', 199);
-INSERT INTO `product_image` VALUES (463, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 199);
-INSERT INTO `product_image` VALUES (464, 'https://product.hstatic.net/1000187742/product/khuynh_diep_radiata_3_40340bc7eb864d678ce377e180a6fe2d_grande.png', '2026-09-26 13:02:11.928582', 200);
-INSERT INTO `product_image` VALUES (465, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 200);
-INSERT INTO `product_image` VALUES (466, 'https://product.hstatic.net/1000187742/product/oai_huong_organic3_2cf710279f554e89b25922e5fe6cbcaa_grande.png', '2026-09-26 13:02:11.928582', 201);
-INSERT INTO `product_image` VALUES (467, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 201);
-INSERT INTO `product_image` VALUES (468, 'https://product.hstatic.net/1000187742/product/sa_chanh_organic3_31338b70635a45e584fa42694bd85992_grande.png', '2026-09-26 13:02:11.928582', 202);
-INSERT INTO `product_image` VALUES (469, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 202);
-INSERT INTO `product_image` VALUES (470, 'https://product.hstatic.net/1000187742/product/tram_tra_organic3_c441dae9dc68449593138227c759cc86_grande.png', '2026-09-26 13:02:11.928582', 203);
-INSERT INTO `product_image` VALUES (471, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 203);
-INSERT INTO `product_image` VALUES (472, 'https://cdn.hstatic.net/products/1000187742/093_0942_copy_9f6c4ee72f294b9d9da808b96ca7c7f6_grande.png', '2026-09-26 13:02:11.928582', 204);
-INSERT INTO `product_image` VALUES (473, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 204);
-INSERT INTO `product_image` VALUES (474, 'https://cdn.hstatic.net/products/1000187742/104___1_1_a19b7c877c0e49419172ae91235fd9e0_grande.png', '2026-09-26 13:02:11.928582', 205);
-INSERT INTO `product_image` VALUES (475, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 205);
-INSERT INTO `product_image` VALUES (476, 'https://haku.vn/wp-content/uploads/2019/10/tinh-dau-sa-chanh-giup-duoi-kien-ba-khoang-ra-khoi-nha.jpg', '2026-09-26 13:02:11.928582', 206);
-INSERT INTO `product_image` VALUES (477, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 206);
-INSERT INTO `product_image` VALUES (478, 'https://haku.vn/wp-content/uploads/2019/11/tinh-dau-buoi-rat-tot-cho-toc-va-xa-stress.jpg', '2026-09-26 13:02:11.928582', 207);
-INSERT INTO `product_image` VALUES (479, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 207);
-INSERT INTO `product_image` VALUES (480, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-dung-duoc-bao-lau-2.jpg', '2026-09-26 13:02:11.928582', 208);
-INSERT INTO `product_image` VALUES (481, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 208);
-INSERT INTO `product_image` VALUES (482, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-oai-huong.png', '2026-09-26 13:02:11.928582', 209);
-INSERT INTO `product_image` VALUES (483, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 209);
-INSERT INTO `product_image` VALUES (484, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-hoa-nhai-jasmine-kich-thich-rat-tot.png', '2026-09-26 13:02:11.928582', 210);
-INSERT INTO `product_image` VALUES (485, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 210);
-INSERT INTO `product_image` VALUES (486, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-dung-duoc-bao-lau-2.jpg', '2026-09-26 13:02:11.928582', 211);
-INSERT INTO `product_image` VALUES (487, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 211);
-INSERT INTO `product_image` VALUES (488, 'https://haku.vn/wp-content/uploads/2020/04/banner-haku-scent-tinh-dau-que.jpg', '2026-09-26 13:02:11.928582', 212);
-INSERT INTO `product_image` VALUES (489, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 212);
-INSERT INTO `product_image` VALUES (490, 'https://haku.vn/wp-content/uploads/2019/11/tinh-dau-la-gi.jpg', '2026-09-26 13:02:11.928582', 213);
-INSERT INTO `product_image` VALUES (491, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 213);
-INSERT INTO `product_image` VALUES (492, 'https://haku.vn/wp-content/uploads/2019/11/cach-dung-tinh-dau-2.jpg', '2026-09-26 13:02:11.928582', 214);
-INSERT INTO `product_image` VALUES (493, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 214);
-INSERT INTO `product_image` VALUES (494, 'https://haku.vn/wp-content/uploads/2020/01/thu-mua-tinh-dau-so-luong-lon.jpg', '2026-09-26 13:02:11.928582', 215);
-INSERT INTO `product_image` VALUES (495, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 215);
-INSERT INTO `product_image` VALUES (496, 'https://haku.vn/wp-content/uploads/2019/11/cach-phuong-phap-chiet-xuat-tinh-dau.jpg', '2026-09-26 13:02:11.928582', 216);
-INSERT INTO `product_image` VALUES (497, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 216);
-INSERT INTO `product_image` VALUES (498, 'https://haku.vn/wp-content/uploads/2019/11/cam-nang-su-dung-tinh-dau-a-z.jpg', '2026-09-26 13:02:11.928582', 217);
-INSERT INTO `product_image` VALUES (499, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 217);
-INSERT INTO `product_image` VALUES (500, 'https://haku.vn/wp-content/uploads/2020/01/thu-mua-tinh-dau-so-luong-lon-1.jpg', '2026-09-26 13:02:11.928582', 218);
-INSERT INTO `product_image` VALUES (501, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 218);
-INSERT INTO `product_image` VALUES (502, 'https://haku.vn/wp-content/uploads/2020/07/tim-hieu-cac-loai-tinh-dau-tot-cho-tinh-cam.png', '2026-09-26 13:02:11.928582', 219);
-INSERT INTO `product_image` VALUES (503, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 219);
-INSERT INTO `product_image` VALUES (504, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-ngoc-lan-tay-vua-cua-cac-loai-tinh-dau.png', '2026-09-26 13:02:11.928582', 220);
-INSERT INTO `product_image` VALUES (505, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 220);
-INSERT INTO `product_image` VALUES (506, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-su-dung-duoc-bao-lau-5.jpg', '2026-09-26 13:02:11.928582', 221);
-INSERT INTO `product_image` VALUES (507, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 221);
-INSERT INTO `product_image` VALUES (508, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-cam-ngot-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 222);
-INSERT INTO `product_image` VALUES (509, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 222);
-INSERT INTO `product_image` VALUES (510, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-cam-ngot-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 223);
-INSERT INTO `product_image` VALUES (511, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 223);
-INSERT INTO `product_image` VALUES (512, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-sa-chanh-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 224);
-INSERT INTO `product_image` VALUES (513, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 224);
-INSERT INTO `product_image` VALUES (514, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-sa-chanh-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 225);
-INSERT INTO `product_image` VALUES (515, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 225);
-INSERT INTO `product_image` VALUES (516, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-bac-ha-50ml.jpg', '2026-09-26 13:02:11.928582', 226);
-INSERT INTO `product_image` VALUES (517, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 226);
-INSERT INTO `product_image` VALUES (518, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-buoi-hong-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 227);
-INSERT INTO `product_image` VALUES (519, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 227);
-INSERT INTO `product_image` VALUES (520, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-buoi-hong-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 228);
-INSERT INTO `product_image` VALUES (521, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 228);
-INSERT INTO `product_image` VALUES (522, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-que-50ml-tinh-dau-100.jpg', '2026-09-26 13:02:11.928582', 229);
-INSERT INTO `product_image` VALUES (523, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 229);
-INSERT INTO `product_image` VALUES (524, 'https://tinhdau100.vn/uploads/images/banner/danh-muc-3/tinh-dau-oai-huong.jpg', '2026-09-26 13:02:11.928582', 230);
-INSERT INTO `product_image` VALUES (525, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 230);
-INSERT INTO `product_image` VALUES (526, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-tram-nguyen-chat-mua-4-tang-1.jpg', '2026-09-26 13:02:11.928582', 231);
-INSERT INTO `product_image` VALUES (527, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 231);
-INSERT INTO `product_image` VALUES (528, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-cam-nhap-khau-so-luong-lon.jpg', '2026-09-26 13:02:11.928582', 232);
-INSERT INTO `product_image` VALUES (529, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 232);
-INSERT INTO `product_image` VALUES (530, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-peppermint.jpg', '2026-09-26 13:02:11.928582', 233);
-INSERT INTO `product_image` VALUES (531, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 233);
-INSERT INTO `product_image` VALUES (532, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 234);
-INSERT INTO `product_image` VALUES (533, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 234);
-INSERT INTO `product_image` VALUES (534, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 235);
-INSERT INTO `product_image` VALUES (535, 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Santalum_album_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-128.jpg', '2026-09-26 13:02:11.928582', 235);
-INSERT INTO `product_image` VALUES (536, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoang-dan-la-gi.jpg', '2026-09-26 13:02:11.928582', 236);
-INSERT INTO `product_image` VALUES (537, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 236);
-INSERT INTO `product_image` VALUES (538, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-que-cinnamon.jpg', '2026-09-26 13:02:11.928582', 237);
-INSERT INTO `product_image` VALUES (539, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 237);
-INSERT INTO `product_image` VALUES (540, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-geranium.jpg', '2026-09-26 13:02:11.928582', 238);
-INSERT INTO `product_image` VALUES (541, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 238);
-INSERT INTO `product_image` VALUES (542, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-ngoc-lan-tay-gia-si-1.jpg', '2026-09-26 13:02:11.928582', 239);
-INSERT INTO `product_image` VALUES (543, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 239);
-INSERT INTO `product_image` VALUES (544, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-buoi-la-gi.jpg', '2026-09-26 13:02:11.928582', 240);
-INSERT INTO `product_image` VALUES (545, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 240);
-INSERT INTO `product_image` VALUES (546, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-huong-thao-rosemary.jpg', '2026-09-26 13:02:11.928582', 241);
-INSERT INTO `product_image` VALUES (547, 'https://upload.wikimedia.org/wikipedia/commons/7/71/Rosemary_plant_with_flowers.jpg', '2026-09-26 13:02:11.928582', 241);
-INSERT INTO `product_image` VALUES (548, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-cam-huong-bergamot.jpg', '2026-09-26 13:02:11.928582', 242);
-INSERT INTO `product_image` VALUES (549, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 242);
-INSERT INTO `product_image` VALUES (550, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 243);
-INSERT INTO `product_image` VALUES (551, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 243);
-INSERT INTO `product_image` VALUES (552, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 244);
-INSERT INTO `product_image` VALUES (553, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 244);
-INSERT INTO `product_image` VALUES (554, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoa-hong-la-gi.jpg', '2026-09-26 13:02:11.928582', 245);
-INSERT INTO `product_image` VALUES (555, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 245);
-INSERT INTO `product_image` VALUES (556, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-lai-la-gi.jpg', '2026-09-26 13:02:11.928582', 246);
-INSERT INTO `product_image` VALUES (557, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 246);
-INSERT INTO `product_image` VALUES (558, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-peppermint.jpg', '2026-09-26 13:02:11.928582', 247);
-INSERT INTO `product_image` VALUES (559, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 247);
-INSERT INTO `product_image` VALUES (560, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-tram-tra-tea-tree.jpg', '2026-09-26 13:02:11.928582', 248);
-INSERT INTO `product_image` VALUES (561, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 248);
-INSERT INTO `product_image` VALUES (562, 'https://khotinhdau.com/wp-content/uploads/2021/03/qua-va-la-chanh-duoc-su-dung-pho-bien.jpg', '2026-09-26 13:02:11.928582', 249);
-INSERT INTO `product_image` VALUES (563, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 249);
-INSERT INTO `product_image` VALUES (564, 'https://khotinhdau.com/wp-content/uploads/2020/04/tinh-dau-chanh-san-la-gi.jpg', '2026-09-26 13:02:11.928582', 250);
-INSERT INTO `product_image` VALUES (565, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 250);
-INSERT INTO `product_image` VALUES (566, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 251);
-INSERT INTO `product_image` VALUES (567, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 251);
-INSERT INTO `product_image` VALUES (568, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 252);
-INSERT INTO `product_image` VALUES (569, 'https://upload.wikimedia.org/wikipedia/commons/2/28/Gewuerze_004_2024_08_10.jpg', '2026-09-26 13:02:11.928582', 252);
-INSERT INTO `product_image` VALUES (570, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 253);
-INSERT INTO `product_image` VALUES (571, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 253);
-INSERT INTO `product_image` VALUES (572, 'https://khotinhdau.com/wp-content/uploads/2019/10/tinh-dau-vo-quyt.jpg', '2026-09-26 13:02:11.928582', 254);
-INSERT INTO `product_image` VALUES (573, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 254);
-INSERT INTO `product_image` VALUES (574, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 255);
-INSERT INTO `product_image` VALUES (575, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 255);
-INSERT INTO `product_image` VALUES (576, 'https://khotinhdau.com/wp-content/uploads/2019/10/cay-go-hong-an-do.jpg', '2026-09-26 13:02:11.928582', 256);
-INSERT INTO `product_image` VALUES (577, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 256);
-INSERT INTO `product_image` VALUES (578, 'https://khotinhdau.com/wp-content/uploads/2023/09/tinh-dau-hoac-huong-patchouli.jpg', '2026-09-26 13:02:11.928582', 257);
-INSERT INTO `product_image` VALUES (579, 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Starr-121108-1096-Pogostemon_cablin-leaves_and_flowers-Pali_o_Waipio-Maui_%2824827691409%29.jpg', '2026-09-26 13:02:11.928582', 257);
-INSERT INTO `product_image` VALUES (580, 'https://khotinhdau.com/wp-content/uploads/2020/04/Tinh-dau-duoc-chung-cat-tu-phan-nhua-cay.jpg', '2026-09-26 13:02:11.928582', 258);
-INSERT INTO `product_image` VALUES (581, 'https://upload.wikimedia.org/wikipedia/commons/9/94/Agarwood_top_grade.jpg', '2026-09-26 13:02:11.928582', 258);
-INSERT INTO `product_image` VALUES (582, 'https://khotinhdau.com/wp-content/uploads/2019/10/tinh-dau-khuynh-diep-da-duoc-dung-tu-lau-doi.jpg', '2026-09-26 13:02:11.928582', 259);
-INSERT INTO `product_image` VALUES (583, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 259);
-INSERT INTO `product_image` VALUES (584, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-tram-tra-tea-tree.jpg', '2026-09-26 13:02:11.928582', 260);
-INSERT INTO `product_image` VALUES (585, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 260);
-INSERT INTO `product_image` VALUES (586, 'https://khotinhdau.com/wp-content/uploads/2020/02/Cay-tram-gi-duoc-trong-nhieu-o-Viet-Nam.jpg', '2026-09-26 13:02:11.928582', 261);
-INSERT INTO `product_image` VALUES (587, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 261);
-INSERT INTO `product_image` VALUES (588, 'https://khotinhdau.com/wp-content/uploads/2021/05/tinh-dau-hung-que-ban-si-theo-lit.jpg', '2026-09-26 13:02:11.928582', 262);
-INSERT INTO `product_image` VALUES (589, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 262);
-INSERT INTO `product_image` VALUES (590, 'https://khotinhdau.com/wp-content/uploads/2021/05/cay-sa-java.jpg', '2026-09-26 13:02:11.928582', 263);
-INSERT INTO `product_image` VALUES (591, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 263);
-INSERT INTO `product_image` VALUES (592, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 264);
-INSERT INTO `product_image` VALUES (593, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 264);
-INSERT INTO `product_image` VALUES (594, 'https://khotinhdau.com/wp-content/uploads/2020/04/vao-mua-dong-cay-van-xanh-tuoi.jpg', '2026-09-26 13:02:11.928582', 265);
-INSERT INTO `product_image` VALUES (595, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 265);
-INSERT INTO `product_image` VALUES (596, 'https://khotinhdau.com/wp-content/uploads/2020/04/tinh-dau-duoc-chiet-xuat-tu-phan-hat.jpg', '2026-09-26 13:02:11.928582', 266);
-INSERT INTO `product_image` VALUES (597, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 266);
-INSERT INTO `product_image` VALUES (598, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoa-hong-la-gi.jpg', '2026-09-26 13:02:11.928582', 267);
-INSERT INTO `product_image` VALUES (599, 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Cymbopogon_martinii_Image.jpg', '2026-09-26 13:02:11.928582', 267);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (1, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bac-ha.jpg', '2026-09-26 13:02:11.928582', 1, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (2, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 1, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (3, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bach-dan-chanh-2.jpg', '2026-09-26 13:02:11.928582', 2, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (4, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 2, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (5, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-cam-ngot.jpg', '2026-09-26 13:02:11.928582', 3, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (6, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 3, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (7, 'https://labcos.com.vn/wp-content/uploads/tinhdauchanh.jpg', '2026-09-26 13:02:11.928582', 4, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (8, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 4, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (9, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-go-hong-2.jpg', '2026-09-26 13:02:11.928582', 5, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (10, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 5, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (11, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-gung-1-1.jpg', '2026-09-26 13:02:11.928582', 6, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (12, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 6, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (13, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-cam.jpg', '2026-09-26 13:02:11.928582', 7, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (14, 'https://upload.wikimedia.org/wikipedia/commons/5/57/Orange_blossom.jpg', '2026-09-26 13:02:11.928582', 7, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (15, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-hong.jpg', '2026-09-26 13:02:11.928582', 8, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (16, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 8, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (17, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-nhai-2.jpg', '2026-09-26 13:02:11.928582', 9, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (18, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 9, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (19, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hung-que.jpg', '2026-09-26 13:02:11.928582', 10, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (20, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 10, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (21, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-huong-nhu-2.jpg', '2026-09-26 13:02:11.928582', 11, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (22, 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Starr_030202-0053_Ocimum_gratissimum.jpg', '2026-09-26 13:02:11.928582', 11, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (23, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-khuynh-diep.jpg', '2026-09-26 13:02:11.928582', 12, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (24, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 12, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (25, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-nghe-1.jpg', '2026-09-26 13:02:11.928582', 13, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (26, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 13, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (27, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-ngoc-lan-tay.jpg', '2026-09-26 13:02:11.928582', 14, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (28, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 14, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (29, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-oai-huong-1.jpg', '2026-09-26 13:02:11.928582', 15, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (30, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 15, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (31, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-phong-lu.jpg', '2026-09-26 13:02:11.928582', 16, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (32, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 16, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (33, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-po-mu.jpg', '2026-09-26 13:02:11.928582', 17, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (34, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 17, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (35, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-quyt.jpg', '2026-09-26 13:02:11.928582', 18, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (36, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 18, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (37, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-chanh.jpg', '2026-09-26 13:02:11.928582', 19, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (38, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 19, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (39, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-java.jpg', '2026-09-26 13:02:11.928582', 20, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (40, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 20, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (41, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tra-xanh.jpg', '2026-09-26 13:02:11.928582', 21, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (42, 'https://upload.wikimedia.org/wikipedia/commons/4/46/Pu%27er_tea%2C_Green_tea%2C_Chinese_tea%2C_Rostov-on-Don%2C_Russia.jpg', '2026-09-26 13:02:11.928582', 21, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (43, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-trac-bach-diep.jpg', '2026-09-26 13:02:11.928582', 22, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (44, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 22, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (45, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-gio.jpg', '2026-09-26 13:02:11.928582', 23, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (46, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 23, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (47, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-tra-2.jpg', '2026-09-26 13:02:11.928582', 24, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (48, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 24, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (49, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-buoi-3.jpg', '2026-09-26 13:02:11.928582', 25, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (50, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 25, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (51, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-que.jpg', '2026-09-26 13:02:11.928582', 26, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (52, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 26, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (53, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-ARGAN.jpg', '2026-09-26 13:02:11.928582', 27, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (54, 'https://upload.wikimedia.org/wikipedia/commons/1/10/Argania_spinosa_MHNT.BOT.2010.12.2.jpg', '2026-09-26 13:02:11.928582', 27, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (55, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-CAM-GAO.jpg', '2026-09-26 13:02:11.928582', 28, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (56, 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Green_rice_sheaves_planted_in_a_paddy_field_with_long_shadows_at_golden_hour_in_Don_Det_Laos.jpg', '2026-09-26 13:02:11.928582', 28, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (57, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-DAU-DUA.jpg', '2026-09-26 13:02:11.928582', 29, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (58, 'https://upload.wikimedia.org/wikipedia/commons/8/88/Coconut_on_coconut_tree.png', '2026-09-26 13:02:11.928582', 29, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (59, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-GAC.jpg', '2026-09-26 13:02:11.928582', 30, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (60, 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Momordica_cochinchinensis_seeds%2C_by_Omar_Hoftun.jpg', '2026-09-26 13:02:11.928582', 30, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (61, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/BUOI-DA-XANH.png', '2026-09-26 13:02:11.928582', 31, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (62, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 31, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (63, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/HINH-LONG-NAO1.jpg', '2026-09-26 13:02:11.928582', 32, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (64, 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Cinnamomum_camphora_Vergelegen.jpg', '2026-09-26 13:02:11.928582', 32, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (65, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-tram-gio-600x600-1.jpg', '2026-09-26 13:02:11.928582', 33, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (66, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 33, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (67, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-dinh-huong.jpg', '2026-09-26 13:02:11.928582', 34, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (68, 'https://upload.wikimedia.org/wikipedia/commons/2/28/Gewuerze_004_2024_08_10.jpg', '2026-09-26 13:02:11.928582', 34, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (69, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-trau-khong.jpg', '2026-09-26 13:02:11.928582', 35, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (70, 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Piper_betle_%28504522647%29.jpg', '2026-09-26 13:02:11.928582', 35, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (71, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-huong-nhu.jpg', '2026-09-26 13:02:11.928582', 36, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (72, 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Starr_030202-0053_Ocimum_gratissimum.jpg', '2026-09-26 13:02:11.928582', 36, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (73, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-o%E1%BA%A3i-h%C6%B0%C6%A1ng.jpg', '2026-09-26 13:02:11.928582', 37, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (74, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 37, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (75, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/sa-chanh2-3.jpg', '2026-09-26 13:02:11.928582', 38, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (76, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 38, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (77, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-bac-ha.jpg', '2026-09-26 13:02:11.928582', 39, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (78, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 39, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (79, 'https://tinhdauhanoi.com/wp-content/uploads/2020/06/avatar-san-pham-hung-chanh.jpg', '2026-09-26 13:02:11.928582', 40, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (80, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 40, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (81, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-tram-tra.jpg', '2026-09-26 13:02:11.928582', 41, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (82, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 41, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (83, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-bach-dan-chanh2-3.jpg', '2026-09-26 13:02:11.928582', 42, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (84, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 42, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (85, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hung-que-600x600-1.jpg', '2026-09-26 13:02:11.928582', 43, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (86, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 43, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (87, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-san-pham-cay-mui.jpg', '2026-09-26 13:02:11.928582', 44, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (88, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 44, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (89, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-khuynh-diep-2.jpg', '2026-09-26 13:02:11.928582', 45, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (90, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 45, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (91, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hung-que-600x600-1.jpg', '2026-09-26 13:02:11.928582', 46, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (92, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 46, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (93, 'https://tinhdauhanoi.com/wp-content/uploads/2025/12/La-tia-to-01-scaled-1-1.jpg', '2026-09-26 13:02:11.928582', 47, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (94, 'https://upload.wikimedia.org/wikipedia/commons/4/46/Perilla_frutescens_in_Gimpo.jpg', '2026-09-26 13:02:11.928582', 47, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (95, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hoa-buoi.jpg', '2026-09-26 13:02:11.928582', 48, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (96, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 48, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (97, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-chanh.jpg', '2026-09-26 13:02:11.928582', 49, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (98, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 49, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (99, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-cam-ngot.jpg', '2026-09-26 13:02:11.928582', 50, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (100, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 50, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (101, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-hoa-h%E1%BB%93i.jpg', '2026-09-26 13:02:11.928582', 51, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (102, 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Dried_Star_Anise_Fruit_Seeds.jpg', '2026-09-26 13:02:11.928582', 51, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (103, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-geranium.jpg', '2026-09-26 13:02:11.928582', 52, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (104, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-gia-si-ktd.jpg', '2026-09-26 13:02:11.928582', 52, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (105, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-Mu-u-600x600-1.jpg', '2026-09-26 13:02:11.928582', 53, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (106, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 53, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (107, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-mang-tang.jpg', '2026-09-26 13:02:11.928582', 54, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (108, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Litsea_cubeba_2014-02-08.jpg', '2026-09-26 13:02:11.928582', 54, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (109, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-chanh.jpg', '2026-09-26 13:02:11.928582', 55, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (110, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 55, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (111, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-gung.jpg', '2026-09-26 13:02:11.928582', 56, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (112, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 56, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (113, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-ngai-cuu.jpg', '2026-09-26 13:02:11.928582', 57, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (114, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 57, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (115, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avata-sa-Java.jpg', '2026-09-26 13:02:11.928582', 58, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (116, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 58, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (117, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-50ML.webp', '2026-09-26 13:02:11.928582', 59, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (118, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-1000ML.webp', '2026-09-26 13:02:11.928582', 59, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (119, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-4.png', '2026-09-26 13:02:11.928582', 59, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (120, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-10ML.webp', '2026-09-26 13:02:11.928582', 60, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (121, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-500ML.webp', '2026-09-26 13:02:11.928582', 60, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (122, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-100ML.webp', '2026-09-26 13:02:11.928582', 60, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (123, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-8.webp', '2026-09-26 13:02:11.928582', 61, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (124, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 61, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (125, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 61, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (126, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-6.webp', '2026-09-26 13:02:11.928582', 62, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (127, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-1.png', '2026-09-26 13:02:11.928582', 62, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (128, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-4.png', '2026-09-26 13:02:11.928582', 62, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (129, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 63, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (130, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 63, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (131, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 63, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (132, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-11.webp', '2026-09-26 13:02:11.928582', 64, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (133, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 64, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (134, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 64, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (135, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-10ML.webp', '2026-09-26 13:02:11.928582', 65, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (136, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-500MLX.webp', '2026-09-26 13:02:11.928582', 65, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (137, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-100ML.webp', '2026-09-26 13:02:11.928582', 65, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (138, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-10ML.webp', '2026-09-26 13:02:11.928582', 66, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (139, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-500ML.webp', '2026-09-26 13:02:11.928582', 66, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (140, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-100ML.webp', '2026-09-26 13:02:11.928582', 66, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (141, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 67, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (142, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 67, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (143, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-100ML.webp', '2026-09-26 13:02:11.928582', 67, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (144, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-10ML.webp', '2026-09-26 13:02:11.928582', 68, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (145, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-500ML.webp', '2026-09-26 13:02:11.928582', 68, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (146, 'https://biyokea.vn/wp-content/uploads/2025/08/cuc-la-ma-2.png', '2026-09-26 13:02:11.928582', 68, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (147, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 69, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (148, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-1.png', '2026-09-26 13:02:11.928582', 69, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (149, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-3.png', '2026-09-26 13:02:11.928582', 69, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (150, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-10ML.webp', '2026-09-26 13:02:11.928582', 70, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (151, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-500ML.webp', '2026-09-26 13:02:11.928582', 70, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (152, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-100ML.webp', '2026-09-26 13:02:11.928582', 70, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (153, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-10ML.webp', '2026-09-26 13:02:11.928582', 71, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (154, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-500ML.jpg', '2026-09-26 13:02:11.928582', 71, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (155, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-100ML.webp', '2026-09-26 13:02:11.928582', 71, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (156, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 72, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (157, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 72, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (158, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 72, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (159, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-10ML.webp', '2026-09-26 13:02:11.928582', 73, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (160, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-500ML.webp', '2026-09-26 13:02:11.928582', 73, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (161, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-100ML.webp', '2026-09-26 13:02:11.928582', 73, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (162, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 74, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (163, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 74, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (164, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-100ML.webp', '2026-09-26 13:02:11.928582', 74, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (165, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-10ML.webp', '2026-09-26 13:02:11.928582', 75, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (166, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-500ML.webp', '2026-09-26 13:02:11.928582', 75, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (167, 'https://biyokea.vn/wp-content/uploads/2025/08/hoa-cam-1.png', '2026-09-26 13:02:11.928582', 75, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (168, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-HOA-HOI-10ML.webp', '2026-09-26 13:02:11.928582', 76, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (169, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-3-768x768.png', '2026-09-26 13:02:11.928582', 76, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (170, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-1.png', '2026-09-26 13:02:11.928582', 76, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (171, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-10ML-1-600x600.webp', '2026-09-26 13:02:11.928582', 77, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (172, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-500ML-1.webp', '2026-09-26 13:02:11.928582', 77, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (173, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-1.png', '2026-09-26 13:02:11.928582', 77, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (174, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-10ML.webp', '2026-09-26 13:02:11.928582', 78, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (175, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-3.png', '2026-09-26 13:02:11.928582', 78, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (176, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-1.png', '2026-09-26 13:02:11.928582', 78, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (177, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 79, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (178, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 79, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (179, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 79, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (180, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-10ML.webp', '2026-09-26 13:02:11.928582', 80, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (181, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-500ML.webp', '2026-09-26 13:02:11.928582', 80, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (182, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-100ML.webp', '2026-09-26 13:02:11.928582', 80, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (183, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 81, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (184, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-500ML.webp', '2026-09-26 13:02:11.928582', 81, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (185, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-100ML.webp', '2026-09-26 13:02:11.928582', 81, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (186, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-10ML.webp', '2026-09-26 13:02:11.928582', 82, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (187, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-500ML.webp', '2026-09-26 13:02:11.928582', 82, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (188, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-100ML.webp', '2026-09-26 13:02:11.928582', 82, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (189, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-10ML.webp', '2026-09-26 13:02:11.928582', 83, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (190, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-500ML.webp', '2026-09-26 13:02:11.928582', 83, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (191, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-100ML.webp', '2026-09-26 13:02:11.928582', 83, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (192, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-10ML.webp', '2026-09-26 13:02:11.928582', 84, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (193, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-500ML.webp', '2026-09-26 13:02:11.928582', 84, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (194, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-100ML.webp', '2026-09-26 13:02:11.928582', 84, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (195, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-14-10ML.webp', '2026-09-26 13:02:11.928582', 85, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (196, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-500ML.webp', '2026-09-26 13:02:11.928582', 85, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (197, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-100ML.webp', '2026-09-26 13:02:11.928582', 85, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (198, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-10ML.webp', '2026-09-26 13:02:11.928582', 86, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (199, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-500ML.webp', '2026-09-26 13:02:11.928582', 86, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (200, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-100ML.webp', '2026-09-26 13:02:11.928582', 86, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (201, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-10ML.webp', '2026-09-26 13:02:11.928582', 87, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (202, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-500ML.webp', '2026-09-26 13:02:11.928582', 87, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (203, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-100ML.webp', '2026-09-26 13:02:11.928582', 87, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (204, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-10ML.webp', '2026-09-26 13:02:11.928582', 88, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (205, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-500ML.webp', '2026-09-26 13:02:11.928582', 88, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (206, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-100ML.webp', '2026-09-26 13:02:11.928582', 88, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (207, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-10ML.webp', '2026-09-26 13:02:11.928582', 89, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (208, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-500ML.webp', '2026-09-26 13:02:11.928582', 89, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (209, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-100ML.webp', '2026-09-26 13:02:11.928582', 89, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (210, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-10ML.webp', '2026-09-26 13:02:11.928582', 90, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (211, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-500ML.webp', '2026-09-26 13:02:11.928582', 90, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (212, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-100ML.webp', '2026-09-26 13:02:11.928582', 90, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (213, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-10ML.webp', '2026-09-26 13:02:11.928582', 91, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (214, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-500ML.webp', '2026-09-26 13:02:11.928582', 91, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (215, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-100ML.webp', '2026-09-26 13:02:11.928582', 91, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (216, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-10ML.webp', '2026-09-26 13:02:11.928582', 92, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (217, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-TD006-500ML.jpg', '2026-09-26 13:02:11.928582', 92, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (218, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-100ML.webp', '2026-09-26 13:02:11.928582', 92, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (219, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-10ML.webp', '2026-09-26 13:02:11.928582', 93, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (220, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-500ML.webp', '2026-09-26 13:02:11.928582', 93, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (221, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-100ML.webp', '2026-09-26 13:02:11.928582', 93, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (222, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-10ML.webp', '2026-09-26 13:02:11.928582', 94, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (223, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-500ML.webp', '2026-09-26 13:02:11.928582', 94, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (224, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-100ML.webp', '2026-09-26 13:02:11.928582', 94, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (225, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-10ML.webp', '2026-09-26 13:02:11.928582', 95, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (226, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-500ML.webp', '2026-09-26 13:02:11.928582', 95, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (227, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-100ML.webp', '2026-09-26 13:02:11.928582', 95, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (228, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-10ML.webp', '2026-09-26 13:02:11.928582', 96, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (229, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-500ML.webp', '2026-09-26 13:02:11.928582', 96, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (230, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-100ML.webp', '2026-09-26 13:02:11.928582', 96, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (231, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-9.webp', '2026-09-26 13:02:11.928582', 97, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (232, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-50ML.webp', '2026-09-26 13:02:11.928582', 97, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (233, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-500ML.webp', '2026-09-26 13:02:11.928582', 97, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (234, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-10ML.webp', '2026-09-26 13:02:11.928582', 98, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (235, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 98, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (236, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-100ML.webp', '2026-09-26 13:02:11.928582', 98, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (237, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-10ML.webp', '2026-09-26 13:02:11.928582', 99, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (238, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-500ML.webp', '2026-09-26 13:02:11.928582', 99, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (239, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-100ML.webp', '2026-09-26 13:02:11.928582', 99, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (240, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 100, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (241, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-500ML.webp', '2026-09-26 13:02:11.928582', 100, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (242, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-100ML.webp', '2026-09-26 13:02:11.928582', 100, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (243, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-YLANG-10ML.webp', '2026-09-26 13:02:11.928582', 101, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (244, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-1.png', '2026-09-26 13:02:11.928582', 101, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (245, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-4.png', '2026-09-26 13:02:11.928582', 101, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (246, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 102, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (247, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 102, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (248, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 102, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (249, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-10ML.webp', '2026-09-26 13:02:11.928582', 103, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (250, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 103, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (251, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-100ML.webp', '2026-09-26 13:02:11.928582', 103, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (252, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 104, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (253, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-1-768x768.png', '2026-09-26 13:02:11.928582', 104, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (254, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-2-768x768.png', '2026-09-26 13:02:11.928582', 104, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (255, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 105, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (256, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-3-768x768.png', '2026-09-26 13:02:11.928582', 105, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (257, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-4-768x768.png', '2026-09-26 13:02:11.928582', 105, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (258, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-10ML.webp', '2026-09-26 13:02:11.928582', 106, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (259, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-500ML.webp', '2026-09-26 13:02:11.928582', 106, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (260, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-100ML.webp', '2026-09-26 13:02:11.928582', 106, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (261, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH.png', '2026-09-26 13:02:11.928582', 107, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (262, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH-EXTRA-500ML.webp', '2026-09-26 13:02:11.928582', 107, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (263, 'https://biyokea.vn/wp-content/uploads/2025/07/tinh-dau-sa-chanh-1-768x768.png', '2026-09-26 13:02:11.928582', 107, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (264, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-10ML.jpg', '2026-09-26 13:02:11.928582', 108, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (265, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-1000ML.jpg', '2026-09-26 13:02:11.928582', 108, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (266, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-100ML.jpg', '2026-09-26 13:02:11.928582', 108, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (267, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-10ML.webp', '2026-09-26 13:02:11.928582', 109, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (268, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-500ML.webp', '2026-09-26 13:02:11.928582', 109, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (269, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-100ML.webp', '2026-09-26 13:02:11.928582', 109, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (270, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 110, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (271, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-1000ML.webp', '2026-09-26 13:02:11.928582', 110, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (272, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-100ML.webp', '2026-09-26 13:02:11.928582', 110, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (273, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 111, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (274, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 111, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (275, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-100ML.webp', '2026-09-26 13:02:11.928582', 111, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (276, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-10ML.webp', '2026-09-26 13:02:11.928582', 112, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (277, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-500ML.webp', '2026-09-26 13:02:11.928582', 112, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (278, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-100ML.webp', '2026-09-26 13:02:11.928582', 112, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (279, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-10ML.webp', '2026-09-26 13:02:11.928582', 113, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (280, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-500ML.webp', '2026-09-26 13:02:11.928582', 113, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (281, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-100ML.webp', '2026-09-26 13:02:11.928582', 113, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (282, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 114, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (283, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 114, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (284, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 114, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (285, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-10ML.webp', '2026-09-26 13:02:11.928582', 115, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (286, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-500ML.webp', '2026-09-26 13:02:11.928582', 115, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (287, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-100ML.webp', '2026-09-26 13:02:11.928582', 115, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (288, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-10ML.webp', '2026-09-26 13:02:11.928582', 116, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (289, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-500ML.webp', '2026-09-26 13:02:11.928582', 116, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (290, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-100ML.webp', '2026-09-26 13:02:11.928582', 116, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (291, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-10ML.webp', '2026-09-26 13:02:11.928582', 117, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (292, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-500ML.webp', '2026-09-26 13:02:11.928582', 117, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (293, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-100ML.webp', '2026-09-26 13:02:11.928582', 117, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (294, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-10ML.webp', '2026-09-26 13:02:11.928582', 118, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (295, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-1000ML.webp', '2026-09-26 13:02:11.928582', 118, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (296, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-100ML.webp', '2026-09-26 13:02:11.928582', 118, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (297, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-10ML.webp', '2026-09-26 13:02:11.928582', 119, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (298, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-1000ML.webp', '2026-09-26 13:02:11.928582', 119, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (299, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-100ML.webp', '2026-09-26 13:02:11.928582', 119, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (300, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-10ML.webp', '2026-09-26 13:02:11.928582', 120, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (301, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-1000ML.webp', '2026-09-26 13:02:11.928582', 120, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (302, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-100ML.webp', '2026-09-26 13:02:11.928582', 120, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (303, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-10ML.webp', '2026-09-26 13:02:11.928582', 121, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (304, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-1000ML.webp', '2026-09-26 13:02:11.928582', 121, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (305, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-100ML.webp', '2026-09-26 13:02:11.928582', 121, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (306, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-10ML.webp', '2026-09-26 13:02:11.928582', 122, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (307, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-1000ML.webp', '2026-09-26 13:02:11.928582', 122, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (308, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-100ML.webp', '2026-09-26 13:02:11.928582', 122, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (309, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-10ML.webp', '2026-09-26 13:02:11.928582', 123, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (310, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-1000ML.webp', '2026-09-26 13:02:11.928582', 123, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (311, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-100ML.webp', '2026-09-26 13:02:11.928582', 123, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (312, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 124, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (313, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 124, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (314, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 125, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (315, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 125, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (316, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 126, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (317, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 126, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (318, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 127, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (319, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 127, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (320, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 128, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (321, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 128, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (322, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 129, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (323, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 129, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (324, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 130, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (325, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 130, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (326, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 131, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (327, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 131, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (328, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 132, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (329, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 132, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (330, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 133, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (331, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 133, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (332, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 134, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (333, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 134, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (334, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 135, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (335, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 135, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (336, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 136, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (337, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 136, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (338, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 137, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (339, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 137, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (340, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 138, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (341, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 138, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (342, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-2-1-768x768.webp', '2026-09-26 13:02:11.928582', 139, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (343, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-1-768x768.webp', '2026-09-26 13:02:11.928582', 139, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (344, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 140, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (345, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 140, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (346, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-768x768.jpg', '2026-09-26 13:02:11.928582', 141, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (347, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-2-768x768.jpg', '2026-09-26 13:02:11.928582', 141, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (348, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 142, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (349, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 142, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (350, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-768x768.jpg', '2026-09-26 13:02:11.928582', 143, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (351, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-2-768x768.jpg', '2026-09-26 13:02:11.928582', 143, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (352, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 144, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (353, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 144, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (354, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-la-ngo-gai-ngo-tay-mui-tau-eryngium-foetidum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 145, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (355, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 145, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (356, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 146, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (357, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 146, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (358, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 147, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (359, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 147, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (360, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 148, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (361, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 148, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (362, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 149, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (363, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 149, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (364, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 150, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (365, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 150, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (366, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-1-768x768.webp', '2026-09-26 13:02:11.928582', 151, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (367, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-2-1-768x768.webp', '2026-09-26 13:02:11.928582', 151, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (368, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 152, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (369, 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Thymus_vulgaris_mit_Botrytis_cinerea_Befall%2C_Jan_Hinrichs-Berger-1.jpg', '2026-09-26 13:02:11.928582', 152, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (370, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 13:02:11.928582', 153, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (371, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 153, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (372, 'https://product.hstatic.net/1000187742/product/bac_ha_luc3_e1bb64224f934f38bcea4989106fced6_grande.png', '2026-09-26 13:02:11.928582', 154, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (373, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 154, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (374, 'https://product.hstatic.net/1000187742/product/bach_dan_chanh3_e93b64a88159414ba15b597880fa9e07_grande.png', '2026-09-26 13:02:11.928582', 155, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (375, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 155, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (376, 'https://product.hstatic.net/1000187742/product/cam_huong3_ed0af8443f634614b06e2957301957cf_grande.png', '2026-09-26 13:02:11.928582', 156, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (377, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 156, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (378, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 13:02:11.928582', 157, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (379, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 157, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (380, 'https://product.hstatic.net/1000187742/product/chanh3_81053877a0c042aeb79c098ec6d79bae_grande.png', '2026-09-26 13:02:11.928582', 158, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (381, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 158, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (382, 'https://product.hstatic.net/1000187742/product/chanh_san3_20f0efbdb78b4cfe89153bbfeb5d3412_grande.png', '2026-09-26 13:02:11.928582', 159, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (383, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 159, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (384, 'https://product.hstatic.net/1000187742/product/cuc_xanh_la_ma3_e563f43b91ff48838570c67c28318f02_grande.png', '2026-09-26 13:02:11.928582', 160, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (385, 'https://upload.wikimedia.org/wikipedia/commons/7/72/Camomille_sauvage_%28Matricaria_chamomilla%29%2C_coquelicots_%28Papaver_rhoeas%29_au_bord_d%27un_champ_d%27orge_%28Hordeum_vulgare%29.jpg', '2026-09-26 13:02:11.928582', 160, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (386, 'https://product.hstatic.net/1000187742/product/co_gung3_7624ce0a725a489d805366289143c539_grande.png', '2026-09-26 13:02:11.928582', 161, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (387, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 161, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (388, 'https://product.hstatic.net/1000187742/product/_dai_hoi3_89e5d93dec85420198f74abd346fde4a_grande.png', '2026-09-26 13:02:11.928582', 162, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (389, 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Dried_Star_Anise_Fruit_Seeds.jpg', '2026-09-26 13:02:11.928582', 162, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (390, 'https://product.hstatic.net/1000187742/product/dan_huong3_cb0a6802c01e4eec97d848c2ed81cb6f_grande.png', '2026-09-26 13:02:11.928582', 163, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (391, 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Santalum_album_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-128.jpg', '2026-09-26 13:02:11.928582', 163, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (392, 'https://product.hstatic.net/1000187742/product/do_tung3_3cc6fe2285e04a8b8565c38f548519eb_grande.png', '2026-09-26 13:02:11.928582', 164, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (393, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 164, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (394, 'https://product.hstatic.net/1000187742/product/don_sam3_763f9de7abf14423878ab9c224d0b11e_grande.png', '2026-09-26 13:02:11.928582', 165, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (395, 'https://upload.wikimedia.org/wikipedia/commons/3/38/Salvia_sclarea_-_Paskulak_02.jpg', '2026-09-26 13:02:11.928582', 165, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (396, 'https://product.hstatic.net/1000187742/product/go_hong3_8aa221536cc64e52839c4fa1a290f6b1_grande.png', '2026-09-26 13:02:11.928582', 166, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (397, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 166, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (398, 'https://product.hstatic.net/1000187742/product/go_thong3_40030bad30ba4f55a8fb82d083d8c181_grande.png', '2026-09-26 13:02:11.928582', 167, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (399, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 167, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (400, 'https://product.hstatic.net/1000187742/product/hat_ngo3_0caa27f6995c4fd8bbbc5a3f9cdcee00_grande.png', '2026-09-26 13:02:11.928582', 168, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (401, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 168, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (402, 'https://product.hstatic.net/1000187742/product/hoang_dan3_49af7d1e64c54d80b4be86cf32d04e12_grande.png', '2026-09-26 13:02:11.928582', 169, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (403, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 169, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (404, 'https://product.hstatic.net/1000187742/product/hoac_huong3_36368172098f4bfcb6b9450eab944a30_grande.png', '2026-09-26 13:02:11.928582', 170, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (405, 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Starr-121108-1096-Pogostemon_cablin-leaves_and_flowers-Pali_o_Waipio-Maui_%2824827691409%29.jpg', '2026-09-26 13:02:11.928582', 170, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (406, 'https://product.hstatic.net/1000187742/product/hung_que3_9c0f8d2534be46b9bb589d9c19dd576f_grande.png', '2026-09-26 13:02:11.928582', 171, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (407, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 171, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (408, 'https://product.hstatic.net/1000187742/product/huong_nhu3_aa679dd2aca84e40834d850de8363f8d_grande.png', '2026-09-26 13:02:11.928582', 172, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (409, 'https://upload.wikimedia.org/wikipedia/commons/3/32/Ocimum_Basilicum_leaf_lighted_by_the_left.jpg', '2026-09-26 13:02:11.928582', 172, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (410, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 13:02:11.928582', 173, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (411, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 173, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (412, 'https://product.hstatic.net/1000187742/product/khuynh_diep_globulus3_48215d45e1234257a98575b855d900f3_grande.png', '2026-09-26 13:02:11.928582', 174, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (413, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 174, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (414, 'https://product.hstatic.net/1000187742/product/la_chanh3_acd0c732ebbd4d0e91594648dc4b6d43_grande.png', '2026-09-26 13:02:11.928582', 175, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (415, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 175, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (416, 'https://product.hstatic.net/1000187742/product/nghe3_ac3a1d8f172648ceb799552007f890af_grande.png', '2026-09-26 13:02:11.928582', 176, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (417, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 176, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (418, 'https://product.hstatic.net/1000187742/product/ngoc_lan_tay3_bcdfd0d9f8ff4a5fa6c6e87c4517a967_grande.png', '2026-09-26 13:02:11.928582', 177, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (419, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 177, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (420, 'https://product.hstatic.net/1000187742/product/nhu_huong3_8cf49fc1cf524072a7deed4ae83e1725_grande.png', '2026-09-26 13:02:11.928582', 178, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (421, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 178, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (422, 'https://product.hstatic.net/1000187742/product/oai_huong3_02c0768efee04eac9f2b73edabd140a0_grande.png', '2026-09-26 13:02:11.928582', 179, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (423, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 179, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (424, 'https://product.hstatic.net/1000187742/product/phong_lu3_32f757c261e4489eb5db210b2d73f312_grande.png', '2026-09-26 13:02:11.928582', 180, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (425, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 180, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (426, 'https://product.hstatic.net/1000187742/product/po_mu3_47b086995b9f4bf39d0503935dca3dd3_grande.png', '2026-09-26 13:02:11.928582', 181, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (427, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 181, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (428, 'https://product.hstatic.net/1000187742/product/que_ceylon3_f3a72e966bad4815b27fd5d5a0999e1c_grande.png', '2026-09-26 13:02:11.928582', 182, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (429, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 182, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (430, 'https://product.hstatic.net/1000187742/product/quyt3_5b968236f4da4f0a99094d09beed714d_grande.png', '2026-09-26 13:02:11.928582', 183, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (431, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 183, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (432, 'https://product.hstatic.net/1000187742/product/ra_huong3_e911ea39a57a4225a32e54ac5df36c0d_grande.png', '2026-09-26 13:02:11.928582', 184, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (433, 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Cinnamomum_camphora_Vergelegen.jpg', '2026-09-26 13:02:11.928582', 184, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (434, 'https://product.hstatic.net/1000187742/product/sa_chanh3_e03eb497c4ef4660a7bfd4f246cd22d3_grande.png', '2026-09-26 13:02:11.928582', 185, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (435, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 185, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (436, 'https://product.hstatic.net/1000187742/product/sa_hong3_e2a532cfdac1435f9e7ff3db7e6afc7d_grande.png', '2026-09-26 13:02:11.928582', 186, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (437, 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Cymbopogon_martinii_Image.jpg', '2026-09-26 13:02:11.928582', 186, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (438, 'https://product.hstatic.net/1000187742/product/sa_java3_e71de700cced463194c372d771f0cc51_grande.png', '2026-09-26 13:02:11.928582', 187, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (439, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 187, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (440, 'https://product.hstatic.net/1000187742/product/thi_la_tay3_2683f93b7cbb44e3a0b3e160c5993954_grande.png', '2026-09-26 13:02:11.928582', 188, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (441, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 188, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (442, 'https://product.hstatic.net/1000187742/product/_tieu_hong3_3d7bb707c52e4643811fd4c50303b48e_grande.png', '2026-09-26 13:02:11.928582', 189, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (443, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 189, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (444, 'https://product.hstatic.net/1000187742/product/tram_gio3_1e165259230d4443acbf4cb706caa2b6_grande.png', '2026-09-26 13:02:11.928582', 190, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (445, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 190, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (446, 'https://product.hstatic.net/1000187742/product/tram_tra3_b9eaab460d8b4264a2ec57c1b7b9c17d_grande.png', '2026-09-26 13:02:11.928582', 191, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (447, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 191, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (448, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 192, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (449, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 192, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (450, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 193, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (451, 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Piper_betle_%28504522647%29.jpg', '2026-09-26 13:02:11.928582', 193, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (452, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 194, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (453, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 194, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (454, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 195, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (455, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 195, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (456, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 13:02:11.928582', 196, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (457, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 196, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (458, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 13:02:11.928582', 197, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (459, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 197, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (460, 'https://product.hstatic.net/1000187742/product/hoang_dan_organic3_a9b3cc28e6984384a6de0a10db5b4fad_grande.png', '2026-09-26 13:02:11.928582', 198, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (461, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 198, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (462, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 13:02:11.928582', 199, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (463, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 199, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (464, 'https://product.hstatic.net/1000187742/product/khuynh_diep_radiata_3_40340bc7eb864d678ce377e180a6fe2d_grande.png', '2026-09-26 13:02:11.928582', 200, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (465, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 200, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (466, 'https://product.hstatic.net/1000187742/product/oai_huong_organic3_2cf710279f554e89b25922e5fe6cbcaa_grande.png', '2026-09-26 13:02:11.928582', 201, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (467, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 201, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (468, 'https://product.hstatic.net/1000187742/product/sa_chanh_organic3_31338b70635a45e584fa42694bd85992_grande.png', '2026-09-26 13:02:11.928582', 202, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (469, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 202, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (470, 'https://product.hstatic.net/1000187742/product/tram_tra_organic3_c441dae9dc68449593138227c759cc86_grande.png', '2026-09-26 13:02:11.928582', 203, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (471, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 203, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (472, 'https://cdn.hstatic.net/products/1000187742/093_0942_copy_9f6c4ee72f294b9d9da808b96ca7c7f6_grande.png', '2026-09-26 13:02:11.928582', 204, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (473, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 204, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (474, 'https://cdn.hstatic.net/products/1000187742/104___1_1_a19b7c877c0e49419172ae91235fd9e0_grande.png', '2026-09-26 13:02:11.928582', 205, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (475, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 205, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (476, 'https://haku.vn/wp-content/uploads/2019/10/tinh-dau-sa-chanh-giup-duoi-kien-ba-khoang-ra-khoi-nha.jpg', '2026-09-26 13:02:11.928582', 206, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (477, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 206, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (478, 'https://haku.vn/wp-content/uploads/2019/11/tinh-dau-buoi-rat-tot-cho-toc-va-xa-stress.jpg', '2026-09-26 13:02:11.928582', 207, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (479, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 207, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (480, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-dung-duoc-bao-lau-2.jpg', '2026-09-26 13:02:11.928582', 208, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (481, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 208, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (482, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-oai-huong.png', '2026-09-26 13:02:11.928582', 209, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (483, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 209, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (484, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-hoa-nhai-jasmine-kich-thich-rat-tot.png', '2026-09-26 13:02:11.928582', 210, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (485, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 210, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (486, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-dung-duoc-bao-lau-2.jpg', '2026-09-26 13:02:11.928582', 211, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (487, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 211, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (488, 'https://haku.vn/wp-content/uploads/2020/04/banner-haku-scent-tinh-dau-que.jpg', '2026-09-26 13:02:11.928582', 212, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (489, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 212, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (490, 'https://haku.vn/wp-content/uploads/2019/11/tinh-dau-la-gi.jpg', '2026-09-26 13:02:11.928582', 213, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (491, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 213, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (492, 'https://haku.vn/wp-content/uploads/2019/11/cach-dung-tinh-dau-2.jpg', '2026-09-26 13:02:11.928582', 214, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (493, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 214, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (494, 'https://haku.vn/wp-content/uploads/2020/01/thu-mua-tinh-dau-so-luong-lon.jpg', '2026-09-26 13:02:11.928582', 215, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (495, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 215, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (496, 'https://haku.vn/wp-content/uploads/2019/11/cach-phuong-phap-chiet-xuat-tinh-dau.jpg', '2026-09-26 13:02:11.928582', 216, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (497, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 216, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (498, 'https://haku.vn/wp-content/uploads/2019/11/cam-nang-su-dung-tinh-dau-a-z.jpg', '2026-09-26 13:02:11.928582', 217, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (499, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 217, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (500, 'https://haku.vn/wp-content/uploads/2020/01/thu-mua-tinh-dau-so-luong-lon-1.jpg', '2026-09-26 13:02:11.928582', 218, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (501, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 218, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (502, 'https://haku.vn/wp-content/uploads/2020/07/tim-hieu-cac-loai-tinh-dau-tot-cho-tinh-cam.png', '2026-09-26 13:02:11.928582', 219, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (503, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 219, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (504, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-ngoc-lan-tay-vua-cua-cac-loai-tinh-dau.png', '2026-09-26 13:02:11.928582', 220, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (505, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 220, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (506, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-su-dung-duoc-bao-lau-5.jpg', '2026-09-26 13:02:11.928582', 221, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (507, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 221, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (508, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-cam-ngot-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 222, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (509, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 222, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (510, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-cam-ngot-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 223, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (511, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 223, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (512, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-sa-chanh-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 224, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (513, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 224, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (514, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-sa-chanh-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 225, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (515, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 225, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (516, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-bac-ha-50ml.jpg', '2026-09-26 13:02:11.928582', 226, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (517, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 226, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (518, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-buoi-hong-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 227, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (519, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 227, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (520, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-buoi-hong-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 228, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (521, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 228, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (522, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-que-50ml-tinh-dau-100.jpg', '2026-09-26 13:02:11.928582', 229, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (523, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 229, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (524, 'https://tinhdau100.vn/uploads/images/banner/danh-muc-3/tinh-dau-oai-huong.jpg', '2026-09-26 13:02:11.928582', 230, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (525, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 230, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (526, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-tram-nguyen-chat-mua-4-tang-1.jpg', '2026-09-26 13:02:11.928582', 231, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (527, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 231, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (528, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-cam-nhap-khau-so-luong-lon.jpg', '2026-09-26 13:02:11.928582', 232, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (529, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 232, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (530, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-peppermint.jpg', '2026-09-26 13:02:11.928582', 233, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (531, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 233, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (532, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 234, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (533, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 234, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (534, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 235, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (535, 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Santalum_album_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-128.jpg', '2026-09-26 13:02:11.928582', 235, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (536, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoang-dan-la-gi.jpg', '2026-09-26 13:02:11.928582', 236, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (537, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 236, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (538, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-que-cinnamon.jpg', '2026-09-26 13:02:11.928582', 237, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (539, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 237, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (540, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-geranium.jpg', '2026-09-26 13:02:11.928582', 238, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (541, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 238, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (542, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-ngoc-lan-tay-gia-si-1.jpg', '2026-09-26 13:02:11.928582', 239, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (543, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 239, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (544, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-buoi-la-gi.jpg', '2026-09-26 13:02:11.928582', 240, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (545, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 240, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (546, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-huong-thao-rosemary.jpg', '2026-09-26 13:02:11.928582', 241, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (547, 'https://upload.wikimedia.org/wikipedia/commons/7/71/Rosemary_plant_with_flowers.jpg', '2026-09-26 13:02:11.928582', 241, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (548, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-cam-huong-bergamot.jpg', '2026-09-26 13:02:11.928582', 242, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (549, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 242, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (550, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 243, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (551, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 243, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (552, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 244, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (553, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 244, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (554, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoa-hong-la-gi.jpg', '2026-09-26 13:02:11.928582', 245, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (555, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 245, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (556, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-lai-la-gi.jpg', '2026-09-26 13:02:11.928582', 246, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (557, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 246, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (558, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-peppermint.jpg', '2026-09-26 13:02:11.928582', 247, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (559, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 247, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (560, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-tram-tra-tea-tree.jpg', '2026-09-26 13:02:11.928582', 248, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (561, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 248, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (562, 'https://khotinhdau.com/wp-content/uploads/2021/03/qua-va-la-chanh-duoc-su-dung-pho-bien.jpg', '2026-09-26 13:02:11.928582', 249, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (563, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 249, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (564, 'https://khotinhdau.com/wp-content/uploads/2020/04/tinh-dau-chanh-san-la-gi.jpg', '2026-09-26 13:02:11.928582', 250, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (565, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 250, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (566, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 251, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (567, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 251, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (568, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 252, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (569, 'https://upload.wikimedia.org/wikipedia/commons/2/28/Gewuerze_004_2024_08_10.jpg', '2026-09-26 13:02:11.928582', 252, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (570, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 253, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (571, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 253, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (572, 'https://khotinhdau.com/wp-content/uploads/2019/10/tinh-dau-vo-quyt.jpg', '2026-09-26 13:02:11.928582', 254, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (573, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 254, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (574, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 255, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (575, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 255, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (576, 'https://khotinhdau.com/wp-content/uploads/2019/10/cay-go-hong-an-do.jpg', '2026-09-26 13:02:11.928582', 256, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (577, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 256, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (578, 'https://khotinhdau.com/wp-content/uploads/2023/09/tinh-dau-hoac-huong-patchouli.jpg', '2026-09-26 13:02:11.928582', 257, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (579, 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Starr-121108-1096-Pogostemon_cablin-leaves_and_flowers-Pali_o_Waipio-Maui_%2824827691409%29.jpg', '2026-09-26 13:02:11.928582', 257, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (580, 'https://khotinhdau.com/wp-content/uploads/2020/04/Tinh-dau-duoc-chung-cat-tu-phan-nhua-cay.jpg', '2026-09-26 13:02:11.928582', 258, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (581, 'https://upload.wikimedia.org/wikipedia/commons/9/94/Agarwood_top_grade.jpg', '2026-09-26 13:02:11.928582', 258, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (582, 'https://khotinhdau.com/wp-content/uploads/2019/10/tinh-dau-khuynh-diep-da-duoc-dung-tu-lau-doi.jpg', '2026-09-26 13:02:11.928582', 259, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (583, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 259, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (584, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-tram-tra-tea-tree.jpg', '2026-09-26 13:02:11.928582', 260, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (585, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 260, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (586, 'https://khotinhdau.com/wp-content/uploads/2020/02/Cay-tram-gi-duoc-trong-nhieu-o-Viet-Nam.jpg', '2026-09-26 13:02:11.928582', 261, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (587, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 261, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (588, 'https://khotinhdau.com/wp-content/uploads/2021/05/tinh-dau-hung-que-ban-si-theo-lit.jpg', '2026-09-26 13:02:11.928582', 262, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (589, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 262, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (590, 'https://khotinhdau.com/wp-content/uploads/2021/05/cay-sa-java.jpg', '2026-09-26 13:02:11.928582', 263, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (591, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 263, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (592, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 264, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (593, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 264, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (594, 'https://khotinhdau.com/wp-content/uploads/2020/04/vao-mua-dong-cay-van-xanh-tuoi.jpg', '2026-09-26 13:02:11.928582', 265, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (595, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 265, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (596, 'https://khotinhdau.com/wp-content/uploads/2020/04/tinh-dau-duoc-chiet-xuat-tu-phan-hat.jpg', '2026-09-26 13:02:11.928582', 266, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (597, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 266, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (598, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoa-hong-la-gi.jpg', '2026-09-26 13:02:11.928582', 267, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (599, 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Cymbopogon_martinii_Image.jpg', '2026-09-26 13:02:11.928582', 267, 0);
+
 INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (1, 1, 10, 370000, 320000, 41);
 INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (2, 1, 50, 920000, 800000, 21);
 INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (3, 2, 10, 880000, 800000, 42);
@@ -2627,3 +2628,151 @@ INSERT INTO `product` (id, name, description, created_at, updated_at, product_ty
 
 
 
+-- test
+INSERT INTO orders (
+    user_id,
+    subtotal_price,
+    status,
+    total_price,
+    discount_amount,
+    shipping_fee,
+    payment_method,
+    recipient_name,
+    phone_number,
+    shipping_address,
+    note,
+    cancel_reason,
+    delivered_at,
+    expected_delivery_at,
+    created_at
+)
+VALUES
+    (
+        1,
+        250000,
+        'PENDING',
+        270000,
+        0,
+        20000,
+        'COD',
+        'Nguyen Van A',
+        '0901234567',
+        '123 Nguyen Trai, Quan 1, TP.HCM',
+        'Giao gio hanh chinh',
+        NULL,
+        NULL,
+        '2026-10-20 18:00:00',
+        '2026-10-17 09:00:00'
+    ),
+    (
+        1,
+        350000,
+        'PROCESSING',
+        370000,
+        0,
+        20000,
+        'COD',
+        'Tran Thi B',
+        '0902345678',
+        '456 Le Loi, Quan 1, TP.HCM',
+        NULL,
+        NULL,
+        NULL,
+        '2026-10-21 18:00:00',
+        '2026-10-17 10:00:00'
+    ),
+    (
+        1,
+        180000,
+        'DELIVERED',
+        200000,
+        0,
+        20000,
+        'COD',
+        'Le Van C',
+        '0903456789',
+        '789 Dien Bien Phu, Binh Thanh, TP.HCM',
+        NULL,
+        NULL,
+        '2026-10-16 15:30:00',
+        '2026-10-17 18:00:00',
+        '2026-10-16 08:00:00'
+    ),
+    (
+        1,
+        420000,
+        'CANCELLED',
+        440000,
+        0,
+        20000,
+        'COD',
+        'Pham Thi D',
+        '0904567890',
+        '12 Vo Van Tan, Quan 3, TP.HCM',
+        'Khach doi y',
+        'CUSTOMER_CHANGED_MIND',
+        NULL,
+        '2026-10-18 18:00:00',
+        '2026-10-15 14:00:00'
+    ),
+    (
+        1,
+        500000,
+        'DELIVERED',
+        520000,
+        0,
+        20000,
+        'COD',
+        'Hoang Van E',
+        '0905678901',
+        '25 Pham Van Dong, Go Vap, TP.HCM',
+        NULL,
+        NULL,
+        '2026-10-15 16:00:00',
+        '2026-10-16 18:00:00',
+        '2026-10-14 11:00:00'
+    );
+
+INSERT INTO order_item (
+    quantity,
+    unit_price,
+    order_id,
+    product_id,
+    product_mil_id
+)
+VALUES
+    (
+        2,
+        125000,
+        1,
+        1,
+        NULL
+    ),
+    (
+        1,
+        350000,
+        2,
+        2,
+        NULL
+    ),
+    (
+        2,
+        90000,
+        3,
+        3,
+        NULL
+    ),
+    (
+        3,
+        140000,
+        4,
+        4,
+        NULL
+    ),
+    (
+        2,
+        250000,
+        5,
+        5,
+        NULL
+    );

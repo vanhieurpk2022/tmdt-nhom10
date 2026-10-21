@@ -6,5 +6,6 @@ public enum FactoryStatus {
     MAINTENANCE,
     SUSPENDED,
     CLOSED,
-    PENDING
+    PENDING,
+    REJECTED
 }
