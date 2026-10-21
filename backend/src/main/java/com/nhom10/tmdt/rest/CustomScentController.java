@@ -17,33 +17,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomScentController {
 
-    private final ProductRepository productRepo;
-    private final FactoryRepository factoryRepo;
+        private final ProductRepository productRepo;
+        private final FactoryRepository factoryRepo;
 
-    /**
-     * Lấy danh sách mùi hương tinh dầu có sẵn của một xưởng cụ thể
-     * kèm thông tin giá và phân tầng tự nhiên
-     */
-    @GetMapping("/factories/{factoryId}/scents")
-    public ResponseEntity<ApiResponse<List<ScentProductItem>>> getScentsByFactory(@PathVariable Long factoryId) {
-        Factory factory = factoryRepo.findById(factoryId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy xưởng: " + factoryId));
+        /**
+         * Lấy danh sách mùi hương tinh dầu có sẵn của một xưởng cụ thể
+         * kèm thông tin giá và phân tầng tự nhiên
+         */
+        @GetMapping("/factories/{factoryId}/scents")
+        public ResponseEntity<ApiResponse<List<ScentProductItem>>> getScentsByFactory(@PathVariable Long factoryId) {
+                Factory factory = factoryRepo.findById(factoryId)
+                                .orElseThrow(() -> new RuntimeException("Không tìm thấy xưởng: " + factoryId));
 
-        List<Product> products = productRepo.findByFactoryId(factoryId);
+                List<Product> products = productRepo.findByFactoryId(factoryId);
 
-        List<ScentProductItem> scents = products.stream()
-                .filter(p -> p.getScentTier() != null) // Chỉ lấy các sản phẩm tinh dầu được định nghĩa tầng hương cho phối mùi
-                .map(p -> new ScentProductItem(
-                        p.getId(),
-                        p.getName(),
-                        p.getDescription(),
-                        p.getPrice() != null ? p.getPrice() : 150000.0,
-                        factory.getId(),
-                        factory.getName(),
-                        p.getScentTier()
-                )).toList();
+                List<ScentProductItem> scents = products.stream()
+                                .map(p -> new ScentProductItem(
+                                                p.getId(),
+                                                p.getName(),
+                                                p.getDescription(),
+                                                p.getPrice() != null ? p.getPrice() : 150000.0,
+                                                factory.getId(),
+                                                factory.getName(),
+                                                null))
+                                .toList();
 
-        return ResponseEntity.ok(new ApiResponse<>(200, "Lấy danh sách mùi hương theo xưởng thành công", scents));
-    }
+                return ResponseEntity
+                                .ok(new ApiResponse<>(200, "Lấy danh sách mùi hương theo xưởng thành công", scents));
+        }
 }
-
