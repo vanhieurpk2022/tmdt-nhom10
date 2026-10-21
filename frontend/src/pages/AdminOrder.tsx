@@ -369,10 +369,10 @@ export default function AdminOrder() {
                             Xuất file vận đơn
                         </button>
 
-                        <button type="button" className="btn btn-danger fw-semibold">
+                        <Link to={ROUTES.ADMIN_ORDER_DISPATCH} className="btn btn-danger fw-semibold">
                             <FontAwesomeIcon icon={faCirclePlus} className="me-2" />
                             Tạo đơn điều phối
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
