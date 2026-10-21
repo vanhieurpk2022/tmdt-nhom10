@@ -24,13 +24,24 @@ public class Address {
     @Column(name="phone_number")
     private String phoneNumber;
 
+    // Tên đường, số nhà cụ thể
     private String street;
+
+    // Phường / Xã
     private String ward;
+
+    // Quận / Huyện
+    private String district;
+
+    // Tỉnh / Thành phố
     private String city;
+
+    // Đánh dấu địa chỉ mặc định
     @Column(name="is_default")
     private boolean isDefault;
 
+    // Người dùng sở hữu địa chỉ này
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
-    private User User;
+    private User user;
 }

@@ -40,7 +40,36 @@
 
 .products-sidebar {
     position: sticky;
-    top: 20px;
+    top: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.products-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.products-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.products-sidebar::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 9999px;
+}
+
+.products-sidebar-footer {
+    position: sticky;
+    bottom: -1.5rem;
+    background: #ffffff;
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
+    margin-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+    z-index: 5;
 }
 
 .custom-checkbox input[type="checkbox"],
@@ -137,4 +166,58 @@
 .btn-buy-now:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+/* Custom Modern Pagination */
+.custom-pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-pagination .page-btn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #374151;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.custom-pagination .page-btn:hover:not(:disabled):not(.active) {
+    border-color: var(--bs-primary);
+    color: var(--bs-primary);
+    background-color: rgba(225, 29, 72, 0.05);
+}
+
+.custom-pagination .page-btn.active {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(225, 29, 72, 0.25);
+}
+
+.custom-pagination .page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: #f9fafb;
+}
+
+.custom-pagination .page-ellipsis {
+    width: 32px;
+    text-align: center;
+    color: #9ca3af;
+    font-weight: 700;
+    user-select: none;
 }

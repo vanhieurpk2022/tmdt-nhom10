@@ -2,6 +2,8 @@ package com.nhom10.tmdt.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,10 +33,16 @@ public class ProductCustom {
     private Double totalVolumeMl;
     private double price;
     @Column(name="created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt ;
     @Column(name="updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "productCustom")
     private List<ProductCustomItem> items;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "factory_id")
+    private Factory factory;
 }

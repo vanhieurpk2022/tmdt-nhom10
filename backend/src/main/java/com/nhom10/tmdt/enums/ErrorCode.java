@@ -7,9 +7,27 @@ public enum ErrorCode {
     BAD_REQUEST(400, "Dữ liệu không hợp lệ"),
     UNAUTHORIZED(401, "Chưa xác thực"),
     FORBIDDEN(403, "Không có quyền truy cập"),
-    NOT_FOUND(404, "Không tìm thấy tài nguyên yêu cầu"),
+    NOT_FOUND(404, "Không tìm thấy tài khoản"),
     EXPIRED(410, "Đường dẫn chia sẻ đã hết hạn"),
-    INTERNAL_ERROR(500, "Lỗi hệ thống");
+    INTERNAL_ERROR(500, "Lỗi hệ thống"),
+    EMAIL_EXISTED(409, "Email đã tồn tại"),
+    INVALID_CREDENTIALS(401,"Tài khoản hoặc mật khẩu không chính xác"),
+    ROLE_NOT_FOUND(404, "Không tìm thấy quyền"),
+    VERIFY_EMAIL(410,"Vui lòng xác thực email"),
+    VERIFY_CODE_EXPIRED(401,"Đường dẫn xác thực đã hết thời hạn"),
+    VERIFY_CODE_FAIL(401,"Vui lòng kiểm tra lại mã xác thực"),
+    NOT_MATCH_PASSWORD(401, "Mật khẩu không khớp"),
+    VERIFY(401, "Tài khoản đã được xác thực"),
+    ADDRESS_NOT_FOUND(404, "Không tìm thấy địa chỉ"),
+    CURRENT_PASSWORD_INCORRECT(400, "Mật khẩu hiện tại không chính xác"),
+    PASSWORD_SAME_AS_OLD(400, "Mật khẩu mới không được trùng với mật khẩu hiện tại"),
+    NOT_FOUND_FACTORY(411, "Không có xưởng nào đăng kí"),
+    EXITS_FACTORY(412,"Tài khoản này đã có xưởng"),
+    CANNOT_DELETE_THUMBNAIL(413,"Cần tồn tại ít nhất 1 thumbnail"),
+    NOT_FOUND_PRODUCT(414,"Không tìm thấy sản phẩm")
+    ,
+    NOT_FOUND_CATEGORY(415,"Không tìm thấy loại sản phẩm");
+
 
    private final int code;
    private final String message;

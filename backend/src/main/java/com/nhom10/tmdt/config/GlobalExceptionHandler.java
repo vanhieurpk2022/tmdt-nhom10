@@ -3,17 +3,40 @@ package com.nhom10.tmdt.config;
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.enums.ErrorCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler{
 
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ApiResponse<Void>> handleResponseStatus(ResponseStatusException ex) {
+        return ResponseEntity.status(ex.getStatusCode()).body(new ApiResponse<>(
+                ex.getStatusCode().value(), ex.getReason()));
+    }
+
+    // bắt lỗi nghiệp vụ
         @ExceptionHandler(AppException.class)
         public ResponseEntity<ApiResponse<Void>> globalExceptionHander(AppException ex){
             ErrorCode er = ex.getErrorCode();
             ApiResponse<Void> apiResponse = new ApiResponse<>(er.getCode(),er.getMessage());
             return ResponseEntity.status(er.getCode()).body(apiResponse);
         }
+
+    // Lỗi validation (@Valid thất bại)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidation(MethodArgumentNotValidException ex) {
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining("; "));
+        ApiResponse<Void> body = new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), message);
+        return ResponseEntity.badRequest().body(body);
+    }
 }

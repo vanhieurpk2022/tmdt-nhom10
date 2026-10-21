@@ -10,7 +10,7 @@ import { Link } from "react-router";
 export default function FooterSubscribe() {
     return (
         <div>
-            <h6 className="fw-semibold footer-title">Nhận ưu đãi mới</h6>
+            <h6 className="fw-semibold footer-title">Nhận tin từ Oilia</h6>
 
             <div className="input-group input-group-sm mb-3">
                 <input type="email" className="form-control" placeholder="Email của bạn" />

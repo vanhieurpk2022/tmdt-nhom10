@@ -1,9 +1,14 @@
 package com.nhom10.tmdt.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"status","message","data"})
 public class ApiResponse<T>   {
     private final int status;
     private final String message;
@@ -18,7 +23,5 @@ public class ApiResponse<T>   {
         this(status,message,null);
     }
 
-    public static <T> ApiResponse<T> response(int status, String message, T data){
-        return new ApiResponse<>(status,message,data);
-    }
+
 }

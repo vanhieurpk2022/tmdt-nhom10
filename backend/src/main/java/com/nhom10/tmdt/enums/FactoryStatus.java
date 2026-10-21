@@ -5,5 +5,7 @@ public enum FactoryStatus {
     INACTIVE,
     MAINTENANCE,
     SUSPENDED,
-    CLOSED
+    CLOSED,
+    PENDING,
+    REJECTED
 }

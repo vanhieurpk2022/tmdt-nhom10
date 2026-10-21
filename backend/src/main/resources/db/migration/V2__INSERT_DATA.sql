@@ -1,20 +1,23 @@
-INSERT INTO `category` VALUES (1, '2026-09-24 15:01:20.053342', 'Tinh dầu', '2026-09-24 15:01:20.053342');
-INSERT INTO `category` VALUES (2, '2026-09-24 15:01:20.057426', 'Dầu nền', '2026-09-24 15:01:20.057426');
-INSERT INTO `category` VALUES (3, '2026-09-24 16:19:36.243012', 'Tinh dầu chiết xuất', '2026-09-24 16:19:36.243012');
-INSERT INTO `category` VALUES (4, '2026-09-24 16:19:36.243417', 'Tinh dầu phối trộn', '2026-09-24 16:19:36.243417');
-INSERT INTO `factory` VALUES (1, 'VFI 10-4, Lô B133-B134-B135, Đường Số 8, KCN Thái Hòa, Xã Đức Lập, Tỉnh Tây Ninh', '2026-09-24 15:01:20.050380', 'Labcos - nguyên liệu và gia công mỹ phẩm; website: https://labcos.com.vn/; liên hệ: 0902 666 746', 'ACTIVE', 'Labcos', '2026-09-24 15:01:20.050380');
-INSERT INTO `factory` VALUES (2, 'Bãi Dài, Tiến Xuân, Thạch Thất, Hà Nội, Việt Nam', '2026-09-24 15:51:20.547748', 'Thương hiệu của Công ty Cổ phần Tinh Dầu Thiên Nhiên Hà Nội; https://tinhdauhanoi.com/; 024 66 543 544', 'ACTIVE', 'VIPSEN', '2026-09-24 15:51:20.547748');
-INSERT INTO `factory` VALUES (3, '247/27 Lê Thị Kim, Ấp 18, Xã Xuân Thới Sơn, TP. Hồ Chí Minh', '2026-09-24 16:19:36.241068', 'Công ty TNHH Thương Mại Sản xuất hương liệu thanh xuân; https://biyokea.vn; CSKH: sales@biyokea.vn; 0979 79 36 76', 'ACTIVE', 'BIYÒKEA', '2026-09-24 16:19:36.241068');
-INSERT INTO `factory` VALUES (4, '265 Thống Nhất, Phường Phú Thọ Hoà, Thành phố Hồ Chí Minh, Việt Nam', '2026-09-24 16:38:06.887528', 'Công ty TNHH Tinh Dầu - Thảo Dược Dalosa Việt Nam; nhập khẩu và phân phối tinh dầu; www.tinhdauduoclieu.vn; Hotline 0967 22 7899', 'ACTIVE', 'DALOSA Việt Nam', '2026-09-24 16:38:06.887528');
-INSERT INTO `factory` VALUES (5, '43R/10 Hồ Văn Huê, Phường 9, Quận Phú Nhuận, TP. Hồ Chí Minh', '2026-09-24 16:41:04.609766', 'Nhà cung cấp/thương hiệu tinh dầu Lê Mai Việt Nam; không xác nhận đây là địa chỉ xưởng sản xuất.', 'ACTIVE', 'Lê Mai Việt Nam', '2026-09-24 16:44:39.000000');
-INSERT INTO `factory` VALUES (6, '\'940 Cách Mạng Tháng 8, Phường 5, Quận Tân Bình, TP.HCM\'', '2026-09-24 16:49:55.315002', 'Thương hiệu bán lẻ và nhập khẩu tinh dầu thiên nhiên thuộc Công ty TNHH HAKU; không xác nhận là nhà máy sản xuất. Văn phòng: Tầng 20, Golden Mansion, 119 Phổ Quang, Phường 9, Quận Phú Nhuận, TP.HCM.', 'ACTIVE', 'HAKU Farm', '2026-09-24 16:49:55.315002');
-INSERT INTO `factory` VALUES (7, '146 Phố Chùa Quỳnh, phường Bạch Mai, Hà Nội', '2026-09-24 16:52:58.309676', 'Cửa hàng tinh dầu thuộc Công ty Cổ phần CCN Việt Nam; website tinhdau100.vn; điện thoại 0972168805. Không mặc định là xưởng sản xuất.', 'ACTIVE', 'Tinh Dầu 100', '2026-09-24 16:52:58.309676');
-INSERT INTO `factory` VALUES (8, 'Lô 17 đường 5, khu dân cư Phú Hữu, P. Phú Hữu, TP. HCM', '2026-09-26 11:47:26.438512', 'Kho Tinh Dầu thuộc Việt Hương Group; đơn vị cung cấp/nhập khẩu tinh dầu thiên nhiên. Hotline 0979 990 333; email info@khotinhdau.com.', 'ACTIVE', 'Kho Tinh Dầu', '2026-09-26 11:47:26.438512');
-INSERT INTO `factory_image` VALUES (1, 'https://haku.vn/wp-content/uploads/2020/04/bang-hieu-haku-farm-tinh-dau.jpg', b'1', b'0', NULL);
-INSERT INTO `factory_image` VALUES (2, 'https://haku.vn/wp-content/uploads/2020/04/banner-haku-scent-tinh-dau-que.jpg', b'0', b'1', NULL);
-INSERT INTO `factory_image` VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO0gbu4n2danx2g6JSS42Xy5smL99zSy9x49b96DWSKQ&s=10', b'0', b'0', NULL);
-INSERT INTO `factory_image` VALUES (4, 'https://madagui.com/wp-content/uploads/2021/06/cua-hang-tinh-dau-thien-nhien.jpg', b'0', b'0', NULL);
-INSERT INTO `factory_image` VALUES (5, 'https://toplist.vn/images/800px/haku-farm-tinh-dau-thien-nhien-271516.jpg', b'0', b'0', NULL);
+
+
+INSERT INTO `category` (`id`, `created_at`, `name`, `updated_at`) VALUES
+(1, '2026-09-24 15:01:20.053342', 'Tinh dầu', '2026-09-24 15:01:20.053342'),
+(2, '2026-09-24 15:01:20.057426', 'Dầu nền', '2026-09-24 15:01:20.057426'),
+(3, '2026-09-24 16:19:36.243012', 'Tinh dầu chiết xuất', '2026-09-24 16:19:36.243012'),
+(4, '2026-09-24 16:19:36.243417', 'Tinh dầu phối trộn', '2026-09-24 16:19:36.243417');
+INSERT INTO `factory` (`id`, `address`, `created_at`, `description`, `factory_status`, `name`, `updated_at`) VALUES
+(1, 'VFI 10-4, Lô B133-B134-B135, Đường Số 8, KCN Thái Hòa, Xã Đức Lập, Tỉnh Tây Ninh', '2026-09-24 15:01:20.050380', 'Labcos - nguyên liệu và gia công mỹ phẩm; website: https://labcos.com.vn/; liên hệ: 0902 666 746', 'ACTIVE', 'Labcos', '2026-09-24 15:01:20.050380'),
+(2, 'Bãi Dài, Tiến Xuân, Thạch Thất, Hà Nội, Việt Nam', '2026-09-24 15:51:20.547748', 'Thương hiệu của Công ty Cổ phần Tinh Dầu Thiên Nhiên Hà Nội; https://tinhdauhanoi.com/; 024 66 543 544', 'ACTIVE', 'VIPSEN', '2026-09-24 15:51:20.547748'),
+(3, '247/27 Lê Thị Kim, Ấp 18, Xã Xuân Thới Sơn, TP. Hồ Chí Minh', '2026-09-24 16:19:36.241068', 'Công ty TNHH Thương Mại Sản xuất hương liệu thanh xuân; https://biyokea.vn; CSKH: sales@biyokea.vn; 0979 79 36 76', 'ACTIVE', 'BIYÒKEA', '2026-09-24 16:19:36.241068'),
+(4, '265 Thống Nhất, Phường Phú Thọ Hoà, Thành phố Hồ Chí Minh, Việt Nam', '2026-09-24 16:38:06.887528', 'Công ty TNHH Tinh Dầu - Thảo Dược Dalosa Việt Nam; nhập khẩu và phân phối tinh dầu; www.tinhdauduoclieu.vn; Hotline 0967 22 7899', 'ACTIVE', 'DALOSA Việt Nam', '2026-09-24 16:38:06.887528'),
+(5, '43R/10 Hồ Văn Huê, Phường 9, Quận Phú Nhuận, TP. Hồ Chí Minh', '2026-09-24 16:41:04.609766', 'Nhà cung cấp/thương hiệu tinh dầu Lê Mai Việt Nam; không xác nhận đây là địa chỉ xưởng sản xuất.', 'ACTIVE', 'Lê Mai Việt Nam', '2026-09-24 16:44:39.000000'),
+(6, '940 Cách Mạng Tháng 8, Phường 5, Quận Tân Bình, TP.HCM', '2026-09-24 16:49:55.315002', 'Thương hiệu bán lẻ và nhập khẩu tinh dầu thiên nhiên thuộc Công ty TNHH HAKU; không xác nhận là nhà máy sản xuất. Văn phòng: Tầng 20, Golden Mansion, 119 Phổ Quang, Phường 9, Quận Phú Nhuận, TP.HCM.', 'ACTIVE', 'HAKU Farm', '2026-09-24 16:49:55.315002'),
+(7, '146 Phố Chùa Quỳnh, phường Bạch Mai, Hà Nội', '2026-09-24 16:52:58.309676', 'Cửa hàng tinh dầu thuộc Công ty Cổ phần CCN Việt Nam; website tinhdau100.vn; điện thoại 0972168805. Không mặc định là xưởng sản xuất.', 'ACTIVE', 'Tinh Dầu 100', '2026-09-24 16:52:58.309676'),
+(8, 'Lô 17 đường 5, khu dân cư Phú Hữu, P. Phú Hữu, TP. HCM', '2026-09-26 11:47:26.438512', 'Kho Tinh Dầu thuộc Việt Hương Group; đơn vị cung cấp/nhập khẩu tinh dầu thiên nhiên. Hotline 0979 990 333; email info@khotinhdau.com.', 'ACTIVE', 'Kho Tinh Dầu', '2026-09-26 11:47:26.438512');INSERT INTO `factory_image` VALUES (1, 'https://haku.vn/wp-content/uploads/2020/04/bang-hieu-haku-farm-tinh-dau.jpg', b'1', b'0', 6);
+INSERT INTO `factory_image` VALUES (2, 'https://haku.vn/wp-content/uploads/2020/04/banner-haku-scent-tinh-dau-que.jpg', b'0', b'1', 6);
+INSERT INTO `factory_image` VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO0gbu4n2danx2g6JSS42Xy5smL99zSy9x49b96DWSKQ&s=10', b'0', b'0', 6);
+INSERT INTO `factory_image` VALUES (4, 'https://madagui.com/wp-content/uploads/2021/06/cua-hang-tinh-dau-thien-nhien.jpg', b'0', b'0', 6);
+INSERT INTO `factory_image` VALUES (5, 'https://toplist.vn/images/800px/haku-farm-tinh-dau-thien-nhien-271516.jpg', b'0', b'0', 6);
 INSERT INTO `factory_image` VALUES (6, 'https://labcos.com.vn/wp-content/uploads/DNTT_Facebook-Ads_Thang9_Labcos.jpg', b'1', b'0', 1);
 INSERT INTO `factory_image` VALUES (7, 'https://labcos.com.vn/wp-content/uploads/QUY-TRI%CC%80NH-OEM-01-1.jpg', b'0', b'1', 1);
 INSERT INTO `factory_image` VALUES (8, 'https://labcos.com.vn/wp-content/uploads/BANNER-WHY-IS1.webp', b'0', b'0', 1);
@@ -30,16 +33,16 @@ INSERT INTO `factory_image` VALUES (17, 'https://biyokea.vn/wp-content/uploads/2
 INSERT INTO `factory_image` VALUES (18, 'https://biyokea.vn/wp-content/uploads/2026/04/hinh-xuong.jpg?utm_source=chatgpt.com', b'0', b'0', 3);
 INSERT INTO `factory_image` VALUES (19, 'https://biyokea.vn/wp-content/uploads/2025/06/9.jpg?utm_source=chatgpt.com', b'0', b'0', 3);
 INSERT INTO `factory_image` VALUES (20, 'https://biyokea.vn/wp-content/uploads/2025/06/Image-82.png?utm_source=chatgpt.com', b'0', b'0', 3);
-INSERT INTO `factory_image` VALUES (21, 'https://www.tinhdauduoclieu.vn/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-300x300.webp', b'1', b'0', NULL);
-INSERT INTO `factory_image` VALUES (22, 'https://img.youtube.com/vi/yvpqnq0ievc/hqdefault.jpg', b'0', b'1', NULL);
-INSERT INTO `factory_image` VALUES (23, 'https://img.youtube.com/vi/96zlMY56a3Y/hqdefault.jpg', b'0', b'0', NULL);
-INSERT INTO `factory_image` VALUES (24, 'https://www.tinhdauduoclieu.vn/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-3-300x300.webp', b'0', b'0', NULL);
-INSERT INTO `factory_image` VALUES (25, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ggSMt6EKCW_Bldzm5tW3PShtXxrN3b8ow1Qei91Bp1aSSMOvOVYL2Cg&s=10', b'0', b'0', NULL);
-INSERT INTO `factory_image` VALUES (26, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMztAVtEp07hzp11Xz_DqSgPGLJh7OndfrUuQAf0oNxYYtIfZtTOBn05A&s=10', b'1', b'0', NULL);
-INSERT INTO `factory_image` VALUES (27, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_e212a42a4a9542cca197b6ce2f246250_large.png', b'0', b'1', NULL);
-INSERT INTO `factory_image` VALUES (28, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR21vN9lTy86lZQM5CTpMh8kaBLpGtzQqY08RkVcBemyA&s', b'0', b'0', NULL);
-INSERT INTO `factory_image` VALUES (29, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQydXnz9f3-gnfxOCtwCrF-rhuYzwfk6eE0IWHWbCPg8Q&s', b'0', b'0', NULL);
-INSERT INTO `factory_image` VALUES (30, 'https://product.hstatic.net/1000187742/product/penta_de_le_maiproduct_p1_copy_10_d78440374b2f44b391eba13f8a33faba.png', b'0', b'0', NULL);
+INSERT INTO `factory_image` VALUES (21, 'https://www.tinhdauduoclieu.vn/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-300x300.webp', b'1', b'0', 4);
+INSERT INTO `factory_image` VALUES (22, 'https://img.youtube.com/vi/yvpqnq0ievc/hqdefault.jpg', b'0', b'1', 4);
+INSERT INTO `factory_image` VALUES (23, 'https://img.youtube.com/vi/96zlMY56a3Y/hqdefault.jpg', b'0', b'0', 4);
+INSERT INTO `factory_image` VALUES (24, 'https://www.tinhdauduoclieu.vn/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-3-300x300.webp', b'0', b'0', 4);
+INSERT INTO `factory_image` VALUES (25, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ggSMt6EKCW_Bldzm5tW3PShtXxrN3b8ow1Qei91Bp1aSSMOvOVYL2Cg&s=10', b'0', b'0', 4);
+INSERT INTO `factory_image` VALUES (26, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMztAVtEp07hzp11Xz_DqSgPGLJh7OndfrUuQAf0oNxYYtIfZtTOBn05A&s=10', b'1', b'0', 5);
+INSERT INTO `factory_image` VALUES (27, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_e212a42a4a9542cca197b6ce2f246250_large.png', b'0', b'1', 5);
+INSERT INTO `factory_image` VALUES (28, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR21vN9lTy86lZQM5CTpMh8kaBLpGtzQqY08RkVcBemyA&s', b'0', b'0', 5);
+INSERT INTO `factory_image` VALUES (29, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQydXnz9f3-gnfxOCtwCrF-rhuYzwfk6eE0IWHWbCPg8Q&s', b'0', b'0', 5);
+INSERT INTO `factory_image` VALUES (30, 'https://product.hstatic.net/1000187742/product/penta_de_le_maiproduct_p1_copy_10_d78440374b2f44b391eba13f8a33faba.png', b'0', b'0', 5);
 INSERT INTO `factory_image` VALUES (31, 'https://mms.img.susercontent.com/3bf2f855682661bb66329d34fdde66b0_tn', b'1', b'0', 7);
 INSERT INTO `factory_image` VALUES (32, 'https://tinhdau100.vn/uploads/images/ve-tinh-dau-100/so-tay-ve-tinh-dau-100-01-.jpg?utm_source=chatgpt.com', b'0', b'1', 7);
 INSERT INTO `factory_image` VALUES (33, 'https://tinhdau100.vn/uploads/images/ve-tinh-dau-100/so-tay-ve-tinh-dau-100-02-.jpg?utm_source=chatgpt.com', b'0', b'0', 7);
@@ -50,844 +53,2726 @@ INSERT INTO `factory_image` VALUES (37, 'https://khotinhdau.com/wp-content/uploa
 INSERT INTO `factory_image` VALUES (38, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-gia-si-ktd.jpg', b'0', b'0', 8);
 INSERT INTO `factory_image` VALUES (39, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-gia-si-tai-Kho-Tinh-Dau.jpg', b'0', b'0', 8);
 INSERT INTO `factory_image` VALUES (40, 'https://khotinhdau.com/wp-content/uploads/2023/05/COA-va-kiem-nghiem-tinh-dau-bac-ha.jpg', b'0', b'0', 8);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (1, 'Tinh dầu Bạc Hà', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Menthol; Menthone; Tinh dầu thơm tự nhiên từ lá bạc hà. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.058296', '2026-09-24 15:24:20.374904', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (2, 'Tinh dầu Bạch Đàn Chanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citronellal (>77%); Citronellol; Isopulegol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.059317', '2026-09-24 15:24:20.377958', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (3, 'Tinh dầu Cam Ngọt', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: D-Limonene; Myrcene; Linalool. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.061076', '2026-09-24 15:24:20.378900', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (4, 'Tinh dầu Chanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Limonene; Citral; β-Pinene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.062764', '2026-09-24 15:24:20.379631', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (5, 'Tinh dầu Gỗ Hồng', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Geraniol; Nerol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.063039', '2026-09-24 15:24:20.380366', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (6, 'Tinh dầu Gừng', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Zingiberene; β-Sesquiphellandrene; Gingerol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.063438', '2026-09-24 15:24:20.380954', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (7, 'Tinh dầu Hoa Cam', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool (43.7–53.4%); Limonene; Linalyl Acetate. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064082', '2026-09-24 15:24:20.381492', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (8, 'Tinh dầu Hoa Hồng', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citronellol; Geraniol; Nerol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064354', '2026-09-24 15:24:20.382132', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (9, 'Tinh dầu Hoa Lài', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Benzyl Acetate; Các hợp chất chống oxy hóa tự nhiên. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064558', '2026-09-24 15:24:20.382675', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (10, 'Tinh dầu Húng Quế', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Chất kháng khuẩn tự nhiên; Chất chống oxy hóa. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064737', '2026-09-24 15:24:20.383154', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (11, 'Tinh dầu Hương Nhu', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Eugenol; Chất kháng khuẩn tự nhiên; Hoạt chất dưỡng tóc. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064929', '2026-09-24 15:24:20.383746', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (12, 'Tinh dầu Khuynh Diệp', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: 1,8-Cineole (>60%); Chất chống oxy hóa tự nhiên; Hợp chất hương dễ chịu. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065129', '2026-09-24 15:24:20.384344', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (13, 'Tinh dầu Nghệ', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Curcumin; Turmerone; Sesquiterpenes. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065296', '2026-09-24 15:24:20.384945', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (14, 'Tinh dầu Ngọc Lan Tây', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool (60–80%); Benzyl Salicylate; Các hợp chất tự nhiên. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065498', '2026-09-24 15:24:20.385462', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (15, 'Tinh dầu Oải Hương (Lavender)', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Linalyl Acetate; Các hợp chất chống oxy hóa. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065665', '2026-09-24 15:24:20.386059', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (16, 'Tinh dầu Phong Lữ', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Geraniol; Linalool; Citronellol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065820', '2026-09-24 15:24:20.388355', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (17, 'Tinh dầu Pơ Mu', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Sesquiterpenes Nerolidol; Fokienol; Chất chống oxy hóa tự nhiên. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065975', '2026-09-24 15:24:20.388972', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (18, 'Tinh dầu Quýt', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Limonene; γ-Terpinene; Myrcene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066150', '2026-09-24 15:24:20.389563', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (19, 'Tinh dầu Sả Chanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citral (Geranial & Neral); Geraniol; Myrcene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066308', '2026-09-24 15:24:20.390204', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (20, 'Tinh dầu Sả Java', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citronellal; Citronellol; Geraniol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066461', '2026-09-24 15:24:20.390817', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (21, 'Tinh dầu Trà Xanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Catechins; Polyphenol; Tinh chất lá trà nguyên chất. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066619', '2026-09-24 15:24:20.391768', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (22, 'Tinh dầu Trắc Bách Diệp', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Alpha-Pinene; Sabinene; Delta-3-Carene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066779', '2026-09-24 15:24:20.392916', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (23, 'Tinh dầu Tràm Gió', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Eucalyptol (42–52%); α-Terpineol (5–12%); Limonene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066939', '2026-09-24 15:24:20.393721', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (24, 'Tinh dầu Tràm Trà', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Terpinen-4-ol (36.3%); Alpha-terpineol & Cineole; Tinh chất lá tràm trà nguyên chất. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067099', '2026-09-24 15:24:20.394392', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (25, 'Tinh dầu Vỏ Bưởi', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Limonene (88–90%); Hợp chất chống oxy hóa; Tinh dầu thơm đặc trưng từ vỏ bưởi. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067258', '2026-09-24 15:24:20.439084', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (26, 'Tinh dầu Vỏ Quế', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Cinnamaldehyde; Cinnamyl Acetate; Cinnamyl Alcohol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067423', '2026-09-24 15:24:20.439765', 'NORMAL', 1, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (27, 'Dầu Argan Nhập Khẩu', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Axit béo; Chất chống oxy hóa; Hợp chất dưỡng chất. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067589', '2026-09-24 15:24:20.440356', 'NORMAL', 2, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (28, 'Dầu Cám Gạo Tinh Khiết', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Palmitic Acid; Oleic Acid; Linoleic Acid. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067786', '2026-09-24 15:24:20.440955', 'NORMAL', 2, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (29, 'Dầu Dừa Ép Lạnh Nguyên Chất', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Acid Lauric; Acid béo bão hòa; Vitamin E. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067958', '2026-09-24 15:24:20.441593', 'NORMAL', 2, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (30, 'Dầu Gấc Việt Nam', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Carotenoids; Vitamin E; Axit béo. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.068128', '2026-09-24 15:24:20.442254', 'NORMAL', 2, 1, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (31, 'Tinh dầu Vỏ Bưởi', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus maxima / Citrus grandis; hoạt chất chính: Limonene.', '2026-09-24 15:51:20.552076', '2026-09-24 15:51:20.552076', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (32, 'Tinh dầu Long Não', 'Tinh dầu chiết xuất VIPSEN; loài: Cinnamomum camphora; CAS: 8008-51-3; hoạt chất chính: Camphor.', '2026-09-24 15:51:20.552601', '2026-09-24 15:51:20.552601', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (33, 'Tinh dầu Tràm Gió', 'Tinh dầu chiết xuất VIPSEN; loài: Melaleuca cajuputi; CAS: 8008-98-8 / 85480-37-1; hoạt chất chính: Cineol.', '2026-09-24 15:51:20.552981', '2026-09-24 15:51:20.552981', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (34, 'Tinh dầu Nụ Đinh Hương', 'Tinh dầu chiết xuất VIPSEN; loài: Syzygium aromaticum; CAS: 8000-34-8 / 84961-50-2; hoạt chất chính: Eugenol.', '2026-09-24 15:51:20.553287', '2026-09-24 15:51:20.553287', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (35, 'Tinh dầu Trầu Không', 'Tinh dầu chiết xuất VIPSEN; loài: Piper betle; CAS: 84775-81-5; hoạt chất chính: Eugenol, Methyl chavicol, chavicol, copaene.', '2026-09-24 15:51:20.553574', '2026-09-24 15:51:20.553574', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (36, 'Tinh dầu Hương Nhu Trắng', 'Tinh dầu chiết xuất VIPSEN; loài: Ocimum gratiscimum; CAS: 91770-38-6; hoạt chất chính: Eugenol.', '2026-09-24 15:51:20.553764', '2026-09-24 15:51:20.553764', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (37, 'Tinh dầu Oải Hương', 'Tinh dầu chiết xuất VIPSEN; loài: Lavandula angustifolia; CAS: 8000-28-0 / 90063-37-9; hoạt chất chính: Linalyl acetate.', '2026-09-24 15:51:20.553977', '2026-09-24 15:51:20.553977', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (38, 'Tinh dầu Sả Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Cymbopogon citratus; CAS: 8007-02-1 / 89998-14-1; hoạt chất chính: Citral.', '2026-09-24 15:51:20.554264', '2026-09-24 15:51:20.554264', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (39, 'Tinh dầu Bạc Hà', 'Tinh dầu chiết xuất VIPSEN; loài: Mentha arvensis; CAS: 68917-18-0 / 90063-97-1; hoạt chất chính: Menthol.', '2026-09-24 15:51:20.554550', '2026-09-24 15:51:20.554550', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (40, 'Tinh dầu Húng Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Plectranthus amboinicus; hoạt chất chính: Carvacrol.', '2026-09-24 15:51:20.555002', '2026-09-24 15:51:20.555002', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (41, 'Tinh dầu Tràm Trà', 'Tinh dầu chiết xuất VIPSEN; loài: Melaleuca alternifonia; CAS: 68647-73-4 / 8022-72-8; hoạt chất chính: Terpinen-4-ol.', '2026-09-24 15:51:20.555311', '2026-09-24 15:51:20.555311', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (42, 'Tinh dầu Bạch Đàn Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Eucalyptus citriodora; CAS: 8000-48-4 / 85203-56-1; hoạt chất chính: Citronellal.', '2026-09-24 15:51:20.555585', '2026-09-24 15:51:20.555585', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (43, 'Tinh dầu Quế', 'Tinh dầu chiết xuất VIPSEN; loài: Cinnamomum cassia; CAS: 8007-80-5 / 84961-46-6; hoạt chất chính: Aldehyde cinnamic.', '2026-09-24 15:51:20.555811', '2026-09-24 15:51:20.555811', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (44, 'Tinh dầu Cây Mùi', 'Tinh dầu chiết xuất VIPSEN; loài: Coriandrum sativum; CAS: 8005-52-4 / 84775-50-8; hoạt chất chính: Linalool.', '2026-09-24 15:51:20.556041', '2026-09-24 15:51:20.556041', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (45, 'Tinh dầu Khuynh Diệp', 'Tinh dầu chiết xuất VIPSEN; loài: Eucalyptus globulus; CAS: 8000-48-4 / 84625-32-1; hoạt chất chính: Cineol.', '2026-09-24 15:51:20.556299', '2026-09-24 15:51:20.556299', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (46, 'Tinh dầu Húng Quế', 'Tinh dầu chiết xuất VIPSEN; loài: Ocimum basilicum; CAS: 8015-73-4 / 84775-71-3; hoạt chất chính: Methyl chavicol.', '2026-09-24 15:51:20.556494', '2026-09-24 15:51:20.556494', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (47, 'Tinh dầu Tía Tô', 'Tinh dầu chiết xuất VIPSEN; loài: Perilla frutescens; CAS: 68132-21-8 / 90082-61-4; hoạt chất chính: Perilla aldehyde, Limonene.', '2026-09-24 15:51:20.556773', '2026-09-24 15:51:20.556773', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (48, 'Tinh dầu Hoa Bưởi', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus maxima / Citrus grandis; hoạt chất chính: Carene, Linalool, Nerolidol, Ocimene.', '2026-09-24 15:51:20.557018', '2026-09-24 15:51:20.557018', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (49, 'Tinh dầu Hoàng Đàn', 'Tinh dầu chiết xuất VIPSEN; loài: Cupressus torulosa; hoạt chất chính: Himachalene, thujopsene, cedrene.', '2026-09-24 15:51:20.557223', '2026-09-24 15:51:20.557223', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (50, 'Tinh dầu Cam Ngọt', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus sinensis; CAS: 8008-57-9 / 8028-48-6; hoạt chất chính: Limonene.', '2026-09-24 15:51:20.557538', '2026-09-24 15:51:20.557538', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (51, 'Tinh dầu Hoa Hồi', 'Tinh dầu chiết xuất VIPSEN; loài: Illicium verum Hook. f.; CAS: 8007-70-3 / 84650-59-9; hoạt chất chính: Trans anethol.', '2026-09-24 15:51:20.557862', '2026-09-24 15:51:20.557862', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (52, 'Tinh dầu Phong Lữ', 'Tinh dầu chiết xuất VIPSEN; loài: Pelargonium graveolens; CAS: 8000-46-2 / 90082-51-2; hoạt chất chính: Citronellol, Linalool, Geraniol, Geranyl butyrate.', '2026-09-24 15:51:20.558155', '2026-09-24 15:51:20.558155', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (53, 'Tinh dầu Pơ Mu', 'Tinh dầu chiết xuất VIPSEN; loài: Fokienia hodgincii; CAS: 8022-47-7 / 92347-03-0; hoạt chất chính: Fokienol, Cedrene.', '2026-09-24 15:51:20.558459', '2026-09-24 15:51:20.558459', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (54, 'Tinh dầu Màng Tang', 'Tinh dầu chiết xuất VIPSEN; loài: Litsea cubeba; CAS: 68855-99-2 / 90063-59-5; hoạt chất chính: Citral.', '2026-09-24 15:51:20.558713', '2026-09-24 15:51:20.558713', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (55, 'Tinh dầu Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus aurantifolia; CAS: 8008-26-2 / 90063-52-8; hoạt chất chính: Limonene, Pinene.', '2026-09-24 15:51:20.559200', '2026-09-24 15:51:20.559200', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (56, 'Tinh dầu Gừng', 'Tinh dầu chiết xuất VIPSEN; loài: Zingiber officinale; CAS: 8007-08-7 / 84696-15-1; hoạt chất chính: Zingiberene.', '2026-09-24 15:51:20.559446', '2026-09-24 15:51:20.559446', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (57, 'Tinh dầu Ngải Cứu', 'Tinh dầu chiết xuất VIPSEN; loài: Artemisia vulgaris; CAS: 84775-45-1; hoạt chất chính: Thujone, Caryophyllene, Germacrene D.', '2026-09-24 15:51:20.559665', '2026-09-24 15:51:20.559665', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (58, 'Tinh dầu Sả Java', 'Tinh dầu chiết xuất VIPSEN; loài: Cymbopogon winterianus; CAS: 8000-29-1 / 91771-61-8; hoạt chất chính: Citronellal, Guaniol, Rodinol.', '2026-09-24 15:51:20.559977', '2026-09-24 15:51:20.559977', 'NORMAL', 1, 2, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (59, 'Tinh Dầu Bạc Hà', 'Tinh dầu bạc hà; hương the mát.', '2026-09-24 16:19:36.243951', '2026-09-24 16:19:36.243951', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (60, 'Tinh Dầu Bạch Đàn Chanh', 'Tinh dầu bạch đàn chanh; hương thảo mộc, thoảng chanh.', '2026-09-24 16:19:36.246197', '2026-09-24 16:19:36.246197', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (61, 'Tinh Dầu Bách Lý Hương', 'Tinh dầu bách lý hương; hương ấm nồng.', '2026-09-24 16:19:36.247266', '2026-09-24 16:19:36.247266', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (62, 'Tinh Dầu Cam Extra', 'Tinh dầu cam; hương cam ngọt mát.', '2026-09-24 16:19:36.252246', '2026-09-24 16:19:36.252246', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (63, 'Tinh Dầu Cam Gừng', 'Tinh dầu phối trộn Cam ngọt và Gừng.', '2026-09-24 16:19:36.253181', '2026-09-24 16:19:36.253181', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (64, 'Tinh Dầu Cam Hương', 'Tinh dầu cam hương; hương thanh mát, the nhẹ.', '2026-09-24 16:19:36.254515', '2026-09-24 16:19:36.254515', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (65, 'Tinh Dầu Chanh', 'Tinh dầu chanh; hương chanh tươi mát.', '2026-09-24 16:19:36.255806', '2026-09-24 16:19:36.255806', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (66, 'Tinh Dầu Chanh Sần', 'Tinh dầu chanh sần (lime); hương the mát.', '2026-09-24 16:19:36.257274', '2026-09-24 16:19:36.257274', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (67, 'Tinh Dầu Cỏ Gừng', 'Tinh dầu từ lá cỏ gừng; hương ấm ngọt.', '2026-09-24 16:19:36.258378', '2026-09-24 16:19:36.258378', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (68, 'Tinh Dầu Cúc La Mã', 'Tinh dầu cúc La Mã; hương hoa ngọt dịu.', '2026-09-24 16:19:36.259399', '2026-09-24 16:19:36.259399', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (69, 'Tinh Dầu Đinh Hương', 'Tinh dầu đinh hương; hương trầm ấm.', '2026-09-24 16:19:36.260564', '2026-09-24 16:19:36.260564', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (70, 'Tinh Dầu Đỗ Tùng', 'Tinh dầu đỗ tùng (bách xù); hương gỗ ấm.', '2026-09-24 16:19:36.261527', '2026-09-24 16:19:36.261527', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (71, 'Tinh Dầu Đơn Sâm', 'Tinh dầu đơn sâm (Clary Sage); hương nhẹ.', '2026-09-24 16:19:36.262564', '2026-09-24 16:19:36.262564', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (72, 'Tinh Dầu Gỗ Đàn Hương', 'Tinh dầu gỗ đàn hương; hương gỗ ấm.', '2026-09-24 16:19:36.263447', '2026-09-24 16:19:36.263447', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (73, 'Tinh Dầu Gỗ Hồng', 'Tinh dầu gỗ hồng; hương gỗ dịu ấm.', '2026-09-24 16:19:36.264581', '2026-09-24 16:19:36.264581', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (74, 'Tinh Dầu Gừng Extra', 'Tinh dầu gừng; hương cay ấm.', '2026-09-24 16:19:36.265664', '2026-09-24 16:19:36.265664', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (75, 'Tinh Dầu Hoa Cam', 'Tinh dầu hoa cam; hương hoa ngọt.', '2026-09-24 16:19:36.266743', '2026-09-24 16:19:36.266743', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (76, 'Tinh Dầu Hoa Hồi', 'Tinh dầu hoa hồi; hương hồi ấm.', '2026-09-24 16:19:36.268020', '2026-09-24 16:19:36.268020', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (77, 'Tinh Dầu Hoa Hồng', 'Tinh dầu hoa hồng; hương hoa ngọt.', '2026-09-24 16:19:36.269134', '2026-09-24 16:19:36.269134', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (78, 'Tinh Dầu Hoa Lài', 'Tinh dầu hoa lài (hoa nhài); hương hoa ngọt.', '2026-09-24 16:19:36.270870', '2026-09-24 16:19:36.270870', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (79, 'Tinh Dầu Hoắc Hương', 'Tinh dầu hoắc hương; hương thảo mộc, gỗ ấm.', '2026-09-24 16:19:36.272053', '2026-09-24 16:19:36.272053', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (80, 'Tinh Dầu Hoàng Đàn', 'Tinh dầu hoàng đàn (cedarwood); hương gỗ ấm.', '2026-09-24 16:19:36.273272', '2026-09-24 16:19:36.273272', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (81, 'Tinh Dầu Hỗn Hợp 10', 'Tinh dầu phối trộn: Oải hương, Phong lữ, Hoắc hương, Quýt, Cúc La Mã.', '2026-09-24 16:19:36.274425', '2026-09-24 16:19:36.274425', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (82, 'Tinh Dầu Hỗn Hợp 11', 'Tinh dầu phối trộn: Hương nhu và Sả hồng.', '2026-09-24 16:19:36.275521', '2026-09-24 16:19:36.275521', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (83, 'Tinh Dầu Hỗn Hợp 12', 'Tinh dầu phối trộn: Hương lau, Sả hồng, Pơ mu, Hoắc hương.', '2026-09-24 16:19:36.276709', '2026-09-24 16:19:36.276709', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (84, 'Tinh Dầu Hỗn Hợp 13', 'Tinh dầu phối trộn: Sả Chanh, Quýt, Cam Hương, Oải Hương, Bạc Hà, Hoàng Đàn.', '2026-09-24 16:19:36.278086', '2026-09-24 16:19:36.278086', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (85, 'Tinh Dầu Hỗn Hợp 14', 'Tinh dầu phối trộn: Cam, Chanh, Bưởi, Màng Tang, Sả Chanh, Chanh Sần, Cam Hương, Hương Thảo, Gừng.', '2026-09-24 16:19:36.279262', '2026-09-24 16:19:36.279262', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (86, 'Tinh Dầu Hỗn Hợp 15', 'Tinh dầu phối trộn: Sả Chanh, Trầm Hương, Hoàng Đàn, Hoắc Hương, Đinh Hương, Quế, Cam Hương.', '2026-09-24 16:19:36.280502', '2026-09-24 16:19:36.280502', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (87, 'Tinh Dầu Hỗn Hợp 16', 'Tinh dầu phối trộn: Cam, Quế và Đinh Hương.', '2026-09-24 16:19:36.281634', '2026-09-24 16:19:36.281634', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (88, 'Tinh Dầu Hỗn Hợp 18', 'Tinh dầu phối trộn: Ngọc Lan Tây, Hương Thảo, Phong Lữ.', '2026-09-24 16:19:36.282776', '2026-09-24 16:19:36.282776', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (89, 'Tinh Dầu Hỗn Hợp 7', 'Tinh dầu phối trộn: Oải hương và Cam hương.', '2026-09-24 16:19:36.284000', '2026-09-24 16:19:36.284000', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (90, 'Tinh Dầu Hỗn Hợp 8', 'Tinh dầu phối trộn: Cam và Ngọc lan tây.', '2026-09-24 16:19:36.285241', '2026-09-24 16:19:36.285241', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (91, 'Tinh Dầu Hỗn Hợp 9', 'Tinh dầu phối trộn: Tràm trà và Chanh.', '2026-09-24 16:19:36.286665', '2026-09-24 16:19:36.286665', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (92, 'Tinh Dầu Hỗn Hợp TD006', 'Tinh dầu phối trộn: Chanh Sần và Sả Chanh.', '2026-09-24 16:19:36.288168', '2026-09-24 16:19:36.288168', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (93, 'Tinh Dầu Húng Quế', 'Tinh dầu húng quế; hương thảo mộc.', '2026-09-24 16:19:36.289620', '2026-09-24 16:19:36.289620', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (94, 'Tinh Dầu Hương Lau', 'Tinh dầu hương lau (vetiver); hương cỏ dịu.', '2026-09-24 16:19:36.291158', '2026-09-24 16:19:36.291158', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (95, 'Tinh Dầu Hương Nhu', 'Tinh dầu hương nhu; hương ấm, tươi.', '2026-09-24 16:19:36.292769', '2026-09-24 16:19:36.292769', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (96, 'Tinh Dầu Hương Thảo', 'Tinh dầu hương thảo; hương thảo mộc.', '2026-09-24 16:19:36.294392', '2026-09-24 16:19:36.294392', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (97, 'Tinh Dầu Khuynh Diệp', 'Tinh dầu khuynh diệp; hương thảo mộc tươi.', '2026-09-24 16:19:36.295830', '2026-09-24 16:19:36.295830', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (98, 'Tinh Dầu Long Não', 'Tinh dầu long não; hương mát lạnh.', '2026-09-24 16:19:36.297395', '2026-09-24 16:19:36.297395', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (99, 'Tinh Dầu Màng Tang', 'Tinh dầu màng tang; hương tươi mát, gần sả chanh.', '2026-09-24 16:19:36.299680', '2026-09-24 16:19:36.299680', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (100, 'Tinh Dầu Nghệ', 'Tinh dầu nghệ; hương ấm và dịu.', '2026-09-24 16:19:36.302360', '2026-09-24 16:19:36.302360', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (101, 'Tinh Dầu Ngọc Lan Tây', 'Tinh dầu ngọc lan tây; hương hoa ngọt.', '2026-09-24 16:19:36.304164', '2026-09-24 16:19:36.304164', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (102, 'Tinh Dầu Nhũ Hương', 'Tinh dầu nhũ hương (frankincense); hương nhựa cây ấm.', '2026-09-24 16:19:36.306046', '2026-09-24 16:19:36.306046', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (103, 'Tinh Dầu Nhục Đậu Khấu', 'Tinh dầu nhục đậu khấu; hương ấm ngọt.', '2026-09-24 16:19:36.352219', '2026-09-24 16:19:36.352219', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (104, 'Tinh Dầu Oải Hương', 'Tinh dầu oải hương; hương hoa dịu.', '2026-09-24 16:19:36.354000', '2026-09-24 16:19:36.354000', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (105, 'Tinh Dầu Phong Lữ', 'Tinh dầu phong lữ; hương hoa ngọt và tươi.', '2026-09-24 16:19:36.355150', '2026-09-24 16:19:36.355150', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (106, 'Tinh Dầu Quýt', 'Tinh dầu quýt; hương cam quýt tươi.', '2026-09-24 16:19:36.356253', '2026-09-24 16:19:36.356253', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (107, 'Tinh Dầu Sả Chanh Extra', 'Tinh dầu sả chanh; hương tươi mát.', '2026-09-24 16:19:36.357313', '2026-09-24 16:19:36.357313', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (108, 'Tinh Dầu Sả Gừng', 'Tinh dầu phối trộn: Sả và Gừng.', '2026-09-24 16:19:36.358405', '2026-09-24 16:19:36.358405', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (109, 'Tinh Dầu Sả Hoa Hồng', 'Tinh dầu sả hoa hồng (palmarosa); không phải blend với hoa hồng.', '2026-09-24 16:19:36.359604', '2026-09-24 16:19:36.359604', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (110, 'Tinh Dầu Sả Java', 'Tinh dầu sả Java; hương sả tươi.', '2026-09-24 16:19:36.361108', '2026-09-24 16:19:36.361108', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (111, 'Tinh Dầu Thông', 'Tinh dầu thông; hương lá kim và gỗ.', '2026-09-24 16:19:36.362244', '2026-09-24 16:19:36.362244', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (112, 'Tinh Dầu Tiêu Đen', 'Tinh dầu tiêu đen; hương cay và nồng ấm.', '2026-09-24 16:19:36.366069', '2026-09-24 16:19:36.366069', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (113, 'Tinh Dầu Tràm', 'Tinh dầu tràm gió; hương thảo mộc ấm.', '2026-09-24 16:19:36.367195', '2026-09-24 16:19:36.367195', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (114, 'Tinh Dầu Trầm Hương', 'Tinh dầu trầm hương; hương gỗ trầm ấm.', '2026-09-24 16:19:36.368573', '2026-09-24 16:19:36.368573', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (115, 'Tinh Dầu Tràm Trà', 'Tinh dầu tràm trà; hương thảo mộc tươi.', '2026-09-24 16:19:36.369689', '2026-09-24 16:19:36.369689', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (116, 'Tinh Dầu Vỏ Bưởi', 'Tinh dầu vỏ bưởi; hương vỏ quả tươi mát.', '2026-09-24 16:19:36.371374', '2026-09-24 16:19:36.371374', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (117, 'Tinh Dầu Vỏ Quế', 'Tinh dầu vỏ quế; hương quế cay ấm.', '2026-09-24 16:19:36.373145', '2026-09-24 16:19:36.373145', 'NORMAL', 3, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (118, 'Tinh Dầu Hỗn Hợp 1', 'Tinh dầu phối trộn: Cam, Sả Java, Khuynh Diệp.', '2026-09-24 16:19:36.375566', '2026-09-24 16:19:36.375566', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (119, 'Tinh Dầu Hỗn Hợp 2', 'Tinh dầu phối trộn: Cam và Quế.', '2026-09-24 16:19:36.379314', '2026-09-24 16:19:36.379314', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (120, 'Tinh Dầu Hỗn Hợp 3', 'Tinh dầu phối trộn: Oải hương, Phong lữ, Hương thảo.', '2026-09-24 16:19:36.380555', '2026-09-24 16:19:36.380555', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (121, 'Tinh Dầu Hỗn Hợp 4', 'Tinh dầu phối trộn: Ngọc lan tây, Cam, Thông.', '2026-09-24 16:19:36.381984', '2026-09-24 16:19:36.381984', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (122, 'Tinh Dầu Hỗn Hợp 5', 'Tinh dầu phối trộn: Ngọc lan tây, Hoắc hương, Cam, Hoàng đàn, Oải hương.', '2026-09-24 16:19:36.383380', '2026-09-24 16:19:36.383380', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (123, 'Tinh Dầu Hỗn Hợp 6', 'Tinh dầu phối trộn: Cam hương, Chanh, Vỏ bưởi.', '2026-09-24 16:19:36.384667', '2026-09-24 16:19:36.384667', 'NORMAL', 4, 3, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (124, 'Tinh Dầu A Thuỳ – Asafoetida Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.891441', '2026-09-24 16:38:06.891441', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (125, 'Tinh Dầu Áo Nhục Đậu Khấu – Mace Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892016', '2026-09-24 16:38:06.892016', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (126, 'Tinh Dầu Bạc Hà – Peppermint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892295', '2026-09-24 16:38:06.892295', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (127, 'Tinh Dầu Bạc Hà Á – Cormint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892554', '2026-09-24 16:38:06.892554', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (128, 'Tinh Dầu Bạc Hà Chanh – Citrata Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892910', '2026-09-24 16:38:06.892910', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (129, 'Tinh Dầu Bạc Hà Hăng – Pennyroyal Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.893169', '2026-09-24 16:38:06.893169', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (130, 'Tinh Dầu Bạc Hà Lục – Spearmint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.893532', '2026-09-24 16:38:06.893532', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (131, 'Tinh Dầu Bạc Hà Mèo – Catnip Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.893860', '2026-09-24 16:38:06.893860', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (132, 'Tinh Dầu Bạc Hà Ngựa – Horsemint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894093', '2026-09-24 16:38:06.894093', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (133, 'Tinh Dầu Bạc Hà Socola – Socola Mint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894291', '2026-09-24 16:38:06.894291', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (134, 'Tinh Dầu Bạch Dương Ngọt – Sweet Birch Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894665', '2026-09-24 16:38:06.894665', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (135, 'Tinh Dầu Bạch Đàn Chanh – Eucalyptus Citriodora Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894879', '2026-09-24 16:38:06.894879', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (136, 'Tinh Dầu Bạch Truật – Atractylis Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895113', '2026-09-24 16:38:06.895113', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (137, 'Tinh Dầu Bạch Tùng Hương – Galbanum Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895339', '2026-09-24 16:38:06.895339', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (138, 'Tinh Dầu Bài Hương – Hyssop Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895580', '2026-09-24 16:38:06.895580', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (139, 'Tinh Dầu Bồng Nga Truật – Finger Root Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895790', '2026-09-24 16:38:06.895790', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (140, 'Tinh Dầu Bù Chu – Buchu Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896023', '2026-09-24 16:38:06.896023', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (141, 'Tinh dầu Trầm hương – Oud Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896286', '2026-09-24 16:38:06.896286', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (142, 'Tinh Dầu Vỏ Bưởi Da Xanh – Pomelo Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896462', '2026-09-24 16:38:06.896462', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (143, 'Tinh dầu Thông Đỏ – Red Pine Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896670', '2026-09-24 16:38:06.896670', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (144, 'Tinh Dầu Xạ Hương Đỏ – Red Thyme Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896918', '2026-09-24 16:38:06.896918', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (145, 'Tinh Dầu Lá Ngò Gai – Eryngium foetidum Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897101', '2026-09-24 16:38:06.897101', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (146, 'Tinh Dầu Hương Nhu Tía – Ocimum sanctum Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897306', '2026-09-24 16:38:06.897306', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (147, 'Tinh Dầu Đinh Hương Nụ – Bud Clove Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897526', '2026-09-24 16:38:06.897526', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (148, 'Tinh Dầu Đại Hồi – Star Anise Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897773', '2026-09-24 16:38:06.897773', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (149, 'Tinh Dầu Đinh Hương – Clove Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.898017', '2026-09-24 16:38:06.898017', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (150, 'Tinh Dầu Kinh Giới – Oregano Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.898336', '2026-09-24 16:38:06.898336', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (151, 'Tinh Dầu Lộc Đề Xanh – Winter Green Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.898737', '2026-09-24 16:38:06.898737', 'NORMAL', 3, 4, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (152, 'Tinh dầu Bách Lý Hương / Thyme', 'Tinh dầu đơn Bách Lý Hương; mã mùi No.005. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.614531', '2026-09-24 16:41:04.614531', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (153, 'Tinh dầu Bạc Hà / Peppermint', 'Tinh dầu đơn Bạc Hà; mã mùi No.001. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.615182', '2026-09-24 16:41:04.615182', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (154, 'Tinh dầu Bạc Hà Lục / Spearmint', 'Tinh dầu đơn Bạc Hà Lục; mã mùi No.003. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.615540', '2026-09-24 16:41:04.615540', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (155, 'Tinh dầu Bạch Đàn Chanh / Eucalyptus Citriodora', 'Tinh dầu đơn Bạch Đàn Chanh; mã mùi No.004. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.616208', '2026-09-24 16:41:04.616208', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (156, 'Tinh dầu Cam Hương / Bergamot', 'Tinh dầu đơn Cam Hương; mã mùi No.009. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.616976', '2026-09-24 16:41:04.616976', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (157, 'Tinh dầu Cam Ngọt / Sweet Orange', 'Tinh dầu đơn Cam Ngọt; mã mùi No.008. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.617686', '2026-09-24 16:41:04.617686', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (158, 'Tinh dầu Chanh / Lemon', 'Tinh dầu đơn Chanh; mã mùi No.014. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618195', '2026-09-24 16:41:04.618195', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (159, 'Tinh dầu Chanh Sần / Lime', 'Tinh dầu đơn Chanh Sần; mã mùi No.015. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618552', '2026-09-24 16:41:04.618552', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (160, 'Tinh dầu Cúc Xanh La Mã / Blue Chamomile', 'Tinh dầu đơn Cúc Xanh La Mã; mã mùi No.017. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618770', '2026-09-24 16:41:04.618770', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (161, 'Tinh dầu Cỏ Gừng / Ginger Grass', 'Tinh dầu đơn Cỏ Gừng; mã mùi No.011. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618990', '2026-09-24 16:41:04.618990', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (162, 'Tinh dầu Đại Hồi / Anise Star', 'Tinh dầu đơn Đại Hồi; mã mùi No.018. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619221', '2026-09-24 16:41:04.619221', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (163, 'Tinh dầu Đàn Hương / Sandalwood', 'Tinh dầu đơn Đàn Hương; mã mùi No.112. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619424', '2026-09-24 16:41:04.619424', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (164, 'Tinh dầu Đỗ Tùng / Juniper', 'Tinh dầu đơn Đỗ Tùng; mã mùi No.020. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619615', '2026-09-24 16:41:04.619615', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (165, 'Tinh dầu Đơn Sâm / Clary Sage', 'Tinh dầu đơn Đơn Sâm; mã mùi No.021. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619802', '2026-09-24 16:41:04.619802', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (166, 'Tinh dầu Gỗ Hồng / Rosewood', 'Tinh dầu đơn Gỗ Hồng; mã mùi No.022. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619988', '2026-09-24 16:41:04.619988', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (167, 'Tinh dầu Gỗ Thông / Pine Wood', 'Tinh dầu đơn Gỗ Thông; mã mùi No.068. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620177', '2026-09-24 16:41:04.620177', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (168, 'Tinh dầu Hạt Ngò / Coriander Seed', 'Tinh dầu đơn Hạt Ngò; mã mùi No.013. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620367', '2026-09-24 16:41:04.620367', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (169, 'Tinh dầu Hoàng Đàn / Cedarwood', 'Tinh dầu đơn Hoàng Đàn; mã mùi No.030. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620561', '2026-09-24 16:41:04.620561', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (170, 'Tinh dầu Hoắc Hương / Patchouli', 'Tinh dầu đơn Hoắc Hương; mã mùi No.029. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620759', '2026-09-24 16:41:04.620759', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (171, 'Tinh dầu Húng Quế / Sweet Basil', 'Tinh dầu đơn Húng Quế; mã mùi No.036. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620974', '2026-09-24 16:41:04.620974', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (172, 'Tinh dầu Hương Nhu / Holy Basil', 'Tinh dầu đơn Hương Nhu; mã mùi No.031. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621221', '2026-09-24 16:41:04.621221', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (173, 'Tinh dầu Hương Thảo / Rosemary', 'Tinh dầu đơn Hương Thảo; mã mùi No.032. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621461', '2026-09-24 16:41:04.621461', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (174, 'Tinh dầu Khuynh Diệp Globulus / Eucalyptus Globulus', 'Tinh dầu đơn Khuynh Diệp Globulus; mã mùi No.039. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621679', '2026-09-24 16:41:04.621679', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (175, 'Tinh dầu Lá Chanh / Lemon Leaf', 'Tinh dầu đơn Lá Chanh; mã mùi No.040. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621926', '2026-09-24 16:41:04.621926', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (176, 'Tinh dầu Nghệ / Turmeric', 'Tinh dầu đơn Nghệ; mã mùi No.045. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622142', '2026-09-24 16:41:04.622142', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (177, 'Tinh dầu Ngọc Lan Tây / Ylang Ylang', 'Tinh dầu đơn Ngọc Lan Tây; mã mùi No.047. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622354', '2026-09-24 16:41:04.622354', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (178, 'Tinh dầu Nhũ Hương / Frankincense', 'Tinh dầu đơn Nhũ Hương; mã mùi No.049. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622573', '2026-09-24 16:41:04.622573', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (179, 'Tinh dầu Oải Hương / Lavender', 'Tinh dầu đơn Oải Hương; mã mùi No.052. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622789', '2026-09-24 16:41:04.622789', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (180, 'Tinh dầu Phong Lữ / Geranium', 'Tinh dầu đơn Phong Lữ; mã mùi No.055. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623027', '2026-09-24 16:41:04.623027', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (181, 'Tinh dầu Pơ Mu / Peimou', 'Tinh dầu đơn Pơ Mu; mã mùi No.056. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623266', '2026-09-24 16:41:04.623266', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (182, 'Tinh dầu Quế Ceylon / Ceylon Cassia', 'Tinh dầu đơn Quế Ceylon; mã mùi No.319. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623584', '2026-09-24 16:41:04.623584', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (183, 'Tinh dầu Quýt / Mandarin', 'Tinh dầu đơn Quýt; mã mùi No.059. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623856', '2026-09-24 16:41:04.623856', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (184, 'Tinh dầu Rã Hương / Camphora', 'Tinh dầu đơn Rã Hương; mã mùi No.042. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.624183', '2026-09-24 16:41:04.624183', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (185, 'Tinh dầu Sả Chanh / Lemongrass', 'Tinh dầu đơn Sả Chanh; mã mùi No.061. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.624534', '2026-09-24 16:41:04.624534', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (186, 'Tinh dầu Sả Hồng / Palmarosa', 'Tinh dầu đơn Sả Hồng; mã mùi No.063. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.624838', '2026-09-24 16:41:04.624838', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (187, 'Tinh dầu Sả Java / Citronella', 'Tinh dầu đơn Sả Java; mã mùi No.064. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.625270', '2026-09-24 16:41:04.625270', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (188, 'Tinh dầu Thì Là Tây / Fennel', 'Tinh dầu đơn Thì Là Tây; mã mùi No.066. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.625617', '2026-09-24 16:41:04.625617', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (189, 'Tinh dầu Tiêu Hồng / Pink Peppercorn', 'Tinh dầu đơn Tiêu Hồng; mã mùi No.028. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.625901', '2026-09-24 16:41:04.625901', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (190, 'Tinh dầu Tràm Gió / Cajeput', 'Tinh dầu đơn Tràm Gió; mã mùi No.073. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.626239', '2026-09-24 16:41:04.626239', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (191, 'Tinh dầu Tràm Trà / Tea Tree', 'Tinh dầu đơn Tràm Trà; mã mùi No.075. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.626584', '2026-09-24 16:41:04.626584', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (192, 'Tinh dầu Trắc Bách Diệp / Cypress', 'Tinh dầu đơn Trắc Bách Diệp; mã mùi No.072. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.626952', '2026-09-24 16:41:04.626952', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (193, 'Tinh dầu Trầu Không / Betel Leaf', 'Tinh dầu đơn Trầu Không; mã mùi No.108. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.627395', '2026-09-24 16:41:04.627395', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (194, 'Tinh dầu Vỏ Bưởi / Pomelo', 'Tinh dầu đơn Vỏ Bưởi; mã mùi No.076. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.627789', '2026-09-24 16:41:04.627789', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (195, 'Tinh dầu Vỏ Quế / Cinnamon', 'Tinh dầu đơn Vỏ Quế; mã mùi No.058. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.628170', '2026-09-24 16:41:04.628170', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (196, 'Tinh dầu Bạc Hà Organic / Organic Peppermint', 'Tinh dầu Bạc Hà Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.631395', '2026-09-24 16:41:04.631395', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (197, 'Tinh dầu Cam Ngọt Organic / Organic Sweet Orange', 'Tinh dầu Cam Ngọt Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.631918', '2026-09-24 16:41:04.631918', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (198, 'Tinh dầu Hoàng Đàn Organic / Organic Cedarwood', 'Tinh dầu Hoàng Đàn Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.632327', '2026-09-24 16:41:04.632327', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (199, 'Tinh dầu Hương Thảo Organic / Organic Rosemary', 'Tinh dầu Hương Thảo Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.632739', '2026-09-24 16:41:04.632739', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (200, 'Tinh dầu Khuynh Diệp Radiata Organic / Organic Eucalyptus Radiata', 'Tinh dầu Khuynh Diệp Radiata Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.633178', '2026-09-24 16:41:04.633178', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (201, 'Tinh dầu Oải Hương Organic / Organic Lavender', 'Tinh dầu Oải Hương Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.633589', '2026-09-24 16:41:04.633589', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (202, 'Tinh dầu Sả Chanh Organic / Organic Lemongrass', 'Tinh dầu Sả Chanh Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.633995', '2026-09-24 16:41:04.633995', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (203, 'Tinh dầu Tràm Trà Organic / Organic Tea Tree', 'Tinh dầu Tràm Trà Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.634394', '2026-09-24 16:41:04.634394', 'NORMAL', 3, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (204, 'Tinh dầu Blend #098 Vườn Thảo Mộc', 'Blend No.098; thành phần: Bạc hà lục, Húng quế, Thì là tây, Kinh giới ô, Hạt ngò, Hương thảo, Sả chanh, Đơn sâm, Gỗ hồng.', '2026-09-24 16:41:04.634790', '2026-09-24 16:41:04.634790', 'NORMAL', 4, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (205, 'Tinh dầu Blend #104 Hơi Thở Bình An', 'Blend No.104; thành phần: Khuynh diệp, Tràm gió, Oải hương, Tràm trà, Lộc đề xanh.', '2026-09-24 16:41:04.635396', '2026-09-24 16:41:04.635396', 'NORMAL', 4, 5, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (206, 'Tinh dầu sả chanh Lemongrass', 'Tinh dầu Sả chanh (Lemongrass); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.317451', '2026-09-24 16:49:55.317451', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (207, 'Tinh dầu bưởi Grapefruit', 'Tinh dầu Vỏ bưởi (Grapefruit); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.318214', '2026-09-24 16:49:55.318214', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (208, 'Tinh dầu bạc hà Peppermint', 'Tinh dầu Bạc hà (Peppermint); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.318599', '2026-09-24 16:49:55.318599', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (209, 'Tinh dầu oải hương Lavender', 'Tinh dầu Oải hương (Lavender); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.318882', '2026-09-24 16:49:55.318882', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (210, 'Tinh dầu hoa nhài Jasmine', 'Tinh dầu Hoa nhài (Jasmine); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319202', '2026-09-24 16:49:55.319202', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (211, 'Tinh dầu sả java Citronella', 'Tinh dầu Sả Java (Citronella); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319476', '2026-09-24 16:49:55.319476', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (212, 'Tinh dầu quế Cinnamon', 'Tinh dầu Quế (Cinnamon); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319740', '2026-09-24 16:49:55.319740', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (213, 'Tinh dầu chanh tươi Lemon', 'Tinh dầu Chanh tươi (Lemon); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319983', '2026-09-24 16:49:55.319983', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (214, 'Tinh dầu vỏ quýt Mandarin', 'Tinh dầu Vỏ quýt (Mandarin); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320223', '2026-09-24 16:49:55.320223', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (215, 'Tinh dầu tràm trà Tea Tree', 'Tinh dầu Tràm trà (Tea Tree); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320426', '2026-09-24 16:49:55.320426', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (216, 'Tinh dầu tràm gió Cajeput', 'Tinh dầu Tràm gió (Cajeput); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320676', '2026-09-24 16:49:55.320676', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (217, 'Tinh dầu khuynh diệp Eucalyptus', 'Tinh dầu Khuynh diệp (Eucalyptus); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320881', '2026-09-24 16:49:55.320881', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (218, 'Tinh dầu thông Pine', 'Tinh dầu Thông (Pine); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321139', '2026-09-24 16:49:55.321139', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (219, 'Tinh dầu phong lữ Geranium', 'Tinh dầu Phong lữ (Geranium); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321336', '2026-09-24 16:49:55.321336', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (220, 'Tinh dầu ngọc lan tây Ylang Ylang', 'Tinh dầu Ngọc lan tây (Ylang Ylang); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321555', '2026-09-24 16:49:55.321555', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (221, 'Tinh dầu cam ngọt Sweet Orange', 'Tinh dầu Cam ngọt (Sweet Orange); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321745', '2026-09-24 16:49:55.321745', 'NORMAL', 3, 6, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (222, 'Tinh dầu cam nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu cam nguyên chất; chai thủy tinh nhỏ giọt 10ml.', '2026-09-24 16:52:58.313507', '2026-09-24 16:52:58.313507', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (223, 'Tinh dầu cam nguyên chất 50ml Tinh Dầu 100', 'Tinh dầu cam nguyên chất; dung tích 50ml; trang sản phẩm ghi xuất xứ Mỹ.', '2026-09-24 16:52:58.314874', '2026-09-24 16:52:58.314874', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (224, 'Tinh dầu sả chanh nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu sả chanh; Cymbopogon flexuosus; trang sản phẩm ghi xuất xứ Ấn Độ.', '2026-09-24 16:52:58.315324', '2026-09-24 16:52:58.315324', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (225, 'Tinh dầu sả chanh nguyên chất 50ml Tinh Dầu 100', 'Tinh dầu sả chanh; chưng cất hơi nước từ thân và lá; trang ghi xuất xứ Ấn Độ.', '2026-09-24 16:52:58.315727', '2026-09-24 16:52:58.315727', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (226, 'Tinh dầu bạc hà nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu bạc hà Peppermint; chưng cất hơi nước từ thân và lá; chai 10ml.', '2026-09-24 16:52:58.316101', '2026-09-24 16:52:58.316101', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (227, 'Tinh dầu bưởi hồng 10ml Tinh Dầu 100', 'Tinh dầu vỏ bưởi hồng; ép lạnh từ vỏ; Citrus paradisi; trang ghi xuất xứ Ấn Độ.', '2026-09-24 16:52:58.316485', '2026-09-24 16:52:58.316485', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (228, 'Tinh dầu bưởi hồng 50ml Tinh Dầu 100', 'Tinh dầu bưởi hồng nguyên chất; chai thủy tinh nâu nhỏ giọt; 50ml.', '2026-09-24 16:52:58.316966', '2026-09-24 16:52:58.316966', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (229, 'Tinh dầu quế nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu quế chiết xuất từ vỏ và lá quế; chai thủy tinh nhỏ giọt 10ml.', '2026-09-24 16:52:58.317423', '2026-09-24 16:52:58.317423', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (230, 'Tinh dầu Oải hương Lavender Tinh Dầu 100 10ml', 'Tinh dầu oải hương Lavandula angustifolia; chưng cất hơi nước từ hoa; trang ghi xuất xứ Pháp.', '2026-09-24 16:52:58.318048', '2026-09-24 16:52:58.318048', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (231, 'Tinh dầu tràm gió nguyên chất 50ml Tinh Dầu 100', 'Tinh dầu tràm gió Cajeput; chưng cất hơi nước từ cành lá; trang ghi xuất xứ Singapore.', '2026-09-24 16:52:58.318662', '2026-09-24 16:52:58.318662', 'NORMAL', 3, 7, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (232, 'Tinh dầu Cam Ngọt', 'Tinh dầu Cam Ngọt từ vỏ Citrus sinensis, ép lạnh; Kho Tinh Dầu công bố nguồn Ấn Độ.', '2026-09-26 11:47:26.442841', '2026-09-26 11:47:26.442841', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (233, 'Tinh dầu Bạc Hà', 'Tinh dầu Bạc Hà thiên nhiên nhập từ Ấn Độ; trang NCC công bố COA và kiểm nghiệm QUATEST 3.', '2026-09-26 11:47:26.444242', '2026-09-26 11:47:26.444242', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (234, 'Tinh dầu Sả Chanh', 'Tinh dầu Sả Chanh thiên nhiên, nhập khẩu Ấn Độ; trang NCC công bố COA và phiếu kiểm nghiệm.', '2026-09-26 11:47:26.444481', '2026-09-26 11:47:26.444481', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (235, 'Tinh dầu Đàn Hương', 'Tinh dầu Đàn Hương từ lõi gỗ Santalum album, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.444704', '2026-09-26 11:47:26.444704', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (236, 'Tinh dầu Hoàng Đàn', 'Tinh dầu Hoàng Đàn (Cedarwood) từ gỗ thuộc chi Cedrus, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.445001', '2026-09-26 11:47:26.445001', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (237, 'Tinh dầu Quế', 'Tinh dầu Quế từ vỏ cây quế; NCC mô tả không sử dụng hóa chất hay phụ gia và có kiểm nghiệm.', '2026-09-26 11:47:26.445219', '2026-09-26 11:47:26.445219', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (238, 'Tinh dầu Phong Lữ', 'Tinh dầu Phong Lữ từ lá và thân Pelargonium graveolens, chưng cất hơi nước theo trang NCC.', '2026-09-26 11:47:26.445389', '2026-09-26 11:47:26.445389', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (239, 'Tinh dầu Ngọc Lan Tây', 'Tinh dầu Ngọc Lan Tây từ hoa ylang-ylang, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.445552', '2026-09-26 11:47:26.445552', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (240, 'Tinh dầu Bưởi', 'Tinh dầu Bưởi từ vỏ bưởi; NCC công bố sản phẩm nguồn thiên nhiên, nhập trực tiếp từ SNN Natural.', '2026-09-26 11:47:26.445719', '2026-09-26 11:47:26.445719', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (241, 'Tinh dầu Hương Thảo', 'Tinh dầu Hương Thảo nhập khẩu Ấn Độ; NCC mô tả hàng nguyên seal, không sang chiết hay pha phụ gia.', '2026-09-26 11:47:26.445882', '2026-09-26 11:47:26.445882', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (242, 'Tinh dầu Cam Hương', 'Tinh dầu Cam Hương (Bergamot) từ vỏ Citrus bergamia, ép lạnh; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.446041', '2026-09-26 11:47:26.446041', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (243, 'Tinh dầu Bạch Đàn Chanh', 'Tinh dầu Bạch Đàn Chanh có trang sản phẩm riêng trong danh mục tinh dầu giá sỉ của Kho Tinh Dầu.', '2026-09-26 11:47:26.446281', '2026-09-26 11:47:26.446281', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (244, 'Tinh dầu Oải Hương', 'Tinh dầu Oải Hương nhập khẩu nguyên chai/can/phuy; NCC mô tả hương tự nhiên và nguồn hàng Ấn Độ.', '2026-09-26 11:47:26.446531', '2026-09-26 11:47:26.446531', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (245, 'Tinh dầu Hoa Hồng', 'Tinh dầu Hoa Hồng từ nguyên liệu hoa; NCC công bố sản xuất tại SNN Natural Ấn Độ, nhập khẩu nguyên seal.', '2026-09-26 11:47:26.446708', '2026-09-26 11:47:26.446708', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (246, 'Tinh dầu Lài (Nhài)', 'Tinh dầu Lài từ hoa nhài; NCC công bố nguyên liệu tự nhiên, không phụ gia, hương liệu tổng hợp hay chất tạo màu.', '2026-09-26 11:47:26.446889', '2026-09-26 11:47:26.446889', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (247, 'Tinh dầu Lục Bạc Hà', 'Tinh dầu Lục Bạc Hà (Spearmint Essential Oil) có trang sản phẩm riêng; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.447060', '2026-09-26 11:47:26.447060', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (248, 'Tinh dầu Tràm Singapore', 'Tinh dầu Tràm từ Melaleuca cajuputi; NCC mô tả sản phẩm thiên nhiên, chưng cất và không pha hóa chất tổng hợp.', '2026-09-26 11:47:26.447232', '2026-09-26 11:47:26.447232', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (249, 'Tinh dầu Lá Chanh', 'Tinh dầu Lá Chanh từ lá, chưng cất hơi nước; nguồn SNN Natural Ấn Độ theo trang sản phẩm.', '2026-09-26 11:47:26.447404', '2026-09-26 11:47:26.447404', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (250, 'Tinh dầu Chanh Sần', 'Tinh dầu Chanh Sần từ vỏ quả, ép lạnh; nguồn Ấn Độ theo NCC, trang mô tả không phụ gia hay chất độn.', '2026-09-26 11:47:26.447599', '2026-09-26 11:47:26.447599', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (251, 'Tinh dầu Gừng', 'Tinh dầu Gừng từ thân rễ/củ gừng, chưng cất hơi nước; NCC xếp trong danh mục tinh dầu thiên nhiên.', '2026-09-26 11:47:26.447781', '2026-09-26 11:47:26.447781', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (252, 'Tinh dầu Nụ Đinh Hương', 'Tinh dầu Nụ Đinh Hương từ nụ Syzygium aromaticum; nhập khẩu SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.448137', '2026-09-26 11:47:26.448137', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (253, 'Tinh dầu Thông', 'Tinh dầu Thông từ lá Pinus roxburghii, chưng cất hơi nước; nguồn Ấn Độ theo trang NCC.', '2026-09-26 11:47:26.448447', '2026-09-26 11:47:26.448447', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (254, 'Tinh dầu Quýt', 'Tinh dầu Quýt (Mandarin Essential Oil) có trang sản phẩm riêng trong danh mục tinh dầu của Kho Tinh Dầu.', '2026-09-26 11:47:26.448714', '2026-09-26 11:47:26.448714', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (255, 'Tinh dầu Chanh', 'Tinh dầu Chanh nguyên chất nhập khẩu SNN Natural Ấn Độ; NCC công bố COA/GMP/ISO và hóa đơn VAT.', '2026-09-26 11:47:26.448936', '2026-09-26 11:47:26.448936', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (256, 'Tinh dầu Gỗ Hồng', 'Tinh dầu Gỗ Hồng từ gỗ Dalbergia sissoo qua quá trình chưng cất; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.449150', '2026-09-26 11:47:26.449150', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (257, 'Tinh dầu Hoắc Hương', 'Tinh dầu Hoắc Hương nhập khẩu Ấn Độ; NCC công bố sản phẩm nguyên seal và bán theo kg.', '2026-09-26 11:47:26.449356', '2026-09-26 11:47:26.449356', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (258, 'Tinh dầu Trầm Hương', 'Tinh dầu Trầm Hương thiên nhiên từ gỗ trầm; Kho Tinh Dầu có trang sản phẩm và thông tin kiểm nghiệm.', '2026-09-26 11:47:26.449574', '2026-09-26 11:47:26.449574', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (259, 'Tinh dầu Khuynh Diệp', 'Tinh dầu Khuynh Diệp (Eucalyptus Essential Oil) có trang sản phẩm riêng trong danh mục tinh dầu của NCC.', '2026-09-26 11:47:26.449799', '2026-09-26 11:47:26.449799', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (260, 'Tinh dầu Tràm Trà', 'Tinh dầu Tràm Trà từ lá, chưng cất hơi nước; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.450179', '2026-09-26 11:47:26.450179', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (261, 'Tinh dầu Tràm Gió', 'Tinh dầu Tràm Gió từ lá Melaleuca cajuputi, chưng cất hơi nước; nguồn nhà sản xuất miền Trung Việt Nam theo NCC.', '2026-09-26 11:47:26.454711', '2026-09-26 11:47:26.454711', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (262, 'Tinh dầu Húng Quế', 'Tinh dầu Húng Quế từ lá và thân Ocimum basilicum, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.455073', '2026-09-26 11:47:26.455073', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (263, 'Tinh dầu Sả Java', 'Tinh dầu Sả Java từ lá và thân Cymbopogon winterianus, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.455339', '2026-09-26 11:47:26.455339', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (264, 'Tinh dầu Nghệ', 'Tinh dầu Nghệ từ củ nghệ tươi; NCC công bố sản phẩm SNN Natural, sản xuất tại Ấn Độ và nhập khẩu chính ngạch.', '2026-09-26 11:47:26.455587', '2026-09-26 11:47:26.455587', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (265, 'Tinh dầu Lộc Đề Xanh', 'Tinh dầu Lộc Đề Xanh từ lá cây Gaultheria, chưng cất hơi nước sau bước ngâm lá; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.455849', '2026-09-26 11:47:26.455849', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (266, 'Tinh dầu Nhục Đậu Khấu', 'Tinh dầu Nhục Đậu Khấu từ hạt Myristica fragrans, chưng cất hơi nước; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.456207', '2026-09-26 11:47:26.456207', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id) VALUES (267, 'Tinh dầu Sả Hoa Hồng', 'Tinh dầu Sả Hoa Hồng là tinh dầu từ một loài sả; NCC công bố chiết xuất hoàn toàn từ thiên nhiên, nguồn Ấn Độ.', '2026-09-26 11:47:26.456462', '2026-09-26 11:47:26.456462', 'NORMAL', 3, 8, NULL, NULL);
-INSERT INTO `product_image` VALUES (1, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bac-ha.jpg', '2026-09-26 12:52:18.854105', 1);
-INSERT INTO `product_image` VALUES (2, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bach-dan-chanh-2.jpg', '2026-09-26 12:54:44.777662', 2);
-INSERT INTO `product_image` VALUES (3, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-cam-ngot.jpg', '2026-09-26 12:55:19.062417', 3);
-INSERT INTO `product_image` VALUES (4, 'https://labcos.com.vn/wp-content/uploads/tinhdauchanh.jpg', '2026-09-26 12:55:40.358969', 4);
-INSERT INTO `product_image` VALUES (5, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-go-hong-2.jpg', '2026-09-26 12:58:38.918709', 5);
-INSERT INTO `product_image` VALUES (6, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-gung-1-1.jpg', '2026-09-26 12:59:28.009065', 6);
-INSERT INTO `product_image` VALUES (7, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-hong.jpg', '2026-09-26 13:02:11.928582', 8);
-INSERT INTO `product_image` VALUES (8, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-nhai-2.jpg', '2026-09-26 13:02:35.768486', 9);
-INSERT INTO `product_image` VALUES (9, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hung-que.jpg', '2026-09-26 13:02:58.309391', 10);
-INSERT INTO `product_image` VALUES (10, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-huong-nhu-2.jpg', '2026-09-26 13:03:25.513283', 11);
-INSERT INTO `product_image` VALUES (11, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-khuynh-diep.jpg', '2026-09-26 13:03:56.616360', 12);
-INSERT INTO `product_image` VALUES (12, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-nghe-1.jpg', '2026-09-26 13:43:28.874402', 13);
-INSERT INTO `product_image` VALUES (13, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-ngoc-lan-tay.jpg', '2026-09-26 13:43:56.587586', 14);
-INSERT INTO `product_image` VALUES (14, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-oai-huong-1.jpg', '2026-09-26 13:44:19.635816', 15);
-INSERT INTO `product_image` VALUES (15, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-phong-lu.jpg', '2026-09-26 13:44:42.602225', 16);
-INSERT INTO `product_image` VALUES (16, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-po-mu.jpg', '2026-09-26 13:45:08.735939', 17);
-INSERT INTO `product_image` VALUES (17, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-quyt.jpg', '2026-09-26 13:45:29.467866', 18);
-INSERT INTO `product_image` VALUES (18, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-chanh.jpg', '2026-09-26 13:45:43.276220', 19);
-INSERT INTO `product_image` VALUES (19, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-java.jpg', '2026-09-26 13:46:06.753786', 20);
-INSERT INTO `product_image` VALUES (20, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tra-xanh.jpg', '2026-09-26 13:46:29.364140', 21);
-INSERT INTO `product_image` VALUES (21, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-trac-bach-diep.jpg', '2026-09-26 13:46:56.998350', 22);
-INSERT INTO `product_image` VALUES (22, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-gio.jpg', '2026-09-26 13:47:17.814428', 23);
-INSERT INTO `product_image` VALUES (23, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-tra-2.jpg', '2026-09-26 13:47:30.914360', 24);
-INSERT INTO `product_image` VALUES (24, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-buoi-3.jpg', '2026-09-26 13:48:01.891546', 25);
-INSERT INTO `product_image` VALUES (25, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-que.jpg', '2026-09-26 13:48:15.014399', 26);
-INSERT INTO `product_image` VALUES (26, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-ARGAN.jpg', '2026-09-26 13:48:55.700314', 27);
-INSERT INTO `product_image` VALUES (27, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-CAM-GAO.jpg', '2026-09-26 13:49:23.049376', 28);
-INSERT INTO `product_image` VALUES (28, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-DAU-DUA.jpg', '2026-09-26 13:49:45.088761', 29);
-INSERT INTO `product_image` VALUES (29, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-GAC.jpg', '2026-09-26 13:50:32.834968', 30);
-INSERT INTO `product_image` VALUES (30, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-50ML.webp', '2026-09-26 13:55:41.472667', 59);
-INSERT INTO `product_image` VALUES (31, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-1000ML.webp', '2026-09-26 13:55:41.472667', 59);
-INSERT INTO `product_image` VALUES (32, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-4.png', '2026-09-26 13:55:41.472667', 59);
-INSERT INTO `product_image` VALUES (33, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-10ML.webp', '2026-09-26 13:56:50.660621', 60);
-INSERT INTO `product_image` VALUES (34, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-500ML.webp', '2026-09-26 13:56:50.660621', 60);
-INSERT INTO `product_image` VALUES (35, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-100ML.webp', '2026-09-26 13:56:50.660621', 60);
-INSERT INTO `product_image` VALUES (36, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-8.webp', '2026-09-26 13:57:51.695337', 61);
-INSERT INTO `product_image` VALUES (37, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-500ML.webp', '2026-09-26 13:57:51.695337', 61);
-INSERT INTO `product_image` VALUES (38, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-100ML.webp', '2026-09-26 13:57:51.695337', 61);
-INSERT INTO `product_image` VALUES (39, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-6.webp', '2026-09-26 13:58:46.779128', 62);
-INSERT INTO `product_image` VALUES (40, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-1.png', '2026-09-26 13:58:46.779128', 62);
-INSERT INTO `product_image` VALUES (41, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-4.png', '2026-09-26 13:58:46.779128', 62);
-INSERT INTO `product_image` VALUES (42, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:59:45.767579', 63);
-INSERT INTO `product_image` VALUES (43, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-500ML.webp', '2026-09-26 13:59:45.767579', 63);
-INSERT INTO `product_image` VALUES (44, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:59:45.767579', 63);
-INSERT INTO `product_image` VALUES (45, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-11.webp', '2026-09-26 14:00:31.423512', 64);
-INSERT INTO `product_image` VALUES (46, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-500ML.webp', '2026-09-26 14:00:31.423512', 64);
-INSERT INTO `product_image` VALUES (47, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-100ML.webp', '2026-09-26 14:00:31.423512', 64);
-INSERT INTO `product_image` VALUES (48, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-10ML.webp', '2026-09-26 14:01:15.121028', 65);
-INSERT INTO `product_image` VALUES (49, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-500MLX.webp', '2026-09-26 14:01:15.121028', 65);
-INSERT INTO `product_image` VALUES (50, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-100ML.webp', '2026-09-26 14:01:15.121028', 65);
-INSERT INTO `product_image` VALUES (51, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-10ML.webp', '2026-09-26 14:02:01.928386', 66);
-INSERT INTO `product_image` VALUES (52, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-500ML.webp', '2026-09-26 14:02:01.928386', 66);
-INSERT INTO `product_image` VALUES (53, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-100ML.webp', '2026-09-26 14:02:01.928386', 66);
-INSERT INTO `product_image` VALUES (54, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-10ML.webp', '2026-09-26 14:02:55.954873', 67);
-INSERT INTO `product_image` VALUES (55, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-500ML.webp', '2026-09-26 14:02:55.954873', 67);
-INSERT INTO `product_image` VALUES (56, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-100ML.webp', '2026-09-26 14:02:55.954873', 67);
-INSERT INTO `product_image` VALUES (57, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-10ML.webp', '2026-09-26 14:03:50.886646', 68);
-INSERT INTO `product_image` VALUES (58, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-500ML.webp', '2026-09-26 14:03:50.886646', 68);
-INSERT INTO `product_image` VALUES (59, 'https://biyokea.vn/wp-content/uploads/2025/08/cuc-la-ma-2.png', '2026-09-26 14:03:50.886646', 68);
-INSERT INTO `product_image` VALUES (60, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-10ML.webp', '2026-09-26 14:04:46.004925', 69);
-INSERT INTO `product_image` VALUES (61, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-1.png', '2026-09-26 14:04:46.004925', 69);
-INSERT INTO `product_image` VALUES (62, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-3.png', '2026-09-26 14:04:46.004925', 69);
-INSERT INTO `product_image` VALUES (63, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-10ML.webp', '2026-09-26 14:05:36.638576', 70);
-INSERT INTO `product_image` VALUES (64, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-500ML.webp', '2026-09-26 14:05:36.638576', 70);
-INSERT INTO `product_image` VALUES (65, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-100ML.webp', '2026-09-26 14:05:36.638576', 70);
-INSERT INTO `product_image` VALUES (66, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-10ML.webp', '2026-09-26 14:06:20.643878', 71);
-INSERT INTO `product_image` VALUES (67, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-500ML.jpg', '2026-09-26 14:06:20.643878', 71);
-INSERT INTO `product_image` VALUES (68, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-100ML.webp', '2026-09-26 14:06:20.643878', 71);
-INSERT INTO `product_image` VALUES (69, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-10ML.webp', '2026-09-26 14:07:06.387334', 72);
-INSERT INTO `product_image` VALUES (70, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-500ML.webp', '2026-09-26 14:07:06.387334', 72);
-INSERT INTO `product_image` VALUES (71, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-100ML.webp', '2026-09-26 14:07:06.387334', 72);
-INSERT INTO `product_image` VALUES (72, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-10ML.webp', '2026-09-26 14:07:54.039929', 73);
-INSERT INTO `product_image` VALUES (73, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-500ML.webp', '2026-09-26 14:07:54.039929', 73);
-INSERT INTO `product_image` VALUES (74, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-100ML.webp', '2026-09-26 14:07:54.039929', 73);
-INSERT INTO `product_image` VALUES (75, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-10ML.webp', '2026-09-26 14:08:36.053190', 74);
-INSERT INTO `product_image` VALUES (76, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-500ML.webp', '2026-09-26 14:08:36.053190', 74);
-INSERT INTO `product_image` VALUES (77, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-100ML.webp', '2026-09-26 14:08:36.053190', 74);
-INSERT INTO `product_image` VALUES (78, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-10ML.webp', '2026-09-26 14:09:22.423843', 75);
-INSERT INTO `product_image` VALUES (79, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-500ML.webp', '2026-09-26 14:09:22.423843', 75);
-INSERT INTO `product_image` VALUES (80, 'https://biyokea.vn/wp-content/uploads/2025/08/hoa-cam-1.png', '2026-09-26 14:09:22.423843', 75);
-INSERT INTO `product_image` VALUES (81, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-HOA-HOI-10ML.webp', '2026-09-26 14:10:32.850743', 76);
-INSERT INTO `product_image` VALUES (82, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-3-768x768.png', '2026-09-26 14:10:32.850743', 76);
-INSERT INTO `product_image` VALUES (83, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-1.png', '2026-09-26 14:10:32.850743', 76);
-INSERT INTO `product_image` VALUES (84, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-10ML-1-600x600.webp', '2026-09-26 14:11:31.343064', 77);
-INSERT INTO `product_image` VALUES (85, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-500ML-1.webp', '2026-09-26 14:11:31.343064', 77);
-INSERT INTO `product_image` VALUES (86, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-1.png', '2026-09-26 14:11:31.343064', 77);
-INSERT INTO `product_image` VALUES (87, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-10ML.webp', '2026-09-26 14:12:22.674307', 78);
-INSERT INTO `product_image` VALUES (88, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-3.png', '2026-09-26 14:12:22.674307', 78);
-INSERT INTO `product_image` VALUES (89, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-1.png', '2026-09-26 14:12:22.674307', 78);
-INSERT INTO `product_image` VALUES (90, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-10ML.webp', '2026-09-26 14:13:08.816201', 79);
-INSERT INTO `product_image` VALUES (91, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-500ML.webp', '2026-09-26 14:13:08.816201', 79);
-INSERT INTO `product_image` VALUES (92, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-100ML.webp', '2026-09-26 14:13:08.816201', 79);
-INSERT INTO `product_image` VALUES (93, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-10ML.webp', '2026-09-26 14:13:49.314966', 80);
-INSERT INTO `product_image` VALUES (94, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-500ML.webp', '2026-09-26 14:13:49.314966', 80);
-INSERT INTO `product_image` VALUES (95, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-100ML.webp', '2026-09-26 14:13:49.314966', 80);
-INSERT INTO `product_image` VALUES (96, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-10ML-600x600.webp', '2026-09-26 14:14:32.188088', 81);
-INSERT INTO `product_image` VALUES (97, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-500ML.webp', '2026-09-26 14:14:32.188088', 81);
-INSERT INTO `product_image` VALUES (98, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-100ML.webp', '2026-09-26 14:14:32.188088', 81);
-INSERT INTO `product_image` VALUES (99, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-10ML.webp', '2026-09-26 14:15:26.825541', 82);
-INSERT INTO `product_image` VALUES (100, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-500ML.webp', '2026-09-26 14:15:26.825541', 82);
-INSERT INTO `product_image` VALUES (101, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-100ML.webp', '2026-09-26 14:15:26.825541', 82);
-INSERT INTO `product_image` VALUES (102, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-10ML.webp', '2026-09-26 14:15:59.899998', 83);
-INSERT INTO `product_image` VALUES (103, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-500ML.webp', '2026-09-26 14:15:59.899998', 83);
-INSERT INTO `product_image` VALUES (104, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-100ML.webp', '2026-09-26 14:15:59.899998', 83);
-INSERT INTO `product_image` VALUES (105, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-10ML.webp', '2026-09-26 14:16:10.957145', 84);
-INSERT INTO `product_image` VALUES (106, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-500ML.webp', '2026-09-26 14:16:10.957145', 84);
-INSERT INTO `product_image` VALUES (107, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-100ML.webp', '2026-09-26 14:16:10.957145', 84);
-INSERT INTO `product_image` VALUES (108, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-14-10ML.webp', '2026-09-26 14:16:21.387347', 85);
-INSERT INTO `product_image` VALUES (109, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-14-500ML.webp', '2026-09-26 14:16:21.387347', 85);
-INSERT INTO `product_image` VALUES (110, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-14-100ML.webp', '2026-09-26 14:16:21.387347', 85);
-INSERT INTO `product_image` VALUES (111, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-10ML.webp', '2026-09-26 14:16:32.812071', 86);
-INSERT INTO `product_image` VALUES (112, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-500ML.webp', '2026-09-26 14:16:32.812071', 86);
-INSERT INTO `product_image` VALUES (113, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-100ML.webp', '2026-09-26 14:16:32.812071', 86);
-INSERT INTO `product_image` VALUES (114, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-10ML.webp', '2026-09-26 14:16:53.215938', 87);
-INSERT INTO `product_image` VALUES (115, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-500ML.webp', '2026-09-26 14:16:53.215938', 87);
-INSERT INTO `product_image` VALUES (116, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-100ML.webp', '2026-09-26 14:16:53.215938', 87);
-INSERT INTO `product_image` VALUES (117, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-10ML.webp', '2026-09-26 14:17:02.682209', 88);
-INSERT INTO `product_image` VALUES (118, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-500ML.webp', '2026-09-26 14:17:02.682209', 88);
-INSERT INTO `product_image` VALUES (119, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-100ML.webp', '2026-09-26 14:17:02.682209', 88);
-INSERT INTO `product_image` VALUES (120, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-10ML.webp', '2026-09-26 14:17:41.026572', 89);
-INSERT INTO `product_image` VALUES (121, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-500ML.webp', '2026-09-26 14:17:41.026572', 89);
-INSERT INTO `product_image` VALUES (122, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-100ML.webp', '2026-09-26 14:17:41.026572', 89);
-INSERT INTO `product_image` VALUES (123, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-10ML.webp', '2026-09-26 14:17:53.358531', 90);
-INSERT INTO `product_image` VALUES (124, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-500ML.webp', '2026-09-26 14:17:53.358531', 90);
-INSERT INTO `product_image` VALUES (125, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-100ML.webp', '2026-09-26 14:17:53.358531', 90);
-INSERT INTO `product_image` VALUES (126, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-10ML.webp', '2026-09-26 14:18:04.657600', 91);
-INSERT INTO `product_image` VALUES (127, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-500ML.webp', '2026-09-26 14:18:04.657600', 91);
-INSERT INTO `product_image` VALUES (128, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-100ML.webp', '2026-09-26 14:18:04.657600', 91);
-INSERT INTO `product_image` VALUES (129, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-10ML.webp', '2026-09-26 14:18:44.186713', 92);
-INSERT INTO `product_image` VALUES (130, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-TD006-500ML.jpg', '2026-09-26 14:18:44.186713', 92);
-INSERT INTO `product_image` VALUES (131, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-100ML.webp', '2026-09-26 14:18:44.186713', 92);
-INSERT INTO `product_image` VALUES (132, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-10ML.webp', '2026-09-26 14:19:46.043049', 93);
-INSERT INTO `product_image` VALUES (133, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-500ML.webp', '2026-09-26 14:19:46.043049', 93);
-INSERT INTO `product_image` VALUES (134, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-100ML.webp', '2026-09-26 14:19:46.043049', 93);
-INSERT INTO `product_image` VALUES (135, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-10ML.webp', '2026-09-26 14:21:55.923345', 94);
-INSERT INTO `product_image` VALUES (136, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-500ML.webp', '2026-09-26 14:21:55.923345', 94);
-INSERT INTO `product_image` VALUES (137, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-100ML.webp', '2026-09-26 14:21:55.923345', 94);
-INSERT INTO `product_image` VALUES (138, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-10ML.webp', '2026-09-26 14:22:10.613839', 95);
-INSERT INTO `product_image` VALUES (139, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-500ML.webp', '2026-09-26 14:22:10.613839', 95);
-INSERT INTO `product_image` VALUES (140, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-100ML.webp', '2026-09-26 14:22:10.613839', 95);
-INSERT INTO `product_image` VALUES (141, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-10ML.webp', '2026-09-26 14:23:09.401050', 96);
-INSERT INTO `product_image` VALUES (142, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-500ML.webp', '2026-09-26 14:23:09.401050', 96);
-INSERT INTO `product_image` VALUES (143, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-100ML.webp', '2026-09-26 14:23:09.401050', 96);
-INSERT INTO `product_image` VALUES (144, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-9.webp', '2026-09-26 14:24:27.761864', 97);
-INSERT INTO `product_image` VALUES (145, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-50ML.webp', '2026-09-26 14:24:27.761864', 97);
-INSERT INTO `product_image` VALUES (146, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-500ML.webp', '2026-09-26 14:24:27.761864', 97);
-INSERT INTO `product_image` VALUES (147, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-10ML.webp', '2026-09-26 14:25:23.256267', 98);
-INSERT INTO `product_image` VALUES (148, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-500ML-768x768.webp', '2026-09-26 14:25:23.256267', 98);
-INSERT INTO `product_image` VALUES (149, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-100ML.webp', '2026-09-26 14:25:23.256267', 98);
-INSERT INTO `product_image` VALUES (150, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-10ML.webp', '2026-09-26 14:27:28.432533', 99);
-INSERT INTO `product_image` VALUES (151, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-500ML.webp', '2026-09-26 14:27:28.432533', 99);
-INSERT INTO `product_image` VALUES (152, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-100ML.webp', '2026-09-26 14:27:28.432533', 99);
-INSERT INTO `product_image` VALUES (153, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-10ML-600x600.webp', '2026-09-26 14:29:02.529775', 100);
-INSERT INTO `product_image` VALUES (154, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-500ML.webp', '2026-09-26 14:29:02.529775', 100);
-INSERT INTO `product_image` VALUES (155, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-100ML.webp', '2026-09-26 14:29:02.529775', 100);
-INSERT INTO `product_image` VALUES (156, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-YLANG-10ML.webp', '2026-09-26 14:29:47.624431', 101);
-INSERT INTO `product_image` VALUES (157, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-1.png', '2026-09-26 14:29:47.624431', 101);
-INSERT INTO `product_image` VALUES (158, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-4.png', '2026-09-26 14:29:47.624431', 101);
-INSERT INTO `product_image` VALUES (159, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-10ML.webp', '2026-09-26 14:30:33.677324', 102);
-INSERT INTO `product_image` VALUES (160, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-500ML.webp', '2026-09-26 14:30:33.677324', 102);
-INSERT INTO `product_image` VALUES (161, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-100ML.webp', '2026-09-26 14:30:33.677324', 102);
-INSERT INTO `product_image` VALUES (162, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-10ML.webp', '2026-09-26 14:31:24.498494', 103);
-INSERT INTO `product_image` VALUES (163, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-500ML-768x768.webp', '2026-09-26 14:31:24.498494', 103);
-INSERT INTO `product_image` VALUES (164, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-100ML.webp', '2026-09-26 14:31:24.498494', 103);
-INSERT INTO `product_image` VALUES (165, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-10ML.webp', '2026-09-26 14:32:12.584709', 104);
-INSERT INTO `product_image` VALUES (166, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-1-768x768.png', '2026-09-26 14:32:12.584709', 104);
-INSERT INTO `product_image` VALUES (167, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-2-768x768.png', '2026-09-26 14:32:12.584709', 104);
-INSERT INTO `product_image` VALUES (168, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-10ML-600x600.webp', '2026-09-26 14:32:56.878376', 105);
-INSERT INTO `product_image` VALUES (169, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-3-768x768.png', '2026-09-26 14:32:56.878376', 105);
-INSERT INTO `product_image` VALUES (170, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-4-768x768.png', '2026-09-26 14:32:56.878376', 105);
-INSERT INTO `product_image` VALUES (171, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-10ML.webp', '2026-09-26 14:33:38.447493', 106);
-INSERT INTO `product_image` VALUES (172, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-500ML.webp', '2026-09-26 14:33:38.447493', 106);
-INSERT INTO `product_image` VALUES (173, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-100ML.webp', '2026-09-26 14:33:38.447493', 106);
-INSERT INTO `product_image` VALUES (174, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH.png', '2026-09-26 14:34:20.260823', 107);
-INSERT INTO `product_image` VALUES (175, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH-EXTRA-500ML.webp', '2026-09-26 14:34:20.260823', 107);
-INSERT INTO `product_image` VALUES (176, 'https://biyokea.vn/wp-content/uploads/2025/07/tinh-dau-sa-chanh-1-768x768.png', '2026-09-26 14:34:20.260823', 107);
-INSERT INTO `product_image` VALUES (177, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-10ML.jpg', '2026-09-26 14:35:08.304997', 108);
-INSERT INTO `product_image` VALUES (178, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-1000ML.jpg', '2026-09-26 14:35:08.304997', 108);
-INSERT INTO `product_image` VALUES (179, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-100ML.jpg', '2026-09-26 14:35:08.304997', 108);
-INSERT INTO `product_image` VALUES (180, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-10ML.webp', '2026-09-26 14:35:57.475245', 109);
-INSERT INTO `product_image` VALUES (181, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-500ML.webp', '2026-09-26 14:35:57.475245', 109);
-INSERT INTO `product_image` VALUES (182, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-100ML.webp', '2026-09-26 14:35:57.475245', 109);
-INSERT INTO `product_image` VALUES (183, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-10ML-600x600.webp', '2026-09-26 14:36:46.007543', 110);
-INSERT INTO `product_image` VALUES (184, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-1000ML.webp', '2026-09-26 14:36:46.007543', 110);
-INSERT INTO `product_image` VALUES (185, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-100ML.webp', '2026-09-26 14:36:46.007543', 110);
-INSERT INTO `product_image` VALUES (186, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-10ML-600x600.webp', '2026-09-26 14:37:35.568266', 111);
-INSERT INTO `product_image` VALUES (187, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-500ML-768x768.webp', '2026-09-26 14:37:35.568266', 111);
-INSERT INTO `product_image` VALUES (188, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-100ML.webp', '2026-09-26 14:37:35.568266', 111);
-INSERT INTO `product_image` VALUES (189, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-10ML.webp', '2026-09-26 14:38:23.839673', 112);
-INSERT INTO `product_image` VALUES (190, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-500ML.webp', '2026-09-26 14:38:23.839673', 112);
-INSERT INTO `product_image` VALUES (191, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-100ML.webp', '2026-09-26 14:38:23.839673', 112);
-INSERT INTO `product_image` VALUES (192, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-10ML.webp', '2026-09-26 14:41:31.197434', 113);
-INSERT INTO `product_image` VALUES (193, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-500ML.webp', '2026-09-26 14:41:31.197434', 113);
-INSERT INTO `product_image` VALUES (194, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-100ML.webp', '2026-09-26 14:41:31.197434', 113);
-INSERT INTO `product_image` VALUES (195, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-10ML-600x600.webp', '2026-09-26 14:42:09.240745', 114);
-INSERT INTO `product_image` VALUES (196, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-500ML.webp', '2026-09-26 14:42:09.240745', 114);
-INSERT INTO `product_image` VALUES (197, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-100ML.webp', '2026-09-26 14:42:09.240745', 114);
-INSERT INTO `product_image` VALUES (198, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-10ML.webp', '2026-09-26 14:42:52.570849', 115);
-INSERT INTO `product_image` VALUES (199, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-500ML.webp', '2026-09-26 14:42:52.570849', 115);
-INSERT INTO `product_image` VALUES (200, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-100ML.webp', '2026-09-26 14:42:52.570849', 115);
-INSERT INTO `product_image` VALUES (201, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-10ML.webp', '2026-09-26 14:43:39.362132', 116);
-INSERT INTO `product_image` VALUES (202, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-500ML.webp', '2026-09-26 14:43:39.362132', 116);
-INSERT INTO `product_image` VALUES (203, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-100ML.webp', '2026-09-26 14:43:39.362132', 116);
-INSERT INTO `product_image` VALUES (204, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-10ML.webp', '2026-09-26 14:44:18.874028', 117);
-INSERT INTO `product_image` VALUES (205, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-500ML.webp', '2026-09-26 14:44:18.874028', 117);
-INSERT INTO `product_image` VALUES (206, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-100ML.webp', '2026-09-26 14:44:18.874028', 117);
-INSERT INTO `product_image` VALUES (207, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-10ML.webp', '2026-09-26 14:45:05.341979', 118);
-INSERT INTO `product_image` VALUES (208, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-1000ML.webp', '2026-09-26 14:45:05.341979', 118);
-INSERT INTO `product_image` VALUES (209, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-100ML.webp', '2026-09-26 14:45:05.341979', 118);
-INSERT INTO `product_image` VALUES (210, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-10ML.webp', '2026-09-26 14:45:16.805773', 119);
-INSERT INTO `product_image` VALUES (211, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-1000ML.webp', '2026-09-26 14:45:16.805773', 119);
-INSERT INTO `product_image` VALUES (212, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-100ML.webp', '2026-09-26 14:45:16.805773', 119);
-INSERT INTO `product_image` VALUES (213, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-10ML.webp', '2026-09-26 14:45:35.332858', 120);
-INSERT INTO `product_image` VALUES (214, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-1000ML.webp', '2026-09-26 14:45:35.332858', 120);
-INSERT INTO `product_image` VALUES (215, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-100ML.webp', '2026-09-26 14:45:35.332858', 120);
-INSERT INTO `product_image` VALUES (216, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-10ML.webp', '2026-09-26 14:45:46.297430', 121);
-INSERT INTO `product_image` VALUES (217, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-1000ML.webp', '2026-09-26 14:45:46.297430', 121);
-INSERT INTO `product_image` VALUES (218, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-100ML.webp', '2026-09-26 14:45:46.297430', 121);
-INSERT INTO `product_image` VALUES (219, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-10ML.webp', '2026-09-26 14:45:58.186489', 122);
-INSERT INTO `product_image` VALUES (220, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-1000ML.webp', '2026-09-26 14:45:58.186489', 122);
-INSERT INTO `product_image` VALUES (221, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-100ML.webp', '2026-09-26 14:45:58.186489', 122);
-INSERT INTO `product_image` VALUES (222, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-10ML.webp', '2026-09-26 14:46:10.539111', 123);
-INSERT INTO `product_image` VALUES (223, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-1000ML.webp', '2026-09-26 14:46:10.539111', 123);
-INSERT INTO `product_image` VALUES (224, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-100ML.webp', '2026-09-26 14:46:10.539111', 123);
-INSERT INTO `product_image` VALUES (225, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-768x768.webp', '2026-09-26 14:48:23.776822', 124);
-INSERT INTO `product_image` VALUES (226, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-2-768x768.webp', '2026-09-26 14:48:23.776822', 124);
-INSERT INTO `product_image` VALUES (227, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-2-768x768.webp', '2026-09-26 14:49:06.782712', 125);
-INSERT INTO `product_image` VALUES (228, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-768x768.webp', '2026-09-26 14:49:06.782712', 125);
-INSERT INTO `product_image` VALUES (229, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-3-768x768.webp', '2026-09-26 14:50:27.124043', 126);
-INSERT INTO `product_image` VALUES (230, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-768x768.webp', '2026-09-26 14:50:27.124043', 126);
-INSERT INTO `product_image` VALUES (231, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-3-768x768.webp', '2026-09-26 14:51:10.624340', 127);
-INSERT INTO `product_image` VALUES (232, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-768x768.webp', '2026-09-26 14:51:10.624340', 127);
-INSERT INTO `product_image` VALUES (233, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-3-768x768.webp', '2026-09-26 14:51:48.027549', 128);
-INSERT INTO `product_image` VALUES (234, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-768x768.webp', '2026-09-26 14:51:48.027549', 128);
-INSERT INTO `product_image` VALUES (235, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-768x768.webp', '2026-09-26 14:52:24.179670', 129);
-INSERT INTO `product_image` VALUES (236, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 14:52:24.179670', 129);
-INSERT INTO `product_image` VALUES (237, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-3-768x768.webp', '2026-09-26 14:52:36.347113', 130);
-INSERT INTO `product_image` VALUES (238, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-768x768.webp', '2026-09-26 14:52:36.347113', 130);
-INSERT INTO `product_image` VALUES (239, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-3-768x768.webp', '2026-09-26 14:53:57.660663', 131);
-INSERT INTO `product_image` VALUES (240, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-768x768.webp', '2026-09-26 14:53:57.660663', 131);
-INSERT INTO `product_image` VALUES (241, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-2-768x768.webp', '2026-09-26 14:54:04.448361', 132);
-INSERT INTO `product_image` VALUES (242, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-768x768.webp', '2026-09-26 14:54:04.448361', 132);
-INSERT INTO `product_image` VALUES (243, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-768x768.webp', '2026-09-26 14:54:10.351205', 133);
-INSERT INTO `product_image` VALUES (244, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-2-768x768.webp', '2026-09-26 14:54:10.351205', 133);
-INSERT INTO `product_image` VALUES (245, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-2-768x768.webp', '2026-09-26 14:54:16.075730', 134);
-INSERT INTO `product_image` VALUES (246, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-768x768.webp', '2026-09-26 14:54:16.075730', 134);
-INSERT INTO `product_image` VALUES (247, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-3-768x768.webp', '2026-09-26 14:54:22.601501', 135);
-INSERT INTO `product_image` VALUES (248, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-768x768.webp', '2026-09-26 14:54:22.601501', 135);
-INSERT INTO `product_image` VALUES (249, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-768x768.webp', '2026-09-26 14:57:55.955053', 136);
-INSERT INTO `product_image` VALUES (250, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-2-768x768.webp', '2026-09-26 14:57:55.955053', 136);
-INSERT INTO `product_image` VALUES (251, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-2-768x768.webp', '2026-09-26 14:58:06.183853', 137);
-INSERT INTO `product_image` VALUES (252, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-768x768.webp', '2026-09-26 14:58:06.183853', 137);
-INSERT INTO `product_image` VALUES (253, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-768x768.webp', '2026-09-26 14:58:11.687286', 138);
-INSERT INTO `product_image` VALUES (254, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-2-768x768.webp', '2026-09-26 14:58:11.687286', 138);
-INSERT INTO `product_image` VALUES (255, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-2-1-768x768.webp', '2026-09-26 14:58:17.730993', 139);
-INSERT INTO `product_image` VALUES (256, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-1-768x768.webp', '2026-09-26 14:58:17.730993', 139);
-INSERT INTO `product_image` VALUES (257, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-768x768.webp', '2026-09-26 14:58:26.719035', 140);
-INSERT INTO `product_image` VALUES (258, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-2-768x768.webp', '2026-09-26 14:58:26.719035', 140);
-INSERT INTO `product_image` VALUES (259, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-768x768.jpg', '2026-09-26 14:58:33.419900', 141);
-INSERT INTO `product_image` VALUES (260, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-2-768x768.jpg', '2026-09-26 14:58:33.419900', 141);
-INSERT INTO `product_image` VALUES (261, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-3-768x768.webp', '2026-09-26 14:58:38.783591', 142);
-INSERT INTO `product_image` VALUES (262, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-768x768.webp', '2026-09-26 14:58:38.783591', 142);
-INSERT INTO `product_image` VALUES (263, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-768x768.jpg', '2026-09-26 14:58:45.292054', 143);
-INSERT INTO `product_image` VALUES (264, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-2-768x768.jpg', '2026-09-26 14:58:45.292054', 143);
-INSERT INTO `product_image` VALUES (265, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-768x768.webp', '2026-09-26 14:58:50.834343', 144);
-INSERT INTO `product_image` VALUES (266, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-2-768x768.webp', '2026-09-26 14:58:50.834343', 144);
-INSERT INTO `product_image` VALUES (267, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-768x768.webp', '2026-09-26 14:58:57.155091', 146);
-INSERT INTO `product_image` VALUES (268, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-2-768x768.webp', '2026-09-26 14:58:57.155091', 146);
-INSERT INTO `product_image` VALUES (269, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-3-768x768.webp', '2026-09-26 14:59:03.184206', 147);
-INSERT INTO `product_image` VALUES (270, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-768x768.webp', '2026-09-26 14:59:03.184206', 147);
-INSERT INTO `product_image` VALUES (271, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-3-768x768.webp', '2026-09-26 14:59:14.804669', 148);
-INSERT INTO `product_image` VALUES (272, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-768x768.webp', '2026-09-26 14:59:14.804669', 148);
-INSERT INTO `product_image` VALUES (273, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-3-768x768.webp', '2026-09-26 14:59:35.152774', 149);
-INSERT INTO `product_image` VALUES (274, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-768x768.webp', '2026-09-26 14:59:35.152774', 149);
-INSERT INTO `product_image` VALUES (275, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-3-768x768.webp', '2026-09-26 14:59:44.557237', 150);
-INSERT INTO `product_image` VALUES (276, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-768x768.webp', '2026-09-26 14:59:44.557237', 150);
-INSERT INTO `product_image` VALUES (277, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-1-768x768.webp', '2026-09-26 14:59:50.669027', 151);
-INSERT INTO `product_image` VALUES (278, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-2-1-768x768.webp', '2026-09-26 14:59:50.669027', 151);
-INSERT INTO `product_image` VALUES (279, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-la-ngo-gai-ngo-tay-mui-tau-eryngium-foetidum-essential-oil-768x768.webp', '2026-09-26 15:09:28.839260', 145);
-INSERT INTO `product_image` VALUES (280, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 15:09:28.839260', 145);
-INSERT INTO `product_image` VALUES (281, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 15:14:34.157838', 152);
-INSERT INTO `product_image` VALUES (282, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 15:14:40.363836', 153);
-INSERT INTO `product_image` VALUES (283, 'https://product.hstatic.net/1000187742/product/bac_ha_luc3_e1bb64224f934f38bcea4989106fced6_grande.png', '2026-09-26 15:14:44.004095', 154);
-INSERT INTO `product_image` VALUES (284, 'https://product.hstatic.net/1000187742/product/bach_dan_chanh3_e93b64a88159414ba15b597880fa9e07_grande.png', '2026-09-26 15:14:48.394023', 155);
-INSERT INTO `product_image` VALUES (285, 'https://product.hstatic.net/1000187742/product/cam_huong3_ed0af8443f634614b06e2957301957cf_grande.png', '2026-09-26 15:14:53.978886', 156);
-INSERT INTO `product_image` VALUES (286, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 15:14:58.171668', 157);
-INSERT INTO `product_image` VALUES (287, 'https://product.hstatic.net/1000187742/product/chanh3_81053877a0c042aeb79c098ec6d79bae_grande.png', '2026-09-26 15:15:02.115287', 158);
-INSERT INTO `product_image` VALUES (288, 'https://product.hstatic.net/1000187742/product/chanh_san3_20f0efbdb78b4cfe89153bbfeb5d3412_grande.png', '2026-09-26 15:15:06.243295', 159);
-INSERT INTO `product_image` VALUES (289, 'https://product.hstatic.net/1000187742/product/cuc_xanh_la_ma3_e563f43b91ff48838570c67c28318f02_grande.png', '2026-09-26 15:15:12.909919', 160);
-INSERT INTO `product_image` VALUES (290, 'https://product.hstatic.net/1000187742/product/co_gung3_7624ce0a725a489d805366289143c539_grande.png', '2026-09-26 15:18:41.519266', 161);
-INSERT INTO `product_image` VALUES (291, 'https://product.hstatic.net/1000187742/product/_dai_hoi3_89e5d93dec85420198f74abd346fde4a_grande.png', '2026-09-26 15:18:41.524780', 162);
-INSERT INTO `product_image` VALUES (292, 'https://product.hstatic.net/1000187742/product/dan_huong3_cb0a6802c01e4eec97d848c2ed81cb6f_grande.png', '2026-09-26 15:18:41.529690', 163);
-INSERT INTO `product_image` VALUES (293, 'https://product.hstatic.net/1000187742/product/do_tung3_3cc6fe2285e04a8b8565c38f548519eb_grande.png', '2026-09-26 15:18:41.531850', 164);
-INSERT INTO `product_image` VALUES (294, 'https://product.hstatic.net/1000187742/product/don_sam3_763f9de7abf14423878ab9c224d0b11e_grande.png', '2026-09-26 15:18:41.534485', 165);
-INSERT INTO `product_image` VALUES (295, 'https://product.hstatic.net/1000187742/product/go_hong3_8aa221536cc64e52839c4fa1a290f6b1_grande.png', '2026-09-26 15:18:41.537217', 166);
-INSERT INTO `product_image` VALUES (296, 'https://product.hstatic.net/1000187742/product/go_thong3_40030bad30ba4f55a8fb82d083d8c181_grande.png', '2026-09-26 15:18:41.539618', 167);
-INSERT INTO `product_image` VALUES (297, 'https://product.hstatic.net/1000187742/product/hat_ngo3_0caa27f6995c4fd8bbbc5a3f9cdcee00_grande.png', '2026-09-26 15:18:41.542219', 168);
-INSERT INTO `product_image` VALUES (298, 'https://product.hstatic.net/1000187742/product/hoang_dan3_49af7d1e64c54d80b4be86cf32d04e12_grande.png', '2026-09-26 15:18:41.545523', 169);
-INSERT INTO `product_image` VALUES (299, 'https://product.hstatic.net/1000187742/product/hoac_huong3_36368172098f4bfcb6b9450eab944a30_grande.png', '2026-09-26 15:18:41.548289', 170);
-INSERT INTO `product_image` VALUES (300, 'https://product.hstatic.net/1000187742/product/hung_que3_9c0f8d2534be46b9bb589d9c19dd576f_grande.png', '2026-09-26 15:24:22.527084', 171);
-INSERT INTO `product_image` VALUES (301, 'https://product.hstatic.net/1000187742/product/huong_nhu3_aa679dd2aca84e40834d850de8363f8d_grande.png', '2026-09-26 15:24:22.533474', 172);
-INSERT INTO `product_image` VALUES (302, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 15:24:22.536700', 173);
-INSERT INTO `product_image` VALUES (303, 'https://product.hstatic.net/1000187742/product/khuynh_diep_globulus3_48215d45e1234257a98575b855d900f3_grande.png', '2026-09-26 15:24:22.539613', 174);
-INSERT INTO `product_image` VALUES (304, 'https://product.hstatic.net/1000187742/product/la_chanh3_acd0c732ebbd4d0e91594648dc4b6d43_grande.png', '2026-09-26 15:24:22.541989', 175);
-INSERT INTO `product_image` VALUES (305, 'https://product.hstatic.net/1000187742/product/nghe3_ac3a1d8f172648ceb799552007f890af_grande.png', '2026-09-26 15:24:22.544052', 176);
-INSERT INTO `product_image` VALUES (306, 'https://product.hstatic.net/1000187742/product/ngoc_lan_tay3_bcdfd0d9f8ff4a5fa6c6e87c4517a967_grande.png', '2026-09-26 15:24:22.546013', 177);
-INSERT INTO `product_image` VALUES (307, 'https://product.hstatic.net/1000187742/product/nhu_huong3_8cf49fc1cf524072a7deed4ae83e1725_grande.png', '2026-09-26 15:24:22.548775', 178);
-INSERT INTO `product_image` VALUES (308, 'https://product.hstatic.net/1000187742/product/oai_huong3_02c0768efee04eac9f2b73edabd140a0_grande.png', '2026-09-26 15:24:22.551012', 179);
-INSERT INTO `product_image` VALUES (309, 'https://product.hstatic.net/1000187742/product/phong_lu3_32f757c261e4489eb5db210b2d73f312_grande.png', '2026-09-26 15:24:22.552770', 180);
-INSERT INTO `product_image` VALUES (310, 'https://product.hstatic.net/1000187742/product/po_mu3_47b086995b9f4bf39d0503935dca3dd3_grande.png', '2026-09-26 15:27:19.216158', 181);
-INSERT INTO `product_image` VALUES (311, 'https://product.hstatic.net/1000187742/product/que_ceylon3_f3a72e966bad4815b27fd5d5a0999e1c_grande.png', '2026-09-26 15:27:19.220789', 182);
-INSERT INTO `product_image` VALUES (312, 'https://product.hstatic.net/1000187742/product/quyt3_5b968236f4da4f0a99094d09beed714d_grande.png', '2026-09-26 15:27:19.223236', 183);
-INSERT INTO `product_image` VALUES (313, 'https://product.hstatic.net/1000187742/product/ra_huong3_e911ea39a57a4225a32e54ac5df36c0d_grande.png', '2026-09-26 15:27:19.225236', 184);
-INSERT INTO `product_image` VALUES (314, 'https://product.hstatic.net/1000187742/product/sa_chanh3_e03eb497c4ef4660a7bfd4f246cd22d3_grande.png', '2026-09-26 15:27:19.226962', 185);
-INSERT INTO `product_image` VALUES (315, 'https://product.hstatic.net/1000187742/product/sa_hong3_e2a532cfdac1435f9e7ff3db7e6afc7d_grande.png', '2026-09-26 15:27:19.229137', 186);
-INSERT INTO `product_image` VALUES (316, 'https://product.hstatic.net/1000187742/product/sa_java3_e71de700cced463194c372d771f0cc51_grande.png', '2026-09-26 15:27:19.231467', 187);
-INSERT INTO `product_image` VALUES (317, 'https://product.hstatic.net/1000187742/product/thi_la_tay3_2683f93b7cbb44e3a0b3e160c5993954_grande.png', '2026-09-26 15:27:19.233229', 188);
-INSERT INTO `product_image` VALUES (318, 'https://product.hstatic.net/1000187742/product/_tieu_hong3_3d7bb707c52e4643811fd4c50303b48e_grande.png', '2026-09-26 15:27:19.236005', 189);
-INSERT INTO `product_image` VALUES (319, 'https://product.hstatic.net/1000187742/product/tram_gio3_1e165259230d4443acbf4cb706caa2b6_grande.png', '2026-09-26 15:27:19.238707', 190);
-INSERT INTO `product_image` VALUES (320, 'https://product.hstatic.net/1000187742/product/tram_tra3_b9eaab460d8b4264a2ec57c1b7b9c17d_grande.png', '2026-09-26 15:30:45.172265', 191);
-INSERT INTO `product_image` VALUES (321, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 15:30:45.176731', 192);
-INSERT INTO `product_image` VALUES (322, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 15:30:45.179017', 193);
-INSERT INTO `product_image` VALUES (323, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 15:30:45.181766', 194);
-INSERT INTO `product_image` VALUES (324, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 15:30:45.183694', 195);
-INSERT INTO `product_image` VALUES (325, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 15:30:45.186128', 196);
-INSERT INTO `product_image` VALUES (326, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 15:30:45.188529', 197);
-INSERT INTO `product_image` VALUES (327, 'https://product.hstatic.net/1000187742/product/hoang_dan_organic3_a9b3cc28e6984384a6de0a10db5b4fad_grande.png', '2026-09-26 15:30:45.190554', 198);
-INSERT INTO `product_image` VALUES (328, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 15:30:45.192528', 199);
-INSERT INTO `product_image` VALUES (329, 'https://product.hstatic.net/1000187742/product/khuynh_diep_radiata_3_40340bc7eb864d678ce377e180a6fe2d_grande.png', '2026-09-26 15:30:45.194586', 200);
-INSERT INTO `product_image` VALUES (330, 'https://product.hstatic.net/1000187742/product/oai_huong_organic3_2cf710279f554e89b25922e5fe6cbcaa_grande.png', '2026-09-26 15:34:49.541114', 201);
-INSERT INTO `product_image` VALUES (331, 'https://product.hstatic.net/1000187742/product/sa_chanh_organic3_31338b70635a45e584fa42694bd85992_grande.png', '2026-09-26 15:34:49.546275', 202);
-INSERT INTO `product_image` VALUES (332, 'https://product.hstatic.net/1000187742/product/tram_tra_organic3_c441dae9dc68449593138227c759cc86_grande.png', '2026-09-26 15:35:38.296337', 203);
-INSERT INTO `product_image` VALUES (333, 'https://cdn.hstatic.net/products/1000187742/093_0942_copy_9f6c4ee72f294b9d9da808b96ca7c7f6_grande.png', '2026-09-26 15:38:27.353371', 204);
-INSERT INTO `product_image` VALUES (334, 'https://cdn.hstatic.net/products/1000187742/104___1_1_a19b7c877c0e49419172ae91235fd9e0_grande.png', '2026-09-26 15:38:27.358506', 205);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (1, 1, 10, 79000, 79000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (2, 2, 10, 99000, 99000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (3, 3, 10, 69000, 69000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (4, 4, 10, 69000, 69000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (5, 5, 10, 169000, 169000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (6, 6, 10, 99000, 99000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (7, 7, 10, 199000, 199000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (8, 8, 10, 249000, 249000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (9, 9, 10, 199000, 199000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (10, 10, 10, 89000, 89000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (11, 11, 10, 89000, 89000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (12, 12, 10, 79000, 79000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (13, 13, 10, 119000, 119000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (14, 14, 10, 179000, 179000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (15, 15, 10, 129000, 129000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (16, 16, 10, 129000, 129000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (17, 17, 10, 159000, 159000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (18, 18, 10, 69000, 69000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (19, 19, 10, 69000, 69000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (20, 100, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (21, 21, 10, 99000, 99000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (22, 22, 10, 119000, 119000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (23, 23, 10, 89000, 89000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (24, 24, 10, 99000, 99000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (25, 25, 10, 89000, 89000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (26, 26, 10, 119000, 119000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (27, 27, 10, 179000, 179000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (28, 28, 10, 69000, 69000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (29, 29, 10, 59000, 59000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (30, 30, 10, 99000, 99000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (31, 59, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (32, 59, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (33, 59, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (34, 60, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (35, 60, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (36, 60, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (37, 61, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (38, 61, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (39, 61, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (40, 62, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (41, 62, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (42, 62, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (43, 63, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (44, 63, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (45, 63, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (46, 64, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (47, 64, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (48, 64, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (49, 65, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (50, 65, 500, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (51, 65, 1000, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (52, 66, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (53, 66, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (54, 66, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (55, 67, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (56, 67, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (57, 67, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (58, 68, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (59, 68, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (60, 68, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (61, 69, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (62, 69, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (63, 69, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (64, 70, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (65, 70, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (66, 70, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (67, 71, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (68, 71, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (69, 71, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (70, 72, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (71, 72, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (72, 72, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (73, 73, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (74, 73, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (75, 73, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (76, 74, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (77, 74, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (78, 74, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (79, 75, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (80, 75, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (81, 75, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (82, 76, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (83, 76, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (84, 76, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (85, 77, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (86, 77, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (87, 77, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (88, 78, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (89, 78, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (90, 78, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (91, 79, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (92, 79, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (93, 79, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (94, 80, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (95, 80, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (96, 80, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (97, 81, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (98, 81, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (99, 81, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (100, 82, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (101, 82, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (102, 82, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (103, 83, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (104, 83, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (105, 83, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (106, 84, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (107, 84, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (108, 84, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (109, 85, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (110, 85, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (111, 85, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (112, 86, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (113, 86, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (114, 86, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (115, 87, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (116, 87, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (117, 87, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (118, 88, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (119, 88, 500, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (120, 88, 1000, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (121, 89, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (122, 89, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (123, 89, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (124, 90, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (125, 90, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (126, 90, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (127, 91, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (128, 91, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (129, 91, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (130, 92, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (131, 92, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (132, 92, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (133, 93, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (134, 93, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (135, 93, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (136, 94, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (137, 94, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (138, 94, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (139, 95, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (140, 95, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (141, 95, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (142, 96, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (143, 96, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (144, 96, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (145, 97, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (146, 97, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (147, 97, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (148, 98, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (149, 98, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (150, 98, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (151, 99, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (152, 99, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES  (153, 99, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (154, 100, 150, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (155, 100, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (156, 100, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (157, 101, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (158, 101, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (159, 101, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (160, 102, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (161, 102, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (162, 102, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (163, 103, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (164, 103, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (165, 103, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (166, 104, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (167, 104, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (168, 104, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (169, 105, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (170, 105, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (171, 105, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (172, 106, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (173, 106, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (174, 106, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (175, 107, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (176, 107, 500, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (177, 107, 1000, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (178, 108, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (179, 108, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (180, 108, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (181, 109, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (182, 109, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (183, 109, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (184, 110, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (185, 110, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (186, 110, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (187, 111, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (188, 111, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (189, 111, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (190, 112, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (191, 112, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (192, 112, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (193, 113, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (194, 113, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (195, 113, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (196, 114, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (197, 114, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (198, 114, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (199, 115, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (200, 115, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (201, 115, 150, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (202, 116, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (203, 116, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (204, 116, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (205, 117, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (206, 117, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (207, 117, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (208, 118, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (209, 118, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (210, 118, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (211, 119, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (212, 119, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (213, 119, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (214, 120, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (215, 120, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (216, 120, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (217, 121, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (218, 121, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (219, 121, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (220, 122, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (221, 122, 50, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (222, 122, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (223, 123, 10, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (224, 123, 100, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (225, 123, 1000, 0, 0, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (226, 222, 10, 85000, 85000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (227, 223, 50, 250000, 250000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (228, 224, 10, 85000, 85000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (229, 225, 50, 250000, 250000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (230, 226, 10, 85000, 85000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (231, 227, 10, 85000, 85000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (232, 228, 50, 240000, 240000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (233, 229, 10, 85000, 85000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (234, 230, 10, 150000, 150000, 100);
-INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (235, 231, 50, 230000, 230000, 100);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (1, 'Tinh dầu Bạc Hà', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Menthol; Menthone; Tinh dầu thơm tự nhiên từ lá bạc hà. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.058296', '2026-09-24 15:24:20.374904', 'NORMAL', 1, 1, NULL, NULL, 320000, 370000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (2, 'Tinh dầu Bạch Đàn Chanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citronellal (>77%); Citronellol; Isopulegol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.059317', '2026-09-24 15:24:20.377958', 'NORMAL', 1, 1, NULL, NULL, 800000, 880000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (3, 'Tinh dầu Cam Ngọt', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: D-Limonene; Myrcene; Linalool. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.061076', '2026-09-24 15:24:20.378900', 'NORMAL', 1, 1, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (4, 'Tinh dầu Chanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Limonene; Citral; β-Pinene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.062764', '2026-09-24 15:24:20.379631', 'NORMAL', 1, 1, NULL, NULL, 440000, 480000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (5, 'Tinh dầu Gỗ Hồng', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Geraniol; Nerol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.063039', '2026-09-24 15:24:20.380366', 'NORMAL', 1, 1, NULL, NULL, 710000, 770000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (6, 'Tinh dầu Gừng', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Zingiberene; β-Sesquiphellandrene; Gingerol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.063438', '2026-09-24 15:24:20.380954', 'NORMAL', 1, 1, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (7, 'Tinh dầu Hoa Cam', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool (43.7–53.4%); Limonene; Linalyl Acetate. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064082', '2026-09-24 15:24:20.381492', 'NORMAL', 1, 1, NULL, NULL, 370000, 440000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (8, 'Tinh dầu Hoa Hồng', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citronellol; Geraniol; Nerol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064354', '2026-09-24 15:24:20.382132', 'NORMAL', 1, 1, NULL, NULL, 620000, 710000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (9, 'Tinh dầu Hoa Lài', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Benzyl Acetate; Các hợp chất chống oxy hóa tự nhiên. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064558', '2026-09-24 15:24:20.382675', 'NORMAL', 1, 1, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (10, 'Tinh dầu Húng Quế', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Chất kháng khuẩn tự nhiên; Chất chống oxy hóa. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064737', '2026-09-24 15:24:20.383154', 'NORMAL', 1, 1, NULL, NULL, 300000, 360000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (11, 'Tinh dầu Hương Nhu', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Eugenol; Chất kháng khuẩn tự nhiên; Hoạt chất dưỡng tóc. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.064929', '2026-09-24 15:24:20.383746', 'NORMAL', 1, 1, NULL, NULL, 530000, 600000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (12, 'Tinh dầu Khuynh Diệp', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: 1,8-Cineole (>60%); Chất chống oxy hóa tự nhiên; Hợp chất hương dễ chịu. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065129', '2026-09-24 15:24:20.384344', 'NORMAL', 1, 1, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (13, 'Tinh dầu Nghệ', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Curcumin; Turmerone; Sesquiterpenes. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065296', '2026-09-24 15:24:20.384945', 'NORMAL', 1, 1, NULL, NULL, 420000, 470000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (14, 'Tinh dầu Ngọc Lan Tây', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool (60–80%); Benzyl Salicylate; Các hợp chất tự nhiên. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065498', '2026-09-24 15:24:20.385462', 'NORMAL', 1, 1, NULL, NULL, 780000, 880000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (15, 'Tinh dầu Oải Hương (Lavender)', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Linalool; Linalyl Acetate; Các hợp chất chống oxy hóa. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065665', '2026-09-24 15:24:20.386059', 'NORMAL', 1, 1, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (16, 'Tinh dầu Phong Lữ', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Geraniol; Linalool; Citronellol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065820', '2026-09-24 15:24:20.388355', 'NORMAL', 1, 1, NULL, NULL, 350000, 390000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (17, 'Tinh dầu Pơ Mu', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Sesquiterpenes Nerolidol; Fokienol; Chất chống oxy hóa tự nhiên. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.065975', '2026-09-24 15:24:20.388972', 'NORMAL', 1, 1, NULL, NULL, 690000, 770000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (18, 'Tinh dầu Quýt', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Limonene; γ-Terpinene; Myrcene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066150', '2026-09-24 15:24:20.389563', 'NORMAL', 1, 1, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (19, 'Tinh dầu Sả Chanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citral (Geranial & Neral); Geraniol; Myrcene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066308', '2026-09-24 15:24:20.390204', 'NORMAL', 1, 1, NULL, NULL, 280000, 350000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (20, 'Tinh dầu Sả Java', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Citronellal; Citronellol; Geraniol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066461', '2026-09-24 15:24:20.390817', 'NORMAL', 1, 1, NULL, NULL, 600000, 660000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (21, 'Tinh dầu Trà Xanh', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Catechins; Polyphenol; Tinh chất lá trà nguyên chất. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066619', '2026-09-24 15:24:20.391768', 'NORMAL', 1, 1, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (22, 'Tinh dầu Trắc Bách Diệp', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Alpha-Pinene; Sabinene; Delta-3-Carene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066779', '2026-09-24 15:24:20.392916', 'NORMAL', 1, 1, NULL, NULL, 400000, 460000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (23, 'Tinh dầu Tràm Gió', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Eucalyptol (42–52%); α-Terpineol (5–12%); Limonene. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.066939', '2026-09-24 15:24:20.393721', 'NORMAL', 1, 1, NULL, NULL, 850000, 940000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (24, 'Tinh dầu Tràm Trà', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Terpinen-4-ol (36.3%); Alpha-terpineol & Cineole; Tinh chất lá tràm trà nguyên chất. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067099', '2026-09-24 15:24:20.394392', 'NORMAL', 1, 1, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (25, 'Tinh dầu Vỏ Bưởi', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Limonene (88–90%); Hợp chất chống oxy hóa; Tinh dầu thơm đặc trưng từ vỏ bưởi. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067258', '2026-09-24 15:24:20.439084', 'NORMAL', 1, 1, NULL, NULL, 330000, 380000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (26, 'Tinh dầu Vỏ Quế', 'Nguyên liệu tinh dầu từ danh mục Labcos. Thành phần chính: Cinnamaldehyde; Cinnamyl Acetate; Cinnamyl Alcohol. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067423', '2026-09-24 15:24:20.439765', 'NORMAL', 1, 1, NULL, NULL, 760000, 830000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (27, 'Dầu Argan Nhập Khẩu', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Axit béo; Chất chống oxy hóa; Hợp chất dưỡng chất. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067589', '2026-09-24 15:24:20.440356', 'NORMAL', 2, 1, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (28, 'Dầu Cám Gạo Tinh Khiết', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Palmitic Acid; Oleic Acid; Linoleic Acid. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067786', '2026-09-24 15:24:20.440955', 'NORMAL', 2, 1, NULL, NULL, 450000, 490000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (29, 'Dầu Dừa Ép Lạnh Nguyên Chất', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Acid Lauric; Acid béo bão hòa; Vitamin E. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.067958', '2026-09-24 15:24:20.441593', 'NORMAL', 2, 1, NULL, NULL, 670000, 770000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (30, 'Dầu Gấc Việt Nam', 'Nguyên liệu dầu nền từ danh mục Labcos. Thành phần chính: Carotenoids; Vitamin E; Axit béo. Quy cách, giá và số lượng cung ứng: cần xác nhận.', '2026-09-24 15:01:20.068128', '2026-09-24 15:24:20.442254', 'NORMAL', 2, 1, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (31, 'Tinh dầu Vỏ Bưởi', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus maxima / Citrus grandis; hoạt chất chính: Limonene.', '2026-09-24 15:51:20.552076', '2026-09-24 15:51:20.552076', 'NORMAL', 1, 2, NULL, NULL, 380000, 450000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (32, 'Tinh dầu Long Não', 'Tinh dầu chiết xuất VIPSEN; loài: Cinnamomum camphora; CAS: 8008-51-3; hoạt chất chính: Camphor.', '2026-09-24 15:51:20.552601', '2026-09-24 15:51:20.552601', 'NORMAL', 1, 2, NULL, NULL, 580000, 660000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (33, 'Tinh dầu Tràm Gió', 'Tinh dầu chiết xuất VIPSEN; loài: Melaleuca cajuputi; CAS: 8008-98-8 / 85480-37-1; hoạt chất chính: Cineol.', '2026-09-24 15:51:20.552981', '2026-09-24 15:51:20.552981', 'NORMAL', 1, 2, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (34, 'Tinh dầu Nụ Đinh Hương', 'Tinh dầu chiết xuất VIPSEN; loài: Syzygium aromaticum; CAS: 8000-34-8 / 84961-50-2; hoạt chất chính: Eugenol.', '2026-09-24 15:51:20.553287', '2026-09-24 15:51:20.553287', 'NORMAL', 1, 2, NULL, NULL, 310000, 370000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (35, 'Tinh dầu Trầu Không', 'Tinh dầu chiết xuất VIPSEN; loài: Piper betle; CAS: 84775-81-5; hoạt chất chính: Eugenol, Methyl chavicol, chavicol, copaene.', '2026-09-24 15:51:20.553574', '2026-09-24 15:51:20.553574', 'NORMAL', 1, 2, NULL, NULL, 830000, 890000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (36, 'Tinh dầu Hương Nhu Trắng', 'Tinh dầu chiết xuất VIPSEN; loài: Ocimum gratiscimum; CAS: 91770-38-6; hoạt chất chính: Eugenol.', '2026-09-24 15:51:20.553764', '2026-09-24 15:51:20.553764', 'NORMAL', 1, 2, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (37, 'Tinh dầu Oải Hương', 'Tinh dầu chiết xuất VIPSEN; loài: Lavandula angustifolia; CAS: 8000-28-0 / 90063-37-9; hoạt chất chính: Linalyl acetate.', '2026-09-24 15:51:20.553977', '2026-09-24 15:51:20.553977', 'NORMAL', 1, 2, NULL, NULL, 430000, 480000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (38, 'Tinh dầu Sả Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Cymbopogon citratus; CAS: 8007-02-1 / 89998-14-1; hoạt chất chính: Citral.', '2026-09-24 15:51:20.554264', '2026-09-24 15:51:20.554264', 'NORMAL', 1, 2, NULL, NULL, 740000, 830000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (39, 'Tinh dầu Bạc Hà', 'Tinh dầu chiết xuất VIPSEN; loài: Mentha arvensis; CAS: 68917-18-0 / 90063-97-1; hoạt chất chính: Menthol.', '2026-09-24 15:51:20.554550', '2026-09-24 15:51:20.554550', 'NORMAL', 1, 2, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (40, 'Tinh dầu Húng Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Plectranthus amboinicus; hoạt chất chính: Carvacrol.', '2026-09-24 15:51:20.555002', '2026-09-24 15:51:20.555002', 'NORMAL', 1, 2, NULL, NULL, 360000, 400000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (41, 'Tinh dầu Tràm Trà', 'Tinh dầu chiết xuất VIPSEN; loài: Melaleuca alternifonia; CAS: 68647-73-4 / 8022-72-8; hoạt chất chính: Terpinen-4-ol.', '2026-09-24 15:51:20.555311', '2026-09-24 15:51:20.555311', 'NORMAL', 1, 2, NULL, NULL, 650000, 720000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (42, 'Tinh dầu Bạch Đàn Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Eucalyptus citriodora; CAS: 8000-48-4 / 85203-56-1; hoạt chất chính: Citronellal.', '2026-09-24 15:51:20.555585', '2026-09-24 15:51:20.555585', 'NORMAL', 1, 2, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (43, 'Tinh dầu Quế', 'Tinh dầu chiết xuất VIPSEN; loài: Cinnamomum cassia; CAS: 8007-80-5 / 84961-46-6; hoạt chất chính: Aldehyde cinnamic.', '2026-09-24 15:51:20.555811', '2026-09-24 15:51:20.555811', 'NORMAL', 1, 2, NULL, NULL, 290000, 360000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (44, 'Tinh dầu Cây Mùi', 'Tinh dầu chiết xuất VIPSEN; loài: Coriandrum sativum; CAS: 8005-52-4 / 84775-50-8; hoạt chất chính: Linalool.', '2026-09-24 15:51:20.556041', '2026-09-24 15:51:20.556041', 'NORMAL', 1, 2, NULL, NULL, 560000, 660000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (45, 'Tinh dầu Khuynh Diệp', 'Tinh dầu chiết xuất VIPSEN; loài: Eucalyptus globulus; CAS: 8000-48-4 / 84625-32-1; hoạt chất chính: Cineol.', '2026-09-24 15:51:20.556299', '2026-09-24 15:51:20.556299', 'NORMAL', 1, 2, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (46, 'Tinh dầu Húng Quế', 'Tinh dầu chiết xuất VIPSEN; loài: Ocimum basilicum; CAS: 8015-73-4 / 84775-71-3; hoạt chất chính: Methyl chavicol.', '2026-09-24 15:51:20.556494', '2026-09-24 15:51:20.556494', 'NORMAL', 1, 2, NULL, NULL, 410000, 470000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (47, 'Tinh dầu Tía Tô', 'Tinh dầu chiết xuất VIPSEN; loài: Perilla frutescens; CAS: 68132-21-8 / 90082-61-4; hoạt chất chính: Perilla aldehyde, Limonene.', '2026-09-24 15:51:20.556773', '2026-09-24 15:51:20.556773', 'NORMAL', 1, 2, NULL, NULL, 810000, 890000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (48, 'Tinh dầu Hoa Bưởi', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus maxima / Citrus grandis; hoạt chất chính: Carene, Linalool, Nerolidol, Ocimene.', '2026-09-24 15:51:20.557018', '2026-09-24 15:51:20.557018', 'NORMAL', 1, 2, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (49, 'Tinh dầu Hoàng Đàn', 'Tinh dầu chiết xuất VIPSEN; loài: Cupressus torulosa; hoạt chất chính: Himachalene, thujopsene, cedrene.', '2026-09-24 15:51:20.557223', '2026-09-24 15:51:20.557223', 'NORMAL', 1, 2, NULL, NULL, 340000, 390000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (50, 'Tinh dầu Cam Ngọt', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus sinensis; CAS: 8008-57-9 / 8028-48-6; hoạt chất chính: Limonene.', '2026-09-24 15:51:20.557538', '2026-09-24 15:51:20.557538', 'NORMAL', 1, 2, NULL, NULL, 720000, 780000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (51, 'Tinh dầu Hoa Hồi', 'Tinh dầu chiết xuất VIPSEN; loài: Illicium verum Hook. f.; CAS: 8007-70-3 / 84650-59-9; hoạt chất chính: Trans anethol.', '2026-09-24 15:51:20.557862', '2026-09-24 15:51:20.557862', 'NORMAL', 1, 2, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (52, 'Tinh dầu Phong Lữ', 'Tinh dầu chiết xuất VIPSEN; loài: Pelargonium graveolens; CAS: 8000-46-2 / 90082-51-2; hoạt chất chính: Citronellol, Linalool, Geraniol, Geranyl butyrate.', '2026-09-24 15:51:20.558155', '2026-09-24 15:51:20.558155', 'NORMAL', 1, 2, NULL, NULL, 460000, 500000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (53, 'Tinh dầu Pơ Mu', 'Tinh dầu chiết xuất VIPSEN; loài: Fokienia hodgincii; CAS: 8022-47-7 / 92347-03-0; hoạt chất chính: Fokienol, Cedrene.', '2026-09-24 15:51:20.558459', '2026-09-24 15:51:20.558459', 'NORMAL', 1, 2, NULL, NULL, 630000, 720000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (54, 'Tinh dầu Màng Tang', 'Tinh dầu chiết xuất VIPSEN; loài: Litsea cubeba; CAS: 68855-99-2 / 90063-59-5; hoạt chất chính: Citral.', '2026-09-24 15:51:20.558713', '2026-09-24 15:51:20.558713', 'NORMAL', 1, 2, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (55, 'Tinh dầu Chanh', 'Tinh dầu chiết xuất VIPSEN; loài: Citrus aurantifolia; CAS: 8008-26-2 / 90063-52-8; hoạt chất chính: Limonene, Pinene.', '2026-09-24 15:51:20.559200', '2026-09-24 15:51:20.559200', 'NORMAL', 1, 2, NULL, NULL, 390000, 460000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (56, 'Tinh dầu Gừng', 'Tinh dầu chiết xuất VIPSEN; loài: Zingiber officinale; CAS: 8007-08-7 / 84696-15-1; hoạt chất chính: Zingiberene.', '2026-09-24 15:51:20.559446', '2026-09-24 15:51:20.559446', 'NORMAL', 1, 2, NULL, NULL, 540000, 610000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (57, 'Tinh dầu Ngải Cứu', 'Tinh dầu chiết xuất VIPSEN; loài: Artemisia vulgaris; CAS: 84775-45-1; hoạt chất chính: Thujone, Caryophyllene, Germacrene D.', '2026-09-24 15:51:20.559665', '2026-09-24 15:51:20.559665', 'NORMAL', 1, 2, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (58, 'Tinh dầu Sả Java', 'Tinh dầu chiết xuất VIPSEN; loài: Cymbopogon winterianus; CAS: 8000-29-1 / 91771-61-8; hoạt chất chính: Citronellal, Guaniol, Rodinol.', '2026-09-24 15:51:20.559977', '2026-09-24 15:51:20.559977', 'NORMAL', 1, 2, NULL, NULL, 320000, 380000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (59, 'Tinh Dầu Bạc Hà', 'Tinh dầu bạc hà; hương the mát.', '2026-09-24 16:19:36.243951', '2026-09-24 16:19:36.243951', 'NORMAL', 3, 3, NULL, NULL, 790000, 890000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (60, 'Tinh Dầu Bạch Đàn Chanh', 'Tinh dầu bạch đàn chanh; hương thảo mộc, thoảng chanh.', '2026-09-24 16:19:36.246197', '2026-09-24 16:19:36.246197', 'NORMAL', 3, 3, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (61, 'Tinh Dầu Bách Lý Hương', 'Tinh dầu bách lý hương; hương ấm nồng.', '2026-09-24 16:19:36.247266', '2026-09-24 16:19:36.247266', 'NORMAL', 3, 3, NULL, NULL, 440000, 490000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (62, 'Tinh Dầu Cam Extra', 'Tinh dầu cam; hương cam ngọt mát.', '2026-09-24 16:19:36.252246', '2026-09-24 16:19:36.252246', 'NORMAL', 3, 3, NULL, NULL, 700000, 780000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (63, 'Tinh Dầu Cam Gừng', 'Tinh dầu phối trộn Cam ngọt và Gừng.', '2026-09-24 16:19:36.253181', '2026-09-24 16:19:36.253181', 'NORMAL', 4, 3, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (64, 'Tinh Dầu Cam Hương', 'Tinh dầu cam hương; hương thanh mát, the nhẹ.', '2026-09-24 16:19:36.254515', '2026-09-24 16:19:36.254515', 'NORMAL', 3, 3, NULL, NULL, 370000, 410000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (65, 'Tinh Dầu Chanh', 'Tinh dầu chanh; hương chanh tươi mát.', '2026-09-24 16:19:36.255806', '2026-09-24 16:19:36.255806', 'NORMAL', 3, 3, NULL, NULL, 610000, 670000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (66, 'Tinh Dầu Chanh Sần', 'Tinh dầu chanh sần (lime); hương the mát.', '2026-09-24 16:19:36.257274', '2026-09-24 16:19:36.257274', 'NORMAL', 3, 3, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (67, 'Tinh Dầu Cỏ Gừng', 'Tinh dầu từ lá cỏ gừng; hương ấm ngọt.', '2026-09-24 16:19:36.258378', '2026-09-24 16:19:36.258378', 'NORMAL', 3, 3, NULL, NULL, 300000, 370000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (68, 'Tinh Dầu Cúc La Mã', 'Tinh dầu cúc La Mã; hương hoa ngọt dịu.', '2026-09-24 16:19:36.259399', '2026-09-24 16:19:36.259399', 'NORMAL', 3, 3, NULL, NULL, 520000, 610000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (69, 'Tinh Dầu Đinh Hương', 'Tinh dầu đinh hương; hương trầm ấm.', '2026-09-24 16:19:36.260564', '2026-09-24 16:19:36.260564', 'NORMAL', 3, 3, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (70, 'Tinh Dầu Đỗ Tùng', 'Tinh dầu đỗ tùng (bách xù); hương gỗ ấm.', '2026-09-24 16:19:36.261527', '2026-09-24 16:19:36.261527', 'NORMAL', 3, 3, NULL, NULL, 420000, 480000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (71, 'Tinh Dầu Đơn Sâm', 'Tinh dầu đơn sâm (Clary Sage); hương nhẹ.', '2026-09-24 16:19:36.262564', '2026-09-24 16:19:36.262564', 'NORMAL', 3, 3, NULL, NULL, 770000, 840000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (72, 'Tinh Dầu Gỗ Đàn Hương', 'Tinh dầu gỗ đàn hương; hương gỗ ấm.', '2026-09-24 16:19:36.263447', '2026-09-24 16:19:36.263447', 'NORMAL', 3, 3, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (73, 'Tinh Dầu Gỗ Hồng', 'Tinh dầu gỗ hồng; hương gỗ dịu ấm.', '2026-09-24 16:19:36.264581', '2026-09-24 16:19:36.264581', 'NORMAL', 3, 3, NULL, NULL, 350000, 400000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (74, 'Tinh Dầu Gừng Extra', 'Tinh dầu gừng; hương cay ấm.', '2026-09-24 16:19:36.265664', '2026-09-24 16:19:36.265664', 'NORMAL', 3, 3, NULL, NULL, 680000, 780000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (75, 'Tinh Dầu Hoa Cam', 'Tinh dầu hoa cam; hương hoa ngọt.', '2026-09-24 16:19:36.266743', '2026-09-24 16:19:36.266743', 'NORMAL', 3, 3, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (76, 'Tinh Dầu Hoa Hồi', 'Tinh dầu hoa hồi; hương hồi ấm.', '2026-09-24 16:19:36.268020', '2026-09-24 16:19:36.268020', 'NORMAL', 3, 3, NULL, NULL, 280000, 320000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (77, 'Tinh Dầu Hoa Hồng', 'Tinh dầu hoa hồng; hương hoa ngọt.', '2026-09-24 16:19:36.269134', '2026-09-24 16:19:36.269134', 'NORMAL', 3, 3, NULL, NULL, 590000, 670000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (78, 'Tinh Dầu Hoa Lài', 'Tinh dầu hoa lài (hoa nhài); hương hoa ngọt.', '2026-09-24 16:19:36.270870', '2026-09-24 16:19:36.270870', 'NORMAL', 3, 3, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (79, 'Tinh Dầu Hoắc Hương', 'Tinh dầu hoắc hương; hương thảo mộc, gỗ ấm.', '2026-09-24 16:19:36.272053', '2026-09-24 16:19:36.272053', 'NORMAL', 3, 3, NULL, NULL, 400000, 470000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (80, 'Tinh Dầu Hoàng Đàn', 'Tinh dầu hoàng đàn (cedarwood); hương gỗ ấm.', '2026-09-24 16:19:36.273272', '2026-09-24 16:19:36.273272', 'NORMAL', 3, 3, NULL, NULL, 840000, 900000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (81, 'Tinh Dầu Hỗn Hợp 10', 'Tinh dầu phối trộn: Oải hương, Phong lữ, Hoắc hương, Quýt, Cúc La Mã.', '2026-09-24 16:19:36.274425', '2026-09-24 16:19:36.274425', 'NORMAL', 4, 3, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (82, 'Tinh Dầu Hỗn Hợp 11', 'Tinh dầu phối trộn: Hương nhu và Sả hồng.', '2026-09-24 16:19:36.275521', '2026-09-24 16:19:36.275521', 'NORMAL', 4, 3, NULL, NULL, 330000, 390000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (83, 'Tinh Dầu Hỗn Hợp 12', 'Tinh dầu phối trộn: Hương lau, Sả hồng, Pơ mu, Hoắc hương.', '2026-09-24 16:19:36.276709', '2026-09-24 16:19:36.276709', 'NORMAL', 4, 3, NULL, NULL, 750000, 840000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (84, 'Tinh Dầu Hỗn Hợp 13', 'Tinh dầu phối trộn: Sả Chanh, Quýt, Cam Hương, Oải Hương, Bạc Hà, Hoàng Đàn.', '2026-09-24 16:19:36.278086', '2026-09-24 16:19:36.278086', 'NORMAL', 4, 3, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (85, 'Tinh Dầu Hỗn Hợp 14', 'Tinh dầu phối trộn: Cam, Chanh, Bưởi, Màng Tang, Sả Chanh, Chanh Sần, Cam Hương, Hương Thảo, Gừng.', '2026-09-24 16:19:36.279262', '2026-09-24 16:19:36.279262', 'NORMAL', 4, 3, NULL, NULL, 450000, 500000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (86, 'Tinh Dầu Hỗn Hợp 15', 'Tinh dầu phối trộn: Sả Chanh, Trầm Hương, Hoàng Đàn, Hoắc Hương, Đinh Hương, Quế, Cam Hương.', '2026-09-24 16:19:36.280502', '2026-09-24 16:19:36.280502', 'NORMAL', 4, 3, NULL, NULL, 660000, 730000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (87, 'Tinh Dầu Hỗn Hợp 16', 'Tinh dầu phối trộn: Cam, Quế và Đinh Hương.', '2026-09-24 16:19:36.281634', '2026-09-24 16:19:36.281634', 'NORMAL', 4, 3, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (88, 'Tinh Dầu Hỗn Hợp 18', 'Tinh dầu phối trộn: Ngọc Lan Tây, Hương Thảo, Phong Lữ.', '2026-09-24 16:19:36.282776', '2026-09-24 16:19:36.282776', 'NORMAL', 4, 3, NULL, NULL, 380000, 420000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (89, 'Tinh Dầu Hỗn Hợp 7', 'Tinh dầu phối trộn: Oải hương và Cam hương.', '2026-09-24 16:19:36.284000', '2026-09-24 16:19:36.284000', 'NORMAL', 4, 3, NULL, NULL, 570000, 670000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (90, 'Tinh Dầu Hỗn Hợp 8', 'Tinh dầu phối trộn: Cam và Ngọc lan tây.', '2026-09-24 16:19:36.285241', '2026-09-24 16:19:36.285241', 'NORMAL', 4, 3, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (91, 'Tinh Dầu Hỗn Hợp 9', 'Tinh dầu phối trộn: Tràm trà và Chanh.', '2026-09-24 16:19:36.286665', '2026-09-24 16:19:36.286665', 'NORMAL', 4, 3, NULL, NULL, 310000, 380000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (92, 'Tinh Dầu Hỗn Hợp TD006', 'Tinh dầu phối trộn: Chanh Sần và Sả Chanh.', '2026-09-24 16:19:36.288168', '2026-09-24 16:19:36.288168', 'NORMAL', 4, 3, NULL, NULL, 820000, 900000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (93, 'Tinh Dầu Húng Quế', 'Tinh dầu húng quế; hương thảo mộc.', '2026-09-24 16:19:36.289620', '2026-09-24 16:19:36.289620', 'NORMAL', 3, 3, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (94, 'Tinh Dầu Hương Lau', 'Tinh dầu hương lau (vetiver); hương cỏ dịu.', '2026-09-24 16:19:36.291158', '2026-09-24 16:19:36.291158', 'NORMAL', 3, 3, NULL, NULL, 430000, 490000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (95, 'Tinh Dầu Hương Nhu', 'Tinh dầu hương nhu; hương ấm, tươi.', '2026-09-24 16:19:36.292769', '2026-09-24 16:19:36.292769', 'NORMAL', 3, 3, NULL, NULL, 730000, 790000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (96, 'Tinh Dầu Hương Thảo', 'Tinh dầu hương thảo; hương thảo mộc.', '2026-09-24 16:19:36.294392', '2026-09-24 16:19:36.294392', 'NORMAL', 3, 3, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (97, 'Tinh Dầu Khuynh Diệp', 'Tinh dầu khuynh diệp; hương thảo mộc tươi.', '2026-09-24 16:19:36.295830', '2026-09-24 16:19:36.295830', 'NORMAL', 3, 3, NULL, NULL, 360000, 410000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (98, 'Tinh Dầu Long Não', 'Tinh dầu long não; hương mát lạnh.', '2026-09-24 16:19:36.297395', '2026-09-24 16:19:36.297395', 'NORMAL', 3, 3, NULL, NULL, 640000, 730000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (99, 'Tinh Dầu Màng Tang', 'Tinh dầu màng tang; hương tươi mát, gần sả chanh.', '2026-09-24 16:19:36.299680', '2026-09-24 16:19:36.299680', 'NORMAL', 3, 3, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (100, 'Tinh Dầu Nghệ', 'Tinh dầu nghệ; hương ấm và dịu.', '2026-09-24 16:19:36.302360', '2026-09-24 16:19:36.302360', 'NORMAL', 3, 3, NULL, NULL, 290000, 330000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (101, 'Tinh Dầu Ngọc Lan Tây', 'Tinh dầu ngọc lan tây; hương hoa ngọt.', '2026-09-24 16:19:36.304164', '2026-09-24 16:19:36.304164', 'NORMAL', 3, 3, NULL, NULL, 550000, 620000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (102, 'Tinh Dầu Nhũ Hương', 'Tinh dầu nhũ hương (frankincense); hương nhựa cây ấm.', '2026-09-24 16:19:36.306046', '2026-09-24 16:19:36.306046', 'NORMAL', 3, 3, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (103, 'Tinh Dầu Nhục Đậu Khấu', 'Tinh dầu nhục đậu khấu; hương ấm ngọt.', '2026-09-24 16:19:36.352219', '2026-09-24 16:19:36.352219', 'NORMAL', 3, 3, NULL, NULL, 410000, 480000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (104, 'Tinh Dầu Oải Hương', 'Tinh dầu oải hương; hương hoa dịu.', '2026-09-24 16:19:36.354000', '2026-09-24 16:19:36.354000', 'NORMAL', 3, 3, NULL, NULL, 800000, 900000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (105, 'Tinh Dầu Phong Lữ', 'Tinh dầu phong lữ; hương hoa ngọt và tươi.', '2026-09-24 16:19:36.355150', '2026-09-24 16:19:36.355150', 'NORMAL', 3, 3, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (106, 'Tinh Dầu Quýt', 'Tinh dầu quýt; hương cam quýt tươi.', '2026-09-24 16:19:36.356253', '2026-09-24 16:19:36.356253', 'NORMAL', 3, 3, NULL, NULL, 340000, 400000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (107, 'Tinh Dầu Sả Chanh Extra', 'Tinh dầu sả chanh; hương tươi mát.', '2026-09-24 16:19:36.357313', '2026-09-24 16:19:36.357313', 'NORMAL', 3, 3, NULL, NULL, 710000, 790000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (108, 'Tinh Dầu Sả Gừng', 'Tinh dầu phối trộn: Sả và Gừng.', '2026-09-24 16:19:36.358405', '2026-09-24 16:19:36.358405', 'NORMAL', 4, 3, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (109, 'Tinh Dầu Sả Hoa Hồng', 'Tinh dầu sả hoa hồng (palmarosa); không phải blend với hoa hồng.', '2026-09-24 16:19:36.359604', '2026-09-24 16:19:36.359604', 'NORMAL', 3, 3, NULL, NULL, 460000, 510000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (110, 'Tinh Dầu Sả Java', 'Tinh dầu sả Java; hương sả tươi.', '2026-09-24 16:19:36.361108', '2026-09-24 16:19:36.361108', 'NORMAL', 3, 3, NULL, NULL, 620000, 680000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (111, 'Tinh Dầu Thông', 'Tinh dầu thông; hương lá kim và gỗ.', '2026-09-24 16:19:36.362244', '2026-09-24 16:19:36.362244', 'NORMAL', 3, 3, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (112, 'Tinh Dầu Tiêu Đen', 'Tinh dầu tiêu đen; hương cay và nồng ấm.', '2026-09-24 16:19:36.366069', '2026-09-24 16:19:36.366069', 'NORMAL', 3, 3, NULL, NULL, 390000, 430000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (113, 'Tinh Dầu Tràm', 'Tinh dầu tràm gió; hương thảo mộc ấm.', '2026-09-24 16:19:36.367195', '2026-09-24 16:19:36.367195', 'NORMAL', 3, 3, NULL, NULL, 530000, 620000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (114, 'Tinh Dầu Trầm Hương', 'Tinh dầu trầm hương; hương gỗ trầm ấm.', '2026-09-24 16:19:36.368573', '2026-09-24 16:19:36.368573', 'NORMAL', 3, 3, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (115, 'Tinh Dầu Tràm Trà', 'Tinh dầu tràm trà; hương thảo mộc tươi.', '2026-09-24 16:19:36.369689', '2026-09-24 16:19:36.369689', 'NORMAL', 3, 3, NULL, NULL, 320000, 390000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (116, 'Tinh Dầu Vỏ Bưởi', 'Tinh dầu vỏ bưởi; hương vỏ quả tươi mát.', '2026-09-24 16:19:36.371374', '2026-09-24 16:19:36.371374', 'NORMAL', 3, 3, NULL, NULL, 780000, 850000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (117, 'Tinh Dầu Vỏ Quế', 'Tinh dầu vỏ quế; hương quế cay ấm.', '2026-09-24 16:19:36.373145', '2026-09-24 16:19:36.373145', 'NORMAL', 3, 3, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (118, 'Tinh Dầu Hỗn Hợp 1', 'Tinh dầu phối trộn: Cam, Sả Java, Khuynh Diệp.', '2026-09-24 16:19:36.375566', '2026-09-24 16:19:36.375566', 'NORMAL', 4, 3, NULL, NULL, 440000, 500000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (119, 'Tinh Dầu Hỗn Hợp 2', 'Tinh dầu phối trộn: Cam và Quế.', '2026-09-24 16:19:36.379314', '2026-09-24 16:19:36.379314', 'NORMAL', 4, 3, NULL, NULL, 690000, 790000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (120, 'Tinh Dầu Hỗn Hợp 3', 'Tinh dầu phối trộn: Oải hương, Phong lữ, Hương thảo.', '2026-09-24 16:19:36.380555', '2026-09-24 16:19:36.380555', 'NORMAL', 4, 3, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (121, 'Tinh Dầu Hỗn Hợp 4', 'Tinh dầu phối trộn: Ngọc lan tây, Cam, Thông.', '2026-09-24 16:19:36.381984', '2026-09-24 16:19:36.381984', 'NORMAL', 4, 3, NULL, NULL, 370000, 420000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (122, 'Tinh Dầu Hỗn Hợp 5', 'Tinh dầu phối trộn: Ngọc lan tây, Hoắc hương, Cam, Hoàng đàn, Oải hương.', '2026-09-24 16:19:36.383380', '2026-09-24 16:19:36.383380', 'NORMAL', 4, 3, NULL, NULL, 600000, 680000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (123, 'Tinh Dầu Hỗn Hợp 6', 'Tinh dầu phối trộn: Cam hương, Chanh, Vỏ bưởi.', '2026-09-24 16:19:36.384667', '2026-09-24 16:19:36.384667', 'NORMAL', 4, 3, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (124, 'Tinh Dầu A Thuỳ – Asafoetida Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.891441', '2026-09-24 16:38:06.891441', 'NORMAL', 3, 4, NULL, NULL, 300000, 340000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (125, 'Tinh Dầu Áo Nhục Đậu Khấu – Mace Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892016', '2026-09-24 16:38:06.892016', 'NORMAL', 3, 4, NULL, NULL, 850000, 910000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (126, 'Tinh Dầu Bạc Hà – Peppermint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892295', '2026-09-24 16:38:06.892295', 'NORMAL', 3, 4, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (127, 'Tinh Dầu Bạc Hà Á – Cormint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892554', '2026-09-24 16:38:06.892554', 'NORMAL', 3, 4, NULL, NULL, 420000, 490000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (128, 'Tinh Dầu Bạc Hà Chanh – Citrata Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.892910', '2026-09-24 16:38:06.892910', 'NORMAL', 3, 4, NULL, NULL, 760000, 850000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (129, 'Tinh Dầu Bạc Hà Hăng – Pennyroyal Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.893169', '2026-09-24 16:38:06.893169', 'NORMAL', 3, 4, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (130, 'Tinh Dầu Bạc Hà Lục – Spearmint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.893532', '2026-09-24 16:38:06.893532', 'NORMAL', 3, 4, NULL, NULL, 350000, 410000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (131, 'Tinh Dầu Bạc Hà Mèo – Catnip Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.893860', '2026-09-24 16:38:06.893860', 'NORMAL', 3, 4, NULL, NULL, 670000, 740000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (132, 'Tinh Dầu Bạc Hà Ngựa – Horsemint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894093', '2026-09-24 16:38:06.894093', 'NORMAL', 3, 4, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (133, 'Tinh Dầu Bạc Hà Socola – Socola Mint Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894291', '2026-09-24 16:38:06.894291', 'NORMAL', 3, 4, NULL, NULL, 280000, 330000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (134, 'Tinh Dầu Bạch Dương Ngọt – Sweet Birch Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894665', '2026-09-24 16:38:06.894665', 'NORMAL', 3, 4, NULL, NULL, 580000, 680000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (135, 'Tinh Dầu Bạch Đàn Chanh – Eucalyptus Citriodora Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.894879', '2026-09-24 16:38:06.894879', 'NORMAL', 3, 4, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (136, 'Tinh Dầu Bạch Truật – Atractylis Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895113', '2026-09-24 16:38:06.895113', 'NORMAL', 3, 4, NULL, NULL, 400000, 440000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (137, 'Tinh Dầu Bạch Tùng Hương – Galbanum Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895339', '2026-09-24 16:38:06.895339', 'NORMAL', 3, 4, NULL, NULL, 830000, 910000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (138, 'Tinh Dầu Bài Hương – Hyssop Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895580', '2026-09-24 16:38:06.895580', 'NORMAL', 3, 4, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (139, 'Tinh Dầu Bồng Nga Truật – Finger Root Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.895790', '2026-09-24 16:38:06.895790', 'NORMAL', 3, 4, NULL, NULL, 330000, 400000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (140, 'Tinh Dầu Bù Chu – Buchu Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896023', '2026-09-24 16:38:06.896023', 'NORMAL', 3, 4, NULL, NULL, 740000, 800000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (141, 'Tinh dầu Trầm hương – Oud Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896286', '2026-09-24 16:38:06.896286', 'NORMAL', 3, 4, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (142, 'Tinh Dầu Vỏ Bưởi Da Xanh – Pomelo Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896462', '2026-09-24 16:38:06.896462', 'NORMAL', 3, 4, NULL, NULL, 450000, 510000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (143, 'Tinh dầu Thông Đỏ – Red Pine Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896670', '2026-09-24 16:38:06.896670', 'NORMAL', 3, 4, NULL, NULL, 650000, 740000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (144, 'Tinh Dầu Xạ Hương Đỏ – Red Thyme Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.896918', '2026-09-24 16:38:06.896918', 'NORMAL', 3, 4, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (145, 'Tinh Dầu Lá Ngò Gai – Eryngium foetidum Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897101', '2026-09-24 16:38:06.897101', 'NORMAL', 3, 4, NULL, NULL, 380000, 430000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (146, 'Tinh Dầu Hương Nhu Tía – Ocimum sanctum Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897306', '2026-09-24 16:38:06.897306', 'NORMAL', 3, 4, NULL, NULL, 560000, 630000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (147, 'Tinh Dầu Đinh Hương Nụ – Bud Clove Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897526', '2026-09-24 16:38:06.897526', 'NORMAL', 3, 4, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (148, 'Tinh Dầu Đại Hồi – Star Anise Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.897773', '2026-09-24 16:38:06.897773', 'NORMAL', 3, 4, NULL, NULL, 310000, 350000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (149, 'Tinh Dầu Đinh Hương – Clove Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.898017', '2026-09-24 16:38:06.898017', 'NORMAL', 3, 4, NULL, NULL, 810000, 910000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (150, 'Tinh Dầu Kinh Giới – Oregano Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.898336', '2026-09-24 16:38:06.898336', 'NORMAL', 3, 4, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (151, 'Tinh Dầu Lộc Đề Xanh – Winter Green Essential Oil', 'Tinh dầu thiên nhiên do DALOSA phân phối; xem nguồn và quy cách tại file CSV.', '2026-09-24 16:38:06.898737', '2026-09-24 16:38:06.898737', 'NORMAL', 3, 4, NULL, NULL, 430000, 500000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (152, 'Tinh dầu Bách Lý Hương / Thyme', 'Tinh dầu đơn Bách Lý Hương; mã mùi No.005. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.614531', '2026-09-24 16:41:04.614531', 'NORMAL', 3, 5, NULL, NULL, 720000, 800000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (153, 'Tinh dầu Bạc Hà / Peppermint', 'Tinh dầu đơn Bạc Hà; mã mùi No.001. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.615182', '2026-09-24 16:41:04.615182', 'NORMAL', 3, 5, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (154, 'Tinh dầu Bạc Hà Lục / Spearmint', 'Tinh dầu đơn Bạc Hà Lục; mã mùi No.003. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.615540', '2026-09-24 16:41:04.615540', 'NORMAL', 3, 5, NULL, NULL, 360000, 420000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (155, 'Tinh dầu Bạch Đàn Chanh / Eucalyptus Citriodora', 'Tinh dầu đơn Bạch Đàn Chanh; mã mùi No.004. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.616208', '2026-09-24 16:41:04.616208', 'NORMAL', 3, 5, NULL, NULL, 630000, 690000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (156, 'Tinh dầu Cam Hương / Bergamot', 'Tinh dầu đơn Cam Hương; mã mùi No.009. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.616976', '2026-09-24 16:41:04.616976', 'NORMAL', 3, 5, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (157, 'Tinh dầu Cam Ngọt / Sweet Orange', 'Tinh dầu đơn Cam Ngọt; mã mùi No.008. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.617686', '2026-09-24 16:41:04.617686', 'NORMAL', 3, 5, NULL, NULL, 290000, 340000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (158, 'Tinh dầu Chanh / Lemon', 'Tinh dầu đơn Chanh; mã mùi No.014. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618195', '2026-09-24 16:41:04.618195', 'NORMAL', 3, 5, NULL, NULL, 540000, 630000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (159, 'Tinh dầu Chanh Sần / Lime', 'Tinh dầu đơn Chanh Sần; mã mùi No.015. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618552', '2026-09-24 16:41:04.618552', 'NORMAL', 3, 5, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (160, 'Tinh dầu Cúc Xanh La Mã / Blue Chamomile', 'Tinh dầu đơn Cúc Xanh La Mã; mã mùi No.017. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618770', '2026-09-24 16:41:04.618770', 'NORMAL', 3, 5, NULL, NULL, 410000, 450000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (161, 'Tinh dầu Cỏ Gừng / Ginger Grass', 'Tinh dầu đơn Cỏ Gừng; mã mùi No.011. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.618990', '2026-09-24 16:41:04.618990', 'NORMAL', 3, 5, NULL, NULL, 790000, 860000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (162, 'Tinh dầu Đại Hồi / Anise Star', 'Tinh dầu đơn Đại Hồi; mã mùi No.018. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619221', '2026-09-24 16:41:04.619221', 'NORMAL', 3, 5, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (163, 'Tinh dầu Đàn Hương / Sandalwood', 'Tinh dầu đơn Đàn Hương; mã mùi No.112. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619424', '2026-09-24 16:41:04.619424', 'NORMAL', 3, 5, NULL, NULL, 340000, 410000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (164, 'Tinh dầu Đỗ Tùng / Juniper', 'Tinh dầu đơn Đỗ Tùng; mã mùi No.020. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619615', '2026-09-24 16:41:04.619615', 'NORMAL', 3, 5, NULL, NULL, 700000, 800000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (165, 'Tinh dầu Đơn Sâm / Clary Sage', 'Tinh dầu đơn Đơn Sâm; mã mùi No.021. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619802', '2026-09-24 16:41:04.619802', 'NORMAL', 3, 5, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (166, 'Tinh dầu Gỗ Hồng / Rosewood', 'Tinh dầu đơn Gỗ Hồng; mã mùi No.022. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.619988', '2026-09-24 16:41:04.619988', 'NORMAL', 3, 5, NULL, NULL, 460000, 520000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (167, 'Tinh dầu Gỗ Thông / Pine Wood', 'Tinh dầu đơn Gỗ Thông; mã mùi No.068. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620177', '2026-09-24 16:41:04.620177', 'NORMAL', 3, 5, NULL, NULL, 610000, 690000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (168, 'Tinh dầu Hạt Ngò / Coriander Seed', 'Tinh dầu đơn Hạt Ngò; mã mùi No.013. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620367', '2026-09-24 16:41:04.620367', 'NORMAL', 3, 5, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (169, 'Tinh dầu Hoàng Đàn / Cedarwood', 'Tinh dầu đơn Hoàng Đàn; mã mùi No.030. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620561', '2026-09-24 16:41:04.620561', 'NORMAL', 3, 5, NULL, NULL, 390000, 440000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (170, 'Tinh dầu Hoắc Hương / Patchouli', 'Tinh dầu đơn Hoắc Hương; mã mùi No.029. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620759', '2026-09-24 16:41:04.620759', 'NORMAL', 3, 5, NULL, NULL, 520000, 580000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (171, 'Tinh dầu Húng Quế / Sweet Basil', 'Tinh dầu đơn Húng Quế; mã mùi No.036. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.620974', '2026-09-24 16:41:04.620974', 'NORMAL', 3, 5, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (172, 'Tinh dầu Hương Nhu / Holy Basil', 'Tinh dầu đơn Hương Nhu; mã mùi No.031. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621221', '2026-09-24 16:41:04.621221', 'NORMAL', 3, 5, NULL, NULL, 320000, 360000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (173, 'Tinh dầu Hương Thảo / Rosemary', 'Tinh dầu đơn Hương Thảo; mã mùi No.032. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621461', '2026-09-24 16:41:04.621461', 'NORMAL', 3, 5, NULL, NULL, 770000, 860000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (174, 'Tinh dầu Khuynh Diệp Globulus / Eucalyptus Globulus', 'Tinh dầu đơn Khuynh Diệp Globulus; mã mùi No.039. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621679', '2026-09-24 16:41:04.621679', 'NORMAL', 3, 5, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (175, 'Tinh dầu Lá Chanh / Lemon Leaf', 'Tinh dầu đơn Lá Chanh; mã mùi No.040. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.621926', '2026-09-24 16:41:04.621926', 'NORMAL', 3, 5, NULL, NULL, 440000, 510000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (176, 'Tinh dầu Nghệ / Turmeric', 'Tinh dầu đơn Nghệ; mã mùi No.045. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622142', '2026-09-24 16:41:04.622142', 'NORMAL', 3, 5, NULL, NULL, 680000, 750000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (177, 'Tinh dầu Ngọc Lan Tây / Ylang Ylang', 'Tinh dầu đơn Ngọc Lan Tây; mã mùi No.047. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622354', '2026-09-24 16:41:04.622354', 'NORMAL', 3, 5, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (178, 'Tinh dầu Nhũ Hương / Frankincense', 'Tinh dầu đơn Nhũ Hương; mã mùi No.049. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622573', '2026-09-24 16:41:04.622573', 'NORMAL', 3, 5, NULL, NULL, 370000, 430000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (179, 'Tinh dầu Oải Hương / Lavender', 'Tinh dầu đơn Oải Hương; mã mùi No.052. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.622789', '2026-09-24 16:41:04.622789', 'NORMAL', 3, 5, NULL, NULL, 590000, 690000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (180, 'Tinh dầu Phong Lữ / Geranium', 'Tinh dầu đơn Phong Lữ; mã mùi No.055. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623027', '2026-09-24 16:41:04.623027', 'NORMAL', 3, 5, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (181, 'Tinh dầu Pơ Mu / Peimou', 'Tinh dầu đơn Pơ Mu; mã mùi No.056. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623266', '2026-09-24 16:41:04.623266', 'NORMAL', 3, 5, NULL, NULL, 300000, 350000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (182, 'Tinh dầu Quế Ceylon / Ceylon Cassia', 'Tinh dầu đơn Quế Ceylon; mã mùi No.319. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623584', '2026-09-24 16:41:04.623584', 'NORMAL', 3, 5, NULL, NULL, 840000, 920000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (183, 'Tinh dầu Quýt / Mandarin', 'Tinh dầu đơn Quýt; mã mùi No.059. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.623856', '2026-09-24 16:41:04.623856', 'NORMAL', 3, 5, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (184, 'Tinh dầu Rã Hương / Camphora', 'Tinh dầu đơn Rã Hương; mã mùi No.042. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.624183', '2026-09-24 16:41:04.624183', 'NORMAL', 3, 5, NULL, NULL, 420000, 460000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (185, 'Tinh dầu Sả Chanh / Lemongrass', 'Tinh dầu đơn Sả Chanh; mã mùi No.061. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.624534', '2026-09-24 16:41:04.624534', 'NORMAL', 3, 5, NULL, NULL, 750000, 810000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (186, 'Tinh dầu Sả Hồng / Palmarosa', 'Tinh dầu đơn Sả Hồng; mã mùi No.063. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.624838', '2026-09-24 16:41:04.624838', 'NORMAL', 3, 5, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (187, 'Tinh dầu Sả Java / Citronella', 'Tinh dầu đơn Sả Java; mã mùi No.064. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.625270', '2026-09-24 16:41:04.625270', 'NORMAL', 3, 5, NULL, NULL, 350000, 420000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (188, 'Tinh dầu Thì Là Tây / Fennel', 'Tinh dầu đơn Thì Là Tây; mã mùi No.066. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.625617', '2026-09-24 16:41:04.625617', 'NORMAL', 3, 5, NULL, NULL, 660000, 750000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (189, 'Tinh dầu Tiêu Hồng / Pink Peppercorn', 'Tinh dầu đơn Tiêu Hồng; mã mùi No.028. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.625901', '2026-09-24 16:41:04.625901', 'NORMAL', 3, 5, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (190, 'Tinh dầu Tràm Gió / Cajeput', 'Tinh dầu đơn Tràm Gió; mã mùi No.073. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.626239', '2026-09-24 16:41:04.626239', 'NORMAL', 3, 5, NULL, NULL, 280000, 340000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (191, 'Tinh dầu Tràm Trà / Tea Tree', 'Tinh dầu đơn Tràm Trà; mã mùi No.075. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.626584', '2026-09-24 16:41:04.626584', 'NORMAL', 3, 5, NULL, NULL, 570000, 640000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (192, 'Tinh dầu Trắc Bách Diệp / Cypress', 'Tinh dầu đơn Trắc Bách Diệp; mã mùi No.072. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.626952', '2026-09-24 16:41:04.626952', 'NORMAL', 3, 5, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (193, 'Tinh dầu Trầu Không / Betel Leaf', 'Tinh dầu đơn Trầu Không; mã mùi No.108. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.627395', '2026-09-24 16:41:04.627395', 'NORMAL', 3, 5, NULL, NULL, 400000, 450000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (194, 'Tinh dầu Vỏ Bưởi / Pomelo', 'Tinh dầu đơn Vỏ Bưởi; mã mùi No.076. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.627789', '2026-09-24 16:41:04.627789', 'NORMAL', 3, 5, NULL, NULL, 820000, 920000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (195, 'Tinh dầu Vỏ Quế / Cinnamon', 'Tinh dầu đơn Vỏ Quế; mã mùi No.058. Nguồn: Lê Mai Việt Nam.', '2026-09-24 16:41:04.628170', '2026-09-24 16:41:04.628170', 'NORMAL', 3, 5, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (196, 'Tinh dầu Bạc Hà Organic / Organic Peppermint', 'Tinh dầu Bạc Hà Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.631395', '2026-09-24 16:41:04.631395', 'NORMAL', 3, 5, NULL, NULL, 330000, 370000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (197, 'Tinh dầu Cam Ngọt Organic / Organic Sweet Orange', 'Tinh dầu Cam Ngọt Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.631918', '2026-09-24 16:41:04.631918', 'NORMAL', 3, 5, NULL, NULL, 730000, 810000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (198, 'Tinh dầu Hoàng Đàn Organic / Organic Cedarwood', 'Tinh dầu Hoàng Đàn Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.632327', '2026-09-24 16:41:04.632327', 'NORMAL', 3, 5, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (199, 'Tinh dầu Hương Thảo Organic / Organic Rosemary', 'Tinh dầu Hương Thảo Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.632739', '2026-09-24 16:41:04.632739', 'NORMAL', 3, 5, NULL, NULL, 450000, 520000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (200, 'Tinh dầu Khuynh Diệp Radiata Organic / Organic Eucalyptus Radiata', 'Tinh dầu Khuynh Diệp Radiata Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.633178', '2026-09-24 16:41:04.633178', 'NORMAL', 3, 5, NULL, NULL, 640000, 700000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (201, 'Tinh dầu Oải Hương Organic / Organic Lavender', 'Tinh dầu Oải Hương Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.633589', '2026-09-24 16:41:04.633589', 'NORMAL', 3, 5, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (202, 'Tinh dầu Sả Chanh Organic / Organic Lemongrass', 'Tinh dầu Sả Chanh Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.633995', '2026-09-24 16:41:04.633995', 'NORMAL', 3, 5, NULL, NULL, 380000, 440000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (203, 'Tinh dầu Tràm Trà Organic / Organic Tea Tree', 'Tinh dầu Tràm Trà Organic do Lê Mai giới thiệu; chưa đối chiếu giấy chứng nhận từng lô.', '2026-09-24 16:41:04.634394', '2026-09-24 16:41:04.634394', 'NORMAL', 3, 5, NULL, NULL, 550000, 640000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (204, 'Tinh dầu Blend #098 Vườn Thảo Mộc', 'Blend No.098; thành phần: Bạc hà lục, Húng quế, Thì là tây, Kinh giới ô, Hạt ngò, Hương thảo, Sả chanh, Đơn sâm, Gỗ hồng.', '2026-09-24 16:41:04.634790', '2026-09-24 16:41:04.634790', 'NORMAL', 4, 5, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (205, 'Tinh dầu Blend #104 Hơi Thở Bình An', 'Blend No.104; thành phần: Khuynh diệp, Tràm gió, Oải hương, Tràm trà, Lộc đề xanh.', '2026-09-24 16:41:04.635396', '2026-09-24 16:41:04.635396', 'NORMAL', 4, 5, NULL, NULL, 310000, 360000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (206, 'Tinh dầu sả chanh Lemongrass', 'Tinh dầu Sả chanh (Lemongrass); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.317451', '2026-09-24 16:49:55.317451', 'NORMAL', 3, 6, NULL, NULL, 800000, 870000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (207, 'Tinh dầu bưởi Grapefruit', 'Tinh dầu Vỏ bưởi (Grapefruit); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.318214', '2026-09-24 16:49:55.318214', 'NORMAL', 3, 6, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (208, 'Tinh dầu bạc hà Peppermint', 'Tinh dầu Bạc hà (Peppermint); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.318599', '2026-09-24 16:49:55.318599', 'NORMAL', 3, 6, NULL, NULL, 430000, 470000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (209, 'Tinh dầu oải hương Lavender', 'Tinh dầu Oải hương (Lavender); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.318882', '2026-09-24 16:49:55.318882', 'NORMAL', 3, 6, NULL, NULL, 710000, 810000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (210, 'Tinh dầu hoa nhài Jasmine', 'Tinh dầu Hoa nhài (Jasmine); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319202', '2026-09-24 16:49:55.319202', 'NORMAL', 3, 6, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (211, 'Tinh dầu sả java Citronella', 'Tinh dầu Sả Java (Citronella); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319476', '2026-09-24 16:49:55.319476', 'NORMAL', 3, 6, NULL, NULL, 360000, 430000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (212, 'Tinh dầu quế Cinnamon', 'Tinh dầu Quế (Cinnamon); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319740', '2026-09-24 16:49:55.319740', 'NORMAL', 3, 6, NULL, NULL, 620000, 700000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (213, 'Tinh dầu chanh tươi Lemon', 'Tinh dầu Chanh tươi (Lemon); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.319983', '2026-09-24 16:49:55.319983', 'NORMAL', 3, 6, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (214, 'Tinh dầu vỏ quýt Mandarin', 'Tinh dầu Vỏ quýt (Mandarin); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320223', '2026-09-24 16:49:55.320223', 'NORMAL', 3, 6, NULL, NULL, 290000, 350000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (215, 'Tinh dầu tràm trà Tea Tree', 'Tinh dầu Tràm trà (Tea Tree); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320426', '2026-09-24 16:49:55.320426', 'NORMAL', 3, 6, NULL, NULL, 530000, 590000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (216, 'Tinh dầu tràm gió Cajeput', 'Tinh dầu Tràm gió (Cajeput); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320676', '2026-09-24 16:49:55.320676', 'NORMAL', 3, 6, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (217, 'Tinh dầu khuynh diệp Eucalyptus', 'Tinh dầu Khuynh diệp (Eucalyptus); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.320881', '2026-09-24 16:49:55.320881', 'NORMAL', 3, 6, NULL, NULL, 410000, 460000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (218, 'Tinh dầu thông Pine', 'Tinh dầu Thông (Pine); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321139', '2026-09-24 16:49:55.321139', 'NORMAL', 3, 6, NULL, NULL, 780000, 870000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (219, 'Tinh dầu phong lữ Geranium', 'Tinh dầu Phong lữ (Geranium); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321336', '2026-09-24 16:49:55.321336', 'NORMAL', 3, 6, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (220, 'Tinh dầu ngọc lan tây Ylang Ylang', 'Tinh dầu Ngọc lan tây (Ylang Ylang); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321555', '2026-09-24 16:49:55.321555', 'NORMAL', 3, 6, NULL, NULL, 340000, 380000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (221, 'Tinh dầu cam ngọt Sweet Orange', 'Tinh dầu Cam ngọt (Sweet Orange); sản phẩm thuộc danh mục tinh dầu HAKU Farm; tình trạng cung ứng, dung tích và giá cần xác nhận lại.', '2026-09-24 16:49:55.321745', '2026-09-24 16:49:55.321745', 'NORMAL', 3, 6, NULL, NULL, 690000, 760000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (222, 'Tinh dầu cam nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu cam nguyên chất; chai thủy tinh nhỏ giọt 10ml.', '2026-09-24 16:52:58.313507', '2026-09-24 16:52:58.313507', 'NORMAL', 3, 7, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (223, 'Tinh dầu cam nguyên chất 50ml Tinh Dầu 100', 'Tinh dầu cam nguyên chất; dung tích 50ml; trang sản phẩm ghi xuất xứ Mỹ.', '2026-09-24 16:52:58.314874', '2026-09-24 16:52:58.314874', 'NORMAL', 3, 7, NULL, NULL, 460000, 530000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (224, 'Tinh dầu sả chanh nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu sả chanh; Cymbopogon flexuosus; trang sản phẩm ghi xuất xứ Ấn Độ.', '2026-09-24 16:52:58.315324', '2026-09-24 16:52:58.315324', 'NORMAL', 3, 7, NULL, NULL, 600000, 700000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (225, 'Tinh dầu sả chanh nguyên chất 50ml Tinh Dầu 100', 'Tinh dầu sả chanh; chưng cất hơi nước từ thân và lá; trang ghi xuất xứ Ấn Độ.', '2026-09-24 16:52:58.315727', '2026-09-24 16:52:58.315727', 'NORMAL', 3, 7, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (226, 'Tinh dầu bạc hà nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu bạc hà Peppermint; chưng cất hơi nước từ thân và lá; chai 10ml.', '2026-09-24 16:52:58.316101', '2026-09-24 16:52:58.316101', 'NORMAL', 3, 7, NULL, NULL, 390000, 450000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (227, 'Tinh dầu bưởi hồng 10ml Tinh Dầu 100', 'Tinh dầu vỏ bưởi hồng; ép lạnh từ vỏ; Citrus paradisi; trang ghi xuất xứ Ấn Độ.', '2026-09-24 16:52:58.316485', '2026-09-24 16:52:58.316485', 'NORMAL', 3, 7, NULL, NULL, 850000, 930000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (228, 'Tinh dầu bưởi hồng 50ml Tinh Dầu 100', 'Tinh dầu bưởi hồng nguyên chất; chai thủy tinh nâu nhỏ giọt; 50ml.', '2026-09-24 16:52:58.316966', '2026-09-24 16:52:58.316966', 'NORMAL', 3, 7, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (229, 'Tinh dầu quế nguyên chất 10ml Tinh Dầu 100', 'Tinh dầu quế chiết xuất từ vỏ và lá quế; chai thủy tinh nhỏ giọt 10ml.', '2026-09-24 16:52:58.317423', '2026-09-24 16:52:58.317423', 'NORMAL', 3, 7, NULL, NULL, 320000, 370000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (230, 'Tinh dầu Oải hương Lavender Tinh Dầu 100 10ml', 'Tinh dầu oải hương Lavandula angustifolia; chưng cất hơi nước từ hoa; trang ghi xuất xứ Pháp.', '2026-09-24 16:52:58.318048', '2026-09-24 16:52:58.318048', 'NORMAL', 3, 7, NULL, NULL, 760000, 820000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (231, 'Tinh dầu tràm gió nguyên chất 50ml Tinh Dầu 100', 'Tinh dầu tràm gió Cajeput; chưng cất hơi nước từ cành lá; trang ghi xuất xứ Singapore.', '2026-09-24 16:52:58.318662', '2026-09-24 16:52:58.318662', 'NORMAL', 3, 7, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (232, 'Tinh dầu Cam Ngọt', 'Tinh dầu Cam Ngọt từ vỏ Citrus sinensis, ép lạnh; Kho Tinh Dầu công bố nguồn Ấn Độ.', '2026-09-26 11:47:26.442841', '2026-09-26 11:47:26.442841', 'NORMAL', 3, 8, NULL, NULL, 440000, 480000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (233, 'Tinh dầu Bạc Hà', 'Tinh dầu Bạc Hà thiên nhiên nhập từ Ấn Độ; trang NCC công bố COA và kiểm nghiệm QUATEST 3.', '2026-09-26 11:47:26.444242', '2026-09-26 11:47:26.444242', 'NORMAL', 3, 8, NULL, NULL, 670000, 760000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (234, 'Tinh dầu Sả Chanh', 'Tinh dầu Sả Chanh thiên nhiên, nhập khẩu Ấn Độ; trang NCC công bố COA và phiếu kiểm nghiệm.', '2026-09-26 11:47:26.444481', '2026-09-26 11:47:26.444481', 'NORMAL', 3, 8, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (235, 'Tinh dầu Đàn Hương', 'Tinh dầu Đàn Hương từ lõi gỗ Santalum album, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.444704', '2026-09-26 11:47:26.444704', 'NORMAL', 3, 8, NULL, NULL, 370000, 440000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (236, 'Tinh dầu Hoàng Đàn', 'Tinh dầu Hoàng Đàn (Cedarwood) từ gỗ thuộc chi Cedrus, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.445001', '2026-09-26 11:47:26.445001', 'NORMAL', 3, 8, NULL, NULL, 580000, 650000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (237, 'Tinh dầu Quế', 'Tinh dầu Quế từ vỏ cây quế; NCC mô tả không sử dụng hóa chất hay phụ gia và có kiểm nghiệm.', '2026-09-26 11:47:26.445219', '2026-09-26 11:47:26.445219', 'NORMAL', 3, 8, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (238, 'Tinh dầu Phong Lữ', 'Tinh dầu Phong Lữ từ lá và thân Pelargonium graveolens, chưng cất hơi nước theo trang NCC.', '2026-09-26 11:47:26.445389', '2026-09-26 11:47:26.445389', 'NORMAL', 3, 8, NULL, NULL, 300000, 360000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (239, 'Tinh dầu Ngọc Lan Tây', 'Tinh dầu Ngọc Lan Tây từ hoa ylang-ylang, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.445552', '2026-09-26 11:47:26.445552', 'NORMAL', 3, 8, NULL, NULL, 830000, 930000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (240, 'Tinh dầu Bưởi', 'Tinh dầu Bưởi từ vỏ bưởi; NCC công bố sản phẩm nguồn thiên nhiên, nhập trực tiếp từ SNN Natural.', '2026-09-26 11:47:26.445719', '2026-09-26 11:47:26.445719', 'NORMAL', 3, 8, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (241, 'Tinh dầu Hương Thảo', 'Tinh dầu Hương Thảo nhập khẩu Ấn Độ; NCC mô tả hàng nguyên seal, không sang chiết hay pha phụ gia.', '2026-09-26 11:47:26.445882', '2026-09-26 11:47:26.445882', 'NORMAL', 3, 8, NULL, NULL, 420000, 470000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (242, 'Tinh dầu Cam Hương', 'Tinh dầu Cam Hương (Bergamot) từ vỏ Citrus bergamia, ép lạnh; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.446041', '2026-09-26 11:47:26.446041', 'NORMAL', 3, 8, NULL, NULL, 740000, 820000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (243, 'Tinh dầu Bạch Đàn Chanh', 'Tinh dầu Bạch Đàn Chanh có trang sản phẩm riêng trong danh mục tinh dầu giá sỉ của Kho Tinh Dầu.', '2026-09-26 11:47:26.446281', '2026-09-26 11:47:26.446281', 'NORMAL', 3, 8, NULL, NULL, 190000, 220000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (244, 'Tinh dầu Oải Hương', 'Tinh dầu Oải Hương nhập khẩu nguyên chai/can/phuy; NCC mô tả hương tự nhiên và nguồn hàng Ấn Độ.', '2026-09-26 11:47:26.446531', '2026-09-26 11:47:26.446531', 'NORMAL', 3, 8, NULL, NULL, 350000, 390000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (245, 'Tinh dầu Hoa Hồng', 'Tinh dầu Hoa Hồng từ nguyên liệu hoa; NCC công bố sản xuất tại SNN Natural Ấn Độ, nhập khẩu nguyên seal.', '2026-09-26 11:47:26.446708', '2026-09-26 11:47:26.446708', 'NORMAL', 3, 8, NULL, NULL, 650000, 710000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (246, 'Tinh dầu Lài (Nhài)', 'Tinh dầu Lài từ hoa nhài; NCC công bố nguyên liệu tự nhiên, không phụ gia, hương liệu tổng hợp hay chất tạo màu.', '2026-09-26 11:47:26.446889', '2026-09-26 11:47:26.446889', 'NORMAL', 3, 8, NULL, NULL, 220000, 250000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (247, 'Tinh dầu Lục Bạc Hà', 'Tinh dầu Lục Bạc Hà (Spearmint Essential Oil) có trang sản phẩm riêng; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.447060', '2026-09-26 11:47:26.447060', 'NORMAL', 3, 8, NULL, NULL, 280000, 350000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (248, 'Tinh dầu Tràm Singapore', 'Tinh dầu Tràm từ Melaleuca cajuputi; NCC mô tả sản phẩm thiên nhiên, chưng cất và không pha hóa chất tổng hợp.', '2026-09-26 11:47:26.447232', '2026-09-26 11:47:26.447232', 'NORMAL', 3, 8, NULL, NULL, 560000, 650000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (249, 'Tinh dầu Lá Chanh', 'Tinh dầu Lá Chanh từ lá, chưng cất hơi nước; nguồn SNN Natural Ấn Độ theo trang sản phẩm.', '2026-09-26 11:47:26.447404', '2026-09-26 11:47:26.447404', 'NORMAL', 3, 8, NULL, NULL, 170000, 200000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (250, 'Tinh dầu Chanh Sần', 'Tinh dầu Chanh Sần từ vỏ quả, ép lạnh; nguồn Ấn Độ theo NCC, trang mô tả không phụ gia hay chất độn.', '2026-09-26 11:47:26.447599', '2026-09-26 11:47:26.447599', 'NORMAL', 3, 8, NULL, NULL, 400000, 460000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (251, 'Tinh dầu Gừng', 'Tinh dầu Gừng từ thân rễ/củ gừng, chưng cất hơi nước; NCC xếp trong danh mục tinh dầu thiên nhiên.', '2026-09-26 11:47:26.447781', '2026-09-26 11:47:26.447781', 'NORMAL', 3, 8, NULL, NULL, 810000, 880000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (252, 'Tinh dầu Nụ Đinh Hương', 'Tinh dầu Nụ Đinh Hương từ nụ Syzygium aromaticum; nhập khẩu SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.448137', '2026-09-26 11:47:26.448137', 'NORMAL', 3, 8, NULL, NULL, 200000, 230000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (253, 'Tinh dầu Thông', 'Tinh dầu Thông từ lá Pinus roxburghii, chưng cất hơi nước; nguồn Ấn Độ theo trang NCC.', '2026-09-26 11:47:26.448447', '2026-09-26 11:47:26.448447', 'NORMAL', 3, 8, NULL, NULL, 330000, 380000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (254, 'Tinh dầu Quýt', 'Tinh dầu Quýt (Mandarin Essential Oil) có trang sản phẩm riêng trong danh mục tinh dầu của Kho Tinh Dầu.', '2026-09-26 11:47:26.448714', '2026-09-26 11:47:26.448714', 'NORMAL', 3, 8, NULL, NULL, 720000, 820000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (255, 'Tinh dầu Chanh', 'Tinh dầu Chanh nguyên chất nhập khẩu SNN Natural Ấn Độ; NCC công bố COA/GMP/ISO và hóa đơn VAT.', '2026-09-26 11:47:26.448936', '2026-09-26 11:47:26.448936', 'NORMAL', 3, 8, NULL, NULL, 230000, 260000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (256, 'Tinh dầu Gỗ Hồng', 'Tinh dầu Gỗ Hồng từ gỗ Dalbergia sissoo qua quá trình chưng cất; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.449150', '2026-09-26 11:47:26.449150', 'NORMAL', 3, 8, NULL, NULL, 450000, 490000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (257, 'Tinh dầu Hoắc Hương', 'Tinh dầu Hoắc Hương nhập khẩu Ấn Độ; NCC công bố sản phẩm nguyên seal và bán theo kg.', '2026-09-26 11:47:26.449356', '2026-09-26 11:47:26.449356', 'NORMAL', 3, 8, NULL, NULL, 630000, 710000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (258, 'Tinh dầu Trầm Hương', 'Tinh dầu Trầm Hương thiên nhiên từ gỗ trầm; Kho Tinh Dầu có trang sản phẩm và thông tin kiểm nghiệm.', '2026-09-26 11:47:26.449574', '2026-09-26 11:47:26.449574', 'NORMAL', 3, 8, NULL, NULL, 180000, 210000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (259, 'Tinh dầu Khuynh Diệp', 'Tinh dầu Khuynh Diệp (Eucalyptus Essential Oil) có trang sản phẩm riêng trong danh mục tinh dầu của NCC.', '2026-09-26 11:47:26.449799', '2026-09-26 11:47:26.449799', 'NORMAL', 3, 8, NULL, NULL, 380000, 450000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (260, 'Tinh dầu Tràm Trà', 'Tinh dầu Tràm Trà từ lá, chưng cất hơi nước; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.450179', '2026-09-26 11:47:26.450179', 'NORMAL', 3, 8, NULL, NULL, 540000, 600000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (261, 'Tinh dầu Tràm Gió', 'Tinh dầu Tràm Gió từ lá Melaleuca cajuputi, chưng cất hơi nước; nguồn nhà sản xuất miền Trung Việt Nam theo NCC.', '2026-09-26 11:47:26.454711', '2026-09-26 11:47:26.454711', 'NORMAL', 3, 8, NULL, NULL, 210000, 240000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (262, 'Tinh dầu Húng Quế', 'Tinh dầu Húng Quế từ lá và thân Ocimum basilicum, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.455073', '2026-09-26 11:47:26.455073', 'NORMAL', 3, 8, NULL, NULL, 310000, 370000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (263, 'Tinh dầu Sả Java', 'Tinh dầu Sả Java từ lá và thân Cymbopogon winterianus, chưng cất hơi nước; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.455339', '2026-09-26 11:47:26.455339', 'NORMAL', 3, 8, NULL, NULL, 790000, 880000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (264, 'Tinh dầu Nghệ', 'Tinh dầu Nghệ từ củ nghệ tươi; NCC công bố sản phẩm SNN Natural, sản xuất tại Ấn Độ và nhập khẩu chính ngạch.', '2026-09-26 11:47:26.455587', '2026-09-26 11:47:26.455587', 'NORMAL', 3, 8, NULL, NULL, 160000, 190000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (265, 'Tinh dầu Lộc Đề Xanh', 'Tinh dầu Lộc Đề Xanh từ lá cây Gaultheria, chưng cất hơi nước sau bước ngâm lá; nguồn Ấn Độ theo NCC.', '2026-09-26 11:47:26.455849', '2026-09-26 11:47:26.455849', 'NORMAL', 3, 8, NULL, NULL, 430000, 480000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (266, 'Tinh dầu Nhục Đậu Khấu', 'Tinh dầu Nhục Đậu Khấu từ hạt Myristica fragrans, chưng cất hơi nước; nguồn SNN Natural Ấn Độ theo NCC.', '2026-09-26 11:47:26.456207', '2026-09-26 11:47:26.456207', 'NORMAL', 3, 8, NULL, NULL, 700000, 770000);
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price) VALUES (267, 'Tinh dầu Sả Hoa Hồng', 'Tinh dầu Sả Hoa Hồng là tinh dầu từ một loài sả; NCC công bố chiết xuất hoàn toàn từ thiên nhiên, nguồn Ấn Độ.', '2026-09-26 11:47:26.456462', '2026-09-26 11:47:26.456462', 'NORMAL', 3, 8, NULL, NULL, 190000, 220000);
 
-INSERT INTO `roles` (id, name) VALUES (1, 'ROLE_ADMIN');
-INSERT INTO `roles` (id, name) VALUES (2, 'ROLE_USER');
-INSERT INTO `roles` (id, name) VALUES (3, 'ROLE_STAFF');
-INSERT INTO `roles` (id, name) VALUES (4, 'ROLE_FACTORY');
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (1, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bac-ha.jpg', '2026-09-26 13:02:11.928582', 1, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (2, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 1, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (3, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bach-dan-chanh-2.jpg', '2026-09-26 13:02:11.928582', 2, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (4, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 2, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (5, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-cam-ngot.jpg', '2026-09-26 13:02:11.928582', 3, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (6, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 3, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (7, 'https://labcos.com.vn/wp-content/uploads/tinhdauchanh.jpg', '2026-09-26 13:02:11.928582', 4, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (8, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 4, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (9, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-go-hong-2.jpg', '2026-09-26 13:02:11.928582', 5, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (10, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 5, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (11, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-gung-1-1.jpg', '2026-09-26 13:02:11.928582', 6, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (12, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 6, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (13, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-cam.jpg', '2026-09-26 13:02:11.928582', 7, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (14, 'https://upload.wikimedia.org/wikipedia/commons/5/57/Orange_blossom.jpg', '2026-09-26 13:02:11.928582', 7, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (15, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-hong.jpg', '2026-09-26 13:02:11.928582', 8, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (16, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 8, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (17, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hoa-nhai-2.jpg', '2026-09-26 13:02:11.928582', 9, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (18, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 9, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (19, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-hung-que.jpg', '2026-09-26 13:02:11.928582', 10, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (20, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 10, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (21, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-huong-nhu-2.jpg', '2026-09-26 13:02:11.928582', 11, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (22, 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Starr_030202-0053_Ocimum_gratissimum.jpg', '2026-09-26 13:02:11.928582', 11, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (23, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-khuynh-diep.jpg', '2026-09-26 13:02:11.928582', 12, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (24, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 12, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (25, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-nghe-1.jpg', '2026-09-26 13:02:11.928582', 13, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (26, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 13, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (27, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-ngoc-lan-tay.jpg', '2026-09-26 13:02:11.928582', 14, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (28, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 14, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (29, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-oai-huong-1.jpg', '2026-09-26 13:02:11.928582', 15, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (30, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 15, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (31, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-phong-lu.jpg', '2026-09-26 13:02:11.928582', 16, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (32, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 16, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (33, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-po-mu.jpg', '2026-09-26 13:02:11.928582', 17, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (34, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 17, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (35, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-quyt.jpg', '2026-09-26 13:02:11.928582', 18, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (36, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 18, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (37, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-chanh.jpg', '2026-09-26 13:02:11.928582', 19, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (38, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 19, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (39, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-sa-java.jpg', '2026-09-26 13:02:11.928582', 20, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (40, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 20, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (41, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tra-xanh.jpg', '2026-09-26 13:02:11.928582', 21, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (42, 'https://upload.wikimedia.org/wikipedia/commons/4/46/Pu%27er_tea%2C_Green_tea%2C_Chinese_tea%2C_Rostov-on-Don%2C_Russia.jpg', '2026-09-26 13:02:11.928582', 21, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (43, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-trac-bach-diep.jpg', '2026-09-26 13:02:11.928582', 22, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (44, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 22, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (45, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-gio.jpg', '2026-09-26 13:02:11.928582', 23, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (46, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 23, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (47, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-tram-tra-2.jpg', '2026-09-26 13:02:11.928582', 24, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (48, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 24, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (49, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-buoi-3.jpg', '2026-09-26 13:02:11.928582', 25, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (50, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 25, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (51, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-vo-que.jpg', '2026-09-26 13:02:11.928582', 26, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (52, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 26, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (53, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-ARGAN.jpg', '2026-09-26 13:02:11.928582', 27, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (54, 'https://upload.wikimedia.org/wikipedia/commons/1/10/Argania_spinosa_MHNT.BOT.2010.12.2.jpg', '2026-09-26 13:02:11.928582', 27, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (55, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-CAM-GAO.jpg', '2026-09-26 13:02:11.928582', 28, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (56, 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Green_rice_sheaves_planted_in_a_paddy_field_with_long_shadows_at_golden_hour_in_Don_Det_Laos.jpg', '2026-09-26 13:02:11.928582', 28, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (57, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-DAU-DUA.jpg', '2026-09-26 13:02:11.928582', 29, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (58, 'https://upload.wikimedia.org/wikipedia/commons/8/88/Coconut_on_coconut_tree.png', '2026-09-26 13:02:11.928582', 29, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (59, 'https://labcos.com.vn/wp-content/uploads/NGUYEN-LIEU-DAU-NEN-GAC.jpg', '2026-09-26 13:02:11.928582', 30, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (60, 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Momordica_cochinchinensis_seeds%2C_by_Omar_Hoftun.jpg', '2026-09-26 13:02:11.928582', 30, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (61, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/BUOI-DA-XANH.png', '2026-09-26 13:02:11.928582', 31, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (62, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 31, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (63, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/HINH-LONG-NAO1.jpg', '2026-09-26 13:02:11.928582', 32, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (64, 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Cinnamomum_camphora_Vergelegen.jpg', '2026-09-26 13:02:11.928582', 32, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (65, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-tram-gio-600x600-1.jpg', '2026-09-26 13:02:11.928582', 33, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (66, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 33, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (67, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-dinh-huong.jpg', '2026-09-26 13:02:11.928582', 34, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (68, 'https://upload.wikimedia.org/wikipedia/commons/2/28/Gewuerze_004_2024_08_10.jpg', '2026-09-26 13:02:11.928582', 34, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (69, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-trau-khong.jpg', '2026-09-26 13:02:11.928582', 35, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (70, 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Piper_betle_%28504522647%29.jpg', '2026-09-26 13:02:11.928582', 35, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (71, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-huong-nhu.jpg', '2026-09-26 13:02:11.928582', 36, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (72, 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Starr_030202-0053_Ocimum_gratissimum.jpg', '2026-09-26 13:02:11.928582', 36, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (73, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-o%E1%BA%A3i-h%C6%B0%C6%A1ng.jpg', '2026-09-26 13:02:11.928582', 37, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (74, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 37, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (75, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/sa-chanh2-3.jpg', '2026-09-26 13:02:11.928582', 38, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (76, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 38, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (77, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-bac-ha.jpg', '2026-09-26 13:02:11.928582', 39, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (78, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 39, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (79, 'https://tinhdauhanoi.com/wp-content/uploads/2020/06/avatar-san-pham-hung-chanh.jpg', '2026-09-26 13:02:11.928582', 40, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (80, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 40, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (81, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-tram-tra.jpg', '2026-09-26 13:02:11.928582', 41, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (82, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 41, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (83, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-bach-dan-chanh2-3.jpg', '2026-09-26 13:02:11.928582', 42, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (84, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 42, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (85, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hung-que-600x600-1.jpg', '2026-09-26 13:02:11.928582', 43, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (86, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 43, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (87, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-san-pham-cay-mui.jpg', '2026-09-26 13:02:11.928582', 44, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (88, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 44, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (89, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-khuynh-diep-2.jpg', '2026-09-26 13:02:11.928582', 45, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (90, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 45, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (91, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hung-que-600x600-1.jpg', '2026-09-26 13:02:11.928582', 46, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (92, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 46, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (93, 'https://tinhdauhanoi.com/wp-content/uploads/2025/12/La-tia-to-01-scaled-1-1.jpg', '2026-09-26 13:02:11.928582', 47, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (94, 'https://upload.wikimedia.org/wikipedia/commons/4/46/Perilla_frutescens_in_Gimpo.jpg', '2026-09-26 13:02:11.928582', 47, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (95, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-hoa-buoi.jpg', '2026-09-26 13:02:11.928582', 48, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (96, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 48, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (97, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-chanh.jpg', '2026-09-26 13:02:11.928582', 49, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (98, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 49, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (99, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-cam-ngot.jpg', '2026-09-26 13:02:11.928582', 50, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (100, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 50, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (101, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-hoa-h%E1%BB%93i.jpg', '2026-09-26 13:02:11.928582', 51, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (102, 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Dried_Star_Anise_Fruit_Seeds.jpg', '2026-09-26 13:02:11.928582', 51, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (103, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-geranium.jpg', '2026-09-26 13:02:11.928582', 52, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (104, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-gia-si-ktd.jpg', '2026-09-26 13:02:11.928582', 52, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (105, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-Mu-u-600x600-1.jpg', '2026-09-26 13:02:11.928582', 53, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (106, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 53, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (107, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-mang-tang.jpg', '2026-09-26 13:02:11.928582', 54, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (108, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Litsea_cubeba_2014-02-08.jpg', '2026-09-26 13:02:11.928582', 54, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (109, 'https://tinhdauhanoi.com/wp-content/uploads/2020/02/avatar-s%E1%BA%A3n-ph%E1%BA%A9m-chanh.jpg', '2026-09-26 13:02:11.928582', 55, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (110, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 55, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (111, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-gung.jpg', '2026-09-26 13:02:11.928582', 56, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (112, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 56, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (113, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avatar-san-pham-ngai-cuu.jpg', '2026-09-26 13:02:11.928582', 57, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (114, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 57, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (115, 'https://tinhdauhanoi.com/wp-content/uploads/2019/09/avata-sa-Java.jpg', '2026-09-26 13:02:11.928582', 58, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (116, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 58, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (117, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-50ML.webp', '2026-09-26 13:02:11.928582', 59, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (118, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-1000ML.webp', '2026-09-26 13:02:11.928582', 59, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (119, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BAC-HA-4.png', '2026-09-26 13:02:11.928582', 59, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (120, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-10ML.webp', '2026-09-26 13:02:11.928582', 60, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (121, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-500ML.webp', '2026-09-26 13:02:11.928582', 60, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (122, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-BACH-DAN-CHANH-100ML.webp', '2026-09-26 13:02:11.928582', 60, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (123, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-8.webp', '2026-09-26 13:02:11.928582', 61, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (124, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 61, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (125, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BACH-LY-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 61, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (126, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-6.webp', '2026-09-26 13:02:11.928582', 62, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (127, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-1.png', '2026-09-26 13:02:11.928582', 62, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (128, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-EXTRA-4.png', '2026-09-26 13:02:11.928582', 62, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (129, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 63, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (130, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 63, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (131, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-CAM-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 63, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (132, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-11.webp', '2026-09-26 13:02:11.928582', 64, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (133, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 64, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (134, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CAM-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 64, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (135, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-10ML.webp', '2026-09-26 13:02:11.928582', 65, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (136, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-500MLX.webp', '2026-09-26 13:02:11.928582', 65, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (137, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-100ML.webp', '2026-09-26 13:02:11.928582', 65, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (138, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-10ML.webp', '2026-09-26 13:02:11.928582', 66, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (139, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-500ML.webp', '2026-09-26 13:02:11.928582', 66, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (140, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-CHANH-SAN-100ML.webp', '2026-09-26 13:02:11.928582', 66, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (141, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 67, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (142, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 67, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (143, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CO-GUNG-100ML.webp', '2026-09-26 13:02:11.928582', 67, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (144, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-10ML.webp', '2026-09-26 13:02:11.928582', 68, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (145, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-CUC-LA-MA-500ML.webp', '2026-09-26 13:02:11.928582', 68, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (146, 'https://biyokea.vn/wp-content/uploads/2025/08/cuc-la-ma-2.png', '2026-09-26 13:02:11.928582', 68, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (147, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 69, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (148, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-1.png', '2026-09-26 13:02:11.928582', 69, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (149, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-DINH-HUONG-3.png', '2026-09-26 13:02:11.928582', 69, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (150, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-10ML.webp', '2026-09-26 13:02:11.928582', 70, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (151, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-500ML.webp', '2026-09-26 13:02:11.928582', 70, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (152, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DO-TUNG-100ML.webp', '2026-09-26 13:02:11.928582', 70, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (153, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-10ML.webp', '2026-09-26 13:02:11.928582', 71, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (154, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-500ML.jpg', '2026-09-26 13:02:11.928582', 71, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (155, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-DON-SAM-100ML.webp', '2026-09-26 13:02:11.928582', 71, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (156, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 72, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (157, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 72, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (158, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-DAN-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 72, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (159, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-10ML.webp', '2026-09-26 13:02:11.928582', 73, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (160, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-500ML.webp', '2026-09-26 13:02:11.928582', 73, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (161, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GO-HONG-100ML.webp', '2026-09-26 13:02:11.928582', 73, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (162, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-10ML.webp', '2026-09-26 13:02:11.928582', 74, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (163, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-500ML.webp', '2026-09-26 13:02:11.928582', 74, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (164, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-GUNG-100ML.webp', '2026-09-26 13:02:11.928582', 74, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (165, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-10ML.webp', '2026-09-26 13:02:11.928582', 75, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (166, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-CAM-500ML.webp', '2026-09-26 13:02:11.928582', 75, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (167, 'https://biyokea.vn/wp-content/uploads/2025/08/hoa-cam-1.png', '2026-09-26 13:02:11.928582', 75, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (168, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-HOA-HOI-10ML.webp', '2026-09-26 13:02:11.928582', 76, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (169, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-3-768x768.png', '2026-09-26 13:02:11.928582', 76, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (170, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-HOI-1.png', '2026-09-26 13:02:11.928582', 76, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (171, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-10ML-1-600x600.webp', '2026-09-26 13:02:11.928582', 77, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (172, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-500ML-1.webp', '2026-09-26 13:02:11.928582', 77, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (173, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOA-HONG-1.png', '2026-09-26 13:02:11.928582', 77, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (174, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-10ML.webp', '2026-09-26 13:02:11.928582', 78, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (175, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-3.png', '2026-09-26 13:02:11.928582', 78, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (176, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HOA-LAI-1.png', '2026-09-26 13:02:11.928582', 78, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (177, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 79, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (178, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 79, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (179, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOAC-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 79, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (180, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-10ML.webp', '2026-09-26 13:02:11.928582', 80, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (181, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-500ML.webp', '2026-09-26 13:02:11.928582', 80, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (182, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HOANG-DAN-100ML.webp', '2026-09-26 13:02:11.928582', 80, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (183, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 81, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (184, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-500ML.webp', '2026-09-26 13:02:11.928582', 81, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (185, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-10-100ML.webp', '2026-09-26 13:02:11.928582', 81, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (186, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-10ML.webp', '2026-09-26 13:02:11.928582', 82, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (187, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-500ML.webp', '2026-09-26 13:02:11.928582', 82, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (188, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-11-100ML.webp', '2026-09-26 13:02:11.928582', 82, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (189, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-10ML.webp', '2026-09-26 13:02:11.928582', 83, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (190, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-500ML.webp', '2026-09-26 13:02:11.928582', 83, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (191, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-12-100ML.webp', '2026-09-26 13:02:11.928582', 83, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (192, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-10ML.webp', '2026-09-26 13:02:11.928582', 84, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (193, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-500ML.webp', '2026-09-26 13:02:11.928582', 84, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (194, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-100ML.webp', '2026-09-26 13:02:11.928582', 84, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (195, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-14-10ML.webp', '2026-09-26 13:02:11.928582', 85, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (196, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-500ML.webp', '2026-09-26 13:02:11.928582', 85, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (197, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-13-100ML.webp', '2026-09-26 13:02:11.928582', 85, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (198, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-10ML.webp', '2026-09-26 13:02:11.928582', 86, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (199, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-500ML.webp', '2026-09-26 13:02:11.928582', 86, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (200, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-15-100ML.webp', '2026-09-26 13:02:11.928582', 86, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (201, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-10ML.webp', '2026-09-26 13:02:11.928582', 87, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (202, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-500ML.webp', '2026-09-26 13:02:11.928582', 87, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (203, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-16-100ML.webp', '2026-09-26 13:02:11.928582', 87, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (204, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-10ML.webp', '2026-09-26 13:02:11.928582', 88, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (205, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-500ML.webp', '2026-09-26 13:02:11.928582', 88, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (206, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-18-100ML.webp', '2026-09-26 13:02:11.928582', 88, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (207, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-10ML.webp', '2026-09-26 13:02:11.928582', 89, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (208, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-500ML.webp', '2026-09-26 13:02:11.928582', 89, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (209, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-7-100ML.webp', '2026-09-26 13:02:11.928582', 89, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (210, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-10ML.webp', '2026-09-26 13:02:11.928582', 90, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (211, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-500ML.webp', '2026-09-26 13:02:11.928582', 90, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (212, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-8-100ML.webp', '2026-09-26 13:02:11.928582', 90, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (213, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-10ML.webp', '2026-09-26 13:02:11.928582', 91, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (214, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-500ML.webp', '2026-09-26 13:02:11.928582', 91, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (215, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-9-100ML.webp', '2026-09-26 13:02:11.928582', 91, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (216, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-10ML.webp', '2026-09-26 13:02:11.928582', 92, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (217, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-TD006-500ML.jpg', '2026-09-26 13:02:11.928582', 92, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (218, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-TD006-100ML.webp', '2026-09-26 13:02:11.928582', 92, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (219, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-10ML.webp', '2026-09-26 13:02:11.928582', 93, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (220, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-500ML.webp', '2026-09-26 13:02:11.928582', 93, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (221, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUNG-QUE-100ML.webp', '2026-09-26 13:02:11.928582', 93, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (222, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-10ML.webp', '2026-09-26 13:02:11.928582', 94, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (223, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-500ML.webp', '2026-09-26 13:02:11.928582', 94, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (224, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-LAU-100ML.webp', '2026-09-26 13:02:11.928582', 94, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (225, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-10ML.webp', '2026-09-26 13:02:11.928582', 95, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (226, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-500ML.webp', '2026-09-26 13:02:11.928582', 95, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (227, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-HUONG-NHU-100ML.webp', '2026-09-26 13:02:11.928582', 95, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (228, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-10ML.webp', '2026-09-26 13:02:11.928582', 96, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (229, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-500ML.webp', '2026-09-26 13:02:11.928582', 96, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (230, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-HUONG-THAO-100ML.webp', '2026-09-26 13:02:11.928582', 96, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (231, 'https://biyokea.vn/wp-content/uploads/2025/07/test-sp-9.webp', '2026-09-26 13:02:11.928582', 97, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (232, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-50ML.webp', '2026-09-26 13:02:11.928582', 97, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (233, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-KHUYNH-DIEP-500ML.webp', '2026-09-26 13:02:11.928582', 97, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (234, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-10ML.webp', '2026-09-26 13:02:11.928582', 98, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (235, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 98, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (236, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-LONG-NAO-100ML.webp', '2026-09-26 13:02:11.928582', 98, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (237, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-10ML.webp', '2026-09-26 13:02:11.928582', 99, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (238, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-500ML.webp', '2026-09-26 13:02:11.928582', 99, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (239, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-MANG-TANG-100ML.webp', '2026-09-26 13:02:11.928582', 99, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (240, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 100, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (241, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-500ML.webp', '2026-09-26 13:02:11.928582', 100, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (242, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NGHE-100ML.webp', '2026-09-26 13:02:11.928582', 100, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (243, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-YLANG-10ML.webp', '2026-09-26 13:02:11.928582', 101, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (244, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-1.png', '2026-09-26 13:02:11.928582', 101, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (245, 'https://biyokea.vn/wp-content/uploads/2025/09/TINH-DAU-NGOC-LAN-TAY-4.png', '2026-09-26 13:02:11.928582', 101, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (246, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 102, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (247, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 102, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (248, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-NHU-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 102, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (249, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-10ML.webp', '2026-09-26 13:02:11.928582', 103, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (250, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 103, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (251, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-NHUC-DAU-KHAU-100ML.webp', '2026-09-26 13:02:11.928582', 103, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (252, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-10ML.webp', '2026-09-26 13:02:11.928582', 104, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (253, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-1-768x768.png', '2026-09-26 13:02:11.928582', 104, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (254, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-OAI-HUONG-2-768x768.png', '2026-09-26 13:02:11.928582', 104, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (255, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 105, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (256, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-3-768x768.png', '2026-09-26 13:02:11.928582', 105, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (257, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-PHONG-LU-4-768x768.png', '2026-09-26 13:02:11.928582', 105, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (258, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-10ML.webp', '2026-09-26 13:02:11.928582', 106, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (259, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-500ML.webp', '2026-09-26 13:02:11.928582', 106, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (260, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-QUYT-100ML.webp', '2026-09-26 13:02:11.928582', 106, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (261, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH.png', '2026-09-26 13:02:11.928582', 107, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (262, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-SA-CHANH-EXTRA-500ML.webp', '2026-09-26 13:02:11.928582', 107, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (263, 'https://biyokea.vn/wp-content/uploads/2025/07/tinh-dau-sa-chanh-1-768x768.png', '2026-09-26 13:02:11.928582', 107, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (264, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-10ML.jpg', '2026-09-26 13:02:11.928582', 108, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (265, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-1000ML.jpg', '2026-09-26 13:02:11.928582', 108, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (266, 'https://biyokea.vn/wp-content/uploads/2026/08/TINH-DAU-SA-GUNG-100ML.jpg', '2026-09-26 13:02:11.928582', 108, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (267, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-10ML.webp', '2026-09-26 13:02:11.928582', 109, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (268, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-500ML.webp', '2026-09-26 13:02:11.928582', 109, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (269, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-HOA-HONG-100ML.webp', '2026-09-26 13:02:11.928582', 109, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (270, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 110, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (271, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-1000ML.webp', '2026-09-26 13:02:11.928582', 110, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (272, 'https://biyokea.vn/wp-content/uploads/2025/08/TINH-DAU-SA-JAVA-100ML.webp', '2026-09-26 13:02:11.928582', 110, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (273, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 111, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (274, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-500ML-768x768.webp', '2026-09-26 13:02:11.928582', 111, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (275, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-THONG-100ML.webp', '2026-09-26 13:02:11.928582', 111, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (276, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-10ML.webp', '2026-09-26 13:02:11.928582', 112, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (277, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-500ML.webp', '2026-09-26 13:02:11.928582', 112, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (278, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TIEU-DEN-100ML.webp', '2026-09-26 13:02:11.928582', 112, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (279, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-10ML.webp', '2026-09-26 13:02:11.928582', 113, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (280, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-500ML.webp', '2026-09-26 13:02:11.928582', 113, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (281, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-100ML.webp', '2026-09-26 13:02:11.928582', 113, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (282, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-10ML-600x600.webp', '2026-09-26 13:02:11.928582', 114, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (283, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-500ML.webp', '2026-09-26 13:02:11.928582', 114, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (284, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-HUONG-100ML.webp', '2026-09-26 13:02:11.928582', 114, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (285, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-10ML.webp', '2026-09-26 13:02:11.928582', 115, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (286, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-500ML.webp', '2026-09-26 13:02:11.928582', 115, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (287, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-TRAM-TRA-100ML.webp', '2026-09-26 13:02:11.928582', 115, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (288, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-10ML.webp', '2026-09-26 13:02:11.928582', 116, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (289, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-500ML.webp', '2026-09-26 13:02:11.928582', 116, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (290, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-BUOI-100ML.webp', '2026-09-26 13:02:11.928582', 116, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (291, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-10ML.webp', '2026-09-26 13:02:11.928582', 117, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (292, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-500ML.webp', '2026-09-26 13:02:11.928582', 117, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (293, 'https://biyokea.vn/wp-content/uploads/2025/07/TINH-DAU-VO-QUE-100ML.webp', '2026-09-26 13:02:11.928582', 117, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (294, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-10ML.webp', '2026-09-26 13:02:11.928582', 118, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (295, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-1000ML.webp', '2026-09-26 13:02:11.928582', 118, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (296, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-1-100ML.webp', '2026-09-26 13:02:11.928582', 118, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (297, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-10ML.webp', '2026-09-26 13:02:11.928582', 119, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (298, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-1000ML.webp', '2026-09-26 13:02:11.928582', 119, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (299, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-2-100ML.webp', '2026-09-26 13:02:11.928582', 119, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (300, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-10ML.webp', '2026-09-26 13:02:11.928582', 120, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (301, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-1000ML.webp', '2026-09-26 13:02:11.928582', 120, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (302, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-3-100ML.webp', '2026-09-26 13:02:11.928582', 120, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (303, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-10ML.webp', '2026-09-26 13:02:11.928582', 121, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (304, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-1000ML.webp', '2026-09-26 13:02:11.928582', 121, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (305, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-4-100ML.webp', '2026-09-26 13:02:11.928582', 121, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (306, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-10ML.webp', '2026-09-26 13:02:11.928582', 122, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (307, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-1000ML.webp', '2026-09-26 13:02:11.928582', 122, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (308, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-5-100ML.webp', '2026-09-26 13:02:11.928582', 122, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (309, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-10ML.webp', '2026-09-26 13:02:11.928582', 123, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (310, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-1000ML.webp', '2026-09-26 13:02:11.928582', 123, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (311, 'https://biyokea.vn/wp-content/uploads/2025/10/TINH-DAU-HON-HOP-6-100ML.webp', '2026-09-26 13:02:11.928582', 123, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (312, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 124, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (313, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-a-thuy-a-nguy-%E2%80%93-asafoetida-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 124, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (314, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 125, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (315, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-ao-nhuc-dau-khau-ao-hat-nhuc-dau-khau-%E2%80%93-mace-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 125, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (316, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 126, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (317, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-%E2%80%93-peppermint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 126, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (318, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 127, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (319, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-a-%E2%80%93-cormint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 127, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (320, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 128, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (321, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-chanh-%E2%80%93-citrata-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 128, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (322, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 129, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (323, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 129, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (324, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 130, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (325, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-luc-%E2%80%93-spearmint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 130, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (326, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 131, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (327, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-meo-%E2%80%93-catnip-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 131, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (328, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 132, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (329, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-ngua-%E2%80%93-horsemint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 132, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (330, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 133, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (331, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-socola-bac-ha-chocolate-%E2%80%93-socola-mint-chocolate-mint-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 133, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (332, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 134, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (333, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-duong-ngot-%E2%80%93-sweet-birch-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 134, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (334, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 135, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (335, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-dan-chanh-%E2%80%93-eucalyptus-citriodora-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 135, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (336, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 136, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (337, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-truat-%E2%80%93-atractylis-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 136, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (338, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 137, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (339, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bach-tung-huong-%E2%80%93-galbanum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 137, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (340, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 138, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (341, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bai-huong-%E2%80%93-hyssop-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 138, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (342, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-2-1-768x768.webp', '2026-09-26 13:02:11.928582', 139, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (343, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bong-nga-truat-%E2%80%93-finger-root-essential-oil-1-768x768.webp', '2026-09-26 13:02:11.928582', 139, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (344, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 140, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (345, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bu-chu-%E2%80%93-buchu-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 140, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (346, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-768x768.jpg', '2026-09-26 13:02:11.928582', 141, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (347, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-tram-huong-oud-agar-agarwood-oud-agar-agarwood-aquilaria-agallocha-essential-oil-2-768x768.jpg', '2026-09-26 13:02:11.928582', 141, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (348, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 142, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (349, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2026/02/tinh-dau-vo-buoi-da-xanh-pomelo-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 142, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (350, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-768x768.jpg', '2026-09-26 13:02:11.928582', 143, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (351, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/12/tinh-dau-thong-do-red-pine-essential-oil-2-768x768.jpg', '2026-09-26 13:02:11.928582', 143, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (352, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 144, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (353, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-xa-huong-do-red-thyme-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 144, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (354, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-la-ngo-gai-ngo-tay-mui-tau-eryngium-foetidum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 145, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (355, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-bac-ha-hang-%E2%80%93-pennyroyal-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 145, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (356, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 146, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (357, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-huong-nhu-tia-ocimum-sanctum-ocimum-tenuiflorum-ocimum-sanxctum-holy-basil-sacred-basil-tulsi-ocimum-tenuiflorum-essential-oil-2-768x768.webp', '2026-09-26 13:02:11.928582', 146, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (358, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 147, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (359, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2025/03/tinh-dau-dinh-huong-nu-%E2%80%93-bud-clove-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 147, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (360, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 148, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (361, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dai-hoi-%E2%80%93-star-anise-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 148, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (362, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 149, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (363, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-dinh-huong-%E2%80%93-clove-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 149, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (364, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-3-768x768.webp', '2026-09-26 13:02:11.928582', 150, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (365, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-kinh-gioi-oregano-origanum-vulgare-essential-oil-768x768.webp', '2026-09-26 13:02:11.928582', 150, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (366, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-1-768x768.webp', '2026-09-26 13:02:11.928582', 151, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (367, 'https://www.tinhdauduoclieu.com/wp-content/uploads/2024/10/tinh-dau-loc-de-xanh-chau-thu-winter-green-gandhapura-gaultheria-procumben-essential-oil-2-1-768x768.webp', '2026-09-26 13:02:11.928582', 151, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (368, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 152, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (369, 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Thymus_vulgaris_mit_Botrytis_cinerea_Befall%2C_Jan_Hinrichs-Berger-1.jpg', '2026-09-26 13:02:11.928582', 152, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (370, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 13:02:11.928582', 153, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (371, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 153, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (372, 'https://product.hstatic.net/1000187742/product/bac_ha_luc3_e1bb64224f934f38bcea4989106fced6_grande.png', '2026-09-26 13:02:11.928582', 154, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (373, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 154, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (374, 'https://product.hstatic.net/1000187742/product/bach_dan_chanh3_e93b64a88159414ba15b597880fa9e07_grande.png', '2026-09-26 13:02:11.928582', 155, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (375, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 155, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (376, 'https://product.hstatic.net/1000187742/product/cam_huong3_ed0af8443f634614b06e2957301957cf_grande.png', '2026-09-26 13:02:11.928582', 156, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (377, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 156, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (378, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 13:02:11.928582', 157, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (379, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 157, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (380, 'https://product.hstatic.net/1000187742/product/chanh3_81053877a0c042aeb79c098ec6d79bae_grande.png', '2026-09-26 13:02:11.928582', 158, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (381, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 158, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (382, 'https://product.hstatic.net/1000187742/product/chanh_san3_20f0efbdb78b4cfe89153bbfeb5d3412_grande.png', '2026-09-26 13:02:11.928582', 159, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (383, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 159, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (384, 'https://product.hstatic.net/1000187742/product/cuc_xanh_la_ma3_e563f43b91ff48838570c67c28318f02_grande.png', '2026-09-26 13:02:11.928582', 160, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (385, 'https://upload.wikimedia.org/wikipedia/commons/7/72/Camomille_sauvage_%28Matricaria_chamomilla%29%2C_coquelicots_%28Papaver_rhoeas%29_au_bord_d%27un_champ_d%27orge_%28Hordeum_vulgare%29.jpg', '2026-09-26 13:02:11.928582', 160, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (386, 'https://product.hstatic.net/1000187742/product/co_gung3_7624ce0a725a489d805366289143c539_grande.png', '2026-09-26 13:02:11.928582', 161, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (387, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 161, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (388, 'https://product.hstatic.net/1000187742/product/_dai_hoi3_89e5d93dec85420198f74abd346fde4a_grande.png', '2026-09-26 13:02:11.928582', 162, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (389, 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Dried_Star_Anise_Fruit_Seeds.jpg', '2026-09-26 13:02:11.928582', 162, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (390, 'https://product.hstatic.net/1000187742/product/dan_huong3_cb0a6802c01e4eec97d848c2ed81cb6f_grande.png', '2026-09-26 13:02:11.928582', 163, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (391, 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Santalum_album_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-128.jpg', '2026-09-26 13:02:11.928582', 163, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (392, 'https://product.hstatic.net/1000187742/product/do_tung3_3cc6fe2285e04a8b8565c38f548519eb_grande.png', '2026-09-26 13:02:11.928582', 164, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (393, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 164, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (394, 'https://product.hstatic.net/1000187742/product/don_sam3_763f9de7abf14423878ab9c224d0b11e_grande.png', '2026-09-26 13:02:11.928582', 165, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (395, 'https://upload.wikimedia.org/wikipedia/commons/3/38/Salvia_sclarea_-_Paskulak_02.jpg', '2026-09-26 13:02:11.928582', 165, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (396, 'https://product.hstatic.net/1000187742/product/go_hong3_8aa221536cc64e52839c4fa1a290f6b1_grande.png', '2026-09-26 13:02:11.928582', 166, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (397, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 166, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (398, 'https://product.hstatic.net/1000187742/product/go_thong3_40030bad30ba4f55a8fb82d083d8c181_grande.png', '2026-09-26 13:02:11.928582', 167, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (399, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 167, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (400, 'https://product.hstatic.net/1000187742/product/hat_ngo3_0caa27f6995c4fd8bbbc5a3f9cdcee00_grande.png', '2026-09-26 13:02:11.928582', 168, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (401, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 168, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (402, 'https://product.hstatic.net/1000187742/product/hoang_dan3_49af7d1e64c54d80b4be86cf32d04e12_grande.png', '2026-09-26 13:02:11.928582', 169, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (403, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 169, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (404, 'https://product.hstatic.net/1000187742/product/hoac_huong3_36368172098f4bfcb6b9450eab944a30_grande.png', '2026-09-26 13:02:11.928582', 170, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (405, 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Starr-121108-1096-Pogostemon_cablin-leaves_and_flowers-Pali_o_Waipio-Maui_%2824827691409%29.jpg', '2026-09-26 13:02:11.928582', 170, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (406, 'https://product.hstatic.net/1000187742/product/hung_que3_9c0f8d2534be46b9bb589d9c19dd576f_grande.png', '2026-09-26 13:02:11.928582', 171, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (407, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 171, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (408, 'https://product.hstatic.net/1000187742/product/huong_nhu3_aa679dd2aca84e40834d850de8363f8d_grande.png', '2026-09-26 13:02:11.928582', 172, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (409, 'https://upload.wikimedia.org/wikipedia/commons/3/32/Ocimum_Basilicum_leaf_lighted_by_the_left.jpg', '2026-09-26 13:02:11.928582', 172, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (410, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 13:02:11.928582', 173, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (411, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 173, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (412, 'https://product.hstatic.net/1000187742/product/khuynh_diep_globulus3_48215d45e1234257a98575b855d900f3_grande.png', '2026-09-26 13:02:11.928582', 174, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (413, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 174, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (414, 'https://product.hstatic.net/1000187742/product/la_chanh3_acd0c732ebbd4d0e91594648dc4b6d43_grande.png', '2026-09-26 13:02:11.928582', 175, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (415, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 175, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (416, 'https://product.hstatic.net/1000187742/product/nghe3_ac3a1d8f172648ceb799552007f890af_grande.png', '2026-09-26 13:02:11.928582', 176, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (417, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 176, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (418, 'https://product.hstatic.net/1000187742/product/ngoc_lan_tay3_bcdfd0d9f8ff4a5fa6c6e87c4517a967_grande.png', '2026-09-26 13:02:11.928582', 177, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (419, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 177, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (420, 'https://product.hstatic.net/1000187742/product/nhu_huong3_8cf49fc1cf524072a7deed4ae83e1725_grande.png', '2026-09-26 13:02:11.928582', 178, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (421, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 178, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (422, 'https://product.hstatic.net/1000187742/product/oai_huong3_02c0768efee04eac9f2b73edabd140a0_grande.png', '2026-09-26 13:02:11.928582', 179, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (423, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 179, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (424, 'https://product.hstatic.net/1000187742/product/phong_lu3_32f757c261e4489eb5db210b2d73f312_grande.png', '2026-09-26 13:02:11.928582', 180, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (425, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 180, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (426, 'https://product.hstatic.net/1000187742/product/po_mu3_47b086995b9f4bf39d0503935dca3dd3_grande.png', '2026-09-26 13:02:11.928582', 181, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (427, 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Fokienia_hodginsii_-_Mount_Sanqing_2015.09.08_11-09-31.jpg', '2026-09-26 13:02:11.928582', 181, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (428, 'https://product.hstatic.net/1000187742/product/que_ceylon3_f3a72e966bad4815b27fd5d5a0999e1c_grande.png', '2026-09-26 13:02:11.928582', 182, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (429, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 182, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (430, 'https://product.hstatic.net/1000187742/product/quyt3_5b968236f4da4f0a99094d09beed714d_grande.png', '2026-09-26 13:02:11.928582', 183, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (431, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 183, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (432, 'https://product.hstatic.net/1000187742/product/ra_huong3_e911ea39a57a4225a32e54ac5df36c0d_grande.png', '2026-09-26 13:02:11.928582', 184, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (433, 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Cinnamomum_camphora_Vergelegen.jpg', '2026-09-26 13:02:11.928582', 184, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (434, 'https://product.hstatic.net/1000187742/product/sa_chanh3_e03eb497c4ef4660a7bfd4f246cd22d3_grande.png', '2026-09-26 13:02:11.928582', 185, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (435, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 185, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (436, 'https://product.hstatic.net/1000187742/product/sa_hong3_e2a532cfdac1435f9e7ff3db7e6afc7d_grande.png', '2026-09-26 13:02:11.928582', 186, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (437, 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Cymbopogon_martinii_Image.jpg', '2026-09-26 13:02:11.928582', 186, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (438, 'https://product.hstatic.net/1000187742/product/sa_java3_e71de700cced463194c372d771f0cc51_grande.png', '2026-09-26 13:02:11.928582', 187, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (439, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 187, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (440, 'https://product.hstatic.net/1000187742/product/thi_la_tay3_2683f93b7cbb44e3a0b3e160c5993954_grande.png', '2026-09-26 13:02:11.928582', 188, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (441, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 188, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (442, 'https://product.hstatic.net/1000187742/product/_tieu_hong3_3d7bb707c52e4643811fd4c50303b48e_grande.png', '2026-09-26 13:02:11.928582', 189, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (443, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 189, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (444, 'https://product.hstatic.net/1000187742/product/tram_gio3_1e165259230d4443acbf4cb706caa2b6_grande.png', '2026-09-26 13:02:11.928582', 190, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (445, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 190, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (446, 'https://product.hstatic.net/1000187742/product/tram_tra3_b9eaab460d8b4264a2ec57c1b7b9c17d_grande.png', '2026-09-26 13:02:11.928582', 191, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (447, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 191, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (448, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 192, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (449, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 192, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (450, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 193, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (451, 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Piper_betle_%28504522647%29.jpg', '2026-09-26 13:02:11.928582', 193, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (452, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 194, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (453, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 194, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (454, 'https://product.hstatic.net/1000187742/product/bach_ly_huong3_8375d29811074cdcbf7e4b860fb25f7f_grande.png', '2026-09-26 13:02:11.928582', 195, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (455, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 195, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (456, 'https://product.hstatic.net/1000187742/product/bac_ha_organic3_09ff304da503437ebdd83cf4060171c1_grande.png', '2026-09-26 13:02:11.928582', 196, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (457, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 196, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (458, 'https://product.hstatic.net/1000187742/product/cam_ngot_organic3_ba8c9e3bcf2e4eb28f011ac71db8f047_grande.png', '2026-09-26 13:02:11.928582', 197, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (459, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 197, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (460, 'https://product.hstatic.net/1000187742/product/hoang_dan_organic3_a9b3cc28e6984384a6de0a10db5b4fad_grande.png', '2026-09-26 13:02:11.928582', 198, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (461, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 198, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (462, 'https://product.hstatic.net/1000187742/product/huong_thao_organic3_f1562498a3f44a7dae92a3bb2cbb9b88_grande.png', '2026-09-26 13:02:11.928582', 199, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (463, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 199, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (464, 'https://product.hstatic.net/1000187742/product/khuynh_diep_radiata_3_40340bc7eb864d678ce377e180a6fe2d_grande.png', '2026-09-26 13:02:11.928582', 200, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (465, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 200, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (466, 'https://product.hstatic.net/1000187742/product/oai_huong_organic3_2cf710279f554e89b25922e5fe6cbcaa_grande.png', '2026-09-26 13:02:11.928582', 201, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (467, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 201, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (468, 'https://product.hstatic.net/1000187742/product/sa_chanh_organic3_31338b70635a45e584fa42694bd85992_grande.png', '2026-09-26 13:02:11.928582', 202, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (469, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 202, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (470, 'https://product.hstatic.net/1000187742/product/tram_tra_organic3_c441dae9dc68449593138227c759cc86_grande.png', '2026-09-26 13:02:11.928582', 203, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (471, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 203, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (472, 'https://cdn.hstatic.net/products/1000187742/093_0942_copy_9f6c4ee72f294b9d9da808b96ca7c7f6_grande.png', '2026-09-26 13:02:11.928582', 204, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (473, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 204, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (474, 'https://cdn.hstatic.net/products/1000187742/104___1_1_a19b7c877c0e49419172ae91235fd9e0_grande.png', '2026-09-26 13:02:11.928582', 205, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (475, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 205, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (476, 'https://haku.vn/wp-content/uploads/2019/10/tinh-dau-sa-chanh-giup-duoi-kien-ba-khoang-ra-khoi-nha.jpg', '2026-09-26 13:02:11.928582', 206, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (477, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 206, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (478, 'https://haku.vn/wp-content/uploads/2019/11/tinh-dau-buoi-rat-tot-cho-toc-va-xa-stress.jpg', '2026-09-26 13:02:11.928582', 207, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (479, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 207, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (480, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-dung-duoc-bao-lau-2.jpg', '2026-09-26 13:02:11.928582', 208, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (481, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 208, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (482, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-oai-huong.png', '2026-09-26 13:02:11.928582', 209, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (483, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 209, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (484, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-hoa-nhai-jasmine-kich-thich-rat-tot.png', '2026-09-26 13:02:11.928582', 210, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (485, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 210, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (486, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-dung-duoc-bao-lau-2.jpg', '2026-09-26 13:02:11.928582', 211, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (487, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 211, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (488, 'https://haku.vn/wp-content/uploads/2020/04/banner-haku-scent-tinh-dau-que.jpg', '2026-09-26 13:02:11.928582', 212, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (489, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 212, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (490, 'https://haku.vn/wp-content/uploads/2019/11/tinh-dau-la-gi.jpg', '2026-09-26 13:02:11.928582', 213, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (491, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 213, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (492, 'https://haku.vn/wp-content/uploads/2019/11/cach-dung-tinh-dau-2.jpg', '2026-09-26 13:02:11.928582', 214, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (493, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 214, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (494, 'https://haku.vn/wp-content/uploads/2020/01/thu-mua-tinh-dau-so-luong-lon.jpg', '2026-09-26 13:02:11.928582', 215, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (495, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 215, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (496, 'https://haku.vn/wp-content/uploads/2019/11/cach-phuong-phap-chiet-xuat-tinh-dau.jpg', '2026-09-26 13:02:11.928582', 216, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (497, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 216, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (498, 'https://haku.vn/wp-content/uploads/2019/11/cam-nang-su-dung-tinh-dau-a-z.jpg', '2026-09-26 13:02:11.928582', 217, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (499, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 217, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (500, 'https://haku.vn/wp-content/uploads/2020/01/thu-mua-tinh-dau-so-luong-lon-1.jpg', '2026-09-26 13:02:11.928582', 218, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (501, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 218, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (502, 'https://haku.vn/wp-content/uploads/2020/07/tim-hieu-cac-loai-tinh-dau-tot-cho-tinh-cam.png', '2026-09-26 13:02:11.928582', 219, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (503, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 219, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (504, 'https://haku.vn/wp-content/uploads/2020/07/tinh-dau-ngoc-lan-tay-vua-cua-cac-loai-tinh-dau.png', '2026-09-26 13:02:11.928582', 220, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (505, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 220, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (506, 'https://haku.vn/wp-content/uploads/2019/11/mot-chai-tinh-dau-su-dung-duoc-bao-lau-5.jpg', '2026-09-26 13:02:11.928582', 221, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (507, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 221, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (508, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-cam-ngot-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 222, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (509, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 222, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (510, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-cam-ngot-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 223, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (511, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 223, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (512, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-sa-chanh-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 224, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (513, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 224, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (514, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-sa-chanh-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 225, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (515, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 225, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (516, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-bac-ha-50ml.jpg', '2026-09-26 13:02:11.928582', 226, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (517, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 226, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (518, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-buoi-hong-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 227, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (519, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 227, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (520, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-buoi-hong-50ml-tinhdau100.jpg', '2026-09-26 13:02:11.928582', 228, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (521, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 228, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (522, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-que-50ml-tinh-dau-100.jpg', '2026-09-26 13:02:11.928582', 229, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (523, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 229, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (524, 'https://tinhdau100.vn/uploads/images/banner/danh-muc-3/tinh-dau-oai-huong.jpg', '2026-09-26 13:02:11.928582', 230, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (525, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 230, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (526, 'https://tinhdau100.vn/uploads/images/san-pham/tinh-dau/tinh-dau-nguyen-chat/tinhdau100/tinh-dau-tram-nguyen-chat-mua-4-tang-1.jpg', '2026-09-26 13:02:11.928582', 231, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (527, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 231, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (528, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-cam-nhap-khau-so-luong-lon.jpg', '2026-09-26 13:02:11.928582', 232, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (529, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 232, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (530, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-peppermint.jpg', '2026-09-26 13:02:11.928582', 233, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (531, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 233, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (532, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 234, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (533, 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Cymbopogon_citratus_lemongrass_plant_in_garden.jpg', '2026-09-26 13:02:11.928582', 234, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (534, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 235, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (535, 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Santalum_album_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-128.jpg', '2026-09-26 13:02:11.928582', 235, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (536, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoang-dan-la-gi.jpg', '2026-09-26 13:02:11.928582', 236, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (537, 'https://upload.wikimedia.org/wikipedia/commons/0/09/Lone_Cypress_17-Mile_Drive_2013.jpg', '2026-09-26 13:02:11.928582', 236, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (538, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-que-cinnamon.jpg', '2026-09-26 13:02:11.928582', 237, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (539, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 237, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (540, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-phong-lu-geranium.jpg', '2026-09-26 13:02:11.928582', 238, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (541, 'https://upload.wikimedia.org/wikipedia/commons/b/b7/%28MHNT%29_Pelargonium_graveolens_flower_and_leaves.jpg', '2026-09-26 13:02:11.928582', 238, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (542, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-ngoc-lan-tay-gia-si-1.jpg', '2026-09-26 13:02:11.928582', 239, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (543, 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Cananga_odorata_02.JPG', '2026-09-26 13:02:11.928582', 239, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (544, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-buoi-la-gi.jpg', '2026-09-26 13:02:11.928582', 240, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (545, 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Citrus_paradisi_%28Grapefruit%2C_pink%29_white_bg.jpg', '2026-09-26 13:02:11.928582', 240, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (546, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-huong-thao-rosemary.jpg', '2026-09-26 13:02:11.928582', 241, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (547, 'https://upload.wikimedia.org/wikipedia/commons/7/71/Rosemary_plant_with_flowers.jpg', '2026-09-26 13:02:11.928582', 241, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (548, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-cam-huong-bergamot.jpg', '2026-09-26 13:02:11.928582', 242, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (549, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Citrus-sinensis-fruit.JPG', '2026-09-26 13:02:11.928582', 242, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (550, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 243, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (551, 'https://upload.wikimedia.org/wikipedia/commons/2/24/Eucalyptus_citriodora_8zz.jpg', '2026-09-26 13:02:11.928582', 243, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (552, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 244, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (553, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Vanessa_cardui_on_Lavandula_angustifolia-2459.jpg', '2026-09-26 13:02:11.928582', 244, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (554, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoa-hong-la-gi.jpg', '2026-09-26 13:02:11.928582', 245, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (555, 'https://upload.wikimedia.org/wikipedia/commons/1/17/Pink_Rose_April_%286949125458%29.jpg', '2026-09-26 13:02:11.928582', 245, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (556, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-lai-la-gi.jpg', '2026-09-26 13:02:11.928582', 246, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (557, 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jasmine_flower_in_hand.JPG', '2026-09-26 13:02:11.928582', 246, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (558, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-bac-ha-peppermint.jpg', '2026-09-26 13:02:11.928582', 247, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (559, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 247, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (560, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-tram-tra-tea-tree.jpg', '2026-09-26 13:02:11.928582', 248, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (561, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 248, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (562, 'https://khotinhdau.com/wp-content/uploads/2021/03/qua-va-la-chanh-duoc-su-dung-pho-bien.jpg', '2026-09-26 13:02:11.928582', 249, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (563, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 249, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (564, 'https://khotinhdau.com/wp-content/uploads/2020/04/tinh-dau-chanh-san-la-gi.jpg', '2026-09-26 13:02:11.928582', 250, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (565, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 250, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (566, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 251, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (567, 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Fresh_Ginger.JPG', '2026-09-26 13:02:11.928582', 251, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (568, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-oai-huong-co-huong-thom-de-chiu.jpg', '2026-09-26 13:02:11.928582', 252, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (569, 'https://upload.wikimedia.org/wikipedia/commons/2/28/Gewuerze_004_2024_08_10.jpg', '2026-09-26 13:02:11.928582', 252, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (570, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 253, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (571, 'https://upload.wikimedia.org/wikipedia/commons/8/80/Pinus_sylvestris_MHNT.BOT.2005.0.971.jpg', '2026-09-26 13:02:11.928582', 253, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (572, 'https://khotinhdau.com/wp-content/uploads/2019/10/tinh-dau-vo-quyt.jpg', '2026-09-26 13:02:11.928582', 254, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (573, 'https://upload.wikimedia.org/wikipedia/commons/4/49/Mandarin_Oranges_%28Citrus_Reticulata%29.jpg', '2026-09-26 13:02:11.928582', 254, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (574, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-sa-chanh-ban-si.jpg', '2026-09-26 13:02:11.928582', 255, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (575, 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Bubblemon_-_a_lemon_immersed_in_water_with_air_bubbles_%28189526771%29.jpg', '2026-09-26 13:02:11.928582', 255, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (576, 'https://khotinhdau.com/wp-content/uploads/2019/10/cay-go-hong-an-do.jpg', '2026-09-26 13:02:11.928582', 256, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (577, 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Aniba_rosaeodora_2.jpg', '2026-09-26 13:02:11.928582', 256, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (578, 'https://khotinhdau.com/wp-content/uploads/2023/09/tinh-dau-hoac-huong-patchouli.jpg', '2026-09-26 13:02:11.928582', 257, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (579, 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Starr-121108-1096-Pogostemon_cablin-leaves_and_flowers-Pali_o_Waipio-Maui_%2824827691409%29.jpg', '2026-09-26 13:02:11.928582', 257, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (580, 'https://khotinhdau.com/wp-content/uploads/2020/04/Tinh-dau-duoc-chung-cat-tu-phan-nhua-cay.jpg', '2026-09-26 13:02:11.928582', 258, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (581, 'https://upload.wikimedia.org/wikipedia/commons/9/94/Agarwood_top_grade.jpg', '2026-09-26 13:02:11.928582', 258, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (582, 'https://khotinhdau.com/wp-content/uploads/2019/10/tinh-dau-khuynh-diep-da-duoc-dung-tu-lau-doi.jpg', '2026-09-26 13:02:11.928582', 259, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (583, 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Eucalyptus_globulus_subsp._pseudoglobulus.jpg', '2026-09-26 13:02:11.928582', 259, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (584, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-tram-tra-tea-tree.jpg', '2026-09-26 13:02:11.928582', 260, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (585, 'https://upload.wikimedia.org/wikipedia/commons/3/34/Melaleuca_alternifolia_%28Maria_Serena%29.jpg', '2026-09-26 13:02:11.928582', 260, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (586, 'https://khotinhdau.com/wp-content/uploads/2020/02/Cay-tram-gi-duoc-trong-nhieu-o-Viet-Nam.jpg', '2026-09-26 13:02:11.928582', 261, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (587, 'https://upload.wikimedia.org/wikipedia/commons/0/05/Melaleuca_cajuputi.jpg', '2026-09-26 13:02:11.928582', 261, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (588, 'https://khotinhdau.com/wp-content/uploads/2021/05/tinh-dau-hung-que-ban-si-theo-lit.jpg', '2026-09-26 13:02:11.928582', 262, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (589, 'https://upload.wikimedia.org/wikipedia/commons/d/de/Cinnamomum_verum_spices.jpg', '2026-09-26 13:02:11.928582', 262, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (590, 'https://khotinhdau.com/wp-content/uploads/2021/05/cay-sa-java.jpg', '2026-09-26 13:02:11.928582', 263, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (591, 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Cymbopogon_winterianus.jpeg', '2026-09-26 13:02:11.928582', 263, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (592, 'https://khotinhdau.com/wp-content/uploads/2022/05/tinh-dau-gung-nguyen-chat.jpg', '2026-09-26 13:02:11.928582', 264, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (593, 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Curcuma_longa_roots.jpg', '2026-09-26 13:02:11.928582', 264, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (594, 'https://khotinhdau.com/wp-content/uploads/2020/04/vao-mua-dong-cay-van-xanh-tuoi.jpg', '2026-09-26 13:02:11.928582', 265, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (595, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 265, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (596, 'https://khotinhdau.com/wp-content/uploads/2020/04/tinh-dau-duoc-chiet-xuat-tu-phan-hat.jpg', '2026-09-26 13:02:11.928582', 266, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (597, 'https://upload.wikimedia.org/wikipedia/commons/2/20/Fresh_Mint_leaves.jpg', '2026-09-26 13:02:11.928582', 266, 0);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (598, 'https://khotinhdau.com/wp-content/uploads/2023/05/tinh-dau-hoa-hong-la-gi.jpg', '2026-09-26 13:02:11.928582', 267, 1);
+INSERT INTO `product_image` (id, image_url, uploaded_at, product_id, is_thumbnail) VALUES (599, 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Cymbopogon_martinii_Image.jpg', '2026-09-26 13:02:11.928582', 267, 0);
+
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (1, 1, 10, 370000, 320000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (2, 1, 50, 920000, 800000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (3, 2, 10, 880000, 800000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (4, 2, 50, 2200000, 2000000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (5, 2, 100, 3690000, 3360000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (6, 3, 10, 220000, 190000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (7, 3, 50, 550000, 470000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (8, 4, 10, 480000, 440000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (9, 4, 50, 1200000, 1100000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (10, 4, 100, 2010000, 1840000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (11, 5, 10, 770000, 710000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (12, 5, 50, 1920000, 1770000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (13, 6, 10, 250000, 220000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (14, 6, 50, 620000, 550000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (15, 6, 100, 1050000, 920000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (16, 7, 10, 440000, 370000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (17, 7, 50, 1100000, 920000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (18, 8, 10, 710000, 620000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (19, 8, 50, 1770000, 1550000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (20, 8, 100, 2980000, 2600000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (21, 9, 10, 200000, 170000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (22, 9, 50, 500000, 420000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (23, 10, 10, 360000, 300000, 50);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (24, 10, 50, 900000, 750000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (25, 10, 100, 1510000, 1260000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (26, 11, 10, 600000, 530000, 51);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (27, 11, 50, 1500000, 1320000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (28, 12, 10, 230000, 200000, 52);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (29, 12, 50, 570000, 500000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (30, 12, 100, 960000, 840000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (31, 13, 10, 470000, 420000, 53);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (32, 13, 50, 1170000, 1050000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (33, 14, 10, 880000, 780000, 54);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (34, 14, 50, 2200000, 1950000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (35, 14, 100, 3690000, 3270000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (36, 15, 10, 260000, 230000, 55);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (37, 15, 50, 650000, 570000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (38, 16, 10, 390000, 350000, 56);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (39, 16, 50, 970000, 870000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (40, 16, 100, 1630000, 1470000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (41, 17, 10, 770000, 690000, 57);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (42, 17, 50, 1920000, 1720000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (43, 18, 10, 210000, 180000, 58);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (44, 18, 50, 520000, 450000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (45, 18, 100, 880000, 750000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (46, 19, 10, 350000, 280000, 59);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (47, 19, 50, 870000, 700000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (48, 20, 10, 660000, 600000, 60);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (49, 20, 50, 1650000, 1500000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (50, 20, 100, 2770000, 2520000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (51, 21, 10, 240000, 210000, 61);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (52, 21, 50, 600000, 520000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (53, 22, 10, 460000, 400000, 62);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (54, 22, 50, 1150000, 1000000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (55, 22, 100, 1930000, 1680000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (56, 23, 10, 940000, 850000, 63);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (57, 23, 50, 2350000, 2120000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (58, 24, 10, 190000, 160000, 64);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (59, 24, 50, 470000, 400000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (60, 24, 100, 790000, 670000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (61, 25, 10, 380000, 330000, 65);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (62, 25, 50, 950000, 820000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (63, 26, 10, 830000, 760000, 66);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (64, 26, 50, 2070000, 1900000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (65, 26, 100, 3480000, 3190000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (66, 27, 10, 220000, 190000, 67);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (67, 27, 50, 550000, 470000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (68, 28, 10, 490000, 450000, 68);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (69, 28, 50, 1220000, 1120000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (70, 28, 100, 2050000, 1890000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (71, 29, 10, 770000, 670000, 69);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (72, 29, 50, 1920000, 1670000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (73, 30, 10, 250000, 220000, 70);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (74, 30, 50, 620000, 550000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (75, 30, 100, 1050000, 920000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (76, 31, 10, 450000, 380000, 71);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (77, 31, 50, 1120000, 950000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (78, 32, 10, 660000, 580000, 72);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (79, 32, 50, 1650000, 1450000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (80, 32, 100, 2770000, 2430000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (81, 33, 10, 200000, 170000, 73);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (82, 33, 50, 500000, 420000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (83, 34, 10, 370000, 310000, 74);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (84, 34, 50, 920000, 770000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (85, 34, 100, 1550000, 1300000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (86, 35, 10, 890000, 830000, 75);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (87, 35, 50, 2220000, 2070000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (88, 36, 10, 230000, 200000, 76);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (89, 36, 50, 570000, 500000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (90, 36, 100, 960000, 840000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (91, 37, 10, 480000, 430000, 77);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (92, 37, 50, 1200000, 1070000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (93, 38, 10, 830000, 740000, 78);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (94, 38, 50, 2070000, 1850000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (95, 38, 100, 3480000, 3100000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (96, 39, 10, 260000, 230000, 79);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (97, 39, 50, 650000, 570000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (98, 40, 10, 400000, 360000, 80);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (99, 40, 50, 1000000, 900000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (100, 40, 100, 1680000, 1510000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (101, 41, 10, 720000, 650000, 81);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (102, 41, 50, 1800000, 1620000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (103, 42, 10, 210000, 180000, 82);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (104, 42, 50, 520000, 450000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (105, 42, 100, 880000, 750000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (106, 43, 10, 360000, 290000, 83);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (107, 43, 50, 900000, 720000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (108, 44, 10, 660000, 560000, 84);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (109, 44, 50, 1650000, 1400000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (110, 44, 100, 2770000, 2350000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (111, 45, 10, 240000, 210000, 85);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (112, 45, 50, 600000, 520000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (113, 46, 10, 470000, 410000, 86);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (114, 46, 50, 1170000, 1020000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (115, 46, 100, 1970000, 1720000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (116, 47, 10, 890000, 810000, 87);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (117, 47, 50, 2220000, 2020000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (118, 48, 10, 190000, 160000, 88);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (119, 48, 50, 470000, 400000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (120, 48, 100, 790000, 670000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (121, 49, 10, 390000, 340000, 89);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (122, 49, 50, 970000, 850000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (123, 50, 10, 780000, 720000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (124, 50, 50, 1950000, 1800000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (125, 50, 100, 3270000, 3020000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (126, 51, 10, 220000, 190000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (127, 51, 50, 550000, 470000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (128, 52, 10, 500000, 460000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (129, 52, 50, 1250000, 1150000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (130, 52, 100, 2100000, 1930000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (131, 53, 10, 720000, 630000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (132, 53, 50, 1800000, 1570000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (133, 54, 10, 250000, 220000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (134, 54, 50, 620000, 550000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (135, 54, 100, 1050000, 920000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (136, 55, 10, 460000, 390000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (137, 55, 50, 1150000, 970000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (138, 56, 10, 610000, 540000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (139, 56, 50, 1520000, 1350000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (140, 56, 100, 2560000, 2260000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (141, 57, 10, 200000, 170000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (142, 57, 50, 500000, 420000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (143, 58, 10, 380000, 320000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (144, 58, 50, 950000, 800000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (145, 58, 100, 1590000, 1340000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (146, 59, 10, 890000, 790000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (147, 59, 50, 2220000, 1970000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (148, 60, 10, 230000, 200000, 50);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (149, 60, 50, 570000, 500000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (150, 60, 100, 960000, 840000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (151, 61, 10, 490000, 440000, 51);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (152, 61, 50, 1220000, 1100000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (153, 62, 10, 780000, 700000, 52);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (154, 62, 50, 1950000, 1750000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (155, 62, 100, 3270000, 2940000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (156, 63, 10, 260000, 230000, 53);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (157, 63, 50, 650000, 570000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (158, 64, 10, 410000, 370000, 54);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (159, 64, 50, 1020000, 920000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (160, 64, 100, 1720000, 1550000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (161, 65, 10, 670000, 610000, 55);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (162, 65, 50, 1670000, 1520000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (163, 66, 10, 210000, 180000, 56);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (164, 66, 50, 520000, 450000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (165, 66, 100, 880000, 750000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (166, 67, 10, 370000, 300000, 57);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (167, 67, 50, 920000, 750000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (168, 68, 10, 610000, 520000, 58);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (169, 68, 50, 1520000, 1300000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (170, 68, 100, 2560000, 2180000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (171, 69, 10, 240000, 210000, 59);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (172, 69, 50, 600000, 520000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (173, 70, 10, 480000, 420000, 60);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (174, 70, 50, 1200000, 1050000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (175, 70, 100, 2010000, 1760000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (176, 71, 10, 840000, 770000, 61);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (177, 71, 50, 2100000, 1920000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (178, 72, 10, 190000, 160000, 62);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (179, 72, 50, 470000, 400000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (180, 72, 100, 790000, 670000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (181, 73, 10, 400000, 350000, 63);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (182, 73, 50, 1000000, 870000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (183, 74, 10, 780000, 680000, 64);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (184, 74, 50, 1950000, 1700000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (185, 74, 100, 3270000, 2850000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (186, 75, 10, 220000, 190000, 65);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (187, 75, 50, 550000, 470000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (188, 76, 10, 320000, 280000, 66);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (189, 76, 50, 800000, 700000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (190, 76, 100, 1340000, 1170000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (191, 77, 10, 670000, 590000, 67);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (192, 77, 50, 1670000, 1470000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (193, 78, 10, 250000, 220000, 68);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (194, 78, 50, 620000, 550000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (195, 78, 100, 1050000, 920000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (196, 79, 10, 470000, 400000, 69);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (197, 79, 50, 1170000, 1000000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (198, 80, 10, 900000, 840000, 70);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (199, 80, 50, 2250000, 2100000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (200, 80, 100, 3780000, 3520000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (201, 81, 10, 200000, 170000, 71);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (202, 81, 50, 500000, 420000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (203, 82, 10, 390000, 330000, 72);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (204, 82, 50, 970000, 820000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (205, 82, 100, 1630000, 1380000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (206, 83, 10, 840000, 750000, 73);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (207, 83, 50, 2100000, 1870000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (208, 84, 10, 230000, 200000, 74);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (209, 84, 50, 570000, 500000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (210, 84, 100, 960000, 840000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (211, 85, 10, 500000, 450000, 75);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (212, 85, 50, 1250000, 1120000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (213, 86, 10, 730000, 660000, 76);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (214, 86, 50, 1820000, 1650000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (215, 86, 100, 3060000, 2770000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (216, 87, 10, 260000, 230000, 77);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (217, 87, 50, 650000, 570000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (218, 88, 10, 420000, 380000, 78);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (219, 88, 50, 1050000, 950000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (220, 88, 100, 1760000, 1590000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (221, 89, 10, 670000, 570000, 79);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (222, 89, 50, 1670000, 1420000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (223, 90, 10, 210000, 180000, 80);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (224, 90, 50, 520000, 450000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (225, 90, 100, 880000, 750000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (226, 91, 10, 380000, 310000, 81);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (227, 91, 50, 950000, 770000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (228, 92, 10, 900000, 820000, 82);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (229, 92, 50, 2250000, 2050000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (230, 92, 100, 3780000, 3440000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (231, 93, 10, 240000, 210000, 83);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (232, 93, 50, 600000, 520000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (233, 94, 10, 490000, 430000, 84);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (234, 94, 50, 1220000, 1070000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (235, 94, 100, 2050000, 1800000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (236, 95, 10, 790000, 730000, 85);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (237, 95, 50, 1970000, 1820000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (238, 96, 10, 190000, 160000, 86);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (239, 96, 50, 470000, 400000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (240, 96, 100, 790000, 670000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (241, 97, 10, 410000, 360000, 87);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (242, 97, 50, 1020000, 900000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (243, 98, 10, 730000, 640000, 88);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (244, 98, 50, 1820000, 1600000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (245, 98, 100, 3060000, 2680000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (246, 99, 10, 220000, 190000, 89);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (247, 99, 50, 550000, 470000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (248, 100, 10, 330000, 290000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (249, 100, 50, 820000, 720000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (250, 100, 100, 1380000, 1210000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (251, 101, 10, 620000, 550000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (252, 101, 50, 1550000, 1370000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (253, 102, 10, 250000, 220000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (254, 102, 50, 620000, 550000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (255, 102, 100, 1050000, 920000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (256, 103, 10, 480000, 410000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (257, 103, 50, 1200000, 1020000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (258, 104, 10, 900000, 800000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (259, 104, 50, 2250000, 2000000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (260, 104, 100, 3780000, 3360000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (261, 105, 10, 200000, 170000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (262, 105, 50, 500000, 420000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (263, 106, 10, 400000, 340000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (264, 106, 50, 1000000, 850000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (265, 106, 100, 1680000, 1420000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (266, 107, 10, 790000, 710000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (267, 107, 50, 1970000, 1770000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (268, 108, 10, 230000, 200000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (269, 108, 50, 570000, 500000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (270, 108, 100, 960000, 840000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (271, 109, 10, 510000, 460000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (272, 109, 50, 1270000, 1150000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (273, 110, 10, 680000, 620000, 50);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (274, 110, 50, 1700000, 1550000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (275, 110, 100, 2850000, 2600000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (276, 111, 10, 260000, 230000, 51);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (277, 111, 50, 650000, 570000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (278, 112, 10, 430000, 390000, 52);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (279, 112, 50, 1070000, 970000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (280, 112, 100, 1800000, 1630000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (281, 113, 10, 620000, 530000, 53);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (282, 113, 50, 1550000, 1320000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (283, 114, 10, 210000, 180000, 54);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (284, 114, 50, 520000, 450000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (285, 114, 100, 880000, 750000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (286, 115, 10, 390000, 320000, 55);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (287, 115, 50, 970000, 800000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (288, 116, 10, 850000, 780000, 56);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (289, 116, 50, 2120000, 1950000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (290, 116, 100, 3570000, 3270000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (291, 117, 10, 240000, 210000, 57);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (292, 117, 50, 600000, 520000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (293, 118, 10, 500000, 440000, 58);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (294, 118, 50, 1250000, 1100000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (295, 118, 100, 2100000, 1840000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (296, 119, 10, 790000, 690000, 59);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (297, 119, 50, 1970000, 1720000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (298, 120, 10, 190000, 160000, 60);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (299, 120, 50, 470000, 400000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (300, 120, 100, 790000, 670000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (301, 121, 10, 420000, 370000, 61);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (302, 121, 50, 1050000, 920000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (303, 122, 10, 680000, 600000, 62);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (304, 122, 50, 1700000, 1500000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (305, 122, 100, 2850000, 2520000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (306, 123, 10, 220000, 190000, 63);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (307, 123, 50, 550000, 470000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (308, 124, 10, 340000, 300000, 64);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (309, 124, 50, 850000, 750000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (310, 124, 100, 1420000, 1260000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (311, 125, 10, 910000, 850000, 65);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (312, 125, 50, 2270000, 2120000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (313, 126, 10, 250000, 220000, 66);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (314, 126, 50, 620000, 550000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (315, 126, 100, 1050000, 920000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (316, 127, 10, 490000, 420000, 67);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (317, 127, 50, 1220000, 1050000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (318, 128, 10, 850000, 760000, 68);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (319, 128, 50, 2120000, 1900000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (320, 128, 100, 3570000, 3190000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (321, 129, 10, 200000, 170000, 69);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (322, 129, 50, 500000, 420000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (323, 130, 10, 410000, 350000, 70);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (324, 130, 50, 1020000, 870000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (325, 130, 100, 1720000, 1470000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (326, 131, 10, 740000, 670000, 71);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (327, 131, 50, 1850000, 1670000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (328, 132, 10, 230000, 200000, 72);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (329, 132, 50, 570000, 500000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (330, 132, 100, 960000, 840000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (331, 133, 10, 330000, 280000, 73);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (332, 133, 50, 820000, 700000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (333, 134, 10, 680000, 580000, 74);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (334, 134, 50, 1700000, 1450000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (335, 134, 100, 2850000, 2430000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (336, 135, 10, 260000, 230000, 75);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (337, 135, 50, 650000, 570000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (338, 136, 10, 440000, 400000, 76);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (339, 136, 50, 1100000, 1000000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (340, 136, 100, 1840000, 1680000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (341, 137, 10, 910000, 830000, 77);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (342, 137, 50, 2270000, 2070000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (343, 138, 10, 210000, 180000, 78);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (344, 138, 50, 520000, 450000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (345, 138, 100, 880000, 750000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (346, 139, 10, 400000, 330000, 79);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (347, 139, 50, 1000000, 820000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (348, 140, 10, 800000, 740000, 80);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (349, 140, 50, 2000000, 1850000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (350, 140, 100, 3360000, 3100000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (351, 141, 10, 240000, 210000, 81);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (352, 141, 50, 600000, 520000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (353, 142, 10, 510000, 450000, 82);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (354, 142, 50, 1270000, 1120000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (355, 142, 100, 2140000, 1890000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (356, 143, 10, 740000, 650000, 83);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (357, 143, 50, 1850000, 1620000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (358, 144, 10, 190000, 160000, 84);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (359, 144, 50, 470000, 400000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (360, 144, 100, 790000, 670000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (361, 145, 10, 430000, 380000, 85);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (362, 145, 50, 1070000, 950000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (363, 146, 10, 630000, 560000, 86);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (364, 146, 50, 1570000, 1400000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (365, 146, 100, 2640000, 2350000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (366, 147, 10, 220000, 190000, 87);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (367, 147, 50, 550000, 470000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (368, 148, 10, 350000, 310000, 88);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (369, 148, 50, 870000, 770000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (370, 148, 100, 1470000, 1300000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (371, 149, 10, 910000, 810000, 89);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (372, 149, 50, 2270000, 2020000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (373, 150, 10, 250000, 220000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (374, 150, 50, 620000, 550000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (375, 150, 100, 1050000, 920000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (376, 151, 10, 500000, 430000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (377, 151, 50, 1250000, 1070000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (378, 152, 10, 800000, 720000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (379, 152, 50, 2000000, 1800000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (380, 152, 100, 3360000, 3020000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (381, 153, 10, 200000, 170000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (382, 153, 50, 500000, 420000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (383, 154, 10, 420000, 360000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (384, 154, 50, 1050000, 900000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (385, 154, 100, 1760000, 1510000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (386, 155, 10, 690000, 630000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (387, 155, 50, 1720000, 1570000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (388, 156, 10, 230000, 200000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (389, 156, 50, 570000, 500000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (390, 156, 100, 960000, 840000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (391, 157, 10, 340000, 290000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (392, 157, 50, 850000, 720000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (393, 158, 10, 630000, 540000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (394, 158, 50, 1570000, 1350000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (395, 158, 100, 2640000, 2260000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (396, 159, 10, 260000, 230000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (397, 159, 50, 650000, 570000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (398, 160, 10, 450000, 410000, 50);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (399, 160, 50, 1120000, 1020000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (400, 160, 100, 1890000, 1720000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (401, 161, 10, 860000, 790000, 51);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (402, 161, 50, 2150000, 1970000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (403, 162, 10, 210000, 180000, 52);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (404, 162, 50, 520000, 450000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (405, 162, 100, 880000, 750000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (406, 163, 10, 410000, 340000, 53);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (407, 163, 50, 1020000, 850000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (408, 164, 10, 800000, 700000, 54);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (409, 164, 50, 2000000, 1750000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (410, 164, 100, 3360000, 2940000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (411, 165, 10, 240000, 210000, 55);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (412, 165, 50, 600000, 520000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (413, 166, 10, 520000, 460000, 56);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (414, 166, 50, 1300000, 1150000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (415, 166, 100, 2180000, 1930000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (416, 167, 10, 690000, 610000, 57);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (417, 167, 50, 1720000, 1520000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (418, 168, 10, 190000, 160000, 58);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (419, 168, 50, 470000, 400000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (420, 168, 100, 790000, 670000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (421, 169, 10, 440000, 390000, 59);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (422, 169, 50, 1100000, 970000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (423, 170, 10, 580000, 520000, 60);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (424, 170, 50, 1450000, 1300000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (425, 170, 100, 2430000, 2180000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (426, 171, 10, 220000, 190000, 61);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (427, 171, 50, 550000, 470000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (428, 172, 10, 360000, 320000, 62);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (429, 172, 50, 900000, 800000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (430, 172, 100, 1510000, 1340000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (431, 173, 10, 860000, 770000, 63);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (432, 173, 50, 2150000, 1920000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (433, 174, 10, 250000, 220000, 64);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (434, 174, 50, 620000, 550000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (435, 174, 100, 1050000, 920000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (436, 175, 10, 510000, 440000, 65);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (437, 175, 50, 1270000, 1100000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (438, 176, 10, 750000, 680000, 66);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (439, 176, 50, 1870000, 1700000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (440, 176, 100, 3150000, 2850000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (441, 177, 10, 200000, 170000, 67);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (442, 177, 50, 500000, 420000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (443, 178, 10, 430000, 370000, 68);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (444, 178, 50, 1070000, 920000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (445, 178, 100, 1800000, 1550000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (446, 179, 10, 690000, 590000, 69);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (447, 179, 50, 1720000, 1470000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (448, 180, 10, 230000, 200000, 70);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (449, 180, 50, 570000, 500000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (450, 180, 100, 960000, 840000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (451, 181, 10, 350000, 300000, 71);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (452, 181, 50, 870000, 750000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (453, 182, 10, 920000, 840000, 72);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (454, 182, 50, 2300000, 2100000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (455, 182, 100, 3860000, 3520000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (456, 183, 10, 260000, 230000, 73);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (457, 183, 50, 650000, 570000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (458, 184, 10, 460000, 420000, 74);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (459, 184, 50, 1150000, 1050000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (460, 184, 100, 1930000, 1760000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (461, 185, 10, 810000, 750000, 75);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (462, 185, 50, 2020000, 1870000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (463, 186, 10, 210000, 180000, 76);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (464, 186, 50, 520000, 450000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (465, 186, 100, 880000, 750000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (466, 187, 10, 420000, 350000, 77);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (467, 187, 50, 1050000, 870000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (468, 188, 10, 750000, 660000, 78);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (469, 188, 50, 1870000, 1650000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (470, 188, 100, 3150000, 2770000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (471, 189, 10, 240000, 210000, 79);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (472, 189, 50, 600000, 520000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (473, 190, 10, 340000, 280000, 80);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (474, 190, 50, 850000, 700000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (475, 190, 100, 1420000, 1170000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (476, 191, 10, 640000, 570000, 81);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (477, 191, 50, 1600000, 1420000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (478, 192, 10, 190000, 160000, 82);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (479, 192, 50, 470000, 400000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (480, 192, 100, 790000, 670000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (481, 193, 10, 450000, 400000, 83);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (482, 193, 50, 1120000, 1000000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (483, 194, 10, 920000, 820000, 84);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (484, 194, 50, 2300000, 2050000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (485, 194, 100, 3860000, 3440000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (486, 195, 10, 220000, 190000, 85);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (487, 195, 50, 550000, 470000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (488, 196, 10, 370000, 330000, 86);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (489, 196, 50, 920000, 820000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (490, 196, 100, 1550000, 1380000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (491, 197, 10, 810000, 730000, 87);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (492, 197, 50, 2020000, 1820000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (493, 198, 10, 250000, 220000, 88);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (494, 198, 50, 620000, 550000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (495, 198, 100, 1050000, 920000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (496, 199, 10, 520000, 450000, 89);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (497, 199, 50, 1300000, 1120000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (498, 200, 10, 700000, 640000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (499, 200, 50, 1750000, 1600000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (500, 200, 100, 2940000, 2680000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (501, 201, 10, 200000, 170000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (502, 201, 50, 500000, 420000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (503, 202, 10, 440000, 380000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (504, 202, 50, 1100000, 950000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (505, 202, 100, 1840000, 1590000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (506, 203, 10, 640000, 550000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (507, 203, 50, 1600000, 1370000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (508, 204, 10, 230000, 200000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (509, 204, 50, 570000, 500000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (510, 204, 100, 960000, 840000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (511, 205, 10, 360000, 310000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (512, 205, 50, 900000, 770000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (513, 206, 10, 870000, 800000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (514, 206, 50, 2170000, 2000000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (515, 206, 100, 3650000, 3360000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (516, 207, 10, 260000, 230000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (517, 207, 50, 650000, 570000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (518, 208, 10, 470000, 430000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (519, 208, 50, 1170000, 1070000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (520, 208, 100, 1970000, 1800000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (521, 209, 10, 810000, 710000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (522, 209, 50, 2020000, 1770000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (523, 210, 10, 210000, 180000, 50);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (524, 210, 50, 520000, 450000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (525, 210, 100, 880000, 750000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (526, 211, 10, 430000, 360000, 51);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (527, 211, 50, 1070000, 900000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (528, 212, 10, 700000, 620000, 52);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (529, 212, 50, 1750000, 1550000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (530, 212, 100, 2940000, 2600000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (531, 213, 10, 240000, 210000, 53);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (532, 213, 50, 600000, 520000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (533, 214, 10, 350000, 290000, 54);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (534, 214, 50, 870000, 720000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (535, 214, 100, 1470000, 1210000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (536, 215, 10, 590000, 530000, 55);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (537, 215, 50, 1470000, 1320000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (538, 216, 10, 190000, 160000, 56);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (539, 216, 50, 470000, 400000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (540, 216, 100, 790000, 670000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (541, 217, 10, 460000, 410000, 57);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (542, 217, 50, 1150000, 1020000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (543, 218, 10, 870000, 780000, 58);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (544, 218, 50, 2170000, 1950000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (545, 218, 100, 3650000, 3270000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (546, 219, 10, 220000, 190000, 59);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (547, 219, 50, 550000, 470000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (548, 220, 10, 380000, 340000, 60);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (549, 220, 50, 950000, 850000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (550, 220, 100, 1590000, 1420000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (551, 221, 10, 760000, 690000, 61);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (552, 221, 50, 1900000, 1720000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (553, 222, 10, 250000, 220000, 62);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (554, 222, 50, 620000, 550000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (555, 222, 100, 1050000, 920000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (556, 223, 10, 530000, 460000, 63);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (557, 223, 50, 1320000, 1150000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (558, 224, 10, 700000, 600000, 64);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (559, 224, 50, 1750000, 1500000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (560, 224, 100, 2940000, 2520000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (561, 225, 10, 200000, 170000, 65);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (562, 225, 50, 500000, 420000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (563, 226, 10, 450000, 390000, 66);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (564, 226, 50, 1120000, 970000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (565, 226, 100, 1890000, 1630000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (566, 227, 10, 930000, 850000, 67);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (567, 227, 50, 2320000, 2120000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (568, 228, 10, 230000, 200000, 68);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (569, 228, 50, 570000, 500000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (570, 228, 100, 960000, 840000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (571, 229, 10, 370000, 320000, 69);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (572, 229, 50, 920000, 800000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (573, 230, 10, 820000, 760000, 70);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (574, 230, 50, 2050000, 1900000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (575, 230, 100, 3440000, 3190000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (576, 231, 10, 260000, 230000, 71);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (577, 231, 50, 650000, 570000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (578, 232, 10, 480000, 440000, 72);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (579, 232, 50, 1200000, 1100000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (580, 232, 100, 2010000, 1840000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (581, 233, 10, 760000, 670000, 73);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (582, 233, 50, 1900000, 1670000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (583, 234, 10, 210000, 180000, 74);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (584, 234, 50, 520000, 450000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (585, 234, 100, 880000, 750000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (586, 235, 10, 440000, 370000, 75);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (587, 235, 50, 1100000, 920000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (588, 236, 10, 650000, 580000, 76);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (589, 236, 50, 1620000, 1450000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (590, 236, 100, 2730000, 2430000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (591, 237, 10, 240000, 210000, 77);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (592, 237, 50, 600000, 520000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (593, 238, 10, 360000, 300000, 78);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (594, 238, 50, 900000, 750000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (595, 238, 100, 1510000, 1260000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (596, 239, 10, 930000, 830000, 79);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (597, 239, 50, 2320000, 2070000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (598, 240, 10, 190000, 160000, 80);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (599, 240, 50, 470000, 400000, 20);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (600, 240, 100, 790000, 670000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (601, 241, 10, 470000, 420000, 81);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (602, 241, 50, 1170000, 1050000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (603, 242, 10, 820000, 740000, 82);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (604, 242, 50, 2050000, 1850000, 22);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (605, 242, 100, 3440000, 3100000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (606, 243, 10, 220000, 190000, 83);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (607, 243, 50, 550000, 470000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (608, 244, 10, 390000, 350000, 84);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (609, 244, 50, 970000, 870000, 24);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (610, 244, 100, 1630000, 1470000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (611, 245, 10, 710000, 650000, 85);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (612, 245, 50, 1770000, 1620000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (613, 246, 10, 250000, 220000, 86);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (614, 246, 50, 620000, 550000, 26);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (615, 246, 100, 1050000, 920000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (616, 247, 10, 350000, 280000, 87);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (617, 247, 50, 870000, 700000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (618, 248, 10, 650000, 560000, 88);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (619, 248, 50, 1620000, 1400000, 28);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (620, 248, 100, 2730000, 2350000, 23);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (621, 249, 10, 200000, 170000, 89);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (622, 249, 50, 500000, 420000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (623, 250, 10, 460000, 400000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (624, 250, 50, 1150000, 1000000, 30);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (625, 250, 100, 1930000, 1680000, 25);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (626, 251, 10, 880000, 810000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (627, 251, 50, 2200000, 2020000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (628, 252, 10, 230000, 200000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (629, 252, 50, 570000, 500000, 32);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (630, 252, 100, 960000, 840000, 27);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (631, 253, 10, 380000, 330000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (632, 253, 50, 950000, 820000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (633, 254, 10, 820000, 720000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (634, 254, 50, 2050000, 1800000, 34);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (635, 254, 100, 3440000, 3020000, 29);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (636, 255, 10, 260000, 230000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (637, 255, 50, 650000, 570000, 35);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (638, 256, 10, 490000, 450000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (639, 256, 50, 1220000, 1120000, 36);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (640, 256, 100, 2050000, 1890000, 31);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (641, 257, 10, 710000, 630000, 47);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (642, 257, 50, 1770000, 1570000, 37);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (643, 258, 10, 210000, 180000, 48);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (644, 258, 50, 520000, 450000, 38);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (645, 258, 100, 880000, 750000, 33);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (646, 259, 10, 450000, 380000, 49);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (647, 259, 50, 1120000, 950000, 39);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (648, 260, 10, 600000, 540000, 50);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (649, 260, 50, 1500000, 1350000, 40);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (650, 260, 100, 2520000, 2260000, 15);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (651, 261, 10, 240000, 210000, 51);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (652, 261, 50, 600000, 520000, 41);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (653, 262, 10, 370000, 310000, 52);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (654, 262, 50, 920000, 770000, 42);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (655, 262, 100, 1550000, 1300000, 17);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (656, 263, 10, 880000, 790000, 53);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (657, 263, 50, 2200000, 1970000, 43);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (658, 264, 10, 190000, 160000, 54);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (659, 264, 50, 470000, 400000, 44);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (660, 264, 100, 790000, 670000, 19);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (661, 265, 10, 480000, 430000, 55);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (662, 265, 50, 1200000, 1070000, 45);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (663, 266, 10, 770000, 700000, 56);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (664, 266, 50, 1920000, 1750000, 46);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (665, 266, 100, 3230000, 2940000, 21);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (666, 267, 10, 220000, 190000, 57);
+INSERT INTO `product_mil` (id, product_id, mil, base_price, price, stock_quantity) VALUES (667, 267, 50, 550000, 470000, 47);
+
+INSERT INTO `roles` (id, name) VALUES (1, 'ADMIN');
+INSERT INTO `roles` (id, name) VALUES (2, 'USER');
+INSERT INTO `roles` (id, name) VALUES (3, 'STAFF');
+INSERT INTO `roles` (id, name) VALUES (4, 'FACTORY');
+
+INSERT INTO `user` (id, fullname, username, password, email, phone, status, email_verified, created_at) VALUES (1, 'Nguyễn Văn An', 'nguyenvanan', '$2a$10$7Q7xXFw1s0uU.6YmJzD0.OHm4J1L5P6w7y8z9a0b1c2d3e4f5g6h7', 'an.nguyen@gmail.com', '0901234567', 'ACTIVE', 1, '2026-09-24 10:00:00');
+INSERT INTO `user` (id, fullname, username, password, email, phone, status, email_verified, created_at) VALUES (2, 'Trần Thị Bích', 'tranthibich', '$2a$10$7Q7xXFw1s0uU.6YmJzD0.OHm4J1L5P6w7y8z9a0b1c2d3e4f5g6h7', 'bich.tran@gmail.com', '0912345678', 'ACTIVE', 1, '2026-09-24 10:00:00');
+INSERT INTO `user` (id, fullname, username, password, email, phone, status, email_verified, created_at) VALUES (3, 'Lê Hoàng Nam', 'lehoangnam', '$2a$10$7Q7xXFw1s0uU.6YmJzD0.OHm4J1L5P6w7y8z9a0b1c2d3e4f5g6h7', 'nam.le@gmail.com', '0923456789', 'ACTIVE', 1, '2026-09-24 10:00:00');
+INSERT INTO `user` (id, fullname, username, password, email, phone, status, email_verified, created_at) VALUES (4, 'Phạm Thị Hương', 'phamthihuong', '$2a$10$7Q7xXFw1s0uU.6YmJzD0.OHm4J1L5P6w7y8z9a0b1c2d3e4f5g6h7', 'huong.pham@gmail.com', '0934567890', 'ACTIVE', 1, '2026-09-24 10:00:00');
+INSERT INTO `user` (id, fullname, username, password, email, phone, status, email_verified, created_at) VALUES (5, 'Đặng Minh Trí', 'dangminhtri', '$2a$10$7Q7xXFw1s0uU.6YmJzD0.OHm4J1L5P6w7y8z9a0b1c2d3e4f5g6h7', 'tri.dang@gmail.com', '0945678901', 'ACTIVE', 1, '2026-09-24 10:00:00');
+
+INSERT INTO `user_role` (user_id, role_id) VALUES (1, 2), (2, 2), (3, 2), (4, 2), (5, 2);
+
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (1, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 1, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (2, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 1, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (3, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 1, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (4, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 2, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (5, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 2, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (6, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 2, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (7, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 2, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (8, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 3, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (9, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 3, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (10, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 4, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (11, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 4, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (12, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 4, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (13, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 5, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (14, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 5, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (15, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 5, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (16, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 5, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (17, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 6, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (18, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 6, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (19, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 7, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (20, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 7, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (21, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 7, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (22, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 8, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (23, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 8, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (24, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 8, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (25, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 8, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (26, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 9, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (27, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 9, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (28, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 10, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (29, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 10, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (30, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 10, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (31, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 11, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (32, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 11, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (33, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 11, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (34, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 11, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (35, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 12, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (36, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 12, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (37, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 13, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (38, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 13, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (39, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 13, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (40, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 14, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (41, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 14, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (42, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 14, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (43, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 14, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (44, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 15, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (45, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 15, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (46, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 16, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (47, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 16, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (48, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 16, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (49, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 17, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (50, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 17, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (51, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 17, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (52, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 17, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (53, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 18, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (54, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 18, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (55, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 19, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (56, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 19, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (57, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 19, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (58, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 20, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (59, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 20, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (60, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 20, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (61, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 20, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (62, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 21, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (63, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 21, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (64, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 22, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (65, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 22, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (66, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 22, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (67, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 23, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (68, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 23, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (69, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 23, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (70, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 23, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (71, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 24, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (72, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 24, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (73, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 25, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (74, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 25, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (75, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 25, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (76, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 26, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (77, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 26, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (78, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 26, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (79, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 26, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (80, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 27, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (81, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 27, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (82, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 28, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (83, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 28, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (84, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 28, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (85, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 29, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (86, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 29, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (87, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 29, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (88, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 29, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (89, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 30, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (90, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 30, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (91, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 31, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (92, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 31, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (93, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 31, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (94, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 32, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (95, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 32, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (96, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 32, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (97, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 32, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (98, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 33, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (99, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 33, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (100, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 34, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (101, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 34, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (102, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 34, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (103, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 35, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (104, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 35, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (105, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 35, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (106, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 35, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (107, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 36, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (108, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 36, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (109, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 37, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (110, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 37, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (111, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 37, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (112, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 38, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (113, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 38, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (114, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 38, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (115, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 38, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (116, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 39, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (117, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 39, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (118, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 40, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (119, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 40, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (120, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 40, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (121, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 41, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (122, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 41, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (123, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 41, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (124, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 41, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (125, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 42, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (126, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 42, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (127, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 43, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (128, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 43, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (129, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 43, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (130, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 44, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (131, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 44, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (132, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 44, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (133, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 44, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (134, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 45, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (135, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 45, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (136, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 46, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (137, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 46, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (138, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 46, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (139, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 47, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (140, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 47, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (141, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 47, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (142, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 47, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (143, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 48, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (144, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 48, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (145, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 49, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (146, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 49, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (147, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 49, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (148, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 50, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (149, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 50, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (150, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 50, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (151, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 50, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (152, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 51, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (153, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 51, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (154, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 52, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (155, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 52, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (156, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 52, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (157, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 53, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (158, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 53, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (159, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 53, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (160, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 53, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (161, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 54, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (162, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 54, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (163, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 55, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (164, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 55, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (165, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 55, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (166, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 56, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (167, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 56, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (168, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 56, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (169, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 56, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (170, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 57, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (171, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 57, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (172, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 58, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (173, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 58, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (174, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 58, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (175, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 59, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (176, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 59, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (177, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 59, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (178, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 59, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (179, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 60, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (180, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 60, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (181, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 61, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (182, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 61, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (183, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 61, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (184, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 62, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (185, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 62, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (186, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 62, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (187, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 62, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (188, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 63, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (189, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 63, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (190, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 64, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (191, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 64, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (192, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 64, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (193, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 65, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (194, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 65, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (195, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 65, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (196, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 65, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (197, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 66, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (198, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 66, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (199, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 67, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (200, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 67, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (201, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 67, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (202, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 68, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (203, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 68, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (204, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 68, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (205, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 68, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (206, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 69, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (207, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 69, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (208, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 70, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (209, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 70, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (210, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 70, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (211, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 71, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (212, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 71, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (213, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 71, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (214, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 71, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (215, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 72, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (216, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 72, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (217, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 73, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (218, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 73, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (219, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 73, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (220, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 74, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (221, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 74, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (222, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 74, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (223, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 74, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (224, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 75, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (225, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 75, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (226, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 76, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (227, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 76, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (228, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 76, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (229, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 77, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (230, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 77, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (231, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 77, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (232, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 77, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (233, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 78, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (234, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 78, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (235, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 79, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (236, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 79, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (237, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 79, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (238, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 80, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (239, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 80, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (240, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 80, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (241, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 80, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (242, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 81, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (243, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 81, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (244, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 82, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (245, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 82, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (246, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 82, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (247, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 83, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (248, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 83, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (249, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 83, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (250, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 83, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (251, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 84, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (252, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 84, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (253, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 85, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (254, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 85, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (255, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 85, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (256, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 86, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (257, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 86, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (258, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 86, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (259, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 86, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (260, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 87, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (261, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 87, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (262, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 88, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (263, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 88, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (264, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 88, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (265, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 89, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (266, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 89, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (267, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 89, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (268, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 89, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (269, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 90, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (270, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 90, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (271, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 91, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (272, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 91, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (273, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 91, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (274, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 92, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (275, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 92, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (276, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 92, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (277, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 92, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (278, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 93, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (279, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 93, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (280, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 94, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (281, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 94, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (282, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 94, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (283, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 95, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (284, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 95, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (285, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 95, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (286, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 95, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (287, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 96, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (288, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 96, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (289, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 97, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (290, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 97, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (291, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 97, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (292, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 98, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (293, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 98, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (294, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 98, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (295, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 98, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (296, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 99, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (297, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 99, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (298, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 100, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (299, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 100, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (300, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 100, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (301, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 101, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (302, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 101, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (303, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 101, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (304, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 101, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (305, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 102, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (306, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 102, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (307, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 103, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (308, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 103, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (309, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 103, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (310, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 104, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (311, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 104, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (312, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 104, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (313, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 104, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (314, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 105, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (315, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 105, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (316, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 106, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (317, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 106, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (318, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 106, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (319, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 107, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (320, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 107, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (321, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 107, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (322, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 107, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (323, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 108, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (324, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 108, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (325, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 109, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (326, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 109, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (327, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 109, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (328, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 110, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (329, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 110, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (330, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 110, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (331, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 110, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (332, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 111, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (333, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 111, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (334, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 112, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (335, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 112, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (336, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 112, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (337, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 113, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (338, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 113, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (339, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 113, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (340, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 113, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (341, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 114, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (342, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 114, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (343, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 115, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (344, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 115, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (345, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 115, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (346, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 116, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (347, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 116, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (348, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 116, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (349, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 116, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (350, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 117, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (351, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 117, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (352, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 118, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (353, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 118, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (354, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 118, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (355, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 119, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (356, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 119, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (357, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 119, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (358, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 119, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (359, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 120, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (360, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 120, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (361, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 121, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (362, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 121, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (363, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 121, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (364, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 122, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (365, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 122, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (366, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 122, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (367, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 122, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (368, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 123, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (369, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 123, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (370, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 124, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (371, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 124, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (372, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 124, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (373, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 125, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (374, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 125, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (375, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 125, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (376, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 125, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (377, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 126, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (378, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 126, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (379, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 127, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (380, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 127, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (381, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 127, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (382, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 128, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (383, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 128, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (384, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 128, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (385, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 128, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (386, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 129, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (387, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 129, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (388, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 130, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (389, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 130, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (390, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 130, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (391, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 131, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (392, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 131, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (393, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 131, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (394, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 131, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (395, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 132, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (396, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 132, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (397, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 133, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (398, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 133, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (399, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 133, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (400, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 134, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (401, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 134, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (402, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 134, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (403, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 134, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (404, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 135, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (405, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 135, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (406, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 136, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (407, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 136, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (408, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 136, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (409, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 137, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (410, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 137, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (411, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 137, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (412, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 137, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (413, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 138, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (414, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 138, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (415, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 139, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (416, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 139, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (417, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 139, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (418, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 140, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (419, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 140, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (420, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 140, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (421, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 140, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (422, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 141, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (423, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 141, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (424, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 142, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (425, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 142, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (426, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 142, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (427, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 143, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (428, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 143, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (429, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 143, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (430, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 143, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (431, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 144, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (432, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 144, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (433, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 145, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (434, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 145, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (435, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 145, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (436, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 146, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (437, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 146, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (438, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 146, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (439, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 146, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (440, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 147, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (441, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 147, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (442, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 148, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (443, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 148, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (444, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 148, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (445, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 149, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (446, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 149, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (447, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 149, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (448, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 149, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (449, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 150, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (450, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 150, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (451, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 151, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (452, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 151, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (453, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 151, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (454, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 152, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (455, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 152, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (456, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 152, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (457, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 152, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (458, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 153, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (459, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 153, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (460, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 154, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (461, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 154, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (462, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 154, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (463, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 155, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (464, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 155, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (465, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 155, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (466, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 155, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (467, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 156, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (468, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 156, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (469, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 157, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (470, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 157, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (471, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 157, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (472, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 158, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (473, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 158, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (474, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 158, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (475, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 158, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (476, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 159, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (477, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 159, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (478, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 160, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (479, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 160, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (480, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 160, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (481, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 161, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (482, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 161, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (483, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 161, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (484, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 161, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (485, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 162, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (486, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 162, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (487, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 163, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (488, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 163, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (489, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 163, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (490, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 164, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (491, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 164, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (492, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 164, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (493, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 164, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (494, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 165, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (495, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 165, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (496, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 166, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (497, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 166, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (498, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 166, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (499, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 167, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (500, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 167, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (501, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 167, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (502, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 167, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (503, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 168, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (504, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 168, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (505, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 169, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (506, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 169, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (507, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 169, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (508, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 170, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (509, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 170, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (510, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 170, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (511, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 170, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (512, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 171, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (513, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 171, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (514, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 172, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (515, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 172, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (516, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 172, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (517, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 173, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (518, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 173, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (519, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 173, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (520, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 173, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (521, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 174, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (522, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 174, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (523, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 175, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (524, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 175, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (525, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 175, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (526, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 176, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (527, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 176, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (528, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 176, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (529, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 176, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (530, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 177, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (531, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 177, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (532, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 178, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (533, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 178, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (534, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 178, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (535, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 179, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (536, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 179, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (537, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 179, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (538, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 179, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (539, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 180, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (540, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 180, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (541, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 181, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (542, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 181, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (543, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 181, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (544, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 182, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (545, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 182, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (546, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 182, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (547, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 182, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (548, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 183, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (549, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 183, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (550, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 184, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (551, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 184, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (552, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 184, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (553, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 185, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (554, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 185, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (555, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 185, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (556, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 185, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (557, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 186, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (558, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 186, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (559, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 187, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (560, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 187, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (561, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 187, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (562, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 188, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (563, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 188, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (564, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 188, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (565, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 188, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (566, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 189, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (567, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 189, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (568, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 190, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (569, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 190, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (570, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 190, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (571, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 191, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (572, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 191, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (573, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 191, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (574, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 191, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (575, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 192, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (576, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 192, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (577, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 193, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (578, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 193, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (579, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 193, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (580, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 194, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (581, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 194, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (582, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 194, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (583, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 194, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (584, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 195, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (585, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 195, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (586, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 196, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (587, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 196, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (588, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 196, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (589, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 197, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (590, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 197, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (591, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 197, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (592, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 197, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (593, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 198, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (594, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 198, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (595, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 199, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (596, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 199, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (597, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 199, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (598, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 200, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (599, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 200, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (600, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 200, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (601, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 200, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (602, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 201, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (603, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 201, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (604, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 202, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (605, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 202, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (606, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 202, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (607, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 203, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (608, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 203, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (609, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 203, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (610, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 203, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (611, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 204, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (612, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 204, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (613, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 205, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (614, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 205, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (615, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 205, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (616, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 206, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (617, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 206, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (618, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 206, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (619, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 206, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (620, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 207, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (621, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 207, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (622, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 208, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (623, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 208, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (624, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 208, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (625, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 209, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (626, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 209, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (627, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 209, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (628, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 209, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (629, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 210, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (630, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 210, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (631, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 211, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (632, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 211, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (633, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 211, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (634, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 212, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (635, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 212, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (636, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 212, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (637, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 212, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (638, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 213, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (639, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 213, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (640, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 214, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (641, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 214, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (642, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 214, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (643, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 215, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (644, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 215, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (645, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 215, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (646, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 215, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (647, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 216, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (648, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 216, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (649, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 217, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (650, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 217, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (651, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 217, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (652, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 218, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (653, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 218, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (654, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 218, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (655, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 218, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (656, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 219, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (657, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 219, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (658, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 220, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (659, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 220, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (660, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 220, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (661, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 221, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (662, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 221, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (663, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 221, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (664, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 221, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (665, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 222, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (666, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 222, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (667, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 223, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (668, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 223, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (669, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 223, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (670, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 224, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (671, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 224, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (672, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 224, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (673, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 224, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (674, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 225, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (675, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 225, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (676, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 226, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (677, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 226, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (678, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 226, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (679, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 227, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (680, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 227, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (681, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 227, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (682, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 227, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (683, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 228, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (684, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 228, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (685, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 229, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (686, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 229, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (687, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 229, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (688, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 230, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (689, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 230, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (690, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 230, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (691, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 230, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (692, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 231, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (693, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 231, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (694, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 232, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (695, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 232, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (696, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 232, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (697, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 233, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (698, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 233, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (699, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 233, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (700, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 233, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (701, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 234, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (702, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 234, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (703, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 235, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (704, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 235, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (705, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 235, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (706, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 236, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (707, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 236, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (708, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 236, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (709, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 236, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (710, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 237, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (711, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 237, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (712, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 238, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (713, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 238, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (714, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 238, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (715, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 239, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (716, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 239, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (717, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 239, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (718, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 239, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (719, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 240, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (720, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 240, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (721, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 241, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (722, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 241, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (723, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 241, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (724, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 242, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (725, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 242, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (726, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 242, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (727, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 242, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (728, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 243, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (729, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 243, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (730, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 244, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (731, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 244, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (732, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 244, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (733, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 245, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (734, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 245, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (735, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 245, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (736, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 245, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (737, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 246, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (738, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 246, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (739, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 247, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (740, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 247, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (741, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 247, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (742, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 248, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (743, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 248, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (744, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 248, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (745, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 248, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (746, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 249, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (747, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 249, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (748, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 250, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (749, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 250, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (750, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 250, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (751, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 251, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (752, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 251, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (753, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 251, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (754, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 251, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (755, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 252, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (756, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 252, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (757, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 253, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (758, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 253, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (759, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 253, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (760, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 254, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (761, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 254, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (762, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 254, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (763, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 254, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (764, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 255, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (765, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 255, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (766, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 256, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (767, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 256, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (768, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 256, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (769, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 257, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (770, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 257, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (771, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 257, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (772, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 257, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (773, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 258, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (774, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 258, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (775, 3, 'Chất lượng ổn trong tầm giá.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 259, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (776, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 259, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (777, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 259, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (778, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 260, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (779, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 260, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (780, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 260, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (781, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 260, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (782, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 261, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (783, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 261, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (784, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 262, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (785, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 262, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (786, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 262, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (787, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 263, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (788, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 263, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (789, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 263, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (790, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 263, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (791, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 264, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (792, 4, 'Hàng chính hãng, chất lượng ổn định, sẽ tiếp tục ủng hộ.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 264, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (793, 5, 'Chất lượng vượt mong đợi, đóng gói kỹ càng và giao nhanh.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 265, 1);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (794, 5, 'Mùi hương lưu rất lâu, xông phòng ngủ cực kỳ dễ chịu.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 265, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (795, 5, 'Sản phẩm chuẩn thiên nhiên, rất đáng tiền.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 265, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (796, 3, 'Mùi hơi nồng lúc mới mở nhưng sau đó dịu dần.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 266, 2);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (797, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 266, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (798, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 266, 4);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (799, 4, 'Đóng gói cẩn thận, chai thủy tinh tối màu bảo quản tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 266, 5);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (800, 4, 'Hương thơm thanh mát, dùng máy khuếch tán tỏa hương tốt.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 267, 3);
+INSERT INTO `review` (id, rating, comment, created_at, updated_at, product_id, user_id) VALUES (801, 5, 'Tinh dầu thơm tự nhiên, mùi dễ chịu và rất thư giãn.', '2026-09-25 10:00:00', '2026-09-25 10:00:00', 267, 4);
+
+-- Tinh dầu phối hương theo xưởng (Custom Scent)
+
+
+-- 1. XƯỞNG LABCOS (TÂY NINH) - Công nghệ chiết xuất phân tử thảo dược cao cấp & gỗ quý (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(268, 'Tinh dầu Cam Bergamot Đồng Nai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 210000, 250000, 1),
+(269, 'Tinh dầu Chanh Sần Núi Bà Đen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 240000, 280000, 1),
+(270, 'Tinh dầu Bưởi Hồng Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 230000, 270000, 1),
+(271, 'Tinh dầu Quýt Đường Miền Đông', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 220000, 260000, 1),
+(272, 'Tinh dầu Bạc Hà Lục PepperMint Labcos', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 195000, 230000, 1),
+(273, 'Tinh dầu Chanh Không Hạt Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 205000, 240000, 1),
+(274, 'Tinh dầu Lá Chanh Rừng Tân Biên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 225000, 265000, 1),
+(275, 'Tinh dầu Cam Vàng Navel Ép Lạnh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 215000, 255000, 1),
+(276, 'Tinh dầu Hoa Nhài Tây Hồ Thượng Hạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 550000, 620000, 2),
+(277, 'Tinh dầu Phong Lữ Thảo Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 480000, 540000, 2),
+(278, 'Tinh dầu Oải Hương Provence Thượng Hạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 520000, 590000, 2),
+(279, 'Tinh dầu Hoa Hồng Nhung Sa Đéc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 580000, 650000, 2),
+(280, 'Tinh dầu Hoa Cam Neroli Tinh Khiết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 620000, 700000, 2),
+(281, 'Tinh dầu Hoa Hoàng Lan Ylang Extra', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 590000, 660000, 2),
+(282, 'Tinh dầu Hoa Huệ Trắng Tuberose Labcos', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 670000, 750000, 2),
+(283, 'Tinh dầu Hoa Dâm Bụt Hibiscus Thảo Mộc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 460000, 520000, 2),
+(284, 'Tinh dầu Trầm Hương Thượng Uyển', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 1200000, 1350000, 3),
+(285, 'Tinh dầu Đàn Hương Mysore Tinh Khiết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 850000, 920000, 3),
+(286, 'Tinh dầu Gỗ Bách Tây Ninh Tuyển Chọn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 650000, 720000, 3),
+(287, 'Tinh dầu Hổ Phách Cổ Điển Labcos', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 780000, 860000, 3),
+(288, 'Tinh dầu Hoắc Hương Rừng Già', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 490000, 560000, 3),
+(289, 'Tinh dầu Gỗ Trắc Vàng Rừng Lò Gò', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 720000, 810000, 3),
+(290, 'Tinh dầu Rêu Rừng Mưa Tây Ninh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 530000, 600000, 3),
+(291, 'Tinh dầu Vani Bourbon Tinh Chất', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 1, NULL, NULL, 510000, 580000, 3);
+
+-- 2. XƯỞNG VIPSEN (HÀ NỘI) - Chuyên hoa truyền thống miền Bắc & gia vị dược liệu (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(292, 'Tinh dầu Chanh Vàng Bắc Hà', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 220000, 260000, 1),
+(293, 'Tinh dầu Quýt Bắc Kạn Tiến Vua', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 260000, 310000, 1),
+(294, 'Tinh dầu Gừng Gió Hà Giang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 270000, 320000, 1),
+(295, 'Tinh dầu Vỏ Bưởi Đoan Hùng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 240000, 280000, 1),
+(296, 'Tinh dầu Bạc Hà Sa Pa Sương Núi', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 210000, 250000, 1),
+(297, 'Tinh dầu Chanh Đào Hà Nội Mật Ong', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 235000, 275000, 1),
+(298, 'Tinh dầu Cam Sành Hàm Yên Tuyên Quang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 225000, 265000, 1),
+(299, 'Tinh dầu Lá Tía Tô Xứ Lạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 250000, 290000, 1),
+(300, 'Tinh dầu Hoa Sen Trắng Bách Diệp', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 680000, 750000, 2),
+(301, 'Tinh dầu Hoa Hồng Damask Sa Pa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 580000, 650000, 2),
+(302, 'Tinh dầu Hoa Mộc Lan Thăng Long', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 540000, 610000, 2),
+(303, 'Tinh dầu Hoa Nhài Đêm Quảng Bá', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 560000, 630000, 2),
+(304, 'Tinh dầu Hoa Cúc Vàng Tiến Vua Vipsen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 470000, 530000, 2),
+(305, 'Tinh dầu Hoa Ngũ Sắc Tây Bắc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 410000, 470000, 2),
+(306, 'Tinh dầu Hoa Dành Dành Bạch Ngọc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 520000, 590000, 2),
+(307, 'Tinh dầu Hạt Rau Mùi Cổ Truyền', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 450000, 510000, 2),
+(308, 'Tinh dầu Vani Madagascar Hữu Cơ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 490000, 540000, 3),
+(309, 'Tinh dầu Quế Yên Bái Thượng Phẩm', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 390000, 450000, 3),
+(310, 'Tinh dầu Gỗ Hoàng Đàn Lạng Sơn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 890000, 990000, 3),
+(311, 'Tinh dầu Nhựa Cốm Tây Bắc Vipsen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 460000, 520000, 3),
+(312, 'Tinh dầu Gỗ Pơ Mu Sơn La', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 530000, 600000, 3),
+(313, 'Tinh dầu Hổ Phách Khói Cổ Thạch', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 730000, 820000, 3),
+(314, 'Tinh dầu Gỗ Bách Xanh Ba Vì', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 560000, 630000, 3),
+(315, 'Tinh dầu Nhựa Bồ Đề Thượng Hạng Bắc Kạn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 2, NULL, NULL, 610000, 690000, 3);
+
+-- 3. XƯỞNG BIYÒKEA (TP.HCM) - Chuyên liệu trình spa trị liệu, thảo mộc & thư giãn (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(316, 'Tinh dầu Bưởi Da Xanh Bến Tre', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 240000, 280000, 1),
+(317, 'Tinh dầu Bạc Hà Âu Chân Mây', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 230000, 270000, 1),
+(318, 'Tinh dầu Lá Trà Xanh Sương Sớm', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 320000, 370000, 1),
+(319, 'Tinh dầu Cam Ngọt Nam Bộ Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 210000, 250000, 1),
+(320, 'Tinh dầu Chanh Thái Kaffir Lime', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 250000, 290000, 1),
+(321, 'Tinh dầu Khuynh Diệp Biyòkea Care', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 190000, 220000, 1),
+(322, 'Tinh dầu Quýt Nhật Mikan Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 260000, 300000, 1),
+(323, 'Tinh dầu Sả Java Khử Mùi Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 180000, 210000, 1),
+(324, 'Tinh dầu Phong Lữ Thảo Geranium', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 390000, 440000, 2),
+(325, 'Tinh dầu Hương Thảo Rosemary Thảo Mộc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 340000, 390000, 2),
+(326, 'Tinh dầu Hoa Oải Hương Biyòkea Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 430000, 490000, 2),
+(327, 'Tinh dầu Ngọc Lan Tây Ylang Phù Sa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 440000, 500000, 2),
+(328, 'Tinh dầu Tràm Trà Tea Tree Kháng Khuẩn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 280000, 330000, 2),
+(329, 'Tinh dầu Hoa Nhài Trị Liệu Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 510000, 580000, 2),
+(330, 'Tinh dầu Hạt Nhục Đậu Khấu Nutmeg Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 360000, 420000, 2),
+(331, 'Tinh dầu Hoa Cúc Vạn Thọ Tagetes', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 370000, 430000, 2),
+(332, 'Tinh dầu Hổ Phách Mật Ong Cổ Điển', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 750000, 830000, 3),
+(333, 'Tinh dầu Đàn Hương Trắng Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 690000, 770000, 3),
+(334, 'Tinh dầu Gỗ Tuyết Tùng Thư Giãn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 510000, 580000, 3),
+(335, 'Tinh dầu Nhũ Hương Frankincense Spa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 880000, 980000, 3),
+(336, 'Tinh dầu Vani Kem Bơ Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 480000, 550000, 3),
+(337, 'Tinh dầu Một Dược Myrrh Huyền Bí', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 820000, 930000, 3),
+(338, 'Tinh dầu Cỏ Hương Bài Trầm Lặng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 620000, 710000, 3),
+(339, 'Tinh dầu Xạ Hương Thảo Mộc Biyòkea', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 3, NULL, NULL, 740000, 830000, 3);
+
+-- 4. XƯỞNG DALOSA VIỆT NAM (TP.HCM) - Chuyên tinh dầu nhập khẩu cao cấp quốc tế & thảo dược quý (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(340, 'Tinh dầu Quýt Hồng Lai Vung', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 260000, 300000, 1),
+(341, 'Tinh dầu Cam Hương Bergamot Calabria', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 310000, 360000, 1),
+(342, 'Tinh dầu Bưởi Chùm Grapefruit Florida', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 290000, 340000, 1),
+(343, 'Tinh dầu Chanh Cốm Sicily Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 270000, 320000, 1),
+(344, 'Tinh dầu Bạc Hà Lục Mỹ Spearmint', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 240000, 280000, 1),
+(345, 'Tinh dầu Quả Bách Xù Juniper Berry Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 330000, 380000, 1),
+(346, 'Tinh dầu Hạt Bạch Đậu Khấu Cardamom Guatemala', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 360000, 420000, 1),
+(347, 'Tinh dầu Cỏ Chanh Tây Lemongrass Cochin', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 220000, 260000, 1),
+(348, 'Tinh dầu Oải Hương Pháp Tinh Khiết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 420000, 480000, 2),
+(349, 'Tinh dầu Ngọc Lan Tây Ylang Ylang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 460000, 520000, 2),
+(350, 'Tinh dầu Hoa Nhài Sambac Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 580000, 640000, 2),
+(351, 'Tinh dầu Hoa Cúc La Mã Roman Chamomile', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 640000, 720000, 2),
+(352, 'Tinh dầu Xô Thơm Clary Sage', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 490000, 560000, 2),
+(353, 'Tinh dầu Hoa Hồng Thổ Nhĩ Kỳ Rose Otto', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 890000, 990000, 2),
+(354, 'Tinh dầu Nhựa Thơm Nhũ Hương Olibanum', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 570000, 650000, 2),
+(355, 'Tinh dầu Tiêu Đen Black Pepper Madagascar', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 390000, 450000, 2),
+(356, 'Tinh dầu Hổ Phách Hoàng Gia Amber', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 950000, 1050000, 3),
+(357, 'Tinh dầu Hoàng Đàn Atlas Lâm Viên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 520000, 580000, 3),
+(358, 'Tinh dầu Gỗ Tuyết Tùng Virginia Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 610000, 680000, 3),
+(359, 'Tinh dầu Cỏ Hương Bài Vetiver Haiti', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 670000, 750000, 3),
+(360, 'Tinh dầu Trầm Hương Lào Hoang Dã', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 1150000, 1300000, 3),
+(361, 'Tinh dầu Đậu Tonka Venezuela', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 590000, 670000, 3),
+(362, 'Tinh dầu Xạ Hương Đen Black Musk Dalosa', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 860000, 960000, 3),
+(363, 'Tinh dầu Gỗ Gụ Cổ Thụ Honduras', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 4, NULL, NULL, 720000, 810000, 3);
+
+-- 5. XƯỞNG LÊ MAI VIỆT NAM (TP.HCM) - Dòng hương phương Đông mộc mạc làng quê & gia vị rừng (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(364, 'Tinh dầu Gừng Tươi Cao Bằng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 280000, 320000, 1),
+(365, 'Tinh dầu Vỏ Chanh Ta Tươi Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 200000, 240000, 1),
+(366, 'Tinh dầu Vỏ Tắc Mỹ Tho', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 210000, 250000, 1),
+(367, 'Tinh dầu Tràm Gió Huế Nguyên Bản', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 185000, 220000, 1),
+(368, 'Tinh dầu Cam Chua Miền Tây', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 195000, 230000, 1),
+(369, 'Tinh dầu Vỏ Bưởi Năm Roi Vĩnh Long', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 225000, 265000, 1),
+(370, 'Tinh dầu Củ Riềng Rừng Quảng Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 245000, 285000, 1),
+(371, 'Tinh dầu Hạt Rau Ngổ Đồng Nội', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 235000, 275000, 1),
+(372, 'Tinh dầu Hương Thảo Rosemary', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 310000, 360000, 2),
+(373, 'Tinh dầu Sả Chanh Hoàng Liên Sơn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 190000, 220000, 2),
+(374, 'Tinh dầu Hoa Bưởi Quê Nhà Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 390000, 450000, 2),
+(375, 'Tinh dầu Hương Nhu Tía Dân Gian', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 260000, 300000, 2),
+(376, 'Tinh dầu Đinh Hương Nồng Nàn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 350000, 410000, 2),
+(377, 'Tinh dầu Hoa Móng Tay Henna Cổ Truyền', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 330000, 390000, 2),
+(378, 'Tinh dầu Hoa Cúc Bách Nhật Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 370000, 430000, 2),
+(379, 'Tinh dầu Lá Chè Dây Cao Nguyên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 290000, 340000, 2),
+(380, 'Tinh dầu Hoắc Hương Patchouli', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 430000, 490000, 3),
+(381, 'Tinh dầu Gỗ Bách Xanh Mộc Châu', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 510000, 580000, 3),
+(382, 'Tinh dầu Quế Rừng Quảng Ngãi Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 360000, 420000, 3),
+(383, 'Tinh dầu Gỗ Gu Đỏ Tây Nguyên', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 570000, 650000, 3),
+(384, 'Tinh dầu Nhựa Bồ Đề An Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 620000, 710000, 3),
+(385, 'Tinh dầu Xạ Hương Thảo Dược Lê Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 680000, 770000, 3),
+(386, 'Tinh dầu Gỗ Dầu Rái Miền Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 480000, 550000, 3),
+(387, 'Tinh dầu Rễ Hương Bài Truyền Thống', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 5, NULL, NULL, 530000, 610000, 3);
+
+-- 6. XƯỞNG HAKU FARM (TP.HCM) - Tinh dầu phong cách Zen & hương liệu Nhật Bản tinh khiết (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(388, 'Tinh dầu Quýt Yuzu Nhật Bản', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 380000, 440000, 1),
+(389, 'Tinh dầu Chanh Xanh Sudachi Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 410000, 470000, 1),
+(390, 'Tinh dầu Cam Đắng Kabosu Oita', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 390000, 450000, 1),
+(391, 'Tinh dầu Gừng Đỏ Shoga Nhật', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 350000, 400000, 1),
+(392, 'Tinh dầu Bưởi Nhật Natsumikan', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 370000, 430000, 1),
+(393, 'Tinh dầu Bạc Hà Hakka Hokkaido', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 360000, 420000, 1),
+(394, 'Tinh dầu Tiêu Đỏ Sansho Nhật', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 430000, 500000, 1),
+(395, 'Tinh dầu Cỏ Đồ Chơi Igusa Chiếu Tatami', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 340000, 395000, 1),
+(396, 'Tinh dầu Hoa Anh Đào Sakura', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 450000, 510000, 2),
+(397, 'Tinh dầu Hoa Trà Nhật Tsubaki', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 490000, 560000, 2),
+(398, 'Tinh dầu Lá Trà Sencha Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 370000, 430000, 2),
+(399, 'Tinh dầu Trà Đen Ho-ji-cha Rang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 420000, 490000, 2),
+(400, 'Tinh dầu Hoa Sen Nhật Hasu', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 530000, 600000, 2),
+(401, 'Tinh dầu Hoa Tử Đằng Wisteria Ashikaga', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 560000, 640000, 2),
+(402, 'Tinh dầu Hoa Cúc Trắng Kiku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 470000, 540000, 2),
+(403, 'Tinh dầu Lá Tía Tô Xanh Shiso Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 380000, 440000, 2),
+(404, 'Tinh dầu Gỗ Tuyết Tùng Hinoki', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 620000, 690000, 3),
+(405, 'Tinh dầu Gỗ Trắc Bá Hiba Aomori', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 580000, 650000, 3),
+(406, 'Tinh dầu Gỗ Đàn Hương Haku Zen', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 770000, 850000, 3),
+(407, 'Tinh dầu Trầm Hương Kyara Quý Tộc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 1500000, 1700000, 3),
+(408, 'Tinh dầu Tre Rừng Sagano Haku', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 460000, 520000, 3),
+(409, 'Tinh dầu Xạ Hương Tinh Khiết Sugi', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 710000, 800000, 3),
+(410, 'Tinh dầu Gỗ Thông Đen Kuro-matsu', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 540000, 620000, 3),
+(411, 'Tinh dầu Nhựa Thông Dầu Shirakaba', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 6, NULL, NULL, 590000, 670000, 3);
+
+-- 7. XƯỞNG TINH DẦU 100 (HÀ NỘI) - Đậm đà bản sắc tinh dầu dân gian làng nghề trăm năm (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(412, 'Tinh dầu Vỏ Bưởi Diễn Hà Nội', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 230000, 270000, 1),
+(413, 'Tinh dầu Bạc Hà Làng Me Hà Nam', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 210000, 250000, 1),
+(414, 'Tinh dầu Quýt Đường Xứ Nghệ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 220000, 260000, 1),
+(415, 'Tinh dầu Chanh Cốm Trưng Trắc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 195000, 230000, 1),
+(416, 'Tinh dầu Sả Chanh Làng Gốm', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 180000, 215000, 1),
+(417, 'Tinh dầu Cam Bù Hương Sơn Hà Tĩnh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 240000, 280000, 1),
+(418, 'Tinh dầu Gừng Gió Đồng Văn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 250000, 290000, 1),
+(419, 'Tinh dầu Vỏ Quất Cảnh Nhật Tân', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 200000, 240000, 1),
+(420, 'Tinh dầu Hoa Cúc Trắng Chi Cúc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 360000, 410000, 2),
+(421, 'Tinh dầu Hoa Sen Đầm Trị Tây Hồ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 590000, 660000, 2),
+(422, 'Tinh dầu Mùi Già Chiều 30 Tết', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 480000, 550000, 2),
+(423, 'Tinh dầu Hoa Nhài Làng Định Công', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 520000, 590000, 2),
+(424, 'Tinh dầu Hoa Ngâu Thanh Lịch', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 410000, 470000, 2),
+(425, 'Tinh dầu Hoa Sói Ướp Trà Lụa Vạn Phúc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 460000, 530000, 2),
+(426, 'Tinh dầu Hoa Lan Móng Rồng Cổ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 490000, 560000, 2),
+(427, 'Tinh dầu Hoa Bưởi Cổ Thụ Bạch Mai', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 380000, 440000, 2),
+(428, 'Tinh dầu Quế Trà Bồng Quảng Ngãi', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 310000, 360000, 3),
+(429, 'Tinh dầu Gỗ Ngọc Am Hà Giang', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 640000, 720000, 3),
+(430, 'Tinh dầu Gỗ Trắc Đỏ Làng Nghề', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 530000, 600000, 3),
+(431, 'Tinh dầu Gỗ Xá Xị Bắc Bộ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 490000, 560000, 3),
+(432, 'Tinh dầu Trầm Nụ Làng Quán Trọng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 920000, 1050000, 3),
+(433, 'Tinh dầu Hổ Phách Rừng Già Cúc Phương', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 760000, 850000, 3),
+(434, 'Tinh dầu Gỗ Long Não Cổ Thụ Hà Tây', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 470000, 540000, 3),
+(435, 'Tinh dầu Hắc Mai Biển Đông Bắc', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 7, NULL, NULL, 620000, 710000, 3);
+
+-- 8. XƯỞNG KHO TINH DẦU (VIỆT HƯƠNG GROUP) - Kho tổng quy mô lớn & phong phú nguyên liệu thế giới (24 mùi)
+INSERT INTO `product` (id, name, description, created_at, updated_at, product_type, category_id, factory_id, wish_list_id, sale_id, min_price, min_base_price, scent_tier) VALUES
+(436, 'Tinh dầu Cam Ngọt Valencia', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 180000, 210000, 1),
+(437, 'Tinh dầu Quýt Xanh Petitgrain', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 230000, 270000, 1),
+(438, 'Tinh dầu Táo Xanh Crisp Green Apple', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 240000, 280000, 1),
+(439, 'Tinh dầu Bạc Hà Lục Spearmint Mỹ', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 220000, 260000, 1),
+(440, 'Tinh dầu Quả Mọng Dại Wild Berries', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 270000, 315000, 1),
+(441, 'Tinh dầu Quả Lê Nashi Nước Anh', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 290000, 340000, 1),
+(442, 'Tinh dầu Cam Máu Blood Orange Sicily', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 250000, 295000, 1),
+(443, 'Tinh dầu Lá Húng Tây Basil Genovese', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 260000, 305000, 1),
+(444, 'Tinh dầu Hoa Oải Hương Spike Lavender', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 360000, 410000, 2),
+(445, 'Tinh dầu Hoa Nhài Jasmine Grandiflorum', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 470000, 530000, 2),
+(446, 'Tinh dầu Hoa Linh Lan Muguet Trong Trẻo', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 530000, 600000, 2),
+(447, 'Tinh dầu Hoa Mẫu Đơn Peony Hoàng Gia', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 560000, 630000, 2),
+(448, 'Tinh dầu Hoa Tử Đinh Hương Lilac', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 490000, 560000, 2),
+(449, 'Tinh dầu Hoa Diên Vĩ Iris Florence', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 850000, 950000, 2),
+(450, 'Tinh dầu Hoa Mộc Tê Osmanthus Vàng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 620000, 700000, 2),
+(451, 'Tinh dầu Hoa Phong Lan Đen Black Orchid', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 690000, 780000, 2),
+(452, 'Tinh dầu Xạ Hương Trắng White Musk', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 720000, 800000, 3),
+(453, 'Tinh dầu Gỗ Thông Đỏ Đà Lạt', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 480000, 540000, 3),
+(454, 'Tinh dầu Hổ Phách Đen Dark Amber', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 810000, 900000, 3),
+(455, 'Tinh dầu Gỗ Đàn Hương Úc Thượng Hạng', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 860000, 960000, 3),
+(456, 'Tinh dầu Rêu Sồi Oakmoss Bí Ẩn', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 650000, 730000, 3),
+(457, 'Tinh dầu Da Thuộc Leather Khói Lãng Tử', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 790000, 890000, 3),
+(458, 'Tinh dầu Gỗ Mun Mun-Ebony Đen Tuyền', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 750000, 840000, 3),
+(459, 'Tinh dầu Cỏ Bài Bourbon Xứ Đảo', NULL, '2026-09-26 12:00:00', '2026-09-26 12:00:00', 'CUSTOM', 1, 8, NULL, NULL, 710000, 800000, 3);
+
+
+
+
+
+
+-- test
+INSERT INTO orders (
+    user_id,
+    subtotal_price,
+    status,
+    total_price,
+    discount_amount,
+    shipping_fee,
+    payment_method,
+    recipient_name,
+    phone_number,
+    shipping_address,
+    note,
+    cancel_reason,
+    delivered_at,
+    expected_delivery_at,
+    created_at
+)
+VALUES
+    (
+        1,
+        250000,
+        'PENDING',
+        270000,
+        0,
+        20000,
+        'COD',
+        'Nguyen Van A',
+        '0901234567',
+        '123 Nguyen Trai, Quan 1, TP.HCM',
+        'Giao gio hanh chinh',
+        NULL,
+        NULL,
+        '2026-10-20 18:00:00',
+        '2026-10-17 09:00:00'
+    ),
+    (
+        1,
+        350000,
+        'PROCESSING',
+        370000,
+        0,
+        20000,
+        'COD',
+        'Tran Thi B',
+        '0902345678',
+        '456 Le Loi, Quan 1, TP.HCM',
+        NULL,
+        NULL,
+        NULL,
+        '2026-10-21 18:00:00',
+        '2026-10-17 10:00:00'
+    ),
+    (
+        1,
+        180000,
+        'DELIVERED',
+        200000,
+        0,
+        20000,
+        'COD',
+        'Le Van C',
+        '0903456789',
+        '789 Dien Bien Phu, Binh Thanh, TP.HCM',
+        NULL,
+        NULL,
+        '2026-10-16 15:30:00',
+        '2026-10-17 18:00:00',
+        '2026-10-16 08:00:00'
+    ),
+    (
+        1,
+        420000,
+        'CANCELLED',
+        440000,
+        0,
+        20000,
+        'COD',
+        'Pham Thi D',
+        '0904567890',
+        '12 Vo Van Tan, Quan 3, TP.HCM',
+        'Khach doi y',
+        'CUSTOMER_CHANGED_MIND',
+        NULL,
+        '2026-10-18 18:00:00',
+        '2026-10-15 14:00:00'
+    ),
+    (
+        1,
+        500000,
+        'DELIVERED',
+        520000,
+        0,
+        20000,
+        'COD',
+        'Hoang Van E',
+        '0905678901',
+        '25 Pham Van Dong, Go Vap, TP.HCM',
+        NULL,
+        NULL,
+        '2026-10-15 16:00:00',
+        '2026-10-16 18:00:00',
+        '2026-10-14 11:00:00'
+    );
+
+INSERT INTO order_item (
+    quantity,
+    unit_price,
+    order_id,
+    product_id,
+    product_mil_id
+)
+VALUES
+    (
+        2,
+        125000,
+        1,
+        1,
+        NULL
+    ),
+    (
+        1,
+        350000,
+        2,
+        2,
+        NULL
+    ),
+    (
+        2,
+        90000,
+        3,
+        3,
+        NULL
+    ),
+    (
+        3,
+        140000,
+        4,
+        4,
+        NULL
+    ),
+    (
+        2,
+        250000,
+        5,
+        5,
+        NULL
+    );

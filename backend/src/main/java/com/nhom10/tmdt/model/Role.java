@@ -3,13 +3,14 @@ package com.nhom10.tmdt.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="roles")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @NoArgsConstructor
@@ -21,11 +22,10 @@ public class Role {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="user_role", joinColumns = @JoinColumn(name="role_id"),
-        inverseJoinColumns = @JoinColumn(name="user_id")
-    )
-    private List<User> user;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<User> users = new HashSet<>();
 }

@@ -1,5 +1,8 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import type { ReactNode } from "react";
+import { useAuth } from "../../api/AuthContext";
+import { authService } from "../../api/AuthService";
+import { ROUTES } from "../../routes/routes";
 import "../../css/pages/profile.css";
 
 interface AccountLayoutProps {
@@ -7,11 +10,31 @@ interface AccountLayoutProps {
     breadcrumbCurrent: string;
 }
 
+// Layout dùng chung cho các trang trong khu vực Tài khoản của tôi
 export default function AccountLayout({ children, breadcrumbCurrent }: AccountLayoutProps) {
+    const { user, setUser } = useAuth();
+    const navigate = useNavigate();
+
+    // Họ tên người dùng từ AuthContext
+    const displayName = user?.fullName || "Người dùng";
+    // Chữ cái đại diện avatar
+    const initialLetter = (user?.fullName?.trim()?.charAt(0) || user?.email?.charAt(0) || "U").toUpperCase();
+
+    // Xử lý đăng xuất tài khoản
+    const handleLogout = async () => {
+        setUser(null);
+        navigate(ROUTES.HOME, { replace: true });
+        try {
+            await authService.logout();
+        } catch (error) {
+            console.error("Đăng xuất thất bại:", error);
+        }
+    };
+
     return (
         <main className="profile-page bg-light py-4">
             <div className="container-fluid px-4 px-lg-5">
-                {/* Breadcrumb */}
+                {/* Đường dẫn phân cấp (Breadcrumb) */}
                 <nav aria-label="breadcrumb" className="mb-4">
                     <ol className="breadcrumb mb-0 fs-7">
                         <li className="breadcrumb-item"><Link to="/" className="text-muted text-decoration-none">Trang chủ</Link></li>
@@ -20,28 +43,43 @@ export default function AccountLayout({ children, breadcrumbCurrent }: AccountLa
                     </ol>
                 </nav>
 
-                {/* Header */}
+                {/* Tiêu đề trang */}
                 <div className="mb-4">
                     <h1 className="h2 fw-bold text-dark mb-2">Tài khoản của tôi</h1>
                     <p className="text-muted fs-7 mb-0">Quản lý thông tin cá nhân, bảo mật và các cài đặt tài khoản của bạn.</p>
                 </div>
 
                 <div className="row g-4">
-                    {/* Sidebar */}
+                    {/* Thanh bên điều hướng (Sidebar) */}
                     <div className="col-12 col-lg-3">
                         <div className="bg-white rounded-4 shadow-sm p-4 sticky-lg-top" style={{ top: "2rem", zIndex: 10 }}>
-                            {/* Profile Info */}
+                            {/* Thông tin hồ sơ ở Sidebar */}
                             <div className="d-flex align-items-center gap-3 mb-4">
-                                <div className="profile-avatar-lg bg-primary bg-opacity-10 text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center flex-shrink-0">
-                                    H
-                                </div>
-                                <div>
-                                    <div className="fw-bold text-dark">Trần Bảo Hoàng</div>
-                                    <div className="text-muted fs-8">Khách hàng NORDIC</div>
+                                {user?.avatar ? (
+                                    <img
+                                        src={user.avatar}
+                                        alt={displayName}
+                                        referrerPolicy="no-referrer"
+                                        width={48}
+                                        height={48}
+                                        className="rounded-circle object-fit-cover flex-shrink-0"
+                                    />
+                                ) : (
+                                    <div className="profile-avatar-lg bg-primary bg-opacity-10 text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center flex-shrink-0">
+                                        {initialLetter}
+                                    </div>
+                                )}
+                                <div className="overflow-hidden">
+                                    <div className="fw-bold text-dark text-truncate" title={displayName}>
+                                        {displayName}
+                                    </div>
+                                    <div className="text-muted fs-8 text-truncate">
+                                        {user?.email || "Khách hàng Oilia"}
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Menu */}
+                            {/* Danh sách mục chọn trong Menu */}
                             <ul className="list-unstyled profile-menu mb-4">
                                 <li>
                                     <NavLink to="/profile" className={({ isActive }) => `text-decoration-none d-block px-3 py-2 rounded-3 fw-bold mb-2 ${isActive ? 'active text-primary bg-primary bg-opacity-10' : 'text-muted hover-bg-light'}`}>
@@ -77,13 +115,17 @@ export default function AccountLayout({ children, breadcrumbCurrent }: AccountLa
                             
                             <hr className="text-muted opacity-25" />
 
-                            <button className="btn btn-link text-primary text-decoration-none fw-bold px-3 w-100 text-start mt-2 p-0 logout-btn">
+                            {/* Nút đăng xuất */}
+                            <button
+                                className="btn btn-link text-danger text-decoration-none fw-bold px-3 w-100 text-start mt-2 p-0 logout-btn"
+                                onClick={handleLogout}
+                            >
                                 Đăng xuất
                             </button>
                         </div>
                     </div>
 
-                    {/* Main Content */}
+                    {/* Nội dung chính của trang */}
                     <div className="col-12 col-lg-9">
                         {children}
                     </div>

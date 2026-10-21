@@ -1,0 +1,29 @@
+.journey-steps::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 30px;
+    bottom: 30px;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+    z-index: 0;
+}
+
+.login-container {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.login-form-container .form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.25rem rgba(225, 29, 72, 0.25);
+}
+
+.login-form-container .form-check-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.login-form-container .form-check-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.25rem rgba(225, 29, 72, 0.25);
+}

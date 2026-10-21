@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import type { CartItem } from "../../data/cartData";
+import { checkoutCartItemIdsKey } from "../../api/CheckoutSelection";
 
 interface CartSummaryProps {
     selectedItems: CartItem[];
@@ -12,9 +13,15 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
+function saveCheckoutSelection(selectedItems: CartItem[]) {
+    window.sessionStorage.setItem(
+        checkoutCartItemIdsKey,
+        JSON.stringify(selectedItems.map((item) => item.id)),
+    );
+}
+
 export default function CartSummary({ selectedItems, subtotal }: CartSummaryProps) {
-    const discount = selectedItems.length > 0 ? 125000 : 0;
-    const total = Math.max(0, subtotal - discount);
+    const total = subtotal;
 
     return (
         <aside className="cart-summary-card">
@@ -43,10 +50,6 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
                         <span>Tạm tính</span>
                         <strong>{formatPrice(subtotal)}</strong>
                     </div>
-                    <div>
-                        <span>Ưu đãi</span>
-                        <strong>-{formatPrice(discount)}</strong>
-                    </div>
                 </div>
             )}
 
@@ -57,6 +60,7 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
 
             <Link
                 to="/checkout"
+                onClick={() => saveCheckoutSelection(selectedItems)}
                 className={`btn cart-continue-btn d-flex align-items-center justify-content-center fw-bold w-100 ${selectedItems.length === 0 ? "disabled" : ""}`}
             >
                 Tiếp tục

@@ -1,9 +1,12 @@
 package com.nhom10.tmdt.model;
 
+import com.nhom10.tmdt.enums.ProductStatus;
 import com.nhom10.tmdt.enums.ProductType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,9 +36,18 @@ public class Product {
     @Column(name="min_base_price")
     private Double minBasePrice;
 
+    @Column(name="total_sold")
+    private Long totalSold;
+
+    @Column(name="scent_tier")
+    private Integer scentTier; // 1: Top Note, 2: Heart Note, 3: Base Note
+
     @Column(name="created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt ;
+
     @Column(name="updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Column(name="product_type")
@@ -70,5 +82,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private ProductStatus status = ProductStatus.ACTIVE;
 }
 

@@ -1,9 +1,9 @@
 import { faBoxOpen, faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { OrderHistoryItem } from "../../data/orderHistoryData";
+import type { OrderHistorySummary } from "../../api/OrderService";
 
 interface OrderHistoryHeroProps {
-    orders: OrderHistoryItem[];
+    summary?: OrderHistorySummary;
 }
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
@@ -12,10 +12,7 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}đ`;
 }
 
-export default function OrderHistoryHero({ orders }: OrderHistoryHeroProps) {
-    const completedOrders = orders.filter((order) => order.status === "completed").length;
-    const totalPaid = orders.reduce((total, order) => total + order.subtotal - order.discount + order.shippingFee, 0);
-
+export default function OrderHistoryHero({ summary }: OrderHistoryHeroProps) {
     return (
         <section className="bg-white rounded-4 shadow-sm p-4">
             <div className="row g-4 align-items-center">
@@ -32,17 +29,17 @@ export default function OrderHistoryHero({ orders }: OrderHistoryHeroProps) {
                         <article className="d-flex flex-column bg-light rounded-4 p-3 border flex-fill" style={{ minWidth: "100px" }}>
                             <FontAwesomeIcon icon={faReceipt} className="text-primary mb-2 fs-5" />
                             <span className="fs-8 text-muted fw-bold text-uppercase mb-1 text-nowrap">Tổng đơn</span>
-                            <strong className="fs-5 text-dark fw-bold">{orders.length}</strong>
+                            <strong className="fs-5 text-dark fw-bold">{summary?.totalOrders ?? "—"}</strong>
                         </article>
                         <article className="d-flex flex-column bg-light rounded-4 p-3 border flex-fill" style={{ minWidth: "100px" }}>
                             <FontAwesomeIcon icon={faBoxOpen} className="text-primary mb-2 fs-5" />
                             <span className="fs-8 text-muted fw-bold text-uppercase mb-1 text-nowrap">Đã giao</span>
-                            <strong className="fs-5 text-dark fw-bold">{completedOrders}</strong>
+                            <strong className="fs-5 text-dark fw-bold">{summary?.deliveredOrders ?? "—"}</strong>
                         </article>
                         <article className="d-flex flex-column bg-light rounded-4 p-3 border flex-fill" style={{ minWidth: "140px" }}>
                             <FontAwesomeIcon icon={faReceipt} className="text-primary mb-2 fs-5" />
                             <span className="fs-8 text-muted fw-bold text-uppercase mb-1 text-nowrap">Tổng chi tiêu</span>
-                            <strong className="fs-5 text-dark fw-bold text-nowrap">{formatPrice(totalPaid)}</strong>
+                            <strong className="fs-5 text-dark fw-bold text-nowrap">{summary ? formatPrice(summary.totalSpent) : "—"}</strong>
                         </article>
                     </div>
                 </div>

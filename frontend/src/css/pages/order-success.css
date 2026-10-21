@@ -1,7 +1,5 @@
 .order-success-page {
-    background:
-        radial-gradient(circle at 8% 0%, rgba(255, 235, 240, 0.95) 0, rgba(255, 255, 255, 0) 380px),
-        linear-gradient(180deg, #fff7f9 0%, #ffffff 46%, #f8fafc 100%);
+    background: var(--color-page-background);
 }
 
 .order-success-hero {

@@ -1,4 +1,4 @@
-:is(.cart-page, .checkout-page, .online-payment-page, .order-success-page, .order-history-page) {
+:is(.cart-page, .checkout-page, .order-success-page, .order-history-page) {
     padding: 40px 0 56px;
 }
 
@@ -6,7 +6,7 @@
     min-height: 680px;
 }
 
-:is(.checkout-page, .online-payment-page, .order-success-page, .order-history-page) {
+:is(.checkout-page, .order-success-page, .order-history-page) {
     min-height: 760px;
 }
 
@@ -15,14 +15,14 @@
     max-width: 1180px;
 }
 
-:is(.cart-breadcrumb, .checkout-breadcrumb, .online-payment-breadcrumb, .order-success-breadcrumb, .order-history-breadcrumb) :is(a, span, strong) {
+:is(.cart-breadcrumb, .checkout-breadcrumb, .order-success-breadcrumb, .order-history-breadcrumb) :is(a, span, strong) {
     color: #64748b;
     font-size: 14px;
     font-weight: 800;
     text-decoration: none;
 }
 
-:is(.cart-breadcrumb, .checkout-breadcrumb, .online-payment-breadcrumb, .order-success-breadcrumb, .order-history-breadcrumb) :is(a:hover, strong) {
+:is(.cart-breadcrumb, .checkout-breadcrumb, .order-success-breadcrumb, .order-history-breadcrumb) :is(a:hover, strong) {
     color: var(--color-bg-dark);
 }
 
@@ -31,8 +31,6 @@
     .cart-summary-card,
     .checkout-panel,
     .checkout-summary-card,
-    .online-payment-panel,
-    .online-payment-summary-card,
     .order-success-hero,
     .order-success-card,
     .order-success-summary,
@@ -47,7 +45,7 @@
     box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
 }
 
-:is(.cart-summary-card, .checkout-summary-card, .online-payment-summary-card) {
+:is(.cart-summary-card, .checkout-summary-card) {
     position: sticky;
     top: 20px;
 }
@@ -66,7 +64,7 @@
     background: #020617 !important;
 }
 
-:is(.online-payment-back-btn, .order-success-secondary-btn, .order-history-outline-btn) {
+:is(.order-success-secondary-btn, .order-history-outline-btn) {
     background: #fff !important;
     border: 1px solid #dbe3ee !important;
     border-radius: 10px !important;
@@ -106,7 +104,7 @@
     white-space: nowrap;
 }
 
-:is(.cart-product-thumb, .checkout-product-thumb, .online-payment-summary-line img) {
+:is(.cart-product-thumb, .checkout-product-thumb) {
     border: 1px solid #e2e8f0;
     object-fit: cover;
 }
@@ -144,8 +142,6 @@
     .checkout-summary-line,
     .checkout-summary-adjustments div,
     .checkout-summary-total,
-    .online-payment-summary-adjustments div,
-    .online-payment-summary-total,
     .order-success-summary-lines div,
     .order-success-summary-total
 ) {
@@ -158,8 +154,6 @@
     .cart-summary-adjustments strong,
     .checkout-summary-adjustments span,
     .checkout-summary-adjustments strong,
-    .online-payment-summary-adjustments span,
-    .online-payment-summary-adjustments strong,
     .order-success-summary-lines span,
     .order-success-summary-lines strong
 ) {
@@ -167,34 +161,33 @@
     font-weight: 800;
 }
 
-:is(.checkout-summary-adjustments strong, .online-payment-summary-adjustments strong, .order-success-summary-lines strong) {
+:is(.checkout-summary-adjustments strong, .order-success-summary-lines strong) {
     color: var(--color-bg-dark);
 }
 
 :is(
     .cart-summary-total strong,
     .checkout-summary-total strong,
-    .online-payment-summary-total strong,
     .order-success-summary-total strong
 ) {
     color: var(--color-primary);
     font-weight: 900;
 }
 
-:is(.checkout-summary-total span, .online-payment-summary-total span, .order-success-summary-total span) {
+:is(.checkout-summary-total span, .order-success-summary-total span) {
     color: var(--color-bg-dark);
     font-size: 15px;
     font-weight: 900;
 }
 
 @media (max-width: 1199.98px) {
-    :is(.cart-summary-card, .checkout-summary-card, .online-payment-summary-card, .order-success-summary) {
+    :is(.cart-summary-card, .checkout-summary-card, .order-success-summary) {
         position: static;
     }
 }
 
 @media (max-width: 767.98px) {
-    :is(.cart-page, .checkout-page, .online-payment-page, .order-success-page, .order-history-page) {
+    :is(.cart-page, .checkout-page, .order-success-page, .order-history-page) {
         padding: 28px 0 40px;
     }
 
@@ -203,8 +196,6 @@
         .cart-summary-card,
         .checkout-panel,
         .checkout-summary-card,
-        .online-payment-panel,
-        .online-payment-summary-card,
         .order-success-hero,
         .order-success-card,
         .order-success-summary,
