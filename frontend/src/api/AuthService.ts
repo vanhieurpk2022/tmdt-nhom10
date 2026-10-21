@@ -78,5 +78,29 @@ export const authService = {
             { accessToken, rememberMe }
         );
         return response.data;
+    },
+
+    forgotPassword: async (email: string) => {
+        const response = await api.post<ApiResponse<void>>(
+            "/auth/forgot-password",
+            { email }
+        );
+        return response.data;
+    },
+
+    verifyRecoveryCode: async (email: string, code: string) => {
+        const response = await api.post<ApiResponse<void>>(
+            "/auth/verify-recovery-code",
+            { email, code }
+        );
+        return response.data;
+    },
+
+    resetPassword: async (data: { email: string; code: string; newPassword: string; confirmPassword: string }) => {
+        const response = await api.post<ApiResponse<void>>(
+            "/auth/reset-password",
+            data
+        );
+        return response.data;
     }
 };

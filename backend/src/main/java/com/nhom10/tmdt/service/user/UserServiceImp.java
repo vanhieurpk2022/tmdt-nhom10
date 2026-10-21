@@ -11,6 +11,7 @@ import com.nhom10.tmdt.dto.user.FacebookLoginRequest;
 import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
+import com.nhom10.tmdt.dto.user.ResetPasswordRequest;
 import com.nhom10.tmdt.enums.ErrorCode;
 import com.nhom10.tmdt.enums.FactoryStatus;
 import com.nhom10.tmdt.enums.RoleName;
@@ -454,6 +455,65 @@ public class UserServiceImp implements UserService {
 
         // Mã hóa mật khẩu mới và lưu vào cơ sở dữ liệu
         user.setPassword(bCryptPasswordEncoder.encode(request.newPassword().trim()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void forgotPassword(String email) {
+        if (email == null || email.isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+        User user = userRepository.findByEmail(email.trim().toLowerCase())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        String code = emailSevice.generateCode();
+        user.setCodeActive(code);
+        user.setVerifyCodeExpiresAt(LocalDateTime.now().plusMinutes(5));
+        userRepository.save(user);
+
+        emailSevice.sendRecoveryCode(user.getEmail(), code);
+    }
+
+    @Override
+    public void verifyRecoveryCode(String email, String code) {
+        if (email == null || email.isBlank() || code == null || code.isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+        User user = userRepository.findByEmail(email.trim().toLowerCase())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        if (user.getVerifyCodeExpiresAt() == null || user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_EXPIRED);
+        }
+        if (!code.trim().equals(user.getCodeActive())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_FAIL);
+        }
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequest request) {
+        if (request.email() == null || request.email().isBlank()
+                || request.code() == null || request.code().isBlank()
+                || request.newPassword() == null || request.newPassword().isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+        if (!request.newPassword().equals(request.confirmPassword())) {
+            throw new AppException(ErrorCode.NOT_MATCH_PASSWORD);
+        }
+
+        User user = userRepository.findByEmail(request.email().trim().toLowerCase())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        if (user.getVerifyCodeExpiresAt() == null || user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_EXPIRED);
+        }
+        if (!request.code().trim().equals(user.getCodeActive())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_FAIL);
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(request.newPassword().trim()));
+        user.setCodeActive(null);
+        user.setVerifyCodeExpiresAt(null);
         userRepository.save(user);
     }
 }

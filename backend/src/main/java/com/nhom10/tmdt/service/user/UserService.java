@@ -27,4 +27,9 @@ public interface UserService {
 
      // Đổi mật khẩu tài khoản
      void changePassword(String email, ChangePasswordRequest request);
+
+     // Quên mật khẩu & Khôi phục mật khẩu
+     void forgotPassword(String email);
+     void verifyRecoveryCode(String email, String code);
+     void resetPassword(com.nhom10.tmdt.dto.user.ResetPasswordRequest request);
 }
