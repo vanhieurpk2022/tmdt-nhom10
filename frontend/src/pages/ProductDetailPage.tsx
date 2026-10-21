@@ -190,9 +190,19 @@ export default function ProductDetailPage() {
                             </Link>
                         </li>
                         <li className="breadcrumb-item">
-                            <Link to={ROUTES.PRODUCTS} className="text-muted text-decoration-none">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    if (window.history.length > 1) {
+                                        navigate(-1);
+                                    } else {
+                                        navigate(ROUTES.PRODUCTS);
+                                    }
+                                }}
+                                className="btn btn-link text-muted text-decoration-none p-0 border-0 fs-7 align-baseline"
+                            >
                                 {product.categoryName || "Sản phẩm"}
-                            </Link>
+                            </button>
                         </li>
                         <li className="breadcrumb-item active fw-bold text-dark text-truncate" aria-current="page" style={{ maxWidth: "300px" }}>
                             {product.name}

@@ -2,7 +2,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faStar, faFire, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
+import { Link, useLocation, useNavigate, useNavigationType, useSearchParams } from "react-router";
 import { useAuth } from "../api/AuthContext";
 import { useCart } from "../api/CartContext";
 import { cartService } from "../api/CartService";
@@ -29,7 +29,6 @@ const PRODUCT_SORT_OPTIONS = [
 const stockBadgeClass = (s: string) =>
     s === "Còn hàng" ? "stock-green" : s === "Sắp hết" ? "stock-yellow" : "stock-red";
 
-
 const getPaginationItems = (currentPage: number, totalPages: number): (number | string)[] => {
     if (totalPages <= 7) {
         return Array.from({ length: totalPages }, (_, i) => i);
@@ -52,25 +51,73 @@ const getPaginationItems = (currentPage: number, totalPages: number): (number | 
     return items;
 };
 
+// Caching helpers để ghi nhớ danh sách sản phẩm & vị trí cuộn
+const getCacheKey = (search: string) => `products_cache_${search}`;
+const getScrollKey = (search: string) => `products_scroll_${search}`;
+
+export function clearProductsCache() {
+    try {
+        const keysToRemove: string[] = [];
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const k = sessionStorage.key(i);
+            if (k && (k.startsWith("products_cache_") || k.startsWith("products_scroll_"))) {
+                keysToRemove.push(k);
+            }
+        }
+        keysToRemove.forEach((k) => sessionStorage.removeItem(k));
+    } catch {
+        // ignore
+    }
+}
+
 // Component
 export default function ProductsPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const factoryParam = searchParams.get("factoryId") || searchParams.get("factoryIds");
+    const pageParam = searchParams.get("page");
+    const currentPage = Math.max(0, (Number(pageParam) || 1) - 1);
     const sort = PRODUCT_SORT_OPTIONS.find((option) => option.value === searchParams.get("sort"))?.value ?? "popular";
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user, loading: authLoading } = useAuth();
+    const { applyCart, showCartNotice } = useCart();
+    const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
+
+    const cacheKey = getCacheKey(location.search);
+    const scrollKey = getScrollKey(location.search);
+
+    const cachedData = (() => {
+        try {
+            const raw = sessionStorage.getItem(cacheKey);
+            if (raw) return JSON.parse(raw);
+        } catch { }
+        return null;
+    })();
 
     const handleSortChange = (value: string) => {
         setSearchParams((previousParams) => {
             const nextParams = new URLSearchParams(previousParams);
             if (value === "popular") nextParams.delete("sort");
             else nextParams.set("sort", value);
+            nextParams.delete("page");
             return nextParams;
         });
+        window.scrollTo({ top: 80, behavior: "smooth" });
     };
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { user, loading: authLoading } = useAuth();
-    const { applyCart, showCartNotice } = useCart();
-    const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
+
+    const handlePageChange = (newPage: number) => {
+        setSearchParams((previousParams) => {
+            const nextParams = new URLSearchParams(previousParams);
+            if (newPage === 0) {
+                nextParams.delete("page");
+            } else {
+                nextParams.set("page", (newPage + 1).toString());
+            }
+            return nextParams;
+        });
+        window.scrollTo({ top: 80, behavior: "smooth" });
+    };
 
     const handleAddToCart = async (product: ProductCard) => {
         if (!user) {
@@ -113,27 +160,47 @@ export default function ProductsPage() {
     const [minRating, setMinRating] = useState<number | undefined>(undefined);
 
     // Products state
-    const [products, setProducts] = useState<ProductCard[]>([]);
-    const [totalElements, setTotal] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setPage] = useState(0);
+    const [products, setProducts] = useState<ProductCard[]>(() => cachedData?.products || []);
+    const [totalElements, setTotal] = useState(() => cachedData?.totalElements || 0);
+    const [totalPages, setTotalPages] = useState(() => cachedData?.totalPages || 0);
     const [loading, setLoading] = useState(false);
     const productRequestId = useRef(0);
 
-    // Cập nhật selectedFactories khi URL query param thay đổi
+    // Lưu vị trí cuộn theo từng URL query / trang
     useEffect(() => {
-        setSelectedFactories((previous) => {
-            const next = factoryParam
-                ? factoryParam.split(",").map((id) => Number(id.trim())).filter((id) => !isNaN(id) && id > 0)
-                : [];
-            return previous.length === next.length && previous.every((id, index) => id === next[index])
-                ? previous : next;
-        });
-    }, [factoryParam]);
+        const onScroll = () => {
+            if (window.scrollY > 0) {
+                sessionStorage.setItem(scrollKey, window.scrollY.toString());
+            }
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => {
+            window.removeEventListener("scroll", onScroll);
+        };
+    }, [scrollKey]);
 
+    // Khôi phục vị trí cuộn khi render
     useLayoutEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    }, [location.pathname]);
+        const savedScroll = sessionStorage.getItem(scrollKey);
+        if (savedScroll) {
+            const top = parseInt(savedScroll, 10);
+            if (top > 0) {
+                window.scrollTo({ top, behavior: "instant" });
+                const timer = setTimeout(() => {
+                    window.scrollTo({ top, behavior: "instant" });
+                }, 50);
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [scrollKey, products.length]);
+
+    // Cập nhật selectedFactories khi URL query param thay đổi từ bên ngoài (ví dụ bấm từ trang chủ)
+    useEffect(() => {
+        const next = factoryParam
+            ? factoryParam.split(",").map((id) => Number(id.trim())).filter((id) => !isNaN(id) && id > 0)
+            : [];
+        setSelectedFactories(next);
+    }, [factoryParam]);
 
     // Load sidebar metadata một lần
     useEffect(() => {
@@ -141,7 +208,7 @@ export default function ProductsPage() {
     }, []);
 
     // Lọc & lấy dữ liệu sản phẩm
-    const fetchProducts = useCallback(async (page = 0) => {
+    const fetchProducts = useCallback(async (page: number, overrideFactories?: number[]) => {
         const requestId = ++productRequestId.current;
         setLoading(true);
         try {
@@ -156,9 +223,11 @@ export default function ProductsPage() {
                 if (priceRange.max) maxPrice = Number(priceRange.max.replace(/\D/g, ""));
             }
 
+            const factoriesToUse = overrideFactories !== undefined ? overrideFactories : selectedFactories;
+
             const params: ProductFilterParams = {
                 categoryIds: selectedCategories.length ? selectedCategories : undefined,
-                factoryIds: selectedFactories.length ? selectedFactories : undefined,
+                factoryIds: factoriesToUse.length ? factoriesToUse : undefined,
                 minPrice,
                 maxPrice,
                 minRating,
@@ -172,21 +241,25 @@ export default function ProductsPage() {
             setProducts(result.products);
             setTotal(result.totalElements);
             setTotalPages(result.totalPages);
-            setPage(result.currentPage);
+
+            try {
+                sessionStorage.setItem(cacheKey, JSON.stringify({
+                    products: result.products,
+                    totalElements: result.totalElements,
+                    totalPages: result.totalPages,
+                }));
+            } catch { }
         } catch (err) {
             console.error(err);
         } finally {
             if (requestId === productRequestId.current) setLoading(false);
         }
-    }, [selectedCategories, selectedFactories, priceRange, pricePreset, minRating, sort]);
+    }, [selectedCategories, selectedFactories, priceRange, pricePreset, minRating, sort, cacheKey]);
 
-    // Fetch khi sort thay đổi (auto-apply)
-    useEffect(() => { fetchProducts(0); }, [sort]);
-
-    // Fetch lại khi selectedFactories thay đổi từ URL query
+    // Tự động fetch lại khi currentPage, sort hoặc factoryParam thay đổi
     useEffect(() => {
-        fetchProducts(0);
-    }, [selectedFactories]);
+        fetchProducts(currentPage);
+    }, [currentPage, sort, factoryParam]);
 
     // Toggle helpers
     const toggleCategory = (id: number) =>
@@ -199,19 +272,24 @@ export default function ProductsPage() {
             prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
         );
 
+    const handleApplyFilters = () => {
+        setSearchParams((previousParams) => {
+            const nextParams = new URLSearchParams(previousParams);
+            nextParams.delete("page");
+            return nextParams;
+        });
+        fetchProducts(0);
+        window.scrollTo({ top: 80, behavior: "smooth" });
+    };
+
     const handleReset = () => {
+        clearProductsCache();
         setSelectedCategories([]);
         setSelectedFactories([]);
         setPriceRange({ min: "", max: "" });
         setPricePreset("");
         setMinRating(undefined);
-        setSearchParams((previousParams) => {
-            const nextParams = new URLSearchParams(previousParams);
-            nextParams.delete("sort");
-            nextParams.delete("factoryId");
-            nextParams.delete("factoryIds");
-            return nextParams;
-        });
+        setSearchParams(new URLSearchParams());
     };
 
     // Render
@@ -324,7 +402,7 @@ export default function ProductsPage() {
                             </div>
 
                             <div className="d-flex gap-2 products-sidebar-footer">
-                                <button className="btn btn-primary flex-grow-1 fw-bold" onClick={() => fetchProducts(0)} disabled={loading}>
+                                <button className="btn btn-primary flex-grow-1 fw-bold" onClick={handleApplyFilters} disabled={loading}>
                                     {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Áp dụng"}
                                 </button>
                                 <button className="btn btn-light border fw-bold text-muted" onClick={handleReset}>Đặt lại</button>
@@ -365,7 +443,7 @@ export default function ProductsPage() {
                         </div>
 
                         {/* Products grid */}
-                        {loading ? (
+                        {loading && products.length === 0 ? (
                             <div className="d-flex justify-content-center py-5">
                                 <FontAwesomeIcon icon={faSpinner} spin size="2x" className="text-primary" />
                             </div>
@@ -461,10 +539,7 @@ export default function ProductsPage() {
                                     <li>
                                         <button
                                             className="page-btn"
-                                            onClick={() => {
-                                                fetchProducts(currentPage - 1);
-                                                window.scrollTo({ top: 80, behavior: "smooth" });
-                                            }}
+                                            onClick={() => handlePageChange(currentPage - 1)}
                                             disabled={currentPage === 0}
                                             title="Trang trước"
                                         >
@@ -481,10 +556,7 @@ export default function ProductsPage() {
                                             <li key={item}>
                                                 <button
                                                     className={`page-btn ${item === currentPage ? "active" : ""}`}
-                                                    onClick={() => {
-                                                        fetchProducts(item);
-                                                        window.scrollTo({ top: 80, behavior: "smooth" });
-                                                    }}
+                                                    onClick={() => handlePageChange(item)}
                                                 >
                                                     {item + 1}
                                                 </button>
@@ -495,10 +567,7 @@ export default function ProductsPage() {
                                     <li>
                                         <button
                                             className="page-btn"
-                                            onClick={() => {
-                                                fetchProducts(currentPage + 1);
-                                                window.scrollTo({ top: 80, behavior: "smooth" });
-                                            }}
+                                            onClick={() => handlePageChange(currentPage + 1)}
                                             disabled={currentPage === totalPages - 1}
                                             title="Trang sau"
                                         >
