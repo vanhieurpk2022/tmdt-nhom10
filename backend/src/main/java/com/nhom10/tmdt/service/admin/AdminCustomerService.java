@@ -12,5 +12,7 @@ public interface AdminCustomerService {
     AdminCustomerResponse updateCustomerStatus(Long id, UserStatus newStatus);
     AdminCustomerResponse updateCustomerRoles(Long id, List<String> roleNames);
     AdminCustomerResponse updateCustomerInfo(Long id, UpdateCustomerInfoRequest request);
+    AdminCustomerResponse updateStoreCredit(Long id, Double deltaAmount);
+    String resetCustomerPassword(Long id);
     void deleteCustomer(Long id);
 }

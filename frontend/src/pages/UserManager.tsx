@@ -233,6 +233,17 @@ export default function UserManager() {
         }
     };
 
+    // Cập nhật thông tin khách hàng từ Modal
+    const handleCustomerUpdated = (updated: CustomerItem) => {
+        setCustomers((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+        if (selectedDetail && selectedDetail.customer.id === updated.id) {
+            setSelectedDetail({
+                ...selectedDetail,
+                customer: updated,
+            });
+        }
+    };
+
     // Tạo khách hàng thủ công qua API
     const handleCreateCustomer = async (e: FormEvent) => {
         e.preventDefault();
@@ -730,6 +741,7 @@ export default function UserManager() {
                     loading={detailLoading}
                     onClose={() => setSelectedDetail(null)}
                     onToggleStatus={handleToggleStatusInDetail}
+                    onUpdateCustomer={handleCustomerUpdated}
                 />
             )}
 

@@ -37,4 +37,8 @@ public class AdminCustomerResponse {
     private String initials;
     private String avatarTone;
     private boolean risk;
+
+    private String cskhNote;
+    private Double storeCredit;
+    private Long loyaltyPoints;
 }

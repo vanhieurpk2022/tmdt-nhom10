@@ -26,6 +26,9 @@ export interface CustomerItem {
     initials: string;
     avatarTone: string;
     risk?: boolean;
+    cskhNote?: string;
+    storeCredit?: number;
+    loyaltyPoints?: number;
 }
 
 export interface CustomerPageResult {
@@ -66,6 +69,42 @@ export interface CustomerDetail {
         shippingAddress: string;
         itemCount: number;
     }>;
+    disputes?: Array<{
+        id: number;
+        orderId?: number;
+        reason?: string;
+        status?: string;
+        amount?: number;
+        createdAt?: string;
+        processedAt?: string;
+    }>;
+    formulas?: CustomerFormulaItem[];
+}
+
+export interface CustomerFormulaItem {
+    id: number;
+    code: string;
+    name: string;
+    bottleType?: string;
+    labelDesign?: string;
+    totalVolumeMl?: number;
+    price?: number;
+    factoryId?: number;
+    factoryName?: string;
+    notes?: string;
+    orderedCount?: number;
+    createdAt?: string;
+    topNotes?: string;
+    heartNotes?: string;
+    baseNotes?: string;
+    items?: Array<{
+        id: number;
+        productId?: number;
+        productName?: string;
+        tier?: number;
+        percentage?: number;
+        volumeMl?: number;
+    }>;
 }
 
 interface AdminCustomerRaw {
@@ -93,7 +132,9 @@ interface AdminCustomerRaw {
     initials?: string;
     avatarTone?: string;
     risk?: boolean;
-
+    cskhNote?: string;
+    storeCredit?: number;
+    loyaltyPoints?: number;
 }
 
 function mapRaw(raw: AdminCustomerRaw): CustomerItem {
@@ -127,6 +168,9 @@ function mapRaw(raw: AdminCustomerRaw): CustomerItem {
         initials,
         avatarTone,
         risk: raw.risk ?? raw.statusCode === "BANNED",
+        cskhNote: raw.cskhNote,
+        storeCredit: raw.storeCredit ?? 0,
+        loyaltyPoints: raw.loyaltyPoints ?? Math.round((raw.ltv || 0) / 10000),
     };
 }
 
@@ -159,6 +203,7 @@ interface AdminDetailRaw {
     customer: AdminCustomerRaw;
     addresses: CustomerDetail["addresses"];
     recentOrders: CustomerDetail["recentOrders"];
+    disputes?: CustomerDetail["disputes"];
 }
 
 export const CustomerAdminService = {
@@ -202,6 +247,7 @@ export const CustomerAdminService = {
             customer: mapRaw(raw.customer),
             addresses: raw.addresses || [],
             recentOrders: raw.recentOrders || [],
+            disputes: raw.disputes || [],
         };
     },
 
@@ -215,9 +261,22 @@ export const CustomerAdminService = {
         return mapRaw(res.data.data);
     },
 
-    updateInfo: async (id: number | string, data: { fullname?: string; phone?: string; birthday?: string; gender?: string }): Promise<CustomerItem> => {
+    updateInfo: async (
+        id: number | string,
+        data: { fullname?: string; phone?: string; birthday?: string; gender?: string; cskhNote?: string }
+    ): Promise<CustomerItem> => {
         const res = await api.put<ApiResponse<AdminCustomerRaw>>(`/admin/customers/${id}`, data);
         return mapRaw(res.data.data);
+    },
+
+    updateStoreCredit: async (id: number | string, amount: number): Promise<CustomerItem> => {
+        const res = await api.put<ApiResponse<AdminCustomerRaw>>(`/admin/customers/${id}/credit`, { amount });
+        return mapRaw(res.data.data);
+    },
+
+    resetPassword: async (id: number | string): Promise<string> => {
+        const res = await api.post<ApiResponse<string>>(`/admin/customers/${id}/reset-password`);
+        return res.data.data || res.data.message || "Password123@";
     },
 
     deleteCustomer: async (id: number | string): Promise<void> => {

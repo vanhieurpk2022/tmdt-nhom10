@@ -14,4 +14,6 @@ public class AdminCustomerDetailResponse {
     private AdminCustomerResponse customer;
     private List<AddressResponse> addresses;
     private List<AdminCustomerOrderSummary> recentOrders;
+    private List<AdminCustomerRefundSummary> disputes;
+    private List<AdminCustomerFormulaSummary> formulas;
 }

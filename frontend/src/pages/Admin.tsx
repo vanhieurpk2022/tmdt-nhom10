@@ -52,8 +52,6 @@ export function Admin() {
 
             {/* Main content */}
             <main className="flex-grow-1 p-3 p-lg-4 admin-content overflow-x-auto" style={{ minWidth: 0 }}>
-                <OperationsOverview />
-            <main className="col-12 col-xl-10 p-3 p-lg-4 admin-content">
                 <OperationsOverviewAdmin data={factoryResponse} onChanged={fetchFactory} />
             </main>
         </div>

@@ -4,9 +4,12 @@ import com.nhom10.tmdt.dto.address.AddressResponse;
 import com.nhom10.tmdt.dto.admin.*;
 import com.nhom10.tmdt.enums.UserStatus;
 import com.nhom10.tmdt.model.Order;
+import com.nhom10.tmdt.model.ProductCustom;
 import com.nhom10.tmdt.model.Role;
 import com.nhom10.tmdt.model.User;
 import com.nhom10.tmdt.repo.OrderRepository;
+import com.nhom10.tmdt.repo.ProductCustomRepository;
+import com.nhom10.tmdt.repo.RefundRepository;
 import com.nhom10.tmdt.repo.RoleRepository;
 import com.nhom10.tmdt.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,6 +36,9 @@ public class AdminCustomerServiceImp implements AdminCustomerService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final RoleRepository roleRepository;
+    private final RefundRepository refundRepository;
+    private final ProductCustomRepository productCustomRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private static final String[] AVATAR_TONES = {"pink", "blue", "slate", "mint"};
 
@@ -123,10 +130,75 @@ public class AdminCustomerServiceImp implements AdminCustomerService {
                         .build())
                 .toList();
 
+        List<AdminCustomerRefundSummary> disputes = Optional.ofNullable(refundRepository.findByUserId(user.getId()))
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(r -> AdminCustomerRefundSummary.builder()
+                        .id(r.getId())
+                        .orderId(r.getOrder() != null ? r.getOrder().getId() : null)
+                        .reason(r.getReason())
+                        .status(r.getStatus())
+                        .amount(r.getAmount())
+                        .createdAt(r.getCreatedAt())
+                        .processedAt(r.getProcessedAt())
+                        .build())
+                .toList();
+
+        List<ProductCustom> customs = productCustomRepository.findByUserId(user.getId());
+        List<AdminCustomerFormulaSummary> formulaSummaries = Optional.ofNullable(customs)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(pc -> {
+                    List<AdminCustomerFormulaSummary.FormulaItemSummary> itemDtos = Optional.ofNullable(pc.getItems())
+                            .orElse(Collections.emptyList())
+                            .stream()
+                            .map(it -> AdminCustomerFormulaSummary.FormulaItemSummary.builder()
+                                    .id(it.getId())
+                                    .productId(it.getProduct() != null ? it.getProduct().getId() : null)
+                                    .productName(it.getProduct() != null ? it.getProduct().getName() : "Tinh dầu")
+                                    .tier(it.getProduct() != null ? it.getProduct().getScentTier() : 1)
+                                    .percentage(it.getPercentage())
+                                    .volumeMl(it.getVolumeM1())
+                                    .build())
+                            .toList();
+
+                    String top = itemDtos.stream().filter(i -> i.getTier() != null && i.getTier() == 1)
+                            .map(i -> i.getProductName() + " (" + i.getPercentage() + "%)")
+                            .collect(Collectors.joining(", "));
+                    String heart = itemDtos.stream().filter(i -> i.getTier() != null && i.getTier() == 2)
+                            .map(i -> i.getProductName() + " (" + i.getPercentage() + "%)")
+                            .collect(Collectors.joining(", "));
+                    String base = itemDtos.stream().filter(i -> i.getTier() != null && i.getTier() == 3)
+                            .map(i -> i.getProductName() + " (" + i.getPercentage() + "%)")
+                            .collect(Collectors.joining(", "));
+
+                    return AdminCustomerFormulaSummary.builder()
+                            .id(pc.getId())
+                            .code("#SCT-" + user.getId() + "-" + String.format("%02d", pc.getId()))
+                            .name(pc.getName() != null && !pc.getName().isBlank() ? pc.getName() : "Công thức Bespoke #" + pc.getId())
+                            .bottleType(pc.getBottleType() != null ? pc.getBottleType() : "Chai Thủy Tinh Cổ Điển (Classic EDP)")
+                            .labelDesign(pc.getLabelDesign())
+                            .totalVolumeMl(pc.getTotalVolumeMl() != null ? pc.getTotalVolumeMl() : 50.0)
+                            .price(pc.getPrice())
+                            .factoryId(pc.getFactory() != null ? pc.getFactory().getId() : null)
+                            .factoryName(pc.getFactory() != null ? pc.getFactory().getName() : "OILIA Perfume Lab")
+                            .notes(pc.getNotes())
+                            .orderedCount(1)
+                            .createdAt(pc.getCreatedAt())
+                            .topNotes(!top.isBlank() ? top : "Hương tự nhiên tiêu chuẩn")
+                            .heartNotes(!heart.isBlank() ? heart : "Hương tự nhiên tiêu chuẩn")
+                            .baseNotes(!base.isBlank() ? base : "Hương tự nhiên tiêu chuẩn")
+                            .items(itemDtos)
+                            .build();
+                })
+                .toList();
+
         return AdminCustomerDetailResponse.builder()
                 .customer(customer)
                 .addresses(addresses)
                 .recentOrders(orderSummaries)
+                .disputes(disputes)
+                .formulas(formulaSummaries)
                 .build();
     }
 
@@ -173,9 +245,33 @@ public class AdminCustomerServiceImp implements AdminCustomerService {
         if (request.gender() != null) {
             user.setGender(request.gender().trim());
         }
+        if (request.cskhNote() != null) {
+            user.setCskhNote(request.cskhNote().trim());
+        }
 
         User saved = userRepository.save(user);
         return mapToCustomerResponse(saved);
+    }
+
+    @Override
+    public AdminCustomerResponse updateStoreCredit(Long id, Double deltaAmount) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy khách hàng"));
+        double current = user.getStoreCredit() != null ? user.getStoreCredit() : 0.0;
+        double newCredit = Math.max(0.0, current + (deltaAmount != null ? deltaAmount : 0.0));
+        user.setStoreCredit(newCredit);
+        User saved = userRepository.save(user);
+        return mapToCustomerResponse(saved);
+    }
+
+    @Override
+    public String resetCustomerPassword(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy khách hàng"));
+        String defaultPassword = "Password123@";
+        user.setPassword(passwordEncoder.encode(defaultPassword));
+        userRepository.save(user);
+        return defaultPassword;
     }
 
     @Override
@@ -229,6 +325,10 @@ public class AdminCustomerServiceImp implements AdminCustomerService {
                 .map(Role::getName)
                 .collect(Collectors.toSet());
 
+        int formulaCount = (int) productCustomRepository.countByUserId(user.getId());
+        long loyaltyPoints = Math.round(ltv / 10000.0);
+        double storeCredit = user.getStoreCredit() != null ? user.getStoreCredit() : 0.0;
+
         return AdminCustomerResponse.builder()
                 .id(user.getId())
                 .name(displayName)
@@ -247,13 +347,16 @@ public class AdminCustomerServiceImp implements AdminCustomerService {
                 .tier(tier)
                 .orders(orderCount)
                 .ltv(ltv)
-                .formulas(0)
-                .formulaNote(orderCount > 0 ? (orderCount + " đơn hàng đã đặt") : "Chưa có đơn hàng")
+                .formulas(formulaCount)
+                .formulaNote(formulaCount > 0 ? (formulaCount + " công thức đã lưu") : "Chưa có công thức")
                 .recent(recent)
                 .recentNote(user.isVerify() ? "Tài khoản đã xác thực" : "Chưa xác thực email")
                 .initials(initials)
                 .avatarTone(avatarTone)
                 .risk(user.getStatus() == UserStatus.BANNED)
+                .cskhNote(user.getCskhNote())
+                .storeCredit(storeCredit)
+                .loyaltyPoints(loyaltyPoints)
                 .build();
     }
 

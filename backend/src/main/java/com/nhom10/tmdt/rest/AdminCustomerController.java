@@ -72,4 +72,22 @@ public class AdminCustomerController {
         AdminCustomerResponse updated = adminCustomerService.updateCustomerStatus(id, request.status());
         return new ApiResponse<>(200, "Cập nhật trạng thái khách hàng thành công", updated);
     }
+
+    // Cộng hoặc trừ số dư Store Credit của khách hàng
+    @PutMapping("/{id}/credit")
+    public ApiResponse<AdminCustomerResponse> updateCustomerStoreCredit(
+            @PathVariable Long id,
+            @RequestBody java.util.Map<String, Double> body
+    ) {
+        Double amount = body.getOrDefault("amount", 0.0);
+        AdminCustomerResponse updated = adminCustomerService.updateStoreCredit(id, amount);
+        return new ApiResponse<>(200, "Cập nhật Store Credit thành công", updated);
+    }
+
+    // Đặt lại mật khẩu khách hàng
+    @PostMapping("/{id}/reset-password")
+    public ApiResponse<String> resetCustomerPassword(@PathVariable Long id) {
+        String newPassword = adminCustomerService.resetCustomerPassword(id);
+        return new ApiResponse<>(200, "Đặt lại mật khẩu thành công. Mật khẩu mặc định: " + newPassword, newPassword);
+    }
 }
