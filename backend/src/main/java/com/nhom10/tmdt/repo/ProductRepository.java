@@ -27,6 +27,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) ORDER BY p.createdAt DESC, p.id DESC")
     List<Product> findNewestProducts(Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) ORDER BY COALESCE(p.views, 0L) DESC, p.id DESC")
+    List<Product> findMostViewedProducts(Pageable pageable);
+
     List<Product> findByFactoryId(Long factoryId);
 
     @Query("""

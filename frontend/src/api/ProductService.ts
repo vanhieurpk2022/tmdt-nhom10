@@ -10,6 +10,7 @@ export interface ProductCard {
     totalSold: number;
     stockStatus: "Còn hàng" | "Sắp hết" | "Hết hàng";
     thumbnailUrl: string | null;
+    views?: number;
 }
 
 export interface ProductPage {
@@ -79,6 +80,7 @@ export interface ProductDetail {
     imageUrls: string[];
     variants: ProductMilItem[];
     reviews: ReviewItem[];
+    views?: number;
 }
 
 
@@ -131,6 +133,14 @@ export const productService = {
     /** Lấy danh sách sản phẩm bán chạy nhất */
     getBestSellerProducts: async (limit = 4): Promise<ProductCard[]> => {
         const res = await api.get<ApiResponse<ProductCard[]>>("/products/best-sellers", {
+            params: { limit },
+        });
+        return res.data.data;
+    },
+
+    /** Lấy danh sách sản phẩm xem nhiều nhất hiển thị trang chủ */
+    getMostViewedProducts: async (limit = 4): Promise<ProductCard[]> => {
+        const res = await api.get<ApiResponse<ProductCard[]>>("/products/most-viewed", {
             params: { limit },
         });
         return res.data.data;

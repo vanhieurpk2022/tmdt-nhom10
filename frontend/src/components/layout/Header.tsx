@@ -11,7 +11,7 @@ import { ROUTES } from "../../routes/routes";
 import { useAuth } from "../../api/AuthContext";
 import { useCart } from "../../api/CartContext";
 import CartToast from "../cart/CartToast";
-import { useEffect } from "react";
+import { clearProductsCache } from "../../pages/ProductsPage";
 
 export function Header() {
     const location = useLocation();
@@ -38,7 +38,7 @@ export function Header() {
 
                     <nav className="d-flex align-items-center gap-3 gap-xl-4 flex-shrink-0 site-nav" aria-label="Điều hướng chính">
                         <NavItem href={ROUTES.HOME} content="Trang Chủ" active={isHome} />
-                        <NavItem href={ROUTES.PRODUCTS} content="Sản phẩm" active={isProducts} />
+                        <NavItem href={ROUTES.PRODUCTS} content="Sản phẩm" active={isProducts} onClick={clearProductsCache} />
                         <NavItem href={ROUTES.CUSTOM_SCENT} content="Phối hương" active={isCustomScent} />
                         <NavItem href={ROUTES.FACTORIES} content="Xưởng" active={isFactories} />
                     </nav>
