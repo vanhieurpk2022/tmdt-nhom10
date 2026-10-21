@@ -305,7 +305,7 @@ export default function ProductDetailPage() {
                                 </div>
                                 <span className="fw-bold text-dark fs-7">{product.avgRating.toFixed(1)}</span>
                                 <span className="text-muted fs-7">
-                                    • ({product.reviewCount} đánh giá • Đã bán {product.totalSold >= 1000 ? `${(product.totalSold / 1000).toFixed(1)}k+` : product.totalSold})
+                                    • ({product.reviewCount} đánh giá • Đã bán {product.totalSold >= 1000 ? `${(product.totalSold / 1000).toFixed(1)}k+` : product.totalSold} • {(product.views ?? 0).toLocaleString("vi-VN")} lượt xem)
                                 </span>
                             </div>
 

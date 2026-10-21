@@ -48,6 +48,17 @@ public class ProductController {
     }
 
     /**
+     * GET /api/products/most-viewed
+     * Lấy sản phẩm xem nhiều nhất để hiển thị trên trang chủ.
+     */
+    @GetMapping("/most-viewed")
+    public ApiResponse<List<ProductCardResponse>> getMostViewedProducts(
+            @RequestParam(defaultValue = "4") Integer limit
+    ) {
+        return new ApiResponse<>(200, "Lấy danh sách sản phẩm xem nhiều nhất thành công", productService.getMostViewedProducts(limit));
+    }
+
+    /**
      * GET /api/products/filter
      * Lọc sản phẩm theo các tiêu chí: category, factory, giá, rating, sort, phân trang.
      */

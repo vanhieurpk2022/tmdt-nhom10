@@ -21,6 +21,7 @@ const PRODUCT_SORT_OPTIONS = [
     { value: "popular", label: "Mặc định (Phổ biến)" },
     { value: "newest", label: "Sản phẩm mới về" },
     { value: "bestseller", label: "Bán chạy nhất" },
+    { value: "most-viewed", label: "Xem nhiều nhất" },
     { value: "price-asc", label: "Giá: Thấp đến Cao" },
     { value: "price-desc", label: "Giá: Cao đến Thấp" },
 ] as const;
@@ -397,7 +398,9 @@ export default function ProductsPage() {
                                                     <div className="d-flex align-items-center gap-1 mb-2">
                                                         <FontAwesomeIcon icon={faStar} className="text-warning fs-7" />
                                                         <span className="fw-bold fs-7">{product.avgRating.toFixed(1)}</span>
-                                                        <span className="text-muted fs-7">({product.totalSold}+ đã bán)</span>
+                                                        <span className="text-muted fs-7">
+                                                            ({product.totalSold}+ đã bán{product.views ? ` • ${product.views.toLocaleString("vi-VN")} lượt xem` : ""})
+                                                        </span>
                                                     </div>
                                                     <h5 className="card-title fs-6 fw-bold mb-1 product-title">
                                                         <Link to={`/product-detail/${product.id}`} className="text-dark text-decoration-none hover-primary">
