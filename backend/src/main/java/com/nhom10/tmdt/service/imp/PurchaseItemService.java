@@ -5,7 +5,9 @@ import com.nhom10.tmdt.dto.order.BuyNowRequest;
 import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.CartItemRepository;
 import com.nhom10.tmdt.repo.CartRepository;
+import com.nhom10.tmdt.repo.ProductMilRepository;
 import com.nhom10.tmdt.repo.ProductRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,10 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PurchaseItemService {
     private final ProductRepository productRepository;
+    private final ProductMilRepository productMilRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+
 
     @Transactional(readOnly = true)
     public CartItemResponse preview(BuyNowRequest request) {
@@ -70,8 +74,12 @@ public class PurchaseItemService {
     }
 
     private List<ProductMil> variants(Product product) {
-        return product.getProductMils() == null ? List.of() : product.getProductMils();
+        if (product.getProductMils() != null && !product.getProductMils().isEmpty()) {
+            return product.getProductMils();
+        }
+        return productMilRepository.findByProductId(product.getId());
     }
+
 
     public double price(ProductMil variant) {
         Double price = variant.getBasePrice() != null ? variant.getBasePrice() : variant.getPrice();
