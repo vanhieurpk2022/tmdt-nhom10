@@ -36,12 +36,4 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     long countOpenByFactoryId(
             @Param("factoryId") Long factoryId
     );
-
-    @Query("""
-    SELECT r FROM Refund r
-    JOIN r.order o
-    WHERE o.user.id = :userId
-    ORDER BY r.createdAt DESC
-    """)
-    java.util.List<Refund> findByUserId(@Param("userId") Long userId);
 }
