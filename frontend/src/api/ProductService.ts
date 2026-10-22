@@ -10,6 +10,7 @@ export interface ProductCard {
     totalSold: number;
     stockStatus: "Còn hàng" | "Sắp hết" | "Hết hàng";
     thumbnailUrl: string | null;
+    views?: number;
 }
 
 export interface ProductPage {
@@ -79,6 +80,7 @@ export interface ProductDetail {
     imageUrls: string[];
     variants: ProductMilItem[];
     reviews: ReviewItem[];
+    views?: number;
 }
 
 
@@ -87,6 +89,9 @@ interface ApiResponse<T> {
     message: string;
     data: T;
 }
+
+// Share simultaneous detail requests so one page load records one view.
+const productDetailRequests = new Map<string, Promise<ProductDetail>>();
 
 // Dịch vụ gọi API sản phẩm từ Backend
 
@@ -136,10 +141,27 @@ export const productService = {
         return res.data.data;
     },
 
-    /** Lấy thông tin chi tiết một sản phẩm theo ID */
-    getProductDetail: async (id: number | string): Promise<ProductDetail> => {
-        const res = await api.get<ApiResponse<ProductDetail>>(`/products/${id}`);
+    /** Lấy danh sách sản phẩm xem nhiều nhất hiển thị trang chủ */
+    getMostViewedProducts: async (limit = 4): Promise<ProductCard[]> => {
+        const res = await api.get<ApiResponse<ProductCard[]>>("/products/most-viewed", {
+            params: { limit },
+        });
         return res.data.data;
+    },
+
+    /** Lấy thông tin chi tiết một sản phẩm theo ID */
+    getProductDetail: (id: number | string): Promise<ProductDetail> => {
+        const key = String(id);
+        let request = productDetailRequests.get(key);
+
+        if (!request) {
+            request = api.get<ApiResponse<ProductDetail>>(`/products/${key}`)
+                .then((res) => res.data.data)
+                .finally(() => productDetailRequests.delete(key));
+            productDetailRequests.set(key, request);
+        }
+
+        return request;
     },
 };
 

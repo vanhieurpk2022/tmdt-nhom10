@@ -43,7 +43,7 @@ export interface ScentProductFromDb {
     price: number;
     factoryId: number;
     factoryName: string;
-    tier: 1 | 2 | 3;
+    tier?: number | null;
 }
 
 

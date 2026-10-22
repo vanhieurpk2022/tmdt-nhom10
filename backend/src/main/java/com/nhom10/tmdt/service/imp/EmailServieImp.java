@@ -110,6 +110,72 @@ public class EmailServieImp implements EmailSevice {
     }
 
     @Override
+    public void sendRecoveryCode(String to, String code) {
+        String html = """
+        <!DOCTYPE html>
+        <html lang="vi">
+        <head>
+            <meta charset="UTF-8">
+            <title>Khôi phục mật khẩu</title>
+        </head>
+        <body style="
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        ">
+            <div style="
+                max-width: 600px;
+                margin: 40px auto;
+                background-color: #ffffff;
+                padding: 40px;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            ">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="color: #111827; margin: 0;">Khôi phục mật khẩu</h2>
+                    <p style="color: #64748b; font-size: 14px; margin-top: 8px;">Sàn thương mại điện tử tinh dầu Oilia</p>
+                </div>
+
+                <p style="color: #334155; font-size: 15px; line-height: 1.6;">
+                    Xin chào, chúng tôi nhận được yêu cầu lấy lại mật khẩu cho tài khoản <strong>%s</strong>.
+                </p>
+
+                <p style="color: #334155; font-size: 15px; line-height: 1.6;">
+                    Mã xác thực của bạn là:
+                </p>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="
+                        display: inline-block;
+                        padding: 16px 36px;
+                        background-color: #fff1f2;
+                        border: 2px dashed #e11d48;
+                        border-radius: 10px;
+                        font-size: 32px;
+                        font-weight: 800;
+                        letter-spacing: 8px;
+                        color: #e11d48;
+                    ">
+                        %s
+                    </div>
+                </div>
+
+                <p style="color: #64748b; font-size: 14px; line-height: 1.6;">
+                    Mã xác thực này có hiệu lực trong vòng <strong>5 phút</strong>. Vui lòng không chia sẻ mã này cho bất kỳ ai.
+                </p>
+
+                <p style="font-size: 13px; color: #94a3b8; margin-top: 30px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
+                    Nếu bạn không yêu cầu khôi phục mật khẩu, vui lòng bỏ qua email này hoặc liên hệ hỗ trợ Oilia.
+                </p>
+            </div>
+        </body>
+        </html>
+        """.formatted(to, code);
+        sendMessage(mailFrom, to, "Mã khôi phục mật khẩu - Oilia", html);
+    }
+
+    @Override
     public String generateCode() {
         return new Random().ints(6,1,10)
                 .mapToObj(String::valueOf)

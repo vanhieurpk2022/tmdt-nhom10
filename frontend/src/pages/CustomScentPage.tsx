@@ -33,27 +33,73 @@ export default function CustomScentPage() {
     // Danh sách mùi hương lấy trực tiếp từ CSDL theo xưởng
     const [factoryScents, setFactoryScents] = useState<ScentNoteOption[]>([]);
 
-    // Lựa chọn 3 tầng hương theo xưởng
-    const topNotes = useMemo(() => {
-        return factoryScents.filter((n) => n.tier === 1);
-    }, [factoryScents]);
+    // Số tầng hương do khách tự chọn (1 đến 5 tầng, mặc định 3 tầng)
+    const [tierCount, setTierCount] = useState<number>(3);
+    const [selectedTiers, setSelectedTiers] = useState<(ScentNoteOption | null)[]>([null, null, null]);
 
-    const heartNotes = useMemo(() => {
-        return factoryScents.filter((n) => n.tier === 2);
-    }, [factoryScents]);
+    // Tỷ lệ % cho từng tầng theo số lượng tầng được chọn
+    const tierRatios = useMemo(() => {
+        if (tierCount === 1) return [100];
+        if (tierCount === 2) return [50, 50];
+        if (tierCount === 3) return [30, 50, 20];
+        if (tierCount === 4) return [25, 25, 25, 25];
+        if (tierCount === 5) return [20, 20, 20, 20, 20];
+        const equalRatio = Math.floor(100 / tierCount);
+        const list = Array(tierCount).fill(equalRatio);
+        list[0] += 100 - (equalRatio * tierCount);
+        return list;
+    }, [tierCount]);
 
-    const baseNotes = useMemo(() => {
-        return factoryScents.filter((n) => n.tier === 3);
-    }, [factoryScents]);
+    const handleTierCountChange = (count: number) => {
+        setTierCount(count);
+        setSelectedTiers((prev) => {
+            const next = Array(count).fill(null);
+            for (let i = 0; i < Math.min(prev.length, count); i++) {
+                next[i] = prev[i];
+            }
+            return next;
+        });
+    };
 
-    const [selectedTopNote, setSelectedTopNote] = useState<ScentNoteOption | null>(null);
-    const [selectedHeartNote, setSelectedHeartNote] = useState<ScentNoteOption | null>(null);
-    const [selectedBaseNote, setSelectedBaseNote] = useState<ScentNoteOption | null>(null);
+    const getTierTitle = (idx: number, total: number) => {
+        if (total === 1) return "Tầng 1: Hương chủ đạo duy nhất (Đơn hương)";
+        if (total === 2) {
+            return idx === 0 ? "Tầng 1: Nốt mở đầu (Top Note)" : "Tầng 2: Nốt lưu hương (Base Note)";
+        }
+        if (total === 3) {
+            const titles = [
+                "Tầng 1: Nốt đầu (Top Note)",
+                "Tầng 2: Nốt giữa (Heart Note)",
+                "Tầng 3: Nốt đáy (Base Note)"
+            ];
+            return titles[idx] || `Tầng ${idx + 1}`;
+        }
+        if (total === 4) {
+            const titles = [
+                "Tầng 1: Nốt dạo đầu (Opening)",
+                "Tầng 2: Nốt chuyển tiếp (Transition)",
+                "Tầng 3: Nốt hương trung tâm (Heart Note)",
+                "Tầng 4: Nốt lắng đọng (Deep Base)"
+            ];
+            return titles[idx] || `Tầng ${idx + 1}`;
+        }
+        if (total === 5) {
+            const titles = [
+                "Tầng 1: Nốt khởi đầu (Top Note)",
+                "Tầng 2: Nốt dạo sớm (Upper Heart)",
+                "Tầng 3: Nốt hương trái tim (Core Heart)",
+                "Tầng 4: Nốt nền ấm áp (Warm Base)",
+                "Tầng 5: Nốt đọng sâu thẳm (Deep Base)"
+            ];
+            return titles[idx] || `Tầng ${idx + 1}`;
+        }
+        return `Tầng ${idx + 1}`;
+    };
 
-    // Tỷ lệ phần trăm 3 tầng hương chuẩn công thức
-    const ratioTop = 30;
-    const ratioHeart = 50;
-    const ratioBase = 20;
+    const getTierShortTitle = (idx: number, total: number) => {
+        if (total === 1) return "tầng hương duy nhất";
+        return `tầng ${idx + 1}`;
+    };
 
     // Dung tích & Mẫu bao bì
     const [selectedVolume, setSelectedVolume] = useState<VolumeOption>(VOLUME_OPTIONS[1]); // 30ml
@@ -76,16 +122,12 @@ export default function CustomScentPage() {
     useEffect(() => {
         if (!selectedFactoryId) {
             setFactoryScents([]);
-            setSelectedTopNote(null);
-            setSelectedHeartNote(null);
-            setSelectedBaseNote(null);
+            setSelectedTiers(Array(tierCount).fill(null));
             return;
         }
 
         // Reset lựa chọn mùi cũ khi người dùng đổi sang xưởng khác
-        setSelectedTopNote(null);
-        setSelectedHeartNote(null);
-        setSelectedBaseNote(null);
+        setSelectedTiers(Array(tierCount).fill(null));
 
         FactoryApiService.getScentsByFactory(selectedFactoryId)
             .then((scentsDb) => {
@@ -96,7 +138,7 @@ export default function CustomScentPage() {
                         name: s.name,
                         description: s.description,
                         color: "#fef08a",
-                        defaultRatio: s.tier === 1 ? 30 : s.tier === 2 ? 50 : 20,
+                        defaultRatio: 100 / tierCount,
                         extraPrice: Math.round(s.price * 0.1), // Phụ phí hương trích tỷ lệ theo giá gốc tinh dầu của xưởng
                         origin: s.factoryName,
                     }));
@@ -109,7 +151,7 @@ export default function CustomScentPage() {
                 console.warn("Lỗi khi tải mùi hương theo xưởng:", err);
                 setFactoryScents([]);
             });
-    }, [selectedFactoryId]);
+    }, [selectedFactoryId, tierCount]);
 
     // Xưởng đang chọn
     const activeFactory = useMemo(() => {
@@ -124,15 +166,13 @@ export default function CustomScentPage() {
         return 0;
     }, [activeFactory]);
 
-    // Tính tổng tiền động theo dung tích, 3 tầng hương đã chọn, mẫu bao bì và phí xưởng từ CSDL
+    // Tính tổng tiền động theo dung tích, các tầng hương đã chọn, mẫu bao bì và phí xưởng từ CSDL
     const unitPrice = useMemo(() => {
         const base = selectedVolume.basePrice;
-        const notesExtra = (selectedTopNote?.extraPrice || 0) +
-            (selectedHeartNote?.extraPrice || 0) +
-            (selectedBaseNote?.extraPrice || 0);
+        const notesExtra = selectedTiers.reduce((acc, note) => acc + (note?.extraPrice || 0), 0);
         const designExtra = selectedDesign.extraPrice || 0;
         return base + notesExtra + designExtra + factoryFee;
-    }, [selectedVolume, selectedTopNote, selectedHeartNote, selectedBaseNote, selectedDesign, factoryFee]);
+    }, [selectedVolume, selectedTiers, selectedDesign, factoryFee]);
 
     const totalPrice = useMemo(() => {
         return unitPrice * quantity;
@@ -140,16 +180,17 @@ export default function CustomScentPage() {
 
     // Tạo mã lô mẻ pha chế độc bản
     const batchCode = useMemo(() => {
-        const topId = selectedTopNote?.id || 0;
-        const heartId = selectedHeartNote?.id || 0;
-        const baseId = selectedBaseNote?.id || 0;
-        const hash = ((topId * 17) + (heartId * 31) + (baseId * 53)) % 9000 + 1000;
-        return `#OL-${hash}`;
-    }, [selectedTopNote, selectedHeartNote, selectedBaseNote]);
+        let hash = 1000;
+        selectedTiers.forEach((note, idx) => {
+            const id = note?.id || (idx + 1);
+            hash = (hash + (id * (idx + 1) * 17)) % 9000;
+        });
+        return `#OL-${hash + 1000}`;
+    }, [selectedTiers]);
 
-    // Kiểm tra xem đã hoàn thành việc chọn xưởng và 3 tầng hương chưa
+    // Kiểm tra xem đã hoàn thành việc chọn xưởng và đủ các tầng hương chưa
     const isReadyToOrder = Boolean(
-        selectedFactoryId && selectedTopNote && selectedHeartNote && selectedBaseNote
+        selectedFactoryId && selectedTiers.length === tierCount && selectedTiers.every((t) => t !== null)
     );
 
     // Xử lý đặt hàng phối hương
@@ -159,8 +200,8 @@ export default function CustomScentPage() {
             return;
         }
 
-        if (!selectedTopNote || !selectedHeartNote || !selectedBaseNote) {
-            alert("Vui lòng chọn đầy đủ cả 3 tầng hương (Nốt đầu, Nốt giữa, Nốt đáy)!");
+        if (!selectedTiers.every((t) => t !== null)) {
+            alert(`Vui lòng chọn đầy đủ cả ${tierCount} tầng hương trước khi tiếp tục!`);
             return;
         }
 
@@ -169,8 +210,12 @@ export default function CustomScentPage() {
             return;
         }
 
+        const scentSummary = selectedTiers
+            .map((t, idx) => `${t!.name.replace("Tinh dầu ", "")} (${tierRatios[idx]}%)`)
+            .join(" + ");
+
         showCartNotice(
-            `Đã lưu công thức Bespoke ${selectedVolume.label} (${selectedTopNote.name} + ${selectedHeartNote.name} + ${selectedBaseNote.name}) thành công!`
+            `Đã lưu công thức Bespoke ${selectedVolume.label} [${tierCount} tầng: ${scentSummary}] thành công!`
         );
         // Chuyển tới giỏ hàng
         navigate(ROUTES.CART);
@@ -269,84 +314,78 @@ export default function CustomScentPage() {
                             )}
                         </div>
 
-                        {/* BƯỚC 2: CHỌN 3 TẦNG HƯƠNG (CHỈ HIỂN THỊ KHI ĐÃ CHỌN XƯỞNG) */}
+                        {/* BƯỚC 2: CHỌN SỐ TẦNG & TỪNG TẦNG HƯƠNG (CHỈ HIỂN THỊ KHI ĐÃ CHỌN XƯỞNG) */}
                         {!selectedFactoryId ? (
                             <div className="card border border-dashed rounded-4 p-4 mb-3 text-center bg-light text-muted">
                                 <div className="py-3">
                                     <div className="fs-5 fw-semibold text-secondary mb-1">Chưa chọn xưởng điều chế</div>
-                                    <div className="small">Vui lòng chọn một xưởng chưng cất ở trên để mở khóa bảng tinh dầu 3 tầng hương đặc trưng của xưởng đó.</div>
+                                    <div className="small">Vui lòng chọn một xưởng chưng cất ở trên để mở khóa bảng tinh dầu và tùy chọn số tầng hương.</div>
                                 </div>
                             </div>
                         ) : (
                             <>
-                                {/* TẦNG 1: TOP NOTE */}
+                                {/* CHỌN SỐ LƯỢNG TẦNG HƯƠNG */}
                                 <div className="card border rounded-4 p-3 mb-3 shadow-none bg-white">
                                     <div className="d-flex justify-content-between align-items-center mb-2">
-                                        <span className="fw-bold text-dark fs-6">Tầng 1 (Nốt đầu)</span>
-                                        <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">{ratioTop}%</span>
+                                        <label className="fw-bold text-dark fs-6 mb-0">Chọn số tầng hương muốn phối</label>
+                                        <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">
+                                            {tierCount} tầng {tierCount === 1 ? "(Đơn hương)" : tierCount === 3 ? "(Chuẩn 3 tầng)" : "(Tự do)"}
+                                        </span>
                                     </div>
-                                    <select
-                                        className="form-select form-select-lg rounded-3 fs-6"
-                                        value={selectedTopNote?.id || ""}
-                                        onChange={(e) => {
-                                            const note = topNotes.find((n) => n.id === Number(e.target.value));
-                                            setSelectedTopNote(note || null);
-                                        }}
-                                    >
-                                        <option value="">-- Chọn nốt đầu ({topNotes.length} mùi) --</option>
-                                        {topNotes.map((n) => (
-                                            <option key={n.id} value={n.id}>
-                                                {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"}
-                                            </option>
+                                    <div className="d-flex gap-2">
+                                        {[1, 2, 3, 4, 5].map((count) => (
+                                            <button
+                                                key={count}
+                                                type="button"
+                                                className={`btn flex-fill py-2 rounded-3 fw-bold border ${
+                                                    tierCount === count
+                                                        ? "btn-outline-danger border-2 bg-danger-subtle text-danger fw-bold shadow-xs"
+                                                        : "btn-outline-secondary text-dark"
+                                                }`}
+                                                onClick={() => handleTierCountChange(count)}
+                                            >
+                                                {count} Tầng
+                                            </button>
                                         ))}
-                                    </select>
+                                    </div>
+                                    <div className="small text-muted mt-2">
+                                        {tierCount === 1 && "1 Tầng: Tinh dầu đơn hương thuần khiết 100% nguyên bản."}
+                                        {tierCount === 2 && "2 Tầng: Hòa quyện cân bằng nhị phân (50% mở đầu - 50% lưu hương)."}
+                                        {tierCount === 3 && "3 Tầng: Cấu trúc kinh điển nghệ thuật nước hoa (30% nốt đầu - 50% nốt giữa - 20% nốt đáy)."}
+                                        {tierCount === 4 && "4 Tầng: Hòa phối tứ giác chuyển hương 4 chiều phức hợp đa sắc (25% mỗi tầng)."}
+                                        {tierCount === 5 && "5 Tầng: Kiệt tác nước hoa cao cấp 5 tầng hương chuyển biến đa cung bậc (20% mỗi tầng)."}
+                                    </div>
                                 </div>
 
-                                {/* TẦNG 2: HEART NOTE */}
-                                <div className="card border rounded-4 p-3 mb-3 shadow-none bg-white">
-                                    <div className="d-flex justify-content-between align-items-center mb-2">
-                                        <span className="fw-bold text-dark fs-6">Tầng 2 (Nốt giữa)</span>
-                                        <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">{ratioHeart}%</span>
+                                {/* CÁC THẺ CHỌN MÙI CHO TỪNG TẦNG */}
+                                {Array.from({ length: tierCount }).map((_, idx) => (
+                                    <div key={idx} className="card border rounded-4 p-3 mb-3 shadow-none bg-white">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <span className="fw-bold text-dark fs-6">{getTierTitle(idx, tierCount)}</span>
+                                            <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">
+                                                {tierRatios[idx]}%
+                                            </span>
+                                        </div>
+                                        <select
+                                            className="form-select form-select-lg rounded-3 fs-6"
+                                            value={selectedTiers[idx]?.id || ""}
+                                            onChange={(e) => {
+                                                const val = Number(e.target.value);
+                                                const note = factoryScents.find((n) => n.id === val) || null;
+                                                const newSelected = [...selectedTiers];
+                                                newSelected[idx] = note;
+                                                setSelectedTiers(newSelected);
+                                            }}
+                                        >
+                                            <option value="">-- Chọn mùi hương {getTierShortTitle(idx, tierCount)} ({factoryScents.length} mùi) --</option>
+                                            {factoryScents.map((n) => (
+                                                <option key={n.id} value={n.id}>
+                                                    {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
-                                    <select
-                                        className="form-select form-select-lg rounded-3 fs-6"
-                                        value={selectedHeartNote?.id || ""}
-                                        onChange={(e) => {
-                                            const note = heartNotes.find((n) => n.id === Number(e.target.value));
-                                            setSelectedHeartNote(note || null);
-                                        }}
-                                    >
-                                        <option value="">-- Chọn nốt giữa ({heartNotes.length} mùi) --</option>
-                                        {heartNotes.map((n) => (
-                                            <option key={n.id} value={n.id}>
-                                                {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* TẦNG 3: BASE NOTE */}
-                                <div className="card border rounded-4 p-3 mb-3 shadow-none bg-white">
-                                    <div className="d-flex justify-content-between align-items-center mb-2">
-                                        <span className="fw-bold text-dark fs-6">Tầng 3 (Nốt đáy)</span>
-                                        <span className="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">{ratioBase}%</span>
-                                    </div>
-                                    <select
-                                        className="form-select form-select-lg rounded-3 fs-6"
-                                        value={selectedBaseNote?.id || ""}
-                                        onChange={(e) => {
-                                            const note = baseNotes.find((n) => n.id === Number(e.target.value));
-                                            setSelectedBaseNote(note || null);
-                                        }}
-                                    >
-                                        <option value="">-- Chọn nốt đáy ({baseNotes.length} mùi) --</option>
-                                        {baseNotes.map((n) => (
-                                            <option key={n.id} value={n.id}>
-                                                {n.name} {n.extraPrice > 0 ? `(+${n.extraPrice.toLocaleString("vi-VN")}đ)` : "(Tiêu chuẩn)"}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                                ))}
                             </>
                         )}
 
@@ -380,12 +419,12 @@ export default function CustomScentPage() {
                             </div>
 
                             <div className="d-flex justify-content-between small mb-2">
-                                <span className="text-secondary">Hòa phối 3 nốt:</span>
+                                <span className="text-secondary">Hòa phối ({tierCount} tầng):</span>
                                 <span className="fw-semibold text-dark text-end">
-                                    {selectedTopNote && selectedHeartNote && selectedBaseNote ? (
-                                        `${selectedTopNote.name.replace("Tinh dầu ", "")} (${ratioTop}%) + ${selectedHeartNote.name.replace("Tinh dầu ", "")} (${ratioHeart}%) + ${selectedBaseNote.name.replace("Tinh dầu ", "")} (${ratioBase}%)`
+                                    {selectedTiers.length === tierCount && selectedTiers.every((t) => t !== null) ? (
+                                        selectedTiers.map((t, idx) => `${t!.name.replace("Tinh dầu ", "")} (${tierRatios[idx]}%)`).join(" + ")
                                     ) : (
-                                        <span className="text-warning fw-normal">Chưa chọn đủ 3 tầng hương</span>
+                                        <span className="text-warning fw-normal">Chưa chọn đủ {tierCount} tầng hương</span>
                                     )}
                                 </span>
                             </div>

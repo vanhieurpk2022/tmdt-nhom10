@@ -113,6 +113,13 @@ public class ProductService {
                 .toList();
     }
 
+    public List<ProductCardResponse> getMostViewedProducts(Integer limit) {
+        Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
+        return productRepo.findMostViewedProducts(pageable).stream()
+                .map(this::toCard)
+                .toList();
+    }
+
     private ProductPageResponse filterBySales(Specification<Product> spec, ProductFilterRequest req) {
         List<Product> filteredProducts = productRepo.findAll(spec).stream()
                 .sorted(this::compareBySales)
@@ -207,6 +214,7 @@ public class ProductService {
         if (sort == null) return Sort.by(Sort.Direction.ASC, "id");
         return switch (sort) {
             case "newest"     -> Sort.by(Sort.Direction.DESC, "createdAt", "id");
+            case "views", "most-viewed" -> Sort.by(Sort.Direction.DESC, "views", "id");
             case "price-asc", "price-desc" -> Sort.unsorted();
             default           -> Sort.by(Sort.Direction.ASC, "id"); // popular / mặc định: ID tăng dần
         };
@@ -230,10 +238,15 @@ public class ProductService {
 
     // Chuyển Product entity sang DTO ProductCardResponse
     private ProductCardResponse toCard(Product p) {
-        // Ảnh thumbnail: lấy ảnh đầu tiên
-        String thumbnail = (p.getProductImages() != null && !p.getProductImages().isEmpty())
-                ? p.getProductImages().get(0).getImageUrl()
-                : null;
+        // Ảnh thumbnail: ưu tiên ảnh đánh dấu isThumbnail, fallback ảnh đầu tiên
+        String thumbnail = null;
+        if (p.getProductImages() != null && !p.getProductImages().isEmpty()) {
+            thumbnail = p.getProductImages().stream()
+                    .filter(img -> img.isThumbnail() && img.getImageUrl() != null && !img.getImageUrl().isBlank())
+                    .map(ProductImage::getImageUrl)
+                    .findFirst()
+                    .orElse(p.getProductImages().get(0).getImageUrl());
+        }
 
         // Rating trung bình
         double avgRating = 0;
@@ -267,13 +280,19 @@ public class ProductService {
                 Math.round(avgRating * 10.0) / 10.0,
                 totalSold,
                 stockStatus,
-                thumbnail
+                thumbnail,
+                p.getViews() != null ? p.getViews() : 0L
         );
     }
 
+    @Transactional
     public ProductDetailResponse getProductDetail(Long id) {
         Product p = productRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + id));
+
+        long currentViews = (p.getViews() != null ? p.getViews() : 0L) + 1L;
+        p.setViews(currentViews);
+        productRepo.save(p);
 
         // Danh sách đường dẫn hình ảnh chi tiết của sản phẩm
         List<String> imageUrls = (p.getProductImages() != null && !p.getProductImages().isEmpty())
@@ -348,8 +367,30 @@ public class ProductService {
                 stockStatus,
                 imageUrls,
                 variants,
-                reviews
+                reviews,
+                currentViews
         );
+    }
+
+    @jakarta.annotation.PostConstruct
+    @Transactional
+    public void initViewsIfNull() {
+        try {
+            List<Product> products = productRepo.findAll();
+            boolean changed = false;
+            for (Product p : products) {
+                if (p.getViews() == null || p.getViews() == 0L) {
+                    long baseSold = p.getTotalSold() != null && p.getTotalSold() > 0 ? p.getTotalSold() : 15L;
+                    long initialViews = Math.max(60L, baseSold * 5 + (p.getId() != null ? (p.getId() * 37) % 250 : 20));
+                    p.setViews(initialViews);
+                    changed = true;
+                }
+            }
+            if (changed) {
+                productRepo.saveAll(products);
+            }
+        } catch (Exception ignored) {
+        }
     }
 }
 

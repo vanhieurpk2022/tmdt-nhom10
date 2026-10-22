@@ -39,7 +39,7 @@ public class Order {
     private Instant reservationExpiresAt;
 
     @Builder.Default
-    @Column(name = "stock_held", nullable = false)
+    @Column(name = "stock_held", nullable = false, columnDefinition = "boolean default false")
     private boolean stockHeld = false;
 
     @Column(name = "paid_attempt_id")
