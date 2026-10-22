@@ -427,13 +427,7 @@ export function RegisterFactoryForm() {
                         </div>
                     </fieldset>
 
-                    {toast && (
-                        <Notification
-                            title={toast.title}
-                            content={toast.text}
-                            type={toast.type}
-                        />
-                    )}
+
 
                     <button
                         type="submit"
