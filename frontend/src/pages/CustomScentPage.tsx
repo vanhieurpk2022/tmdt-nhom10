@@ -3,9 +3,11 @@ import { Link, useNavigate, useLocation } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faArrowRight,
+    faArrowLeft,
     faPenToSquare,
     faPlus,
     faMinus,
+    faCartShopping,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     BOTTLE_DESIGN_OPTIONS,
@@ -14,9 +16,10 @@ import {
     type BottleDesignOption,
     type VolumeOption,
 } from "../data/customScentData";
-import { FactoryApiService, type FactoryItem } from "../api/FactoryService";
+import { FactoryApiService, type FactoryItem, type CreateCustomScentPayload } from "../api/FactoryService";
 import { useAuth } from "../api/AuthContext";
 import { useCart } from "../api/CartContext";
+import { getBuyNowUrl } from "../api/CheckoutSelection";
 import { ROUTES } from "../routes/routes";
 import "../css/pages/customScent.css";
 
@@ -24,7 +27,8 @@ export default function CustomScentPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
-    const { showCartNotice } = useCart();
+    const { showCartNotice, refreshCart } = useCart();
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     // Danh sách xưởng lấy từ backend
     const [factories, setFactories] = useState<FactoryItem[]>([]);
@@ -193,37 +197,101 @@ export default function CustomScentPage() {
         selectedFactoryId && selectedTiers.length === tierCount && selectedTiers.every((t) => t !== null)
     );
 
-    // Xử lý đặt hàng phối hương
-    const handleOrder = () => {
+    // Chuẩn bị payload phối hương
+    const buildPayload = (): CreateCustomScentPayload => {
+        const customItems = selectedTiers.map((t, idx) => ({
+            productId: t!.id,
+            percentage: tierRatios[idx],
+            volumeMl: (selectedVolume.ml * tierRatios[idx]) / 100,
+        }));
+
+        return {
+            factoryId: selectedFactoryId!,
+            bottleType: selectedDesign.title,
+            labelDesign: String(selectedDesign.id),
+            totalVolumeMl: selectedVolume.ml,
+            price: unitPrice,
+            customNote: customNote.trim() || undefined,
+            quantity: quantity,
+            items: customItems,
+        };
+    };
+
+    const validateOrder = (): boolean => {
         if (!selectedFactoryId) {
             alert("Vui lòng chọn xưởng chưng cất trước khi tiếp tục!");
-            return;
+            return false;
         }
 
         if (!selectedTiers.every((t) => t !== null)) {
             alert(`Vui lòng chọn đầy đủ cả ${tierCount} tầng hương trước khi tiếp tục!`);
-            return;
+            return false;
         }
 
         if (!user) {
             navigate(ROUTES.LOGIN, { state: { from: location } });
-            return;
+            return false;
         }
-
-        const scentSummary = selectedTiers
-            .map((t, idx) => `${t!.name.replace("Tinh dầu ", "")} (${tierRatios[idx]}%)`)
-            .join(" + ");
-
-        showCartNotice(
-            `Đã lưu công thức Bespoke ${selectedVolume.label} [${tierCount} tầng: ${scentSummary}] thành công!`
-        );
-        // Chuyển tới giỏ hàng
-        navigate(ROUTES.CART);
+        return true;
     };
+
+    // 1. Thêm sản phẩm phối hương vào giỏ hàng
+    const handleAddToCart = async () => {
+        if (!validateOrder() || isSubmitting) return;
+
+        try {
+            setIsSubmitting(true);
+            const payload = buildPayload();
+            await FactoryApiService.addCustomScentToCart(payload);
+            await refreshCart();
+            showCartNotice(`Đã thêm lọ tinh dầu phối hương Bespoke (${selectedVolume.label}) vào giỏ hàng!`);
+        } catch (error: any) {
+            console.error("Lỗi thêm phối hương vào giỏ hàng:", error);
+            alert(error.response?.data?.message || "Không thể thêm vào giỏ hàng, vui lòng thử lại.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    // 2. Mua ngay: Lưu phối hương và chuyển thẳng sang trang Thanh toán (Checkout)
+    const handleBuyNow = async () => {
+        if (!validateOrder() || isSubmitting) return;
+
+        try {
+            setIsSubmitting(true);
+            const payload = buildPayload();
+            const res = await FactoryApiService.createCustomProduct(payload);
+            
+            // Chuyển hướng sang trang Checkout với thông tin BuyNow của sản phẩm phối hương vừa tạo
+            const checkoutUrl = getBuyNowUrl({
+                productId: res.productId,
+                productMilId: res.productMilId,
+                quantity: res.quantity,
+            });
+            navigate(checkoutUrl);
+        } catch (error: any) {
+            console.error("Lỗi đặt hàng phối hương:", error);
+            alert(error.response?.data?.message || "Không thể tạo đơn đặt hàng, vui lòng thử lại.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
 
     return (
         <div className="custom-scent-page py-4 py-lg-5">
             <div className="container px-3 px-lg-4">
+                {/* NÚT QUAY LẠI GÓC TRÁI TRÊN CÙNG */}
+                <div className="mb-3">
+                    <Link
+                        to={ROUTES.PRODUCTS}
+                        className="btn btn-sm btn-white bg-white text-secondary border rounded-pill px-3 py-1 fw-semibold shadow-xs d-inline-flex align-items-center gap-2 hover-shadow"
+                    >
+                        <FontAwesomeIcon icon={faArrowLeft} className="small" />
+                        <span>Quay lại danh sách sản phẩm</span>
+                    </Link>
+                </div>
+
                 <div className="row g-4 g-xl-5 align-items-start">
 
                     {/* CỘT TRÁI: PREVIEW CHAI TINH DẦU & CHỌN MẪU THIẾT KẾ */}
@@ -470,7 +538,7 @@ export default function CustomScentPage() {
                             />
                         </div>
 
-                        {/* ACTION BAR: SỐ LƯỢNG, GIÁ & NÚT ĐẶT HÀNG */}
+                        {/* ACTION BAR: SỐ LƯỢNG, GIÁ & 2 NÚT HÀNH ĐỘNG CÙNG 1 HÀNG */}
                         <div className="d-flex align-items-center justify-content-between gap-3 pt-3 border-top flex-wrap">
                             <div className="d-flex align-items-center gap-3">
                                 <div className="d-flex align-items-center gap-2">
@@ -506,22 +574,34 @@ export default function CustomScentPage() {
                                 </div>
                             </div>
 
-                            <div className="d-flex gap-2">
-                                <Link to={ROUTES.PRODUCTS} className="btn btn-outline-secondary px-3 rounded-3 fw-semibold">
-                                    Quay lại
-                                </Link>
+                            <div className="d-flex gap-2 align-items-center flex-grow-1 justify-content-end">
                                 <button
                                     type="button"
-                                    className={`btn px-4 py-2 rounded-3 fw-bold d-inline-flex align-items-center gap-2 shadow-sm ${isReadyToOrder ? "btn-danger" : "btn-secondary opacity-75"
-                                        }`}
-                                    disabled={!isReadyToOrder}
-                                    onClick={handleOrder}
+                                    className={`btn px-3 py-2 rounded-3 fw-bold d-inline-flex align-items-center justify-content-center gap-2 shadow-sm ${
+                                        isReadyToOrder && !isSubmitting ? "btn-outline-danger" : "btn-light text-muted border"
+                                    }`}
+                                    disabled={!isReadyToOrder || isSubmitting}
+                                    onClick={handleAddToCart}
                                 >
-                                    <span>Đặt hàng</span>
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                    <span>{isSubmitting ? "Đang xử lý..." : "Thêm giỏ hàng"}</span>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className={`btn px-4 py-2 rounded-3 fw-bold d-inline-flex align-items-center justify-content-center gap-2 shadow-sm ${
+                                        isReadyToOrder && !isSubmitting ? "btn-danger" : "btn-secondary opacity-75"
+                                    }`}
+                                    disabled={!isReadyToOrder || isSubmitting}
+                                    onClick={handleBuyNow}
+                                >
+                                    <span>{isSubmitting ? "Đang xử lý..." : "Đặt hàng ngay"}</span>
                                     <FontAwesomeIcon icon={faArrowRight} />
                                 </button>
                             </div>
                         </div>
+
+
 
                     </div>
                 </div>

@@ -47,6 +47,30 @@ export interface ScentProductFromDb {
 }
 
 
+export interface CreateCustomScentPayload {
+    factoryId: number;
+    bottleType: string;
+    labelDesign: string;
+    totalVolumeMl: number;
+    price: number;
+    customNote?: string;
+    quantity: number;
+    items: {
+        productId: number;
+        percentage: number;
+        volumeMl: number;
+    }[];
+}
+
+export interface CustomScentOrderResult {
+    productId: number;
+    productMilId: number;
+    productCustomId: number;
+    name: string;
+    price: number;
+    quantity: number;
+}
+
 export const FactoryApiService = {
     /** Lấy danh sách tất cả xưởng đối tác */
     getAllFactories: async (): Promise<FactoryItem[]> => {
@@ -78,4 +102,16 @@ export const FactoryApiService = {
         return res.data;
     },
 
+    /** Tạo đơn công thức phối hương để chuẩn bị mua ngay */
+    createCustomProduct: async (payload: CreateCustomScentPayload): Promise<CustomScentOrderResult> => {
+        const res = await api.post<ApiResponse<CustomScentOrderResult>>("/custom-scent/create", payload);
+        return res.data.data;
+    },
+
+    /** Thêm công thức phối hương trực tiếp vào giỏ hàng của user */
+    addCustomScentToCart: async (payload: CreateCustomScentPayload): Promise<any> => {
+        const res = await api.post<ApiResponse<any>>("/custom-scent/add-to-cart", payload);
+        return res.data.data;
+    },
 };
+
