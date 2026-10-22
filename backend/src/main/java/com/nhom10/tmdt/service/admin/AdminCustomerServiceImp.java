@@ -156,7 +156,6 @@ public class AdminCustomerServiceImp implements AdminCustomerService {
                                     .id(it.getId())
                                     .productId(it.getProduct() != null ? it.getProduct().getId() : null)
                                     .productName(it.getProduct() != null ? it.getProduct().getName() : "Tinh dầu")
-                                    .tier(it.getProduct() != null ? it.getProduct().getScentTier() : 1)
                                     .percentage(it.getPercentage())
                                     .volumeMl(it.getVolumeM1())
                                     .build())

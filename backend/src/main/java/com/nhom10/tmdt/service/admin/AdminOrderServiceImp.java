@@ -294,7 +294,6 @@ public class AdminOrderServiceImp implements AdminOrderService {
                             .productName(p != null ? p.getName() : "Sản phẩm")
                             .productImage(imgUrl)
                             .productType(p != null ? p.getProductType() : ProductType.NORMAL)
-                            .scentTier(p != null ? p.getScentTier() : null)
                             .volumeMl(it.getProductMil() != null ? (double) it.getProductMil().getMil() : 10.0)
                             .quantity(it.getQuantity())
                             .unitPrice(it.getUnitPrice())
