@@ -39,6 +39,9 @@ public class Product {
     @Column(name="total_sold")
     private Long totalSold;
 
+    @Column(name="scent_tier")
+    private Integer scentTier;
+
     @Column(name="views")
     @Builder.Default
     private Long views = 0L;

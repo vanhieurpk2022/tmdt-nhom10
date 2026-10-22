@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeSlash } from 'react-bootstrap-icons';
+import { Eye, EyeSlash, BoxArrowInRight } from 'react-bootstrap-icons';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { authService } from '../../../api/AuthService';
 import { ROUTES } from '../../../routes/routes';
@@ -13,8 +13,7 @@ import axios from 'axios';
 export function LoginForm() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { setUser, loading, setLoading } = useAuth();
-
+    const { setUser, loading, setLoading, user } = useAuth();
     const [enable, setEnable] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPasssword] = useState("");
@@ -23,6 +22,42 @@ export function LoginForm() {
     const [successMessage, setSuccessMessage] = useState<string>(location.state?.message || '');
     const [googleLoading, setGoogleLoading] = useState(false);
     const [facebookLoading, setFacebookLoading] = useState(false);
+
+    const redirectAfterLogin = (loggedInUser: any) => {
+        const roles = Array.isArray(loggedInUser?.role)
+            ? loggedInUser.role
+            : (loggedInUser?.role ? [loggedInUser.role] : []);
+        const isAdmin = roles.some((r: any) =>
+            typeof r === "string" && (r === "ADMIN" || r === "ROLE_ADMIN" || r.toUpperCase().includes("ADMIN"))
+        );
+        const isFactory = roles.some((r: any) =>
+            typeof r === "string" && (r === "FACTORY" || r === "ROLE_FACTORY" || r.toUpperCase().includes("FACTORY"))
+        );
+
+        const fromPath = (location.state as any)?.from?.pathname || (location.state as any)?.from;
+
+        if (isAdmin) {
+            if (fromPath && typeof fromPath === "string" && fromPath.startsWith("/admin")) {
+                navigate(fromPath, { replace: true });
+            } else {
+                navigate(ROUTES.ADMIN_DASHBOARD, { replace: true });
+            }
+        } else if (isFactory) {
+            if (fromPath && typeof fromPath === "string" && fromPath.startsWith("/factory")) {
+                navigate(fromPath, { replace: true });
+            } else {
+                navigate(ROUTES.FACTORY_DASHBOARD, { replace: true });
+            }
+        } else {
+            navigate(fromPath && typeof fromPath === "string" && !fromPath.startsWith("/admin") ? fromPath : ROUTES.HOME, { replace: true });
+        }
+    };
+
+    React.useEffect(() => {
+        if (user && !loading) {
+            redirectAfterLogin(user);
+        }
+    }, [user, loading]);
 
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
@@ -35,6 +70,7 @@ export function LoginForm() {
                     const destination = typeof from === "string" ? from
                         : from?.pathname ? `${from.pathname}${from.search || ""}${from.hash || ""}` : ROUTES.HOME;
                     navigate(destination.startsWith("/") && !destination.startsWith("//") ? destination : ROUTES.HOME, { replace: true });
+                    redirectAfterLogin(res.data.user);
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
@@ -89,10 +125,7 @@ export function LoginForm() {
 
             if (response.status === 200) {
                 setUser(response.data.user);
-                const from = location.state?.from;
-                const destination = typeof from === "string" ? from
-                    : from?.pathname ? `${from.pathname}${from.search || ""}${from.hash || ""}` : ROUTES.HOME;
-                navigate(destination.startsWith("/") && !destination.startsWith("//") ? destination : ROUTES.HOME, { replace: true });
+                redirectAfterLogin(response.data.user);
             }
 
         } catch (error) {
@@ -227,10 +260,10 @@ export function LoginForm() {
                                     <span className="spinner-border spinner-border-sm" role="status" />
                                 ) : (
                                     <svg width="16" height="16" viewBox="0 0 48 48">
-                                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.28-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.28-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
                                     </svg>
                                 )}
                                 Google
