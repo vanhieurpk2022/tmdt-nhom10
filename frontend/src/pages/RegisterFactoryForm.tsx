@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { FactoryApiService, type RegisterFactoryRequest } from "../api/FactoryService";
 import { cloudinaryService, type UploadedAsset } from "../api/UploadApi";
-import { Notification } from "../components/toasts/Notification";
 import axios from "axios";
 import { useToastContext } from "../components/toasts/ToastContext";
 
@@ -79,23 +78,25 @@ export function RegisterFactoryForm() {
             };
 
             const res = await FactoryApiService.regsiterFactory(request);
-            showToast("Thành công", "Đã đăng kí người bán", "success");
-            setTypeBussiness(false);
-            setTypeindividual(true);
-            setNameFactory("");
-            setFullNameRepre("");
-            setIdentity("");
-            setLicense(null);
-            setCosmeticLicense(null);
-            setTccsDoc(null);
-            setOriginInvoice(null);
-            setBrandAuthorization(null);
-            setShopPhone("");
-            setWarehouseAddress("");
-            setAccountHolder("");
-            setAccountNumber("");
-            if (res.status == 200) {
+            if (res.status === 201) {
+                showToast("Thành công", "Đã đăng kí người bán", "success");
+                setTypeBussiness(false);
+                setTypeindividual(true);
+                setNameFactory("");
+                setFullNameRepre("");
+                setIdentity("");
+                setLicense(null);
+                setCosmeticLicense(null);
+                setTccsDoc(null);
+                setOriginInvoice(null);
+                setBrandAuthorization(null);
+                setShopPhone("");
+                setWarehouseAddress("");
+                setAccountHolder("");
+                setAccountNumber("");
+
             }
+
         } catch (err) {
             // Dọn file đã upload; lỗi khi dọn không được che mất lỗi gốc
             await cloudinaryService.deleteUploads(uploaded).catch(console.error);
