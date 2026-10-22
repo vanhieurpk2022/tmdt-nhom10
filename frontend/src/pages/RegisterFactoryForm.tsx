@@ -427,14 +427,6 @@ export function RegisterFactoryForm() {
                         </div>
                     </fieldset>
 
-                    {toast && (
-                        <Notification
-                            title={toast.title}
-                            content={toast.text}
-                            type={toast.type}
-                        />
-                    )}
-
                     <button
                         type="submit"
                         className="btn btn-danger w-100 py-3 fw-bold text-uppercase fs-6"
