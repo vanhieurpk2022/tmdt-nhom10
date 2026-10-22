@@ -57,10 +57,12 @@ export interface CreateCustomScentPayload {
     quantity: number;
     items: {
         productId: number;
+        scentName?: string;
         percentage: number;
         volumeMl: number;
     }[];
 }
+
 
 export interface CustomScentOrderResult {
     productId: number;

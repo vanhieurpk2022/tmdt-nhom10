@@ -201,9 +201,11 @@ export default function CustomScentPage() {
     const buildPayload = (): CreateCustomScentPayload => {
         const customItems = selectedTiers.map((t, idx) => ({
             productId: t!.id,
+            scentName: t!.name,
             percentage: tierRatios[idx],
             volumeMl: (selectedVolume.ml * tierRatios[idx]) / 100,
         }));
+
 
         return {
             factoryId: selectedFactoryId!,

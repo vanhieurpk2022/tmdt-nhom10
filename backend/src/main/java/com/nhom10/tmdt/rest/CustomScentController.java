@@ -86,7 +86,8 @@ public class CustomScentController {
                 .build();
         ProductCustom savedPc = productCustomRepo.save(pc);
 
-        // 2. Tạo các thành phần tầng hương ProductCustomItem
+        // 2. Tạo các thành phần tầng hương ProductCustomItem và thu thập tên mùi
+        List<String> scentDetails = new ArrayList<>();
         if (req.items() != null && !req.items().isEmpty()) {
             for (var itemReq : req.items()) {
                 Product scentProduct = productRepo.findById(itemReq.productId()).orElse(null);
@@ -99,13 +100,22 @@ public class CustomScentController {
                             .build();
                     productCustomItemRepo.save(pci);
                 }
+
+                String rawName = (itemReq.scentName() != null && !itemReq.scentName().isBlank())
+                        ? itemReq.scentName()
+                        : (scentProduct != null ? scentProduct.getName() : "Nốt hương");
+                String cleanScentName = rawName.replace("Tinh dầu ", "").replace("Tinh Dầu ", "");
+                int pct = itemReq.percentage() != null ? itemReq.percentage().intValue() : 0;
+                scentDetails.add(cleanScentName + " (" + pct + "%)");
             }
         }
 
         // 3. Tạo Product đại diện để tích hợp giỏ hàng và đặt hàng
         String customName = "Bespoke: " + (req.customNote() != null && !req.customNote().isBlank() ? req.customNote().trim() : "Hương độc bản Oilia");
-        String customDesc = String.format("Tinh dầu phối hương theo yêu cầu riêng (%dml) - Mẫu lọ: %s. Xưởng gia công: %s.",
-                req.totalVolumeMl().intValue(), req.bottleType(), factory.getName());
+        String scentFormula = scentDetails.isEmpty() ? "Hòa hương độc bản" : String.join(" + ", scentDetails);
+        String customDesc = String.format("Công thức mùi: %s | Mẫu lọ: %s | Xưởng: %s",
+                scentFormula, req.bottleType(), factory.getName());
+
 
         Product product = Product.builder()
                 .name(customName)
@@ -113,6 +123,7 @@ public class CustomScentController {
                 .price(req.price())
                 .minBasePrice(req.price())
                 .productType(ProductType.CUSTOM)
+
                 .factory(factory)
                 .category(category)
                 .status(ProductStatus.ACTIVE)

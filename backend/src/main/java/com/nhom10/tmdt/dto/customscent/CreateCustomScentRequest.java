@@ -14,7 +14,9 @@ public record CreateCustomScentRequest(
 ) {
     public record ScentTierItemRequest(
             Long productId,
+            String scentName,
             Double percentage,
             Double volumeMl
     ) {}
 }
+
