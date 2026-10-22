@@ -84,13 +84,6 @@ public class User {
     @Column(name="avatar_url")
     private String avatarUrl;
 
-    @Column(name="cskh_note", columnDefinition = "TEXT")
-    private String cskhNote;
-
-    @Column(name="store_credit")
-    @Builder.Default
-    private Double storeCredit = 0.0;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "factory_role")
     private FactoryRole factoryRole;

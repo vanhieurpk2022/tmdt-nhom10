@@ -16,7 +16,6 @@ import {
 } from "react-bootstrap-icons";
 import "../css/pages/factory/workshop-manager.css";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
-import { useAdminSidebar } from "../api/AdminSidebarContext";
 
 /* ------------------------------ Types & data ------------------------------ */
 
@@ -227,21 +226,15 @@ export function WorkshopManagement() {
             ? `${selectedList[0].name} đang áp dụng tỷ lệ chiết khấu đặc quyền đối tác VIP.`
             : `Áp dụng tỷ lệ chiết khấu mới cho ${selectedList.length} xưởng đã chọn.`;
 
-    const { isCollapsed } = useAdminSidebar();
-
     return (
-        <div className="d-flex min-vh-100 bg-light">
+        <div className="row g-0 min-vh-100 bg-light">
             <aside
-                className="flex-shrink-0 position-sticky top-0 align-self-start"
-                style={{
-                    height: "100vh",
-                    width: isCollapsed ? "72px" : "250px",
-                    transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-                }}
+                className="col-12 col-xl-2 flex-shrink-0 position-sticky top-0 align-self-start"
+                style={{ height: "100vh" }}
             >
                 <SidebarAdmin isWorkshopManagement={true} />
             </aside>
-            <div className="flex-grow-1 overflow-x-auto" style={{ minWidth: 0 }}>
+            <div className="col">
                 <div className="wm-page">
 
                     {/* ------------------------------ Header ------------------------------ */}
