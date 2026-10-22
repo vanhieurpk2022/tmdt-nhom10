@@ -90,6 +90,9 @@ interface ApiResponse<T> {
     data: T;
 }
 
+// Share simultaneous detail requests so one page load records one view.
+const productDetailRequests = new Map<string, Promise<ProductDetail>>();
+
 // Dịch vụ gọi API sản phẩm từ Backend
 
 export const productService = {
@@ -147,9 +150,18 @@ export const productService = {
     },
 
     /** Lấy thông tin chi tiết một sản phẩm theo ID */
-    getProductDetail: async (id: number | string): Promise<ProductDetail> => {
-        const res = await api.get<ApiResponse<ProductDetail>>(`/products/${id}`);
-        return res.data.data;
+    getProductDetail: (id: number | string): Promise<ProductDetail> => {
+        const key = String(id);
+        let request = productDetailRequests.get(key);
+
+        if (!request) {
+            request = api.get<ApiResponse<ProductDetail>>(`/products/${key}`)
+                .then((res) => res.data.data)
+                .finally(() => productDetailRequests.delete(key));
+            productDetailRequests.set(key, request);
+        }
+
+        return request;
     },
 };
 
