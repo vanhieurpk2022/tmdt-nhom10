@@ -10,4 +10,5 @@ public interface AdminOrderService {
     AdminOrderDetailResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request);
     AdminOrderDetailResponse createDispatchOrder(AdminCreateDispatchOrderRequest request);
     void deleteOrder(Long id);
+    //receive
 }

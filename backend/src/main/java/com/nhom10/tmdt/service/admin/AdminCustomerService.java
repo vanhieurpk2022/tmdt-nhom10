@@ -15,4 +15,6 @@ public interface AdminCustomerService {
     AdminCustomerResponse updateStoreCredit(Long id, Double deltaAmount);
     String resetCustomerPassword(Long id);
     void deleteCustomer(Long id);
+//receive
 }
+
