@@ -4,11 +4,14 @@ import com.nhom10.tmdt.dto.factory.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface FactoryDashboardService {
     public DashboardOverviewResponse getOverview(String email);
     List<FactoryOrderDashBoardResponse> factoryGetUser(String email);
+    List<FactoryChartOrderResponse> getChartOrders(String email, LocalDate from, LocalDate to);
+    List<FactoryOrderStatusCount> getOrderStatusCounts(String email);
 
     FactoryProductResponse factoryProductRes(String email);
     List<FactoryVariantRes> getProductMil( Long productId);

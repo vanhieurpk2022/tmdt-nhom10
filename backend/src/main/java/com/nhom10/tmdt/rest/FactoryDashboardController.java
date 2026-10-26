@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -47,6 +48,24 @@ public class FactoryDashboardController {
         String email = user.getUsername();
         List<FactoryOrderDashBoardResponse> dashboardOverviewResponse = factoryDashboard.factoryGetUser(email);
         return new ApiResponse<>(200,"Lấy dữ liệu thành công",dashboardOverviewResponse);
+    }
+
+    @GetMapping("/dashboard/chart")
+    public ApiResponse<List<FactoryChartOrderResponse>> getChartData(
+            @AuthenticationPrincipal UserDetails user,
+            @RequestParam("from") LocalDate from,
+            @RequestParam("to") LocalDate to) {
+        String email = user.getUsername();
+        List<FactoryChartOrderResponse> data = factoryDashboard.getChartOrders(email, from, to);
+        return new ApiResponse<>(200, "Lấy dữ liệu biểu đồ thành công", data);
+    }
+
+    @GetMapping("/dashboard/pie")
+    public ApiResponse<List<FactoryOrderStatusCount>> getPieChartData(
+            @AuthenticationPrincipal UserDetails user) {
+        String email = user.getUsername();
+        List<FactoryOrderStatusCount> data = factoryDashboard.getOrderStatusCounts(email);
+        return new ApiResponse<>(200, "Lấy dữ liệu trạng thái đơn thành công", data);
     }
 
     @GetMapping("/products/{id}")

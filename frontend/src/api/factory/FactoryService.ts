@@ -1,13 +1,32 @@
-import type { FactoryOrderDashBoard } from "../../dto/factory/FactoryDashBoard";
+import type { FactoryOrderDashBoard, FactoryChartOrder, FactoryOrderStatusCount, DashboardOverview } from "../../dto/factory/FactoryDashBoard";
 import type { FactoryProductCreateRequest, FactoryProductItem, FactoryProductMil, FactoryProductResponse, FactoryProductVariantItem } from "../../dto/factory/FactoryProductRes";
 import type { ProductStatus } from "../../enums/ProductStatus";
 import type { ProductImage } from "../../models/ProductImage";
 import api, { type ApiResponse } from "../api";
 
 export const FactoryServiceManager = {
+    getOverview: async () => {
+        const res = await api.get<ApiResponse<DashboardOverview>>(
+            `/manager/dashboard/overview`
+        );
+        return res.data;
+    },
     getUserDashBoard: async () => {
         const res = await api.get<ApiResponse<FactoryOrderDashBoard[]>>(
             `/manager/dashboard/user`
+        );
+        return res.data;
+    },
+    getChartData: async (from: string, to: string) => {
+        const res = await api.get<ApiResponse<FactoryChartOrder[]>>(
+            `/manager/dashboard/chart`,
+            { params: { from, to } }
+        );
+        return res.data;
+    },
+    getPieData: async () => {
+        const res = await api.get<ApiResponse<FactoryOrderStatusCount[]>>(
+            `/manager/dashboard/pie`
         );
         return res.data;
     },

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -192,6 +193,62 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
                     o.getNote(),
                     o.getStatus()));
 
+        }
+        return res;
+    }
+
+    @Override
+    public List<FactoryChartOrderResponse> getChartOrders(String email, LocalDate from, LocalDate to) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        if (user.getFactory() == null) {
+            throw new AppException(ErrorCode.NOT_FOUND);
+        }
+        Long factoryId = user.getFactory().getId();
+
+        LocalDateTime fromDateTime = from.atStartOfDay();
+        LocalDateTime toDateTime = to.atTime(23, 59, 59);
+
+        List<Order> orders = orderRepository.findOrdersByFactoryIdAndDateRange(
+                factoryId, fromDateTime, toDateTime);
+
+        List<FactoryChartOrderResponse> res = new ArrayList<>();
+        for (Order o : orders) {
+            int totalQty = 0;
+            if (o.getOrderItems() != null) {
+                for (OrderItem it : o.getOrderItems()) {
+                    totalQty += it.getQuantity();
+                }
+            }
+            res.add(new FactoryChartOrderResponse(
+                    o.getId(),
+                    o.getCreatedAt().toString(),
+                    totalQty > 0 ? totalQty : 1,
+                    o.getTotalPrice(),
+                    o.getStatus()));
+        }
+        return res;
+    }
+
+    @Override
+    public List<FactoryOrderStatusCount> getOrderStatusCounts(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        if (user.getFactory() == null) {
+            throw new AppException(ErrorCode.NOT_FOUND);
+        }
+        Long factoryId = user.getFactory().getId();
+
+        List<Object[]> rows = orderRepository.countOrdersGroupByStatus(factoryId);
+        List<FactoryOrderStatusCount> res = new ArrayList<>();
+        for (Object[] r : rows) {
+            if (r[0] != null) {
+                OrderStatus st = (OrderStatus) r[0];
+                long cnt = ((Number) r[1]).longValue();
+                res.add(new FactoryOrderStatusCount(st, cnt));
+            }
         }
         return res;
     }
