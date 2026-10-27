@@ -2,9 +2,11 @@ package com.nhom10.tmdt.rest;
 
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.order.CreateOrderRequest;
+import com.nhom10.tmdt.dto.order.CancelOrderRequest;
 import com.nhom10.tmdt.dto.order.OrderResponse;
 import com.nhom10.tmdt.dto.order.OrderHistoryResponse;
 import com.nhom10.tmdt.service.order.OrderHistoryService;
+import com.nhom10.tmdt.service.order.OrderCancellationService;
 import com.nhom10.tmdt.dto.order.BuyNowRequest;
 import com.nhom10.tmdt.dto.cart.CartItemResponse;
 import com.nhom10.tmdt.service.imp.PurchaseItemService;
@@ -36,6 +38,7 @@ public class OrderController {
     private final PurchaseItemService purchaseItems;
     private final VnPayQueryService queries;
     private final OrderHistoryService history;
+    private final OrderCancellationService cancellations;
 
     @GetMapping
     public ResponseEntity<ApiResponse<OrderHistoryResponse>> list(Authentication auth,
@@ -62,6 +65,13 @@ public class OrderController {
     public ResponseEntity<ApiResponse<PaymentStatusResponse>> status(Authentication auth, @PathVariable Long id) {
         return ResponseEntity.ok().cacheControl(CacheControl.noStore())
                 .body(new ApiResponse<>(200, "Trạng thái thanh toán", queries.status(auth.getName(), id, null)));
+    }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<ApiResponse<OrderResponse>> cancel(Authentication auth, @PathVariable Long id,
+            @Valid @RequestBody CancelOrderRequest request) {
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore())
+                .body(new ApiResponse<>(200, "Đã hủy đơn hàng", cancellations.cancel(auth.getName(), id, request)));
     }
 
     @PostMapping("/buy-now/preview")

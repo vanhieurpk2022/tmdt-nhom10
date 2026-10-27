@@ -17,8 +17,9 @@ public class PaymentRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        String path = request.getRequestURI().substring(request.getContextPath().length());
+        String path = request.getServletPath();
         if ("POST".equals(request.getMethod()) && (path.equals("/orders")
+                || (path.startsWith("/orders/") && path.endsWith("/cancel"))
                 || path.startsWith("/payments/vnpay/") || path.startsWith("/admin/payments/"))) {
             String origin = request.getHeader("Origin");
             URI result = properties.getFrontendResultUrl();

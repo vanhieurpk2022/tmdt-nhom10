@@ -214,6 +214,9 @@ public class VnPayPaymentService {
         if (list.stream().anyMatch(a -> "NEEDS_REVIEW".equals(a.getStatus()))) return;
         inventory.release(order);
         order.setStatus(OrderStatus.CANCELLED);
+        order.setCancelledAt(now());
+        order.setCancelledBy("SYSTEM");
+        order.setCancellationNote("Hết thời hạn thanh toán");
         for (PaymentAttempt attempt : list) {
             if ("INITIATED".equals(attempt.getStatus())) {
                 attempt.setStatus("EXPIRED");
@@ -250,7 +253,8 @@ public class VnPayPaymentService {
     private boolean payable(Order order) {
         return order.getPaymentMethod() == PaymentMethod.VNPAY && order.getStatus() == OrderStatus.PENDING_PAYMENT
                 && order.getPaidAttemptId() == null && order.getPaymentStatus() != PaymentStatus.REFUND_PENDING
-                && order.isStockHeld() && order.getReservationExpiresAt() != null && order.getReservationExpiresAt().isAfter(now());
+                && order.isStockHeld() && order.getStockRestoredAt() == null
+                && order.getReservationExpiresAt() != null && order.getReservationExpiresAt().isAfter(now());
     }
     private Order lockOrder(Long id) {
         Order order = orders.lockById(id).orElseThrow(VnPayPaymentService::notFound);
