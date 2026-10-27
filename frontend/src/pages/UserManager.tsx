@@ -1,205 +1,814 @@
-import { useMemo, useState } from "react";
-import type { ChangeEvent } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router";
 import "../css/pages/user-admin.css";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
+import { useAdminSidebar } from "../api/AdminSidebarContext";
+import CustomerDetailModal from "../components/admin/customer/CustomerDetailModal";
+import { CustomerAdminService, type CustomerItem, type CustomerStats, type CustomerDetail } from "../api/CustomerAdminService";
+import { authService } from "../api/AuthService";
+import { ROUTES } from "../routes/routes";
+import { useAuth } from "../api/AuthContext";
 
-type Tier = "VIP Diamond" | "Gold (Vàng)" | "Silver (Bạc)" | "Thành viên mới" | "Vãng lai";
-type CustomerStatus = "Hoạt động" | "Mới kích hoạt" | "Tạm khóa";
-
-interface Customer {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    tier: Tier;
-    formulas: number;
-    formulaNote: string;
-    ltv: number;
-    orders: number;
-    recent: string;
-    recentNote: string;
-    status: CustomerStatus;
-    initials: string;
-    avatarTone: string;
-    risk?: boolean;
-}
-
-const initialCustomers: Customer[] = [
-    { id: "CUST-882", name: "Nguyễn Lan Anh", email: "lananh.scent@gmail.com", phone: "+84 912 345 882", tier: "VIP Diamond", formulas: 15, formulaNote: "4 lô đang re-order Lab", ltv: 42500000, orders: 24, recent: "2 giờ trước", recentNote: "Xem lịch sử hương", status: "Hoạt động", initials: "LA", avatarTone: "pink" },
-    { id: "CUST-1044", name: "Trần Hoàng Long", email: "long.tran@scentcraft.vn", phone: "+84 908 119 220", tier: "Gold (Vàng)", formulas: 6, formulaNote: "1 re-order nước hoa ô tô", ltv: 18200000, orders: 9, recent: "Hôm qua, 18:30", recentNote: "Yêu cầu RFQ mẫu mới", status: "Hoạt động", initials: "TH", avatarTone: "blue" },
-    { id: "CUST-1492", name: "Phạm Minh Đức", email: "duc.pm@atelier.com", phone: "+84 977 443 192", tier: "Silver (Bạc)", formulas: 2, formulaNote: "Chưa re-order lô", ltv: 4150000, orders: 2, recent: "3 ngày trước", recentNote: "Thanh toán Escrow", status: "Hoạt động", initials: "PM", avatarTone: "slate" },
-    { id: "CUST-2103", name: "Vũ Thùy Tiên", email: "thuytien.vu@boutique.com", phone: "+84 934 888 120", tier: "Thành viên mới", formulas: 0, formulaNote: "Đang thử nghiệm Lab AI", ltv: 0, orders: 0, recent: "10 phút trước", recentNote: "Đăng ký tài khoản", status: "Mới kích hoạt", initials: "VT", avatarTone: "mint" },
-    { id: "CUST-0911", name: "Hoàng Quốc Huy", email: "huy.hq@scandominz.fake", phone: "+84 901 600 999", tier: "Vãng lai", formulas: 1, formulaNote: "Bị khiếu nại bản quyền hương", ltv: 8200000, orders: 3, recent: "12 ngày trước", recentNote: "Admin tạm khóa", status: "Tạm khóa", initials: "HQ", avatarTone: "pink", risk: true },
-];
-
-const formatVnd = (value: number) =>
-    value.toLocaleString("vi-VN") + "đ";
+const formatVnd = (value: number) => (value || 0).toLocaleString("vi-VN") + "đ";
 
 export default function UserManager() {
-    const [customers, setCustomers] = useState(initialCustomers);
-    const [selected, setSelected] = useState<string[]>(["CUST-882", "CUST-1044", "CUST-1492"]);
+    const { user, loading: authLoading } = useAuth();
+    const { isCollapsed: isSidebarCollapsed } = useAdminSidebar();
+    const navigate = useNavigate();
+
+
+    const [customers, setCustomers] = useState<CustomerItem[]>([]);
+    const [stats, setStats] = useState<CustomerStats | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
+
+    const [selected, setSelected] = useState<(string | number)[]>([]);
     const [search, setSearch] = useState("");
     const [tierFilter, setTierFilter] = useState("Tất cả");
     const [behaviorFilter, setBehaviorFilter] = useState("Tất cả");
-    const [detailFilter, setDetailFilter] = useState("Tất cả");
-    const [statusFilter, setStatusFilter] = useState("Hoạt động");
+    const [spendingFilter, setSpendingFilter] = useState("Tất cả");
+    const [statusFilter, setStatusFilter] = useState("Tất cả");
+
+    // Phân trang
     const [page, setPage] = useState(1);
+    const pageSize = 10;
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalElements, setTotalElements] = useState(0);
 
-    const filteredCustomers = useMemo(() => customers.filter((customer) => {
-        const q = search.trim().toLowerCase();
-        const matchesSearch = !q || [customer.name, customer.email, customer.phone, customer.id].some((v) => v.toLowerCase().includes(q));
-        const matchesTier = tierFilter === "Tất cả" || customer.tier === tierFilter;
-        const matchesStatus = statusFilter === "Tất cả" || customer.status === statusFilter;
-        const matchesBehavior = behaviorFilter === "Tất cả" ||
-            (behaviorFilter === "Có re-order" ? customer.formulaNote.toLowerCase().includes("re-order") : customer.formulas === 0);
-        const matchesDetail = detailFilter === "Tất cả" ||
-            (detailFilter === "Có công thức" ? customer.formulas > 0 : customer.formulas === 0);
-        return matchesSearch && matchesTier && matchesStatus && matchesBehavior && matchesDetail;
-    }), [customers, search, tierFilter, behaviorFilter, detailFilter, statusFilter]);
+    // Modal Xem chi tiết
+    const [selectedDetail, setSelectedDetail] = useState<CustomerDetail | null>(null);
+    const [detailLoading, setDetailLoading] = useState(false);
 
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [createForm, setCreateForm] = useState({
+        fullname: "",
+        email: "",
+        phone: "",
+        password: "Password123@",
+    });
+    const [createLoading, setCreateLoading] = useState(false);
+    const [createError, setCreateError] = useState<string | null>(null);
+    const [showVoucherModal, setShowVoucherModal] = useState(false);
+    const [selectedVoucher, setSelectedVoucher] = useState("SCENT20");
+
+    useEffect(() => {
+        if (!authLoading) {
+            if (!user) {
+                navigate(ROUTES.LOGIN, { replace: true, state: { from: ROUTES.ADMIN_CUSTOMER } });
+                return;
+            }
+            const roles = Array.isArray(user.role) ? user.role : [user.role];
+            const isAdmin = roles.some((r: any) =>
+                typeof r === "string" && (r === "ADMIN" || r === "ROLE_ADMIN" || r.toUpperCase().includes("ADMIN"))
+            );
+            if (!isAdmin) {
+                alert("Bạn không có quyền truy cập trang quản trị!");
+                navigate(ROUTES.HOME, { replace: true });
+            }
+        }
+    }, [user, authLoading, navigate]);
+
+    // ─── 2. LẤY DỮ LIỆU TỪ BACKEND ───
+    const fetchData = async (currentPage = page, currentSearch = search, currentStatus = statusFilter) => {
+        setLoading(true);
+        setApiError(null);
+        try {
+            let apiStatus: string | undefined = undefined;
+            if (currentStatus === "Hoạt động") apiStatus = "ACTIVE";
+            else if (currentStatus === "Mới kích hoạt") apiStatus = "INACTIVE";
+            else if (currentStatus === "Tạm khóa") apiStatus = "BANNED";
+
+            const [pageData, statsData] = await Promise.all([
+                CustomerAdminService.getCustomers({
+                    page: currentPage - 1,
+                    size: pageSize,
+                    search: currentSearch.trim() || undefined,
+                    status: apiStatus,
+                }),
+                CustomerAdminService.getStats(),
+            ]);
+
+            if (pageData) {
+                setCustomers(pageData.content || []);
+                setTotalPages(Math.max(1, pageData.totalPages || 1));
+                setTotalElements(pageData.totalElements || 0);
+            }
+            if (statsData) {
+                setStats(statsData);
+            }
+        } catch (err: any) {
+            const status = err?.response?.status;
+            if (status === 401 || status === 403) {
+                navigate(ROUTES.LOGIN, { replace: true, state: { from: ROUTES.ADMIN_CUSTOMER } });
+                return;
+            }
+            setApiError(`Không thể tải dữ liệu khách hàng từ máy chủ (${status || "Lỗi mạng"}). Vui lòng thử lại.`);
+            setCustomers([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Tự động tìm kiếm & đổi trạng thái
+    useEffect(() => {
+        if (!authLoading && user) {
+            const timer = setTimeout(() => {
+                setPage(1);
+                fetchData(1, search, statusFilter);
+            }, 300);
+            return () => clearTimeout(timer);
+        }
+    }, [search, statusFilter, authLoading, user]);
+
+    // Lọc theo phân hạng, hành vi, chi tiêu ở frontend
+    const filteredCustomers = useMemo(() => {
+        return customers.filter((c) => {
+            const matchTier = tierFilter === "Tất cả" || c.tier === tierFilter;
+            const matchBehavior = behaviorFilter === "Tất cả" ||
+                (behaviorFilter === "Có re-order" ? (c.formulaNote || "").toLowerCase().includes("re-order") : c.formulas === 0);
+
+            let matchSpending = true;
+            if (spendingFilter === "dưới 5tr") matchSpending = c.ltv < 5000000;
+            else if (spendingFilter === "5tr-20tr") matchSpending = c.ltv >= 5000000 && c.ltv <= 20000000;
+            else if (spendingFilter === "trên 20tr") matchSpending = c.ltv > 20000000;
+
+            return matchTier && matchBehavior && matchSpending;
+        });
+    }, [customers, tierFilter, behaviorFilter, spendingFilter]);
+
+    // Xử lý chuyển trang
+    const handlePageChange = (newPage: number) => {
+        if (newPage < 1 || newPage > totalPages || newPage === page) return;
+        setPage(newPage);
+        fetchData(newPage, search, statusFilter);
+    };
+
+    // Chọn checkbox
     const allVisibleSelected = filteredCustomers.length > 0 && filteredCustomers.every((c) => selected.includes(c.id));
 
-    const toggleCustomer = (id: string) => {
-        setSelected((current) => current.includes(id) ? current.filter((x) => x !== id) : [...current, id]);
-    };
+    const toggleCustomer = (id: string | number) =>
+        setSelected((cur) => cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]);
 
-    const toggleAllVisible = () => {
-        setSelected((current) => allVisibleSelected
-            ? current.filter((id) => !filteredCustomers.some((c) => c.id === id))
-            : [...new Set([...current, ...filteredCustomers.map((c) => c.id)])]);
-    };
+    const toggleAll = () =>
+        setSelected((cur) => allVisibleSelected
+            ? cur.filter((id) => !filteredCustomers.some((c) => c.id === id))
+            : [...new Set([...cur, ...filteredCustomers.map((c) => c.id)])]);
 
+    // Xuất dữ liệu Excel/CSV
     const handleExport = () => {
-        const rows = [["Mã khách hàng", "Họ tên", "Email", "Điện thoại", "Phân hạng", "Trạng thái", "LTV"]];
-        filteredCustomers.forEach((c) => rows.push([c.id, c.name, c.email, c.phone, c.tier, c.status, String(c.ltv)]));
-        const csv = "\uFEFF" + rows.map((row) => row.map((cell) => `"${cell.replaceAll('"', '""')}"`).join(",")).join("\r\n");
-        const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "danh-sach-khach-hang.csv";
+        const rows = [["Mã KH", "Họ tên", "Email", "SĐT", "Phân hạng", "Trạng thái", "LTV (VNĐ)", "Đơn hàng"]];
+        filteredCustomers.forEach((c) => rows.push([
+            String(c.id),
+            c.name,
+            c.email,
+            c.phone || "N/A",
+            c.tier,
+            c.status,
+            String(c.ltv),
+            String(c.orders)
+        ]));
+        const csv = "\uFEFF" + rows.map((r) => r.map((v) => `"${(v || "").replaceAll('"', '""')}"`).join(",")).join("\r\n");
+        const a = Object.assign(document.createElement("a"), {
+            href: URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" })),
+            download: `danh-sach-khach-hang-${new Date().toISOString().slice(0, 10)}.csv`,
+        });
         a.click();
-        URL.revokeObjectURL(url);
     };
 
-    const handleBulkAction = (action: string) => {
-        if (!selected.length) {
-            window.alert("Vui lòng chọn ít nhất một khách hàng.");
-            return;
+    // Khóa tài khoản hàng loạt
+    const handleBulkLock = async () => {
+        if (!selected.length) return;
+        if (!window.confirm(`Bạn có chắc muốn khóa ${selected.length} tài khoản đã chọn?`)) return;
+        try {
+            await Promise.all(
+                selected.map((id) => CustomerAdminService.updateStatus(id, "BANNED"))
+            );
+            alert(`Đã khóa thành công ${selected.length} tài khoản.`);
+            setSelected([]);
+            fetchData(page, search, statusFilter);
+        } catch {
+            alert("Có lỗi xảy ra khi khóa tài khoản.");
         }
-        if (action === "lock") {
-            setCustomers((current) => current.map((c) => selected.includes(c.id) ? { ...c, status: "Tạm khóa" } : c));
-        }
-        window.alert(`${action} — ${selected.length} khách hàng đã chọn.`);
     };
 
-    const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setStatusFilter(event.target.value);
-        setPage(1);
+    // Xem chi tiết khách hàng
+    const handleViewDetail = async (customer: CustomerItem) => {
+        if (typeof customer.id === "number") {
+            try {
+                setDetailLoading(true);
+                const detail = await CustomerAdminService.getDetail(customer.id);
+                setSelectedDetail(detail);
+                return;
+            } catch {
+                /* fallthrough */
+            } finally {
+                setDetailLoading(false);
+            }
+        }
+        setSelectedDetail({ customer, addresses: [], recentOrders: [] });
     };
+
+    // Cập nhật trạng thái khách hàng trong Modal chi tiết
+    const handleToggleStatusInDetail = async () => {
+        if (!selectedDetail) return;
+        const cust = selectedDetail.customer;
+        const isBanned = cust.statusCode === "BANNED" || cust.status === "Tạm khóa";
+        const newStatus = isBanned ? "ACTIVE" : "BANNED";
+        try {
+            await CustomerAdminService.updateStatus(cust.id, newStatus);
+            alert(`Đã ${isBanned ? "mở khóa" : "khóa"} tài khoản thành công!`);
+            setSelectedDetail({
+                ...selectedDetail,
+                customer: {
+                    ...cust,
+                    statusCode: newStatus,
+                    status: newStatus === "BANNED" ? "Tạm khóa" : "Hoạt động",
+                    risk: newStatus === "BANNED",
+                }
+            });
+            fetchData(page, search, statusFilter);
+        } catch {
+            alert("Không thể cập nhật trạng thái người dùng.");
+        }
+    };
+
+    // Cập nhật thông tin khách hàng từ Modal
+    const handleCustomerUpdated = (updated: CustomerItem) => {
+        setCustomers((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+        if (selectedDetail && selectedDetail.customer.id === updated.id) {
+            setSelectedDetail({
+                ...selectedDetail,
+                customer: updated,
+            });
+        }
+    };
+
+    // Tạo khách hàng thủ công qua API
+    const handleCreateCustomer = async (e: FormEvent) => {
+        e.preventDefault();
+        setCreateLoading(true);
+        setCreateError(null);
+        try {
+            await authService.register({
+                fullname: createForm.fullname,
+                email: createForm.email,
+                phone: createForm.phone,
+                password: createForm.password,
+                verifyPassword: createForm.password,
+            } as any);
+            alert("Tạo tài khoản khách hàng thành công!");
+            setShowCreateModal(false);
+            setCreateForm({ fullname: "", email: "", phone: "", password: "Password123@" });
+            fetchData(1, search, statusFilter);
+        } catch (err: any) {
+            setCreateError(err?.response?.data?.message || "Không thể tạo tài khoản. Vui lòng kiểm tra lại thông tin.");
+        } finally {
+            setCreateLoading(false);
+        }
+    };
+
+
+    // Phân loại CSS Tiers & Status
+    const tierPillClass = (tier: string) => ({
+        "VIP Diamond": "tier-pill vip",
+        "Gold (Vàng)": "tier-pill gold",
+        "Silver (Bạc)": "tier-pill silver",
+        "Thành viên mới": "tier-pill new",
+    }[tier] ?? "tier-pill casual");
+
+    const statusPillClass = (status: string) => ({
+        "Hoạt động": "status-pill active",
+        "Mới kích hoạt": "status-pill inactive",
+    }[status] ?? "status-pill banned");
+
+    // Thống kê metrics
+    const totalCustomers = stats?.totalCustomers ?? (totalElements || customers.length);
+    const activeCount = stats?.activeCustomers ?? customers.filter((c) => c.status === "Hoạt động").length;
+    const bannedCount = stats?.bannedCustomers ?? customers.filter((c) => c.status === "Tạm khóa").length;
+    const totalRevenue = stats?.totalRevenue ?? customers.reduce((sum, c) => sum + (c.ltv || 0), 0);
+    const avgLtv = totalCustomers > 0 ? Math.round(totalRevenue / totalCustomers) : 4850000;
+    const vipCount = customers.filter((c) => c.tier === "VIP Diamond" || c.tier === "Gold (Vàng)").length;
+
+    // Render thanh pagination
+    const renderPagination = () => {
+        const pages: (number | string)[] = [];
+        if (totalPages <= 5) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i);
+        } else {
+            if (page <= 3) {
+                pages.push(1, 2, 3, "...", totalPages);
+            } else if (page >= totalPages - 2) {
+                pages.push(1, "...", totalPages - 2, totalPages - 1, totalPages);
+            } else {
+                pages.push(1, "...", page - 1, page, page + 1, "...", totalPages);
+            }
+        }
+
+        const startItem = totalElements === 0 ? (customers.length > 0 ? 1 : 0) : (page - 1) * pageSize + 1;
+        const endItem = totalElements === 0 ? customers.length : Math.min(page * pageSize, totalElements);
+
+        return (
+            <div className="table-footer">
+                <div>
+                    Hiển thị <strong>{startItem} - {endItem}</strong> trên tổng số{" "}
+                    <strong>{totalCustomers.toLocaleString("vi-VN")}</strong> khách hàng
+                </div>
+                <div className="pagination-btns">
+                    <button
+                        className="pagination-btn"
+                        disabled={page <= 1 || loading}
+                        onClick={() => handlePageChange(page - 1)}
+                    >
+                        Trang trước
+                    </button>
+                    {pages.map((p, idx) => {
+                        if (p === "...") {
+                            return <span key={`ellipsis-${idx}`} className="pagination-ellipsis">…</span>;
+                        }
+                        const pageNum = Number(p);
+                        return (
+                            <button
+                                key={pageNum}
+                                className={`pagination-btn ${page === pageNum ? "active" : ""}`}
+                                disabled={loading}
+                                onClick={() => handlePageChange(pageNum)}
+                            >
+                                {pageNum}
+                            </button>
+                        );
+                    })}
+                    <button
+                        className="pagination-btn"
+                        disabled={page >= totalPages || loading}
+                        onClick={() => handlePageChange(page + 1)}
+                    >
+                        Trang sau
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
+    if (authLoading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+                <div className="text-center">
+                    <div className="spinner-border text-danger" role="status" style={{ width: "3rem", height: "3rem" }}>
+                        <span className="visually-hidden">Đang tải...</span>
+                    </div>
+                    <div className="mt-3 text-muted fw-semibold">Đang kiểm tra quyền quản trị...</div>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="row g-0 min-vh-100 bg-light">
+        <div className="d-flex min-vh-100 w-100 admin-customer-page">
             <aside
-                className="col-12 col-xl-2 flex-shrink-0 position-sticky top-0 align-self-start"
-                style={{ height: "100vh" }}
+                className="flex-shrink-0 position-sticky top-0 align-self-start"
+                style={{
+                    width: isSidebarCollapsed ? "72px" : "250px",
+                    minWidth: isSidebarCollapsed ? "72px" : "250px",
+                    height: "100vh",
+                    zIndex: 1000,
+                    backgroundColor: "var(--color-bg-dark, #111827)",
+                    transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                }}
             >
                 <SidebarAdmin isCustomer={true} />
-
             </aside>
-            <div className="col">
 
-                <main className="csv-page">
-                    <header className="csv-header">
+            <div className="flex-grow-1 p-3 p-lg-4 overflow-x-auto" style={{ minWidth: 0 }}>
+                <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                    <div>
+                        <div className="admin-breadcrumb">
+                            <span>Quản trị hệ thống</span>
+                            <span className="crumb-sep">›</span>
+                            <span>Người dùng</span>
+                            <span className="crumb-sep">›</span>
+                            <span className="active-crumb">Danh sách khách hàng &amp; Scent Profile</span>
+                        </div>
+                        <h1 className="h4 fw-bold text-dark mb-0">Quản trị Khách hàng &amp; Scent Vault</h1>
+                    </div>
+                    <div className="d-flex flex-wrap gap-2">
+                        <button className="btn-header-export" onClick={handleExport} title="Xuất dữ liệu Excel">
+                            <i className="fa-regular fa-file-lines text-secondary" /> Xuất dữ liệu (GDPR/Excel)
+                        </button>
+                        <button
+                            className="btn-header-voucher"
+                            onClick={() => {
+                                if (selected.length === 0) {
+                                    alert("Vui lòng chọn ít nhất một khách hàng từ danh sách để tặng voucher.");
+                                    return;
+                                }
+                                setShowVoucherModal(true);
+                            }}
+                            title="Tặng voucher"
+                        >
+                            <i className="fa-solid fa-gift" /> Tặng Voucher hàng loạt
+                        </button>
+                        <button className="btn-header-primary" onClick={() => setShowCreateModal(true)}>
+                            <i className="fa-solid fa-plus" /> Thêm khách hàng thủ công
+                        </button>
+                    </div>
+                </div>
+
+                {apiError && (
+                    <div className="alert alert-danger d-flex justify-content-between align-items-center mb-4 py-2 rounded-3 shadow-sm" role="alert">
                         <div>
-                            <h1>Quản trị Khách hàng &amp; Scent Vault</h1>
+                            <i className="fa-solid fa-circle-exclamation me-2" />
+                            <strong>Lỗi kết nối:</strong> {apiError}
                         </div>
-                        <div className="csv-header-actions">
-                            <button className="btn csv-btn csv-btn-outline" onClick={handleExport}><i className="fa-regular fa-file-lines" /> Xuất dữ liệu (GDPR/Excel)</button>
-                            <button className="btn csv-btn csv-btn-purple" onClick={() => handleBulkAction("Tặng voucher")}><i className="fa-solid fa-gift" /> Tặng Voucher hàng loạt</button>
-                            <button className="btn csv-btn csv-btn-primary" onClick={() => window.alert("Mở form thêm khách hàng")}><i className="fa-solid fa-plus" /> Thêm khách hàng thủ công</button>
-                        </div>
-                    </header>
+                        <button className="btn btn-sm btn-outline-danger" onClick={() => fetchData(page, search, statusFilter)}>
+                            Tải lại dữ liệu
+                        </button>
+                    </div>
+                )}
 
-                    <section className="csv-metrics">
-                        <article className="csv-metric">
-                            <div className="csv-metric-top"><span>TỔNG KHÁCH HÀNG</span><span className="csv-metric-icon blue"><i className="fa-solid fa-users" /></span></div>
-                            <div className="csv-metric-number">12.450</div>
-                            <div className="csv-metric-footer"><span className="csv-chip green">11.890 Hoạt động</span><span className="csv-chip blue-chip">+420 Mới</span><span className="csv-chip red-chip">140 Khóa</span></div>
-                        </article>
-                        <article className="csv-metric">
-                            <div className="csv-metric-top"><span>GIÁ TRỊ VÒNG ĐỜI TB (LTV)</span><span className="csv-metric-icon green"><i className="fa-solid fa-circle-dollar-to-slot" /></span></div>
-                            <div className="csv-metric-number">4.850.000đ <small>/ khách</small></div>
-                            <div className="csv-metric-footer csv-growth"><span><i className="fa-solid fa-arrow-trend-up" /> +18.4% so kỳ trước</span><svg viewBox="0 0 100 28" aria-hidden="true"><polyline points="2,23 22,15 39,19 57,8 75,12 98,2" /></svg></div>
-                        </article>
-                        <article className="csv-metric">
-                            <div className="csv-metric-top"><span>TỶ LỆ RE-ORDER CÔNG THỨC HƯƠNG</span><span className="csv-metric-icon purple"><i className="fa-solid fa-arrows-rotate" /></span></div>
-                            <div className="csv-metric-number">42.8% <span className="csv-growth-pill">+5.2%</span></div>
-                            <div className="csv-metric-note">Đặt lại công thức riêng từ xưởng Lab Olla</div>
-                        </article>
-                        <article className="csv-metric">
-                            <div className="csv-metric-top"><span>TÀI KHOẢN VIP &amp; TIER CAO</span><span className="csv-metric-icon orange"><i className="fa-regular fa-star" /></span></div>
-                            <div className="csv-metric-number">1.820 <small>VIP</small></div>
-                            <div className="csv-metric-note csv-vip-note"><span>Hạng Vàng &amp; Kim Cương</span><span>&gt; 15tr/tháng</span></div>
-                        </article>
-                    </section>
-
-                    <section className="csv-filter-card">
-                        <div className="csv-filter-row">
-                            <label className="csv-search"><i className="fa-solid fa-magnifying-glass" /><input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Tìm theo Họ tên, Email, SĐT, hoặc Mã CUST-XXX..." /></label>
-                            <select className="form-select" value={tierFilter} onChange={(e) => { setTierFilter(e.target.value); setPage(1); }} aria-label="Phân hạng">
-                                <option value="Tất cả">Phân hạng: Tất cả</option><option>VIP Diamond</option><option>Gold (Vàng)</option><option>Silver (Bạc)</option><option>Thành viên mới</option><option>Vãng lai</option>
-                            </select>
-                            <select className="form-select" value={behaviorFilter} onChange={(e) => { setBehaviorFilter(e.target.value); setPage(1); }} aria-label="Hành vi">
-                                <option value="Tất cả">Hành vi: Tất cả</option><option value="Có re-order">Có re-order</option><option value="Chưa có công thức">Chưa có công thức</option>
-                            </select>
-                            <select className="form-select" value={detailFilter} onChange={(e) => { setDetailFilter(e.target.value); setPage(1); }} aria-label="Chi tiết">
-                                <option value="Tất cả">Chi tiết: Tất cả</option><option value="Có công thức">Có công thức</option><option value="Chưa có công thức">Chưa có công thức</option>
-                            </select>
-                            <select className="form-select" value={statusFilter} onChange={handleStatusChange} aria-label="Trạng thái">
-                                <option>Hoạt động</option><option>Tất cả</option><option>Mới kích hoạt</option><option>Tạm khóa</option>
-                            </select>
-                        </div>
-                        {selected.length > 0 && <div className="csv-bulk-bar">
-                            <div className="csv-selected-info"><span className="csv-selected-count">{selected.length}</span><strong>Đã chọn {selected.length} khách hàng từ danh sách</strong><span className="csv-bulk-divider" /><button className="csv-text-btn" onClick={() => setSelected([])}>Bỏ chọn</button></div>
-                            <div className="csv-bulk-actions">
-                                <button className="btn csv-btn csv-btn-outline" onClick={() => handleBulkAction("Gửi Voucher ưu đãi")}>Gửi Voucher ưu đãi</button>
-                                <button className="btn csv-btn csv-btn-outline" onClick={handleExport}>Xuất GDPR Zip</button>
-                                <button className="btn csv-btn csv-btn-warning" onClick={() => handleBulkAction("Gắn nhãn rủi ro")}>Gắn nhãn rủi ro</button>
-                                <button className="btn csv-btn csv-btn-primary csv-btn-small" onClick={() => handleBulkAction("lock")}><i className="fa-solid fa-lock" /> Khóa tài khoản</button>
+                {/* ── 4 THẺ METRICS */}
+                <div className="row g-3 mb-4">
+                    {/* Thẻ 1: Tổng khách hàng */}
+                    <div className="col-12 col-sm-6 col-xl-3">
+                        <div className="metric-card">
+                            <div className="metric-card-top">
+                                <span className="metric-card-label">TỔNG KHÁCH HÀNG</span>
+                                <span className="metric-card-icon blue"><i className="fa-solid fa-users" /></span>
                             </div>
-                        </div>}
-                    </section>
-
-                    <section className="csv-table-card">
-                        <div className="table-responsive">
-                            <table className="table csv-table align-middle mb-0">
-                                <thead><tr>
-                                    <th className="csv-check-col"><input className="form-check-input" type="checkbox" checked={allVisibleSelected} onChange={toggleAllVisible} aria-label="Chọn tất cả khách hàng" /></th>
-                                    <th>Khách hàng (ID &amp; Họ tên)</th><th>Liên hệ</th><th>Phân hạng</th><th>Công thức hương tạo (USP)</th><th>Đơn hàng &amp; LTV</th><th>Hoạt động gần nhất</th><th>Trạng thái</th><th className="text-center">Thao tác</th>
-                                </tr></thead>
-                                <tbody>
-                                    {filteredCustomers.map((customer) => {
-                                        const isSelected = selected.includes(customer.id);
-                                        return <tr key={customer.id} className={isSelected ? "csv-row-selected" : ""}>
-                                            <td className="csv-check-col"><input className="form-check-input" type="checkbox" checked={isSelected} onChange={() => toggleCustomer(customer.id)} aria-label={`Chọn ${customer.name}`} /></td>
-                                            <td><div className="csv-customer"><span className={`csv-avatar ${customer.avatarTone}`}>{customer.initials}</span><div className="csv-customer-info"><strong>{customer.name}</strong><span>Mã: {customer.id}</span></div>{customer.tier === "VIP Diamond" && <span className="csv-vip-mini"><i className="fa-solid fa-star" /> VIP</span>}</div></td>
-                                            <td><div className="csv-contact">{customer.email}<span>{customer.phone}</span></div></td>
-                                            <td><span className={`csv-tier ${customer.tier === "VIP Diamond" ? "tier-vip" : customer.tier === "Gold (Vàng)" ? "tier-gold" : customer.tier === "Silver (Bạc)" ? "tier-silver" : customer.tier === "Thành viên mới" ? "tier-new" : "tier-casual"}`}>{customer.tier}</span></td>
-                                            <td><div className="csv-formula"><strong><i className="fa-solid fa-flask" /> {customer.formulas} công thức</strong><span className={customer.risk ? "text-danger" : ""}>{customer.formulaNote}</span></div></td>
-                                            <td><div className="csv-ltv"><strong>{formatVnd(customer.ltv)}</strong><span className={customer.risk ? "text-danger" : ""}>{customer.orders} {customer.orders === 1 ? "đơn hàng" : "đơn hàng"}</span></div></td>
-                                            <td><div className="csv-recent">{customer.recent}<span>{customer.recentNote}</span></div></td>
-                                            <td><span className={`csv-status ${customer.status === "Hoạt động" ? "status-active" : customer.status === "Mới kích hoạt" ? "status-new" : "status-locked"}`}><span />{customer.status}</span></td>
-                                            <td className="text-center"><button className={`btn csv-row-action ${customer.tier === "VIP Diamond" ? "csv-row-action-primary" : ""}`} onClick={() => window.alert(`Hồ sơ khách hàng: ${customer.name} (${customer.id})`)}>{customer.tier === "VIP Diamond" ? "Xem hồ sơ" : "Chi tiết"}</button></td>
-                                        </tr>;
-                                    })}
-                                    {filteredCustomers.length === 0 && <tr><td colSpan={9} className="csv-empty">Không tìm thấy khách hàng phù hợp.</td></tr>}
-                                </tbody>
-                                <tfoot><tr><td colSpan={9}><div className="csv-pagination"><span>Hiển thị <strong>{filteredCustomers.length ? 1 : 0} - {filteredCustomers.length}</strong> trên tổng số <strong>12.450</strong> khách hàng</span><div className="csv-page-buttons"><button className="btn" disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Trang trước</button><button className={`btn ${page === 1 ? "active" : ""}`} onClick={() => setPage(1)}>1</button><button className={`btn ${page === 2 ? "active" : ""}`} onClick={() => setPage(2)}>2</button><button className={`btn ${page === 3 ? "active" : ""}`} onClick={() => setPage(3)}>3</button><span>…</span><button className={`btn ${page === 249 ? "active" : ""}`} onClick={() => setPage(249)}>249</button><button className="btn" onClick={() => setPage((p) => Math.min(249, p + 1))}>Trang sau</button></div></div></td></tr></tfoot>
-                            </table>
+                            <div className="metric-card-value">
+                                {totalCustomers.toLocaleString("vi-VN")}
+                            </div>
+                            <div className="metric-card-footer d-flex flex-wrap gap-1 align-items-center">
+                                <span className="metric-chip green">{activeCount.toLocaleString("vi-VN")} Hoạt động</span>
+                                <span className="metric-chip blue">+420 Mới</span>
+                                <span className="metric-chip red">{bannedCount} Khóa</span>
+                            </div>
                         </div>
-                    </section>
-                </main>
+                    </div>
+
+                    {/* Thẻ 2: Giá trị vòng đời TB */}
+                    <div className="col-12 col-sm-6 col-xl-3">
+                        <div className="metric-card">
+                            <div className="metric-card-top">
+                                <span className="metric-card-label">GIÁ TRỊ VÒNG ĐỜI TB (LTV)</span>
+                                <span className="metric-card-icon green"><i className="fa-solid fa-circle-dollar-to-slot" /></span>
+                            </div>
+                            <div className="metric-card-value">
+                                {formatVnd(avgLtv)} <small>/ khách</small>
+                            </div>
+                            <div className="metric-card-footer justify-content-between">
+                                <span className="text-success fw-semibold small d-flex align-items-center gap-1">
+                                    <i className="fa-solid fa-arrow-trend-up" /> +18.4% so kỳ trước
+                                </span>
+                                <svg width="55" height="20" viewBox="0 0 100 28" fill="none">
+                                    <polyline points="2,23 22,15 39,19 57,8 75,12 98,2" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Thẻ 3: Tỷ lệ re-order */}
+                    <div className="col-12 col-sm-6 col-xl-3">
+                        <div className="metric-card">
+                            <div className="metric-card-top">
+                                <span className="metric-card-label">TỶ LỆ RE-ORDER CÔNG THỨC HƯƠNG</span>
+                                <span className="metric-card-icon purple"><i className="fa-solid fa-arrows-rotate" /></span>
+                            </div>
+                            <div className="metric-card-value d-flex align-items-center">
+                                42.8%
+                                <span className="metric-growth-pill">+5.2%</span>
+                            </div>
+                            <div className="metric-card-footer text-muted text-truncate">
+                                Đặt lại công thức riêng từ xưởng Lab Olla
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Thẻ 4: Tài khoản VIP & Tier cao */}
+                    <div className="col-12 col-sm-6 col-xl-3">
+                        <div className="metric-card">
+                            <div className="metric-card-top">
+                                <span className="metric-card-label">TÀI KHOẢN VIP &amp; TIER CAO</span>
+                                <span className="metric-card-icon amber"><i className="fa-regular fa-star" /></span>
+                            </div>
+                            <div className="metric-card-value">
+                                {vipCount > 0 ? vipCount.toLocaleString("vi-VN") : "1.820"} <small>VIP</small>
+                            </div>
+                            <div className="metric-card-footer justify-content-between text-muted">
+                                <span>Hạng Vàng &amp; Kim Cương</span>
+                                <span>&gt; 15tr/năm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/*BỘ LỌC TÌM KIẾM & HÀNH ĐỘNG HÀNG LOẠT */}
+                <div className="filter-card">
+                    <div className="row g-2 align-items-center">
+                        <div className="col-12 col-lg-4">
+                            <div className="search-input-wrapper">
+                                <i className="fa-solid fa-magnifying-glass" />
+                                <input
+                                    type="text"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    placeholder="Tìm theo Họ tên, Email, SĐT, hoặc Mã CUST-xxx..."
+                                />
+                            </div>
+                        </div>
+                        <div className="col-6 col-sm-3 col-lg-2">
+                            <select
+                                className="filter-select"
+                                value={tierFilter}
+                                onChange={(e) => setTierFilter(e.target.value)}
+                            >
+                                <option value="Tất cả">Phân hạng: Tất cả</option>
+                                <option>VIP Diamond</option>
+                                <option>Gold (Vàng)</option>
+                                <option>Silver (Bạc)</option>
+                                <option>Thành viên mới</option>
+                                <option>Vãng lai</option>
+                            </select>
+                        </div>
+                        <div className="col-6 col-sm-3 col-lg-2">
+                            <select
+                                className="filter-select"
+                                value={behaviorFilter}
+                                onChange={(e) => setBehaviorFilter(e.target.value)}
+                            >
+                                <option value="Tất cả">Hành vi: Tất cả</option>
+                                <option value="Có re-order">Có re-order</option>
+                                <option value="Chưa có công thức">Chưa có công thức</option>
+                            </select>
+                        </div>
+                        <div className="col-6 col-sm-3 col-lg-2">
+                            <select
+                                className="filter-select"
+                                value={spendingFilter}
+                                onChange={(e) => setSpendingFilter(e.target.value)}
+                            >
+                                <option value="Tất cả">Chi tiêu: Tất cả</option>
+                                <option value="dưới 5tr">Dưới 5 triệu</option>
+                                <option value="5tr-20tr">5 - 20 triệu</option>
+                                <option value="trên 20tr">Trên 20 triệu</option>
+                            </select>
+                        </div>
+                        <div className="col-6 col-sm-3 col-lg-2">
+                            <select
+                                className="filter-select"
+                                value={statusFilter}
+                                onChange={(e: ChangeEvent<HTMLSelectElement>) => setStatusFilter(e.target.value)}
+                            >
+                                <option value="Tất cả">Trạng thái: Tất cả</option>
+                                <option value="Hoạt động">Trạng thái: Hoạt động</option>
+                                <option value="Mới kích hoạt">Trạng thái: Mới kích hoạt</option>
+                                <option value="Tạm khóa">Trạng thái: Tạm khóa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Thanh hành động hàng loạt khi chọn checkbox */}
+                    {selected.length > 0 && (
+                        <div className="bulk-action-bar">
+                            <div className="bulk-info">
+                                <span className="bulk-count-badge">{selected.length}</span>
+                                <span>Đã chọn {selected.length} khách hàng từ danh sách</span>
+                                <span className="bulk-divider">|</span>
+                                <button className="bulk-clear-btn" onClick={() => setSelected([])}>Bỏ chọn</button>
+                            </div>
+                            <div className="bulk-actions-btns">
+                                <button className="btn-bulk-light" onClick={() => setShowVoucherModal(true)}>Gửi Voucher ưu đãi</button>
+                                <button className="btn-bulk-light" onClick={handleExport}>Xuất GDPR Zip</button>
+                                <button className="btn-bulk-warning" onClick={() => alert("Đã gắn nhãn rủi ro cho các tài khoản được chọn.")}>Gắn nhãn rủi ro</button>
+                                <button className="btn-bulk-danger" onClick={handleBulkLock}>Khóa tài khoản</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* table */}
+                <div className="table-card">
+                    <div className="table-responsive">
+                        <table className="admin-table">
+                            <thead>
+                                <tr>
+                                    <th style={{ width: "40px", textAlign: "center" }}>
+                                        <input
+                                            type="checkbox"
+                                            className="admin-checkbox"
+                                            checked={allVisibleSelected}
+                                            onChange={toggleAll}
+                                            aria-label="Chọn tất cả"
+                                        />
+                                    </th>
+                                    <th>Khách hàng (ID &amp; Họ tên)</th>
+                                    <th>Liên hệ</th>
+                                    <th>Phân hạng</th>
+                                    <th>Đơn hàng &amp; LTV</th>
+                                    <th>Hoạt động gần nhất</th>
+                                    <th>Trạng thái</th>
+                                    <th style={{ textAlign: "center", width: "120px" }}>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan={8} className="text-center py-5">
+                                            <span className="spinner-border text-danger me-2" role="status" />
+                                            Đang tải dữ liệu từ máy chủ...
+                                        </td>
+                                    </tr>
+                                ) : filteredCustomers.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={8} className="text-center py-5 text-muted">
+                                            <i className="fa-solid fa-users-slash fs-2 mb-2 d-block opacity-50" />
+                                            Không tìm thấy khách hàng nào phù hợp với bộ lọc.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    filteredCustomers.map((cust) => {
+                                        const isSelected = selected.includes(cust.id);
+                                        const isVip = cust.tier === "VIP Diamond";
+                                        return (
+                                            <tr key={cust.id} className={isSelected ? "row-selected" : ""}>
+                                                <td style={{ textAlign: "center" }}>
+                                                    <input
+                                                        type="checkbox"
+                                                        className="admin-checkbox"
+                                                        checked={isSelected}
+                                                        onChange={() => toggleCustomer(cust.id)}
+                                                        aria-label={`Chọn ${cust.name}`}
+                                                    />
+                                                </td>
+
+                                                {/* Cột 2: Khách hàng */}
+                                                <td>
+                                                    <div className="customer-cell">
+                                                        <span className={`customer-avatar ${cust.avatarTone || "pink"}`}>
+                                                            {cust.initials || "KH"}
+                                                        </span>
+                                                        <div className="customer-name-id">
+                                                            <div className="d-flex align-items-center">
+                                                                <span className="customer-name">{cust.name}</span>
+                                                                {isVip && <span className="vip-star-badge"><i className="fa-solid fa-star" /> VIP</span>}
+                                                            </div>
+                                                            <span className="customer-id">Mã: CUST-{cust.id}</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                {/* Cột 3: Liên hệ */}
+                                                <td>
+                                                    <div className="contact-cell">
+                                                        <span>{cust.email}</span>
+                                                        <span className="contact-phone">{cust.phone || "+84 Chưa có SĐT"}</span>
+                                                    </div>
+                                                </td>
+
+                                                {/* Cột 4: Phân hạng */}
+                                                <td>
+                                                    <span className={tierPillClass(cust.tier)}>
+                                                        {cust.tier}
+                                                    </span>
+                                                </td>
+
+                                                {/* Cột 5: Đơn hàng */}
+                                                <td>
+                                                    <div className="ltv-cell">
+                                                        <span className={`ltv-amount ${cust.risk ? "text-danger" : ""}`}>
+                                                            {formatVnd(cust.ltv)}
+                                                        </span>
+                                                        <span className={`ltv-sub ${cust.risk ? "text-danger" : ""}`}>
+                                                            {cust.risk ? "Đang giữ Escrow tranh chấp" : `${cust.orders} đơn thành công`}
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                {/* Cột 7: Hoạt động gần nhất */}
+                                                <td>
+                                                    <div className="recent-cell">
+                                                        <span className="recent-time">{cust.recent || "2 giờ trước"}</span>
+                                                        <span className="recent-note">{cust.recentNote || "Xem nốt xạ hương"}</span>
+                                                    </div>
+                                                </td>
+
+                                                {/* Cột 8: Trạng thái */}
+                                                <td>
+                                                    <span className={statusPillClass(cust.status)}>
+                                                        <span className="dot" />
+                                                        {cust.status}
+                                                    </span>
+                                                </td>
+
+                                                {/* Cột 9: Thao tác */}
+                                                <td style={{ textAlign: "center" }}>
+                                                    <button
+                                                        className="btn-action-primary"
+                                                        onClick={() => handleViewDetail(cust)}
+                                                    >
+                                                        Xem hồ sơ
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    {renderPagination()}
+                </div>
             </div>
+
+            {/* ── MODAL CHI TIẾT HỒ SƠ KHÁCH HÀNG (SCENT VAULT & PROFILE) ── */}
+            {selectedDetail && (
+                <CustomerDetailModal
+                    detail={selectedDetail}
+                    loading={detailLoading}
+                    onClose={() => setSelectedDetail(null)}
+                    onToggleStatus={handleToggleStatusInDetail}
+                    onUpdateCustomer={handleCustomerUpdated}
+                />
+            )}
+
+            {/* ── MODAL THÊM KHÁCH HÀNG THỦ CÔNG ── */}
+            {showCreateModal && (
+                <div className="modal show d-block" tabIndex={-1} style={{ backgroundColor: "rgba(15, 23, 42, 0.65)", zIndex: 1050 }}>
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content border-0 rounded-4 shadow">
+                            <form onSubmit={handleCreateCustomer}>
+                                <div className="modal-header border-bottom py-3">
+                                    <h5 className="modal-title fw-bold text-dark fs-5">
+                                        <i className="fa-solid fa-user-plus text-danger me-2" />
+                                        Thêm khách hàng mới
+                                    </h5>
+                                    <button type="button" className="btn-close" onClick={() => setShowCreateModal(false)} />
+                                </div>
+                                <div className="modal-body p-4">
+                                    {createError && (
+                                        <div className="alert alert-danger py-2 small mb-3">
+                                            {createError}
+                                        </div>
+                                    )}
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Họ và tên</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Ví dụ: Nguyễn Văn A"
+                                            required
+                                            value={createForm.fullname}
+                                            onChange={(e) => setCreateForm({ ...createForm, fullname: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Email liên hệ</label>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            placeholder="example@gmail.com"
+                                            required
+                                            value={createForm.email}
+                                            onChange={(e) => setCreateForm({ ...createForm, email: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Số điện thoại</label>
+                                        <input
+                                            type="tel"
+                                            className="form-control"
+                                            placeholder="0912345678"
+                                            required
+                                            pattern="^(0|\+84)\d{9}$"
+                                            value={createForm.phone}
+                                            onChange={(e) => setCreateForm({ ...createForm, phone: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-bold small text-dark">Mật khẩu ban đầu</label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            required
+                                            value={createForm.password}
+                                            onChange={(e) => setCreateForm({ ...createForm, password: e.target.value })}
+                                        />
+                                        <small className="text-muted">Mật khẩu mặc định có thể để người dùng đổi sau.</small>
+                                    </div>
+                                </div>
+                                <div className="modal-footer border-top py-2">
+                                    <button type="button" className="btn btn-light border btn-sm px-3" onClick={() => setShowCreateModal(false)}>
+                                        Hủy
+                                    </button>
+                                    <button type="submit" className="btn btn-danger btn-sm px-4 fw-semibold" disabled={createLoading} style={{ backgroundColor: "#e11d48", borderColor: "#e11d48" }}>
+                                        {createLoading ? "Đang tạo..." : "Tạo khách hàng"}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
