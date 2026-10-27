@@ -91,7 +91,7 @@ export default function AdminOrderDispatchPage() {
             .catch(() => {
             });
 
-        CustomerAdminService.getCustomers(0, 15)
+        CustomerAdminService.getCustomers({ page: 0, size: 15 })
             .then((res) => {
                 if (res?.content && res.content.length > 0) {
                     setRealCustomers(res.content);

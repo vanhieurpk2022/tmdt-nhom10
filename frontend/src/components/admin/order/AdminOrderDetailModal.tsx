@@ -18,6 +18,7 @@ import {
 import type { AdminOrderDetail } from "../../../api/AdminOrderService";
 import { OrderStatusBadge, ProductTypeBadge } from "../../../pages/AdminOrder";
 import CustomBadge from "../badge/CustomBadge";
+import { ProductType } from "../../../enums/ProductType";
 
 interface Props {
     order: AdminOrderDetail | null;
