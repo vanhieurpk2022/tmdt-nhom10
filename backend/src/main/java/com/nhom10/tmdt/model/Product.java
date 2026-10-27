@@ -43,8 +43,6 @@ public class Product {
     @Builder.Default
     private Long views = 0L;
 
-
-
     @Column(name="created_at")
     @CreationTimestamp
     private LocalDateTime createdAt ;
