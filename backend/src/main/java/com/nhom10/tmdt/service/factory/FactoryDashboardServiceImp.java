@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +31,10 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     private final ProductMilRepository productMilRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
+    private final ProductCustomRepository productCustomRepository;
+    private final ProductCustomItemRepository productCustomItemRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public DashboardOverviewResponse getOverview(String email) {
         User user = userRepository.findByEmail(email).orElseThrow( () -> new AppException(ErrorCode.NOT_FOUND));
@@ -279,14 +285,31 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             User user = userRepository.findByEmail(email).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
         Category category = categoryRepository.findById(request.categoryId()).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
 
+        ProductStatus status = request.status() != null ? request.status() : ProductStatus.ACTIVE;
+        ProductType type = request.type() != null ? request.type() : ProductType.NORMAL;
+
         Product p = Product.builder()
                     .factory(user.getFactory())
                     .name(request.name())
                     .category(category)
-                    .productType(request.type())
-                    .status(request.status())
+                    .productType(type)
+                    .status(status)
                     .description(request.description())
                     .build();
+
+        if (type == ProductType.CUSTOM) {
+            ProductCustom pc = ProductCustom.builder()
+                    .name(request.name())
+                    .factory(user.getFactory())
+                    .notes(request.description())
+                    .price(0.0)
+                    .totalVolumeMl(0.0)
+                    .bottleType("Tiêu chuẩn")
+                    .build();
+            ProductCustom savedPc = productCustomRepository.save(pc);
+            p.setProductCustom(savedPc);
+        }
+
         Product saved = productRepository.save(p);
 
         List<String> urls = request.imageUrls() == null
@@ -363,11 +386,13 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
         p.setName(request.name());
         p.setProductType(request.type());
 
-        List<ProductImage > productImages = new ArrayList<>();
-        for(String s: request.imageUrls()){
-            productImages.add(ProductImage.builder().imageUrl(s).product(p).build());
+        if (request.imageUrls() != null && request.imageUrls().length > 0) {
+            List<ProductImage> productImages = new ArrayList<>();
+            for(String s: request.imageUrls()){
+                productImages.add(ProductImage.builder().imageUrl(s).product(p).build());
+            }
+            productImageRepository.saveAll(productImages);
         }
-        productImageRepository.saveAll(productImages);
         productRepository.save(p);
     }
 
@@ -382,4 +407,267 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public void DeleteProduct(Long id) {
         productRepository.delete(productRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
     }
+
+    @Override
+    @Transactional
+    public FactoryCustomRecipeDto getCustomRecipe(Long productId) {
+        Product p = productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+
+        // Nếu sản phẩm CUSTOM chưa có ProductCustom, tự tạo và liên kết
+        if (p.getProductType() == ProductType.CUSTOM && p.getProductCustom() == null) {
+            ProductCustom pc = ProductCustom.builder()
+                    .name(p.getName())
+                    .factory(p.getFactory())
+                    .notes(p.getDescription())
+                    .price(p.getPrice() != null ? p.getPrice() : 0.0)
+                    .totalVolumeMl(0.0)
+                    .bottleType("Tiêu chuẩn")
+                    .build();
+            ProductCustom savedPc = productCustomRepository.save(pc);
+            p.setProductCustom(savedPc);
+            productRepository.save(p);
+        }
+
+        ProductCustom pc = p.getProductCustom();
+        if (pc == null) {
+            return new FactoryCustomRecipeDto(null, null, null, "", List.of());
+        }
+
+        List<ProductCustomItem> items = productCustomItemRepository.findByProductCustomId(pc.getId());
+        List<FactoryCustomRecipeDto.Item> itemDtos = items.stream().map(item ->
+                new FactoryCustomRecipeDto.Item(
+                        item.getId(),
+                        item.getProduct() != null ? item.getProduct().getId() : null,
+                        item.getProduct() != null ? item.getProduct().getName() : "",
+                        item.getPercentage(),
+                        item.getVolumeM1(),
+                        item.getNote()
+                )
+        ).toList();
+
+        return new FactoryCustomRecipeDto(pc.getId(), pc.getBottleType(), pc.getLabelDesign(), pc.getNotes(), itemDtos);
+    }
+
+    @Override
+    @Transactional
+    public FactoryCustomRecipeDto saveCustomRecipe(Long productId, FactoryCustomRecipeSaveRequest request) {
+        Product p = productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+
+        // Đảm bảo ProductCustom tồn tại
+        if (p.getProductCustom() == null) {
+            ProductCustom pc = ProductCustom.builder()
+                    .name(p.getName())
+                    .factory(p.getFactory())
+                    .notes(request.notes())
+                    .price(p.getPrice() != null ? p.getPrice() : 0.0)
+                    .totalVolumeMl(0.0)
+                    .bottleType("Tiêu chuẩn")
+                    .build();
+            ProductCustom savedPc = productCustomRepository.save(pc);
+            p.setProductCustom(savedPc);
+            productRepository.save(p);
+        }
+
+        ProductCustom pc = p.getProductCustom();
+        if (request.bottleType() != null && !request.bottleType().isBlank()) {
+            pc.setBottleType(request.bottleType());
+        }
+        if (request.labelDesign() != null) {
+            pc.setLabelDesign(request.labelDesign());
+        }
+        pc.setNotes(request.notes());
+        productCustomRepository.save(pc);
+
+        // Xóa các items cũ trong product_custom_item
+        productCustomItemRepository.deleteByProductCustomId(pc.getId());
+
+        // Tạo các items mới
+        List<ProductCustomItem> newItems = new ArrayList<>();
+        List<String> scentDetails = new ArrayList<>();
+
+        if (request.items() != null && !request.items().isEmpty()) {
+            for (FactoryCustomRecipeSaveRequest.Item it : request.items()) {
+                Product scentProduct = productRepository.findById(it.productId())
+                        .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+
+                ProductCustomItem pci = ProductCustomItem.builder()
+                        .productCustom(pc)
+                        .product(scentProduct)
+                        .percentage(it.percentage() != null ? it.percentage() : 0.0)
+                        .volumeM1(it.volumeMl() != null ? it.volumeMl() : 0.0)
+                        .note(it.note())
+                        .build();
+                newItems.add(pci);
+
+                int pct = it.percentage() != null ? it.percentage().intValue() : 0;
+                String noteSuffix = (it.note() != null && !it.note().isBlank()) ? " (" + it.note() + ")" : "";
+                scentDetails.add(pct + "% " + scentProduct.getName() + noteSuffix);
+            }
+            productCustomItemRepository.saveAll(newItems);
+        }
+
+        // Cập nhật description tóm tắt công thức cho Product
+        String formulaText = scentDetails.isEmpty() ? "" : "[Công thức phối hương]: " + String.join(" + ", scentDetails);
+        String finalDesc = formulaText;
+        if (request.notes() != null && !request.notes().isBlank()) {
+            finalDesc = formulaText.isEmpty() ? request.notes() : formulaText + "\n" + request.notes();
+        }
+        p.setDescription(finalDesc);
+        productRepository.save(p);
+
+        List<FactoryCustomRecipeDto.Item> itemDtos = newItems.stream().map(item ->
+                new FactoryCustomRecipeDto.Item(
+                        item.getId(),
+                        item.getProduct().getId(),
+                        item.getProduct().getName(),
+                        item.getPercentage(),
+                        item.getVolumeM1(),
+                        item.getNote()
+                )
+        ).toList();
+
+        return new FactoryCustomRecipeDto(pc.getId(), pc.getBottleType(), pc.getLabelDesign(), pc.getNotes(), itemDtos);
+    }
+
+    @Override
+    public List<FactoryStaffResponse> getStaffs(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if (user.getFactory() == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_FACTORY);
+        }
+        Long factoryId = user.getFactory().getId();
+        List<User> users = userRepository.findByFactoryIdOrderByIdDesc(factoryId);
+        return users.stream().map(this::toStaffResponse).toList();
+    }
+
+    @Override
+    public FactoryStaffResponse createStaff(String email, FactoryStaffCreateRequest request) {
+        User manager = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        Factory factory = manager.getFactory();
+        if (factory == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_FACTORY);
+        }
+
+        if (request.getEmail() == null || request.getEmail().isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+        String staffEmail = request.getEmail().trim().toLowerCase();
+        if (userRepository.existsUserByEmail(staffEmail)) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }
+        if (request.getPassword() == null || request.getPassword().length() < 6) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+
+        Role staffRole = roleRepository.findByName(RoleName.STAFF.name())
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+        Role factoryRole = roleRepository.findByName(RoleName.FACTORY.name())
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+
+        User staff = User.builder()
+                .fullname(request.getFullname() != null ? request.getFullname().trim() : "")
+                .username(staffEmail)
+                .email(staffEmail)
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phone(request.getPhone() != null ? request.getPhone().trim() : null)
+                .factory(factory)
+                .factoryRole(FactoryRole.STAFF)
+                .factoryPosition(request.getFactoryPosition() != null && !request.getFactoryPosition().isBlank()
+                        ? request.getFactoryPosition().trim()
+                        : "Nhân viên bán hàng")
+                .status(request.getStatus() != null ? request.getStatus() : UserStatus.ACTIVE)
+                .isVerify(true)
+                .roles(new java.util.HashSet<>(Arrays.asList(staffRole, factoryRole)))
+                .storeCredit(0.0)
+                .build();
+
+        User saved = userRepository.save(staff);
+        return toStaffResponse(saved);
+    }
+
+    @Override
+    public FactoryStaffResponse updateStaff(String email, Long staffId, FactoryStaffUpdateRequest request) {
+        User manager = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        Factory factory = manager.getFactory();
+        if (factory == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_FACTORY);
+        }
+
+        User staff = userRepository.findById(staffId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if (staff.getFactory() == null || !staff.getFactory().getId().equals(factory.getId())) {
+            throw new AppException(ErrorCode.FORBIDDEN);
+        }
+
+        if (request.getFullname() != null) {
+            staff.setFullname(request.getFullname().trim());
+        }
+        if (request.getPhone() != null) {
+            staff.setPhone(request.getPhone().trim());
+        }
+        if (request.getFactoryPosition() != null) {
+            staff.setFactoryPosition(request.getFactoryPosition().trim());
+        }
+        if (request.getStatus() != null) {
+            staff.setStatus(request.getStatus());
+        }
+
+        User saved = userRepository.save(staff);
+        return toStaffResponse(saved);
+    }
+
+    @Override
+    public void deleteStaff(String email, Long staffId) {
+        User manager = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        Factory factory = manager.getFactory();
+        if (factory == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_FACTORY);
+        }
+
+        User staff = userRepository.findById(staffId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if (staff.getFactory() == null || !staff.getFactory().getId().equals(factory.getId())) {
+            throw new AppException(ErrorCode.FORBIDDEN);
+        }
+
+        if (staff.getFactoryRole() == FactoryRole.OWNER) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+
+        staff.setFactory(null);
+        staff.setStatus(UserStatus.INACTIVE);
+        userRepository.save(staff);
+    }
+
+    private FactoryStaffResponse toStaffResponse(User u) {
+        String initials = "";
+        if (u.getFullname() != null && !u.getFullname().isBlank()) {
+            String[] parts = u.getFullname().trim().split("\\s+");
+            if (parts.length == 1) {
+                initials = parts[0].substring(0, Math.min(2, parts[0].length())).toUpperCase();
+            } else {
+                initials = ("" + parts[parts.length - 2].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+            }
+        } else if (u.getEmail() != null && !u.getEmail().isBlank()) {
+            initials = u.getEmail().substring(0, Math.min(2, u.getEmail().length())).toUpperCase();
+        }
+
+        String position = u.getFactoryPosition();
+        if (position == null || position.isBlank()) {
+            position = u.getFactoryRole() == FactoryRole.OWNER ? "Quản lý" : "Nhân viên bán hàng";
+        }
+
+        return FactoryStaffResponse.builder()
+                .id(u.getId())
+                .fullname(u.getFullname())
+                .email(u.getEmail())
+                .phone(u.getPhone())
+                .factoryRole(u.getFactoryRole())
+                .factoryPosition(position)
+                .status(u.getStatus())
+                .joinedAt(u.getCreatedAt())
+                .avatar(initials)
+                .build();
+    }
 }
+

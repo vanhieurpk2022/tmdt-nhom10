@@ -28,4 +28,17 @@ public interface FactoryDashboardService {
     void changeStatusProducts(Long id, ChangeStatusProduct req);
 
     void DeleteProduct(Long id);
+
+    FactoryCustomRecipeDto getCustomRecipe(Long productId);
+
+    FactoryCustomRecipeDto saveCustomRecipe(Long productId, FactoryCustomRecipeSaveRequest request);
+
+    List<FactoryStaffResponse> getStaffs(String email);
+
+    FactoryStaffResponse createStaff(String email, FactoryStaffCreateRequest request);
+
+    FactoryStaffResponse updateStaff(String email, Long staffId, FactoryStaffUpdateRequest request);
+
+    void deleteStaff(String email, Long staffId);
 }
+

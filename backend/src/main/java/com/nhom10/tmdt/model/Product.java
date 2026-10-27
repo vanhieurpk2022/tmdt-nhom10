@@ -27,6 +27,7 @@ public class Product {
     private Long id;
 
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
 
 
@@ -57,6 +58,10 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<ProductCustomItem> productCustomItems;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_custom_id")
+    private ProductCustom productCustom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
