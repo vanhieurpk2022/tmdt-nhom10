@@ -5,8 +5,6 @@ import {
     faBan,
     faXmark,
     faStar,
-    faCheck,
-    faFileArrowDown,
     faLock,
     faUnlock,
     faClock,
@@ -33,7 +31,7 @@ interface CustomerDetailModalProps {
     onUpdateCustomer?: (updated: CustomerItem) => void;
 }
 
-type TabKey = "info" | "scent" | "orders" | "disputes" | "wallet";
+type TabKey = "info" | "orders" | "disputes" | "wallet";
 
 export default function CustomerDetailModal({
     detail,
@@ -274,24 +272,18 @@ export default function CustomerDetailModal({
                             </div>
                         ) : (
                             <>
-                                {/* 1. Strip 4 thông số (Tổng LTV, Đã chốt, Scent Vault, Loyalty Pts) */}
+                                {/* 1. Strip 3 thông số (Tổng LTV, Đã chốt, Loyalty Pts) */}
                                 <div className="detail-metrics-strip mb-4">
                                     <div className="row g-0 text-center">
-                                        <div className="col-3 detail-metric-col">
+                                        <div className="col-4 detail-metric-col">
                                             <span className="detail-metric-label">TỔNG LTV</span>
                                             <span className="detail-metric-val">{formatVnd(customer.ltv || 0)}</span>
                                         </div>
-                                        <div className="col-3 detail-metric-col">
+                                        <div className="col-4 detail-metric-col">
                                             <span className="detail-metric-label">ĐÃ CHỐT</span>
                                             <span className="detail-metric-val">{customer.orders || 0} đơn</span>
                                         </div>
-                                        <div className="col-3 detail-metric-col">
-                                            <span className="detail-metric-label">SCENT VAULT</span>
-                                            <span className="detail-metric-val text-primary" style={{ color: "#2563eb" }}>
-                                                {customer.formulas || (customer.orders > 0 ? customer.orders : 1)} mùi
-                                            </span>
-                                        </div>
-                                        <div className="col-3 detail-metric-col">
+                                        <div className="col-4 detail-metric-col">
                                             <span className="detail-metric-label">LOYALTY PTS</span>
                                             <span className="detail-metric-val" style={{ color: "#d97706" }}>
                                                 {loyaltyPoints.toLocaleString("vi-VN")} pts
@@ -311,34 +303,24 @@ export default function CustomerDetailModal({
                                     </button>
                                     <button
                                         type="button"
-                                        className={`detail-tab-btn ${activeTab === "scent" ? "active" : ""}`}
-                                        onClick={() => setActiveTab("scent")}
-                                    >
-                                        2. Scent Vault &amp; Công thức
-                                        <span className="detail-tab-badge">
-                                            {customer.formulas || (customer.orders > 0 ? customer.orders : 1)}
-                                        </span>
-                                    </button>
-                                    <button
-                                        type="button"
                                         className={`detail-tab-btn ${activeTab === "orders" ? "active" : ""}`}
                                         onClick={() => setActiveTab("orders")}
                                     >
-                                        3. Đơn hàng ({recentOrders.length})
+                                        2. Đơn hàng ({recentOrders.length})
                                     </button>
                                     <button
                                         type="button"
                                         className={`detail-tab-btn ${activeTab === "disputes" ? "active" : ""}`}
                                         onClick={() => setActiveTab("disputes")}
                                     >
-                                        4. Khiếu nại ({disputes.length})
+                                        3. Khiếu nại ({disputes.length})
                                     </button>
                                     <button
                                         type="button"
                                         className={`detail-tab-btn ${activeTab === "wallet" ? "active" : ""}`}
                                         onClick={() => setActiveTab("wallet")}
                                     >
-                                        5. Ví &amp; Điểm
+                                        4. Ví &amp; Điểm
                                     </button>
                                 </div>
 
@@ -461,171 +443,7 @@ export default function CustomerDetailModal({
                                     </div>
                                 )}
 
-                                {/* ── TAB 2: SCENT VAULT & CÔNG THỨC ── */}
-                                {activeTab === "scent" && (
-                                    <div>
-                                        <div className="d-flex justify-content-between align-items-center mb-3">
-                                            <div>
-                                                <h6 className="fw-bold text-dark mb-1" style={{ fontSize: "14px" }}>
-                                                    Kho công thức hương cá nhân (Scent Vault)
-                                                </h6>
-                                                <p className="text-secondary small mb-0" style={{ fontSize: "12px" }}>
-                                                    Lưu trữ bản quyền công thức, tỉ lệ phối tầng hương và xưởng gia công chỉ định.
-                                                </p>
-                                            </div>
-                                            <span
-                                                className="badge rounded-pill fw-semibold px-3 py-2"
-                                                style={{
-                                                    backgroundColor: "#eff6ff",
-                                                    color: "#2563eb",
-                                                    border: "1px solid #bfdbfe",
-                                                    fontSize: "12px",
-                                                }}
-                                            >
-                                                {formulas.length} Công thức đã lưu
-                                            </span>
-                                        </div>
-
-                                        {formulas.length === 0 ? (
-                                            <div className="card border border-dashed rounded-4 p-5 text-center bg-light my-3 shadow-none">
-                                                <div className="py-4">
-                                                    <div className="mb-2 text-secondary" style={{ fontSize: "36px" }}>🧪</div>
-                                                    <h6 className="fw-bold text-dark mb-1">Chưa có công thức trong Scent Vault</h6>
-                                                    <p className="text-secondary small mb-0" style={{ maxWidth: "420px", margin: "0 auto" }}>
-                                                        Khách hàng này hiện chưa lưu công thức tùy chỉnh hoặc đặt hàng chế tác nước hoa độc quyền nào.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="d-flex flex-column gap-3">
-                                                {formulas.map((formula) => (
-                                                    <div key={formula.id} className="scent-formula-card">
-                                                        <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-1">
-                                                            <div>
-                                                                <div className="d-flex align-items-center gap-2">
-                                                                    <h6 className="fw-bold text-dark mb-0" style={{ fontSize: "15px" }}>
-                                                                        {formula.name}
-                                                                    </h6>
-                                                                    <span className="scent-tag-badge">{formula.code}</span>
-                                                                </div>
-                                                                <div className="text-muted small mt-1" style={{ fontSize: "12px" }}>
-                                                                    {formula.bottleType} • Dung tích: {formula.totalVolumeMl}ml • Giá: {formatVnd(formula.price || 0)}
-                                                                </div>
-                                                            </div>
-                                                            <span className="scent-status-ordered">
-                                                                <FontAwesomeIcon icon={faCheck} className="me-1" />
-                                                                Đã gia công {formula.orderedCount || 1} lô (Re-ordered)
-                                                            </span>
-                                                        </div>
-
-                                                        {/* Xưởng gia công độc quyền */}
-                                                        <div className="scent-workshop-banner">
-                                                            <span>
-                                                                Xưởng gia công chỉ định: <strong className="text-dark">{formula.factoryName || "OILIA Atelier Lab"}</strong>{" "}
-                                                                {formula.factoryId && <span className="text-muted">(WS-{formula.factoryId})</span>}
-                                                            </span>
-                                                            <span className="fw-semibold text-success">Chuẩn GMP Lab</span>
-                                                        </div>
-
-                                                        {/* Ghi chú công thức nếu có */}
-                                                        {formula.notes && (
-                                                            <div className="alert alert-light border small text-muted py-2 px-3 mb-2" style={{ fontSize: "12px" }}>
-                                                                <strong>Ghi chú công thức:</strong> {formula.notes}
-                                                            </div>
-                                                        )}
-
-                                                        {/* Tháp hương */}
-                                                        <div className="d-flex justify-content-between align-items-center mb-2 px-1">
-                                                            <span
-                                                                className="fw-bold text-uppercase"
-                                                                style={{ fontSize: "11px", color: "#475569", letterSpacing: "0.4px" }}
-                                                            >
-                                                                CẤU TRÚC THÁP NỐT HƯƠNG (SCENT PYRAMID)
-                                                            </span>
-                                                            <span className="text-muted" style={{ fontSize: "11px", fontWeight: 500 }}>
-                                                                TỈ LỆ HÒA TAN CHUẨN
-                                                            </span>
-                                                        </div>
-
-                                                        {/* Tầng 1: Hương đầu */}
-                                                        <div className="scent-pyramid-box top">
-                                                            <div className="scent-tier-header">
-                                                                <span>HƯƠNG ĐẦU (TOP NOTES) - 30%</span>
-                                                                <span>0 - 15 phút</span>
-                                                            </div>
-                                                            <p className="scent-tier-desc mb-0">
-                                                                {formula.topNotes || "Cam Bergamot, Bạc hà hữu cơ, Chanh tươi"}
-                                                            </p>
-                                                        </div>
-
-                                                        {/* Tầng 2: Hương giữa */}
-                                                        <div className="scent-pyramid-box middle">
-                                                            <div className="scent-tier-header">
-                                                                <span>HƯƠNG GIỮA (HEART / MIDDLE NOTES) - 50%</span>
-                                                                <span>15m - 4 giờ</span>
-                                                            </div>
-                                                            <p className="scent-tier-desc mb-0">
-                                                                {formula.heartNotes || "Hoa hồng Grasse, Hoa nhài Sambac, Hoa cam"}
-                                                            </p>
-                                                        </div>
-
-                                                        {/* Tầng 3: Hương cuối */}
-                                                        <div className="scent-pyramid-box base">
-                                                            <div className="scent-tier-header">
-                                                                <span>HƯƠNG CUỐI (BASE NOTES) - 20%</span>
-                                                                <span>4 - 12 giờ</span>
-                                                            </div>
-                                                            <p className="scent-tier-desc mb-0">
-                                                                {formula.baseNotes || "Gỗ tuyết tùng Virginia, Xạ hương trắng Cashmere, Hổ phách"}
-                                                            </p>
-                                                        </div>
-
-                                                        {/* Actions của Card */}
-                                                        <div className="d-flex justify-content-between align-items-center pt-2 flex-wrap gap-2">
-                                                            <div className="d-flex gap-2">
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-sm fw-semibold"
-                                                                    style={{
-                                                                        backgroundColor: "#fff1f2",
-                                                                        border: "1px solid #fecdd3",
-                                                                        color: "#e11d48",
-                                                                        fontSize: "12px",
-                                                                        padding: "5px 12px",
-                                                                    }}
-                                                                    onClick={() => alert(`Chi tiết nốt hương Lab:\n• Hương đầu: ${formula.topNotes}\n• Hương giữa: ${formula.heartNotes}\n• Hương cuối: ${formula.baseNotes}`)}
-                                                                >
-                                                                    Xem chi tiết nốt hương Lab
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-sm btn-light border fw-semibold text-dark"
-                                                                    style={{ fontSize: "12px", padding: "5px 12px" }}
-                                                                    onClick={() => alert(`Đã gửi yêu cầu tái sản xuất công thức "${formula.name}" đến xưởng ${formula.factoryName || "chỉ định"}.`)}
-                                                                >
-                                                                    Tái đặt hàng với xưởng
-                                                                </button>
-                                                            </div>
-                                                            <a
-                                                                href="#download-ifra"
-                                                                className="text-decoration-none text-secondary small fw-medium"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    alert(`Đang tạo và tải xuống chứng chỉ IFRA Compliance cho ${formula.code}...`);
-                                                                }}
-                                                            >
-                                                                <FontAwesomeIcon icon={faFileArrowDown} className="me-1" />
-                                                                Tải IFRA Compliance
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-
-                                {/* ── TAB 3: ĐƠN HÀNG ── */}
+                                {/* ── TAB 2: ĐƠN HÀNG ── */}
                                 {activeTab === "orders" && (
                                     <div>
                                         <h6 className="fw-bold text-dark mb-3" style={{ fontSize: "14px" }}>
@@ -679,7 +497,7 @@ export default function CustomerDetailModal({
                                     </div>
                                 )}
 
-                                {/* ── TAB 4: KHIẾU NẠI (DISPUTES) ── */}
+                                {/* ── TAB 3: KHIẾU NẠI (DISPUTES) ── */}
                                 {activeTab === "disputes" && (
                                     <div>
                                         <h6 className="fw-bold text-dark mb-3" style={{ fontSize: "14px" }}>
@@ -731,7 +549,7 @@ export default function CustomerDetailModal({
                                     </div>
                                 )}
 
-                                {/* ── TAB 5: VÍ & ĐIỂM ── */}
+                                {/* ── TAB 4: VÍ & ĐIỂM ── */}
                                 {activeTab === "wallet" && (
                                     <div>
                                         <div className="row g-3 mb-4">

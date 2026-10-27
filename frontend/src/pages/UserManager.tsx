@@ -387,9 +387,9 @@ export default function UserManager() {
                             <span className="crumb-sep">›</span>
                             <span>Người dùng</span>
                             <span className="crumb-sep">›</span>
-                            <span className="active-crumb">Danh sách khách hàng &amp; Scent Profile</span>
+                            <span className="active-crumb">Danh sách khách hàng</span>
                         </div>
-                        <h1 className="h4 fw-bold text-dark mb-0">Quản trị Khách hàng &amp; Scent Vault</h1>
+                        <h1 className="h4 fw-bold text-dark mb-0">Quản trị Khách hàng</h1>
                     </div>
                     <div className="d-flex flex-wrap gap-2">
                         <button className="btn-header-export" onClick={handleExport} title="Xuất dữ liệu Excel">
