@@ -70,8 +70,9 @@ export default function PaymentReviewsPage() {
 
     return <main className="container py-5">
         <Link to={ROUTES.ADMIN_ORDER}>Quản lý đơn hàng</Link>
+        <Link className="ms-3" to={ROUTES.REFUNDS}>Quản lý hoàn tiền</Link>
         <h1 className="h3 my-3">Đối soát thanh toán VNPay</h1>
-        <p>Tra cứu giao dịch trên cổng merchant VNPay trước khi xác nhận. Tiền về muộn hoặc thu dư phải được xử lý hoàn tiền bên ngoài hệ thống và lưu bằng chứng tại đây.</p>
+        <p>Tra cứu giao dịch trên cổng merchant VNPay trước khi xác nhận. Theo dõi và xử lý tiền về muộn, thu dư hoặc đơn đã hủy tại mục quản lý hoàn tiền.</p>
         {error && <p className="alert alert-danger" role="alert">{error}</p>}
         {message && <p className="alert alert-success" role="status">{message}</p>}
         <div className="table-responsive"><table className="table table-striped">
@@ -82,6 +83,7 @@ export default function PaymentReviewsPage() {
         <div className="d-flex gap-2"><button className="btn btn-outline-secondary" disabled={page === 0} onClick={() => setPage(page - 1)}>Trang trước</button><button className="btn btn-outline-secondary" disabled={reviews.length < 50} onClick={() => setPage(page + 1)}>Trang sau</button></div>
         {selected && <section className="card p-4 mt-4">
             <h2 className="h5">Yêu cầu #{selected.id} — đơn #{selected.orderId}</h2>
+            <Link className="align-self-start mb-3" to={`${ROUTES.REFUNDS}?orderId=${selected.orderId}&attemptId=${selected.attemptId}`}>Xem / tạo yêu cầu hoàn tiền cho giao dịch này</Link>
             {attempts.map(attempt => <p key={attempt.id}><strong>#{attempt.id}</strong> · <code>{attempt.txnRef}</code> · {attempt.amountVnd.toLocaleString("vi-VN")} ₫ · {attempt.status} · mã {attempt.responseCode ?? "—"}/{attempt.providerTransactionStatus ?? "—"} · giao dịch {attempt.transactionNo ?? "—"}</p>)}
             <label className="form-label">Bằng chứng tra soát / hoàn tiền thực tế (20–500 ký tự)
                 <textarea className="form-control" rows={3} minLength={20} maxLength={500} value={evidence} onChange={event => setEvidence(event.target.value)} />

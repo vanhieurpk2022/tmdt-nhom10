@@ -99,6 +99,10 @@ export const ExampleData: Order[] = [
 
 // bắt buộc khai báo đủ
 export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
+    [OrderStatus.PENDING_PAYMENT]: {
+        label: "Chờ thanh toán",
+        badge: "bg-warning-subtle text-warning-emphasis",
+    },
     [OrderStatus.PENDING]: {
         label: "Chờ xác nhận",
         badge: "bg-warning-subtle text-warning-emphasis",
@@ -357,6 +361,7 @@ export default function AdminOrder() {
 
                     <div className="d-flex gap-2">
                         <Link className="btn btn-outline-primary fw-semibold" to={ROUTES.PAYMENT_REVIEWS}>Đối soát VNPay</Link>
+                        <Link className="btn btn-outline-primary fw-semibold" to={ROUTES.REFUNDS}>Hoàn tiền VNPay</Link>
                         <button type="button" className="btn btn-light border fw-semibold">
                             <FontAwesomeIcon icon={faDownload} className="me-2" />
                             Xuất file vận đơn

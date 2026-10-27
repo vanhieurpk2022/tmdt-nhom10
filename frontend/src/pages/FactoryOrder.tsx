@@ -113,6 +113,10 @@ const ExampleData: Order[] = [
 ];
 
 const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
+    [OrderStatus.PENDING_PAYMENT]: {
+        label: "Chờ thanh toán",
+        badge: "bg-warning-subtle text-warning-emphasis",
+    },
     [OrderStatus.PENDING]: {
         label: "Chờ xác nhận",
         badge: "bg-warning-subtle text-warning-emphasis",

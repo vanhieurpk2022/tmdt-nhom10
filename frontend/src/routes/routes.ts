@@ -10,6 +10,8 @@ export const ROUTES = {
   VNPAY_RESULT: "/payment/vnpay/result",
   PAYMENT_REVIEWS: "/admin-payment-reviews",
   ORDERS: "/orders",
+  ORDER_DETAIL: "/orders/:id",
+  REFUNDS: "/admin-refunds",
   PROFILE: "/profile",
   CHANGE_PASSWORD: "/change-password",
   ADDRESSES: "/addresses",

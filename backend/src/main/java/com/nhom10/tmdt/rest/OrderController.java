@@ -5,7 +5,9 @@ import com.nhom10.tmdt.dto.order.CreateOrderRequest;
 import com.nhom10.tmdt.dto.order.CancelOrderRequest;
 import com.nhom10.tmdt.dto.order.OrderResponse;
 import com.nhom10.tmdt.dto.order.OrderHistoryResponse;
+import com.nhom10.tmdt.dto.order.OrderRefundResponse;
 import com.nhom10.tmdt.service.order.OrderHistoryService;
+import com.nhom10.tmdt.service.order.OrderRefundService;
 import com.nhom10.tmdt.service.order.OrderCancellationService;
 import com.nhom10.tmdt.dto.order.BuyNowRequest;
 import com.nhom10.tmdt.dto.cart.CartItemResponse;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/orders")
@@ -42,6 +46,7 @@ public class OrderController {
     private final OrderHistoryService history;
     private final OrderCancellationService cancellations;
     private final CartService cartService;
+    private final OrderRefundService orderRefunds;
 
     @GetMapping
     public ResponseEntity<ApiResponse<OrderHistoryResponse>> list(Authentication auth,
@@ -68,6 +73,12 @@ public class OrderController {
     public ResponseEntity<ApiResponse<PaymentStatusResponse>> status(Authentication auth, @PathVariable Long id) {
         return ResponseEntity.ok().cacheControl(CacheControl.noStore())
                 .body(new ApiResponse<>(200, "Trạng thái thanh toán", queries.status(auth.getName(), id, null)));
+    }
+
+    @GetMapping("/{id}/refunds")
+    public ResponseEntity<ApiResponse<List<OrderRefundResponse>>> refunds(Authentication auth, @PathVariable Long id) {
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore())
+                .body(new ApiResponse<>(200, "Thông tin hoàn tiền", orderRefunds.list(auth.getName(), id)));
     }
 
     @PostMapping("/{id}/cancel")

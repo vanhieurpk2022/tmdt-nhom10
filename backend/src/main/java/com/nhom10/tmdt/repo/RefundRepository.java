@@ -7,8 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
 @RepositoryRestResource(exported = false)
 public interface RefundRepository extends JpaRepository<Refund, Long> {
+    List<Refund> findByOrderIdOrderByIdAsc(Long orderId);
+
     @Query("""
         SELECT COUNT(DISTINCT r)
         FROM Refund r

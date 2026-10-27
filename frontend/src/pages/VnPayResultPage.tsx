@@ -225,6 +225,7 @@ function PaymentResult({ params }: { params: URLSearchParams }) {
                             </button>}
                         </div>
                         <Link className="d-flex align-items-center justify-content-center gap-2 mt-3 text-secondary text-decoration-none" to={ROUTES.ORDERS}>Xem lịch sử đơn hàng <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" /></Link>
+                        {status && <Link className="d-block text-center mt-3" to={ROUTES.ORDER_DETAIL.replace(":id", String(status.orderId))}>Xem chi tiết đơn hàng</Link>}
                     </section>
                 </div>
             </div>
