@@ -428,7 +428,6 @@ export function RegisterFactoryForm() {
                         </div>
                     </fieldset>
 
-
                     <button
                         type="submit"
                         className="btn btn-danger w-100 py-3 fw-bold text-uppercase fs-6"
