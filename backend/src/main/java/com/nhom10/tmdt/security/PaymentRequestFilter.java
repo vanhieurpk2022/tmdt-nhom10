@@ -19,7 +19,7 @@ public class PaymentRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String path = request.getServletPath();
         if ("POST".equals(request.getMethod()) && (path.equals("/orders")
-                || (path.startsWith("/orders/") && path.endsWith("/cancel"))
+                || (path.startsWith("/orders/") && (path.endsWith("/cancel") || path.endsWith("/reorder")))
                 || path.startsWith("/payments/vnpay/") || path.startsWith("/admin/payments/"))) {
             String origin = request.getHeader("Origin");
             URI result = properties.getFrontendResultUrl();

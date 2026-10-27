@@ -9,6 +9,8 @@ import com.nhom10.tmdt.service.order.OrderHistoryService;
 import com.nhom10.tmdt.service.order.OrderCancellationService;
 import com.nhom10.tmdt.dto.order.BuyNowRequest;
 import com.nhom10.tmdt.dto.cart.CartItemResponse;
+import com.nhom10.tmdt.dto.cart.CartResponse;
+import com.nhom10.tmdt.service.imp.CartService;
 import com.nhom10.tmdt.service.imp.PurchaseItemService;
 import com.nhom10.tmdt.service.imp.OrderService;
 import jakarta.validation.Valid;
@@ -39,6 +41,7 @@ public class OrderController {
     private final VnPayQueryService queries;
     private final OrderHistoryService history;
     private final OrderCancellationService cancellations;
+    private final CartService cartService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<OrderHistoryResponse>> list(Authentication auth,
@@ -77,6 +80,12 @@ public class OrderController {
     @PostMapping("/buy-now/preview")
     public ApiResponse<CartItemResponse> preview(@Valid @RequestBody BuyNowRequest request) {
         return new ApiResponse<>(200, "Lấy sản phẩm mua ngay thành công", purchaseItems.preview(request));
+    }
+
+    @PostMapping("/{id}/reorder")
+    public ResponseEntity<ApiResponse<CartResponse>> reorder(Authentication auth, @PathVariable Long id) {
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore())
+                .body(new ApiResponse<>(200, "Đã cập nhật giỏ hàng theo giá và tồn kho hiện tại", cartService.reorder(auth.getName(), id)));
     }
 
     @PostMapping
