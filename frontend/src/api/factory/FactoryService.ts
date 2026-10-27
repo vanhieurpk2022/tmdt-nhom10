@@ -1,6 +1,8 @@
 import type { FactoryOrderDashBoard, FactoryChartOrder, FactoryOrderStatusCount, DashboardOverview } from "../../dto/factory/FactoryDashBoard";
-import type { FactoryProductCreateRequest, FactoryProductItem, FactoryProductMil, FactoryProductResponse, FactoryProductVariantItem } from "../../dto/factory/FactoryProductRes";
+import type { FactoryCustomRecipeDto, FactoryCustomRecipeSaveRequest, FactoryProductCreateRequest, FactoryProductEditRes, FactoryProductItem, FactoryProductMil, FactoryProductResponse, FactoryProductVariantItem } from "../../dto/factory/FactoryProductRes";
 import type { ProductStatus } from "../../enums/ProductStatus";
+import type { OrderStatus } from "../../enums/OrderStatus";
+import type { AdminOrderListItem, AdminOrderPageResult, AdminOrderStats, AdminOrderDetail } from "../AdminOrderService";
 import type { ProductImage } from "../../models/ProductImage";
 import api, { type ApiResponse } from "../api";
 
@@ -56,7 +58,27 @@ export const FactoryServiceManager = {
         );
         return res.data;
     },
+    getCustomRecipe: async (productId: number) => {
+        const res = await api.get<ApiResponse<FactoryCustomRecipeDto>>(
+            `/manager/products/${productId}/custom-recipe`
+        );
+        return res.data;
+    },
+    saveCustomRecipe: async (productId: number, data: FactoryCustomRecipeSaveRequest) => {
+        const res = await api.put<ApiResponse<FactoryCustomRecipeDto>>(
+            `/manager/products/${productId}/custom-recipe`,
+            data
+        );
+        return res.data;
+    },
     toggleStatusProduct: async (id: number, status: string) => {
+        const res = await api.patch<ApiResponse<FactoryProductItem>>(
+            `/manager/products/${id}/status`,
+            { status }
+        );
+        return res.data;
+    },
+    changeStatusOfProduct: async (id: number, status: string) => {
         const res = await api.patch<ApiResponse<FactoryProductItem>>(
             `/manager/products/${id}/status`,
             { status }
@@ -132,7 +154,7 @@ export const FactoryServiceManager = {
         return res.data;
     },
     getProductEdit: async (id: number) => {
-        const res = await api.get<ApiResponse<FactoryProductCreateRequest>>(
+        const res = await api.get<ApiResponse<FactoryProductEditRes>>(
             `/manager/products/${id}`
         );
         return res.data;
@@ -142,13 +164,99 @@ export const FactoryServiceManager = {
             `/manager/products/${id}/status`, { status }
         );
         return res.data;
-    }
+    },
 
-
+    // Quản lý đơn hàng xưởng
+    getOrders: async (params?: {
+        page?: number;
+        size?: number;
+        search?: string;
+        status?: OrderStatus;
+        sortBy?: string;
+        sortDir?: string;
+    }) => {
+        const res = await api.get<ApiResponse<AdminOrderPageResult>>(
+            `/manager/orders`,
+            { params }
+        );
+        return res.data;
+    },
+    getOrderStats: async () => {
+        const res = await api.get<ApiResponse<AdminOrderStats>>(
+            `/manager/orders/stats`
+        );
+        return res.data;
+    },
+    getOrderDetail: async (id: number) => {
+        const res = await api.get<ApiResponse<AdminOrderDetail>>(
+            `/manager/orders/${id}`
+        );
+        return res.data;
+    },
+    updateOrderStatus: async (
+        id: number,
+        data: { status: OrderStatus; note?: string; cancelReason?: string }
+    ) => {
+        const res = await api.patch<ApiResponse<AdminOrderDetail>>(
+            `/manager/orders/${id}/status`,
+            data
+        );
+        return res.data;
+    },
+    deleteOrder: async (id: number) => {
+        const res = await api.delete<ApiResponse<void>>(
+            `/manager/orders/${id}`
+        );
+        return res.data;
+    },
+    getStaffs: async () => {
+        const res = await api.get<ApiResponse<FactoryStaffItem[]>>(`/manager/staffs`);
+        return res.data;
+    },
+    createStaff: async (data: FactoryStaffCreateRequest) => {
+        const res = await api.post<ApiResponse<FactoryStaffItem>>(`/manager/staffs`, data);
+        return res.data;
+    },
+    updateStaff: async (id: number, data: FactoryStaffUpdateRequest) => {
+        const res = await api.put<ApiResponse<FactoryStaffItem>>(`/manager/staffs/${id}`, data);
+        return res.data;
+    },
+    deleteStaff: async (id: number) => {
+        const res = await api.delete<ApiResponse<void>>(`/manager/staffs/${id}`);
+        return res.data;
+    },
 };
+
+export interface FactoryStaffItem {
+    id: number;
+    fullname: string;
+    email: string;
+    phone: string | null;
+    factoryRole: "OWNER" | "STAFF";
+    factoryPosition: string;
+    status: "ACTIVE" | "INACTIVE" | "ON_LEAVE" | "BANNED";
+    joinedAt: string;
+    avatar: string;
+}
+
+export interface FactoryStaffCreateRequest {
+    fullname: string;
+    email: string;
+    password: string;
+    phone?: string;
+    factoryPosition?: string;
+    status?: "ACTIVE" | "INACTIVE" | "ON_LEAVE";
+}
+
+export interface FactoryStaffUpdateRequest {
+    fullname?: string;
+    phone?: string;
+    factoryPosition?: string;
+    status?: "ACTIVE" | "INACTIVE" | "ON_LEAVE" | "BANNED";
+}
 
 export interface HalProductImages {
     _embedded: {
         productImages: ProductImage[];   // đổi key cho đúng với console.log bên dưới
     };
-}
+}
