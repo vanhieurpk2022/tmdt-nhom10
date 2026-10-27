@@ -34,7 +34,7 @@ export const ProductStatusBadge: Record<ProductStatus, { label: string; badge: s
 };
 
 export const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
-    [ProductType.CUSTOM]: { label: "Tùy chỉnh", badge: "bg-warning-subtle text-warning-emphasis" },
+    [ProductType.CUSTOM]: { label: "Tùy chỉnh", badge: "bg-purple-subtle text-purple-emphasis border border-purple-subtle" },
     [ProductType.NORMAL]: { label: "Thường", badge: "bg-primary-subtle text-primary-emphasis" },
 };
 

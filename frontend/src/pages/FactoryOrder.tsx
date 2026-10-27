@@ -267,7 +267,7 @@ export default function FactoryOrder() {
                                         {row.productSummary || "Sản phẩm"}
                                     </span>
                                     {isCustom && (
-                                        <span className="badge bg-purple-subtle text-purple-emphasis small px-2 py-0">
+                                        <span className="badge bg-purple-subtle text-purple-emphasis border border-purple-subtle rounded-pill px-2 py-1 small fw-semibold">
                                             Custom
                                         </span>
                                     )}
