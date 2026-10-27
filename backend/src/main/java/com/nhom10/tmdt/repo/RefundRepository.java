@@ -1,6 +1,6 @@
 package com.nhom10.tmdt.repo;
 
-import com.nhom10.tmdt.enums.OrderStatus;
+import com.nhom10.tmdt.enums.RefundStatus;
 import com.nhom10.tmdt.model.Refund;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +20,7 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
         """)
     long countByFactoryIdAndStatus(
             @Param("factoryId") Long factoryId,
-            @Param("status") OrderStatus status
+            @Param("status") RefundStatus status
     );
 
 
@@ -31,7 +31,12 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     JOIN o.orderItems oi
     JOIN oi.product p
     WHERE p.factory.id = :factoryId
-      AND r.status = 'PENDING'
+      AND r.status IN (
+          com.nhom10.tmdt.enums.RefundStatus.REQUESTED,
+          com.nhom10.tmdt.enums.RefundStatus.APPROVED,
+          com.nhom10.tmdt.enums.RefundStatus.PROCESSING,
+          com.nhom10.tmdt.enums.RefundStatus.NEEDS_REVIEW
+      )
     """)
     long countOpenByFactoryId(
             @Param("factoryId") Long factoryId
