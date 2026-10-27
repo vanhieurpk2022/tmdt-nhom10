@@ -88,7 +88,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
                 <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
                 <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
-                <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute><PaymentReviewsPage /></ProtectedRoute>} />
+                <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute requiredRole="ADMIN"><PaymentReviewsPage /></ProtectedRoute>} />
                 <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
                 <Route path={`${ROUTES.FACTORY_PRODUCT_DETAILS}/:id`} element={<FactoryProductDetails />}></Route>
 
