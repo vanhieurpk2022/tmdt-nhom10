@@ -71,11 +71,16 @@ public class VnPayController {
 
     @GetMapping("/return")
     public ResponseEntity<Void> paymentReturn(HttpServletRequest request) {
-        // Validate, then redirect only the reference to the app; no order lookup, no mutation.
+        // Verify the browser return, then confirm independently with VNPay before redirecting.
         String suffix;
         try {
             var callback = gateways.gateway().validateCallback(VnPayQueryParser.parse(request.getQueryString()));
             suffix = "?ref=" + callback.txnRef();
+            try {
+                queries.refreshReturned(callback);
+            } catch (RuntimeException ex) {
+                log.warn("VNPay return query deferred: error={}", ex.getClass().getSimpleName());
+            }
         } catch (RuntimeException ex) { suffix = "?invalid=1"; }
         return ResponseEntity.status(HttpStatus.SEE_OTHER).cacheControl(CacheControl.noStore())
                 .header("Referrer-Policy", "no-referrer")

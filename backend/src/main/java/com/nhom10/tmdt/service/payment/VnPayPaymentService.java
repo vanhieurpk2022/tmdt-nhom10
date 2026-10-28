@@ -32,6 +32,7 @@ public class VnPayPaymentService {
     private final PaymentRetryKeyRepository retryKeys;
     private final OrderService orderService;
     private final InventoryReservationService inventory;
+    private final RefundService refunds;
     private final VnPayGatewayProvider gateways;
     private final VnPayProperties properties;
     private final Clock clock;
@@ -144,9 +145,11 @@ public class VnPayPaymentService {
                 attempt.setReceiptNo(callback.transactionNo());
                 if (order.getPaidAttemptId() != null) {
                     event(order, attempt, "OVERPAYMENT", "OPEN", "overpaid:" + attempt.getId());
+                    refunds.enqueue(order, attempt, "Hoàn khoản thanh toán thu dư", "SYSTEM");
                 } else if (!payable(order)) {
                     order.setPaymentStatus(PaymentStatus.REFUND_PENDING);
                     event(order, attempt, "LATE_PAYMENT", "OPEN", "late:" + attempt.getId());
+                    refunds.enqueue(order, attempt, "Hoàn khoản thanh toán đến muộn", "SYSTEM");
                 } else {
                     order.setPaidAttemptId(attempt.getId());
                     order.setPaymentStatus(PaymentStatus.PAID);

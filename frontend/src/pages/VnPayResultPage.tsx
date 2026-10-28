@@ -99,7 +99,7 @@ function PaymentResult({ params }: { params: URLSearchParams }) {
         let active = true;
         const requests = requestState.current;
         let timer: ReturnType<typeof setTimeout>;
-        const deadline = Date.now() + 180_000;
+        const deadline = Date.now() + 360_000;
         async function poll() {
             if (!active || !hasReference || invalid) return;
             try {
@@ -214,7 +214,7 @@ function PaymentResult({ params }: { params: URLSearchParams }) {
                         </section>}
 
                         <div className="order-success-actions d-grid gap-2 mx-auto">
-                            {!invalidLink && status?.canRetry && <button className="btn order-success-primary-btn d-flex align-items-center justify-content-center gap-2" disabled={busy} onClick={() => { void retry(); }}>
+                            {!invalidLink && status?.canRetry && (!ref || status.attemptStatus === "FAILED") && <button className="btn order-success-primary-btn d-flex align-items-center justify-content-center gap-2" disabled={busy || checking} onClick={() => { void retry(); }}>
                                 {busy ? "Đang xử lý…" : status.attemptStatus === "INITIATED" ? "Tiếp tục thanh toán" : "Thanh toán lại"}
                                 <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
                             </button>}

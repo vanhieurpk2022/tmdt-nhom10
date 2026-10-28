@@ -5,7 +5,6 @@ import com.nhom10.tmdt.dto.cart.CartItemResponse;
 import com.nhom10.tmdt.dto.cart.CartResponse;
 import com.nhom10.tmdt.dto.cart.UpdateCartItemRequest;
 import com.nhom10.tmdt.dto.order.BuyNowRequest;
-import com.nhom10.tmdt.enums.ProductStatus;
 import com.nhom10.tmdt.enums.ProductType;
 import com.nhom10.tmdt.model.Cart;
 import com.nhom10.tmdt.model.CartItem;
@@ -128,9 +127,6 @@ public class CartService {
                     throw conflict("Dung tích không còn thuộc sản phẩm trong đơn cũ");
                 }
                 entityManager.refresh(product);
-                if (product.getStatus() != ProductStatus.ACTIVE) {
-                    throw conflict("Sản phẩm không còn mở bán: " + product.getName());
-                }
                 if (product.getProductType() == ProductType.CUSTOM) {
                     throw conflict("Vui lòng phối hương lại để cập nhật cấu hình và giá sản phẩm tùy chỉnh");
                 }

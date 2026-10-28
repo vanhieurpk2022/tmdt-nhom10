@@ -1,7 +1,5 @@
 package com.nhom10.tmdt.service.payment;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhom10.tmdt.config.VnPayProperties;
 import com.nhom10.tmdt.dto.order.PaymentStatusResponse;
 import com.nhom10.tmdt.enums.PaymentStatus;
@@ -12,15 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 @Service
@@ -32,10 +22,9 @@ public class VnPayQueryService {
     private final VnPayPaymentService payments;
     private final PaymentAttemptRepository attempts;
     private final Clock clock;
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(3)).build();
+    private final VnPayApiClient api;
+    private final VnPayQueryLimiter queryLimiter;
     private final Semaphore requests = new Semaphore(2);
-    private final Map<String, Instant> lastQueries = new HashMap<>();
 
     public PaymentStatusResponse status(String email, Long orderId, String ref) {
         // Authorize ownership before any provider lookup or state change.
@@ -53,6 +42,13 @@ public class VnPayQueryService {
         attempts.findById(id).ifPresent(this::refresh);
     }
 
+    public void refreshReturned(VnPayGateway.Callback callback) {
+        attempts.findByTxnRef(callback.txnRef())
+                .filter(attempt -> callback.merchantCode().equals(attempt.getMerchantCode())
+                        && callback.amountVnd() == attempt.getAmountVnd())
+                .ifPresent(this::refresh);
+    }
+
     private void refresh(PaymentAttempt attempt) {
         if (!properties.isEnabled() || !"VNPAY".equals(attempt.getProvider())
                 || !attempt.getMerchantCode().equals(properties.getTmnCode())
@@ -60,21 +56,13 @@ public class VnPayQueryService {
                 || attempt.getCreatedAt().plusSeconds(5).isAfter(clock.instant())) return;
         if (!requests.tryAcquire()) return;
         try {
-            if (!claim(attempt.getTxnRef())) return;
-            URI endpoint = properties.getQueryUrl();
-            if (endpoint == null || !"https".equals(endpoint.getScheme()) || endpoint.getHost() == null
-                    || endpoint.getRawUserInfo() != null || endpoint.getRawQuery() != null
-                    || endpoint.getRawFragment() != null) throw new IllegalArgumentException("Invalid QueryDR URL");
+            if (!queryLimiter.claim(attempt.getTxnRef())) return;
             var gateway = gateways.gateway();
-            var payload = gateway.buildQueryRequest(attempt.getTxnRef(), attempt.getCreatedAt(), "127.0.0.1");
-            HttpRequest request = HttpRequest.newBuilder(endpoint).timeout(Duration.ofSeconds(6))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(payload))).build();
-            // No database transaction or row lock is held while waiting for VNPay.
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 200 || response.body().length() > 65_536) return;
-            Map<String, String> result = mapper.readValue(response.body(), new TypeReference<>() {});
-            if (result == null) return;
+            var payload = gateway.buildQueryRequest(attempt.getTxnRef(), attempt.getCreatedAt(), properties.getServerIp());
+            var result = api.post(properties.getQueryUrl(), payload);
+            if (!"00".equals(result.get("vnp_ResponseCode"))) {
+                log.info("VNPay QueryDR pending: attempt={}, responseCode={}", attempt.getId(), result.get("vnp_ResponseCode"));
+            }
             gateway.validateQueryResponse(result, attempt.getTxnRef(), attempt.getAmountVnd()).ifPresent(callback -> {
                 String code = payments.apply(callback);
                 log.info("VNPay QueryDR reconciled: attempt={}, result={}", attempt.getId(), code);
@@ -89,11 +77,4 @@ public class VnPayQueryService {
         }
     }
 
-    private synchronized boolean claim(String ref) {
-        Instant now = clock.instant();
-        lastQueries.entrySet().removeIf(entry -> entry.getValue().plusSeconds(60).isBefore(now));
-        if (lastQueries.size() >= 1024 || lastQueries.containsKey(ref)) return false;
-        lastQueries.put(ref, now);
-        return true;
-    }
 }

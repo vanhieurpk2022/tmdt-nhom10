@@ -13,6 +13,7 @@ import com.nhom10.tmdt.repo.PaymentAttemptRepository;
 import com.nhom10.tmdt.repo.PaymentEventRepository;
 import com.nhom10.tmdt.service.imp.OrderService;
 import com.nhom10.tmdt.service.payment.InventoryReservationService;
+import com.nhom10.tmdt.service.payment.RefundService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class OrderCancellationService {
     private final PaymentEventRepository events;
     private final InventoryReservationService inventory;
     private final OrderService orderService;
+    private final RefundService refunds;
     private final EntityManager entityManager;
     private final Clock clock;
 
@@ -59,6 +61,7 @@ public class OrderCancellationService {
             order.setPaymentStatus(PaymentStatus.REFUND_PENDING);
             events.save(PaymentEvent.builder().eventKey("cancel:" + id).orderId(id).attemptId(paid.getId())
                     .type("ORDER_CANCELLED").status("OPEN").createdAt(clock.instant()).build());
+            refunds.enqueue(order, paid, "Hoàn tiền đơn hàng đã hủy", email);
         }
         return orderService.response(order);
     }
