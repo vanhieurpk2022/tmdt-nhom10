@@ -18,9 +18,11 @@ import { useToastContext } from "../../../toasts/ToastContext";
 interface VariantHeaderProps {
     productId: number;
     onVariants: () => void;
+    isCustom?: boolean;
+    productName?: string;
 }
 
-export function VariantHeader({ productId, onVariants }: VariantHeaderProps) {
+export function VariantHeader({ productId, onVariants, isCustom, productName }: VariantHeaderProps) {
     const [images, setImages] = useState<ProductImage[]>([]);
 
     const [loading, setLoading] = useState(true);
@@ -104,39 +106,45 @@ export function VariantHeader({ productId, onVariants }: VariantHeaderProps) {
                             </span>
 
                             <span className="text-danger">
-                                Biến thể
+                                {isCustom ? "Cấu hình & Biến thể" : "Biến thể"}
                             </span>
                         </div>
 
                         {/* Heading */}
-                        <div className="d-flex align-items-center gap-2">
-
+                        <div className="d-flex align-items-center gap-2 flex-wrap">
                             <h2 className="fw-bold mb-0">
-                                Quản lý biến thể sản phẩm
+                                {productName ? productName : isCustom ? "Cấu hình sản phẩm tùy chỉnh" : "Quản lý biến thể sản phẩm"}
                             </h2>
 
                             <span className="badge text-bg-light border text-dark">
                                 #{productId}
                             </span>
 
+                            {isCustom && (
+                                <span className="badge bg-warning text-dark fw-semibold">
+                                    Tùy chỉnh (CUSTOM)
+                                </span>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 {/* ================= RIGHT ================= */}
-                <Button
-                    variant="danger"
-                    className="fw-semibold d-flex align-items-center gap-2 px-4 py-2"
-                    onClick={onVariants}
-                >
-                    <FontAwesomeIcon icon={faPlus} />
-                    <span>Thêm biến thể mới</span>
-                </Button>
+                {!isCustom && (
+                    <Button
+                        variant="danger"
+                        className="fw-semibold d-flex align-items-center gap-2 px-4 py-2"
+                        onClick={onVariants}
+                    >
+                        <FontAwesomeIcon icon={faPlus} />
+                        <span>Thêm biến thể mới</span>
+                    </Button>
+                )}
             </div>
 
-
-            {/* ================= PRODUCT IMAGES ================= */}
-            <div className="card border shadow-sm">
+            {/* ================= PRODUCT IMAGES (Chỉ hiển thị cho sản phẩm NORMAL) ================= */}
+            {!isCustom && (
+                <div className="card border shadow-sm">
 
                 <div className="card-header bg-white py-3">
                     <div className="d-flex justify-content-between align-items-center">
@@ -302,6 +310,7 @@ export function VariantHeader({ productId, onVariants }: VariantHeaderProps) {
 
                 </div>
             </div>
+            )}
 
         </div>
     );

@@ -3,6 +3,7 @@ package com.nhom10.tmdt.service.order;
 import com.nhom10.tmdt.dto.order.CancelOrderRequest;
 import com.nhom10.tmdt.dto.order.OrderResponse;
 import com.nhom10.tmdt.enums.OrderStatus;
+import com.nhom10.tmdt.enums.CancelReason;
 import com.nhom10.tmdt.enums.PaymentMethod;
 import com.nhom10.tmdt.enums.PaymentStatus;
 import com.nhom10.tmdt.model.Order;
@@ -20,10 +21,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Clock;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -44,7 +47,34 @@ public class OrderCancellationService {
         Order order = orders.lockById(id).orElseThrow(OrderCancellationService::notFound);
         entityManager.refresh(order, LockModeType.PESSIMISTIC_WRITE);
         if (!email.equals(order.getUser().getEmail())) throw notFound();
-        if (order.getStatus() == OrderStatus.CANCELLED) return orderService.response(order);
+        cancelLocked(order, email, request);
+        return orderService.response(order);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateStatus(Order order, OrderStatus status, CancelReason reason, String note, String actor) {
+        if (status == null || status == order.getStatus()) return;
+        boolean checkout = order.getCheckoutFingerprint() != null || order.getReservationExpiresAt() != null
+                || order.getPaidAttemptId() != null;
+        if (checkout && status == OrderStatus.CANCELLED) {
+            if (note != null && note.length() > 500) throw conflict("Ghi chú hủy đơn không quá 500 ký tự");
+            cancelLocked(order, actor, new CancelOrderRequest(reason == null ? CancelReason.CUSTOMER_CHANGED_MIND : reason, note));
+            return;
+        }
+        if (checkout && (order.getStatus() == OrderStatus.PENDING_PAYMENT || order.getStockRestoredAt() != null
+                || order.getStatus() == OrderStatus.CANCELLED || order.getStatus() == OrderStatus.RETURNED
+                || order.getStatus() == OrderStatus.REFUNDED || order.getStatus() == OrderStatus.DELIVERED
+                || status == OrderStatus.PENDING_PAYMENT || status == OrderStatus.REFUNDED || status == OrderStatus.RETURNED
+                || (order.getPaymentMethod() == PaymentMethod.VNPAY && order.getPaymentStatus() != PaymentStatus.PAID))) {
+            throw conflict("Trạng thái đơn hàng hoặc thanh toán không cho phép chuyển trạng thái này");
+        }
+        order.setStatus(status);
+        if (status == OrderStatus.DELIVERED) order.setDeliveredAt(LocalDateTime.now(clock));
+        if (status == OrderStatus.CANCELLED) order.setCancelReason(reason == null ? CancelReason.CUSTOMER_CHANGED_MIND : reason);
+    }
+
+    private void cancelLocked(Order order, String actor, CancelOrderRequest request) {
+        if (order.getStatus() == OrderStatus.CANCELLED) return;
         if ((order.getStatus() != OrderStatus.PENDING_PAYMENT && order.getStatus() != OrderStatus.PENDING)
                 || order.getStockRestoredAt() != null) {
             throw conflict("Chỉ được hủy đơn đang chờ thanh toán hoặc chờ xác nhận");
@@ -55,15 +85,14 @@ public class OrderCancellationService {
         order.setStatus(OrderStatus.CANCELLED);
         order.setCancelReason(request.reason());
         order.setCancelledAt(clock.instant().truncatedTo(ChronoUnit.MICROS));
-        order.setCancelledBy(email);
+        order.setCancelledBy(actor);
         order.setCancellationNote(request.note() == null || request.note().isBlank() ? null : request.note().trim());
         if (paid != null) {
             order.setPaymentStatus(PaymentStatus.REFUND_PENDING);
-            events.save(PaymentEvent.builder().eventKey("cancel:" + id).orderId(id).attemptId(paid.getId())
+            events.save(PaymentEvent.builder().eventKey("cancel:" + order.getId()).orderId(order.getId()).attemptId(paid.getId())
                     .type("ORDER_CANCELLED").status("OPEN").createdAt(clock.instant()).build());
-            refunds.enqueue(order, paid, "Hoàn tiền đơn hàng đã hủy", email);
+            refunds.enqueue(order, paid, "Hoàn tiền đơn hàng đã hủy", actor);
         }
-        return orderService.response(order);
     }
 
     private PaymentAttempt validatePayment(Order order) {

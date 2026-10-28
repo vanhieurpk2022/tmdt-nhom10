@@ -115,7 +115,7 @@ export function getPaymentMethodLabel(paymentMethod?: PaymentMethod) {
     return paymentMethod ? labels[paymentMethod] : "Thanh toán khi nhận hàng";
 }
 
-export function getPaymentStatusLabel(order: OrderResponse) {
+export function getPaymentStatusLabel(order: Pick<OrderResponse, "status" | "paymentMethod" | "paymentStatus">) {
     if (order.status === "CANCELLED" && (!order.paymentStatus || ["PENDING", "FAILED"].includes(order.paymentStatus))) {
         return "Đã hủy · chưa ghi nhận thanh toán";
     }

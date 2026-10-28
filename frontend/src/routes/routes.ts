@@ -32,6 +32,7 @@ export const ROUTES = {
   ADMIN_WORKSHOP: "/admin-workshop",
   ADMIN_CUSTOMER: "/admin-customer",
   ADMIN_ORDER: "/admin-order",
+  ADMIN_ORDER_DISPATCH: "/admin-order-dispatch",
   AdMIN_SALE: "/admin-sale",
   ADMIN_SUPPORT: "/admin-support",
 
