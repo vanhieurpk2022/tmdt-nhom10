@@ -2,11 +2,18 @@ import type { CartItem } from "../data/cartData";
 import { fallbackCartImage } from "../data/cartData";
 import api, { type ApiResponse } from "./api";
 import type { BuyNowSelection } from "./CheckoutSelection";
-import type { CartItemResponse } from "./CartService";
+import type { CartItemResponse, CartResponse } from "./CartService";
+import type { CustomerRefund } from "./RefundService";
 import type { PendingCheckout } from "./CheckoutSession";
 import type { OrderStatus } from "../data/orderHistoryData";
 
 export type PaymentMethod = "COD" | "VNPAY";
+export type CancelReason = "CUSTOMER_CHANGED_MIND" | "OUT_OF_STOCK" | "DELIVERY_TIME_CONFLICT" | "FACTORY_CONFIRM_LATE";
+
+export interface CancelOrderRequest {
+    reason: CancelReason;
+    note?: string;
+}
 
 export interface CreateOrderRequest {
     addressId: number;
@@ -43,6 +50,9 @@ export interface OrderResponse {
     createdAt: string;
     items: OrderItemResponse[];
     paymentStatus?: "PENDING" | "FAILED" | "PAID" | "REFUND_PENDING" | "REFUNDED";
+    cancelReason: CancelReason | null;
+    cancelledAt: string | null;
+    cancellationNote: string | null;
 }
 
 export interface PaymentResponse {
@@ -105,13 +115,16 @@ export function getPaymentMethodLabel(paymentMethod?: PaymentMethod) {
     return paymentMethod ? labels[paymentMethod] : "Thanh toán khi nhận hàng";
 }
 
-export function getPaymentStatusLabel(order: OrderResponse) {
+export function getPaymentStatusLabel(order: Pick<OrderResponse, "status" | "paymentMethod" | "paymentStatus">) {
+    if (order.status === "CANCELLED" && (!order.paymentStatus || ["PENDING", "FAILED"].includes(order.paymentStatus))) {
+        return "Đã hủy · chưa ghi nhận thanh toán";
+    }
     if (order.paymentMethod === "COD" && (!order.paymentStatus || order.paymentStatus === "PENDING")) {
         return order.status === "DELIVERED" ? "Đã thanh toán khi nhận hàng" : "Thanh toán khi nhận hàng";
     }
     const labels = {
         PENDING: "Chờ thanh toán", FAILED: "Thanh toán chưa thành công", PAID: "Đã thanh toán",
-        REFUND_PENDING: "Cần đối soát / chờ xử lý hoàn tiền", REFUNDED: "Đã hoàn tiền",
+        REFUND_PENDING: "Chờ xử lý hoàn tiền / đối soát", REFUNDED: "Đã hoàn tiền",
     };
     return labels[order.paymentStatus ?? "PENDING"];
 }
@@ -173,6 +186,21 @@ export const orderService = {
     },
     getOrder: async (id: number): Promise<OrderResponse> => {
         const res = await api.get<ApiResponse<OrderResponse>>(`/orders/${id}`);
+        return res.data.data;
+    },
+
+    getRefunds: async (id: number): Promise<CustomerRefund[]> => {
+        const res = await api.get<ApiResponse<CustomerRefund[]>>(`/orders/${id}/refunds`);
+        return res.data.data;
+    },
+
+    cancelOrder: async (id: number, request: CancelOrderRequest): Promise<OrderResponse> => {
+        const res = await api.post<ApiResponse<OrderResponse>>(`/orders/${id}/cancel`, request, { headers: paymentHeaders });
+        return res.data.data;
+    },
+
+    reorder: async (id: number): Promise<CartResponse> => {
+        const res = await api.post<ApiResponse<CartResponse>>(`/orders/${id}/reorder`, {}, { headers: paymentHeaders });
         return res.data.data;
     },
 

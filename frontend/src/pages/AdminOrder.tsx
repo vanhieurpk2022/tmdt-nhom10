@@ -21,6 +21,7 @@ import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { ROUTES } from "../routes/routes";
 import { OrderStatus } from "../enums/OrderStatus";
+import { getPaymentStatusLabel } from "../api/OrderService";
 import { ProductType } from "../enums/ProductType";
 import {
     AdminOrderService,
@@ -33,6 +34,10 @@ import AdminUpdateOrderStatusModal from "../components/admin/order/AdminUpdateOr
 import "../css/pages/user-admin.css";
 
 export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
+    [OrderStatus.PENDING_PAYMENT]: {
+        label: "Chờ thanh toán",
+        badge: "bg-warning-subtle text-warning-emphasis",
+    },
     [OrderStatus.PENDING]: {
         label: "Chờ xác nhận",
         badge: "bg-warning-subtle text-warning-emphasis",
@@ -388,6 +393,9 @@ export default function AdminOrder() {
                         <Link to={ROUTES.PAYMENT_REVIEWS} className="btn-action-secondary text-decoration-none">
                             Đối soát VNPay
                         </Link>
+                        <Link to={ROUTES.REFUNDS} className="btn-action-secondary text-decoration-none">
+                            Hoàn tiền VNPay
+                        </Link>
 
                         <button className="btn-header-export" onClick={handleExportCsv} title="Xuất file vận đơn CSV">
                             <FontAwesomeIcon icon={faDownload} />
@@ -521,6 +529,7 @@ export default function AdminOrder() {
                                 }}
                             >
                                 <option value="ALL">Trạng thái: Tất cả</option>
+                                <option value={OrderStatus.PENDING_PAYMENT}>Chờ thanh toán</option>
                                 <option value={OrderStatus.PENDING}>Chờ xác nhận</option>
                                 <option value={OrderStatus.CONFIRMED}>Đã xác nhận</option>
                                 <option value={OrderStatus.PROCESSING}>Đang gia công</option>
@@ -673,7 +682,7 @@ export default function AdminOrder() {
                                                             {(order.totalPrice || 0).toLocaleString("vi-VN")}đ
                                                         </span>
                                                         <span className="ltv-sub">
-                                                            {order.paymentMethod || "COD"} • {order.paymentStatus === "PAID" ? "Đã TT" : "Chưa TT"}
+                                                            {order.paymentMethod || "COD"} • {getPaymentStatusLabel(order)}
                                                         </span>
                                                     </div>
                                                 </td>

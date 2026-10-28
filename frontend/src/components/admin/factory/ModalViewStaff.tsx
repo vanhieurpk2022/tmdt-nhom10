@@ -35,7 +35,7 @@ export default function ModalViewStaff({ show, staff, onHide, onEdit }: ModalVie
     };
 
     return (
-        <Modal show={show} onHide={onHide} centered size="md">
+        <Modal show={show} onHide={onHide} centered>
             <Modal.Header closeButton className="border-0 pb-0">
                 <Modal.Title as="h5" className="fw-bold">
                     Chi tiết nhân viên

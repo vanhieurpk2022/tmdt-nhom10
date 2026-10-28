@@ -131,9 +131,9 @@ export const PieChartStatistics: React.FC<PieChartStatisticsProps> = ({ orders =
                                             ))}
                                         </Pie>
                                         <Tooltip
-                                            formatter={(value: number, name: string) => [
-                                                `${value} đơn (${((value / displayTotal) * 100).toFixed(1)}%)`,
-                                                name,
+                                            formatter={(value, name) => [
+                                                `${value ?? 0} đơn (${((Number(value ?? 0) / displayTotal) * 100).toFixed(1)}%)`,
+                                                String(name ?? ""),
                                             ]}
                                             contentStyle={{
                                                 fontSize: '12px',

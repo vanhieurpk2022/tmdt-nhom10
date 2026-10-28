@@ -16,6 +16,7 @@ import {
     faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import type { AdminOrderDetail } from "../../../api/AdminOrderService";
+import { getPaymentStatusLabel } from "../../../api/OrderService";
 import { OrderStatusBadge, ProductTypeBadge } from "../../../pages/AdminOrder";
 import CustomBadge from "../badge/CustomBadge";
 import { ProductType } from "../../../enums/ProductType";
@@ -171,7 +172,7 @@ export default function AdminOrderDetailModal({ order, loading, onClose, onOpenS
                                             <div className="d-flex justify-content-between small mb-2">
                                                 <span className="text-secondary">Trạng thái TT:</span>
                                                 <span className={`badge ${order.paymentStatus === "PAID" ? "bg-success-subtle text-success-emphasis" : "bg-warning-subtle text-warning-emphasis"}`}>
-                                                    {order.paymentStatus === "PAID" ? "Đã thanh toán" : "Chưa thanh toán"}
+                                                    {getPaymentStatusLabel(order)}
                                                 </span>
                                             </div>
                                             {order.deliveredAt && (

@@ -6,6 +6,9 @@ import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.FactoryRepository;
 import com.nhom10.tmdt.repo.OrderRepository;
 import com.nhom10.tmdt.repo.UserRepository;
+import com.nhom10.tmdt.service.order.OrderCancellationService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -19,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -26,12 +30,14 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class FactoryOrderServiceImp implements FactoryOrderService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final FactoryRepository factoryRepository;
+    private final OrderCancellationService cancellations;
+    private final EntityManager entityManager;
 
     private Long resolveFactoryId(UserDetails userDetails) {
         if (userDetails != null && userDetails.getUsername() != null) {
@@ -175,8 +181,9 @@ public class FactoryOrderServiceImp implements FactoryOrderService {
     public AdminOrderDetailResponse updateOrderStatus(UserDetails userDetails, Long id, UpdateOrderStatusRequest request) {
         Long factoryId = resolveFactoryId(userDetails);
 
-        Order order = orderRepository.findById(id)
+        Order order = orderRepository.lockById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
+        entityManager.refresh(order, LockModeType.PESSIMISTIC_WRITE);
 
         boolean belongsToFactory = order.getOrderItems() != null && order.getOrderItems().stream()
                 .anyMatch(it -> it.getProduct() != null && it.getProduct().getFactory() != null
@@ -186,14 +193,8 @@ public class FactoryOrderServiceImp implements FactoryOrderService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Bạn không có quyền cập nhật đơn hàng này");
         }
 
-        if (request.getStatus() != null) {
-            order.setStatus(request.getStatus());
-            if (request.getStatus() == OrderStatus.DELIVERED) {
-                order.setDeliveredAt(LocalDateTime.now());
-            } else if (request.getStatus() == OrderStatus.CANCELLED) {
-                order.setCancelReason(request.getCancelReason() != null ? request.getCancelReason() : CancelReason.CUSTOMER_CHANGED_MIND);
-            }
-        }
+        cancellations.updateStatus(order, request.getStatus(), request.getCancelReason(), request.getNote(),
+                userDetails == null ? "FACTORY" : userDetails.getUsername());
 
         if (request.getNote() != null && !request.getNote().isBlank()) {
             String existingNote = order.getNote() != null ? order.getNote() + " | " : "";
@@ -206,22 +207,8 @@ public class FactoryOrderServiceImp implements FactoryOrderService {
 
     @Override
     public void deleteOrder(UserDetails userDetails, Long id) {
-        Long factoryId = resolveFactoryId(userDetails);
-
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
-
-        boolean belongsToFactory = order.getOrderItems() != null && order.getOrderItems().stream()
-                .anyMatch(it -> it.getProduct() != null && it.getProduct().getFactory() != null
-                        && it.getProduct().getFactory().getId().equals(factoryId));
-
-        if (!belongsToFactory) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Bạn không có quyền hủy đơn hàng này");
-        }
-
-        order.setStatus(OrderStatus.CANCELLED);
-        order.setCancelReason(CancelReason.CUSTOMER_CHANGED_MIND);
-        orderRepository.save(order);
+        updateOrderStatus(userDetails, id, UpdateOrderStatusRequest.builder().status(OrderStatus.CANCELLED)
+                .cancelReason(CancelReason.CUSTOMER_CHANGED_MIND).build());
     }
 
     private AdminOrderListItemResponse mapToListItem(Order order) {
@@ -330,7 +317,7 @@ public class FactoryOrderServiceImp implements FactoryOrderService {
                         .orderId(order.getId())
                         .reason(r.getReason())
                         .status(r.getStatus())
-                        .amount(r.getAmount())
+                        .amount(r.getAmountVnd())
                         .createdAt(r.getCreatedAt())
                         .processedAt(r.getProcessedAt())
                         .build())

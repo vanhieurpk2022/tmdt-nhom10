@@ -30,6 +30,7 @@ import SideBarFactory from "../components/admin/factory/SideBarFactory";
 import StatCard from "../components/admin/dashboard/StartCard";
 import CustomBadge from "../components/admin/badge/CustomBadge";
 import { OrderStatus } from "../enums/OrderStatus";
+import { getPaymentStatusLabel } from "../api/OrderService";
 import { ProductType } from "../enums/ProductType";
 import { FactoryServiceManager } from "../api/factory/FactoryService";
 import type {
@@ -307,7 +308,7 @@ export default function FactoryOrder() {
                                             : "bg-warning-subtle text-warning-emphasis"
                                     }`}
                                 >
-                                    {row.paymentStatus === "PAID" ? "Đã thanh toán" : "Chưa thanh toán"}
+                                    {getPaymentStatusLabel(row)}
                                 </span>
                             </div>
                         );

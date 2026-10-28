@@ -138,7 +138,7 @@ public class AdminCustomerServiceImp implements AdminCustomerService {
                         .orderId(r.getOrder() != null ? r.getOrder().getId() : null)
                         .reason(r.getReason())
                         .status(r.getStatus())
-                        .amount(r.getAmount())
+                        .amount(r.getAmountVnd())
                         .createdAt(r.getCreatedAt())
                         .processedAt(r.getProcessedAt())
                         .build())

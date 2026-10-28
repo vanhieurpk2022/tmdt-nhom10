@@ -1,9 +1,10 @@
 import api from "./api";
 import type { ApiResponse } from "./api";
 import type { OrderStatus } from "../enums/OrderStatus";
-import type { PaymentMethod } from "../enums/PaymentMethod";
-import type { PaymentStatus } from "../enums/PaymentStatus";
+import type { PaymentMethod, OrderResponse } from "./OrderService";
 import type { ProductType } from "../enums/ProductType";
+
+type PaymentStatus = NonNullable<OrderResponse["paymentStatus"]>;
 
 export interface AdminOrderListItem {
     id: number;

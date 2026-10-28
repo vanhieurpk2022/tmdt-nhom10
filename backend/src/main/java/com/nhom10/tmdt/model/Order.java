@@ -100,6 +100,18 @@ public class Order {
     @Column(name = "cancel_reason")
     private CancelReason cancelReason;
 
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
+
+    @Column(name = "cancelled_by", length = 255)
+    private String cancelledBy;
+
+    @Column(name = "cancellation_note", length = 500)
+    private String cancellationNote;
+
+    @Column(name = "stock_restored_at")
+    private Instant stockRestoredAt;
+
     @Column(name = "delivered_at")
     private LocalDateTime deliveredAt;
 

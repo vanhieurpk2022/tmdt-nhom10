@@ -78,13 +78,6 @@ export const FactoryServiceManager = {
         );
         return res.data;
     },
-    changeStatusOfProduct: async (id: number, status: string) => {
-        const res = await api.patch<ApiResponse<FactoryProductItem>>(
-            `/manager/products/${id}/status`,
-            { status }
-        );
-        return res.data;
-    },
 
     // Quản lý biến thể (Items / Mils) của sản phẩm
     getProductMils: async (productId: number) => {

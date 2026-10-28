@@ -10,6 +10,7 @@ import java.util.*;
 @RepositoryRestResource(exported = false)
 public interface PaymentEventRepository extends JpaRepository<PaymentEvent, Long> {
     boolean existsByEventKey(String eventKey);
+    List<PaymentEvent> findByAttemptIdAndStatusOrderByIdAsc(Long attemptId, String status);
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select e from PaymentEvent e where e.eventKey = :key")
     Optional<PaymentEvent> findLockedByEventKey(String key);
