@@ -17,6 +17,7 @@ import { FactoryServiceManager } from "../api/factory/FactoryService";
 import { ROUTES } from "../routes/routes";
 import type {
     FactoryProductCreateRequest,
+    FactoryProductEditRes,
     FactoryProductItem,
     FactoryProductStats,
 } from "../dto/factory/FactoryProductRes";
@@ -24,7 +25,7 @@ import ConfirmDeleteModal from "../components/toasts/Confirmdeletemodal";
 
 const PLACEHOLDER_IMG = "https://placehold.co/80x80";
 
-const ProductStatusBadge: Record<ProductStatus, { label: string; badge: string }> = {
+export const ProductStatusBadge: Record<ProductStatus, { label: string; badge: string }> = {
     [ProductStatus.DRAFT]: { label: "Bản nháp", badge: "bg-warning-subtle text-warning-emphasis" },
     [ProductStatus.ACTIVE]: { label: "Đang bán", badge: "bg-success-subtle text-success-emphasis" },
     [ProductStatus.OUT_OF_STOCK]: { label: "Hết hàng", badge: "bg-danger-subtle text-danger-emphasis" },
@@ -32,8 +33,8 @@ const ProductStatusBadge: Record<ProductStatus, { label: string; badge: string }
     [ProductStatus.ARCHIVED]: { label: "Đã lưu trữ", badge: "bg-dark-subtle text-dark-emphasis" },
 };
 
-const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
-    [ProductType.CUSTOM]: { label: "Tùy chỉnh", badge: "bg-warning-subtle text-warning-emphasis" },
+export const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
+    [ProductType.CUSTOM]: { label: "Tùy chỉnh", badge: "bg-purple-subtle text-purple-emphasis border border-purple-subtle" },
     [ProductType.NORMAL]: { label: "Thường", badge: "bg-primary-subtle text-primary-emphasis" },
 };
 
@@ -55,7 +56,7 @@ export default function FactoryProductPage() {
 
     // Modal thêm / sửa
     const [stateModal, setStateModal] = useState(false);
-    const [editing, setEditing] = useState<FactoryProductCreateRequest | null>(null);
+    const [editing, setEditing] = useState<FactoryProductCreateRequest | FactoryProductEditRes | null>(null);
 
     // Modal xác nhận xóa
     const [deleteTarget, setDeleteTarget] = useState<FactoryProductItem | null>(null);
@@ -299,6 +300,7 @@ export default function FactoryProductPage() {
 
             <AddProductModal
                 product={editing}
+                availableProducts={products}
                 show={stateModal}
                 onHide={() => setStateModal(false)}
                 onSuccess={getProducts}

@@ -1,6 +1,6 @@
 package com.nhom10.tmdt.rest;
 
-import com.cloudinary.Api;
+import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.factory.*;
 import com.nhom10.tmdt.dto.product.ProductCreateMilRequest;
@@ -8,6 +8,7 @@ import com.nhom10.tmdt.dto.product.ProductCreateMilResponse;
 import com.nhom10.tmdt.dto.product.ToggleMilStatusRequest;
 import com.nhom10.tmdt.dto.product.ToggleMilStatusResponse;
 import com.nhom10.tmdt.dto.productimage.ProductImagetThumbnailRequest;
+import com.nhom10.tmdt.enums.ErrorCode;
 import com.nhom10.tmdt.model.ProductMil;
 import com.nhom10.tmdt.service.factory.FactoryDashboardService;
 import com.nhom10.tmdt.service.productmil.ProductMilService;
@@ -16,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -49,9 +51,40 @@ public class FactoryDashboardController {
         return new ApiResponse<>(200,"Lấy dữ liệu thành công",dashboardOverviewResponse);
     }
 
+    @GetMapping("/dashboard/chart")
+    public ApiResponse<List<FactoryChartOrderResponse>> getChartData(
+            @AuthenticationPrincipal UserDetails user,
+            @RequestParam("from") LocalDate from,
+            @RequestParam("to") LocalDate to) {
+        String email = user.getUsername();
+        List<FactoryChartOrderResponse> data = factoryDashboard.getChartOrders(email, from, to);
+        return new ApiResponse<>(200, "Lấy dữ liệu biểu đồ thành công", data);
+    }
+
+    @GetMapping("/dashboard/pie")
+    public ApiResponse<List<FactoryOrderStatusCount>> getPieChartData(
+            @AuthenticationPrincipal UserDetails user) {
+        String email = user.getUsername();
+        List<FactoryOrderStatusCount> data = factoryDashboard.getOrderStatusCounts(email);
+        return new ApiResponse<>(200, "Lấy dữ liệu trạng thái đơn thành công", data);
+    }
+
     @GetMapping("/products/{id}")
     public ApiResponse<FactoryProductEditRes> getProductEdit(@PathVariable Long id) {
         return new ApiResponse<>(200,"Lấy dữ liệu thành công",factoryDashboard.getProductEdit(id));
+    }
+
+    @GetMapping("/products/{id}/custom-recipe")
+    public ApiResponse<FactoryCustomRecipeDto> getCustomRecipe(@PathVariable Long id) {
+        return new ApiResponse<>(200, "Lấy công thức phối thành công", factoryDashboard.getCustomRecipe(id));
+    }
+
+    @PutMapping("/products/{id}/custom-recipe")
+    public ApiResponse<FactoryCustomRecipeDto> saveCustomRecipe(
+            @PathVariable Long id,
+            @RequestBody FactoryCustomRecipeSaveRequest request
+    ) {
+        return new ApiResponse<>(200, "Lưu công thức phối thành công", factoryDashboard.saveCustomRecipe(id, request));
     }
 
     @GetMapping("/productMils/{productId}")
@@ -62,11 +95,17 @@ public class FactoryDashboardController {
 
     @PostMapping("/products")
     public ApiResponse<FactoryProductModalResponse> createProduct(@RequestBody FactoryProductModalRequest request, @AuthenticationPrincipal UserDetails userDetails){
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
         return new ApiResponse<>(200,"Tạo thành công",factoryDashboard.createProduct(request,userDetails.getUsername()));
     }
 
     @GetMapping("/products")
     public ApiResponse<FactoryProductResponse> products(@AuthenticationPrincipal UserDetails userDetails){
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
         return new ApiResponse<>(200,"Lấy thành công products", factoryDashboard.factoryProductRes(userDetails.getUsername()));
     }
     @GetMapping("/products/{productId}/mils")
@@ -121,4 +160,47 @@ public class FactoryDashboardController {
         factoryDashboard.DeleteProduct(id);
         return new ApiResponse<>(200,"Đã update Thành công");
     }
-}
+
+    @GetMapping("/staffs")
+    public ApiResponse<List<FactoryStaffResponse>> getStaffs(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        return new ApiResponse<>(200, "Lấy danh sách nhân viên thành công", factoryDashboard.getStaffs(userDetails.getUsername()));
+    }
+
+    @PostMapping("/staffs")
+    public ApiResponse<FactoryStaffResponse> createStaff(
+            @RequestBody FactoryStaffCreateRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        return new ApiResponse<>(200, "Tạo tài khoản nhân viên thành công", factoryDashboard.createStaff(userDetails.getUsername(), request));
+    }
+
+    @PutMapping("/staffs/{id}")
+    public ApiResponse<FactoryStaffResponse> updateStaff(
+            @PathVariable Long id,
+            @RequestBody FactoryStaffUpdateRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        return new ApiResponse<>(200, "Cập nhật thông tin nhân viên thành công", factoryDashboard.updateStaff(userDetails.getUsername(), id, request));
+    }
+
+    @DeleteMapping("/staffs/{id}")
+    public ApiResponse<Void> deleteStaff(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        factoryDashboard.deleteStaff(userDetails.getUsername(), id);
+        return new ApiResponse<>(200, "Xóa nhân viên thành công");
+    }
+}

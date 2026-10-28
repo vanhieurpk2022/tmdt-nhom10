@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
 import java.util.Optional;
 
 @RepositoryRestResource(path = "user")
@@ -20,6 +21,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> lockByEmail(String email);
     Optional<User> findByEmail(String email);
     boolean existsUserByEmail(String email);
+    List<User> findByFactoryIdOrderByIdDesc(Long factoryId);
 
     long countByStatus(UserStatus status);
     Page<User> findByStatus(UserStatus status, Pageable pageable);
