@@ -34,5 +34,17 @@
 
 .btn.logout:hover {
     color: white;
+}
 
+/* Custom Product Badge */
+.bg-purple-subtle {
+    background-color: #F3E8FF !important;
+}
+
+.text-purple-emphasis {
+    color: #7C3AED !important;
+}
+
+.border-purple-subtle {
+    border-color: #E9D5FF !important;
 }

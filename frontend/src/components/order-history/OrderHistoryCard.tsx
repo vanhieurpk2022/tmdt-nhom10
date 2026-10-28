@@ -35,7 +35,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
                 </div>
                 <div className={`order-history-status d-inline-flex align-items-center ${order.status}`}>
                     <FontAwesomeIcon icon={statusIcons[order.status]} />
-                    {orderStatusLabels[order.status]}
+                    {order.statusLabel ?? orderStatusLabels[order.status]}
                 </div>
             </div>
 

@@ -29,7 +29,6 @@ public class ProductImage {
     @UpdateTimestamp
     private LocalDateTime uploadedAt;
 
-
     @ColumnDefault("0")
     @Column(name = "is_thumbnail", nullable = false)
     private boolean isThumbnail;

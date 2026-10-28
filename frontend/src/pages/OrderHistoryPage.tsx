@@ -7,6 +7,7 @@ import { orderService, formatOrderCode, getPaymentMethodLabel, getPaymentStatusL
 import { fallbackCartImage } from "../data/cartData";
 import { ROUTES } from "../routes/routes";
 import AccountLayout from "../components/layout/AccountLayout";
+import { getOrderStatusView } from "../data/orderSuccessData";
 
 
 export default function OrderHistoryPage() {
@@ -68,11 +69,11 @@ function toHistoryItem(order: OrderResponse): OrderHistoryItem {
         status: order.status === "CANCELLED" || order.status === "REFUNDED" || order.status === "RETURNED" ? "cancelled"
             : order.status === "DELIVERED" ? "completed" : ["SHIPPED", "DELIVERING"].includes(order.status) ? "shipping" : "processing",
         paymentMethod: getPaymentMethodLabel(order.paymentMethod),
+        statusLabel: getOrderStatusView(order.status).label,
         paymentStatus: getPaymentStatusLabel(order),
         deliveryAddress: order.shippingAddress,
         products: order.items.map(item => ({ id: item.id, name: item.productName, variant: item.mil ? `${item.mil}ml` : "Tinh dầu", image: item.thumbnailUrl || fallbackCartImage, quantity: item.quantity, price: item.unitPrice })),
         total: order.totalPrice,
-        detailUrl: order.paymentMethod === "VNPAY" && order.paymentStatus !== "PAID"
-            ? `${ROUTES.VNPAY_RESULT}?orderId=${order.id}` : `${ROUTES.ORDER_SUCCESS}?orderId=${order.id}`,
+        detailUrl: ROUTES.ORDER_DETAIL.replace(":id", String(order.id)),
     };
 }

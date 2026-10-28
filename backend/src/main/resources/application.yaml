@@ -26,7 +26,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true
 server:
   port: ${SERVER_PORT:8080}
@@ -71,6 +73,7 @@ vnpay:
   hash-secret: ${VNPAY_HASH_SECRET:}
   pay-url: ${VNPAY_PAY_URL:https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}
   query-url: ${VNPAY_QUERY_URL:https://sandbox.vnpayment.vn/merchant_webapi/api/transaction}
+  server-ip: ${VNPAY_SERVER_IP:127.0.0.1}
   return-url: ${VNPAY_RETURN_URL:http://localhost:8080/payments/vnpay/return}
   frontend-result-url: ${VNPAY_FRONTEND_RESULT_URL:http://localhost:5173/payment/vnpay/result}
   sweep-delay-ms: ${VNPAY_SWEEP_DELAY_MS:60000}

@@ -27,6 +27,7 @@ public class Product {
     private Long id;
 
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
 
 
@@ -39,8 +40,9 @@ public class Product {
     @Column(name="total_sold")
     private Long totalSold;
 
-    @Column(name="scent_tier")
-    private Integer scentTier; // 1: Top Note, 2: Heart Note, 3: Base Note
+    @Column(name="views")
+    @Builder.Default
+    private Long views = 0L;
 
     @Column(name="created_at")
     @CreationTimestamp
@@ -56,6 +58,10 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<ProductCustomItem> productCustomItems;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_custom_id")
+    private ProductCustom productCustom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")

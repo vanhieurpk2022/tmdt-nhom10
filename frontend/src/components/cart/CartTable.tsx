@@ -1,7 +1,8 @@
-import { faIndustry, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faIndustry, faXmark, faFlask } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fallbackCartImage, type CartItem } from "../../data/cartData";
 import QuantityControl from "./QuantityControl";
+
 
 interface CartTableProps {
     items: CartItem[];
@@ -89,12 +90,25 @@ export default function CartTable({
                                 <p>
                                     {item.variant} / {item.origin}
                                 </p>
+                                {item.description && (item.name?.startsWith("Bespoke:") || item.description?.includes("Công thức mùi") || item.description?.includes("phối hương")) && (
+                                    <div className="cart-scent-detail mt-1 mb-2 p-2 rounded-2 bg-light border border-dashed small text-dark">
+                                        <div className="d-flex align-items-center gap-1 text-danger fw-bold mb-1">
+                                            <FontAwesomeIcon icon={faFlask} className="small" />
+                                            <span>Công thức hòa hương:</span>
+                                        </div>
+                                        <div className="text-secondary" style={{ fontSize: "12px", lineHeight: "1.4" }}>
+                                            {item.description}
+                                        </div>
+                                    </div>
+                                )}
+
                                 <span className="cart-factory-pill d-inline-flex align-items-center">
                                     <FontAwesomeIcon icon={faIndustry} />
                                     Xưởng: {item.factoryName} • #{item.factoryCode}
                                 </span>
                             </div>
                         </div>
+
 
                         <strong className="cart-price">{formatPrice(item.price)}</strong>
 

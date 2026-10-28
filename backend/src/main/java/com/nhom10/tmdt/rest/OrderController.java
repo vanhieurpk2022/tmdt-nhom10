@@ -2,11 +2,17 @@ package com.nhom10.tmdt.rest;
 
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.order.CreateOrderRequest;
+import com.nhom10.tmdt.dto.order.CancelOrderRequest;
 import com.nhom10.tmdt.dto.order.OrderResponse;
 import com.nhom10.tmdt.dto.order.OrderHistoryResponse;
+import com.nhom10.tmdt.dto.order.OrderRefundResponse;
 import com.nhom10.tmdt.service.order.OrderHistoryService;
+import com.nhom10.tmdt.service.order.OrderRefundService;
+import com.nhom10.tmdt.service.order.OrderCancellationService;
 import com.nhom10.tmdt.dto.order.BuyNowRequest;
 import com.nhom10.tmdt.dto.cart.CartItemResponse;
+import com.nhom10.tmdt.dto.cart.CartResponse;
+import com.nhom10.tmdt.service.imp.CartService;
 import com.nhom10.tmdt.service.imp.PurchaseItemService;
 import com.nhom10.tmdt.service.imp.OrderService;
 import jakarta.validation.Valid;
@@ -27,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/orders")
@@ -36,6 +44,9 @@ public class OrderController {
     private final PurchaseItemService purchaseItems;
     private final VnPayQueryService queries;
     private final OrderHistoryService history;
+    private final OrderCancellationService cancellations;
+    private final CartService cartService;
+    private final OrderRefundService orderRefunds;
 
     @GetMapping
     public ResponseEntity<ApiResponse<OrderHistoryResponse>> list(Authentication auth,
@@ -64,9 +75,28 @@ public class OrderController {
                 .body(new ApiResponse<>(200, "Trạng thái thanh toán", queries.status(auth.getName(), id, null)));
     }
 
+    @GetMapping("/{id}/refunds")
+    public ResponseEntity<ApiResponse<List<OrderRefundResponse>>> refunds(Authentication auth, @PathVariable Long id) {
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore())
+                .body(new ApiResponse<>(200, "Thông tin hoàn tiền", orderRefunds.list(auth.getName(), id)));
+    }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<ApiResponse<OrderResponse>> cancel(Authentication auth, @PathVariable Long id,
+            @Valid @RequestBody CancelOrderRequest request) {
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore())
+                .body(new ApiResponse<>(200, "Đã hủy đơn hàng", cancellations.cancel(auth.getName(), id, request)));
+    }
+
     @PostMapping("/buy-now/preview")
     public ApiResponse<CartItemResponse> preview(@Valid @RequestBody BuyNowRequest request) {
         return new ApiResponse<>(200, "Lấy sản phẩm mua ngay thành công", purchaseItems.preview(request));
+    }
+
+    @PostMapping("/{id}/reorder")
+    public ResponseEntity<ApiResponse<CartResponse>> reorder(Authentication auth, @PathVariable Long id) {
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore())
+                .body(new ApiResponse<>(200, "Đã cập nhật giỏ hàng theo giá và tồn kho hiện tại", cartService.reorder(auth.getName(), id)));
     }
 
     @PostMapping
