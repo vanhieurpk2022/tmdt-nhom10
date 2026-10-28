@@ -23,6 +23,7 @@ interface SidebarAdminProps {
     isWorkshopManagement?: boolean;
     isCustomer?: boolean;
     isOrder?: boolean;
+    isRefund?: boolean;
     isVoucher?: boolean;
     isSupport?: boolean;
     collapsed?: boolean;
@@ -132,6 +133,7 @@ function SidebarAdmin({
     isWorkshopManagement = false,
     isCustomer = false,
     isOrder = false,
+    isRefund = false,
     isVoucher = false,
     isSupport = false,
     collapsed,
@@ -298,6 +300,13 @@ function SidebarAdmin({
                     isActive={isOrder}
                     badge="2"
                     badgeTone="amber"
+                    isCollapsed={isCollapsed}
+                />
+                <NavItem
+                    to={ROUTES.REFUNDS}
+                    icon={faReceipt}
+                    label="Hoàn tiền VNPay"
+                    isActive={isRefund}
                     isCollapsed={isCollapsed}
                 />
                 <NavItem

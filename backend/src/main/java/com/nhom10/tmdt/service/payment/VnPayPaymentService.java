@@ -158,7 +158,7 @@ public class VnPayPaymentService {
                     event(order, attempt, "ORDER_PAID", "RECORDED", "paid:" + order.getId());
                 }
             }
-        } else if (knownFailure(callback)) {
+        } else if (callback.failed()) {
             attempt.setStatus("FAILED");
             if (order.getPaidAttemptId() == null && order.getPaymentStatus() != PaymentStatus.REFUND_PENDING
                     && order.getStatus() == OrderStatus.PENDING_PAYMENT
@@ -172,13 +172,6 @@ public class VnPayPaymentService {
             event(order, attempt, "UNKNOWN_RESULT", "OPEN", "unknown:" + attempt.getId());
         }
         return "00"; // Spring commits before the controller can acknowledge.
-    }
-
-    private boolean knownFailure(VnPayGateway.Callback callback) {
-        // PAY documentation: 02 failed, 03 processing, 04 reversal, 05 refund processing,
-        // 06 refunded, 07 suspected fraud, 09 refund rejected. Ambiguous money states require review.
-        return "02".equals(callback.transactionStatus())
-                && Set.of("09", "10", "11", "12", "13", "24", "51", "65", "75", "79").contains(callback.responseCode());
     }
 
     @Transactional(readOnly = true)

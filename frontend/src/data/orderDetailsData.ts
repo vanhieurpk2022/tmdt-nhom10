@@ -11,12 +11,12 @@ export const cancelReasonLabels: Record<CancelReason, string> = {
 
 export const refundStatusLabels: Record<RefundStatus, string> = {
     REQUESTED: "Chờ duyệt",
-    APPROVED: "Đã duyệt, chờ gửi hoàn tiền",
+    APPROVED: "Chờ xác nhận hoàn tiền",
     REJECTED: "Đã từ chối",
-    PROCESSING: "Đang hoàn tiền",
+    PROCESSING: "Chờ xác nhận hoàn tiền",
     SUCCEEDED: "Hoàn tiền thành công",
     FAILED: "Hoàn tiền thất bại",
-    NEEDS_REVIEW: "Cần đối soát",
+    NEEDS_REVIEW: "Chờ xác nhận hoàn tiền",
 };
 
 export function getOrderError(error: unknown, fallback: string) {

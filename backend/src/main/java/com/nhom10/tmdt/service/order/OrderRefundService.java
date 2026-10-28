@@ -23,7 +23,8 @@ public class OrderRefundService {
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng"));
         return refunds.findByOrderIdOrderByIdAsc(orderId).stream()
                 .map(refund -> new OrderRefundResponse(refund.getId(), refund.getAmountVnd(), refund.getReason(),
-                        refund.getStatus(), refund.getCreatedAt(), refund.getProcessedAt()))
+                        refund.getStatus(), refund.getCreatedAt(), refund.getProcessedAt() == null
+                                ? null : refund.getProcessedAt().toInstant(java.time.ZoneOffset.UTC)))
                 .toList();
     }
 }

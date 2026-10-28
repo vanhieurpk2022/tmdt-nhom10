@@ -32,8 +32,8 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
                 {order.cancelledAt && <><dt>Thời gian hủy</dt><dd>{new Date(order.cancelledAt).toLocaleString("vi-VN")}</dd></>}
                 {order.cancellationNote && <><dt>Ghi chú</dt><dd className="text-break">{order.cancellationNote}</dd></>}
             </dl>}
-            {awaitingRefund && <p className="alert alert-warning">Khoản thanh toán đang chờ xử lý hoàn tiền hoặc đối soát. Yêu cầu được duyệt chưa đồng nghĩa tiền đã được hoàn.</p>}
-            {refunded && <p className="alert alert-success">Khoản thanh toán của đơn hàng đã được xác nhận hoàn tiền.</p>}
+            {awaitingRefund && <p className="alert alert-warning">Cửa hàng đang xử lý yêu cầu hoàn tiền. Kết quả sẽ được cập nhật tại đây.</p>}
+            {refunded && <p className="alert alert-success">Cửa hàng đã xác nhận hoàn tiền cho đơn hàng.</p>}
             {result?.error && <p className="alert alert-warning" role="alert">{result.error}</p>}
             {order.paymentMethod === "VNPAY" && !result && <p role="status">Đang tải thông tin hoàn tiền…</p>}
             {refunds.length > 0 && <div className="table-responsive">
@@ -51,7 +51,7 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
             </div>}
             {cancelled && !awaitingRefund && !refunded && !refunds.length && <p className="mb-0 text-secondary">
                 {order.paymentMethod === "COD" ? "Đơn thanh toán khi nhận hàng đã hủy, không phát sinh hoàn tiền trực tuyến."
-                    : "Chưa ghi nhận khoản thanh toán cần hoàn. Nếu đã bị trừ tiền, vui lòng cập nhật trạng thái hoặc liên hệ cửa hàng để đối soát."}
+                    : "Chưa ghi nhận khoản thanh toán cần hoàn. Nếu đã bị trừ tiền, vui lòng cập nhật trạng thái hoặc liên hệ cửa hàng để được hỗ trợ."}
             </p>}
         </section>
     );

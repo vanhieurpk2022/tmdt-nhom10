@@ -15,29 +15,15 @@ public class PaymentJobs {
     private final PaymentAttemptRepository attempts;
     private final VnPayPaymentService payments;
     private final VnPayQueryService queries;
-    private final RefundRepository refunds;
-    private final VnPayRefundService refundPayments;
     private final VnPayProperties properties;
     private final Clock clock;
     private long queryCursor;
-    private long refundCursor;
 
     @Scheduled(fixedDelayString = "${vnpay.sweep-delay-ms:60000}", initialDelayString = "${vnpay.sweep-delay-ms:60000}")
     public void sweep() {
         // Each item gets its own transaction; a failed row cannot roll back the batch.
         var page = PageRequest.of(0, 100);
         if (properties.isEnabled()) {
-            var refundCandidates = refunds.findAwaitingReconciliationIds(clock.instant().minusSeconds(60),
-                    refundCursor, PageRequest.of(0, 10));
-            if (refundCandidates.isEmpty() && refundCursor != 0) {
-                refundCursor = 0;
-                refundCandidates = refunds.findAwaitingReconciliationIds(clock.instant().minusSeconds(60),
-                        refundCursor, PageRequest.of(0, 10));
-            }
-            for (Long id : refundCandidates) {
-                run("refund-query", id, () -> refundPayments.refresh(id));
-                refundCursor = id;
-            }
             var candidates = attempts.findAwaitingConfirmationIds(clock.instant().minusSeconds(VnPayQueryLimiter.INTERVAL_SECONDS),
                     properties.getTmnCode(), queryCursor, PageRequest.of(0, 10));
             if (candidates.isEmpty() && queryCursor != 0) {

@@ -1,17 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import Modal from "react-bootstrap/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faRotate } from "@fortawesome/free-solid-svg-icons";
+import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
+import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { formatOrderCode } from "../api/OrderService";
 import { refundService, type RefundAction, type RefundSummary } from "../api/RefundService";
 import { getOrderError, refundStatusLabels } from "../data/orderDetailsData";
 import type { RefundStatus } from "../enums/RefundStatus";
 import { ROUTES } from "../routes/routes";
+import "../css/pages/user-admin.css";
 
-const actionLabels: Record<Exclude<RefundAction, "refresh">, string> = {
-    approve: "Duyệt hoàn tiền cho khách",
-    reject: "Từ chối yêu cầu",
-    process: "Gửi hoàn tiền qua VNPay",
-    reconcile: "Ghi nhận kết quả đối soát",
+const filters: RefundStatus[] = ["REQUESTED", "APPROVED", "SUCCEEDED", "FAILED", "REJECTED"];
+const money = (amount: number) => amount.toLocaleString("vi-VN") + " ₫";
+const date = (value: string) => new Date(value).toLocaleString("vi-VN");
+const tone = (status: RefundStatus) => status === "SUCCEEDED" ? "success" : ["FAILED", "REJECTED"].includes(status) ? "danger" : "warning";
+const actionLabels: Record<RefundAction, string> = {
+    approve: "Duyệt hoàn tiền", reject: "Từ chối yêu cầu", succeed: "Xác nhận đã hoàn tiền", fail: "Chưa hoàn được",
 };
 
 export default function RefundsPage() {
@@ -21,256 +27,200 @@ export default function RefundsPage() {
 
 function RefundQueue({ params }: { params: URLSearchParams }) {
     const [, setParams] = useSearchParams();
+    const { isCollapsed } = useAdminSidebar();
     const rawOrderId = params.get("orderId");
     const orderId = rawOrderId ? Number(rawOrderId) : undefined;
     const invalidOrderId = orderId !== undefined && (!Number.isSafeInteger(orderId) || orderId <= 0);
     const [search, setSearch] = useState(rawOrderId ?? "");
-    const [status, setStatus] = useState<RefundStatus>("REQUESTED");
+    const [status, setStatus] = useState<RefundStatus | "">("");
     const [page, setPage] = useState(0);
     const [version, setVersion] = useState(0);
     const [rows, setRows] = useState<RefundSummary[]>([]);
     const [selected, setSelected] = useState<RefundSummary | null>(null);
     const [loading, setLoading] = useState(true);
+    const [opening, setOpening] = useState(false);
     const [error, setError] = useState("");
-    const [message, setMessage] = useState("");
-    const [showRequest, setShowRequest] = useState(params.has("attemptId"));
+    const [message, setMessage] = useState<{ text: string; tone: string } | null>(null);
 
     useEffect(() => {
         let active = true;
         let request = 0;
-        if (invalidOrderId) return;
+        if (invalidOrderId) { setLoading(false); setError("Mã đơn hàng không hợp lệ."); return; }
         async function refresh() {
             const current = ++request;
             try {
-                const result = await refundService.list(status, page, orderId);
+                const result = await refundService.list(status || undefined, page, orderId);
                 if (active && current === request) { setRows(result); setError(""); }
             } catch (cause) {
-                if (active && current === request) setError(getOrderError(cause, "Không tải được danh sách hoàn tiền."));
+                if (active && current === request) setError(getOrderError(cause, "Không tải được yêu cầu hoàn tiền. Vui lòng thử lại."));
             } finally { if (active && current === request) setLoading(false); }
         }
         void refresh();
         const timer = window.setInterval(() => { if (!document.hidden) void refresh(); }, 15_000);
         return () => { active = false; window.clearInterval(timer); };
-    }, [status, page, orderId, invalidOrderId, version]);
+    }, [orderId, invalidOrderId, status, page, version]);
 
-    function reload() {
-        setLoading(true);
-        setVersion(current => current + 1);
+    async function select(id: number) {
+        setOpening(true);
+        try { setSelected(await refundService.get(id)); }
+        catch (cause) { setError(getOrderError(cause, "Không tải được chi tiết yêu cầu.")); }
+        finally { setOpening(false); }
     }
 
     function changed(refund: RefundSummary) {
         setSelected(refund);
-        setMessage(`Yêu cầu #${refund.id}: ${refundStatusLabels[refund.status]}.`);
-        reload();
+        setMessage({ text: `Yêu cầu #${refund.id}: ${refundStatusLabels[refund.status]}.`, tone: tone(refund.status) });
+        if (!orderId && status) setStatus(filters.includes(refund.status) ? refund.status : "APPROVED");
+        setPage(0);
+        setVersion(current => current + 1);
     }
 
-    return <main className="container py-4 py-lg-5">
-        <nav className="d-flex flex-wrap gap-3 mb-3" aria-label="Quản trị thanh toán">
-            <Link to={ROUTES.ADMIN_ORDER}>Quản lý đơn hàng</Link>
-            <Link to={ROUTES.PAYMENT_REVIEWS}>Giao dịch cần kiểm tra</Link>
-        </nav>
-        <h1 className="h3">Quản lý hoàn tiền VNPay</h1>
-        <p className="text-secondary">Khi khách hủy đơn VNPay đã thanh toán, hệ thống tự tạo yêu cầu hoàn tiền tại đây. Danh sách tự cập nhật các yêu cầu mới.</p>
-        <ol className="row g-3 list-unstyled mb-4" aria-label="Các bước hoàn tiền">
-            <li className="col-sm-6 col-lg-3"><div className="border rounded-3 bg-white p-3 h-100"><strong>1. Khách hủy đơn</strong><p className="small text-secondary mt-1 mb-0">Hệ thống ghi nhận đơn đã hủy và số tiền cần hoàn.</p></div></li>
-            <li className="col-sm-6 col-lg-3"><div className="border rounded-3 bg-white p-3 h-100"><strong>2. Bạn duyệt yêu cầu</strong><p className="small text-secondary mt-1 mb-0">Chọn “Xử lý hoàn tiền”, kiểm tra thông tin và duyệt.</p></div></li>
-            <li className="col-sm-6 col-lg-3"><div className="border rounded-3 bg-white p-3 h-100"><strong>3. Bạn gửi hoàn tiền</strong><p className="small text-secondary mt-1 mb-0">Bấm “Gửi hoàn tiền qua VNPay” sau khi duyệt.</p></div></li>
-            <li className="col-sm-6 col-lg-3"><div className="border rounded-3 bg-white p-3 h-100"><strong>4. VNPay xác nhận</strong><p className="small text-secondary mt-1 mb-0">Kết quả hoàn tiền được cập nhật cho cả cửa hàng và khách.</p></div></li>
-        </ol>
-        <p className="small text-secondary">Đơn COD hoặc đơn chưa thu tiền không phát sinh yêu cầu hoàn tiền trực tuyến.</p>
-        <div className="card p-3 mb-4">
-            <form className="d-flex flex-wrap align-items-end gap-3" onSubmit={event => {
-                event.preventDefault();
-                const value = search.trim();
-                setParams(value ? { orderId: value } : {});
-            }}>
+    return <div className="d-flex min-vh-100 w-100 admin-customer-page">
+        <aside className="flex-shrink-0 position-sticky top-0 align-self-start" style={{ width: isCollapsed ? 72 : 250, height: "100vh" }}>
+            <SidebarAdmin isRefund />
+        </aside>
+        <main className="flex-grow-1 p-3 p-lg-4" style={{ minWidth: 0 }}>
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <label className="form-label" htmlFor="refund-order-search">Mã đơn hàng</label>
-                    <input id="refund-order-search" className="form-control" type="number" min={1} step={1} value={search}
-                        placeholder="Nhập số đơn hàng" onChange={event => setSearch(event.target.value)} />
+                    <nav className="admin-breadcrumb" aria-label="Đường dẫn">
+                        <Link className="text-secondary text-decoration-none" to={ROUTES.ADMIN_ORDER}>Quản lý đơn hàng</Link>
+                        <span className="crumb-sep">›</span><span className="active-crumb">Hoàn tiền VNPay</span>
+                    </nav>
+                    <h1 className="h4 fw-bold text-dark mb-1">Quản lý hoàn tiền VNPay</h1>
+                    <p className="text-secondary mb-0">Xử lý các khoản VNPay cần hoàn khi khách hủy đơn hoặc phát sinh thanh toán thừa, đến muộn.</p>
                 </div>
-                <button type="submit" className="btn btn-outline-primary">Tra cứu đơn</button>
-                {orderId === undefined && <div>
-                    <label className="form-label" htmlFor="refund-status-filter">Trạng thái</label>
-                    <select id="refund-status-filter" className="form-select" value={status} onChange={event => {
-                        setStatus(event.target.value as RefundStatus); setPage(0); setSelected(null); setLoading(true); setMessage("");
+                <button type="button" className="btn-action-secondary" disabled={loading} onClick={() => { setLoading(true); setVersion(current => current + 1); }}>
+                    <FontAwesomeIcon icon={faRotate} className={loading ? "fa-spin" : ""} /> Làm mới
+                </button>
+            </div>
+            <div className="filter-card">
+                <div className="fw-semibold mb-2">1. Kiểm tra yêu cầu <span className="text-secondary mx-2">→</span> 2. Duyệt hoàn tiền <span className="text-secondary mx-2">→</span> 3. Xác nhận đã hoàn tiền</div>
+                <p className="text-secondary mb-0">Yêu cầu được tạo tự động từ khoản đã thanh toán. Admin thực hiện hoàn tiền cho khách, sau đó xác nhận kết quả tại đây.</p>
+            </div>
+            <form className="filter-card row g-3 align-items-end mx-0" onSubmit={event => {
+                event.preventDefault();
+                const value = search.trim().replace(/^OLIA-0*/i, "");
+                if (value && (!/^[0-9]+$/.test(value) || !Number.isSafeInteger(Number(value)) || Number(value) <= 0)) {
+                    setError("Nhập số đơn hàng hoặc mã dạng OLIA-00000021."); return;
+                }
+                setParams(value ? { orderId: String(Number(value)) } : {});
+            }}>
+                <div className="col-12 col-md-5">
+                    <label className="form-label" htmlFor="refund-search">Mã đơn hàng</label>
+                    <div className="search-input-wrapper">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        <input id="refund-search" value={search} placeholder="Nhập mã hoặc số đơn hàng" onChange={event => setSearch(event.target.value)} />
+                    </div>
+                </div>
+                <div className="col-12 col-md-4">
+                    <label className="form-label" htmlFor="refund-status">Trạng thái</label>
+                    <select id="refund-status" className="filter-select" value={status} disabled={Boolean(orderId)} onChange={event => {
+                        setStatus(event.target.value as RefundStatus | ""); setPage(0); setLoading(true);
                     }}>
-                        {Object.entries(refundStatusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                        <option value="">Tất cả trạng thái</option>
+                        {filters.map(item => <option key={item} value={item}>{refundStatusLabels[item]}</option>)}
                     </select>
-                </div>}
-                {orderId !== undefined && <Link className="btn btn-outline-secondary" to={ROUTES.REFUNDS}>Xem hàng đợi</Link>}
-                <button type="button" className="btn btn-outline-secondary" disabled={loading || invalidOrderId} onClick={reload}>Cập nhật</button>
+                </div>
+                <div className="col-12 col-md-3 d-flex gap-2">
+                    <button className="btn-header-primary" type="submit">Tra cứu</button>
+                    {orderId && <button className="btn-action-secondary" type="button" onClick={() => setParams({})}>Xem tất cả</button>}
+                </div>
             </form>
-            <details className="mt-3 border-top pt-3">
-                <summary>Thao tác bổ sung: tạo yêu cầu thủ công</summary>
-                <p className="small text-secondary mt-2 mb-2">Dùng cho khoản thu dư hoặc giao dịch đã xác minh cần hoàn nhưng chưa có yêu cầu. Đơn khách hủy đã có yêu cầu trong danh sách được xử lý trực tiếp bên dưới.</p>
-                <button type="button" className="btn btn-outline-secondary" onClick={() => setShowRequest(current => !current)}>{showRequest ? "Đóng biểu mẫu" : "Mở biểu mẫu tạo thủ công"}</button>
-            </details>
-        </div>
-        {invalidOrderId && <p className="alert alert-danger" role="alert">Mã đơn hàng không hợp lệ.</p>}
-        {error && <p className="alert alert-danger" role="alert">{error}</p>}
-        {message && <p className="alert alert-success" role="status">{message}</p>}
-        {showRequest && <RefundRequestForm initialAttemptId={params.get("attemptId") ?? ""} onCreated={changed} />}
-        {loading && !invalidOrderId && <p role="status">Đang tải yêu cầu hoàn tiền…</p>}
-        {!loading && !error && !invalidOrderId && <div className="table-responsive">
-            <table className="table table-striped align-middle">
-                <thead><tr><th>Yêu cầu hoàn tiền</th><th>Đơn hàng</th><th>Số tiền hoàn</th><th>Trạng thái xử lý</th><th>Ngày ghi nhận</th><th /></tr></thead>
-                <tbody>{rows.map(refund => <tr key={refund.id}>
-                    <td>#{refund.id}</td><td>{formatOrderCode(refund.orderId)}</td>
-                    <td className="text-nowrap">{refund.amountVnd.toLocaleString("vi-VN")} ₫</td>
-                    <td>{refundStatusLabels[refund.status]}</td><td>{new Date(refund.createdAt).toLocaleString("vi-VN")}</td>
-                    <td><button type="button" className="btn btn-sm btn-primary" onClick={() => setSelected(refund)}>Xử lý hoàn tiền</button></td>
-                </tr>)}</tbody>
-            </table>
-            {rows.length === 0 && <p>Chưa có yêu cầu hoàn tiền phù hợp. Bạn có thể đổi trạng thái lọc hoặc tra cứu số đơn hàng để xem các yêu cầu đã xử lý.</p>}
-        </div>}
-        {orderId === undefined && <div className="d-flex align-items-center gap-3 mb-4">
-            <button type="button" className="btn btn-outline-secondary" disabled={page === 0 || loading} onClick={() => { setPage(current => current - 1); setLoading(true); }}>Trang trước</button>
-            <span>Trang {page + 1}</span>
-            <button type="button" className="btn btn-outline-secondary" disabled={rows.length < 50 || loading || Boolean(error)} onClick={() => { setPage(current => current + 1); setLoading(true); }}>Trang sau</button>
-        </div>}
-        {selected && <RefundDetails key={`${selected.id}-${selected.status}`} refund={selected} onChanged={changed} />}
-    </main>;
+            {error && <p className="alert alert-danger" role="alert">{error}</p>}
+            {message && <p className={`alert alert-${message.tone}`} role="status">{message.text}</p>}
+            <div className="table-card">
+                <div className="table-responsive">
+                    <table className="admin-table">
+                        <thead><tr><th>Yêu cầu / Đơn hàng</th><th>Khách hàng</th><th>Số tiền hoàn</th><th>Trạng thái</th><th>Ngày tạo</th><th>Thao tác</th></tr></thead>
+                        <tbody>
+                            {loading ? <tr><td colSpan={6} className="text-center py-5" role="status">Đang tải yêu cầu hoàn tiền…</td></tr>
+                                : rows.map(refund => <tr key={refund.id}>
+                                    <td><span className="fw-semibold">{formatOrderCode(refund.orderId)}</span><span className="d-block text-secondary mt-1">Yêu cầu #{refund.id}</span></td>
+                                    <td><span className="customer-name">{refund.recipientName}</span><span className="d-block text-secondary mt-1">{refund.phoneNumber}</span></td>
+                                    <td className="fw-semibold text-nowrap">{money(refund.amountVnd)}</td>
+                                    <td><span className={`badge rounded-pill bg-${tone(refund.status)}-subtle text-${tone(refund.status)}-emphasis`}>{refundStatusLabels[refund.status]}</span></td>
+                                    <td className="text-nowrap">{date(refund.createdAt)}</td>
+                                    <td><button type="button" className="btn-action-secondary" disabled={opening} onClick={() => { void select(refund.id); }}>
+                                        {["SUCCEEDED", "REJECTED"].includes(refund.status) ? "Xem chi tiết" : "Xử lý"}
+                                    </button></td>
+                                </tr>)}
+                            {!loading && !error && !rows.length && <tr><td colSpan={6} className="text-center text-secondary py-5">Không có yêu cầu hoàn tiền phù hợp.</td></tr>}
+                        </tbody>
+                    </table>
+                </div>
+                {!orderId && <div className="d-flex justify-content-end align-items-center gap-2 p-3">
+                    <button type="button" className="pagination-btn" disabled={!page || loading} onClick={() => { setPage(current => current - 1); setLoading(true); }}>Trang trước</button>
+                    <span className="mx-2">Trang {page + 1}</span>
+                    <button type="button" className="pagination-btn" disabled={rows.length < 50 || loading || Boolean(error)} onClick={() => { setPage(current => current + 1); setLoading(true); }}>Trang sau</button>
+                </div>}
+            </div>
+        </main>
+        {selected && <RefundDetails key={`${selected.id}-${selected.status}`} refund={selected} onClose={() => setSelected(null)} onChanged={changed} />}
+    </div>;
 }
 
-function RefundRequestForm({ initialAttemptId, onCreated }: { initialAttemptId: string; onCreated: (refund: RefundSummary) => void }) {
-    const [attemptId, setAttemptId] = useState(initialAttemptId);
-    const [reason, setReason] = useState("");
-    const [busy, setBusy] = useState(false);
-    const [error, setError] = useState("");
-    const pending = useRef<{ signature: string; key: string } | null>(null);
-    const submitting = useRef(false);
-
-    async function submit() {
-        const id = Number(attemptId);
-        if (submitting.current || !Number.isSafeInteger(id) || id <= 0 || !reason.trim()) return;
-        const signature = JSON.stringify([id, reason.trim()]);
-        if (pending.current?.signature !== signature) pending.current = { signature, key: crypto.randomUUID() };
-        submitting.current = true;
-        setBusy(true);
-        setError("");
-        try {
-            const refund = await refundService.request(id, reason.trim(), pending.current.key);
-            pending.current = null;
-            setReason("");
-            onCreated(refund);
-        } catch (cause) {
-            setError(getOrderError(cause, "Chưa tạo được yêu cầu hoàn tiền. Vui lòng thử lại với cùng nội dung."));
-        } finally { submitting.current = false; setBusy(false); }
-    }
-
-    return <form className="card p-4 mb-4" onSubmit={event => { event.preventDefault(); void submit(); }}>
-        <h2 className="h5">Tạo yêu cầu hoàn tiền thủ công</h2>
-        <p className="text-secondary small">Dùng mã lần thanh toán đã thu tiền cần hoàn. Hệ thống kiểm tra giao dịch và số tiền trước khi ghi nhận yêu cầu.</p>
-        <label className="form-label" htmlFor="refund-attempt">Mã lần thanh toán</label>
-        <input id="refund-attempt" className="form-control mb-3" type="number" min={1} step={1} required disabled={busy}
-            value={attemptId} onChange={event => setAttemptId(event.target.value)} />
-        <label className="form-label" htmlFor="refund-reason">Lý do hoàn tiền</label>
-        <textarea id="refund-reason" className="form-control mb-3" rows={2} maxLength={255} required disabled={busy}
-            value={reason} onChange={event => setReason(event.target.value)} />
-        {error && <p className="alert alert-danger" role="alert">{error}</p>}
-        <button type="submit" className="btn btn-primary align-self-start" disabled={busy || !reason.trim()}>{busy ? "Đang ghi nhận…" : "Ghi nhận yêu cầu"}</button>
-    </form>;
-}
-
-function RefundDetails({ refund, onChanged }: { refund: RefundSummary; onChanged: (refund: RefundSummary) => void }) {
-    const [action, setAction] = useState<Exclude<RefundAction, "refresh"> | null>(null);
-    const [evidence, setEvidence] = useState("");
-    const [transactionNo, setTransactionNo] = useState("");
-    const [outcome, setOutcome] = useState<"SUCCEEDED" | "FAILED">("SUCCEEDED");
+function RefundDetails({ refund, onClose, onChanged }: { refund: RefundSummary; onClose: () => void; onChanged: (refund: RefundSummary) => void }) {
+    const [action, setAction] = useState<RefundAction | null>(null);
+    const [note, setNote] = useState("");
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState("");
     const submitting = useRef(false);
-    const pending = ["PROCESSING", "NEEDS_REVIEW"].includes(refund.status);
-    const validEvidence = evidence.trim().length >= 20 && evidence.trim().length <= 500;
-    const canSubmit = action === "process" || (validEvidence && (action !== "reconcile"
-        || (/^(?!0+$)[0-9]{1,15}$/.test(transactionNo.trim()) && Boolean(refund.providerRequestId))));
+    const awaiting = ["APPROVED", "PROCESSING", "NEEDS_REVIEW"].includes(refund.status);
 
     async function submit(next: RefundAction) {
-        if (submitting.current || (next !== "refresh" && !canSubmit)) return;
+        if (submitting.current) return;
         submitting.current = true;
-        setBusy(true);
-        setError("");
-        try {
-            const body = next === "reconcile" ? {
-                evidence: evidence.trim(), transactionNo: transactionNo.trim(), status: outcome,
-                providerRequestId: refund.providerRequestId!,
-            } : { evidence: evidence.trim() };
-            const updated = await refundService.act(refund.id, next, body);
-            setAction(null);
-            onChanged(updated);
-        } catch (cause) {
-            setError(getOrderError(cause, "Chưa nhận được kết quả xử lý. Hãy cập nhật trạng thái trước khi thực hiện tiếp."));
-        } finally { submitting.current = false; setBusy(false); }
+        setBusy(true); setError("");
+        try { onChanged(await refundService.act(refund.id, next, note.trim())); }
+        catch (cause) { setError(getOrderError(cause, "Chưa lưu được kết quả. Vui lòng cập nhật yêu cầu trước khi thử lại.")); }
+        finally { submitting.current = false; setBusy(false); }
     }
 
-    function open(next: Exclude<RefundAction, "refresh">) {
-        setError(""); setEvidence(""); setTransactionNo(""); setAction(next);
-    }
-
-    return <section className="card p-4 mt-4" aria-labelledby="refund-details-title">
-        <h2 className="h5" id="refund-details-title">Hoàn tiền cho đơn {formatOrderCode(refund.orderId)}</h2>
-        {refund.status === "REQUESTED" && <p className="alert alert-info">Bước tiếp theo: kiểm tra số tiền và lý do, sau đó bấm “Duyệt hoàn tiền”.</p>}
-        {refund.status === "APPROVED" && <p className="alert alert-info">Đã duyệt yêu cầu. Bấm “Gửi hoàn tiền qua VNPay” để thực hiện hoàn tiền cho khách.</p>}
-        {pending && <p className="alert alert-warning">{refund.providerRequestId
-            ? "Đã gửi yêu cầu hoàn tiền. Bấm “Kiểm tra kết quả VNPay” để cập nhật kết quả xử lý."
-            : "Yêu cầu cần được kiểm tra lại thông tin giao dịch trước khi tiếp tục xử lý."}</p>}
-        <dl className="row mb-2">
-            <dt className="col-sm-4">Trạng thái</dt><dd className="col-sm-8">{refundStatusLabels[refund.status]}</dd>
-            <dt className="col-sm-4">Số tiền</dt><dd className="col-sm-8">{refund.amountVnd.toLocaleString("vi-VN")} ₫</dd>
-            <dt className="col-sm-4">Lý do</dt><dd className="col-sm-8 text-break">{refund.reason}</dd>
-        </dl>
-        <details className="mb-3">
-            <summary>Thông tin giao dịch VNPay</summary>
-            <dl className="row mt-3 mb-0">
-                <dt className="col-sm-4">Lần thanh toán</dt><dd className="col-sm-8">{refund.paymentAttemptId ?? "Chưa xác định"}</dd>
-                <dt className="col-sm-4">Mã yêu cầu VNPay</dt><dd className="col-sm-8 text-break">{refund.providerRequestId ?? "Chưa gửi"}</dd>
-                <dt className="col-sm-4">Mã giao dịch hoàn tiền</dt><dd className="col-sm-8 text-break">{refund.providerTransactionNo ?? "Chưa có"}</dd>
-                <dt className="col-sm-4">Mã phản hồi / trạng thái VNPay</dt><dd className="col-sm-8">{refund.providerResponseCode ?? "—"} / {refund.providerTransactionStatus ?? "—"}</dd>
+    return <Modal show onHide={() => { if (!busy) onClose(); }} centered backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="refund-details-title">
+        <Modal.Header closeButton={!busy}><Modal.Title as="h2" id="refund-details-title" className="h5">Yêu cầu hoàn tiền #{refund.id}</Modal.Title></Modal.Header>
+        <Modal.Body aria-busy={busy}>
+            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
+                <strong className="fs-5">{formatOrderCode(refund.orderId)}</strong>
+                <span className={`badge bg-${tone(refund.status)}-subtle text-${tone(refund.status)}-emphasis`}>{refundStatusLabels[refund.status]}</span>
+            </div>
+            <dl className="row mb-0">
+                <dt className="col-5">Khách hàng</dt><dd className="col-7 text-break">{refund.recipientName}</dd>
+                <dt className="col-5">Số điện thoại</dt><dd className="col-7">{refund.phoneNumber}</dd>
+                <dt className="col-5">Thanh toán</dt><dd className="col-7">VNPay · Đã thu tiền</dd>
+                <dt className="col-5">Đơn hàng</dt><dd className="col-7">{refund.orderStatus === "CANCELLED" ? "Đã hủy" : "Khoản thu thừa / đến muộn"}</dd>
+                {refund.cancelledAt && <><dt className="col-5">Ngày hủy</dt><dd className="col-7">{date(refund.cancelledAt)}</dd></>}
+                <dt className="col-5">Số tiền hoàn</dt><dd className="col-7 fw-bold text-danger">{money(refund.amountVnd)}</dd>
+                <dt className="col-5">Lý do hoàn</dt><dd className="col-7 text-break">{refund.reason}</dd>
             </dl>
-        </details>
-        {refund.lastError && <p className="alert alert-warning">{refund.lastError}</p>}
-        {error && action === null && <p className="alert alert-danger" role="alert">{error}</p>}
-        <div className="d-flex flex-wrap gap-2">
-            {refund.status === "REQUESTED" && <>
-                <button type="button" className="btn btn-primary" disabled={busy} onClick={() => open("approve")}>Duyệt hoàn tiền</button>
-                <button type="button" className="btn btn-outline-danger" disabled={busy} onClick={() => open("reject")}>Từ chối</button>
-            </>}
-            {refund.status === "APPROVED" && <button type="button" className="btn btn-primary" disabled={busy} onClick={() => open("process")}>Gửi hoàn tiền qua VNPay</button>}
-            {pending && <>
-                <button type="button" className="btn btn-outline-primary" disabled={busy} onClick={() => { void submit("refresh"); }}>{busy ? "Đang cập nhật…" : "Kiểm tra kết quả VNPay"}</button>
-                {refund.providerRequestId && <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={() => open("reconcile")}>Đối soát với bằng chứng</button>}
-            </>}
-        </div>
-        <Modal show={action !== null} onHide={() => { if (!busy) setAction(null); }} centered
-            backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="refund-action-title">
-            <Modal.Header closeButton={!busy}><Modal.Title as="h2" id="refund-action-title">{action ? actionLabels[action] : "Xử lý hoàn tiền"}</Modal.Title></Modal.Header>
-            <Modal.Body aria-busy={busy}>
-                <p>Yêu cầu #{refund.id} · {refund.amountVnd.toLocaleString("vi-VN")} ₫</p>
-                {action === "process" ? <p className="mb-0">Xác nhận gửi yêu cầu hoàn tiền tới VNPay. Nếu chưa nhận được kết quả, hãy kiểm tra và đối soát yêu cầu này trước khi xử lý tiếp.</p> : <>
-                    {action === "reconcile" && <>
-                        <p className="small text-secondary">Kiểm tra kết quả trên cổng merchant VNPay và đối chiếu mã yêu cầu: <code>{refund.providerRequestId}</code>.</p>
-                        <label className="form-label" htmlFor="refund-outcome">Kết quả xác nhận</label>
-                        <select id="refund-outcome" className="form-select mb-3" disabled={busy} value={outcome}
-                            onChange={event => setOutcome(event.target.value as "SUCCEEDED" | "FAILED")}>
-                            <option value="SUCCEEDED">Hoàn tiền thành công</option><option value="FAILED">Hoàn tiền thất bại</option>
-                        </select>
-                        <label className="form-label" htmlFor="refund-transaction">Mã giao dịch VNPay</label>
-                        <input id="refund-transaction" className="form-control mb-3" inputMode="numeric" maxLength={15} disabled={busy}
-                            value={transactionNo} onChange={event => setTransactionNo(event.target.value)} />
-                    </>}
-                    <label className="form-label" htmlFor="refund-evidence">Bằng chứng / lý do xử lý (20–500 ký tự)</label>
-                    <textarea id="refund-evidence" className="form-control" rows={4} minLength={20} maxLength={500} disabled={busy}
-                        value={evidence} onChange={event => setEvidence(event.target.value)} />
+            {refund.approvedBy && <p className="small text-secondary text-break mb-2">Người duyệt: {refund.approvedBy}{refund.approvedAt && ` · ${date(refund.approvedAt)}`}</p>}
+            {refund.processedBy && refund.processedAt && <p className="small text-secondary text-break mb-2">Người cập nhật: {refund.processedBy} · {date(refund.processedAt)}</p>}
+            {refund.note && <p className="bg-light rounded p-3 text-break mb-0">{refund.note}</p>}
+            {action && <div className="border-top mt-3 pt-3">
+                <p className="fw-semibold">{actionLabels[action]}</p>
+                <p>{action === "succeed" ? `Bạn xác nhận đã hoàn ${money(refund.amountVnd)} cho khách. Đơn hàng sẽ được cập nhật kết quả hoàn tiền.`
+                    : action === "reject" ? "Yêu cầu sẽ được ghi nhận là từ chối. Khoản tiền chưa được ghi nhận đã hoàn."
+                    : "Khoản tiền sẽ tiếp tục được ghi nhận là chưa hoàn cho khách. Bạn có thể xử lý lại sau."}</p>
+                {action !== "succeed" && <label className="form-label w-100">Ghi chú (không bắt buộc)
+                    <textarea className="form-control mt-2" rows={2} maxLength={500} value={note} disabled={busy} onChange={event => setNote(event.target.value)} />
+                </label>}
+            </div>}
+            {error && <p className="alert alert-danger mt-3 mb-0" role="alert">{error}</p>}
+        </Modal.Body>
+        <Modal.Footer>
+            {action ? <>
+                <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={() => { setAction(null); setError(""); }}>Quay lại</button>
+                <button type="button" className={`btn ${action === "succeed" ? "btn-success" : "btn-danger"}`} disabled={busy} onClick={() => { void submit(action); }}>{busy ? "Đang lưu…" : "Xác nhận"}</button>
+            </> : <>
+                <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={onClose}>Đóng</button>
+                {refund.status === "REQUESTED" && <button type="button" className="btn btn-outline-danger" disabled={busy} onClick={() => setAction("reject")}>Từ chối</button>}
+                {["REQUESTED", "FAILED"].includes(refund.status) && <button type="button" className="btn-header-primary" disabled={busy} onClick={() => { void submit("approve"); }}>
+                    {busy ? "Đang lưu…" : refund.status === "FAILED" ? "Xử lý lại" : actionLabels.approve}
+                </button>}
+                {awaiting && <>
+                    <button type="button" className="btn btn-outline-danger" disabled={busy} onClick={() => setAction("fail")}>Chưa hoàn được</button>
+                    <button type="button" className="btn btn-success" disabled={busy} onClick={() => setAction("succeed")}>Xác nhận đã hoàn tiền</button>
                 </>}
-                {error && <p className="alert alert-danger mt-3 mb-0" role="alert">{error}</p>}
-            </Modal.Body>
-            <Modal.Footer>
-                <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={() => setAction(null)}>Quay lại</button>
-                <button type="button" className={`btn ${action === "reject" ? "btn-danger" : "btn-primary"}`} disabled={busy || !canSubmit} onClick={() => { if (action) void submit(action); }}>
-                    {busy ? "Đang xử lý…" : "Xác nhận"}
-                </button>
-            </Modal.Footer>
-        </Modal>
-    </section>;
+            </>}
+        </Modal.Footer>
+    </Modal>;
 }

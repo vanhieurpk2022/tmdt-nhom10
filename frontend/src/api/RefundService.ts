@@ -1,5 +1,6 @@
 import api from "./api";
 import type { RefundStatus } from "../enums/RefundStatus";
+import type { OrderStatus } from "../enums/OrderStatus";
 
 export interface CustomerRefund {
     id: number;
@@ -12,39 +13,30 @@ export interface CustomerRefund {
 
 export interface RefundSummary extends CustomerRefund {
     orderId: number;
-    paymentAttemptId: number | null;
-    providerRequestId: string | null;
-    providerTransactionNo: string | null;
-    providerResponseCode: string | null;
-    providerTransactionStatus: string | null;
-    lastError: string | null;
+    recipientName: string;
+    phoneNumber: string;
+    orderStatus: OrderStatus;
+    cancelledAt: string | null;
+    approvedBy: string | null;
+    approvedAt: string | null;
+    processedBy: string | null;
+    note: string | null;
 }
 
-export type RefundAction = "approve" | "reject" | "process" | "refresh" | "reconcile";
-
-export interface RefundReconciliation {
-    providerRequestId: string;
-    status: "SUCCEEDED" | "FAILED";
-    transactionNo: string;
-    evidence: string;
-}
-
+export type RefundAction = "approve" | "reject" | "succeed" | "fail";
 const headers = { "X-Requested-With": "XMLHttpRequest" };
 const baseUrl = "/admin/payments/refunds";
 
 export const refundService = {
-    list: async (status: RefundStatus, page: number, orderId?: number): Promise<RefundSummary[]> => {
-        const response = await api.get<RefundSummary[]>(baseUrl, { params: { status, page, orderId } });
-        return response.data;
+    list: async (status: RefundStatus | undefined, page: number, orderId?: number): Promise<RefundSummary[]> => {
+        return (await api.get<RefundSummary[]>(baseUrl, { params: { status, page, orderId } })).data;
     },
-    request: async (paymentAttemptId: number, reason: string, key: string): Promise<RefundSummary> => {
-        const response = await api.post<RefundSummary>(baseUrl, { paymentAttemptId, reason }, {
-            headers: { ...headers, "Idempotency-Key": key },
-        });
-        return response.data;
+    get: async (id: number): Promise<RefundSummary> => {
+        return (await api.get<RefundSummary>(`${baseUrl}/${id}`)).data;
     },
-    act: async (id: number, action: RefundAction, body?: { evidence: string } | RefundReconciliation): Promise<RefundSummary> => {
-        const response = await api.post<RefundSummary>(`${baseUrl}/${id}/${action}`, body ?? {}, { headers });
-        return response.data;
+    act: async (id: number, action: RefundAction, note: string): Promise<RefundSummary> => {
+        const completion = action === "succeed" || action === "fail";
+        const body = completion ? { succeeded: action === "succeed", note } : { note };
+        return (await api.post<RefundSummary>(`${baseUrl}/${id}/${completion ? "complete" : action}`, body, { headers })).data;
     },
 };

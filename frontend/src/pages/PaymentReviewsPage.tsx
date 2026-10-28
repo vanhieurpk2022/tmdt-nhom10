@@ -107,7 +107,7 @@ export default function PaymentReviewsPage() {
         <p>Danh sách các giao dịch chưa rõ kết quả hoặc phát sinh vấn đề khi thanh toán.</p>
         <div className="alert alert-info">
             <strong>Hoàn tiền cho đơn khách đã hủy</strong>
-            <p className="mt-1 mb-2">Hệ thống tự tạo yêu cầu hoàn tiền. Vào danh sách hoàn tiền, chọn đơn, duyệt yêu cầu rồi gửi hoàn tiền qua VNPay.</p>
+            <p className="mt-1 mb-2">Hệ thống tự tạo yêu cầu hoàn tiền. Vào danh sách hoàn tiền, duyệt yêu cầu và xác nhận sau khi đã hoàn tiền cho khách.</p>
             <Link className="btn btn-primary" to={ROUTES.REFUNDS}>Xem các đơn chờ hoàn tiền</Link>
         </div>
         {listError && <p className="alert alert-danger" role="alert">{listError}</p>}

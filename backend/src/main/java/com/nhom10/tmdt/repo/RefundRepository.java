@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,15 +21,8 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
 
     Optional<Refund> findByOrderIdAndRequestKey(Long orderId, String requestKey);
     List<Refund> findByOrderIdOrderByIdAsc(Long orderId);
-    List<Refund> findByStatusOrderByIdAsc(RefundStatus status, Pageable pageable);
-
-    @Query("""
-            select r.id from Refund r where r.status in
-                (com.nhom10.tmdt.enums.RefundStatus.PROCESSING, com.nhom10.tmdt.enums.RefundStatus.NEEDS_REVIEW)
-                and r.providerRequestId is not null and r.providerRequestedAt <= :before
-                and r.id > :afterId order by r.id
-            """)
-    List<Long> findAwaitingReconciliationIds(Instant before, long afterId, Pageable pageable);
+    List<Refund> findAllByOrderByIdDesc(Pageable pageable);
+    List<Refund> findByStatusInOrderByIdDesc(List<RefundStatus> statuses, Pageable pageable);
 
     @Query("""
         SELECT COUNT(DISTINCT r)

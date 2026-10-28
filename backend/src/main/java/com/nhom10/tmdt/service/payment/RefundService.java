@@ -1,6 +1,5 @@
 package com.nhom10.tmdt.service.payment;
 
-import com.nhom10.tmdt.config.VnPayProperties;
 import com.nhom10.tmdt.enums.OrderStatus;
 import com.nhom10.tmdt.enums.PaymentMethod;
 import com.nhom10.tmdt.enums.PaymentStatus;
@@ -13,7 +12,6 @@ import com.nhom10.tmdt.repo.OrderRepository;
 import com.nhom10.tmdt.repo.PaymentAttemptRepository;
 import com.nhom10.tmdt.repo.PaymentEventRepository;
 import com.nhom10.tmdt.repo.RefundRepository;
-import com.nhom10.tmdt.service.order.CheckoutIdentity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +26,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import static com.nhom10.tmdt.service.payment.VnPayPaymentService.conflict;
@@ -43,15 +39,18 @@ public class RefundService {
     private final OrderRepository orders;
     private final PaymentAttemptRepository attempts;
     private final PaymentEventRepository events;
-    private final VnPayProperties properties;
     private final EntityManager entityManager;
     private final Clock clock;
 
     @Transactional(readOnly = true)
     public List<Summary> list(Long orderId, RefundStatus status, int page) {
         if (orderId != null) return refunds.findByOrderIdOrderByIdAsc(orderId).stream().map(Summary::from).toList();
-        return refunds.findByStatusOrderByIdAsc(status, PageRequest.of(Math.max(0, page), 50))
-                .stream().map(Summary::from).toList();
+        var pageable = PageRequest.of(Math.max(0, page), 50);
+        List<Refund> result = status == null ? refunds.findAllByOrderByIdDesc(pageable)
+                : refunds.findByStatusInOrderByIdDesc(status == RefundStatus.APPROVED
+                ? List.of(RefundStatus.APPROVED, RefundStatus.PROCESSING, RefundStatus.NEEDS_REVIEW)
+                : List.of(status), pageable);
+        return result.stream().map(Summary::from).toList();
     }
 
     @Transactional(readOnly = true)
@@ -59,198 +58,113 @@ public class RefundService {
         return Summary.from(refunds.findById(id).orElseThrow(VnPayPaymentService::notFound));
     }
 
-    public Summary request(Long attemptId, String key, String reason, String actor) {
-        CheckoutIdentity.validateKey(key);
-        PaymentAttempt found = attempts.findById(attemptId).orElseThrow(VnPayPaymentService::notFound);
-        Order order = lockOrder(found.getOrderId());
-        PaymentAttempt attempt = lockAttempt(attemptId);
-        Refund previous = refunds.findByOrderIdAndRequestKey(order.getId(), key).orElse(null);
-        if (previous != null) {
-            if (!attemptId.equals(previous.getPaymentAttemptId()) || !reason.equals(previous.getReason())) {
-                throw conflict("Mã yêu cầu đã dùng cho nội dung hoàn tiền khác");
-            }
-            return Summary.from(previous);
-        }
-        return Summary.from(create(order, attempt, key, reason, actor));
-    }
-
     @Transactional(propagation = Propagation.MANDATORY)
     public void enqueue(Order order, PaymentAttempt attempt, String reason, String actor) {
         String key = "auto_refund_" + attempt.getId();
-        if (refunds.findByOrderIdAndRequestKey(order.getId(), key).isEmpty() && !hasReservation(order, attempt)) {
-            create(order, attempt, key, reason, actor);
-        }
-    }
-
-    private Refund create(Order order, PaymentAttempt attempt, String key, String reason, String actor) {
+        if (refunds.findByOrderIdAndRequestKey(order.getId(), key).isPresent() || hasReservation(order, attempt, null)) return;
         validateCapture(order, attempt);
-        if (hasReservation(order, attempt)) throw conflict("Giao dịch đã có yêu cầu hoàn tiền hoặc dữ liệu cũ cần đối soát");
         Refund refund = refunds.saveAndFlush(Refund.builder().order(order).paymentAttemptId(attempt.getId())
                 .amountVnd(attempt.getAmountVnd()).requestKey(key).reason(reason).requestedBy(actor).build());
-        audit(refund, "REQUESTED", "RECORDED", reason, actor);
+        audit(refund, "REQUESTED", reason, actor);
         updatePaymentStatus(order);
-        return refund;
     }
 
-    public Summary decide(Long id, boolean approve, String evidence, String actor) {
-        validateEvidence(evidence);
+    public Summary approve(Long id, String actor) {
         Refund refund = lock(id);
-        RefundStatus target = approve ? RefundStatus.APPROVED : RefundStatus.REJECTED;
-        if (refund.getStatus() == target) return Summary.from(refund);
-        if (refund.getStatus() != RefundStatus.REQUESTED) throw conflict("Yêu cầu không còn chờ duyệt");
-        if (approve) validateCapture(refund.getOrder(), lockAttempt(refund.getPaymentAttemptId()));
-        refund.setStatus(target);
+        if (refund.getStatus() == RefundStatus.APPROVED) return Summary.from(refund);
+        if (refund.getStatus() != RefundStatus.REQUESTED && refund.getStatus() != RefundStatus.FAILED) {
+            throw conflict("Yêu cầu không còn chờ duyệt hoàn tiền");
+        }
+        validateRefund(refund);
+        refund.setStatus(RefundStatus.APPROVED);
         refund.setApprovedBy(actor);
         refund.setApprovedAt(clock.instant());
-        audit(refund, target.name(), "RECORDED", evidence, actor);
+        refund.setProcessedBy(null);
+        refund.setProcessedAt(null);
+        refund.setLastError(null);
+        audit(refund, "APPROVED", "Quản trị viên duyệt yêu cầu hoàn tiền", actor);
         return Summary.from(refund);
     }
 
-    public Optional<Dispatch> prepare(Long id, String actor, VnPayGateway gateway) {
+    public Summary complete(Long id, boolean succeeded, String note, String actor) {
         Refund refund = lock(id);
-        if (refund.getStatus() != RefundStatus.APPROVED) return Optional.empty();
-        PaymentAttempt attempt = lockAttempt(refund.getPaymentAttemptId());
-        validateCapture(refund.getOrder(), attempt);
-        if (!Objects.equals(refund.getAmountVnd(), attempt.getAmountVnd()) || refund.getProviderRequestId() != null) {
-            throw conflict("Số tiền hoặc trạng thái gửi hoàn tiền không hợp lệ");
+        RefundStatus target = succeeded ? RefundStatus.SUCCEEDED : RefundStatus.FAILED;
+        if (refund.getStatus() == target) return Summary.from(refund);
+        if (!Set.of(RefundStatus.APPROVED, RefundStatus.PROCESSING, RefundStatus.NEEDS_REVIEW).contains(refund.getStatus())) {
+            throw conflict("Cần duyệt yêu cầu trước khi xác nhận kết quả hoàn tiền");
         }
-        String requestId = VnPayGateway.newTxnRef();
-        Instant now = clock.instant();
-        Map<String, String> payload = gateway.buildRefundRequest(requestId, attempt.getTxnRef(),
-                refund.getAmountVnd(), attempt.getReceiptNo(), attempt.getCreatedAt(), actor, now, properties.getServerIp());
-        refund.setProviderRequestId(requestId);
-        refund.setProviderRequestedAt(now);
-        refund.setProcessedBy(actor);
-        refund.setStatus(RefundStatus.PROCESSING);
-        audit(refund, "SUBMITTED", "RECORDED", "Đã lưu mã yêu cầu trước khi gửi VNPay", actor);
-        return Optional.of(new Dispatch(id, requestId, attempt.getTxnRef(), refund.getAmountVnd(),
-                attempt.getCreatedAt(), payload));
+        validateRefund(refund);
+        finish(refund, target, note, actor);
+        if (succeeded) resolveMoneyReviews(refund);
+        return Summary.from(refund);
     }
 
-    @Transactional(readOnly = true)
-    public Optional<Dispatch> reconciliation(Long id) {
-        Refund refund = refunds.findById(id).orElseThrow(VnPayPaymentService::notFound);
-        if (!pending(refund) || refund.getProviderRequestId() == null) return Optional.empty();
-        PaymentAttempt attempt = attempts.findById(refund.getPaymentAttemptId()).orElseThrow(VnPayPaymentService::notFound);
-        if (!Objects.equals(attempt.getMerchantCode(), properties.getTmnCode())) return Optional.empty();
-        boolean otherSubmission = refunds.findByOrderIdOrderByIdAsc(refund.getOrder().getId()).stream()
-                .anyMatch(r -> !r.getId().equals(id) && Objects.equals(r.getPaymentAttemptId(), attempt.getId())
-                        && r.getProviderRequestId() != null);
-        if (otherSubmission) return Optional.empty();
-        return Optional.of(new Dispatch(id, refund.getProviderRequestId(), attempt.getTxnRef(),
-                refund.getAmountVnd(), attempt.getCreatedAt(), Map.of()));
-    }
-
-    public void complete(Dispatch dispatch, VnPayGateway.RefundResult result) {
-        Refund refund = lock(dispatch.id());
-        if (!pending(refund) || !dispatch.requestId().equals(refund.getProviderRequestId())) return;
-        refund.setProviderResponseId(result.responseId());
-        refund.setProviderTransactionNo(result.transactionNo());
-        refund.setProviderResponseCode(result.responseCode());
-        refund.setProviderTransactionStatus(result.transactionStatus());
-        finish(refund, resultStatus(result), "VNPay: " + result.responseCode() + "/" + result.transactionStatus(), "VNPAY");
-    }
-
-    static RefundStatus resultStatus(VnPayGateway.RefundResult result) {
-        if ("00".equals(result.responseCode())) {
-            return switch (result.transactionStatus()) {
-                case "00" -> RefundStatus.SUCCEEDED;
-                case "05", "06" -> RefundStatus.PROCESSING;
-                case "09" -> RefundStatus.FAILED;
-                default -> RefundStatus.NEEDS_REVIEW;
-            };
-        }
-        return Set.of("02", "03", "04", "13", "91", "93", "95", "97").contains(result.responseCode())
-                ? RefundStatus.FAILED : RefundStatus.NEEDS_REVIEW;
-    }
-
-    public void uncertain(Dispatch dispatch) {
-        Refund refund = lock(dispatch.id());
-        if (!pending(refund) || !dispatch.requestId().equals(refund.getProviderRequestId())) return;
-        finish(refund, RefundStatus.NEEDS_REVIEW, "Chưa xác minh được kết quả VNPay; cần đối soát, không gửi lại yêu cầu hoàn tiền", "SYSTEM");
-    }
-
-    public Summary reconcile(Long id, String requestId, RefundStatus status, String transactionNo,
-            String evidence, String actor) {
-        validateEvidence(evidence);
-        if (status != RefundStatus.SUCCEEDED && status != RefundStatus.FAILED) {
-            throw VnPayPaymentService.bad("Chỉ ghi nhận kết quả hoàn thành hoặc thất bại có bằng chứng");
-        }
+    public Summary reject(Long id, String note, String actor) {
         Refund refund = lock(id);
-        if (!requestId.equals(refund.getProviderRequestId())) throw conflict("Mã yêu cầu VNPay không khớp");
-        if (refund.getStatus() == status && Objects.equals(transactionNo, refund.getProviderTransactionNo())) {
-            return Summary.from(refund);
-        }
-        if (!pending(refund)) throw conflict("Chỉ được đối soát yêu cầu đã gửi và chưa có kết quả cuối cùng");
-        refund.setProviderTransactionNo(transactionNo);
-        refund.setProcessedBy(actor);
-        finish(refund, status, evidence, actor);
+        if (refund.getStatus() == RefundStatus.REJECTED) return Summary.from(refund);
+        if (refund.getStatus() != RefundStatus.REQUESTED) throw conflict("Chỉ từ chối yêu cầu đang chờ duyệt");
+        finish(refund, RefundStatus.REJECTED, note, actor);
         return Summary.from(refund);
     }
 
     private void finish(Refund refund, RefundStatus status, String note, String actor) {
+        String text = note == null ? "" : note.trim();
+        if (text.length() > 500) throw VnPayPaymentService.bad("Ghi chú không quá 500 ký tự");
+        if (text.isEmpty()) text = switch (status) {
+            case SUCCEEDED -> "Quản trị viên xác nhận đã hoàn tiền cho khách";
+            case FAILED -> "Chưa hoàn tiền được cho khách";
+            default -> "Quản trị viên từ chối yêu cầu hoàn tiền";
+        };
         refund.setStatus(status);
-        refund.setLastError(status == RefundStatus.NEEDS_REVIEW ? note : null);
-        if (status == RefundStatus.SUCCEEDED || status == RefundStatus.FAILED) {
-            refund.setProcessedAt(LocalDateTime.ofInstant(clock.instant(), ZoneOffset.UTC));
-        }
-        audit(refund, status.name(), status == RefundStatus.FAILED || status == RefundStatus.NEEDS_REVIEW
-                ? "OPEN" : "RECORDED", note, actor);
-        if (status == RefundStatus.SUCCEEDED) {
-            updatePaymentStatus(refund.getOrder());
-            resolveMoneyReviews(refund);
+        refund.setProcessedBy(actor);
+        refund.setProcessedAt(LocalDateTime.ofInstant(clock.instant(), ZoneOffset.UTC));
+        refund.setLastError(text);
+        audit(refund, status.name(), text, actor);
+        updatePaymentStatus(refund.getOrder());
+    }
+
+    private void validateRefund(Refund refund) {
+        PaymentAttempt attempt = lockAttempt(refund.getPaymentAttemptId());
+        validateCapture(refund.getOrder(), attempt);
+        if (!Objects.equals(refund.getAmountVnd(), attempt.getAmountVnd())
+                || hasReservation(refund.getOrder(), attempt, refund.getId())) {
+            throw conflict("Số tiền không khớp hoặc giao dịch đã có yêu cầu hoàn tiền khác");
         }
     }
 
     private void validateCapture(Order order, PaymentAttempt attempt) {
         if (order.getPaymentMethod() != PaymentMethod.VNPAY || !order.getId().equals(attempt.getOrderId())
                 || !"VNPAY".equals(attempt.getProvider()) || !"VND".equals(attempt.getCurrency())
-                || !Objects.equals(properties.getTmnCode(), attempt.getMerchantCode())
                 || !"SUCCESS".equals(attempt.getStatus()) || attempt.getReceiptNo() == null
                 || !attempt.getReceiptNo().matches("[0-9]{1,15}")
                 || new java.math.BigInteger(attempt.getReceiptNo()).signum() <= 0
-                || !attempt.getReceiptNo().equals(attempt.getTransactionNo())
+                || !attempt.getReceiptNo().equals(attempt.getTransactionNo()) || attempt.getAmountVnd() <= 0
                 || (attempt.getId().equals(order.getPaidAttemptId()) && order.getStatus() != OrderStatus.CANCELLED)) {
-            throw conflict("Chỉ hoàn giao dịch VNPay đã thu tiền hợp lệ của đơn đã hủy, thanh toán muộn hoặc thu dư");
+            throw conflict("Chỉ hoàn khoản VNPay đã thu của đơn đã hủy, thanh toán muộn hoặc thu dư");
         }
-        VnPayGateway.wireAmount(attempt.getAmountVnd());
     }
 
-    private boolean hasReservation(Order order, PaymentAttempt attempt) {
+    private boolean hasReservation(Order order, PaymentAttempt attempt, Long excludingId) {
         return refunds.findByOrderIdOrderByIdAsc(order.getId()).stream()
-                .anyMatch(r -> (r.getPaymentAttemptId() == null || attempt.getId().equals(r.getPaymentAttemptId()))
+                .anyMatch(r -> !Objects.equals(r.getId(), excludingId)
+                        && (r.getPaymentAttemptId() == null || attempt.getId().equals(r.getPaymentAttemptId()))
                         && r.getStatus() != RefundStatus.REJECTED && r.getStatus() != RefundStatus.FAILED);
-    }
-
-    private void validateEvidence(String evidence) {
-        if (evidence == null || evidence.trim().length() < 20 || evidence.length() > 500) {
-            throw VnPayPaymentService.bad("Bằng chứng xử lý phải có 20–500 ký tự");
-        }
     }
 
     private Refund lock(Long id) {
         Refund found = refunds.findById(id).orElseThrow(VnPayPaymentService::notFound);
-        lockOrder(found.getOrder().getId());
+        Order order = orders.lockById(found.getOrder().getId()).orElseThrow(VnPayPaymentService::notFound);
+        entityManager.refresh(order, LockModeType.PESSIMISTIC_WRITE);
         Refund refund = refunds.lockById(id).orElseThrow(VnPayPaymentService::notFound);
         entityManager.refresh(refund, LockModeType.PESSIMISTIC_WRITE);
         return refund;
     }
 
-    private Order lockOrder(Long id) {
-        Order order = orders.lockById(id).orElseThrow(VnPayPaymentService::notFound);
-        entityManager.refresh(order, LockModeType.PESSIMISTIC_WRITE);
-        return order;
-    }
-
     private PaymentAttempt lockAttempt(Long id) {
-        if (id == null) throw conflict("Yêu cầu hoàn tiền cũ chưa có giao dịch VNPay để xác minh");
+        if (id == null) throw conflict("Yêu cầu chưa có thông tin khoản thanh toán VNPay đã thu");
         PaymentAttempt attempt = attempts.lockById(id).orElseThrow(VnPayPaymentService::notFound);
         entityManager.refresh(attempt, LockModeType.PESSIMISTIC_WRITE);
         return attempt;
-    }
-
-    private boolean pending(Refund refund) {
-        return refund.getStatus() == RefundStatus.PROCESSING || refund.getStatus() == RefundStatus.NEEDS_REVIEW;
     }
 
     private void updatePaymentStatus(Order order) {
@@ -264,13 +178,11 @@ public class RefundService {
         order.setPaymentStatus(allRefunded ? PaymentStatus.REFUNDED : PaymentStatus.REFUND_PENDING);
     }
 
-    private void audit(Refund refund, String action, String status, String note, String actor) {
-        String key = "refund:" + refund.getId() + ":" + action;
-        if (!events.existsByEventKey(key)) {
-            events.save(PaymentEvent.builder().eventKey(key).orderId(refund.getOrder().getId())
-                    .attemptId(refund.getPaymentAttemptId()).type("REFUND_" + action).status(status)
-                    .createdAt(clock.instant()).resolutionNote(note).resolvedBy(actor).build());
-        }
+    private void audit(Refund refund, String action, String note, String actor) {
+        events.save(PaymentEvent.builder().eventKey("refund:" + refund.getId() + ":" + refund.getVersion() + ":" + action)
+                .orderId(refund.getOrder().getId()).attemptId(refund.getPaymentAttemptId())
+                .type("REFUND_" + action).status("RECORDED").createdAt(clock.instant())
+                .resolutionNote(note).resolvedBy(actor).build());
     }
 
     private void resolveMoneyReviews(Refund refund) {
@@ -280,25 +192,21 @@ public class RefundService {
                 event.setStatus("RESOLVED");
                 event.setResolvedAt(clock.instant());
                 event.setResolvedBy(refund.getProcessedBy());
-                event.setResolutionNote("Đã hoàn tiền, yêu cầu #" + refund.getId() + ", giao dịch " + refund.getProviderTransactionNo());
+                event.setResolutionNote("Quản trị viên xác nhận đã hoàn tiền, yêu cầu #" + refund.getId());
             }
         }
     }
 
-    public record Dispatch(Long id, String requestId, String txnRef, long amountVnd, Instant paymentCreatedAt,
-                           Map<String, String> payload) {}
-
-    public record Summary(Long id, Long orderId, Long paymentAttemptId, long amountVnd, String reason,
-            RefundStatus status, String requestedBy, String approvedBy, String processedBy,
-            String providerRequestId, String providerTransactionNo, String providerResponseCode,
-            String providerTransactionStatus, String lastError, LocalDateTime createdAt, Instant approvedAt,
-            Instant providerRequestedAt, LocalDateTime processedAt) {
+    public record Summary(Long id, Long orderId, String recipientName, String phoneNumber, OrderStatus orderStatus,
+            Instant cancelledAt, long amountVnd, String reason, RefundStatus status, String approvedBy,
+            String processedBy, String note, LocalDateTime createdAt, Instant approvedAt, Instant processedAt) {
         static Summary from(Refund r) {
-            return new Summary(r.getId(), r.getOrder().getId(), r.getPaymentAttemptId(), r.getAmountVnd(),
-                    r.getReason(), r.getStatus(), r.getRequestedBy(), r.getApprovedBy(), r.getProcessedBy(),
-                    r.getProviderRequestId(), r.getProviderTransactionNo(), r.getProviderResponseCode(),
-                    r.getProviderTransactionStatus(), r.getLastError(), r.getCreatedAt(), r.getApprovedAt(),
-                    r.getProviderRequestedAt(), r.getProcessedAt());
+            Order order = r.getOrder();
+            return new Summary(r.getId(), order.getId(), order.getRecipientName(), order.getPhoneNumber(),
+                    order.getStatus(), order.getCancelledAt(), r.getAmountVnd(), r.getReason(), r.getStatus(),
+                    r.getApprovedBy(), r.getProcessedBy(), r.getProcessedAt() == null ? null : r.getLastError(),
+                    r.getCreatedAt(), r.getApprovedAt(),
+                    r.getProcessedAt() == null ? null : r.getProcessedAt().toInstant(ZoneOffset.UTC));
         }
     }
 }

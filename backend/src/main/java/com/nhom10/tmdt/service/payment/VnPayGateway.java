@@ -20,6 +20,7 @@ import java.util.HexFormat;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -119,19 +120,32 @@ public final class VnPayGateway {
             throw new InvalidCallback("99", "Invalid currency");
         }
         String ref = required(params, "vnp_TxnRef", "[A-Za-z0-9]{1,100}", "99");
+        required(params, "vnp_OrderInfo", "(?s).{1,255}", "99");
+        return paymentResult(params, ref, wire.divide(BigInteger.valueOf(100)).longValueExact());
+    }
+
+    private Callback paymentResult(Map<String, String> params, String ref, long amountVnd) {
         String response = required(params, "vnp_ResponseCode", "[0-9]{2}", "99");
         String status = required(params, "vnp_TransactionStatus", "[0-9]{2}", "99");
-        String transactionNo = required(params, "vnp_TransactionNo", "[0-9]{1,15}", "99");
-        String bank = required(params, "vnp_BankCode", "[A-Za-z0-9]{3,20}", "99");
-        required(params, "vnp_OrderInfo", "(?s).{1,255}", "99");
+        boolean success = "00".equals(response) && "00".equals(status);
+        String transactionNo = params.get("vnp_TransactionNo");
+        if (!success && (transactionNo == null || transactionNo.isEmpty())) transactionNo = "0";
+        if (transactionNo == null || !transactionNo.matches("[0-9]{1,15}")
+                || (success && new BigInteger(transactionNo).signum() <= 0)) {
+            throw new InvalidCallback("99", "Invalid payment receipt");
+        }
+        String bank = params.get("vnp_BankCode");
+        if (bank == null || bank.isEmpty()) {
+            if (success) throw new InvalidCallback("99", "Missing payment bank");
+            bank = null;
+        } else if (!bank.matches("[A-Za-z0-9]{3,20}")) {
+            throw new InvalidCallback("99", "Invalid payment bank");
+        }
         String payDate = params.get("vnp_PayDate");
         if (payDate != null && !payDate.isEmpty() && !payDate.matches("[0-9]{14}")) {
             throw new InvalidCallback("99", "Invalid pay date");
         }
-        if ("00".equals(response) && "00".equals(status) && new BigInteger(transactionNo).signum() == 0) {
-            throw new InvalidCallback("99", "Successful payment requires a transaction number");
-        }
-        return new Callback(ref, merchant, wire.divide(BigInteger.valueOf(100)).longValueExact(),
+        return new Callback(ref, merchant, amountVnd,
                 response, status, transactionNo, bank, payDate);
     }
 
@@ -159,59 +173,9 @@ public final class VnPayGateway {
         return request;
     }
 
-    public Map<String, String> buildRefundRequest(String requestId, String ref, long amountVnd,
-            String transactionNo, Instant paymentCreatedAt, String actor, Instant requestedAt, String ip) {
-        validateIp(ip);
-        Map<String, String> request = new java.util.LinkedHashMap<>();
-        request.put("vnp_RequestId", checked(requestId, "[A-Za-z0-9]{1,32}", "requestId"));
-        request.put("vnp_Version", "2.1.0");
-        request.put("vnp_Command", "refund");
-        request.put("vnp_TmnCode", merchant);
-        request.put("vnp_TransactionType", "02");
-        request.put("vnp_TxnRef", checked(ref, "[A-Za-z0-9]{1,100}", "txnRef"));
-        request.put("vnp_Amount", wireAmount(amountVnd));
-        request.put("vnp_TransactionNo", checked(transactionNo, "[0-9]{1,15}", "transactionNo"));
-        request.put("vnp_TransactionDate", DATE.format(paymentCreatedAt));
-        request.put("vnp_CreateBy", checked(actor, "[^|\\p{Cntrl}]{1,245}", "actor"));
-        request.put("vnp_CreateDate", DATE.format(requestedAt));
-        request.put("vnp_IpAddr", ip);
-        request.put("vnp_OrderInfo", "Hoan tien giao dich " + ref);
-        request.put("vnp_SecureHash", HexFormat.of().formatHex(hmac(String.join("|", request.values()))));
-        return Map.copyOf(request);
-    }
-
-    public RefundResult validateRefundResponse(Map<String, String> response, String ref, long amountVnd,
-            String command) {
-        if (!"refund".equals(command) && !"querydr".equals(command)) {
-            throw new IllegalArgumentException("Invalid refund response command");
-        }
-        validateApiSignature(response, "querydr".equals(command));
-        if (!merchant.equals(response.get("vnp_TmnCode")) || !ref.equals(response.get("vnp_TxnRef"))
-                || !command.equals(response.get("vnp_Command"))
-                || !"02".equals(response.get("vnp_TransactionType"))) {
-            throw new InvalidCallback("97", "Refund reference, merchant or type mismatch");
-        }
-        if (!new BigInteger(required(response, "vnp_Amount", "[0-9]{1,12}", "04"))
-                .equals(new BigInteger(wireAmount(amountVnd)))) {
-            throw new InvalidCallback("04", "Refund amount mismatch");
-        }
-        String receipt = required(response, "vnp_TransactionNo", "[0-9]{1,15}", "99");
-        String code = required(response, "vnp_ResponseCode", "[0-9]{2}", "99");
-        String status = required(response, "vnp_TransactionStatus", "[0-9]{2}", "99");
-        if ("00".equals(code) && "00".equals(status) && new BigInteger(receipt).signum() <= 0) {
-            throw new InvalidCallback("99", "Missing refund receipt");
-        }
-        return new RefundResult(required(response, "vnp_ResponseId", "[A-Za-z0-9-]{1,32}", "99"),
-                receipt, code, status);
-    }
-
-    public record RefundResult(String responseId, String transactionNo, String responseCode,
-                               String transactionStatus) {}
-
-    /** QueryDR has a different signature format from PAY/IPN. Only verified settled payments are applied. */
     public Optional<Callback> validateQueryResponse(Map<String, String> response, String ref, long amountVnd) {
         if (!"00".equals(response.get("vnp_ResponseCode"))) return Optional.empty();
-        validateApiSignature(response, true);
+        validateApiSignature(response);
         if (!merchant.equals(response.get("vnp_TmnCode")) || !ref.equals(response.get("vnp_TxnRef"))
                 || !"querydr".equals(response.get("vnp_Command"))) {
             throw new InvalidCallback("97", "Invalid QueryDR reference or merchant");
@@ -220,21 +184,18 @@ public final class VnPayGateway {
         if (!new BigInteger(amount).equals(new BigInteger(wireAmount(amountVnd)))) {
             throw new InvalidCallback("04", "QueryDR amount mismatch");
         }
-        if (!"00".equals(response.get("vnp_TransactionStatus"))
-                || !"01".equals(response.get("vnp_TransactionType"))) return Optional.empty();
-        String receipt = required(response, "vnp_TransactionNo", "[0-9]{1,15}", "99");
-        if (new BigInteger(receipt).signum() <= 0) throw new InvalidCallback("99", "Missing QueryDR receipt");
-        return Optional.of(new Callback(ref, merchant, amountVnd, "00", "00", receipt,
-                required(response, "vnp_BankCode", "[A-Za-z0-9]{3,20}", "99"),
-                required(response, "vnp_PayDate", "[0-9]{14}", "99")));
+        if (!"01".equals(response.get("vnp_TransactionType"))
+                || !("00".equals(response.get("vnp_TransactionStatus"))
+                || "02".equals(response.get("vnp_TransactionStatus")))) return Optional.empty();
+        return Optional.of(paymentResult(response, ref, amountVnd));
     }
 
-    private void validateApiSignature(Map<String, String> response, boolean query) {
+    private void validateApiSignature(Map<String, String> response) {
         String data = java.util.stream.Stream.of("vnp_ResponseId", "vnp_Command", "vnp_ResponseCode",
                         "vnp_Message", "vnp_TmnCode", "vnp_TxnRef", "vnp_Amount", "vnp_BankCode", "vnp_PayDate",
                         "vnp_TransactionNo", "vnp_TransactionType", "vnp_TransactionStatus", "vnp_OrderInfo")
                 .map(key -> Objects.toString(response.get(key), "")).collect(Collectors.joining("|"));
-        if (query) data += "|" + Objects.toString(response.get("vnp_PromotionCode"), "")
+        data += "|" + Objects.toString(response.get("vnp_PromotionCode"), "")
                 + "|" + Objects.toString(response.get("vnp_PromotionAmount"), "");
         String hash = response.get("vnp_SecureHash");
         if (hash == null || !hash.matches("[0-9A-Fa-f]{128}")
@@ -339,6 +300,10 @@ public final class VnPayGateway {
                            String transactionStatus, String transactionNo, String bankCode, String payDate) {
         public boolean successful() {
             return "00".equals(responseCode) && "00".equals(transactionStatus);
+        }
+        public boolean failed() {
+            return "02".equals(transactionStatus)
+                    && Set.of("00", "09", "10", "11", "12", "13", "24", "51", "65", "75", "79").contains(responseCode);
         }
     }
 

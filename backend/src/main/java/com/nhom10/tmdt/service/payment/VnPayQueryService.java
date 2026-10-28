@@ -42,13 +42,6 @@ public class VnPayQueryService {
         attempts.findById(id).ifPresent(this::refresh);
     }
 
-    public void refreshReturned(VnPayGateway.Callback callback) {
-        attempts.findByTxnRef(callback.txnRef())
-                .filter(attempt -> callback.merchantCode().equals(attempt.getMerchantCode())
-                        && callback.amountVnd() == attempt.getAmountVnd())
-                .ifPresent(this::refresh);
-    }
-
     private void refresh(PaymentAttempt attempt) {
         if (!properties.isEnabled() || !"VNPAY".equals(attempt.getProvider())
                 || !attempt.getMerchantCode().equals(properties.getTmnCode())
