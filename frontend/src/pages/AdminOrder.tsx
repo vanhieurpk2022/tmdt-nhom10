@@ -12,6 +12,7 @@ import {
     faBoxesPacking,
     faTriangleExclamation,
     faTruckFast,
+    faBoxesStacked,
 } from "@fortawesome/free-solid-svg-icons";
 
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
@@ -365,6 +366,11 @@ export default function AdminOrder() {
                             <FontAwesomeIcon icon={faRotate} className={loading ? "fa-spin" : ""} />
                             <span>Làm mới</span>
                         </button>
+
+                        <Link to={ROUTES.ADMIN_PRODUCT} className="btn-action-secondary text-decoration-none">
+                            <FontAwesomeIcon icon={faBoxesStacked} className="me-1" />
+                            Quản lý Sản phẩm
+                        </Link>
 
                         <Link to={ROUTES.PAYMENT_REVIEWS} className="btn-action-secondary text-decoration-none">
                             Đối soát VNPay

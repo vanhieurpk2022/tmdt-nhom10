@@ -44,6 +44,7 @@ import { Admin } from './pages/Admin';
 import WorkshopManagement from './pages/WorkshopManagement';
 import UserManager from './pages/UserManager';
 import AdminOrder from './pages/AdminOrder';
+import AdminProductPage from './pages/AdminProductPage';
 import { AdminSale } from './pages/AdminSale';
 import { AdminSupport } from './pages/AdminSupport';
 import { FactoryDashBoard } from './pages/FactoryDashBoard';
@@ -90,6 +91,10 @@ createRoot(document.getElementById('root')!).render(
                   <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
                   <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
                   <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
+                  <Route path={ROUTES.ADMIN_PRODUCT} element={<AdminProductPage />} />
+                  <Route path="/admin-products" element={<AdminProductPage />} />
+                  <Route path="/admin/products" element={<AdminProductPage />} />
+                  <Route path="/admin/product" element={<AdminProductPage />} />
                   <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute requiredRole="ADMIN"><PaymentReviewsPage /></ProtectedRoute>} />
                   <Route path={ROUTES.REFUNDS} element={<ProtectedRoute requiredRole="ADMIN"><RefundsPage /></ProtectedRoute>} />
                   <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
