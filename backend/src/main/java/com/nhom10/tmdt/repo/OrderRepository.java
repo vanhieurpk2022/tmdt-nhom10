@@ -147,4 +147,34 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
             """)
     long sumRevenueByFactoryId(@Param("factoryId") Long factoryId,
                                @Param("from") LocalDateTime from);
+
+    /**
+     * Lấy tất cả đơn hàng thuộc factory trong khoảng [from, to] — dùng cho biểu đồ dashboard.
+     */
+    @Query("""
+            SELECT DISTINCT o FROM Order o
+            JOIN o.orderItems oi
+            JOIN oi.product p
+            WHERE p.factory.id = :factoryId
+              AND o.createdAt >= :from
+              AND o.createdAt <= :to
+            ORDER BY o.createdAt ASC
+            """)
+    List<Order> findOrdersByFactoryIdAndDateRange(
+            @Param("factoryId") Long factoryId,
+            @Param("from") LocalDateTime from,
+            @Param("to") LocalDateTime to
+    );
+
+    /**
+     * Đếm đơn hàng theo từng trạng thái của factory — dùng cho biểu đồ tròn
+     */
+    @Query("""
+            SELECT o.status, COUNT(DISTINCT o) FROM Order o
+            JOIN o.orderItems oi
+            JOIN oi.product p
+            WHERE p.factory.id = :factoryId
+            GROUP BY o.status
+            """)
+    List<Object[]> countOrdersGroupByStatus(@Param("factoryId") Long factoryId);
 }

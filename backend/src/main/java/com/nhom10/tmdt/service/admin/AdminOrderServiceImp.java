@@ -4,6 +4,9 @@ import com.nhom10.tmdt.dto.admin.*;
 import com.nhom10.tmdt.enums.*;
 import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.*;
+import com.nhom10.tmdt.service.order.OrderCancellationService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -14,8 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -23,7 +28,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class AdminOrderServiceImp implements AdminOrderService {
 
     private final OrderRepository orderRepository;
@@ -32,6 +37,8 @@ public class AdminOrderServiceImp implements AdminOrderService {
     private final ProductRepository productRepository;
     private final FactoryRepository factoryRepository;
     private final RefundRepository refundRepository;
+    private final OrderCancellationService cancellations;
+    private final EntityManager entityManager;
 
     @Override
     @Transactional(readOnly = true)
@@ -153,17 +160,10 @@ public class AdminOrderServiceImp implements AdminOrderService {
 
     @Override
     public AdminOrderDetailResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
-
-        if (request.getStatus() != null) {
-            order.setStatus(request.getStatus());
-            if (request.getStatus() == OrderStatus.DELIVERED) {
-                order.setDeliveredAt(LocalDateTime.now());
-            } else if (request.getStatus() == OrderStatus.CANCELLED) {
-                order.setCancelReason(request.getCancelReason() != null ? request.getCancelReason() : CancelReason.CUSTOMER_CHANGED_MIND);
-            }
-        }
+        Order order = lockedOrder(id);
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        cancellations.updateStatus(order, request.getStatus(), request.getCancelReason(), request.getNote(),
+                auth == null ? "ADMIN" : auth.getName());
 
         if (request.getNote() != null && !request.getNote().isBlank()) {
             String existingNote = order.getNote() != null ? order.getNote() + " | " : "";
@@ -175,113 +175,16 @@ public class AdminOrderServiceImp implements AdminOrderService {
     }
 
     @Override
-    public AdminOrderDetailResponse createDispatchOrder(AdminCreateDispatchOrderRequest request) {
-        User user = null;
-        if (request.getUserId() != null) {
-            user = userRepository.findById(request.getUserId()).orElse(null);
-        }
-        if (user == null) {
-            user = userRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Hệ thống chưa có người dùng nào để gán đơn"));
-        }
-
-        Product product = null;
-        if (request.getProductId() != null) {
-            product = productRepository.findById(request.getProductId()).orElse(null);
-        }
-        if (product == null) {
-            product = productRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Hệ thống chưa có sản phẩm nào"));
-        }
-
-        int qty = (request.getQuantity() != null && request.getQuantity() > 0) ? request.getQuantity() : 1;
-        double unitPrice = request.getUnitPrice() != null ? request.getUnitPrice() : (product.getPrice() != null ? product.getPrice() : 800000.0);
-        double shipping = request.getShippingFee() != null ? request.getShippingFee() : 35000.0;
-        double discount = request.getDiscountAmount() != null ? request.getDiscountAmount() : 35000.0;
-        double subtotal = unitPrice * qty;
-        double total = Math.max(0.0, subtotal + shipping - discount);
-
-        Order order = Order.builder()
-                .user(user)
-                .recipientName(request.getRecipientName() != null ? request.getRecipientName() : user.getFullname())
-                .phoneNumber(request.getPhoneNumber() != null ? request.getPhoneNumber() : user.getPhone())
-                .shippingAddress(request.getShippingAddress() != null ? request.getShippingAddress() : "Hà Nội, Việt Nam")
-                .note(request.getNote() != null ? request.getNote() : "Đơn gia công điều phối xưởng")
-                .status(OrderStatus.PENDING)
-                .paymentMethod(PaymentMethod.COD)
-                .paymentStatus(PaymentStatus.PENDING)
-                .subtotalPrice(subtotal)
-                .shippingFee(shipping)
-                .discountAmount(discount)
-                .totalPrice(total)
-                .payableAmountVnd(Math.round(total))
-                .checkoutKey("DISPATCH-" + UUID.randomUUID())
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        Order savedOrder = orderRepository.save(order);
-
-        OrderItem orderItem = OrderItem.builder()
-                .order(savedOrder)
-                .product(product)
-                .quantity(qty)
-                .unitPrice(unitPrice)
-                .build();
-
-        orderItemRepository.save(orderItem);
-
-        savedOrder.setOrderItems(new ArrayList<>(List.of(orderItem)));
-        return mapToDetail(savedOrder);
-    }
-
-    @Override
-    public AdminOrderDetailResponse quickDispatch(Long id, Long factoryId, String dispatchNote) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
-
-        order.setStatus(OrderStatus.CONFIRMED);
-
-        Factory factory = null;
-        if (factoryId != null) {
-            factory = factoryRepository.findById(factoryId).orElse(null);
-        }
-
-        String noteAppend = "[Admin đã duyệt & Điều phối xưởng" + (factory != null ? ": " + factory.getName() : "") + "]";
-        if (dispatchNote != null && !dispatchNote.isBlank()) {
-            noteAppend += " - " + dispatchNote.trim();
-        }
-
-        String existingNote = order.getNote() != null ? order.getNote() + " | " : "";
-        order.setNote(existingNote + noteAppend);
-
-        Order saved = orderRepository.save(order);
-        return mapToDetail(saved);
-    }
-
-    @Override
-    public AdminOrderDetailResponse reassignFactory(Long id, Long factoryId, String reason) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
-
-        Factory factory = factoryRepository.findById(factoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy xưởng với ID: " + factoryId));
-
-        String changeNote = "[Đã chuyển giao xưởng chế tác: " + factory.getName() + (reason != null && !reason.isBlank() ? " | Lý do: " + reason.trim() : "") + "]";
-        String existingNote = order.getNote() != null ? order.getNote() + " | " : "";
-        order.setNote(existingNote + changeNote);
-
-        Order saved = orderRepository.save(order);
-        return mapToDetail(saved);
-    }
-
-    @Override
     public void deleteOrder(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
+        updateOrderStatus(id, UpdateOrderStatusRequest.builder().status(OrderStatus.CANCELLED)
+                .cancelReason(CancelReason.CUSTOMER_CHANGED_MIND).build());
+    }
 
-        order.setStatus(OrderStatus.CANCELLED);
-        order.setCancelReason(CancelReason.CUSTOMER_CHANGED_MIND);
-        orderRepository.save(order);
+    private Order lockedOrder(Long id) {
+        Order order = orderRepository.lockById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
+        entityManager.refresh(order, LockModeType.PESSIMISTIC_WRITE);
+        return order;
     }
 
     private AdminOrderListItemResponse mapToListItem(Order order) {
@@ -400,7 +303,7 @@ public class AdminOrderServiceImp implements AdminOrderService {
                         .orderId(order.getId())
                         .reason(r.getReason())
                         .status(r.getStatus())
-                        .amount(r.getAmount())
+                        .amount(r.getAmountVnd())
                         .createdAt(r.getCreatedAt())
                         .processedAt(r.getProcessedAt())
                         .build())

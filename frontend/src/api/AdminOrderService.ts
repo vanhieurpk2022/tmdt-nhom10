@@ -1,9 +1,10 @@
 import api from "./api";
 import type { ApiResponse } from "./api";
 import type { OrderStatus } from "../enums/OrderStatus";
-import type { PaymentMethod } from "../enums/PaymentMethod";
-import type { PaymentStatus } from "../enums/PaymentStatus";
+import type { PaymentMethod, OrderResponse } from "./OrderService";
 import type { ProductType } from "../enums/ProductType";
+
+type PaymentStatus = NonNullable<OrderResponse["paymentStatus"]>;
 
 export interface AdminOrderListItem {
     id: number;
@@ -102,22 +103,6 @@ export interface AdminOrderDetail {
     }>;
 }
 
-export interface AdminCreateDispatchOrderPayload {
-    userId?: number;
-    recipientName: string;
-    phoneNumber: string;
-    shippingAddress: string;
-    note?: string;
-    productId?: number;
-    factoryId?: number;
-    quantity: number;
-    unitPrice?: number;
-    totalPrice?: number;
-    shippingFee?: number;
-    discountAmount?: number;
-    voucherCode?: string;
-}
-
 export const AdminOrderService = {
     // 1. Lấy danh sách đơn hàng toàn sàn với bộ lọc nâng cao
     getOrders: async (
@@ -169,31 +154,8 @@ export const AdminOrderService = {
         return res.data.data;
     },
 
-    // 5. Duyệt nhanh và chuyển lệnh điều phối sang xưởng gia công
-    quickDispatch: async (id: number, factoryId?: number, note?: string): Promise<AdminOrderDetail> => {
-        const res = await api.patch<ApiResponse<AdminOrderDetail>>(`/admin/orders/${id}/quick-dispatch`, null, {
-            params: { factoryId, note },
-        });
-        return res.data.data;
-    },
-
-    // 6. Điều phối lại xưởng gia công chế tác
-    reassignFactory: async (id: number, factoryId: number, reason?: string): Promise<AdminOrderDetail> => {
-        const res = await api.patch<ApiResponse<AdminOrderDetail>>(`/admin/orders/${id}/reassign-factory`, null, {
-            params: { factoryId, reason },
-        });
-        return res.data.data;
-    },
-
-    // 7. Tạo đơn điều phối
-    createDispatchOrder: async (payload: AdminCreateDispatchOrderPayload): Promise<AdminOrderDetail> => {
-        const res = await api.post<ApiResponse<AdminOrderDetail>>("/admin/orders/dispatch", payload);
-        return res.data.data;
-    },
-
-    // 8. Xóa / Hủy đơn hàng
+    // 5. Xóa / Hủy đơn hàng
     deleteOrder: async (id: number): Promise<void> => {
         await api.delete<ApiResponse<void>>(`/admin/orders/${id}`);
     },
 };
-

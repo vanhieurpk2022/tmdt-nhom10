@@ -3,6 +3,7 @@ package com.nhom10.tmdt.repo;
 import com.nhom10.tmdt.dto.factory.FactoryProductItem;
 import com.nhom10.tmdt.dto.factory.FactoryProductResponse;
 import com.nhom10.tmdt.dto.factory.FactoryProductStats;
+import com.nhom10.tmdt.dto.product.CategoryDto;
 import com.nhom10.tmdt.model.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,16 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     // Đếm số sản phẩm theo từng category để hiển thị (18), (12)... trong bộ lọc (chỉ tính sản phẩm bán lẻ thông thường)
     @Query("SELECT p.category.id, COUNT(p) FROM Product p WHERE p.category IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.category.id")
     List<Object[]> countByCategory();
+
+    @Query("""
+        SELECT new com.nhom10.tmdt.dto.product.CategoryDto(c.id, c.name, COUNT(p))
+        FROM Product p JOIN p.category c
+        WHERE p.factory.id = :factoryId
+          AND (p.productType = 'NORMAL' OR p.productType IS NULL)
+        GROUP BY c.id, c.name
+        ORDER BY c.name
+        """)
+    List<CategoryDto> findCategoriesByFactoryId(@Param("factoryId") Long factoryId);
 
     // Đếm số sản phẩm theo từng factory (chỉ tính sản phẩm bán lẻ thông thường)
     @Query("SELECT p.factory.id, COUNT(p) FROM Product p WHERE p.factory IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.factory.id")

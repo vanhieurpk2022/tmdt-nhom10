@@ -66,43 +66,6 @@ public class AdminOrderController {
     }
 
     /**
-     * Tạo đơn điều phối vận hành & chuyển lệnh sản xuất sang xưởng chế tác
-     */
-    @PostMapping("/dispatch")
-    public ApiResponse<AdminOrderDetailResponse> createDispatchOrder(
-            @RequestBody AdminCreateDispatchOrderRequest request
-    ) {
-        AdminOrderDetailResponse created = adminOrderService.createDispatchOrder(request);
-        return new ApiResponse<>(201, "Tạo đơn điều phối thành công", created);
-    }
-
-    /**
-     * Duyệt nhanh và chuyển lệnh điều phối sang xưởng gia công
-     */
-    @PatchMapping("/{id}/quick-dispatch")
-    public ApiResponse<AdminOrderDetailResponse> quickDispatch(
-            @PathVariable Long id,
-            @RequestParam(required = false) Long factoryId,
-            @RequestParam(required = false) String note
-    ) {
-        AdminOrderDetailResponse updated = adminOrderService.quickDispatch(id, factoryId, note);
-        return new ApiResponse<>(200, "Duyệt đơn và chuyển lệnh xưởng thành công", updated);
-    }
-
-    /**
-     * Điều phối lại xưởng gia công chế tác
-     */
-    @PatchMapping("/{id}/reassign-factory")
-    public ApiResponse<AdminOrderDetailResponse> reassignFactory(
-            @PathVariable Long id,
-            @RequestParam Long factoryId,
-            @RequestParam(required = false) String reason
-    ) {
-        AdminOrderDetailResponse updated = adminOrderService.reassignFactory(id, factoryId, reason);
-        return new ApiResponse<>(200, "Điều phối lại xưởng gia công thành công", updated);
-    }
-
-    /**
      * Hủy đơn hàng
      */
     @DeleteMapping("/{id}")

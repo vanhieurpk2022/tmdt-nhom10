@@ -34,6 +34,13 @@ export interface EditableVariant {
     stockQuantity: number;
 }
 
+export interface CustomProductComponent {
+    productId: number;
+    productName: string;
+    percentage: number;
+    note?: string;
+}
+
 export interface FactoryProductItem {
     id: number;
     name: string;
@@ -44,6 +51,10 @@ export interface FactoryProductItem {
     status?: ProductStatus;
     type?: ProductType;
     thumbnailUrl: string;
+    imageUrl?: string;
+    price?: number;
+    description?: string;
+    components?: CustomProductComponent[];
 }
 
 
@@ -53,10 +64,50 @@ export interface FactoryProductCreateRequest {
     category: string,
     type: ProductType,
     description: string,
-    imageUrls: string[]
+    imageUrls: string[],
+    components?: CustomProductComponent[]
 }
 
 export interface FactoryProductResponse {
     stats: FactoryProductStats;
     products: FactoryProductItem[];
+}
+
+/** Response trả về từ GET /manager/products/{id} */
+export interface FactoryProductEditRes {
+    id: number | null;
+    name: string;
+    category: string;
+    type: ProductType;
+    status?: ProductStatus;
+    description: string;
+}
+
+export interface FactoryCustomRecipeItem {
+    id?: number;
+    productId: number;
+    productName?: string;
+    percentage: number;
+    volumeMl?: number;
+    note?: string;
+}
+
+export interface FactoryCustomRecipeDto {
+    productCustomId: number | null;
+    bottleType?: string | null;
+    labelDesign?: string | null;
+    notes: string;
+    items: FactoryCustomRecipeItem[];
+}
+
+export interface FactoryCustomRecipeSaveRequest {
+    bottleType?: string;
+    labelDesign?: string;
+    notes: string;
+    items: {
+        productId: number;
+        percentage: number;
+        volumeMl?: number;
+        note?: string;
+    }[];
 }

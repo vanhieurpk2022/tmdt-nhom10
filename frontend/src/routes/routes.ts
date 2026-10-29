@@ -3,6 +3,7 @@ export const ROUTES = {
   PRODUCTS: "/products",
   PRODUCT_DETAIL: "/product-detail",
   FACTORIES: "/factories",
+  FACTORY_DETAIL: "/factories",
   CUSTOM_SCENT: "/custom-scent",
   CART: "/cart",
   CHECKOUT: "/checkout",
@@ -10,6 +11,8 @@ export const ROUTES = {
   VNPAY_RESULT: "/payment/vnpay/result",
   PAYMENT_REVIEWS: "/admin-payment-reviews",
   ORDERS: "/orders",
+  ORDER_DETAIL: "/orders/:id",
+  REFUNDS: "/admin-refunds",
   PROFILE: "/profile",
   CHANGE_PASSWORD: "/change-password",
   ADDRESSES: "/addresses",
@@ -30,7 +33,6 @@ export const ROUTES = {
   ADMIN_WORKSHOP: "/admin-workshop",
   ADMIN_CUSTOMER: "/admin-customer",
   ADMIN_ORDER: "/admin-order",
-  ADMIN_ORDER_DISPATCH: "/admin-order-dispatch",
   AdMIN_SALE: "/admin-sale",
   ADMIN_SUPPORT: "/admin-support",
 
@@ -44,5 +46,4 @@ export const ROUTES = {
   FACTORY_SUPPORT: "/factory-support",
   FACTORY_FORM: "/factory-register",
   FACTORY_PRODUCT_DETAILS: "/factory-product"
-
-} as const;
+}

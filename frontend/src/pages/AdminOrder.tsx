@@ -3,26 +3,22 @@ import { Link } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faMagnifyingGlass,
-    faPenToSquare,
-    faTrash,
     faEye,
     faBagShopping,
     faClock,
     faCircleCheck,
     faDownload,
-    faCirclePlus,
     faRotate,
     faBoxesPacking,
     faTriangleExclamation,
-    faIndustry,
-    faClipboardCheck,
-    faFlask,
+    faTruckFast,
 } from "@fortawesome/free-solid-svg-icons";
 
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { ROUTES } from "../routes/routes";
 import { OrderStatus } from "../enums/OrderStatus";
+import { getPaymentStatusLabel } from "../api/OrderService";
 import { ProductType } from "../enums/ProductType";
 import { PaymentStatus } from "../enums/PaymentStatus";
 import {
@@ -31,9 +27,7 @@ import {
     type AdminOrderStats,
     type AdminOrderDetail,
 } from "../api/AdminOrderService";
-import { FactoryApiService, type FactoryItem } from "../api/FactoryService";
 import AdminOrderDetailModal from "../components/admin/order/AdminOrderDetailModal";
-import AdminUpdateOrderStatusModal from "../components/admin/order/AdminUpdateOrderStatusModal";
 import "../css/pages/user-admin.css";
 
 export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
@@ -50,11 +44,11 @@ export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: strin
         badge: "bg-primary-subtle text-primary-emphasis",
     },
     [OrderStatus.PROCESSING]: {
-        label: "Đang gia công",
+        label: "Đang đóng gói",
         badge: "bg-info-subtle text-info-emphasis",
     },
     [OrderStatus.DELIVERING]: {
-        label: "Đang giao",
+        label: "Đang giao hàng",
         badge: "bg-primary-subtle text-primary-emphasis",
     },
     [OrderStatus.SHIPPED]: {
@@ -62,11 +56,11 @@ export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: strin
         badge: "bg-info-subtle text-info-emphasis",
     },
     [OrderStatus.DELIVERED]: {
-        label: "Đã giao",
+        label: "Đã giao thành công",
         badge: "bg-success-subtle text-success-emphasis",
     },
     [OrderStatus.CANCELLED]: {
-        label: "Đã hủy",
+        label: "Đã hủy đơn",
         badge: "bg-danger-subtle text-danger-emphasis",
     },
     [OrderStatus.RETURNED]: {
@@ -126,14 +120,12 @@ export default function AdminOrder() {
     // Data states
     const [orders, setOrders] = useState<AdminOrderListItem[]>([]);
     const [stats, setStats] = useState<AdminOrderStats | null>(null);
-    const [factories, setFactories] = useState<FactoryItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     // Multi-dimensional Filter, Sort & Pagination states
     const [search, setSearch] = useState<string>("");
     const [statusFilter, setStatusFilter] = useState<string>("ALL");
-    const [factoryFilter, setFactoryFilter] = useState<string>("ALL");
     const [productTypeFilter, setProductTypeFilter] = useState<string>("ALL");
     const [paymentStatusFilter, setPaymentStatusFilter] = useState<string>("ALL");
     const [sortBy, setSortBy] = useState<string>("createdAt");
@@ -143,11 +135,9 @@ export default function AdminOrder() {
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalElements, setTotalElements] = useState<number>(0);
 
-    // Modal states
+    // Modal state: Chỉ xem chi tiết đơn hàng
     const [detailOrder, setDetailOrder] = useState<AdminOrderDetail | null>(null);
     const [loadingDetail, setLoadingDetail] = useState<boolean>(false);
-    const [editingOrder, setEditingOrder] = useState<AdminOrderListItem | AdminOrderDetail | null>(null);
-    const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
 
     // Toast state
     const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "danger" | "info" } | null>(null);
@@ -157,16 +147,7 @@ export default function AdminOrder() {
         setTimeout(() => setToastMessage(null), 4000);
     };
 
-    // Load available factories for filters & dispatching
-    useEffect(() => {
-        FactoryApiService.getAllFactories()
-            .then((list) => {
-                if (list) setFactories(list);
-            })
-            .catch((err) => console.error("Lỗi khi tải danh sách xưởng:", err));
-    }, []);
-
-    // 1. Fetch Orders List with advanced filters
+    // 1. Fetch Orders List with filters
     const fetchOrders = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -176,7 +157,7 @@ export default function AdminOrder() {
                 pageSize,
                 search,
                 statusFilter,
-                factoryFilter,
+                undefined,
                 productTypeFilter,
                 paymentStatusFilter,
                 sortBy,
@@ -191,7 +172,7 @@ export default function AdminOrder() {
         } finally {
             setLoading(false);
         }
-    }, [page, pageSize, search, statusFilter, factoryFilter, productTypeFilter, paymentStatusFilter, sortBy, sortDir]);
+    }, [page, pageSize, search, statusFilter, productTypeFilter, paymentStatusFilter, sortBy, sortDir]);
 
     // 2. Fetch Stats
     const fetchStats = useCallback(async () => {
@@ -225,75 +206,6 @@ export default function AdminOrder() {
         }
     };
 
-    // Handle quick dispatch: 1-click Approve & Dispatch to Factory
-    const handleQuickDispatch = async (orderItem: AdminOrderListItem | AdminOrderDetail) => {
-        try {
-            const defaultFactoryId = (orderItem as any).factoryId || (factories.length > 0 ? factories[0].id : undefined);
-            await AdminOrderService.quickDispatch(
-                orderItem.id,
-                defaultFactoryId,
-                "Duyệt đơn nhanh từ Dashboard quản trị viên"
-            );
-            showToast(`Đã duyệt đơn #${orderItem.id} và chuyển lệnh sang xưởng gia công!`, "success");
-            fetchOrders();
-            fetchStats();
-            if (detailOrder && detailOrder.id === orderItem.id) {
-                handleViewDetail(orderItem.id);
-            }
-        } catch (err: any) {
-            console.error("Lỗi duyệt & phát lệnh xưởng:", err);
-            showToast(err?.response?.data?.message || "Không thể chuyển lệnh sang xưởng.", "danger");
-        }
-    };
-
-    // Handle reassign factory
-    const handleReassignFactory = async (orderId: number, factoryId: number, reason?: string) => {
-        try {
-            await AdminOrderService.reassignFactory(orderId, factoryId, reason);
-            showToast(`Đã điều phối đơn #${orderId} sang xưởng mới thành công!`, "success");
-            fetchOrders();
-            if (detailOrder && detailOrder.id === orderId) {
-                handleViewDetail(orderId);
-            }
-        } catch (err: any) {
-            console.error("Lỗi chuyển xưởng:", err);
-            showToast(err?.response?.data?.message || "Không thể chuyển xưởng.", "danger");
-        }
-    };
-
-    // Handle open update status modal
-    const handleOpenUpdateModal = (orderItem: AdminOrderListItem | AdminOrderDetail) => {
-        setEditingOrder(orderItem);
-        setShowUpdateModal(true);
-    };
-
-    // Handle save status update
-    const handleSaveStatusUpdate = async (id: number, status: OrderStatus, note?: string, cancelReason?: string) => {
-        await AdminOrderService.updateOrderStatus(id, status, note, cancelReason);
-        showToast(`Đã cập nhật trạng thái đơn #${id} thành ${OrderStatusBadge[status]?.label || status}.`, "success");
-        fetchOrders();
-        fetchStats();
-        if (detailOrder && detailOrder.id === id) {
-            handleViewDetail(id);
-        }
-    };
-
-    // Handle delete / cancel order
-    const handleDeleteOrder = async (order: AdminOrderListItem) => {
-        if (!window.confirm(`Bạn có chắc chắn muốn hủy / xóa đơn hàng ${order.code || `#ORD-${order.id}`} không?`)) {
-            return;
-        }
-        try {
-            await AdminOrderService.deleteOrder(order.id);
-            showToast(`Đã chuyển đơn hàng #${order.id} sang trạng thái Đã hủy.`, "success");
-            fetchOrders();
-            fetchStats();
-        } catch (err: any) {
-            console.error("Lỗi khi xóa đơn hàng:", err);
-            showToast(err?.response?.data?.message || "Không thể hủy đơn hàng.", "danger");
-        }
-    };
-
     // Export CSV
     const handleExportCsv = () => {
         if (orders.length === 0) {
@@ -301,13 +213,12 @@ export default function AdminOrder() {
             return;
         }
 
-        const headers = ["Mã đơn", "Khách hàng", "SĐT", "Địa chỉ", "Xưởng chế tác", "Sản phẩm", "Loại", "Tổng tiền (VNĐ)", "Trạng thái", "Ngày tạo"];
+        const headers = ["Mã đơn", "Khách hàng", "SĐT", "Địa chỉ", "Sản phẩm", "Loại", "Tổng tiền (VNĐ)", "Trạng thái", "Ngày tạo"];
         const rows = orders.map((o) => [
             `"${o.code || `#ORD-${o.id}`}"`,
             `"${o.recipientName || o.customerName || ""}"`,
             `"${o.phoneNumber || o.customerPhone || ""}"`,
             `"${(o.shippingAddress || "").replace(/"/g, '""')}"`,
-            `"${(o.factoryName || "Nordic Lab").replace(/"/g, '""')}"`,
             `"${(o.productSummary || "").replace(/"/g, '""')}"`,
             `"${o.productType === ProductType.CUSTOM ? "Phối hương" : "Tiêu chuẩn"}"`,
             o.totalPrice || 0,
@@ -327,7 +238,7 @@ export default function AdminOrder() {
         showToast(`Đã tải xuống file CSV (${orders.length} đơn hàng)!`, "success");
     };
 
-    // Render pagination matching UserManager.tsx
+    // Render pagination
     const renderPagination = () => {
         const pages: (number | string)[] = [];
         const currentPageNumber = page + 1;
@@ -435,9 +346,9 @@ export default function AdminOrder() {
                             <span className="crumb-sep">›</span>
                             <span>Vận hành lõi</span>
                             <span className="crumb-sep">›</span>
-                            <span className="active-crumb">Quản lý đơn đặt hàng</span>
+                            <span className="active-crumb">Quản lý đơn hàng</span>
                         </div>
-                        <h1 className="h4 fw-bold text-dark mb-0">Quản lý Đơn đặt hàng &amp; Điều phối Xưởng</h1>
+                        <h1 className="h4 fw-bold text-dark mb-0">Quản lý Đơn đặt hàng</h1>
                     </div>
 
                     <div className="d-flex flex-wrap gap-2">
@@ -458,16 +369,14 @@ export default function AdminOrder() {
                         <Link to={ROUTES.PAYMENT_REVIEWS} className="btn-action-secondary text-decoration-none">
                             Đối soát VNPay
                         </Link>
+                        <Link to={ROUTES.REFUNDS} className="btn-action-secondary text-decoration-none">
+                            Hoàn tiền VNPay
+                        </Link>
 
                         <button className="btn-header-export" onClick={handleExportCsv} title="Xuất file vận đơn CSV">
                             <FontAwesomeIcon icon={faDownload} />
                             <span>Xuất file CSV</span>
                         </button>
-
-                        <Link to={ROUTES.ADMIN_ORDER_DISPATCH} className="btn-header-primary text-decoration-none">
-                            <FontAwesomeIcon icon={faCirclePlus} />
-                            <span>Tạo đơn điều phối</span>
-                        </Link>
                     </div>
                 </div>
 
@@ -518,27 +427,27 @@ export default function AdminOrder() {
                                 {stats ? stats.pendingCount.toLocaleString("vi-VN") : "..."}
                             </div>
                             <div className="metric-card-footer d-flex flex-wrap gap-1 align-items-center">
-                                <span className="metric-chip red">Cần tiếp nhận gấp</span>
-                                <span className="text-secondary ms-2 small">Chờ phát lệnh xưởng</span>
+                                <span className="metric-chip red">Đơn hàng mới</span>
+                                <span className="text-secondary ms-2 small">Chờ tiếp nhận</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Thẻ 3: Đang gia công & giao */}
+                    {/* Thẻ 3: Đang vận chuyển */}
                     <div className="col-12 col-sm-6 col-xl-3">
                         <div className="metric-card">
                             <div className="metric-card-top">
-                                <span className="metric-card-label">ĐANG GIA CÔNG TẠI XƯỞNG</span>
+                                <span className="metric-card-label">ĐANG GIAO HÀNG</span>
                                 <span className="metric-card-icon purple">
-                                    <FontAwesomeIcon icon={faFlask} />
+                                    <FontAwesomeIcon icon={faTruckFast} />
                                 </span>
                             </div>
                             <div className="metric-card-value">
-                                {stats ? stats.processingCount.toLocaleString("vi-VN") : "..."}
+                                {stats ? stats.deliveringCount.toLocaleString("vi-VN") : "..."}
                             </div>
                             <div className="metric-card-footer d-flex flex-wrap gap-1 align-items-center">
-                                <span className="metric-chip blue">Pha chế &amp; Đóng gói</span>
-                                <span className="text-secondary ms-2 small">Đang giao: {stats?.deliveringCount || 0}</span>
+                                <span className="metric-chip blue">Vận chuyển GHN</span>
+                                <span className="text-secondary ms-2 small">Đang xử lý: {stats?.processingCount || 0}</span>
                             </div>
                         </div>
                     </div>
@@ -567,7 +476,7 @@ export default function AdminOrder() {
                 <div className="filter-card mb-3">
                     <div className="row g-2 align-items-center">
                         {/* Tìm kiếm */}
-                        <div className="col-12 col-lg-3">
+                        <div className="col-12 col-md-4">
                             <div className="search-input-wrapper">
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                                 <input
@@ -583,7 +492,7 @@ export default function AdminOrder() {
                         </div>
 
                         {/* Lọc Trạng thái đơn */}
-                        <div className="col-6 col-sm-4 col-lg-2">
+                        <div className="col-6 col-md-2">
                             <select
                                 className="filter-select w-100"
                                 value={statusFilter}
@@ -593,9 +502,10 @@ export default function AdminOrder() {
                                 }}
                             >
                                 <option value="ALL">Trạng thái: Tất cả</option>
+                                <option value={OrderStatus.PENDING_PAYMENT}>Chờ thanh toán</option>
                                 <option value={OrderStatus.PENDING}>Chờ xác nhận</option>
                                 <option value={OrderStatus.CONFIRMED}>Đã xác nhận</option>
-                                <option value={OrderStatus.PROCESSING}>Đang gia công xưởng</option>
+                                <option value={OrderStatus.PROCESSING}>Đang đóng gói</option>
                                 <option value={OrderStatus.DELIVERING}>Đang giao hàng</option>
                                 <option value={OrderStatus.SHIPPED}>Đã gửi hàng</option>
                                 <option value={OrderStatus.DELIVERED}>Đã giao thành công</option>
@@ -603,27 +513,8 @@ export default function AdminOrder() {
                             </select>
                         </div>
 
-                        {/* Lọc Xưởng chế tác */}
-                        <div className="col-6 col-sm-4 col-lg-2">
-                            <select
-                                className="filter-select w-100"
-                                value={factoryFilter}
-                                onChange={(e) => {
-                                    setFactoryFilter(e.target.value);
-                                    setPage(0);
-                                }}
-                            >
-                                <option value="ALL">Xưởng: Tất cả xưởng</option>
-                                {factories.map((f) => (
-                                    <option key={f.id} value={f.id}>
-                                        {f.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
                         {/* Lọc Loại sản phẩm (Custom vs Normal) */}
-                        <div className="col-6 col-sm-4 col-lg-2">
+                        <div className="col-6 col-md-2">
                             <select
                                 className="filter-select w-100"
                                 value={productTypeFilter}
@@ -639,7 +530,7 @@ export default function AdminOrder() {
                         </div>
 
                         {/* Lọc Trạng thái thanh toán */}
-                        <div className="col-6 col-sm-4 col-lg-2">
+                        <div className="col-6 col-md-2">
                             <select
                                 className="filter-select w-100"
                                 value={paymentStatusFilter}
@@ -655,14 +546,13 @@ export default function AdminOrder() {
                         </div>
 
                         {/* Nút đặt lại */}
-                        <div className="col-12 col-sm-4 col-lg-1">
+                        <div className="col-6 col-md-2">
                             <button
                                 type="button"
                                 className="btn-action-secondary w-100 d-flex align-items-center justify-content-center gap-1"
                                 onClick={() => {
                                     setSearch("");
                                     setStatusFilter("ALL");
-                                    setFactoryFilter("ALL");
                                     setProductTypeFilter("ALL");
                                     setPaymentStatusFilter("ALL");
                                     setSortBy("createdAt");
@@ -673,7 +563,7 @@ export default function AdminOrder() {
                                 title="Đặt lại toàn bộ bộ lọc"
                             >
                                 <FontAwesomeIcon icon={faRotate} className={loading ? "fa-spin" : ""} />
-                                <span>Reset</span>
+                                <span>Đặt lại</span>
                             </button>
                         </div>
                     </div>
@@ -685,26 +575,25 @@ export default function AdminOrder() {
                         <table className="admin-order-table">
                             <thead>
                                 <tr>
-                                    <th style={{ width: "130px", minWidth: "120px" }}>Mã đơn &amp; Ngày tạo</th>
-                                    <th style={{ minWidth: "200px" }}>Khách hàng &amp; Nhận hàng</th>
-                                    <th style={{ minWidth: "220px" }}>Sản phẩm &amp; Loại đơn</th>
-                                    <th style={{ width: "170px", minWidth: "160px" }}>Xưởng chế tác</th>
-                                    <th style={{ width: "150px", minWidth: "140px" }}>Tổng tiền &amp; TT</th>
-                                    <th style={{ width: "140px", minWidth: "130px", textAlign: "center" }}>Trạng thái</th>
-                                    <th style={{ width: "160px", minWidth: "160px", textAlign: "center" }}>Thao tác</th>
+                                    <th style={{ width: "140px", minWidth: "130px" }}>Mã đơn &amp; Ngày tạo</th>
+                                    <th style={{ minWidth: "220px" }}>Khách hàng &amp; Nhận hàng</th>
+                                    <th style={{ minWidth: "240px" }}>Sản phẩm trong đơn</th>
+                                    <th style={{ width: "160px", minWidth: "150px" }}>Tổng tiền &amp; TT</th>
+                                    <th style={{ width: "150px", minWidth: "140px", textAlign: "center" }}>Trạng thái</th>
+                                    <th style={{ width: "120px", minWidth: "110px", textAlign: "center" }}>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {loading ? (
                                     <tr>
-                                        <td colSpan={7} className="text-center py-5">
+                                        <td colSpan={6} className="text-center py-5">
                                             <span className="spinner-border text-danger me-2" role="status" />
                                             Đang tải dữ liệu đơn hàng từ máy chủ...
                                         </td>
                                     </tr>
                                 ) : orders.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="text-center py-5 text-muted">
+                                        <td colSpan={6} className="text-center py-5 text-muted">
                                             <FontAwesomeIcon icon={faBagShopping} className="fs-2 mb-2 d-block opacity-50" />
                                             Không tìm thấy đơn hàng nào phù hợp với bộ lọc hiện tại.
                                         </td>
@@ -744,7 +633,7 @@ export default function AdminOrder() {
                                                         </span>
                                                         <div className="customer-name-id" style={{ minWidth: 0 }}>
                                                             <div className="d-flex align-items-center">
-                                                                <span className="customer-name text-truncate" style={{ maxWidth: "160px" }}>
+                                                                <span className="customer-name text-truncate" style={{ maxWidth: "180px" }}>
                                                                     {order.recipientName || order.customerName || "Khách vãng lai"}
                                                                 </span>
                                                             </div>
@@ -754,7 +643,7 @@ export default function AdminOrder() {
                                                             {order.shippingAddress && (
                                                                 <span
                                                                     className="text-secondary text-truncate d-block"
-                                                                    style={{ fontSize: "11px", maxWidth: "170px" }}
+                                                                    style={{ fontSize: "11px", maxWidth: "200px" }}
                                                                     title={order.shippingAddress}
                                                                 >
                                                                     {order.shippingAddress}
@@ -764,10 +653,10 @@ export default function AdminOrder() {
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 3: Sản phẩm & Loại đơn */}
+                                                {/* Cột 3: Sản phẩm trong đơn */}
                                                 <td>
                                                     <div className="d-flex flex-column" style={{ minWidth: 0 }}>
-                                                        <span className="customer-name text-truncate" style={{ fontSize: "12.5px", maxWidth: "230px" }} title={order.productSummary}>
+                                                        <span className="customer-name text-truncate" style={{ fontSize: "12.5px", maxWidth: "250px" }} title={order.productSummary}>
                                                             {order.productSummary || `Đơn hàng #${order.id}`}
                                                         </span>
                                                         <div className="d-flex align-items-center gap-2 mt-1">
@@ -788,17 +677,7 @@ export default function AdminOrder() {
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 4: Xưởng chế tác */}
-                                                <td>
-                                                    <span className="order-factory-badge" title={order.factoryName || "Nordic Lab TP.HCM"}>
-                                                        <FontAwesomeIcon icon={faIndustry} className="text-danger flex-shrink-0" />
-                                                        <span className="text-truncate">
-                                                            {order.factoryName || "Nordic Lab TP.HCM"}
-                                                        </span>
-                                                    </span>
-                                                </td>
-
-                                                {/* Cột 5: Tổng thanh toán */}
+                                                {/* Cột 4: Tổng tiền & Thanh toán */}
                                                 <td>
                                                     <div className="ltv-cell">
                                                         <span className="ltv-amount text-danger" style={{ fontSize: "13px" }}>
@@ -807,13 +686,13 @@ export default function AdminOrder() {
                                                         <span className="ltv-sub">
                                                             {order.paymentMethod || "COD"} •{" "}
                                                             <span className={order.paymentStatus === "PAID" ? "text-success fw-bold" : "text-warning-emphasis"}>
-                                                                {order.paymentStatus === "PAID" ? "Đã TT" : "Thu COD"}
+                                                                {getPaymentStatusLabel(order)}
                                                             </span>
                                                         </span>
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 6: Trạng thái */}
+                                                {/* Cột 5: Trạng thái */}
                                                 <td style={{ textAlign: "center" }}>
                                                     <div className="d-flex justify-content-center">
                                                         <span className={statusPillClass(order.status)}>
@@ -823,49 +702,17 @@ export default function AdminOrder() {
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 7: Thao tác - cố định không bao giờ lệch */}
-                                                <td style={{ textAlign: "center", width: "160px", minWidth: "160px" }}>
-                                                    <div className="order-action-group">
-                                                        {/* Nút nhanh duyệt & gửi xưởng nếu đang PENDING */}
-                                                        {order.status === OrderStatus.PENDING && (
-                                                            <button
-                                                                type="button"
-                                                                className="order-action-btn btn-dispatch"
-                                                                onClick={() => handleQuickDispatch(order)}
-                                                                title="Duyệt đơn & Gửi lệnh xưởng"
-                                                            >
-                                                                <FontAwesomeIcon icon={faClipboardCheck} />
-                                                            </button>
-                                                        )}
-
-                                                        {/* Xem chi tiết */}
+                                                {/* Cột 6: Thao tác - Duy nhất nút Xem chi tiết */}
+                                                <td style={{ textAlign: "center", width: "120px", minWidth: "110px" }}>
+                                                    <div className="order-action-group justify-content-center">
                                                         <button
                                                             type="button"
                                                             className="order-action-btn btn-view"
                                                             onClick={() => handleViewDetail(order.id)}
-                                                            title="Xem chi tiết đơn hàng & In ấn"
+                                                            title="Xem chi tiết đơn hàng"
                                                         >
                                                             <FontAwesomeIcon icon={faEye} />
-                                                        </button>
-
-                                                        {/* Chuyển trạng thái */}
-                                                        <button
-                                                            type="button"
-                                                            className="order-action-btn btn-edit"
-                                                            onClick={() => handleOpenUpdateModal(order)}
-                                                            title="Cập nhật trạng thái"
-                                                        >
-                                                            <FontAwesomeIcon icon={faPenToSquare} />
-                                                        </button>
-
-                                                        {/* Hủy đơn */}
-                                                        <button
-                                                            type="button"
-                                                            className="order-action-btn btn-delete"
-                                                            onClick={() => handleDeleteOrder(order)}
-                                                            title="Hủy đơn hàng"
-                                                        >
-                                                            <FontAwesomeIcon icon={faTrash} />
+                                                            <span>Chi tiết</span>
                                                         </button>
                                                     </div>
                                                 </td>
@@ -886,25 +733,7 @@ export default function AdminOrder() {
             <AdminOrderDetailModal
                 order={detailOrder}
                 loading={loadingDetail}
-                factories={factories}
                 onClose={() => setDetailOrder(null)}
-                onOpenStatusUpdate={(ord) => {
-                    setEditingOrder(ord);
-                    setShowUpdateModal(true);
-                }}
-                onQuickDispatch={handleQuickDispatch}
-                onReassignFactory={handleReassignFactory}
-            />
-
-            {/* Modal: Cập nhật trạng thái đơn hàng */}
-            <AdminUpdateOrderStatusModal
-                order={editingOrder}
-                show={showUpdateModal}
-                onClose={() => {
-                    setShowUpdateModal(false);
-                    setEditingOrder(null);
-                }}
-                onSave={handleSaveStatusUpdate}
             />
         </div>
     );

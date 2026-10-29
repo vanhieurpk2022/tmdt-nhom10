@@ -24,11 +24,5 @@ public interface AdminOrderService {
 
     AdminOrderDetailResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request);
 
-    AdminOrderDetailResponse quickDispatch(Long id, Long factoryId, String dispatchNote);
-
-    AdminOrderDetailResponse reassignFactory(Long id, Long factoryId, String reason);
-
-    AdminOrderDetailResponse createDispatchOrder(AdminCreateDispatchOrderRequest request);
-
     void deleteOrder(Long id);
 }

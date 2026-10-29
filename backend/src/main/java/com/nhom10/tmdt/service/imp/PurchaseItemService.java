@@ -2,6 +2,7 @@ package com.nhom10.tmdt.service.imp;
 
 import com.nhom10.tmdt.dto.cart.CartItemResponse;
 import com.nhom10.tmdt.dto.order.BuyNowRequest;
+import com.nhom10.tmdt.enums.ProductStatus;
 import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.CartItemRepository;
 import com.nhom10.tmdt.repo.CartRepository;
@@ -96,6 +97,7 @@ public class PurchaseItemService {
     }
 
     public void validate(CartItem item) {
+        validateProduct(item.getProduct());
         ProductMil variant = variant(item);
         if (!Objects.equals(variant.getProduct().getId(), item.getProduct().getId())) {
             throw error("Dung tích không thuộc sản phẩm đã chọn");
@@ -104,6 +106,12 @@ public class PurchaseItemService {
         if (price(item) <= 0) throw error("Sản phẩm chưa có giá hợp lệ");
         if (stock(item) <= 0) throw error("Dung tích đã chọn hiện đã hết hàng");
         if (item.getQuantity() > stock(item)) throw error("Số lượng vượt quá tồn kho của dung tích đã chọn");
+    }
+
+    private void validateProduct(Product product) {
+        if (product.getStatus() != null && product.getStatus() != ProductStatus.ACTIVE) {
+            throw error("Sản phẩm không còn mở bán: " + product.getName());
+        }
     }
 
     public CartItemResponse toResponse(CartItem item) {
