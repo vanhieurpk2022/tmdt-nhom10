@@ -275,6 +275,9 @@ public class UserServiceImp implements UserService {
 
 // verify google token
     private GoogleIdToken.Payload verifyGoogleToken(String credential) {
+        if (credential == null || credential.isBlank()) {
+            throw new AppException(ErrorCode.GOOGLE_AUTH_FAILED);
+        }
         try {
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                     new NetHttpTransport(), new GsonFactory())
@@ -293,8 +296,13 @@ public class UserServiceImp implements UserService {
         } catch (Exception e) {
             try {
                 return fetchGoogleUserInfo(credential);
+            } catch (AppException ex) {
+                throw ex;
             } catch (Exception ex) {
-                throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+                if (ex instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
+                }
+                throw new AppException(ErrorCode.GOOGLE_AUTH_UNAVAILABLE);
             }
         }
     }
@@ -303,6 +311,7 @@ public class UserServiceImp implements UserService {
         java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
         java.net.http.HttpRequest req = java.net.http.HttpRequest.newBuilder()
                 .uri(java.net.URI.create("https://www.googleapis.com/oauth2/v3/userinfo"))
+                .timeout(java.time.Duration.ofSeconds(15))
                 .header("Authorization", "Bearer " + accessToken)
                 .GET()
                 .build();
@@ -311,7 +320,8 @@ public class UserServiceImp implements UserService {
                 java.net.http.HttpResponse.BodyHandlers.ofString());
 
         if (resp.statusCode() != 200) {
-            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+            throw new AppException(resp.statusCode() == 401 || resp.statusCode() == 403
+                    ? ErrorCode.GOOGLE_AUTH_FAILED : ErrorCode.GOOGLE_AUTH_UNAVAILABLE);
         }
 
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
