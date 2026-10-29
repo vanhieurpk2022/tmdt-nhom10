@@ -7,9 +7,11 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.nhom10.tmdt.config.AppException;
 import com.nhom10.tmdt.config.JwtService;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
+import com.nhom10.tmdt.dto.user.FacebookLoginRequest;
 import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
+import com.nhom10.tmdt.dto.user.ResetPasswordRequest;
 import com.nhom10.tmdt.enums.ErrorCode;
 import com.nhom10.tmdt.enums.FactoryStatus;
 import com.nhom10.tmdt.enums.RoleName;
@@ -173,8 +175,109 @@ public class UserServiceImp implements UserService {
         return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
     }
 
+    @Override
+    public LoginResponse loginWithFacebook(FacebookLoginRequest request) {
+        if (request.accessToken() == null || request.accessToken().isBlank()) {
+            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        }
+
+        FacebookUserInfo fbUser = fetchFacebookUserInfo(request.accessToken());
+
+        String email = fbUser.email();
+        if (email == null || email.isBlank()) {
+            email = "fb_" + fbUser.id() + "@facebook.com";
+        }
+
+        String fullname = (fbUser.name() != null && !fbUser.name().isBlank()) ? fbUser.name() : "Facebook User";
+        String avatarUrl = fbUser.avatarUrl();
+
+        final String userEmail = email;
+        User user = userRepository.findByEmail(userEmail).orElseGet(() -> {
+            Role userRole = roleRepository.findByName(RoleName.USER.name())
+                    .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+            return userRepository.save(User.builder()
+                    .email(userEmail)
+                    .fullname(fullname)
+                    .avatarUrl(avatarUrl)
+                    .password(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()))
+                    .isVerify(true)
+                    .roles(new HashSet<>(Set.of(userRole)))
+                    .build());
+        });
+
+        if (!user.isVerify()) {
+            user.setVerify(true);
+            user.setCodeActive(null);
+            user.setVerifyCodeExpiresAt(null);
+            userRepository.save(user);
+        }
+
+        if (avatarUrl != null && (user.getAvatarUrl() == null || user.getAvatarUrl().isBlank())) {
+            user.setAvatarUrl(avatarUrl);
+            userRepository.save(user);
+        }
+
+        List<String> roles = user.getRoles().stream().map(Role::getName).toList();
+
+        String accessToken = jwtService.generateToken(
+                user.getEmail(), user.getAvatarUrl() != null ? user.getAvatarUrl() : "",
+                user.getFullname(), user.isVerify(), roles);
+        long expiresIn = jwtService.getExpirationSeconds(request.rememberMe());
+
+        LoginResponse.UserResponse userDto = new LoginResponse.UserResponse(
+                user.getId(), user.getEmail(), user.getFullname(), user.getAvatarUrl(), roles);
+
+        return new LoginResponse(accessToken, "Bearer", expiresIn, userDto);
+    }
+
+    private record FacebookUserInfo(String id, String name, String email, String avatarUrl) {}
+
+    private FacebookUserInfo fetchFacebookUserInfo(String accessToken) {
+        try {
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            String uri = "https://graph.facebook.com/me?fields=id,name,email,picture.type(large)&access_token="
+                    + java.net.URLEncoder.encode(accessToken, java.nio.charset.StandardCharsets.UTF_8);
+
+            java.net.http.HttpRequest req = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(uri))
+                    .GET()
+                    .build();
+
+            java.net.http.HttpResponse<String> resp = client.send(req,
+                    java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            if (resp.statusCode() != 200) {
+                throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+            }
+
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            com.fasterxml.jackson.databind.JsonNode node = mapper.readTree(resp.body());
+
+            String id = node.path("id").asText(null);
+            if (id == null || id.isBlank()) {
+                throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+            }
+
+            String name = node.hasNonNull("name") ? node.path("name").asText() : null;
+            String email = node.hasNonNull("email") ? node.path("email").asText() : null;
+            String avatarUrl = null;
+            if (node.has("picture") && node.get("picture").has("data")) {
+                avatarUrl = node.get("picture").get("data").path("url").asText(null);
+            }
+
+            return new FacebookUserInfo(id, name, email, avatarUrl);
+        } catch (AppException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+        }
+    }
+
 // verify google token
     private GoogleIdToken.Payload verifyGoogleToken(String credential) {
+        if (credential == null || credential.isBlank()) {
+            throw new AppException(ErrorCode.GOOGLE_AUTH_FAILED);
+        }
         try {
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                     new NetHttpTransport(), new GsonFactory())
@@ -193,8 +296,13 @@ public class UserServiceImp implements UserService {
         } catch (Exception e) {
             try {
                 return fetchGoogleUserInfo(credential);
+            } catch (AppException ex) {
+                throw ex;
             } catch (Exception ex) {
-                throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+                if (ex instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
+                }
+                throw new AppException(ErrorCode.GOOGLE_AUTH_UNAVAILABLE);
             }
         }
     }
@@ -203,6 +311,7 @@ public class UserServiceImp implements UserService {
         java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
         java.net.http.HttpRequest req = java.net.http.HttpRequest.newBuilder()
                 .uri(java.net.URI.create("https://www.googleapis.com/oauth2/v3/userinfo"))
+                .timeout(java.time.Duration.ofSeconds(15))
                 .header("Authorization", "Bearer " + accessToken)
                 .GET()
                 .build();
@@ -211,7 +320,8 @@ public class UserServiceImp implements UserService {
                 java.net.http.HttpResponse.BodyHandlers.ofString());
 
         if (resp.statusCode() != 200) {
-            throw new AppException(ErrorCode.INVALID_CREDENTIALS);
+            throw new AppException(resp.statusCode() == 401 || resp.statusCode() == 403
+                    ? ErrorCode.GOOGLE_AUTH_FAILED : ErrorCode.GOOGLE_AUTH_UNAVAILABLE);
         }
 
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -355,6 +465,65 @@ public class UserServiceImp implements UserService {
 
         // Mã hóa mật khẩu mới và lưu vào cơ sở dữ liệu
         user.setPassword(bCryptPasswordEncoder.encode(request.newPassword().trim()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void forgotPassword(String email) {
+        if (email == null || email.isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+        User user = userRepository.findByEmail(email.trim().toLowerCase())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        String code = emailSevice.generateCode();
+        user.setCodeActive(code);
+        user.setVerifyCodeExpiresAt(LocalDateTime.now().plusMinutes(5));
+        userRepository.save(user);
+
+        emailSevice.sendRecoveryCode(user.getEmail(), code);
+    }
+
+    @Override
+    public void verifyRecoveryCode(String email, String code) {
+        if (email == null || email.isBlank() || code == null || code.isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+        User user = userRepository.findByEmail(email.trim().toLowerCase())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        if (user.getVerifyCodeExpiresAt() == null || user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_EXPIRED);
+        }
+        if (!code.trim().equals(user.getCodeActive())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_FAIL);
+        }
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequest request) {
+        if (request.email() == null || request.email().isBlank()
+                || request.code() == null || request.code().isBlank()
+                || request.newPassword() == null || request.newPassword().isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+        if (!request.newPassword().equals(request.confirmPassword())) {
+            throw new AppException(ErrorCode.NOT_MATCH_PASSWORD);
+        }
+
+        User user = userRepository.findByEmail(request.email().trim().toLowerCase())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
+        if (user.getVerifyCodeExpiresAt() == null || user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_EXPIRED);
+        }
+        if (!request.code().trim().equals(user.getCodeActive())) {
+            throw new AppException(ErrorCode.VERIFY_CODE_FAIL);
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(request.newPassword().trim()));
+        user.setCodeActive(null);
+        user.setVerifyCodeExpiresAt(null);
         userRepository.save(user);
     }
 }

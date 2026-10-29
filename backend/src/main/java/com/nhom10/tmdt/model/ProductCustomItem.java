@@ -20,6 +20,7 @@ public class ProductCustomItem {
     @Column(name="volume_ml")
     private double volumeM1;
     private double percentage;
+    private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_Custom_id")

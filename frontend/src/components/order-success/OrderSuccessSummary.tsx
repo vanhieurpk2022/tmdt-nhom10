@@ -18,7 +18,7 @@ function formatPrice(price: number) {
 }
 
 export default function OrderSuccessSummary({ order }: OrderSuccessSummaryProps) {
-    const subtotal = order.items.reduce((total, item) => total + item.lineTotal, 0);
+    const subtotal = order.subtotalPrice;
     const orderCode = formatOrderCode(order.id);
     const paymentMethod = getPaymentMethodLabel(order.paymentMethod);
 

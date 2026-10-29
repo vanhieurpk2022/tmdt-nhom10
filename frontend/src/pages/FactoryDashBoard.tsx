@@ -145,6 +145,7 @@ export function FactoryDashBoard() {
                     pageIndex={pagination.pageIndex}
                     isShow={true}
                     table={table}
+                    orders={orders}
                 />
             </div>
         </div>

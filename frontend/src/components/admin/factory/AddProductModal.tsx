@@ -9,9 +9,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { ProductType } from "../../../enums/ProductType";
-import { ProductStatus } from "../../../enums/ProductStatus";
 import { FactoryServiceManager } from "../../../api/factory/FactoryService";
-import type { FactoryProductCreateRequest } from "../../../dto/factory/FactoryProductRes";
+import type {
+    FactoryProductCreateRequest,
+    FactoryProductEditRes,
+    FactoryProductItem,
+} from "../../../dto/factory/FactoryProductRes";
 import type { Category } from "../../../models/Category";
 import { CategoryService } from "../../../api/category/CategoryDto";
 import { cloudinaryService } from "../../../api/UploadApi";
@@ -19,8 +22,9 @@ import { useToastContext } from "../../toasts/ToastContext";
 
 interface AddProductModalProps {
     show: boolean;
-    onSuccess?: () => void; // gọi lại để cha tải lại danh sách sau khi lưu
-    product: FactoryProductCreateRequest | null; // null = thêm mới, có giá trị = chỉnh sửa
+    onSuccess?: () => void;
+    product: FactoryProductCreateRequest | FactoryProductEditRes | null;
+    availableProducts?: FactoryProductItem[];
     onHide: () => void;
 }
 
@@ -94,15 +98,20 @@ function NewImagePreview({ file, onRemove }: { file: File; onRemove: () => void 
     );
 }
 
-export default function AddProductModal({ show, onSuccess, product, onHide }: AddProductModalProps) {
+export default function AddProductModal({
+    show,
+    onSuccess,
+    product,
+    availableProducts = [],
+    onHide,
+}: AddProductModalProps) {
     const [categoryOption, setCategoryOption] = useState<Category[]>([]);
     const [form, setForm] = useState<FactoryProductCreateRequest>(INITIAL_FORM);
     const [errors, setErrors] = useState<FormErrors>({});
     const [submitting, setSubmitting] = useState(false);
     const { showToast } = useToastContext();
 
-
-    const [images, setImages] = useState<File[]>([]); // ảnh mới chọn
+    const [images, setImages] = useState<File[]>([]);
     const [isDragging, setIsDragging] = useState(false);
 
     const isEdit = !!product;
@@ -121,24 +130,25 @@ export default function AddProductModal({ show, onSuccess, product, onHide }: Ad
         getCategory();
     }, [show]);
 
-    // Nạp dữ liệu vào form mỗi khi mở modal (thêm mới hoặc sửa)
+    // Nạp dữ liệu vào form mỗi khi mở modal
     useEffect(() => {
         if (!show) return;
         setErrors({});
         setImages([]);
         setIsDragging(false);
-        setForm(
-            product
-                ? {
-                    id: product.id,
-                    name: product.name,
-                    category: product.category ?? "",
-                    type: product.type ?? ProductType.NORMAL,
-                    description: product.description ?? "",
-                    imageUrls: product.imageUrls ?? [], // giữ ảnh cũ để hiển thị
-                }
-                : INITIAL_FORM
-        );
+
+        if (product) {
+            setForm({
+                id: product.id,
+                name: product.name,
+                category: product.category ?? "",
+                type: product.type ?? ProductType.NORMAL,
+                description: product.description ?? "",
+                imageUrls: ("imageUrls" in product && Array.isArray((product as any).imageUrls)) ? (product as any).imageUrls : [],
+            });
+        } else {
+            setForm(INITIAL_FORM);
+        }
     }, [show, product]);
 
     const handleChange = <K extends keyof FactoryProductCreateRequest>(
@@ -153,6 +163,7 @@ export default function AddProductModal({ show, onSuccess, product, onHide }: Ad
         const next: FormErrors = {};
         if (!form.name.trim()) next.name = "Vui lòng nhập tên sản phẩm";
         if (!form.category) next.category = "Vui lòng chọn danh mục";
+
         setErrors(next);
         return Object.keys(next).length === 0;
     };
@@ -163,43 +174,49 @@ export default function AddProductModal({ show, onSuccess, product, onHide }: Ad
         try {
             setSubmitting(true);
 
-            // Chỉ upload ảnh mới, ảnh cũ còn lại giữ nguyên URL
-            const uploaded = await Promise.all(images.map(file => cloudinaryService.upload(file)));
-            const imageUrls = [...form.imageUrls, ...uploaded.map(res => res.url)];
+            // Chỉ upload ảnh nếu không phải là sản phẩm CUSTOM
+            let imageUrls: string[] = [];
+            if (form.type !== ProductType.CUSTOM) {
+                const uploaded = await Promise.all(images.map((file) => cloudinaryService.upload(file)));
+                imageUrls = [...form.imageUrls, ...uploaded.map((res) => res.url)];
+            }
 
             const { category, ...rest } = form;
-            const selected = categoryOption.find(c => c.name === category);
+            const selected = categoryOption.find((c) => c.name === category);
             if (!selected) {
-                setErrors(prev => ({ ...prev, category: "Danh mục không hợp lệ" }));
+                setErrors((prev) => ({ ...prev, category: "Danh mục không hợp lệ" }));
                 return;
             }
+
             const payload = {
                 ...rest,
+                description: form.description || "",
                 categoryId: selected.id,
                 imageUrls,
             };
 
             if (isEdit && form.id != null) {
                 await FactoryServiceManager.updateProduct(form.id, payload);
-                showToast("Thành công", "cập nhật dữ liệu thành công", "success");
+                showToast("Thành công", "Cập nhật sản phẩm thành công", "success");
             } else {
                 await FactoryServiceManager.createProduct(payload);
-                showToast("Thành công", "Thêm dữ liệu thành công", "success");
+                showToast("Thành công", "Thêm sản phẩm thành công", "success");
             }
 
             onSuccess?.();
             onHide();
         } catch (error) {
             console.log(isEdit ? "Lỗi không cập nhật được sản phẩm" : "Lỗi không thêm được sản phẩm", error);
+            showToast("Lỗi", "Không thể lưu sản phẩm. Vui lòng thử lại.", "danger");
         } finally {
             setSubmitting(false);
         }
     };
 
-    /* ---------- Ảnh ---------- */
+    /* ---------- Kéo thả ảnh ---------- */
     const addImages = (files: File[]) => {
-        const imageFiles = files.filter(file => file.type.startsWith("image/"));
-        setImages(prev => [...prev, ...imageFiles]);
+        const imageFiles = files.filter((file) => file.type.startsWith("image/"));
+        setImages((prev) => [...prev, ...imageFiles]);
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -224,11 +241,11 @@ export default function AddProductModal({ show, onSuccess, product, onHide }: Ad
     };
 
     const removeNewImage = (index: number) => {
-        setImages(prev => prev.filter((_, i) => i !== index));
+        setImages((prev) => prev.filter((_, i) => i !== index));
     };
 
     const removeExistingImage = (index: number) => {
-        setForm(prev => ({ ...prev, imageUrls: prev.imageUrls.filter((_, i) => i !== index) }));
+        setForm((prev) => ({ ...prev, imageUrls: prev.imageUrls.filter((_, i) => i !== index) }));
     };
 
     const hasAnyImage = form.imageUrls.length > 0 || images.length > 0;
@@ -280,7 +297,7 @@ export default function AddProductModal({ show, onSuccess, product, onHide }: Ad
                                 className={`form-control ${errors.name ? "is-invalid" : ""}`}
                                 placeholder="VD: Mộc Gỗ Đàn Hương"
                                 value={form.name}
-                                onChange={e => handleChange("name", e.target.value)}
+                                onChange={(e) => handleChange("name", e.target.value)}
                             />
                             {errors.name && <div className="invalid-feedback">{errors.name}</div>}
                         </div>
@@ -298,10 +315,10 @@ export default function AddProductModal({ show, onSuccess, product, onHide }: Ad
                             <select
                                 className={`form-select ${errors.category ? "is-invalid" : ""}`}
                                 value={form.category}
-                                onChange={e => handleChange("category", e.target.value)}
+                                onChange={(e) => handleChange("category", e.target.value)}
                             >
                                 <option value="">-- Chọn danh mục --</option>
-                                {categoryOption.map(item => (
+                                {categoryOption.map((item) => (
                                     <option key={item.id} value={item.name}>
                                         {item.name}
                                     </option>
@@ -317,93 +334,111 @@ export default function AddProductModal({ show, onSuccess, product, onHide }: Ad
                         <select
                             className="form-select"
                             value={form.type ?? ProductType.NORMAL}
-                            onChange={e => handleChange("type", e.target.value as ProductType)}
+                            onChange={(e) => handleChange("type", e.target.value as ProductType)}
                         >
-                            <option value={ProductType.NORMAL}>Thường</option>
-                            <option value={ProductType.CUSTOM}>Tùy chỉnh</option>
+                            <option value={ProductType.NORMAL}>Thường (Sản phẩm đơn / bán lẻ)</option>
+                            <option value={ProductType.CUSTOM}>Tùy chỉnh (Phối từ các sản phẩm có sẵn)</option>
                         </select>
                     </div>
 
-                    {/* Hình ảnh sản phẩm */}
-                    <div className="col-12">
-                        <label className="form-label fw-semibold">Hình ảnh sản phẩm</label>
-
-                        <div
-                            className={`rounded-3 p-4 text-center ${isDragging ? "border-danger bg-danger-subtle" : "bg-light"}`}
-                            style={{
-                                border: "2px dashed",
-                                borderColor: isDragging ? undefined : "#dee2e6",
-                                cursor: "pointer",
-                                transition: "all 0.2s ease",
-                            }}
-                            onDragOver={handleDragOver}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            onClick={() => document.getElementById("product-images")?.click()}
-                        >
-                            <input
-                                id="product-images"
-                                type="file"
-                                accept="image/*"
-                                multiple
-                                className="d-none"
-                                onChange={handleFileChange}
-                            />
-
-                            <div className="mb-3">
-                                <span
-                                    className={`d-inline-flex align-items-center justify-content-center rounded-circle ${isDragging ? "bg-danger text-white" : "bg-danger-subtle text-danger"}`}
-                                    style={{ width: 56, height: 56 }}
-                                >
-                                    <FontAwesomeIcon icon={faCloudArrowUp} size="lg" />
-                                </span>
-                            </div>
-
-                            <div className="fw-semibold mb-1">
-                                {isDragging ? "Thả ảnh vào đây" : "Kéo và thả ảnh vào đây"}
-                            </div>
-                            <div className="text-secondary small mb-2">
-                                hoặc <span className="text-danger fw-semibold">chọn ảnh từ máy</span>
-                            </div>
-                            <div className="text-secondary small">
-                                Có thể chọn nhiều ảnh cùng lúc · PNG, JPG, JPEG, WEBP
+                    {/* Thông báo gợi ý cho sản phẩm tùy chỉnh (CUSTOM) */}
+                    {form.type === ProductType.CUSTOM && (
+                        <div className="col-12">
+                            <div className="alert alert-info border-0 rounded-3 d-flex align-items-start gap-3 py-3 mb-0">
+                                <span className="fs-4 lh-1">💡</span>
+                                <div className="small">
+                                    <div className="fw-bold mb-1">Quy trình tạo sản phẩm Tùy chỉnh (Custom):</div>
+                                    <div className="text-secondary">
+                                        Sản phẩm Tùy chỉnh không cần tải ảnh và chọn thành phần ở bước này. Bạn chỉ cần điền <b>Tên sản phẩm</b>, <b>Danh mục</b>, <b>Loại sản phẩm</b> và <b>Mô tả</b>.
+                                        Sau khi bấm Lưu, hãy vào danh sách sản phẩm và nhấn nút <b>Xem chi tiết (icon mắt)</b> để chọn các sản phẩm có sẵn của xưởng phối vào công thức.
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    )}
 
-                        {/* Ảnh hiện có + ảnh mới */}
-                        {hasAnyImage && (
-                            <div className="row g-3 mt-2">
-                                {form.imageUrls.map((url, index) => (
-                                    <div key={`old-${url}-${index}`} className="col-6 col-sm-4 col-md-3 col-lg-2">
-                                        <ImageCard
-                                            src={url}
-                                            name=""
-                                            badge="Hiện có"
-                                            onRemove={() => removeExistingImage(index)}
-                                        />
-                                    </div>
-                                ))}
-                                {images.map((file, index) => (
-                                    <div
-                                        key={`new-${file.name}-${file.lastModified}-${index}`}
-                                        className="col-6 col-sm-4 col-md-3 col-lg-2"
+                    {/* Hình ảnh sản phẩm (chỉ áp dụng cho sản phẩm NORMAL, sản phẩm CUSTOM không thêm ảnh) */}
+                    {form.type !== ProductType.CUSTOM && (
+                        <div className="col-12">
+                            <label className="form-label fw-semibold">Hình ảnh sản phẩm</label>
+
+                            <div
+                                className={`rounded-3 p-4 text-center ${isDragging ? "border-danger bg-danger-subtle" : "bg-light"}`}
+                                style={{
+                                    border: "2px dashed",
+                                    borderColor: isDragging ? undefined : "#dee2e6",
+                                    cursor: "pointer",
+                                    transition: "all 0.2s ease",
+                                }}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                                onClick={() => document.getElementById("product-images")?.click()}
+                            >
+                                <input
+                                    id="product-images"
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    className="d-none"
+                                    onChange={handleFileChange}
+                                />
+
+                                <div className="mb-3">
+                                    <span
+                                        className={`d-inline-flex align-items-center justify-content-center rounded-circle ${isDragging ? "bg-danger text-white" : "bg-danger-subtle text-danger"}`}
+                                        style={{ width: 56, height: 56 }}
                                     >
-                                        <NewImagePreview file={file} onRemove={() => removeNewImage(index)} />
-                                    </div>
-                                ))}
+                                        <FontAwesomeIcon icon={faCloudArrowUp} size="lg" />
+                                    </span>
+                                </div>
+
+                                <div className="fw-semibold mb-1">
+                                    {isDragging ? "Thả ảnh vào đây" : "Kéo và thả ảnh vào đây"}
+                                </div>
+                                <div className="text-secondary small mb-2">
+                                    hoặc <span className="text-danger fw-semibold">chọn ảnh từ máy</span>
+                                </div>
+                                <div className="text-secondary small">
+                                    Có thể chọn nhiều ảnh cùng lúc · PNG, JPG, JPEG, WEBP
+                                </div>
                             </div>
-                        )}
-                    </div>
+
+                            {/* Ảnh hiện có + ảnh mới */}
+                            {hasAnyImage && (
+                                <div className="row g-3 mt-2">
+                                    {form.imageUrls.map((url, index) => (
+                                        <div key={`old-${url}-${index}`} className="col-6 col-sm-4 col-md-3 col-lg-2">
+                                            <ImageCard
+                                                src={url}
+                                                name=""
+                                                badge="Hiện có"
+                                                onRemove={() => removeExistingImage(index)}
+                                            />
+                                        </div>
+                                    ))}
+                                    {images.map((file, index) => (
+                                        <div
+                                            key={`new-${file.name}-${file.lastModified}-${index}`}
+                                            className="col-6 col-sm-4 col-md-3 col-lg-2"
+                                        >
+                                            <NewImagePreview file={file} onRemove={() => removeNewImage(index)} />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     {/* Mô tả */}
                     <div className="col-12">
-                        <label className="form-label fw-semibold">Mô tả</label>
+                        <label className="form-label fw-semibold">Mô tả sản phẩm</label>
                         <textarea
                             className="form-control"
                             rows={3}
-                            placeholder="Mô tả ngắn về hương, dung tích, thành phần..."
+                            placeholder="Mô tả ngắn về sản phẩm, hướng dẫn sử dụng, lưu ý..."
                             value={form.description}
-                            onChange={e => handleChange("description", e.target.value)}
+                            onChange={(e) => handleChange("description", e.target.value)}
                         />
                     </div>
                 </div>

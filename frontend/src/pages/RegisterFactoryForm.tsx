@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { FactoryApiService, type RegisterFactoryRequest } from "../api/FactoryService";
 import { cloudinaryService, type UploadedAsset } from "../api/UploadApi";
-import { Notification } from "../components/toasts/Notification";
 import axios from "axios";
+import { useToastContext } from "../components/toasts/ToastContext";
 
 export function RegisterFactoryForm() {
-
-    type Toast = { type: "success" | "danger"; title: string; text: string } | null;
-
 
     // 1. State Thông Tin Định Danh
     const [typeBussiness, setTypeBussiness] = useState(false);
@@ -31,20 +28,14 @@ export function RegisterFactoryForm() {
     const [accountHolder, setAccountHolder] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
 
-    const [toast, setToast] = useState<Toast>(null);
+    const { showToast } = useToastContext();
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (!toast) return;
-        const timer = setTimeout(() => setToast(null), 4000);
-        return () => clearTimeout(timer);
-    }, [toast]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (loading) return; // chặn bấm nhiều lần
 
-        setToast(null);
         setLoading(true);
 
         const uploaded: UploadedAsset[] = []; // gom lại để xoá nếu có lỗi
@@ -87,34 +78,44 @@ export function RegisterFactoryForm() {
             };
 
             const res = await FactoryApiService.regsiterFactory(request);
-            if (res.status == 200) {
-                setToast({
-                    type: "success", title: "Thành công", text: "Đăng kí thành công!"
-                });
+            if (res.status === 201) {
+                showToast("Thành công", "Đã đăng kí người bán", "success");
+                setTypeBussiness(false);
+                setTypeindividual(true);
+                setNameFactory("");
+                setFullNameRepre("");
+                setIdentity("");
+                setLicense(null);
+                setCosmeticLicense(null);
+                setTccsDoc(null);
+                setOriginInvoice(null);
+                setBrandAuthorization(null);
+                setShopPhone("");
+                setWarehouseAddress("");
+                setAccountHolder("");
+                setAccountNumber("");
+
             }
+
         } catch (err) {
             // Dọn file đã upload; lỗi khi dọn không được che mất lỗi gốc
             await cloudinaryService.deleteUploads(uploaded).catch(console.error);
 
             if (axios.isAxiosError(err)) {
                 if (!err.response) {
-                    setToast({
-                        type: "danger", title: "Lỗi", text: "Không kết nối được máy chủ, vui lòng thử lại"
-                    });
+                    showToast("Lỗi", "Không kết nối được máy chủ", "danger");
                 } else {
-                    setToast({
-                        type: "danger", title: "Lỗi", text: err.response.data?.message
-                    });
+                    showToast("Lỗi", err.response.data?.message, "danger");
+
+
                 }
             } else if (err instanceof Error) {
                 // Lỗi validate file (quá 10MB, sai định dạng) hoặc lỗi upload Cloudinary (dùng fetch)
-                setToast({
-                    type: "danger", title: "Lỗi", text: err.message
-                });
+                showToast("Lỗi", err.message, "danger");
+
             } else {
-                setToast({
-                    type: "danger", title: "Lỗi", text: "Đăng ký thất bại, vui lòng thử lại"
-                });
+                showToast("Lỗi", "Đăng ký thất bại, vui lòng thử lại", "danger");
+
             }
         } finally {
             setLoading(false);
@@ -426,14 +427,6 @@ export function RegisterFactoryForm() {
                             />
                         </div>
                     </fieldset>
-
-                    {toast && (
-                        <Notification
-                            title={toast.title}
-                            content={toast.text}
-                            type={toast.type}
-                        />
-                    )}
 
                     <button
                         type="submit"

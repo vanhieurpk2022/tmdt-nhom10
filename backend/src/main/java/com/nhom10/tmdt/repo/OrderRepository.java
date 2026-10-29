@@ -3,28 +3,45 @@ package com.nhom10.tmdt.repo;
 import com.nhom10.tmdt.enums.CancelReason;
 import com.nhom10.tmdt.enums.OrderStatus;
 import com.nhom10.tmdt.model.Order;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import com.nhom10.tmdt.enums.OrderStatus;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 import jakarta.persistence.LockModeType;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.List;
-import java.time.Instant;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @RepositoryRestResource(exported = false)
-public interface OrderRepository extends JpaRepository<Order,Long>, JpaSpecificationExecutor<Order> {
+public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
+
+    // --- Quản trị khách hàng & thống kê user ---
+    long countByUserId(Long userId);
+    long countByStatus(OrderStatus status);
+
+    @Query("SELECT COALESCE(SUM(o.totalPrice), 0.0) FROM Order o WHERE o.user.id = :userId AND o.status != com.nhom10.tmdt.enums.OrderStatus.CANCELLED")
+    Double sumTotalPriceByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId ORDER BY o.createdAt DESC")
+    List<Order> findRecentOrdersByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("SELECT COALESCE(SUM(o.totalPrice), 0.0) FROM Order o WHERE o.status != com.nhom10.tmdt.enums.OrderStatus.CANCELLED")
+    Double sumTotalRevenue();
+
+    // --- Khóa & tra cứu đơn hàng checkout ---
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select o from Order o where o.id = :id")
     Optional<Order> lockById(Long id);
+
     Optional<Order> findByIdAndUserEmail(Long id, String email);
+
     Optional<Order> findByUserEmailAndCheckoutKey(String email, String checkoutKey);
+
     @Query("select o.status as status, count(o) as total from Order o where o.user.email = :email group by o.status")
     List<StatusCount> countStatuses(String email);
 
@@ -46,6 +63,7 @@ public interface OrderRepository extends JpaRepository<Order,Long>, JpaSpecifica
                     (com.nhom10.tmdt.enums.PaymentStatus.REFUND_PENDING, com.nhom10.tmdt.enums.PaymentStatus.REFUNDED))
             """)
     double totalSpent(String email);
+
     @Query("select o.id from Order o where o.status = com.nhom10.tmdt.enums.OrderStatus.PENDING_PAYMENT and o.reservationExpiresAt <= :now and not exists (select a.id from PaymentAttempt a where a.orderId = o.id and a.status = 'NEEDS_REVIEW') order by o.id")
     List<Long> findExpiredIds(Instant now, Pageable pageable);
 
@@ -64,6 +82,7 @@ public interface OrderRepository extends JpaRepository<Order,Long>, JpaSpecifica
             @Param("factoryId") Long factoryId,
             Pageable pageable
     );
+
     /**
      * Đếm tổng đơn hàng của factory trong khoảng thời gian.
      */
@@ -129,5 +148,33 @@ public interface OrderRepository extends JpaRepository<Order,Long>, JpaSpecifica
     long sumRevenueByFactoryId(@Param("factoryId") Long factoryId,
                                @Param("from") LocalDateTime from);
 
-}
+    /**
+     * Lấy tất cả đơn hàng thuộc factory trong khoảng [from, to] — dùng cho biểu đồ dashboard.
+     */
+    @Query("""
+            SELECT DISTINCT o FROM Order o
+            JOIN o.orderItems oi
+            JOIN oi.product p
+            WHERE p.factory.id = :factoryId
+              AND o.createdAt >= :from
+              AND o.createdAt <= :to
+            ORDER BY o.createdAt ASC
+            """)
+    List<Order> findOrdersByFactoryIdAndDateRange(
+            @Param("factoryId") Long factoryId,
+            @Param("from") LocalDateTime from,
+            @Param("to") LocalDateTime to
+    );
 
+    /**
+     * Đếm đơn hàng theo từng trạng thái của factory — dùng cho biểu đồ tròn
+     */
+    @Query("""
+            SELECT o.status, COUNT(DISTINCT o) FROM Order o
+            JOIN o.orderItems oi
+            JOIN oi.product p
+            WHERE p.factory.id = :factoryId
+            GROUP BY o.status
+            """)
+    List<Object[]> countOrdersGroupByStatus(@Param("factoryId") Long factoryId);
+}

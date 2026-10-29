@@ -1,4 +1,5 @@
 import api from "./api";
+import type { CategoryMeta } from "./ProductService";
 
 export interface FactoryItem {
     id: number;
@@ -43,9 +44,35 @@ export interface ScentProductFromDb {
     price: number;
     factoryId: number;
     factoryName: string;
-    tier: 1 | 2 | 3;
+    tier?: number | null;
 }
 
+
+export interface CreateCustomScentPayload {
+    factoryId: number;
+    bottleType: string;
+    labelDesign: string;
+    totalVolumeMl: number;
+    price: number;
+    customNote?: string;
+    quantity: number;
+    items: {
+        productId: number;
+        scentName?: string;
+        percentage: number;
+        volumeMl: number;
+    }[];
+}
+
+
+export interface CustomScentOrderResult {
+    productId: number;
+    productMilId: number;
+    productCustomId: number;
+    name: string;
+    price: number;
+    quantity: number;
+}
 
 export const FactoryApiService = {
     /** Lấy danh sách tất cả xưởng đối tác */
@@ -66,6 +93,11 @@ export const FactoryApiService = {
         return res.data.data;
     },
 
+    getFactoryCategories: async (id: number | string): Promise<CategoryMeta[]> => {
+        const res = await api.get<ApiResponse<CategoryMeta[]>>(`/factories/${id}/categories`);
+        return res.data.data;
+    },
+
     /** Đăng kí người bán dạng có Multifile*/
     regsiterFactory: async (
         request: RegisterFactoryRequest
@@ -78,4 +110,16 @@ export const FactoryApiService = {
         return res.data;
     },
 
+    /** Tạo đơn công thức phối hương để chuẩn bị mua ngay */
+    createCustomProduct: async (payload: CreateCustomScentPayload): Promise<CustomScentOrderResult> => {
+        const res = await api.post<ApiResponse<CustomScentOrderResult>>("/custom-scent/create", payload);
+        return res.data.data;
+    },
+
+    /** Thêm công thức phối hương trực tiếp vào giỏ hàng của user */
+    addCustomScentToCart: async (payload: CreateCustomScentPayload): Promise<any> => {
+        const res = await api.post<ApiResponse<any>>("/custom-scent/add-to-cart", payload);
+        return res.data.data;
+    },
 };
+
