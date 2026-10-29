@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { authService } from '../../../api/AuthService';
 import { ROUTES } from '../../../routes/routes';
 import { useAuth } from "../../../api/AuthContext";
-import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin, useGoogleOAuth } from '@react-oauth/google';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { loginWithFacebookPopup } from '../../../utils/facebookAuth';
@@ -14,6 +14,7 @@ export function LoginForm() {
     const navigate = useNavigate();
     const location = useLocation();
     const { setUser, loading, setLoading, user } = useAuth();
+    const { scriptLoadedSuccessfully: googleReady } = useGoogleOAuth();
     const [enable, setEnable] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPasssword] = useState("");
@@ -82,7 +83,16 @@ export function LoginForm() {
                 setGoogleLoading(false);
             }
         },
-        onError: () => setErrorMessage("Đăng nhập Google thất bại, vui lòng thử lại"),
+        onError: () => {
+            setGoogleLoading(false);
+            setErrorMessage("Đăng nhập Google thất bại, vui lòng thử lại");
+        },
+        onNonOAuthError: (error) => {
+            setGoogleLoading(false);
+            if (error.type !== 'popup_closed') {
+                setErrorMessage("Không thể mở cửa sổ đăng nhập Google. Vui lòng cho phép cửa sổ bật lên và thử lại");
+            }
+        },
         flow: 'implicit',
     });
 
@@ -241,8 +251,12 @@ export function LoginForm() {
                         <div className="col-6">
                             <button
                                 type="button"
-                                onClick={() => handleGoogleLogin()}
-                                disabled={googleLoading || facebookLoading || loading}
+                                onClick={() => {
+                                    setErrorMessage('');
+                                    setGoogleLoading(true);
+                                    handleGoogleLogin();
+                                }}
+                                disabled={!googleReady || googleLoading || facebookLoading || loading}
                                 className="btn w-100 py-2 d-flex align-items-center justify-content-center gap-2 border bg-white text-nowrap"
                                 style={{
                                     borderRadius: '8px',
