@@ -34,6 +34,8 @@ public class AdminOrderListItemResponse {
     private String recipientName;
     private String phoneNumber;
     private String shippingAddress;
+    private Long factoryId;
+    private String factoryName;
     private LocalDateTime createdAt;
     private LocalDateTime deliveredAt;
 }

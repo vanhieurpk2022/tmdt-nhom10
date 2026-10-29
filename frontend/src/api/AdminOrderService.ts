@@ -15,6 +15,8 @@ export interface AdminOrderListItem {
     customerPhone: string;
     productSummary: string;
     productType: ProductType;
+    factoryId?: number;
+    factoryName?: string;
     itemCount: number;
     totalPrice: number;
     shippingFee: number;
@@ -87,6 +89,8 @@ export interface AdminOrderDetail {
         totalPrice: number;
         factoryId?: number;
         factoryName?: string;
+        factoryPhone?: string;
+        factoryAddress?: string;
     }>;
     vouchers?: string[];
     refunds?: Array<{
@@ -99,35 +103,25 @@ export interface AdminOrderDetail {
     }>;
 }
 
-export interface AdminCreateDispatchOrderPayload {
-    userId?: number;
-    recipientName: string;
-    phoneNumber: string;
-    shippingAddress: string;
-    note?: string;
-    productId?: number;
-    factoryId?: number;
-    quantity: number;
-    unitPrice?: number;
-    totalPrice?: number;
-    shippingFee?: number;
-    discountAmount?: number;
-    voucherCode?: string;
-}
-
 export const AdminOrderService = {
-    // 1. Lấy danh sách đơn hàng toàn sàn
+    // 1. Lấy danh sách đơn hàng toàn sàn với bộ lọc nâng cao
     getOrders: async (
         page: number = 0,
         size: number = 10,
         search?: string,
         status?: OrderStatus | string,
+        factoryId?: number | string,
+        productType?: ProductType | string,
+        paymentStatus?: PaymentStatus | string,
         sortBy: string = "createdAt",
         sortDir: string = "desc"
     ): Promise<AdminOrderPageResult> => {
         const params: Record<string, any> = { page, size, sortBy, sortDir };
         if (search && search.trim()) params.search = search.trim();
         if (status && status !== "ALL" && status !== "Tất cả") params.status = status;
+        if (factoryId && factoryId !== "ALL") params.factoryId = factoryId;
+        if (productType && productType !== "ALL") params.productType = productType;
+        if (paymentStatus && paymentStatus !== "ALL") params.paymentStatus = paymentStatus;
 
         const res = await api.get<ApiResponse<AdminOrderPageResult>>("/admin/orders", { params });
         return res.data.data;
@@ -160,13 +154,7 @@ export const AdminOrderService = {
         return res.data.data;
     },
 
-    // 5. Tạo đơn điều phối
-    createDispatchOrder: async (payload: AdminCreateDispatchOrderPayload): Promise<AdminOrderDetail> => {
-        const res = await api.post<ApiResponse<AdminOrderDetail>>("/admin/orders/dispatch", payload);
-        return res.data.data;
-    },
-
-    // 6. Xóa / Hủy đơn hàng
+    // 5. Xóa / Hủy đơn hàng
     deleteOrder: async (id: number): Promise<void> => {
         await api.delete<ApiResponse<void>>(`/admin/orders/${id}`);
     },

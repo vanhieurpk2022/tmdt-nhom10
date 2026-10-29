@@ -33,7 +33,7 @@ export const ROUTES = {
   ADMIN_WORKSHOP: "/admin-workshop",
   ADMIN_CUSTOMER: "/admin-customer",
   ADMIN_ORDER: "/admin-order",
-  ADMIN_ORDER_DISPATCH: "/admin-order-dispatch",
+  ADMIN_PRODUCT: "/admin-product",
   AdMIN_SALE: "/admin-sale",
   ADMIN_SUPPORT: "/admin-support",
 
@@ -47,5 +47,4 @@ export const ROUTES = {
   FACTORY_SUPPORT: "/factory-support",
   FACTORY_FORM: "/factory-register",
   FACTORY_PRODUCT_DETAILS: "/factory-product"
-
-} as const;
+}

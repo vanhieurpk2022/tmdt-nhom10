@@ -1,20 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faMagnifyingGlass,
-    faPenToSquare,
-    faTrash,
     faEye,
     faBagShopping,
     faClock,
-    faSpinner,
     faCircleCheck,
     faDownload,
-    faCirclePlus,
     faRotate,
     faBoxesPacking,
     faTriangleExclamation,
+    faTruckFast,
+    faBoxesStacked,
 } from "@fortawesome/free-solid-svg-icons";
 
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
@@ -23,6 +21,7 @@ import { ROUTES } from "../routes/routes";
 import { OrderStatus } from "../enums/OrderStatus";
 import { getPaymentStatusLabel } from "../api/OrderService";
 import { ProductType } from "../enums/ProductType";
+import { PaymentStatus } from "../enums/PaymentStatus";
 import {
     AdminOrderService,
     type AdminOrderListItem,
@@ -30,7 +29,6 @@ import {
     type AdminOrderDetail,
 } from "../api/AdminOrderService";
 import AdminOrderDetailModal from "../components/admin/order/AdminOrderDetailModal";
-import AdminUpdateOrderStatusModal from "../components/admin/order/AdminUpdateOrderStatusModal";
 import "../css/pages/user-admin.css";
 
 export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
@@ -47,11 +45,11 @@ export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: strin
         badge: "bg-primary-subtle text-primary-emphasis",
     },
     [OrderStatus.PROCESSING]: {
-        label: "Đang gia công",
+        label: "Đang đóng gói",
         badge: "bg-info-subtle text-info-emphasis",
     },
     [OrderStatus.DELIVERING]: {
-        label: "Đang giao",
+        label: "Đang giao hàng",
         badge: "bg-primary-subtle text-primary-emphasis",
     },
     [OrderStatus.SHIPPED]: {
@@ -59,11 +57,11 @@ export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: strin
         badge: "bg-info-subtle text-info-emphasis",
     },
     [OrderStatus.DELIVERED]: {
-        label: "Đã giao",
+        label: "Đã giao thành công",
         badge: "bg-success-subtle text-success-emphasis",
     },
     [OrderStatus.CANCELLED]: {
-        label: "Đã hủy",
+        label: "Đã hủy đơn",
         badge: "bg-danger-subtle text-danger-emphasis",
     },
     [OrderStatus.RETURNED]: {
@@ -78,11 +76,11 @@ export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: strin
 
 export const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
     [ProductType.CUSTOM]: {
-        label: "Tùy chỉnh",
+        label: "Phối hương",
         badge: "bg-purple-subtle text-purple-emphasis",
     },
     [ProductType.NORMAL]: {
-        label: "Thường",
+        label: "Tiêu chuẩn",
         badge: "bg-primary-subtle text-primary-emphasis",
     },
 };
@@ -106,6 +104,7 @@ const statusPillClass = (status: OrderStatus) => {
         case OrderStatus.CANCELLED:
             return "status-pill banned";
         case OrderStatus.PENDING:
+        case OrderStatus.PENDING_PAYMENT:
             return "status-pill inactive border border-warning text-warning-emphasis bg-warning-subtle";
         case OrderStatus.CONFIRMED:
         case OrderStatus.PROCESSING:
@@ -125,9 +124,11 @@ export default function AdminOrder() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Filter, Sort & Pagination states
+    // Multi-dimensional Filter, Sort & Pagination states
     const [search, setSearch] = useState<string>("");
     const [statusFilter, setStatusFilter] = useState<string>("ALL");
+    const [productTypeFilter, setProductTypeFilter] = useState<string>("ALL");
+    const [paymentStatusFilter, setPaymentStatusFilter] = useState<string>("ALL");
     const [sortBy, setSortBy] = useState<string>("createdAt");
     const [sortDir, setSortDir] = useState<string>("desc");
     const [page, setPage] = useState<number>(0);
@@ -135,11 +136,9 @@ export default function AdminOrder() {
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalElements, setTotalElements] = useState<number>(0);
 
-    // Modal states
+    // Modal state: Chỉ xem chi tiết đơn hàng
     const [detailOrder, setDetailOrder] = useState<AdminOrderDetail | null>(null);
     const [loadingDetail, setLoadingDetail] = useState<boolean>(false);
-    const [editingOrder, setEditingOrder] = useState<AdminOrderListItem | AdminOrderDetail | null>(null);
-    const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
 
     // Toast state
     const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "danger" | "info" } | null>(null);
@@ -149,12 +148,22 @@ export default function AdminOrder() {
         setTimeout(() => setToastMessage(null), 4000);
     };
 
-    // 1. Fetch Orders List
+    // 1. Fetch Orders List with filters
     const fetchOrders = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await AdminOrderService.getOrders(page, pageSize, search, statusFilter, sortBy, sortDir);
+            const res = await AdminOrderService.getOrders(
+                page,
+                pageSize,
+                search,
+                statusFilter,
+                undefined,
+                productTypeFilter,
+                paymentStatusFilter,
+                sortBy,
+                sortDir
+            );
             setOrders(res.content || []);
             setTotalPages(res.totalPages || 1);
             setTotalElements(res.totalElements || 0);
@@ -164,7 +173,7 @@ export default function AdminOrder() {
         } finally {
             setLoading(false);
         }
-    }, [page, pageSize, search, statusFilter, sortBy, sortDir]);
+    }, [page, pageSize, search, statusFilter, productTypeFilter, paymentStatusFilter, sortBy, sortDir]);
 
     // 2. Fetch Stats
     const fetchStats = useCallback(async () => {
@@ -198,39 +207,6 @@ export default function AdminOrder() {
         }
     };
 
-    // Handle open update status modal
-    const handleOpenUpdateModal = (orderItem: AdminOrderListItem | AdminOrderDetail) => {
-        setEditingOrder(orderItem);
-        setShowUpdateModal(true);
-    };
-
-    // Handle save status update
-    const handleSaveStatusUpdate = async (id: number, status: OrderStatus, note?: string, cancelReason?: string) => {
-        await AdminOrderService.updateOrderStatus(id, status, note, cancelReason);
-        showToast(`Đã cập nhật trạng thái đơn #${id} thành ${OrderStatusBadge[status]?.label || status}.`, "success");
-        fetchOrders();
-        fetchStats();
-        if (detailOrder && detailOrder.id === id) {
-            handleViewDetail(id);
-        }
-    };
-
-    // Handle delete / cancel order
-    const handleDeleteOrder = async (order: AdminOrderListItem) => {
-        if (!window.confirm(`Bạn có chắc chắn muốn hủy / xóa đơn hàng ${order.code || `#ORD-${order.id}`} không?`)) {
-            return;
-        }
-        try {
-            await AdminOrderService.deleteOrder(order.id);
-            showToast(`Đã chuyển đơn hàng #${order.id} sang trạng thái Đã hủy.`, "success");
-            fetchOrders();
-            fetchStats();
-        } catch (err: any) {
-            console.error("Lỗi khi xóa đơn hàng:", err);
-            showToast(err?.response?.data?.message || "Không thể hủy đơn hàng.", "danger");
-        }
-    };
-
     // Export CSV
     const handleExportCsv = () => {
         if (orders.length === 0) {
@@ -238,13 +214,14 @@ export default function AdminOrder() {
             return;
         }
 
-        const headers = ["Mã đơn", "Khách hàng", "SĐT", "Địa chỉ", "Sản phẩm", "Tổng tiền (VNĐ)", "Trạng thái", "Ngày tạo"];
+        const headers = ["Mã đơn", "Khách hàng", "SĐT", "Địa chỉ", "Sản phẩm", "Loại", "Tổng tiền (VNĐ)", "Trạng thái", "Ngày tạo"];
         const rows = orders.map((o) => [
             `"${o.code || `#ORD-${o.id}`}"`,
             `"${o.recipientName || o.customerName || ""}"`,
             `"${o.phoneNumber || o.customerPhone || ""}"`,
             `"${(o.shippingAddress || "").replace(/"/g, '""')}"`,
             `"${(o.productSummary || "").replace(/"/g, '""')}"`,
+            `"${o.productType === ProductType.CUSTOM ? "Phối hương" : "Tiêu chuẩn"}"`,
             o.totalPrice || 0,
             `"${OrderStatusBadge[o.status]?.label || o.status}"`,
             `"${o.createdAt ? new Date(o.createdAt).toLocaleString("vi-VN") : ""}"`,
@@ -262,7 +239,7 @@ export default function AdminOrder() {
         showToast(`Đã tải xuống file CSV (${orders.length} đơn hàng)!`, "success");
     };
 
-    // Render pagination matching UserManager.tsx
+    // Render pagination
     const renderPagination = () => {
         const pages: (number | string)[] = [];
         const currentPageNumber = page + 1;
@@ -362,7 +339,7 @@ export default function AdminOrder() {
                     </div>
                 )}
 
-                {/* Breadcrumb & Header matching UserManager */}
+                {/* Breadcrumb & Header */}
                 <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                     <div>
                         <div className="admin-breadcrumb">
@@ -370,9 +347,9 @@ export default function AdminOrder() {
                             <span className="crumb-sep">›</span>
                             <span>Vận hành lõi</span>
                             <span className="crumb-sep">›</span>
-                            <span className="active-crumb">Quản lý đơn đặt hàng</span>
+                            <span className="active-crumb">Quản lý đơn hàng</span>
                         </div>
-                        <h1 className="h4 fw-bold text-dark mb-0">Quản lý Đơn đặt hàng &amp; Điều phối</h1>
+                        <h1 className="h4 fw-bold text-dark mb-0">Quản lý Đơn đặt hàng</h1>
                     </div>
 
                     <div className="d-flex flex-wrap gap-2">
@@ -390,6 +367,11 @@ export default function AdminOrder() {
                             <span>Làm mới</span>
                         </button>
 
+                        <Link to={ROUTES.ADMIN_PRODUCT} className="btn-action-secondary text-decoration-none">
+                            <FontAwesomeIcon icon={faBoxesStacked} className="me-1" />
+                            Quản lý Sản phẩm
+                        </Link>
+
                         <Link to={ROUTES.PAYMENT_REVIEWS} className="btn-action-secondary text-decoration-none">
                             Đối soát VNPay
                         </Link>
@@ -401,11 +383,6 @@ export default function AdminOrder() {
                             <FontAwesomeIcon icon={faDownload} />
                             <span>Xuất file CSV</span>
                         </button>
-
-                        <Link to={ROUTES.ADMIN_ORDER_DISPATCH} className="btn-header-primary text-decoration-none">
-                            <FontAwesomeIcon icon={faCirclePlus} />
-                            <span>Tạo đơn điều phối</span>
-                        </Link>
                     </div>
                 </div>
 
@@ -422,7 +399,7 @@ export default function AdminOrder() {
                     </div>
                 )}
 
-                {/* ── 4 THẺ METRICS (Bố cục chuẩn UserManager) ── */}
+                {/* ── 4 THẺ METRICS (Bố cục chuẩn) ── */}
                 <div className="row g-3 mb-4">
                     {/* Thẻ 1: Tổng đơn hàng */}
                     <div className="col-12 col-sm-6 col-xl-3">
@@ -438,7 +415,7 @@ export default function AdminOrder() {
                             </div>
                             <div className="metric-card-footer d-flex flex-wrap gap-1 align-items-center">
                                 <span className="metric-chip blue">Toàn hệ thống</span>
-                                <span className="text-secondary ms-2 small">Tất cả đơn đặt hàng</span>
+                                <span className="text-secondary ms-2 small">Doanh thu: {((stats?.totalRevenue || 0) / 1000000).toFixed(1)}M đ</span>
                             </div>
                         </div>
                     </div>
@@ -456,27 +433,27 @@ export default function AdminOrder() {
                                 {stats ? stats.pendingCount.toLocaleString("vi-VN") : "..."}
                             </div>
                             <div className="metric-card-footer d-flex flex-wrap gap-1 align-items-center">
-                                <span className="metric-chip red">Cần tiếp nhận</span>
-                                <span className="text-secondary ms-2 small">Chờ xưởng điều phối</span>
+                                <span className="metric-chip red">Đơn hàng mới</span>
+                                <span className="text-secondary ms-2 small">Chờ tiếp nhận</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Thẻ 3: Đang gia công & giao */}
+                    {/* Thẻ 3: Đang vận chuyển */}
                     <div className="col-12 col-sm-6 col-xl-3">
                         <div className="metric-card">
                             <div className="metric-card-top">
-                                <span className="metric-card-label">ĐANG GIA CÔNG &amp; GIAO</span>
+                                <span className="metric-card-label">ĐANG GIAO HÀNG</span>
                                 <span className="metric-card-icon purple">
-                                    <FontAwesomeIcon icon={faSpinner} />
+                                    <FontAwesomeIcon icon={faTruckFast} />
                                 </span>
                             </div>
                             <div className="metric-card-value">
-                                {stats ? (stats.processingCount + stats.deliveringCount).toLocaleString("vi-VN") : "..."}
+                                {stats ? stats.deliveringCount.toLocaleString("vi-VN") : "..."}
                             </div>
                             <div className="metric-card-footer d-flex flex-wrap gap-1 align-items-center">
-                                <span className="metric-chip blue">Vận hành liên xưởng</span>
-                                <span className="text-secondary ms-2 small">Gia công &amp; ĐVVC</span>
+                                <span className="metric-chip blue">Vận chuyển GHN</span>
+                                <span className="text-secondary ms-2 small">Đang xử lý: {stats?.processingCount || 0}</span>
                             </div>
                         </div>
                     </div>
@@ -495,21 +472,22 @@ export default function AdminOrder() {
                             </div>
                             <div className="metric-card-footer d-flex flex-wrap gap-1 align-items-center">
                                 <span className="metric-chip green">Đơn hoàn tất</span>
-                                <span className="text-secondary ms-2 small">Quyết toán doanh thu</span>
+                                <span className="text-secondary ms-2 small">Hủy: {stats?.cancelledCount || 0}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* ── THANH TÌM KIẾM & BỘ LỌC (filter-card) ── */}
-                <div className="filter-card">
+                {/* ── THANH TÌM KIẾM & BỘ LỌC ĐA CHIỀU (Filter Card) ── */}
+                <div className="filter-card mb-3">
                     <div className="row g-2 align-items-center">
-                        <div className="col-12 col-md-5">
+                        {/* Tìm kiếm */}
+                        <div className="col-12 col-md-4">
                             <div className="search-input-wrapper">
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                                 <input
                                     type="text"
-                                    placeholder="Tìm theo mã đơn (#ORD-...), tên người nhận, SĐT, địa chỉ..."
+                                    placeholder="Tìm mã đơn (#ORD-...), người nhận, SĐT..."
                                     value={search}
                                     onChange={(e) => {
                                         setSearch(e.target.value);
@@ -519,9 +497,10 @@ export default function AdminOrder() {
                             </div>
                         </div>
 
-                        <div className="col-6 col-sm-4 col-md-3">
+                        {/* Lọc Trạng thái đơn */}
+                        <div className="col-6 col-md-2">
                             <select
-                                className="filter-select"
+                                className="filter-select w-100"
                                 value={statusFilter}
                                 onChange={(e) => {
                                     setStatusFilter(e.target.value);
@@ -532,41 +511,62 @@ export default function AdminOrder() {
                                 <option value={OrderStatus.PENDING_PAYMENT}>Chờ thanh toán</option>
                                 <option value={OrderStatus.PENDING}>Chờ xác nhận</option>
                                 <option value={OrderStatus.CONFIRMED}>Đã xác nhận</option>
-                                <option value={OrderStatus.PROCESSING}>Đang gia công</option>
-                                <option value={OrderStatus.DELIVERING}>Đang giao</option>
+                                <option value={OrderStatus.PROCESSING}>Đang đóng gói</option>
+                                <option value={OrderStatus.DELIVERING}>Đang giao hàng</option>
                                 <option value={OrderStatus.SHIPPED}>Đã gửi hàng</option>
                                 <option value={OrderStatus.DELIVERED}>Đã giao thành công</option>
                                 <option value={OrderStatus.CANCELLED}>Đã hủy đơn</option>
                             </select>
                         </div>
 
-                        <div className="col-6 col-sm-4 col-md-2">
+                        {/* Lọc Loại sản phẩm (Custom vs Normal) */}
+                        <div className="col-6 col-md-2">
                             <select
-                                className="filter-select"
-                                value={sortBy}
+                                className="filter-select w-100"
+                                value={productTypeFilter}
                                 onChange={(e) => {
-                                    setSortBy(e.target.value);
+                                    setProductTypeFilter(e.target.value);
                                     setPage(0);
                                 }}
                             >
-                                <option value="createdAt">Sắp xếp: Mới nhất</option>
-                                <option value="totalPrice">Sắp xếp: Giá trị đơn</option>
-                                <option value="id">Sắp xếp: Mã đơn</option>
+                                <option value="ALL">Loại: Tất cả</option>
+                                <option value={ProductType.CUSTOM}>Đơn phối hương độc bản</option>
+                                <option value={ProductType.NORMAL}>Đơn tiêu chuẩn</option>
                             </select>
                         </div>
 
-                        <div className="col-12 col-sm-4 col-md-2">
+                        {/* Lọc Trạng thái thanh toán */}
+                        <div className="col-6 col-md-2">
+                            <select
+                                className="filter-select w-100"
+                                value={paymentStatusFilter}
+                                onChange={(e) => {
+                                    setPaymentStatusFilter(e.target.value);
+                                    setPage(0);
+                                }}
+                            >
+                                <option value="ALL">Thanh toán: Tất cả</option>
+                                <option value={PaymentStatus.PAID}>Đã thanh toán (VNPay)</option>
+                                <option value={PaymentStatus.PENDING}>Chưa thanh toán (Thu COD)</option>
+                            </select>
+                        </div>
+
+                        {/* Nút đặt lại */}
+                        <div className="col-6 col-md-2">
                             <button
                                 type="button"
-                                className="btn-action-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+                                className="btn-action-secondary w-100 d-flex align-items-center justify-content-center gap-1"
                                 onClick={() => {
                                     setSearch("");
                                     setStatusFilter("ALL");
+                                    setProductTypeFilter("ALL");
+                                    setPaymentStatusFilter("ALL");
                                     setSortBy("createdAt");
                                     setSortDir("desc");
                                     setPage(0);
                                 }}
                                 style={{ height: "38px" }}
+                                title="Đặt lại toàn bộ bộ lọc"
                             >
                                 <FontAwesomeIcon icon={faRotate} className={loading ? "fa-spin" : ""} />
                                 <span>Đặt lại</span>
@@ -575,18 +575,18 @@ export default function AdminOrder() {
                     </div>
                 </div>
 
-                {/* ── BẢNG DỮ LIỆU ĐƠN HÀNG (table-card & admin-table) ── */}
+                {/* ── BẢNG DỮ LIỆU ĐƠN HÀNG ── */}
                 <div className="table-card">
                     <div className="table-responsive">
-                        <table className="admin-table">
+                        <table className="admin-order-table">
                             <thead>
                                 <tr>
-                                    <th style={{ width: "15%" }}>Mã đơn &amp; Ngày tạo</th>
-                                    <th style={{ width: "24%" }}>Khách hàng &amp; Người nhận</th>
-                                    <th style={{ width: "24%" }}>Sản phẩm đặt mua</th>
-                                    <th style={{ width: "15%" }}>Tổng thanh toán</th>
-                                    <th style={{ width: "12%" }}>Trạng thái</th>
-                                    <th style={{ width: "10%", textAlign: "center" }}>Thao tác</th>
+                                    <th style={{ width: "140px", minWidth: "130px" }}>Mã đơn &amp; Ngày tạo</th>
+                                    <th style={{ minWidth: "220px" }}>Khách hàng &amp; Nhận hàng</th>
+                                    <th style={{ minWidth: "240px" }}>Sản phẩm trong đơn</th>
+                                    <th style={{ width: "160px", minWidth: "150px" }}>Tổng tiền &amp; TT</th>
+                                    <th style={{ width: "150px", minWidth: "140px", textAlign: "center" }}>Trạng thái</th>
+                                    <th style={{ width: "120px", minWidth: "110px", textAlign: "center" }}>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -601,7 +601,7 @@ export default function AdminOrder() {
                                     <tr>
                                         <td colSpan={6} className="text-center py-5 text-muted">
                                             <FontAwesomeIcon icon={faBagShopping} className="fs-2 mb-2 d-block opacity-50" />
-                                            Không tìm thấy đơn hàng nào phù hợp với bộ lọc.
+                                            Không tìm thấy đơn hàng nào phù hợp với bộ lọc hiện tại.
                                         </td>
                                     </tr>
                                 ) : (
@@ -631,104 +631,94 @@ export default function AdminOrder() {
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 2: Khách hàng & Người nhận (theo mẫu customer-cell) */}
+                                                {/* Cột 2: Khách hàng & Người nhận */}
                                                 <td>
                                                     <div className="customer-cell">
                                                         <span className={`customer-avatar ${avatarTone}`}>
                                                             {initials}
                                                         </span>
-                                                        <div className="customer-name-id">
+                                                        <div className="customer-name-id" style={{ minWidth: 0 }}>
                                                             <div className="d-flex align-items-center">
-                                                                <span className="customer-name">
+                                                                <span className="customer-name text-truncate" style={{ maxWidth: "180px" }}>
                                                                     {order.recipientName || order.customerName || "Khách vãng lai"}
                                                                 </span>
                                                             </div>
                                                             <span className="contact-phone">
                                                                 {order.phoneNumber || order.customerPhone || "Chưa có SĐT"}
                                                             </span>
-                                                            {order.customerEmail && (
-                                                                <span className="text-secondary" style={{ fontSize: "11px" }}>
-                                                                    {order.customerEmail}
+                                                            {order.shippingAddress && (
+                                                                <span
+                                                                    className="text-secondary text-truncate d-block"
+                                                                    style={{ fontSize: "11px", maxWidth: "200px" }}
+                                                                    title={order.shippingAddress}
+                                                                >
+                                                                    {order.shippingAddress}
                                                                 </span>
                                                             )}
                                                         </div>
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 3: Sản phẩm đặt mua */}
+                                                {/* Cột 3: Sản phẩm trong đơn */}
                                                 <td>
-                                                    <div className="d-flex flex-column">
-                                                        <span className="customer-name" style={{ fontSize: "12.5px" }}>
+                                                    <div className="d-flex flex-column" style={{ minWidth: 0 }}>
+                                                        <span className="customer-name text-truncate" style={{ fontSize: "12.5px", maxWidth: "250px" }} title={order.productSummary}>
                                                             {order.productSummary || `Đơn hàng #${order.id}`}
                                                         </span>
                                                         <div className="d-flex align-items-center gap-2 mt-1">
                                                             <span className="text-secondary" style={{ fontSize: "11px" }}>
                                                                 <FontAwesomeIcon icon={faBoxesPacking} className="me-1 text-muted" />
-                                                                {order.itemCount} sản phẩm
+                                                                {order.itemCount} món
                                                             </span>
-                                                            {order.productType === ProductType.CUSTOM && (
+                                                            {order.productType === ProductType.CUSTOM ? (
                                                                 <span className="badge bg-purple-subtle text-purple-emphasis" style={{ fontSize: "10px" }}>
-                                                                    Tùy chỉnh
+                                                                    Phối hương độc bản
+                                                                </span>
+                                                            ) : (
+                                                                <span className="badge bg-light text-secondary border" style={{ fontSize: "10px" }}>
+                                                                    Tiêu chuẩn
                                                                 </span>
                                                             )}
                                                         </div>
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 4: Tổng thanh toán */}
+                                                {/* Cột 4: Tổng tiền & Thanh toán */}
                                                 <td>
                                                     <div className="ltv-cell">
                                                         <span className="ltv-amount text-danger" style={{ fontSize: "13px" }}>
                                                             {(order.totalPrice || 0).toLocaleString("vi-VN")}đ
                                                         </span>
                                                         <span className="ltv-sub">
-                                                            {order.paymentMethod || "COD"} • {getPaymentStatusLabel(order)}
+                                                            {order.paymentMethod || "COD"} •{" "}
+                                                            <span className={order.paymentStatus === "PAID" ? "text-success fw-bold" : "text-warning-emphasis"}>
+                                                                {getPaymentStatusLabel(order)}
+                                                            </span>
                                                         </span>
                                                     </div>
                                                 </td>
 
-                                                {/* Cột 5: Trạng thái (status-pill chuẩn UserManager) */}
-                                                <td>
-                                                    <span className={statusPillClass(order.status)}>
-                                                        <span className="dot" />
-                                                        {OrderStatusBadge[order.status]?.label || order.status}
-                                                    </span>
+                                                {/* Cột 5: Trạng thái */}
+                                                <td style={{ textAlign: "center" }}>
+                                                    <div className="d-flex justify-content-center">
+                                                        <span className={statusPillClass(order.status)}>
+                                                            <span className="dot" />
+                                                            {OrderStatusBadge[order.status]?.label || order.status}
+                                                        </span>
+                                                    </div>
                                                 </td>
 
-                                                {/* Cột 6: Thao tác (Icon buttons: Mắt, Bút, Thùng rác) */}
-                                                <td style={{ textAlign: "center" }}>
-                                                    <div className="d-flex align-items-center justify-content-center gap-2">
-                                                        {/* Xem chi tiết (hình con mắt) */}
+                                                {/* Cột 6: Thao tác - Duy nhất nút Xem chi tiết */}
+                                                <td style={{ textAlign: "center", width: "120px", minWidth: "110px" }}>
+                                                    <div className="order-action-group justify-content-center">
                                                         <button
                                                             type="button"
-                                                            className="btn btn-sm btn-outline-primary d-inline-flex align-items-center justify-content-center rounded-3 shadow-none"
-                                                            style={{ width: "32px", height: "32px", padding: 0 }}
+                                                            className="order-action-btn btn-view"
                                                             onClick={() => handleViewDetail(order.id)}
                                                             title="Xem chi tiết đơn hàng"
                                                         >
                                                             <FontAwesomeIcon icon={faEye} />
-                                                        </button>
-
-                                                        {/* Chuyển trạng thái */}
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-sm btn-outline-success d-inline-flex align-items-center justify-content-center rounded-3 shadow-none"
-                                                            style={{ width: "32px", height: "32px", padding: 0 }}
-                                                            onClick={() => handleOpenUpdateModal(order)}
-                                                            title="Cập nhật trạng thái"
-                                                        >
-                                                            <FontAwesomeIcon icon={faPenToSquare} />
-                                                        </button>
-
-                                                        {/* Hủy đơn */}
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-sm btn-outline-danger d-inline-flex align-items-center justify-content-center rounded-3 shadow-none"
-                                                            style={{ width: "32px", height: "32px", padding: 0 }}
-                                                            onClick={() => handleDeleteOrder(order)}
-                                                            title="Hủy đơn hàng"
-                                                        >
-                                                            <FontAwesomeIcon icon={faTrash} />
+                                                            <span>Chi tiết</span>
                                                         </button>
                                                     </div>
                                                 </td>
@@ -740,7 +730,7 @@ export default function AdminOrder() {
                         </table>
                     </div>
 
-                    {/* Phân trang chuẩn UserManager */}
+                    {/* Phân trang */}
                     {renderPagination()}
                 </div>
             </div>
@@ -750,21 +740,6 @@ export default function AdminOrder() {
                 order={detailOrder}
                 loading={loadingDetail}
                 onClose={() => setDetailOrder(null)}
-                onOpenStatusUpdate={(ord) => {
-                    setEditingOrder(ord);
-                    setShowUpdateModal(true);
-                }}
-            />
-
-            {/* Modal: Cập nhật trạng thái đơn hàng */}
-            <AdminUpdateOrderStatusModal
-                order={editingOrder}
-                show={showUpdateModal}
-                onClose={() => {
-                    setShowUpdateModal(false);
-                    setEditingOrder(null);
-                }}
-                onSave={handleSaveStatusUpdate}
             />
         </div>
     );

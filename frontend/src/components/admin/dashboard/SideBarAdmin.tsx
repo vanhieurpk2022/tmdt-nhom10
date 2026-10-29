@@ -8,6 +8,7 @@ import {
     faFlask,
     faGear,
     faDroplet,
+    faBoxesStacked,
     faArrowRightFromBracket,
     faBars,
 } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +24,7 @@ interface SidebarAdminProps {
     isWorkshopManagement?: boolean;
     isCustomer?: boolean;
     isOrder?: boolean;
+    isProduct?: boolean;
     isRefund?: boolean;
     isVoucher?: boolean;
     isSupport?: boolean;
@@ -133,6 +135,7 @@ function SidebarAdmin({
     isWorkshopManagement = false,
     isCustomer = false,
     isOrder = false,
+    isProduct = false,
     isRefund = false,
     isVoucher = false,
     isSupport = false,
@@ -300,6 +303,13 @@ function SidebarAdmin({
                     isActive={isOrder}
                     badge="2"
                     badgeTone="amber"
+                    isCollapsed={isCollapsed}
+                />
+                <NavItem
+                    to={ROUTES.ADMIN_PRODUCT}
+                    icon={faBoxesStacked}
+                    label="Quản lý Sản phẩm"
+                    isActive={isProduct}
                     isCollapsed={isCollapsed}
                 />
                 <NavItem

@@ -357,7 +357,7 @@ export default function UserManager() {
                     <div className="spinner-border text-danger" role="status" style={{ width: "3rem", height: "3rem" }}>
                         <span className="visually-hidden">Đang tải...</span>
                     </div>
-                    <div className="mt-3 text-muted fw-semibold">Đang kiểm tra quyền quản trị...</div>
+                    <div className="mt-3 text-muted fw-semibold">Đang tải trang</div>
                 </div>
             </div>
         );

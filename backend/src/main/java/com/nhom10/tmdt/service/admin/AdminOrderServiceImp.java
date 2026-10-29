@@ -42,7 +42,17 @@ public class AdminOrderServiceImp implements AdminOrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public AdminOrderPageResponse getOrders(int page, int size, String search, OrderStatus status, String sortBy, String sortDir) {
+    public AdminOrderPageResponse getOrders(
+            int page,
+            int size,
+            String search,
+            OrderStatus status,
+            Long factoryId,
+            ProductType productType,
+            PaymentStatus paymentStatus,
+            String sortBy,
+            String sortDir
+    ) {
         String safeSort = (sortBy == null || sortBy.isBlank()) ? "createdAt" : sortBy;
         Sort.Direction direction = "asc".equalsIgnoreCase(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size), Sort.by(direction, safeSort));
@@ -52,6 +62,28 @@ public class AdminOrderServiceImp implements AdminOrderService {
 
             if (status != null) {
                 predicates.add(cb.equal(root.get("status"), status));
+            }
+
+            if (paymentStatus != null) {
+                predicates.add(cb.equal(root.get("paymentStatus"), paymentStatus));
+            }
+
+            if (factoryId != null || productType != null) {
+                Join<Order, OrderItem> itemJoin = root.join("orderItems", JoinType.LEFT);
+                Join<OrderItem, Product> productJoin = itemJoin.join("product", JoinType.LEFT);
+
+                if (factoryId != null) {
+                    Join<Product, Factory> factoryJoin = productJoin.join("factory", JoinType.LEFT);
+                    predicates.add(cb.equal(factoryJoin.get("id"), factoryId));
+                }
+
+                if (productType != null) {
+                    predicates.add(cb.equal(productJoin.get("productType"), productType));
+                }
+
+                if (query != null) {
+                    query.distinct(true);
+                }
             }
 
             if (search != null && !search.trim().isEmpty()) {
@@ -143,66 +175,6 @@ public class AdminOrderServiceImp implements AdminOrderService {
     }
 
     @Override
-    public AdminOrderDetailResponse createDispatchOrder(AdminCreateDispatchOrderRequest request) {
-        User user = null;
-        if (request.getUserId() != null) {
-            user = userRepository.findById(request.getUserId()).orElse(null);
-        }
-        if (user == null) {
-            user = userRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Hệ thống chưa có người dùng nào để gán đơn"));
-        }
-
-        Product product = null;
-        if (request.getProductId() != null) {
-            product = productRepository.findById(request.getProductId()).orElse(null);
-        }
-        if (product == null) {
-            product = productRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Hệ thống chưa có sản phẩm nào"));
-        }
-
-        int qty = (request.getQuantity() != null && request.getQuantity() > 0) ? request.getQuantity() : 1;
-        double unitPrice = request.getUnitPrice() != null ? request.getUnitPrice() : (product.getPrice() != null ? product.getPrice() : 800000.0);
-        double shipping = request.getShippingFee() != null ? request.getShippingFee() : 35000.0;
-        double discount = request.getDiscountAmount() != null ? request.getDiscountAmount() : 35000.0;
-        double subtotal = unitPrice * qty;
-        double total = Math.max(0.0, subtotal + shipping - discount);
-
-        Order order = Order.builder()
-                .user(user)
-                .recipientName(request.getRecipientName() != null ? request.getRecipientName() : user.getFullname())
-                .phoneNumber(request.getPhoneNumber() != null ? request.getPhoneNumber() : user.getPhone())
-                .shippingAddress(request.getShippingAddress() != null ? request.getShippingAddress() : "Hà Nội, Việt Nam")
-                .note(request.getNote() != null ? request.getNote() : "Đơn gia công điều phối xưởng")
-                .status(OrderStatus.PENDING)
-                .paymentMethod(PaymentMethod.COD)
-                .paymentStatus(PaymentStatus.PENDING)
-                .subtotalPrice(subtotal)
-                .shippingFee(shipping)
-                .discountAmount(discount)
-                .totalPrice(total)
-                .payableAmountVnd(Math.round(total))
-                .checkoutKey("DISPATCH-" + UUID.randomUUID())
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        Order savedOrder = orderRepository.save(order);
-
-        OrderItem orderItem = OrderItem.builder()
-                .order(savedOrder)
-                .product(product)
-                .quantity(qty)
-                .unitPrice(unitPrice)
-                .build();
-
-        orderItemRepository.save(orderItem);
-
-        savedOrder.setOrderItems(new ArrayList<>(List.of(orderItem)));
-        return mapToDetail(savedOrder);
-    }
-
-    @Override
     public void deleteOrder(Long id) {
         updateOrderStatus(id, UpdateOrderStatusRequest.builder().status(OrderStatus.CANCELLED)
                 .cancelReason(CancelReason.CUSTOMER_CHANGED_MIND).build());
@@ -221,6 +193,8 @@ public class AdminOrderServiceImp implements AdminOrderService {
 
         String summary = "Đơn hàng #" + order.getId();
         ProductType pType = ProductType.NORMAL;
+        Long fId = null;
+        String fName = null;
         int count = 0;
 
         if (items != null && !items.isEmpty()) {
@@ -229,6 +203,10 @@ public class AdminOrderServiceImp implements AdminOrderService {
             if (first.getProduct() != null) {
                 summary = first.getProduct().getName() != null ? first.getProduct().getName() : "Sản phẩm #" + first.getProduct().getId();
                 pType = first.getProduct().getProductType() != null ? first.getProduct().getProductType() : ProductType.NORMAL;
+                if (first.getProduct().getFactory() != null) {
+                    fId = first.getProduct().getFactory().getId();
+                    fName = first.getProduct().getFactory().getName();
+                }
                 if (count > 1) {
                     summary += " (+" + (count - 1) + " sản phẩm khác)";
                 }
@@ -244,6 +222,8 @@ public class AdminOrderServiceImp implements AdminOrderService {
                 .customerPhone(u != null ? u.getPhone() : "")
                 .productSummary(summary)
                 .productType(pType)
+                .factoryId(fId)
+                .factoryName(fName)
                 .itemCount(count > 0 ? count : 1)
                 .totalPrice(order.getTotalPrice() != null ? order.getTotalPrice() : 0.0)
                 .shippingFee(order.getShippingFee() != null ? order.getShippingFee() : 0.0)
@@ -303,6 +283,8 @@ public class AdminOrderServiceImp implements AdminOrderService {
                             .totalPrice(it.getUnitPrice() * it.getQuantity())
                             .factoryId(f != null ? f.getId() : null)
                             .factoryName(f != null ? f.getName() : "OILIA Lab")
+                            .factoryPhone(f != null ? f.getShopPhone() : null)
+                            .factoryAddress(f != null ? f.getAddress() : null)
                             .build();
                 })
                 .toList();

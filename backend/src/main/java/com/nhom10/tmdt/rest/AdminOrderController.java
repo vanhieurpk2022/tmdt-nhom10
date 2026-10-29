@@ -15,7 +15,7 @@ public class AdminOrderController {
     private final AdminOrderService adminOrderService;
 
     /**
-     * Lấy danh sách đơn hàng toàn sàn (phân trang, tìm kiếm, lọc theo trạng thái)
+     * Lấy danh sách đơn hàng toàn sàn (phân trang, tìm kiếm, lọc theo trạng thái, xưởng, loại SP, TT thanh toán)
      */
     @GetMapping
     public ApiResponse<AdminOrderPageResponse> getOrders(
@@ -23,10 +23,15 @@ public class AdminOrderController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) OrderStatus status,
+            @RequestParam(required = false) Long factoryId,
+            @RequestParam(required = false) com.nhom10.tmdt.enums.ProductType productType,
+            @RequestParam(required = false) com.nhom10.tmdt.enums.PaymentStatus paymentStatus,
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDir
     ) {
-        AdminOrderPageResponse response = adminOrderService.getOrders(page, size, search, status, sortBy, sortDir);
+        AdminOrderPageResponse response = adminOrderService.getOrders(
+                page, size, search, status, factoryId, productType, paymentStatus, sortBy, sortDir
+        );
         return new ApiResponse<>(200, "Lấy danh sách đơn hàng thành công", response);
     }
 
@@ -58,17 +63,6 @@ public class AdminOrderController {
     ) {
         AdminOrderDetailResponse updated = adminOrderService.updateOrderStatus(id, request);
         return new ApiResponse<>(200, "Cập nhật trạng thái đơn hàng thành công", updated);
-    }
-
-    /**
-     * Tạo đơn điều phối vận hành & chuyển lệnh sản xuất sang xưởng chế tác
-     */
-    @PostMapping("/dispatch")
-    public ApiResponse<AdminOrderDetailResponse> createDispatchOrder(
-            @RequestBody AdminCreateDispatchOrderRequest request
-    ) {
-        AdminOrderDetailResponse created = adminOrderService.createDispatchOrder(request);
-        return new ApiResponse<>(201, "Tạo đơn điều phối thành công", created);
     }
 
     /**

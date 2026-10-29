@@ -77,5 +77,7 @@ public class AdminOrderDetailResponse {
         private Double totalPrice;
         private Long factoryId;
         private String factoryName;
+        private String factoryPhone;
+        private String factoryAddress;
     }
 }
