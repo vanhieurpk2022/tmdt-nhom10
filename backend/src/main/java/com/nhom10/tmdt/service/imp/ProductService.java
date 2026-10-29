@@ -161,7 +161,7 @@ public class ProductService {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Chỉ lấy sản phẩm thương mại thông thường (NORMAL), loại trừ nguyên liệu phối hương (CUSTOM)
+            // Chỉ lấy sản phẩm thông thường (NORMAL), loại trừ sản phẩm đã phối hương (CUSTOM).
             predicates.add(cb.or(
                     cb.isNull(root.get("productType")),
                     cb.equal(root.get("productType"), com.nhom10.tmdt.enums.ProductType.NORMAL)

@@ -1,22 +1,25 @@
 package com.nhom10.tmdt.dto.customscent;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+
 import java.util.List;
 
 public record CreateCustomScentRequest(
-        Long factoryId,
-        String bottleType,
+        @NotNull @Positive Long factoryId,
+        @NotBlank String bottleType,
         String labelDesign,
-        Double totalVolumeMl,
-        Double price,
+        @NotNull @Positive @Max(2147483647) @Digits(integer = 10, fraction = 0) Double totalVolumeMl,
+        @NotNull @PositiveOrZero Double price,
         String customNote,
         Integer quantity,
-        List<ScentTierItemRequest> items
+        @NotEmpty List<@NotNull @Valid ScentTierItemRequest> items
 ) {
     public record ScentTierItemRequest(
-            Long productId,
+            @NotNull @Positive Long productId,
             String scentName,
-            Double percentage,
-            Double volumeMl
+            @NotNull @Positive @Max(100) Double percentage,
+            @NotNull @Positive Double volumeMl
     ) {}
 }
 
