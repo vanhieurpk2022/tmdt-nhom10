@@ -35,7 +35,17 @@ public class AdminOrderServiceImp implements AdminOrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public AdminOrderPageResponse getOrders(int page, int size, String search, OrderStatus status, String sortBy, String sortDir) {
+    public AdminOrderPageResponse getOrders(
+            int page,
+            int size,
+            String search,
+            OrderStatus status,
+            Long factoryId,
+            ProductType productType,
+            PaymentStatus paymentStatus,
+            String sortBy,
+            String sortDir
+    ) {
         String safeSort = (sortBy == null || sortBy.isBlank()) ? "createdAt" : sortBy;
         Sort.Direction direction = "asc".equalsIgnoreCase(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size), Sort.by(direction, safeSort));
@@ -45,6 +55,28 @@ public class AdminOrderServiceImp implements AdminOrderService {
 
             if (status != null) {
                 predicates.add(cb.equal(root.get("status"), status));
+            }
+
+            if (paymentStatus != null) {
+                predicates.add(cb.equal(root.get("paymentStatus"), paymentStatus));
+            }
+
+            if (factoryId != null || productType != null) {
+                Join<Order, OrderItem> itemJoin = root.join("orderItems", JoinType.LEFT);
+                Join<OrderItem, Product> productJoin = itemJoin.join("product", JoinType.LEFT);
+
+                if (factoryId != null) {
+                    Join<Product, Factory> factoryJoin = productJoin.join("factory", JoinType.LEFT);
+                    predicates.add(cb.equal(factoryJoin.get("id"), factoryId));
+                }
+
+                if (productType != null) {
+                    predicates.add(cb.equal(productJoin.get("productType"), productType));
+                }
+
+                if (query != null) {
+                    query.distinct(true);
+                }
             }
 
             if (search != null && !search.trim().isEmpty()) {
@@ -203,6 +235,46 @@ public class AdminOrderServiceImp implements AdminOrderService {
     }
 
     @Override
+    public AdminOrderDetailResponse quickDispatch(Long id, Long factoryId, String dispatchNote) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
+
+        order.setStatus(OrderStatus.CONFIRMED);
+
+        Factory factory = null;
+        if (factoryId != null) {
+            factory = factoryRepository.findById(factoryId).orElse(null);
+        }
+
+        String noteAppend = "[Admin đã duyệt & Điều phối xưởng" + (factory != null ? ": " + factory.getName() : "") + "]";
+        if (dispatchNote != null && !dispatchNote.isBlank()) {
+            noteAppend += " - " + dispatchNote.trim();
+        }
+
+        String existingNote = order.getNote() != null ? order.getNote() + " | " : "";
+        order.setNote(existingNote + noteAppend);
+
+        Order saved = orderRepository.save(order);
+        return mapToDetail(saved);
+    }
+
+    @Override
+    public AdminOrderDetailResponse reassignFactory(Long id, Long factoryId, String reason) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
+
+        Factory factory = factoryRepository.findById(factoryId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy xưởng với ID: " + factoryId));
+
+        String changeNote = "[Đã chuyển giao xưởng chế tác: " + factory.getName() + (reason != null && !reason.isBlank() ? " | Lý do: " + reason.trim() : "") + "]";
+        String existingNote = order.getNote() != null ? order.getNote() + " | " : "";
+        order.setNote(existingNote + changeNote);
+
+        Order saved = orderRepository.save(order);
+        return mapToDetail(saved);
+    }
+
+    @Override
     public void deleteOrder(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng với ID: " + id));
@@ -218,6 +290,8 @@ public class AdminOrderServiceImp implements AdminOrderService {
 
         String summary = "Đơn hàng #" + order.getId();
         ProductType pType = ProductType.NORMAL;
+        Long fId = null;
+        String fName = null;
         int count = 0;
 
         if (items != null && !items.isEmpty()) {
@@ -226,6 +300,10 @@ public class AdminOrderServiceImp implements AdminOrderService {
             if (first.getProduct() != null) {
                 summary = first.getProduct().getName() != null ? first.getProduct().getName() : "Sản phẩm #" + first.getProduct().getId();
                 pType = first.getProduct().getProductType() != null ? first.getProduct().getProductType() : ProductType.NORMAL;
+                if (first.getProduct().getFactory() != null) {
+                    fId = first.getProduct().getFactory().getId();
+                    fName = first.getProduct().getFactory().getName();
+                }
                 if (count > 1) {
                     summary += " (+" + (count - 1) + " sản phẩm khác)";
                 }
@@ -241,6 +319,8 @@ public class AdminOrderServiceImp implements AdminOrderService {
                 .customerPhone(u != null ? u.getPhone() : "")
                 .productSummary(summary)
                 .productType(pType)
+                .factoryId(fId)
+                .factoryName(fName)
                 .itemCount(count > 0 ? count : 1)
                 .totalPrice(order.getTotalPrice() != null ? order.getTotalPrice() : 0.0)
                 .shippingFee(order.getShippingFee() != null ? order.getShippingFee() : 0.0)
@@ -300,6 +380,8 @@ public class AdminOrderServiceImp implements AdminOrderService {
                             .totalPrice(it.getUnitPrice() * it.getQuantity())
                             .factoryId(f != null ? f.getId() : null)
                             .factoryName(f != null ? f.getName() : "OILIA Lab")
+                            .factoryPhone(f != null ? f.getShopPhone() : null)
+                            .factoryAddress(f != null ? f.getAddress() : null)
                             .build();
                 })
                 .toList();

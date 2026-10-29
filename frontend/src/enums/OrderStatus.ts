@@ -1,4 +1,5 @@
 export const OrderStatus = {
+  PENDING_PAYMENT: 'PENDING_PAYMENT', // Chờ thanh toán
   PENDING: 'PENDING',         // Chờ xác nhận
   CONFIRMED: 'CONFIRMED',     // Đã xác nhận
   PROCESSING: 'PROCESSING',   // Đang xử lý / đóng gói

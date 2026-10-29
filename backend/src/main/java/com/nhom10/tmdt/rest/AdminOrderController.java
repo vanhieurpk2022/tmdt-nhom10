@@ -15,7 +15,7 @@ public class AdminOrderController {
     private final AdminOrderService adminOrderService;
 
     /**
-     * Lấy danh sách đơn hàng toàn sàn (phân trang, tìm kiếm, lọc theo trạng thái)
+     * Lấy danh sách đơn hàng toàn sàn (phân trang, tìm kiếm, lọc theo trạng thái, xưởng, loại SP, TT thanh toán)
      */
     @GetMapping
     public ApiResponse<AdminOrderPageResponse> getOrders(
@@ -23,10 +23,15 @@ public class AdminOrderController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) OrderStatus status,
+            @RequestParam(required = false) Long factoryId,
+            @RequestParam(required = false) com.nhom10.tmdt.enums.ProductType productType,
+            @RequestParam(required = false) com.nhom10.tmdt.enums.PaymentStatus paymentStatus,
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDir
     ) {
-        AdminOrderPageResponse response = adminOrderService.getOrders(page, size, search, status, sortBy, sortDir);
+        AdminOrderPageResponse response = adminOrderService.getOrders(
+                page, size, search, status, factoryId, productType, paymentStatus, sortBy, sortDir
+        );
         return new ApiResponse<>(200, "Lấy danh sách đơn hàng thành công", response);
     }
 
@@ -69,6 +74,32 @@ public class AdminOrderController {
     ) {
         AdminOrderDetailResponse created = adminOrderService.createDispatchOrder(request);
         return new ApiResponse<>(201, "Tạo đơn điều phối thành công", created);
+    }
+
+    /**
+     * Duyệt nhanh và chuyển lệnh điều phối sang xưởng gia công
+     */
+    @PatchMapping("/{id}/quick-dispatch")
+    public ApiResponse<AdminOrderDetailResponse> quickDispatch(
+            @PathVariable Long id,
+            @RequestParam(required = false) Long factoryId,
+            @RequestParam(required = false) String note
+    ) {
+        AdminOrderDetailResponse updated = adminOrderService.quickDispatch(id, factoryId, note);
+        return new ApiResponse<>(200, "Duyệt đơn và chuyển lệnh xưởng thành công", updated);
+    }
+
+    /**
+     * Điều phối lại xưởng gia công chế tác
+     */
+    @PatchMapping("/{id}/reassign-factory")
+    public ApiResponse<AdminOrderDetailResponse> reassignFactory(
+            @PathVariable Long id,
+            @RequestParam Long factoryId,
+            @RequestParam(required = false) String reason
+    ) {
+        AdminOrderDetailResponse updated = adminOrderService.reassignFactory(id, factoryId, reason);
+        return new ApiResponse<>(200, "Điều phối lại xưởng gia công thành công", updated);
     }
 
     /**
