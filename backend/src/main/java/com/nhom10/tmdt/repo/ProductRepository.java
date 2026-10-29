@@ -4,6 +4,8 @@ import com.nhom10.tmdt.dto.factory.FactoryProductItem;
 import com.nhom10.tmdt.dto.factory.FactoryProductResponse;
 import com.nhom10.tmdt.dto.factory.FactoryProductStats;
 import com.nhom10.tmdt.dto.product.CategoryDto;
+import com.nhom10.tmdt.enums.ProductStatus;
+import com.nhom10.tmdt.enums.ProductType;
 import com.nhom10.tmdt.model.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -83,4 +85,11 @@ WHERE f.id = :factoryId
         ORDER BY p.createdAt DESC
         """)
     List<FactoryProductItem> getProducts(@Param("factoryId") Long factoryId);
+
+    long countByStatus(ProductStatus status);
+
+    long countByProductType(ProductType productType);
+
+    @Query("SELECT COUNT(DISTINCT p.factory.id) FROM Product p WHERE p.factory IS NOT NULL")
+    long countDistinctFactories();
 }

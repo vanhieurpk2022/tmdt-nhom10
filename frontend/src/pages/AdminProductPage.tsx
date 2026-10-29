@@ -10,12 +10,7 @@ import {
     faRotate,
     faTriangleExclamation,
     faIndustry,
-    faFlask,
     faTag,
-    faStar,
-    faStore,
-    faShieldHalved,
-    faCheck,
     faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -24,13 +19,18 @@ import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { ROUTES } from "../routes/routes";
 import { ProductType } from "../enums/ProductType";
 import { ProductStatus } from "../enums/ProductStatus";
-import CustomBadge from "../components/admin/badge/CustomBadge";
 import AdminProductDetailModal, {
     type AdminProductDetail,
     AdminProductStatusBadge,
 } from "../components/admin/product/AdminProductDetailModal";
+import {
+    AdminProductService,
+    type AdminProductStats,
+} from "../api/AdminProductService";
 import { FactoryApiService, type FactoryItem } from "../api/FactoryService";
 import "../css/pages/user-admin.css";
+
+const formatVnd = (val?: number) => (val || 0).toLocaleString("vi-VN") + "đ";
 
 export const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
     [ProductType.CUSTOM]: {
@@ -288,6 +288,87 @@ export default function AdminProductPage() {
         setTimeout(() => setToastMessage(null), 4000);
     };
 
+    const [backendStats, setBackendStats] = useState<AdminProductStats | null>(null);
+
+    // Tải danh sách sản phẩm từ backend API
+    const fetchProducts = useCallback(async () => {
+        setLoading(true);
+        try {
+            const res = await AdminProductService.getProducts(
+                0,
+                100,
+                search,
+                factoryFilter,
+                categoryFilter,
+                productTypeFilter,
+                statusFilter,
+                sortBy,
+                sortDir
+            );
+            if (res && res.content && res.content.length > 0) {
+                const mapped: AdminProductDetail[] = res.content.map((item) => ({
+                    id: item.id,
+                    code: item.code,
+                    name: item.name,
+                    category: item.categoryName,
+                    productType: item.productType,
+                    status: item.status,
+                    thumbnailUrl: item.thumbnailUrl,
+                    price: item.price,
+                    maxPrice: item.maxPrice,
+                    totalStock: Number(item.totalStock),
+                    totalSold: Number(item.totalSold),
+                    rating: item.rating,
+                    reviewCount: item.reviewCount,
+                    createdAt: item.createdAt,
+                    description: item.description,
+                    factoryId: item.factoryId || 1,
+                    factoryName: item.factoryName,
+                    factoryAddress: item.factoryAddress || "Chưa cập nhật địa chỉ",
+                    factoryPhone: item.factoryPhone || "Chưa có hotline",
+                    factoryEmail: "contact@" + (item.factoryName?.toLowerCase().replace(/\s+/g, "") || "factory") + ".vn",
+                    factoryRepresentative: item.factoryRepresentative || "Đang cập nhật",
+                    variants: [],
+                }));
+                setProducts(mapped);
+            }
+        } catch (err) {
+            console.log("Sử dụng dữ liệu khởi tạo:", err);
+        } finally {
+            setLoading(false);
+        }
+    }, [search, factoryFilter, categoryFilter, productTypeFilter, statusFilter, sortBy, sortDir]);
+
+    // Tải số liệu thống kê tổng hợp từ backend API
+    const fetchStats = useCallback(async () => {
+        try {
+            const s = await AdminProductService.getProductStats();
+            if (s && s.totalProducts > 0) {
+                setBackendStats(s);
+            }
+        } catch (err) {
+            console.log("Thống kê nội bộ:", err);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchProducts();
+        fetchStats();
+    }, [fetchProducts, fetchStats]);
+
+    // Xem chi tiết sản phẩm (kết nối API chi tiết)
+    const handleViewDetail = async (p: AdminProductDetail) => {
+        setSelectedProduct(p);
+        try {
+            const fullDetail = await AdminProductService.getProductDetail(p.id);
+            if (fullDetail) {
+                setSelectedProduct(fullDetail);
+            }
+        } catch (err) {
+            console.log("Hiển thị dữ liệu chi tiết hiện có:", err);
+        }
+    };
+
     // Load actual factories from backend API if available
     useEffect(() => {
         FactoryApiService.getAllFactories()
@@ -374,6 +455,15 @@ export default function AdminProductPage() {
 
     // Thống kê tổng hợp (Metrics)
     const stats = useMemo(() => {
+        if (backendStats && backendStats.totalProducts > 0) {
+            return {
+                totalProducts: backendStats.totalProducts,
+                activeCount: backendStats.activeCount,
+                outOfStockCount: backendStats.outOfStockCount,
+                customCount: backendStats.customCount,
+                totalWorkshops: backendStats.totalWorkshops,
+            };
+        }
         const total = products.length;
         const active = products.filter((p) => p.status === ProductStatus.ACTIVE).length;
         const outOfStock = products.filter((p) => p.status === ProductStatus.OUT_OF_STOCK || p.totalStock === 0).length;
@@ -387,7 +477,7 @@ export default function AdminProductPage() {
             customCount,
             totalWorkshops,
         };
-    }, [products]);
+    }, [products, backendStats]);
 
     // Xuất file CSV
     const handleExportCsv = () => {
@@ -483,11 +573,9 @@ export default function AdminProductPage() {
                             type="button"
                             className="btn-action-secondary"
                             onClick={() => {
-                                setLoading(true);
-                                setTimeout(() => {
-                                    setLoading(false);
-                                    showToast("Đã đồng bộ danh mục sản phẩm và xưởng mới nhất!", "info");
-                                }, 300);
+                                fetchProducts();
+                                fetchStats();
+                                showToast("Đã đồng bộ danh mục sản phẩm và xưởng mới nhất!", "info");
                             }}
                             title="Làm mới dữ liệu"
                         >
@@ -653,7 +741,7 @@ export default function AdminProductPage() {
                         </div>
 
                         {/* Lọc Trạng thái kinh doanh */}
-                        <div className="col-6 col-sm-4 col-lg-1">
+                        <div className="col-6 col-sm-4 col-lg-2">
                             <select
                                 className="filter-select w-100"
                                 value={statusFilter}
@@ -662,10 +750,31 @@ export default function AdminProductPage() {
                                     setPage(0);
                                 }}
                             >
-                                <option value="ALL">Trạng thái</option>
+                                <option value="ALL">Trạng thái: Tất cả</option>
                                 <option value={ProductStatus.ACTIVE}>Đang bán</option>
                                 <option value={ProductStatus.OUT_OF_STOCK}>Hết hàng</option>
                                 <option value={ProductStatus.INACTIVE}>Tạm ngưng</option>
+                            </select>
+                        </div>
+
+                        {/* Sắp xếp */}
+                        <div className="col-6 col-sm-4 col-lg-2">
+                            <select
+                                className="filter-select w-100"
+                                value={`${sortBy}-${sortDir}`}
+                                onChange={(e) => {
+                                    const parts = e.target.value.split("-");
+                                    setSortBy(parts[0]);
+                                    setSortDir(parts[1] as "asc" | "desc");
+                                    setPage(0);
+                                }}
+                            >
+                                <option value="createdAt-desc">Mới nhất trước</option>
+                                <option value="createdAt-asc">Cũ nhất trước</option>
+                                <option value="price-asc">Giá: Thấp đến cao</option>
+                                <option value="price-desc">Giá: Cao đến thấp</option>
+                                <option value="stock-desc">Tồn kho nhiều</option>
+                                <option value="sold-desc">Bán chạy nhất</option>
                             </select>
                         </div>
 
@@ -680,6 +789,8 @@ export default function AdminProductPage() {
                                     setCategoryFilter("ALL");
                                     setProductTypeFilter("ALL");
                                     setStatusFilter("ALL");
+                                    setSortBy("createdAt");
+                                    setSortDir("desc");
                                     setPage(0);
                                 }}
                                 style={{ height: "38px" }}
@@ -811,7 +922,9 @@ export default function AdminProductPage() {
                                                                 : ""}
                                                         </span>
                                                         <span className="ltv-sub">
-                                                            {product.variants.map((v) => `${v.mil}ml`).join(" • ")}
+                                                            {(product.variants && product.variants.length > 0)
+                                                                ? product.variants.map((v) => `${v.mil}ml`).join(" • ")
+                                                                : "Tiêu chuẩn"}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -862,7 +975,7 @@ export default function AdminProductPage() {
                                                         <button
                                                             type="button"
                                                             className="order-action-btn btn-view"
-                                                            onClick={() => setSelectedProduct(product)}
+                                                            onClick={() => handleViewDetail(product)}
                                                             title="Xem chi tiết sản phẩm & Xưởng sản xuất"
                                                         >
                                                             <FontAwesomeIcon icon={faEye} />
