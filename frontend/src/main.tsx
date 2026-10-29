@@ -18,6 +18,7 @@ import RefundsPage from './pages/RefundsPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import FactoriesPage from './pages/FactoriesPage';
+import FactoryDetailPage from './pages/FactoryDetailPage';
 import CustomScentPage from './pages/CustomScentPage';
 import ProfilePage from './pages/ProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
@@ -104,6 +105,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path={ROUTES.CART} element={<CartPage />} />
                     <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
                     <Route path={ROUTES.FACTORIES} element={<FactoriesPage />} />
+                    <Route path={`${ROUTES.FACTORY_DETAIL}/:id`} element={<FactoryDetailPage />} />
                     <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                     <Route path={ROUTES.ORDER_SUCCESS} element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
                     <Route path={ROUTES.ORDER_DETAIL} element={<ProtectedRoute><OrderSuccessPage detail /></ProtectedRoute>} />

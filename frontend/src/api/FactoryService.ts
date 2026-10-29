@@ -1,4 +1,5 @@
 import api from "./api";
+import type { CategoryMeta } from "./ProductService";
 
 export interface FactoryItem {
     id: number;
@@ -89,6 +90,11 @@ export const FactoryApiService = {
     /** Lấy chi tiết một xưởng theo ID */
     getFactoryDetail: async (id: number | string): Promise<FactoryItem> => {
         const res = await api.get<ApiResponse<FactoryItem>>(`/factories/${id}`);
+        return res.data.data;
+    },
+
+    getFactoryCategories: async (id: number | string): Promise<CategoryMeta[]> => {
+        const res = await api.get<ApiResponse<CategoryMeta[]>>(`/factories/${id}/categories`);
         return res.data.data;
     },
 

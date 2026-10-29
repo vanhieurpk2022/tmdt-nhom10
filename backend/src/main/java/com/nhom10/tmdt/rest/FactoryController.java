@@ -5,6 +5,8 @@ import com.nhom10.tmdt.dto.factory.FactoryItemResponse;
 import com.nhom10.tmdt.dto.factory.FactoryRegisterRequest;
 import com.nhom10.tmdt.dto.factory.FactoryRegisterResponse;
 import com.nhom10.tmdt.service.factory.FactoryService;
+import com.nhom10.tmdt.dto.product.CategoryDto;
+import com.nhom10.tmdt.service.imp.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.List;
 public class FactoryController {
 
     private final FactoryService factoryService;
+    private final ProductService productService;
 
     /**
      * GET /api/factories
@@ -39,6 +42,11 @@ public class FactoryController {
         return new ApiResponse<>(200, "Lấy thông tin chi tiết xưởng thành công", factoryService.getFactoryDetail(id));
     }
 
+
+    @GetMapping("/{id}/categories")
+    public ApiResponse<List<CategoryDto>> getFactoryCategories(@PathVariable Long id) {
+        return new ApiResponse<>(200, "Lấy danh mục của xưởng thành công", productService.getFactoryCategories(id));
+    }
 
     // nhận nhiều file
     @PostMapping("/register")

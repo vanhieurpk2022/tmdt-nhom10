@@ -10,12 +10,15 @@ import com.nhom10.tmdt.enums.ProductType;
 import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.*;
 import com.nhom10.tmdt.service.imp.CartService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class CustomScentController {
     private final ProductImageRepository productImageRepo;
     private final ProductCustomRepository productCustomRepo;
     private final ProductCustomItemRepository productCustomItemRepo;
+    private final UserRepository userRepo;
     private final CartService cartService;
 
     /**
@@ -46,6 +50,7 @@ public class CustomScentController {
         List<Product> products = productRepo.findByFactoryId(factoryId);
 
         List<ScentProductItem> scents = products.stream()
+                .filter(this::isAvailableIngredient)
                 .map(p -> new ScentProductItem(
                         p.getId(),
                         p.getName(),
@@ -66,18 +71,52 @@ public class CustomScentController {
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<ApiResponse<CustomScentOrderResponse>> createCustomProduct(
-            @RequestBody CreateCustomScentRequest req
+            @Valid @RequestBody CreateCustomScentRequest req,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Vui lòng đăng nhập để thực hiện");
+        }
+        User user = userRepo.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Không tìm thấy người dùng"));
         Factory factory = factoryRepo.findById(req.factoryId())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy xưởng sản xuất: " + req.factoryId()));
+
+        // Kiểm tra đầy đủ công thức trước khi ghi bất kỳ dữ liệu nào.
+        List<Product> ingredients = new ArrayList<>();
+        double totalPercentage = 0;
+        for (var item : req.items()) {
+            Product ingredient = productRepo.findById(item.productId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy nguyên liệu"));
+            if (!isAvailableIngredient(ingredient)
+                    || ingredient.getFactory() == null
+                    || !factory.getId().equals(ingredient.getFactory().getId())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nguyên liệu phải đang hoạt động và thuộc xưởng đã chọn");
+            }
+            double expectedVolume = req.totalVolumeMl() * item.percentage() / 100;
+            if (!Double.isFinite(item.percentage()) || !Double.isFinite(item.volumeMl())
+                    || Math.abs(item.volumeMl() - expectedVolume) > 0.000001) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dung tích thành phần không khớp tỷ lệ phối hương");
+            }
+            totalPercentage += item.percentage();
+            ingredients.add(ingredient);
+        }
+        if (Math.abs(totalPercentage - 100) > 0.000001) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tổng tỷ lệ phối hương phải bằng 100%");
+        }
 
         Category category = categoryRepo.findByName("Tinh dầu phối");
         if (category == null) {
             category = categoryRepo.findAll().stream().findFirst().orElse(null);
         }
 
-        // 1. Tạo ProductCustom
+        String customName = "Bespoke: " + (req.customNote() != null && !req.customNote().isBlank() ? req.customNote().trim() : "Hương độc bản Oilia");
+
+        // 1. Lưu thông tin chung của công thức vào product_custom.
         ProductCustom pc = ProductCustom.builder()
+                .name(customName)
+                .notes(req.customNote())
+                .user(user)
                 .factory(factory)
                 .bottleType(req.bottleType())
                 .labelDesign(req.labelDesign())
@@ -88,30 +127,24 @@ public class CustomScentController {
 
         // 2. Tạo các thành phần tầng hương ProductCustomItem và thu thập tên mùi
         List<String> scentDetails = new ArrayList<>();
-        if (req.items() != null && !req.items().isEmpty()) {
-            for (var itemReq : req.items()) {
-                Product scentProduct = productRepo.findById(itemReq.productId()).orElse(null);
-                if (scentProduct != null) {
-                    ProductCustomItem pci = ProductCustomItem.builder()
-                            .productCustom(savedPc)
-                            .product(scentProduct)
-                            .percentage(itemReq.percentage() != null ? itemReq.percentage() : 0.0)
-                            .volumeM1(itemReq.volumeMl() != null ? itemReq.volumeMl() : 0.0)
-                            .build();
-                    productCustomItemRepo.save(pci);
-                }
+        List<ProductCustomItem> customItems = new ArrayList<>();
+        for (int i = 0; i < req.items().size(); i++) {
+            var itemReq = req.items().get(i);
+            Product scentProduct = ingredients.get(i);
+            customItems.add(ProductCustomItem.builder()
+                    .productCustom(savedPc)
+                    .product(scentProduct)
+                    .percentage(itemReq.percentage())
+                    .volumeM1(req.totalVolumeMl() * itemReq.percentage() / 100)
+                    .build());
 
-                String rawName = (itemReq.scentName() != null && !itemReq.scentName().isBlank())
-                        ? itemReq.scentName()
-                        : (scentProduct != null ? scentProduct.getName() : "Nốt hương");
-                String cleanScentName = rawName.replace("Tinh dầu ", "").replace("Tinh Dầu ", "");
-                int pct = itemReq.percentage() != null ? itemReq.percentage().intValue() : 0;
-                scentDetails.add(cleanScentName + " (" + pct + "%)");
-            }
+            String cleanScentName = scentProduct.getName().replace("Tinh dầu ", "").replace("Tinh Dầu ", "");
+            scentDetails.add(cleanScentName + " (" + itemReq.percentage() + "%)");
         }
+        productCustomItemRepo.saveAll(customItems);
+        savedPc.setItems(customItems);
 
-        // 3. Tạo Product đại diện để tích hợp giỏ hàng và đặt hàng
-        String customName = "Bespoke: " + (req.customNote() != null && !req.customNote().isBlank() ? req.customNote().trim() : "Hương độc bản Oilia");
+        // 3. Chỉ tạo một Product CUSTOM cho toàn bộ công thức, liên kết qua product_custom_id.
         String scentFormula = scentDetails.isEmpty() ? "Hòa hương độc bản" : String.join(" + ", scentDetails);
         String customDesc = String.format("Công thức mùi: %s | Mẫu lọ: %s | Xưởng: %s",
                 scentFormula, req.bottleType(), factory.getName());
@@ -123,7 +156,7 @@ public class CustomScentController {
                 .price(req.price())
                 .minBasePrice(req.price())
                 .productType(ProductType.CUSTOM)
-
+                .productCustom(savedPc)
                 .factory(factory)
                 .category(category)
                 .status(ProductStatus.ACTIVE)
@@ -147,7 +180,6 @@ public class CustomScentController {
         List<ProductMil> mils = new ArrayList<>();
         mils.add(savedMil);
         savedProduct.setProductMils(mils);
-        productRepo.saveAndFlush(savedProduct);
 
         // 5. Thêm ảnh thumbnail mặc định cho sản phẩm phối hương
         ProductImage img = ProductImage.builder()
@@ -176,7 +208,7 @@ public class CustomScentController {
     @PostMapping("/add-to-cart")
     @Transactional
     public ResponseEntity<ApiResponse<CartResponse>> addCustomScentToCart(
-            @RequestBody CreateCustomScentRequest req,
+            @Valid @RequestBody CreateCustomScentRequest req,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         if (userDetails == null) {
@@ -184,7 +216,7 @@ public class CustomScentController {
         }
 
         // Tạo custom product trước
-        ResponseEntity<ApiResponse<CustomScentOrderResponse>> created = createCustomProduct(req);
+        ResponseEntity<ApiResponse<CustomScentOrderResponse>> created = createCustomProduct(req, userDetails);
         CustomScentOrderResponse data = created.getBody().getData();
 
         // Thêm vào giỏ hàng
@@ -196,5 +228,11 @@ public class CustomScentController {
         CartResponse cartRes = cartService.addItem(userDetails.getUsername(), cartReq);
 
         return ResponseEntity.ok(new ApiResponse<>(200, "Đã thêm tinh dầu phối hương vào giỏ hàng!", cartRes));
+    }
+
+    private boolean isAvailableIngredient(Product product) {
+        // Dữ liệu V2 cũ chưa có status; vẫn cho phép dùng các nguyên liệu này.
+        return product.getProductType() == ProductType.NORMAL
+                && (product.getStatus() == null || product.getStatus() == ProductStatus.ACTIVE);
     }
 }

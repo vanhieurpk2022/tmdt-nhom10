@@ -73,6 +73,13 @@ public class ProductService {
         return new FilterMetaResponse(categories, factories);
     }
 
+    public List<CategoryDto> getFactoryCategories(Long factoryId) {
+        if (!factoryRepo.existsById(factoryId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy xưởng");
+        }
+        return productRepo.findCategoriesByFactoryId(factoryId);
+    }
+
     // Lọc & phân trang sản phẩm
     public ProductPageResponse filterProducts(ProductFilterRequest req) {
         Specification<Product> spec = buildSpec(req);
@@ -161,7 +168,7 @@ public class ProductService {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Chỉ lấy sản phẩm thương mại thông thường (NORMAL), loại trừ nguyên liệu phối hương (CUSTOM)
+            // Chỉ lấy sản phẩm thông thường (NORMAL), loại trừ sản phẩm đã phối hương (CUSTOM).
             predicates.add(cb.or(
                     cb.isNull(root.get("productType")),
                     cb.equal(root.get("productType"), com.nhom10.tmdt.enums.ProductType.NORMAL)
