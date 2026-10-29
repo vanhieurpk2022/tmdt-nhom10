@@ -157,4 +157,19 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>windows-system-trust</id>
+			<activation>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+			<properties>
+				<!-- Use trusted Windows roots when running locally behind a TLS proxy. -->
+				<spring-boot.run.jvmArguments>-Djavax.net.ssl.trustStoreType=Windows-ROOT -Djavax.net.ssl.trustStore=NONE</spring-boot.run.jvmArguments>
+			</properties>
+		</profile>
+	</profiles>
+
 </project>
