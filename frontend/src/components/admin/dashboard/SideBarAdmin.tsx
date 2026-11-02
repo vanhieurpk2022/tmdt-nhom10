@@ -1,11 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faHouse,
-    faBuilding,
     faUsers,
     faReceipt,
-    faChartLine,
-    faFlask,
     faGear,
     faDroplet,
     faBoxesStacked,
@@ -98,30 +95,28 @@ function NavItem({ to, icon, label, isActive, badge, badgeTone = "dark", isColla
             {/* Badge đếm số lượng khi mở rộng */}
             {!isCollapsed && !isActive && badge !== undefined && (
                 <span
-                    className="badge rounded-pill fw-bold"
+                    className="badge rounded-pill ms-auto px-2 py-1"
                     style={{
-                        marginLeft: "auto",
                         fontSize: "11px",
-                        padding: "2px 7px",
-                        backgroundColor: badgeTone === "amber" ? "#d97706" : "#1f2937",
-                        color: "#ffffff",
-                        border: badgeTone === "amber" ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
+                        fontWeight: 600,
+                        backgroundColor: badgeTone === "amber" ? "#fef3c7" : "rgba(255, 255, 255, 0.1)",
+                        color: badgeTone === "amber" ? "#92400e" : "#e2e8f0",
+                        border: badgeTone === "amber" ? "1px solid #fde68a" : "none",
                     }}
                 >
                     {badge}
                 </span>
             )}
 
-            {/* Chấm nhỏ thông báo khi sidebar thu gọn */}
+            {/* Chấm nhỏ khi thu gọn và có badge */}
             {isCollapsed && !isActive && badge !== undefined && (
                 <span
+                    className="position-absolute rounded-circle"
                     style={{
-                        position: "absolute",
-                        top: "6px",
-                        right: "12px",
-                        width: "7px",
-                        height: "7px",
-                        borderRadius: "50%",
+                        top: "8px",
+                        right: "8px",
+                        width: "6px",
+                        height: "6px",
                         backgroundColor: badgeTone === "amber" ? "#f59e0b" : "#e11d48",
                     }}
                 />
@@ -132,13 +127,10 @@ function NavItem({ to, icon, label, isActive, badge, badgeTone = "dark", isColla
 
 function SidebarAdmin({
     isDashboard = false,
-    isWorkshopManagement = false,
     isCustomer = false,
     isOrder = false,
     isProduct = false,
     isRefund = false,
-    isVoucher = false,
-    isSupport = false,
     collapsed,
     onToggleCollapse,
 }: SidebarAdminProps) {
@@ -171,6 +163,7 @@ function SidebarAdmin({
         <div
             className={`d-flex flex-column h-100 ${isCollapsed ? "px-2 py-3" : "p-3"} select-none`}
             style={{
+                fontFamily: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                 backgroundColor: "#111827",
                 borderRight: "1px solid rgba(255, 255, 255, 0.08)",
                 width: isCollapsed ? "72px" : "250px",
@@ -243,6 +236,7 @@ function SidebarAdmin({
                                     cursor: "pointer",
                                     lineHeight: 1,
                                     textDecoration: "none",
+                                    transition: "all 0.15s ease",
                                 }}
                                 onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
                                 onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
@@ -250,6 +244,9 @@ function SidebarAdmin({
                                 <FontAwesomeIcon icon={faBars} style={{ fontSize: "16px" }} />
                             </button>
                         </div>
+                        <span className="text-secondary text-truncate" style={{ fontSize: "11px" }}>
+                            Trang quản trị vận hành
+                        </span>
                     </div>
                 </div>
             )}
@@ -281,15 +278,6 @@ function SidebarAdmin({
                     isCollapsed={isCollapsed}
                 />
                 <NavItem
-                    to={ROUTES.ADMIN_WORKSHOP}
-                    icon={faBuilding}
-                    label="Xưởng & Công thức"
-                    isActive={isWorkshopManagement}
-                    badge="12"
-                    badgeTone="dark"
-                    isCollapsed={isCollapsed}
-                />
-                <NavItem
                     to={ROUTES.ADMIN_CUSTOMER}
                     icon={faUsers}
                     label="Quản lý Khách hàng"
@@ -301,8 +289,6 @@ function SidebarAdmin({
                     icon={faReceipt}
                     label="Đơn đặt & Tranh chấp"
                     isActive={isOrder}
-                    badge="2"
-                    badgeTone="amber"
                     isCollapsed={isCollapsed}
                 />
                 <NavItem
@@ -317,20 +303,6 @@ function SidebarAdmin({
                     icon={faReceipt}
                     label="Hoàn tiền VNPay"
                     isActive={isRefund}
-                    isCollapsed={isCollapsed}
-                />
-                <NavItem
-                    to={ROUTES.AdMIN_SALE}
-                    icon={faChartLine}
-                    label="Doanh thu & Phí sàn"
-                    isActive={isVoucher}
-                    isCollapsed={isCollapsed}
-                />
-                <NavItem
-                    to={ROUTES.ADMIN_SUPPORT}
-                    icon={faFlask}
-                    label="Thư viện nốt hương"
-                    isActive={isSupport}
                     isCollapsed={isCollapsed}
                 />
 
@@ -426,10 +398,10 @@ function SidebarAdmin({
 
                             <div className="d-flex flex-column text-truncate" style={{ minWidth: 0 }}>
                                 <span className="text-white fw-bold text-truncate" style={{ fontSize: "12px", lineHeight: "1.3" }}>
-                                    {user?.fullName || "Admin Olla Group"}
+                                    {user?.fullName || "Admin Oilia"}
                                 </span>
                                 <span className="text-truncate" style={{ fontSize: "11px", color: "#94a3b8" }}>
-                                    {user?.email || "master@scentos.olla"}
+                                    {user?.email || "admin@oilia.vn"}
                                 </span>
                             </div>
                         </div>

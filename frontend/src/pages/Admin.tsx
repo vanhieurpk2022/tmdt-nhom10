@@ -2,17 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import OperationsOverviewAdmin from "../components/admin/dashboard/OperationOverviewAdmin";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import { useAdminSidebar } from "../api/AdminSidebarContext";
+import "../css/pages/user-admin.css";
 import "../css/pages/dashboard/admin.css";
 import type { FactoryRegisterResponse } from "../dto/factory/FactoryRegister";
 import { AdminService } from "../api/admin/AdminApi";
 import axios from "axios";
 
-
-
 export function Admin() {
     const { isCollapsed } = useAdminSidebar();
     const [factoryResponse, setFactoryResponse] = useState<FactoryRegisterResponse[]>([]);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [, setErrorMessage] = useState("");
 
     // lấy nhà máy đang đợi duyệt
     const fetchFactory = useCallback(async () => {
@@ -37,14 +36,17 @@ export function Admin() {
     }, [fetchFactory]);
 
     return (
-        <div className="d-flex min-vh-100 bg-light">
+        <div className="d-flex min-vh-100 w-100 admin-customer-page">
             {/* Sidebar */}
             <aside
                 className="flex-shrink-0 position-sticky top-0 align-self-start"
                 style={{
-                    height: "100vh",
                     width: isCollapsed ? "72px" : "250px",
-                    transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                    minWidth: isCollapsed ? "72px" : "250px",
+                    height: "100vh",
+                    zIndex: 1000,
+                    backgroundColor: "var(--color-bg-dark, #111827)",
+                    transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
             >
                 <SidebarAdmin isDashboard={true} />
