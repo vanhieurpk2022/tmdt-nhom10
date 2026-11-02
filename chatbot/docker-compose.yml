@@ -1,0 +1,51 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: oilia-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    container_name: oilia-ollama-pull
+    depends_on:
+      - ollama
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "Đang đợi Ollama server khởi động..."
+        sleep 5
+        ollama pull bge-m3
+        ollama pull qwen2.5:3b
+        echo "Tải model hoàn tất!"
+    restart: "no"
+
+  chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oilia-chatbot
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - BASE_PRODUCT_URL=http://localhost:5173/product-detail
+      - LLM_MODEL=qwen2.5:3b
+      - TOP_K=4
+    volumes:
+      - ./data:/app/data
+      - ./faiss_index:/app/faiss_index
+      - ./app:/app/app
+      - ./build_index.py:/app/build_index.py
+    depends_on:
+      - ollama
+
+volumes:
+  ollama_data:
+    name: tmdt-nhom10_ollama_data

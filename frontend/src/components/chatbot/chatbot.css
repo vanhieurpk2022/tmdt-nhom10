@@ -1,0 +1,648 @@
+/* ========================================================
+   Oilia Chatbot Widget Styling
+   ======================================================== */
+
+.oilia-chatbot-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1050;
+  font-family: inherit;
+}
+
+/* Floating Trigger Button */
+.oilia-chat-toggle-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #345237 0%, #1b2c1d 100%);
+  color: #ffffff;
+  border: none;
+  outline: none;
+  box-shadow: 0 10px 25px -5px rgba(52, 82, 55, 0.4), 0 8px 10px -6px rgba(52, 82, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.oilia-chat-toggle-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 14px 28px -5px rgba(52, 82, 55, 0.5), 0 10px 10px -5px rgba(52, 82, 55, 0.3);
+}
+
+.oilia-chat-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Pulse ring around toggle button */
+.oilia-chat-toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(52, 82, 55, 0.4);
+  animation: oilia-pulse-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes oilia-pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+/* Unread Notification Badge */
+.oilia-chat-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #e11d48;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Teaser / Welcome tooltip above button */
+.oilia-chat-tooltip {
+  position: absolute;
+  bottom: 74px;
+  right: 0;
+  background: #ffffff;
+  color: #1f2937;
+  padding: 10px 14px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  animation: oilia-fade-slide-up 0.3s ease-out;
+  border: 1px solid #f0f0f0;
+}
+
+.oilia-chat-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 24px;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  transform: rotate(45deg);
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.oilia-chat-tooltip-close {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 2px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.oilia-chat-tooltip-close:hover {
+  color: #374151;
+}
+
+/* ========================================================
+   Chat Window
+   ======================================================== */
+.oilia-chat-window {
+  position: absolute;
+  bottom: 76px;
+  right: 0;
+  width: 390px;
+  height: 580px;
+  max-height: calc(100vh - 120px);
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: bottom right;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.oilia-chat-window.minimized {
+  height: 64px;
+  overflow: hidden;
+}
+
+/* Header */
+.oilia-chat-header {
+  background: linear-gradient(135deg, #345237 0%, #1f3521 100%);
+  color: #ffffff;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.oilia-chat-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.oilia-chat-avatar {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.oilia-chat-online-dot {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: #10b981;
+  border: 2px solid #345237;
+}
+
+.oilia-chat-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+}
+
+.oilia-chat-status {
+  margin: 0;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.82);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.oilia-chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.oilia-chat-header-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13px;
+}
+
+.oilia-chat-header-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* ========================================================
+   Messages Area
+   ======================================================== */
+.oilia-chat-messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+}
+
+.oilia-chat-messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.oilia-chat-messages-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+}
+
+/* Welcome Card */
+.oilia-chat-welcome-banner {
+  background: linear-gradient(180deg, #ffffff 0%, #f7faf7 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  margin-bottom: 6px;
+}
+
+.oilia-chat-welcome-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 10px;
+  background-color: #e8f0e9;
+  color: #345237;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.oilia-chat-welcome-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.oilia-chat-welcome-desc {
+  font-size: 12.5px;
+  color: #6b7280;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Message Item */
+.oilia-chat-msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.oilia-chat-msg-row.user {
+  flex-direction: row-reverse;
+}
+
+.oilia-chat-msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #345237;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+
+.oilia-chat-msg-content-wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: 78%;
+}
+
+.oilia-chat-msg-row.user .oilia-chat-msg-content-wrap {
+  align-items: flex-end;
+}
+
+.oilia-chat-msg-bubble {
+  padding: 11px 15px;
+  border-radius: 18px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  word-break: break-word;
+  position: relative;
+}
+
+.oilia-chat-msg-row.bot .oilia-chat-msg-bubble {
+  background: #ffffff;
+  color: #1f2937;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.oilia-chat-msg-row.user .oilia-chat-msg-bubble {
+  background: #345237;
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 10px rgba(52, 82, 55, 0.2);
+}
+
+.oilia-chat-msg-time {
+  font-size: 10.5px;
+  color: #9ca3af;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+/* Recommended Products in Message */
+.oilia-chat-products-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.oilia-chat-product-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+}
+
+.oilia-chat-product-card:hover {
+  border-color: #345237;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.oilia-chat-product-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+  flex-shrink: 0;
+}
+
+.oilia-chat-product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.oilia-chat-product-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 0 2px 0;
+}
+
+.oilia-chat-product-price {
+  font-size: 12px;
+  color: #e11d48;
+  font-weight: 700;
+  margin: 0;
+}
+
+.oilia-chat-product-old-price {
+  font-size: 10.5px;
+  color: #9ca3af;
+  text-decoration: line-through;
+  margin-left: 5px;
+}
+
+.oilia-chat-product-btn {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Typing Indicator */
+.oilia-chat-typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #e5e7eb;
+  width: fit-content;
+}
+
+.oilia-chat-typing-dot {
+  width: 7px;
+  height: 7px;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  animation: oilia-typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.oilia-chat-typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.oilia-chat-typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes oilia-typing-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+    background-color: #345237;
+  }
+}
+
+/* ========================================================
+   Quick Replies (Suggestions)
+   ======================================================== */
+.oilia-chat-quick-replies {
+  padding: 10px 14px;
+  background: #ffffff;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 8px;
+  scrollbar-width: none;
+}
+
+.oilia-chat-quick-replies::-webkit-scrollbar {
+  display: none;
+}
+
+.oilia-chat-quick-chip {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.oilia-chat-quick-chip:hover {
+  background: #e8f0e9;
+  border-color: #345237;
+  color: #345237;
+  transform: translateY(-1px);
+}
+
+/* ========================================================
+   Input Footer
+   ======================================================== */
+.oilia-chat-footer {
+  padding: 12px 14px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.oilia-chat-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.oilia-chat-input {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  outline: none;
+  background: #f9fafb;
+  transition: all 0.2s;
+  resize: none;
+  line-height: 1.4;
+  max-height: 80px;
+}
+
+.oilia-chat-input:focus {
+  background: #ffffff;
+  border-color: #345237;
+  box-shadow: 0 0 0 3px rgba(52, 82, 55, 0.12);
+}
+
+.oilia-chat-send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #345237;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.oilia-chat-send-btn:hover:not(:disabled) {
+  background: #1b2c1d;
+  transform: scale(1.05);
+}
+
+.oilia-chat-send-btn:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes oilia-fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.oilia-animate-in {
+  animation: oilia-fade-slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 576px) {
+  .oilia-chatbot-container {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .oilia-chat-window {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  
+  .oilia-chat-window.minimized {
+    position: absolute;
+    bottom: 76px;
+    right: 0;
+    left: auto;
+    width: 320px;
+    height: 64px;
+    border-radius: 16px;
+  }
+}
+
