@@ -16,6 +16,11 @@ export default defineConfig(({ mode }) => {
       strictPort: true,
       allowedHosts: env.FRONTEND_TUNNEL_HOST ? [env.FRONTEND_TUNNEL_HOST] : [],
       proxy: {
+        '/api/chat': {
+          target: env.CHATBOT_PROXY_TARGET || 'http://localhost:8000',
+          changeOrigin: true,
+          secure: false,
+        },
         '/api': {
           target: env.BACKEND_PROXY_TARGET || 'http://localhost:8080',
           changeOrigin: true,

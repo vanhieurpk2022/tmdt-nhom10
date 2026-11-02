@@ -57,6 +57,7 @@ import { RegisterFactoryForm } from './pages/RegisterFactoryForm';
 import { FactoryProductDetails } from './components/admin/factory/product-variant/FactoryProductDetails';
 import { ToastProvider } from './components/toasts/ToastContext';
 import FactoryProductPage from './pages/FactoryProductPage';
+import { Chatbot } from './components/chatbot';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy-google-client-id';
 
@@ -65,6 +66,7 @@ const MainLayout = () => (
     <Header />
     <Outlet />
     <Footer />
+    <Chatbot />
   </>
 );
 
