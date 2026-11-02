@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileExport, faUserCheck, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { faFileExport, faUserCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface PageHeaderProps {
     title: string;
@@ -22,16 +21,17 @@ function PageHeader({ title, pendingCount = 0, onExport, onApprove, isShow }: Pa
                     <FontAwesomeIcon icon={faFileExport} />
                     Xuất báo cáo Sàn (Audit Log)
                 </button>
-                {(!isShow) ? <button className="btn btn-approve d-flex align-items-center gap-2" onClick={onApprove}>
-                    <FontAwesomeIcon icon={faUserCheck} />
-                    Phê duyệt
-                    {pendingCount > 0 && (
-                        <span className="badge rounded-pill bg-white" style={{ color: "var(--color-primary)" }}>
-                            {pendingCount}
-                        </span>
-                    )}
-                </button> : " "}
-
+                {!isShow && (
+                    <button className="btn btn-approve d-flex align-items-center gap-2" onClick={onApprove}>
+                        <FontAwesomeIcon icon={faUserCheck} />
+                        Phê duyệt
+                        {pendingCount > 0 && (
+                            <span className="badge rounded-pill bg-white" style={{ color: "var(--color-primary)" }}>
+                                {pendingCount}
+                            </span>
+                        )}
+                    </button>
+                )}
             </div>
         </header>
     );

@@ -1,5 +1,4 @@
-import { PieChart } from "react-bootstrap-icons";
-import { Cell, Pie, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Cell, Pie, ResponsiveContainer, Tooltip } from "recharts";
 
 interface DonutProps {
     data: { name: string; value: number; color: string }[];
@@ -7,24 +6,27 @@ interface DonutProps {
     centerValue?: string;
 }
 export function DonutChart({ data, centerLabel, centerValue }: DonutProps) {
+    const hasData = data && data.length > 0 && data.some((d) => d.value > 0.001);
+    const chartData = hasData ? data : [{ name: "Chưa có phát sinh", value: 1, color: "#e2e8f0" }];
+
     return (
         <div className="position-relative" style={{ width: 180, height: 180 }}>
             <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                     <Pie
-                        data={data}
+                        data={chartData}
                         dataKey="value"
                         nameKey="name"
                         innerRadius={58}
                         outerRadius={84}
-                        paddingAngle={2}
+                        paddingAngle={hasData ? 2 : 0}
                         stroke="none"
                     >
-                        {data.map((item) => (
-                            <Cell key={item.name} fill={item.color} />
+                        {chartData.map((item, index) => (
+                            <Cell key={`${item.name}-${index}`} fill={item.color} />
                         ))}
                     </Pie>
-                    <Tooltip />
+                    {hasData && <Tooltip />}
                 </PieChart>
             </ResponsiveContainer>
 

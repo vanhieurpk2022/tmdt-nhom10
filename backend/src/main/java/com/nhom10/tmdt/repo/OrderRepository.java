@@ -177,4 +177,97 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
             GROUP BY o.status
             """)
     List<Object[]> countOrdersGroupByStatus(@Param("factoryId") Long factoryId);
+
+    // ==========================================
+    // THỐNG KÊ TOÀN SÀN DÀNH CHO ADMIN DASHBOARD
+    // ==========================================
+
+    /**
+     * Lấy tất cả đơn hàng toàn sàn trong khoảng [from, to] — dùng cho biểu đồ cột theo thời gian
+     */
+    @Query("""
+            SELECT o FROM Order o
+            WHERE o.createdAt >= :from
+              AND o.createdAt <= :to
+            ORDER BY o.createdAt ASC
+            """)
+    List<Order> findAllOrdersInDateRange(
+            @Param("from") LocalDateTime from,
+            @Param("to") LocalDateTime to
+    );
+
+    /**
+     * Phân bổ trạng thái toàn bộ đơn hàng trên sàn — dùng cho biểu đồ tròn
+     */
+    @Query("SELECT o.status, COUNT(o) FROM Order o GROUP BY o.status")
+    List<Object[]> countAllOrdersGroupByStatus();
+
+    /**
+     * Phân bổ lý do hủy đơn toàn sàn — dùng cho biểu đồ tròn lý do hủy
+     */
+    @Query("""
+            SELECT o.cancelReason, COUNT(o) FROM Order o
+            WHERE o.status = com.nhom10.tmdt.enums.OrderStatus.CANCELLED
+              AND o.cancelReason IS NOT NULL
+            GROUP BY o.cancelReason
+            """)
+    List<Object[]> countAllCancelledGroupByReason();
+
+    /**
+     * Phân bổ theo phương thức thanh toán toàn sàn (COD, VNPAY) — dùng cho biểu đồ tròn
+     */
+    @Query("SELECT o.paymentMethod, COUNT(o), COALESCE(SUM(o.totalPrice), 0.0) FROM Order o GROUP BY o.paymentMethod")
+    List<Object[]> countAllOrdersGroupByPaymentMethod();
+
+    /**
+     * Phân bổ doanh thu theo từng Danh mục sản phẩm toàn sàn — dùng cho biểu đồ tròn danh mục
+     */
+    @Query("""
+            SELECT c.id, c.name, COALESCE(SUM(oi.quantity * oi.unitPrice), 0.0), SUM(oi.quantity), COUNT(DISTINCT o)
+            FROM OrderItem oi
+            JOIN oi.order o
+            JOIN oi.product p
+            JOIN p.category c
+            WHERE o.status != com.nhom10.tmdt.enums.OrderStatus.CANCELLED
+            GROUP BY c.id, c.name
+            ORDER BY SUM(oi.quantity * oi.unitPrice) DESC
+            """)
+    List<Object[]> findRevenueGroupByCategory();
+
+    /**
+     * Phân bổ doanh thu theo từng Xưởng chế tác gia công — dùng cho biểu đồ tròn xưởng đối tác
+     */
+    @Query("""
+            SELECT f.id, f.name, COALESCE(SUM(oi.quantity * oi.unitPrice), 0.0), COUNT(DISTINCT o)
+            FROM OrderItem oi
+            JOIN oi.order o
+            JOIN oi.product p
+            JOIN p.factory f
+            WHERE o.status != com.nhom10.tmdt.enums.OrderStatus.CANCELLED
+            GROUP BY f.id, f.name
+            ORDER BY SUM(oi.quantity * oi.unitPrice) DESC
+            """)
+    List<Object[]> findRevenueGroupByFactory();
+
+    /**
+     * Phân bổ doanh thu theo Loại sản phẩm (NORMAL vs CUSTOM) — dùng cho biểu đồ tròn loại SP
+     */
+    @Query("""
+            SELECT p.productType, COUNT(DISTINCT o), COALESCE(SUM(oi.quantity * oi.unitPrice), 0.0)
+            FROM OrderItem oi
+            JOIN oi.order o
+            JOIN oi.product p
+            WHERE o.status != com.nhom10.tmdt.enums.OrderStatus.CANCELLED
+            GROUP BY p.productType
+            """)
+    List<Object[]> sumRevenueGroupByProductType();
+
+    /**
+     * Tổng doanh thu các đơn hàng đã giao thành công (thực thu)
+     */
+    @Query("""
+            SELECT COALESCE(SUM(o.totalPrice), 0.0) FROM Order o
+            WHERE o.status = com.nhom10.tmdt.enums.OrderStatus.DELIVERED
+            """)
+    Double sumDeliveredRevenue();
 }
