@@ -1,55 +1,31 @@
+import { useState, useEffect, useCallback } from "react";
 import {
     faBagShopping,
     faTruckFast,
     faStar,
     faTriangleExclamation,
-    faShieldHalved,
+    faCoins,
+    faShop,
+    faRotate,
+    faUsers,
+    faBoxesStacked,
+    faArrowTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 
 import PageHeader from "./PageHeader";
 import StatCard from "./StartCard";
 import { ModalApprove } from "./ModalApprove";
-import "../../../css/pages/dashboard/dashboard.css";
+import AdminBarChartOverTime from "./AdminBarChartOverTime";
+import AdminPieChartsSection from "./AdminPieChartsSection";
+import {
+    AdminDashboardService,
+    type AdminDashboardOverview,
+    type AdminPieChartData,
+} from "../../../api/admin/AdminDashboardService";
 import type { FactoryRegisterResponse } from "../../../dto/factory/FactoryRegister";
 import { formatVnd } from "../../format/FormatMoney";
-import { DonutChart } from "../statistics/DonutChart";
-
-/* ------------------------------------------------------------------ */
-/* Types & dữ liệu mẫu                                                 */
-/* ------------------------------------------------------------------ */
-
-interface CancelReason {
-    label: string;
-    percent: number;
-    count: number;
-    color: string;
-}
-
-interface RevenueItem {
-    label: string;
-    amount: number;
-    percent: number;
-    color: string;
-    highlight?: boolean;
-}
-
-export const cancelReasons: CancelReason[] = [
-    { label: "Khách đổi ý / Thay đổi yêu cầu mùi hương", percent: 45, count: 4, color: "var(--color-info)" },
-    { label: "Hết nguyên liệu / Tạm ngừng nhận mẫu này", percent: 30, count: 3, color: "var(--color-primary)" },
-    { label: "Không thống nhất được thời gian giao hàng", percent: 15, count: 1, color: "var(--color-warning)" },
-    { label: "Xưởng xác nhận trễ hạn (Quá 24h)", percent: 10, count: 1, color: "var(--color-neutral)" },
-];
-
-export const revenueItems: RevenueItem[] = [
-    { label: "Đã đối soát (Có thể rút về ngân hàng)", amount: 285000000, percent: 63.3, color: "var(--color-success)" },
-    { label: "Chờ đối soát (Đơn đang xử lý / chờ khách nhận)", amount: 112500000, percent: 25.0, color: "var(--color-warning)" },
-    { label: "Phí cố định & Hoa hồng sàn (Commission Fee)", amount: 36000000, percent: 8.0, color: "var(--color-info)" },
-    { label: "Đang tạm giữ do Khiếu nại / Trả hàng", amount: 16500000, percent: 3.7, color: "var(--color-primary)", highlight: true },
-];
-
-const TOTAL_SELLER_REVENUE = 450000000;
+import "../../../css/pages/dashboard/dashboard.css";
 
 interface OperationsOverviewAdminProps {
     data?: FactoryRegisterResponse[];
@@ -61,178 +37,224 @@ function OperationsOverviewAdmin({
     onChanged,
 }: OperationsOverviewAdminProps) {
     const [showApprove, setShowApprove] = useState(false);
+    const [loadingOverview, setLoadingOverview] = useState(false);
+    const [overview, setOverview] = useState<AdminDashboardOverview | null>(null);
+    const [pieData, setPieData] = useState<AdminPieChartData | null>(null);
+    const [loadingPie, setLoadingPie] = useState(false);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+    const fetchDashboardData = useCallback(async () => {
+        setLoadingOverview(true);
+        setLoadingPie(true);
+        setErrorMsg(null);
+
+        try {
+            const [overviewRes, pieRes] = await Promise.allSettled([
+                AdminDashboardService.getOverview(),
+                AdminDashboardService.getPieCharts(),
+            ]);
+
+            let hasError = false;
+
+            if (overviewRes.status === "fulfilled") {
+                setOverview(overviewRes.value);
+            } else {
+                hasError = true;
+                console.error("Lỗi khi tải KPI Overview:", overviewRes.reason);
+            }
+
+            if (pieRes.status === "fulfilled") {
+                setPieData(pieRes.value);
+            } else {
+                hasError = true;
+                console.error("Lỗi khi tải Pie Charts:", pieRes.reason);
+            }
+
+            if (hasError) {
+                setErrorMsg("Chưa kết nối được API thống kê Backend. Nếu bạn vừa cập nhật mã nguồn mới, vui lòng Khởi động lại (Restart) ứng dụng Spring Boot backend để hệ thống nạp các Controller và Query mới.");
+            }
+        } finally {
+            setLoadingOverview(false);
+            setLoadingPie(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchDashboardData();
+    }, [fetchDashboardData]);
+
+    const totalRev = overview?.totalRevenue ?? 0;
+    const settledRev = overview?.settledRevenue ?? 0;
+    const totalOrders = overview?.totalOrders ?? 0;
+    const pendingOrders = overview?.pendingOrders ?? 0;
+    const processingOrders = overview?.processingOrders ?? 0;
+    const deliveryRate = overview?.deliverySuccessRate ?? 0;
+    const cancelRate = overview?.cancellationRate ?? 0;
+    const activeWorkshops = overview?.activeWorkshops ?? 0;
+    const pendingWorkshops = overview?.pendingWorkshops ?? data.length;
+    const totalCustomers = overview?.totalCustomers ?? 0;
+    const totalProducts = overview?.totalProducts ?? 0;
+    const avgRating = overview?.averageRating ?? 5.0;
+    const totalReviews = overview?.totalReviews ?? 0;
+    const openDisputes = overview?.openDisputes ?? 0;
 
     return (
         <main
-            className="p-4 d-flex flex-column gap-4"
+            className="p-3 p-lg-4 d-flex flex-column gap-4"
             style={{ backgroundColor: "var(--color-bg-page)", minHeight: "100vh" }}
         >
-            {/* Header Kênh Người Bán */}
-            <PageHeader
-                title="Kênh Người Bán & Đối Tác Gia Công - Mộc Perfume Lab"
-                pendingCount={data.length}
-                onApprove={() => setShowApprove(true)}
-            />
+            {/* Header  */}
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <PageHeader
+                    title="Trung Tâm Điều Hành Toàn Sàn Oilia"
+                    pendingCount={pendingWorkshops}
+                    onApprove={() => setShowApprove(true)}
+                />
 
+                <div className="d-flex align-items-center gap-2">
+                    <button
+                        className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2 rounded-pill px-3 shadow-sm bg-white"
+                        onClick={fetchDashboardData}
+                        disabled={loadingOverview}
+                        title="Tải lại dữ liệu hệ thống mới nhất"
+                    >
+                        <FontAwesomeIcon icon={faRotate} spin={loadingOverview} />
+                        <span className="small fw-semibold">
+                            {loadingOverview ? "Đang đồng bộ..." : "Làm mới số liệu"}
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+
+            {/* Modal phê duyệt đăng ký mở xưởng */}
             <ModalApprove
                 list={data}
                 show={showApprove}
                 onClose={() => setShowApprove(false)}
-                onChanged={onChanged}
+                onChanged={() => {
+                    if (onChanged) onChanged();
+                    fetchDashboardData();
+                }}
             />
 
-            {/* Statistic cards */}
-            <section className="row g-3">
-                <div className="col-12 col-md-6 col-xl-3">
-                    <StatCard
-                        label="Đơn đặt hàng của Shop"
-                        value="36"
-                        icon={faBagShopping}
-                        tone="danger"
-                        note={`${data.length} đơn mới chờ xác nhận`}
-                    />
+            {/* 2. Dải Thống Kê Nhanh */}
+            <section className="bg-white rounded-4 p-3 shadow-sm border border-light-subtle d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div className="d-flex align-items-center gap-3">
+                    <span className="badge rounded-circle p-2 bg-primary-subtle text-primary">
+                        <FontAwesomeIcon icon={faArrowTrendUp} />
+                    </span>
+                    <div>
+                        <div className="small text-secondary">Quy mô khách hàng</div>
+                        <div className="fw-bold text-dark d-flex align-items-center gap-1">
+                            <FontAwesomeIcon icon={faUsers} className="text-secondary small" />
+                            <span>{totalCustomers.toLocaleString("vi-VN")} tài khoản</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="col-12 col-md-6 col-xl-3">
-                    <StatCard
-                        label="Tỷ lệ giao hàng đúng hạn"
-                        value="96.8%"
-                        icon={faTruckFast}
-                        tone="success"
-                        note="Đạt chuẩn Shop Uy Tín"
-                    />
+                <div className="vr d-none d-md-block opacity-25" style={{ height: "35px" }} />
+
+                <div className="d-flex align-items-center gap-3">
+                    <span className="badge rounded-circle p-2 bg-success-subtle text-success">
+                        <FontAwesomeIcon icon={faBoxesStacked} />
+                    </span>
+                    <div>
+                        <div className="small text-secondary">Sản phẩm trên kệ sàn</div>
+                        <div className="fw-bold text-dark">
+                            {totalProducts.toLocaleString("vi-VN")} mùi hương
+                        </div>
+                    </div>
                 </div>
 
-                <div className="col-12 col-md-6 col-xl-3">
-                    <StatCard
-                        label="Đánh giá Gian hàng & Hồ sơ"
-                        value="4.9 / 5"
-                        icon={faStar}
-                        tone="info"
-                        actionText="128 đánh giá từ khách"
-                    />
+                <div className="vr d-none d-md-block opacity-25" style={{ height: "35px" }} />
+
+                <div className="d-flex align-items-center gap-3">
+                    <span className="badge rounded-circle p-2 bg-warning-subtle text-warning">
+                        <FontAwesomeIcon icon={faStar} />
+                    </span>
+                    <div>
+                        <div className="small text-secondary">Độ uy tín & Đánh giá</div>
+                        <div className="fw-bold text-dark">
+                            {avgRating.toFixed(1)} / 5.0 ⭐
+                            <span className="small text-secondary fw-normal ms-1">
+                                ({totalReviews} lượt)
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="col-12 col-md-6 col-xl-3">
-                    <StatCard
-                        label="Trả hàng / Hoàn tiền / Khiếu nại"
-                        value="01"
-                        icon={faTriangleExclamation}
-                        tone="warning"
-                        actionText="Phản hồi khiếu nại"
-                    />
+                <div className="vr d-none d-md-block opacity-25" style={{ height: "35px" }} />
+
+                <div className="d-flex align-items-center gap-3">
+                    <span className="badge rounded-circle p-2 bg-danger-subtle text-danger">
+                        <FontAwesomeIcon icon={faTriangleExclamation} />
+                    </span>
+                    <div>
+                        <div className="small text-secondary">Khiếu nại / Hoàn tiền</div>
+                        <div className="fw-bold text-danger">
+                            {openDisputes > 0 ? `${openDisputes} trường hợp cần xử lý` : "0 (Ổn định)"}
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            {/* Charts */}
             <section className="row g-3">
-                {/* Cancel rate */}
-                <div className="col-12 col-xl-5">
-                    <div className="card border-0 shadow-sm rounded-4 h-100">
-                        <div className="card-body p-3 p-lg-4">
-                            <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
-                                <div>
-                                    <h5 className="fw-bold mb-1">Tỷ lệ đơn hủy của Shop</h5>
-                                    <p className="text-secondary small mb-0">
-                                        Giới hạn cho phép của sàn: &lt; 4.0%
-                                    </p>
-                                </div>
-
-                                <span className="badge rounded-pill bg-light text-dark border px-3 py-2">
-                                    2.4%
-                                </span>
-                            </div>
-
-                            <div className="d-flex align-items-center gap-4 flex-wrap">
-                                <DonutChart
-                                    data={cancelReasons.map((r) => ({
-                                        name: r.label,
-                                        value: r.percent,
-                                        color: r.color,
-                                    }))}
-                                    centerValue="2.4%"
-                                    centerLabel="Tỷ lệ hủy"
-                                />
-
-                                <ul className="list-unstyled mb-0 d-flex flex-column gap-2 flex-grow-1">
-                                    {cancelReasons.map((reason) => (
-                                        <li
-                                            key={reason.label}
-                                            className="d-flex align-items-start gap-2 small"
-                                        >
-                                            <span
-                                                className="rounded-circle flex-shrink-0 mt-1"
-                                                style={{
-                                                    width: 10,
-                                                    height: 10,
-                                                    backgroundColor: reason.color,
-                                                }}
-                                            />
-                                            <span className="flex-grow-1">{reason.label}</span>
-                                            <span className="fw-semibold text-nowrap">
-                                                {reason.percent}% ({reason.count})
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                {/* Thẻ 1: Doanh thu toàn sàn  */}
+                <div className="col-12 col-md-6 col-xl-3">
+                    <StatCard
+                        label="Doanh thu Toàn sàn "
+                        value={formatVnd(totalRev)}
+                        icon={faCoins}
+                        tone="danger"
+                        note={`Đã giải ngân: ${formatVnd(settledRev)}`}
+                    />
                 </div>
 
-                {/* Revenue */}
-                <div className="col-12 col-xl-7">
-                    <div className="card border-0 shadow-sm rounded-4 h-100">
-                        <div className="card-body p-3 p-lg-4">
-                            <div className="mb-3">
-                                <h5 className="fw-bold mb-1">Doanh thu & Ví Người Bán</h5>
-                                <p className="text-secondary small mb-0">
-                                    Tổng doanh thu đơn hàng tháng này: {formatVnd(TOTAL_SELLER_REVENUE)}
-                                </p>
-                            </div>
-
-                            <div className="d-flex align-items-center gap-4 flex-wrap">
-                                <DonutChart
-                                    data={revenueItems.map((r) => ({
-                                        name: r.label,
-                                        value: r.percent,
-                                        color: r.color,
-                                    }))}
-                                    centerValue="63.3%"
-                                    centerLabel="THỰC NHẬN"
-                                />
-
-                                <ul className="list-unstyled mb-0 d-flex flex-column gap-2 flex-grow-1">
-                                    {revenueItems.map((item) => (
-                                        <li
-                                            key={item.label}
-                                            className={`d-flex align-items-center gap-2 small ${item.highlight ? "fw-semibold text-danger" : ""
-                                                }`}
-                                        >
-                                            <span
-                                                className="rounded-circle flex-shrink-0"
-                                                style={{
-                                                    width: 10,
-                                                    height: 10,
-                                                    backgroundColor: item.color,
-                                                }}
-                                            />
-                                            <span className="flex-grow-1">{item.label}</span>
-                                            <span className="fw-semibold text-nowrap">
-                                                {formatVnd(item.amount)}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div className="text-secondary small mt-3">
-                                <FontAwesomeIcon icon={faShieldHalved} className="me-2" />
-                                Sàn tự động giải ngân vào Ví Người Bán sau khi khách xác nhận đã nhận hàng
-                            </div>
-                        </div>
-                    </div>
+                {/* Thẻ 2: Tổng đơn đặt hàng */}
+                <div className="col-12 col-md-6 col-xl-3">
+                    <StatCard
+                        label="Tổng đơn đặt hàng"
+                        value={`${totalOrders} đơn`}
+                        icon={faBagShopping}
+                        tone="info"
+                        note={`${pendingOrders} chờ xác nhận, ${processingOrders} đang pha chế`}
+                    />
                 </div>
+
+                {/* Thẻ 3: Tỷ lệ giao hàng thành công */}
+                <div className="col-12 col-md-6 col-xl-3">
+                    <StatCard
+                        label="Tỷ lệ giao hàng thành công"
+                        value={`${deliveryRate}%`}
+                        icon={faTruckFast}
+                        tone="success"
+                        note={`Tỷ lệ đơn hủy toàn sàn: ${cancelRate}%`}
+                    />
+                </div>
+
+                {/* Thẻ 4: Đối tác Xưởng chế tác */}
+                <div className="col-12 col-md-6 col-xl-3">
+                    <StatCard
+                        label="Đối tác Xưởng chế tác"
+                        value={`${activeWorkshops} xưởng`}
+                        icon={faShop}
+                        tone="warning"
+                        note={
+                            pendingWorkshops > 0
+                                ? `${pendingWorkshops} hồ sơ chờ xét duyệt`
+                                : "Tất cả hồ sơ đã phê duyệt"
+                        }
+                        actionText={pendingWorkshops > 0 ? "Xem danh sách duyệt" : undefined}
+                        onAction={() => setShowApprove(true)}
+                    />
+                </div>
+            </section>
+            <section>
+                <AdminBarChartOverTime />
+            </section>
+            <section>
+                <AdminPieChartsSection data={pieData} loading={loadingPie} />
             </section>
         </main>
     );

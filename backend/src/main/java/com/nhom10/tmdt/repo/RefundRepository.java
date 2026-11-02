@@ -38,7 +38,6 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
             @Param("status") RefundStatus status
     );
 
-
     @Query("""
     SELECT COUNT(DISTINCT r)
     FROM Refund r
@@ -56,6 +55,18 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     long countOpenByFactoryId(
             @Param("factoryId") Long factoryId
     );
+
+    @Query("""
+    SELECT COUNT(r)
+    FROM Refund r
+    WHERE r.status IN (
+        com.nhom10.tmdt.enums.RefundStatus.REQUESTED,
+        com.nhom10.tmdt.enums.RefundStatus.APPROVED,
+        com.nhom10.tmdt.enums.RefundStatus.PROCESSING,
+        com.nhom10.tmdt.enums.RefundStatus.NEEDS_REVIEW
+    )
+    """)
+    long countOpenPlatformRefunds();
 
     @Query("""
     SELECT r FROM Refund r
