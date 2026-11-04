@@ -27,17 +27,20 @@ public class ProductService {
     private final CategoryRepository categoryRepo;
     private final FactoryRepository factoryRepo;
     private final PurchaseItemService purchases;
+    private final ProductRecommendationService recommendationService;
 
     public ProductService(
             ProductRepository productRepo,
             CategoryRepository categoryRepo,
             FactoryRepository factoryRepo,
-            PurchaseItemService purchases
+            PurchaseItemService purchases,
+            ProductRecommendationService recommendationService
     ) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.factoryRepo = factoryRepo;
         this.purchases = purchases;
+        this.recommendationService = recommendationService;
     }
 
     // Lấy metadata cho sidebar
@@ -123,6 +126,25 @@ public class ProductService {
     public List<ProductCardResponse> getMostViewedProducts(Integer limit) {
         Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
         return productRepo.findMostViewedProducts(pageable).stream()
+                .map(this::toCard)
+                .toList();
+    }
+
+    /**
+     * Gợi ý sản phẩm tương tự dựa trên đặc trưng nốt hương và độ đo Cosine Similarity.
+     */
+    public List<ProductCardResponse> getSimilarProducts(Long productId, Integer limit) {
+        Product target = productRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + productId));
+
+        List<Product> candidates = productRepo.findAll().stream()
+                .filter(p -> p.getProductType() == null || p.getProductType() == com.nhom10.tmdt.enums.ProductType.NORMAL)
+                .toList();
+
+        int topK = (limit != null && limit > 0) ? limit : 4;
+        List<Product> similar = recommendationService.findSimilarProducts(target, candidates, topK);
+
+        return similar.stream()
                 .map(this::toCard)
                 .toList();
     }

@@ -87,5 +87,16 @@ public class ProductController {
     public ApiResponse<ProductDetailResponse> getProductDetail(@PathVariable Long id) {
         return new ApiResponse<>(200, "Lấy thông tin chi tiết sản phẩm thành công", productService.getProductDetail(id));
     }
-}
 
+    /**
+     * GET /products/{id}/similar
+     * Gợi ý sản phẩm tương tự dựa trên đặc trưng nốt hương và độ đo Cosine Similarity.
+     */
+    @GetMapping("/{id}/similar")
+    public ApiResponse<List<ProductCardResponse>> getSimilarProducts(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "4") Integer limit
+    ) {
+        return new ApiResponse<>(200, "Lấy danh sách sản phẩm tương tự thành công", productService.getSimilarProducts(id, limit));
+    }
+}
