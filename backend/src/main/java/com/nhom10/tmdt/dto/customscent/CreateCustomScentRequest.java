@@ -7,6 +7,7 @@ import java.util.List;
 
 public record CreateCustomScentRequest(
         @NotNull @Positive Long factoryId,
+        String name,
         @NotBlank String bottleType,
         String labelDesign,
         @NotNull @Positive @Max(2147483647) @Digits(integer = 10, fraction = 0) Double totalVolumeMl,
@@ -15,6 +16,19 @@ public record CreateCustomScentRequest(
         Integer quantity,
         @NotEmpty List<@NotNull @Valid ScentTierItemRequest> items
 ) {
+    public CreateCustomScentRequest(
+            Long factoryId,
+            String bottleType,
+            String labelDesign,
+            Double totalVolumeMl,
+            Double price,
+            String customNote,
+            Integer quantity,
+            List<ScentTierItemRequest> items
+    ) {
+        this(factoryId, null, bottleType, labelDesign, totalVolumeMl, price, customNote, quantity, items);
+    }
+
     public record ScentTierItemRequest(
             @NotNull @Positive Long productId,
             String scentName,
@@ -22,4 +36,3 @@ public record CreateCustomScentRequest(
             @NotNull @Positive Double volumeMl
     ) {}
 }
-

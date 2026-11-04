@@ -111,3 +111,13 @@ export interface FactoryCustomRecipeSaveRequest {
         note?: string;
     }[];
 }
+
+export interface CustomBottleSampleItem {
+    id: number;
+    imageUrl: string;
+    isCustomSample: boolean;
+    isThumbnail: boolean;
+    productId?: number | null;
+    productName?: string | null;
+    uploadedAt?: string;
+}

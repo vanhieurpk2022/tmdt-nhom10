@@ -30,7 +30,6 @@ import SideBarFactory from "../components/admin/factory/SideBarFactory";
 import StatCard from "../components/admin/dashboard/StartCard";
 import CustomBadge from "../components/admin/badge/CustomBadge";
 import { OrderStatus } from "../enums/OrderStatus";
-import { getPaymentStatusLabel } from "../api/OrderService";
 import { ProductType } from "../enums/ProductType";
 import { FactoryServiceManager } from "../api/factory/FactoryService";
 import type {
@@ -70,6 +69,7 @@ export default function FactoryOrder() {
     const [loadingDetail, setLoadingDetail] = useState<boolean>(false);
     const [editingOrder, setEditingOrder] = useState<AdminOrderListItem | AdminOrderDetail | null>(null);
     const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+    const [reopenDetailId, setReopenDetailId] = useState<number | null>(null);
 
     // Debounce search input
     useEffect(() => {
@@ -157,8 +157,9 @@ export default function FactoryOrder() {
             showToast("Thành công", `Đã cập nhật trạng thái đơn #${id} thành ${OrderStatusBadge[status]?.label || status}.`, "success");
             fetchOrders();
             fetchStats();
-            if (detailOrder && detailOrder.id === id) {
+            if (reopenDetailId === id || (detailOrder && detailOrder.id === id)) {
                 handleViewDetail(id);
+                setReopenDetailId(null);
             }
         } catch (err: any) {
             console.error("Lỗi khi cập nhật trạng thái:", err);
@@ -295,22 +296,11 @@ export default function FactoryOrder() {
                 columnHelper.accessor("paymentMethod", {
                     header: "Thanh toán",
                     cell: (info) => {
-                        const row = info.row.original;
+                        const method = info.getValue() || "COD";
                         return (
-                            <div className="d-flex flex-column gap-1">
-                                <span className="small fw-semibold text-dark">
-                                    {row.paymentMethod || "COD"}
-                                </span>
-                                <span
-                                    className={`badge small ${
-                                        row.paymentStatus === "PAID"
-                                            ? "bg-success-subtle text-success"
-                                            : "bg-warning-subtle text-warning-emphasis"
-                                    }`}
-                                >
-                                    {getPaymentStatusLabel(row)}
-                                </span>
-                            </div>
+                            <span className="badge bg-light text-dark border px-2.5 py-1 fw-bold">
+                                {method}
+                            </span>
                         );
                     },
                     sortFn: "basic",
@@ -660,10 +650,18 @@ export default function FactoryOrder() {
                 <AdminOrderDetailModal
                     order={detailOrder}
                     loading={loadingDetail}
-                    onClose={() => setDetailOrder(null)}
+                    onClose={() => {
+                        setDetailOrder(null);
+                        setReopenDetailId(null);
+                    }}
                     onOpenStatusUpdate={(o) => {
+                        setReopenDetailId(o.id);
                         setDetailOrder(null);
                         handleOpenUpdate(o);
+                    }}
+                    onQuickStatusChange={async (id, status) => {
+                        await handleSaveStatus(id, status);
+                        handleViewDetail(id);
                     }}
                 />
             )}
@@ -676,6 +674,10 @@ export default function FactoryOrder() {
                     onClose={() => {
                         setShowUpdateModal(false);
                         setEditingOrder(null);
+                        if (reopenDetailId) {
+                            handleViewDetail(reopenDetailId);
+                            setReopenDetailId(null);
+                        }
                     }}
                     onSave={handleSaveStatus}
                 />

@@ -24,12 +24,12 @@ public class ProductCustom {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name="bottle_Type")
+    @Column(name="bottle_type")
     private String bottleType;
 
     @Column(name="label_design")
     private String labelDesign;
-    @Column(name="total_volumeMl")
+    @Column(name="total_volume_ml")
     private Double totalVolumeMl;
     private double price;
     @Column(name="created_at")

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Modal, Button, ProgressBar } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,15 +11,9 @@ import {
     faCircleCheck,
     faTriangleExclamation,
     faBoxOpen,
-    faTag,
-    faWineBottle,
-    faImage,
-    faCloudArrowUp,
-    faArrowUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FactoryServiceManager } from "../../../../api/factory/FactoryService";
-import { cloudinaryService } from "../../../../api/UploadApi";
 import type {
     CustomProductComponent,
     FactoryProductItem,
@@ -67,7 +61,7 @@ function parseRecipeFromDescription(description?: string): {
 /**
  * Đóng gói danh sách thành phần và ghi chú vào description
  */
-function formatRecipeToDescription(
+export function formatRecipeToDescription(
     components: CustomProductComponent[],
     userNotes: string
 ): string {
@@ -93,11 +87,8 @@ export function CustomProductRecipeConfig({
     const [loadingProducts, setLoadingProducts] = useState(false);
 
     // Thông tin Product Custom (lọ chai & nhãn thiết kế)
-    const [productCustomId, setProductCustomId] = useState<number | null>(null);
     const [bottleType, setBottleType] = useState<string>("Chai thủy tinh tiêu chuẩn");
     const [labelDesign, setLabelDesign] = useState<string>("");
-    const [uploadingDesign, setUploadingDesign] = useState<boolean>(false);
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     // Danh sách thành phần phối hiện tại
     const [components, setComponents] = useState<CustomProductComponent[]>([]);
@@ -136,7 +127,6 @@ export function CustomProductRecipeConfig({
             try {
                 const res = await FactoryServiceManager.getCustomRecipe(productId);
                 if (isMounted && res.status === 200 && res.data) {
-                    if (res.data.productCustomId) setProductCustomId(res.data.productCustomId);
                     if (res.data.bottleType) setBottleType(res.data.bottleType);
                     if (res.data.labelDesign) setLabelDesign(res.data.labelDesign);
 
@@ -170,27 +160,6 @@ export function CustomProductRecipeConfig({
             isMounted = false;
         };
     }, [productId, productInfo]);
-
-    // Xử lý upload ảnh thiết kế lọ chai lên Cloudinary
-    const handleUploadDesignImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        try {
-            setUploadingDesign(true);
-            const uploadRes = await cloudinaryService.upload(file);
-            if (uploadRes && uploadRes.url) {
-                setLabelDesign(uploadRes.url);
-                showToast("Thành công", "Đã tải ảnh thiết kế lên Cloudinary! Bấm 'Lưu công thức phối' để lưu vào hệ thống.", "success");
-            }
-        } catch (err) {
-            console.error("Lỗi tải ảnh lọ chai:", err);
-            showToast("Lỗi", "Không tải được ảnh thiết kế lên. Vui lòng thử lại.", "danger");
-        } finally {
-            setUploadingDesign(false);
-            if (e.target) e.target.value = "";
-        }
-    };
 
     // Các sản phẩm có sẵn có thể chọn (loại trừ chính sản phẩm custom này)
     const selectableProducts = useMemo(() => {
@@ -348,164 +317,6 @@ export function CustomProductRecipeConfig({
 
     return (
         <>
-            {/* KHỐI HIỂN THỊ THIẾT KẾ LỌ CHAI (PRODUCT_CUSTOM BOTTLE & LABEL DESIGN) */}
-            <div className="card border shadow-sm mb-4">
-                <div className="card-header bg-white py-3 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
-                    <div className="d-flex align-items-center gap-2">
-                        <span
-                            className="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle text-primary"
-                            style={{ width: 38, height: 38 }}
-                        >
-                            <FontAwesomeIcon icon={faWineBottle} />
-                        </span>
-                        <div>
-                            <div className="d-flex align-items-center gap-2">
-                                <h6 className="fw-bold mb-0 text-dark">Thiết kế lọ chai & Bao bì độc bản</h6>
-                                {productCustomId && (
-                                    <span className="badge bg-secondary-subtle text-secondary border">
-                                        Product Custom #{productCustomId}
-                                    </span>
-                                )}
-                            </div>
-                            <span className="small text-secondary">
-                                Thông tin mẫu lọ và đường dẫn ảnh thiết kế được lưu trữ trong bảng <code>product_custom</code>.
-                            </span>
-                        </div>
-                    </div>
-
-                    {labelDesign && (
-                        <a
-                            href={labelDesign}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 align-self-start align-self-sm-auto"
-                        >
-                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                            <span>Xem ảnh gốc</span>
-                        </a>
-                    )}
-                </div>
-
-                <div className="card-body bg-light-subtle p-3 p-md-4">
-                    <div className="row g-4 align-items-stretch">
-                        {/* Cột hiển thị ảnh lọ chai */}
-                        <div className="col-12 col-md-4 col-lg-3">
-                            <div
-                                className="border rounded-4 bg-white p-3 d-flex flex-column align-items-center justify-content-center position-relative shadow-sm h-100"
-                                style={{ minHeight: 200 }}
-                            >
-                                {labelDesign ? (
-                                    <>
-                                        <img
-                                            src={labelDesign}
-                                            alt="Thiết kế lọ chai"
-                                            className="img-fluid rounded-3 mb-2"
-                                            style={{ maxHeight: 170, objectFit: "contain" }}
-                                            onError={(e) => {
-                                                (e.target as HTMLElement).style.display = "none";
-                                            }}
-                                        />
-                                        <span className="badge bg-dark bg-opacity-75 text-white position-absolute bottom-0 start-50 translate-middle-x mb-2 px-2 py-1 small text-nowrap">
-                                            {bottleType || "Lọ tiêu chuẩn"}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <div className="text-center p-3 text-secondary my-auto">
-                                        <div
-                                            className="d-inline-flex align-items-center justify-content-center rounded-circle bg-light mb-2 text-muted"
-                                            style={{ width: 64, height: 64 }}
-                                        >
-                                            <FontAwesomeIcon icon={faWineBottle} size="2x" className="text-secondary" />
-                                        </div>
-                                        <div className="small fw-bold text-dark">Chưa có ảnh thiết kế</div>
-                                        <div className="text-muted" style={{ fontSize: "0.75rem" }}>
-                                            Tải ảnh từ máy hoặc nhập URL bên cạnh
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Cột cấu hình mẫu lọ chai & đường dẫn design */}
-                        <div className="col-12 col-md-8 col-lg-9">
-                            <div className="bg-white border rounded-4 p-3 p-md-4 shadow-sm h-100 d-flex flex-column justify-content-between">
-                                <div>
-                                    <div className="mb-3">
-                                        <label className="form-label small fw-bold text-dark mb-1">
-                                            Loại chai / Mẫu lọ (bottle_type)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="VD: Chai thủy tinh nhỏ giọt 50ml, Lọ xịt phun sương 100ml..."
-                                            value={bottleType}
-                                            onChange={(e) => setBottleType(e.target.value)}
-                                        />
-                                    </div>
-
-                                    <div className="mb-2">
-                                        <label className="form-label small fw-bold text-dark mb-1 d-flex justify-content-between align-items-center">
-                                            <span>Đường dẫn ảnh thiết kế lọ chai (label_design)</span>
-                                            {uploadingDesign && (
-                                                <span className="text-primary small">
-                                                    <span className="spinner-border spinner-border-sm me-1" />
-                                                    Đang tải ảnh lên Cloudinary...
-                                                </span>
-                                            )}
-                                        </label>
-                                        <div className="input-group">
-                                            <span className="input-group-text bg-light text-secondary">
-                                                <FontAwesomeIcon icon={faImage} />
-                                            </span>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="https://res.cloudinary.com/... hoặc /images/home/..."
-                                                value={labelDesign}
-                                                onChange={(e) => setLabelDesign(e.target.value)}
-                                            />
-                                            <button
-                                                type="button"
-                                                className="btn btn-outline-primary d-flex align-items-center gap-1 px-3"
-                                                onClick={() => fileInputRef.current?.click()}
-                                                disabled={uploadingDesign}
-                                                title="Tải ảnh thiết kế từ máy tính lên Cloudinary"
-                                            >
-                                                <FontAwesomeIcon icon={faCloudArrowUp} />
-                                                <span>Tải ảnh</span>
-                                            </button>
-                                            {labelDesign && (
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-outline-danger"
-                                                    onClick={() => setLabelDesign("")}
-                                                    title="Xóa ảnh thiết kế"
-                                                >
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </button>
-                                            )}
-                                        </div>
-                                        <input
-                                            ref={fileInputRef}
-                                            type="file"
-                                            accept="image/*"
-                                            className="d-none"
-                                            onChange={handleUploadDesignImage}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 pt-2 border-top mt-3 small text-secondary">
-                                    <span>
-                                        📌 <i>Khi bấm "Lưu công thức phối", ảnh thiết kế và mẫu chai sẽ được lưu vào bản ghi <code>product_custom</code> tương ứng.</i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {/* BẢNG CẤU HÌNH THÀNH PHẦN PHỐI HƯƠNG */}
             <div className="card border shadow-sm mb-4">
                 {/* Header Card */}

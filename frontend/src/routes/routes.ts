@@ -5,6 +5,7 @@ export const ROUTES = {
   FACTORIES: "/factories",
   FACTORY_DETAIL: "/factories",
   CUSTOM_SCENT: "/custom-scent",
+  CUSTOM_SCENT_CUSTOMIZER: "/custom-scent/customizer",
   CART: "/cart",
   CHECKOUT: "/checkout",
   ORDER_SUCCESS: "/order-success",

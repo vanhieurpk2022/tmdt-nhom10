@@ -1,273 +1,897 @@
+/* customScent.css - Giao diện Sản phẩm Tùy chỉnh (Showcase & Detail/Customizer) */
+
 .custom-scent-page {
     background-color: #f8fafc;
-    min-height: 85vh;
+    min-height: 90vh;
+    color: #1e293b;
+    font-family: inherit;
 }
 
-/* Badge preview vỏ lọ */
-.scent-preview-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #15803d;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    padding: 0.3rem 0.75rem;
-    border-radius: 9999px;
-    z-index: 5;
-}
+/* ================== DRAWING 1: SHOWCASE VIEW ================== */
 
-.scent-preview-badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #22c55e;
-    animation: pulseBadge 2s infinite ease-in-out;
-}
-
-@keyframes pulseBadge {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-/* ================== MÔ PHỎNG CHAI TINH DẦU THỦ CÔNG ================== */
-.bottle-visual-wrapper {
-    position: relative;
-    width: 220px;
-    height: 330px;
-    margin: 2rem auto 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-/* Nắp chai theo phong cách */
-/* Nắp chai theo phong cách */
-.bottle-cap {
-    width: 48px;
-    height: 44px;
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border-radius: 6px 6px 2px 2px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    position: relative;
-    z-index: 3;
-    transition: all 0.4s ease;
-    margin-bottom: 2px;
-}
-
-/* Nắp vàng kim dropper - Mẫu 1 */
-.bottle-cap.cap-gold-dropper {
-    width: 42px;
-    height: 48px;
-    background: linear-gradient(135deg, #fef08a 0%, #ca8a04 40%, #eab308 70%, #a16207 100%);
-    border-radius: 6px 6px 4px 4px;
-    box-shadow: 0 4px 12px rgba(202, 138, 4, 0.35);
-}
-.bottle-cap.cap-gold-dropper::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 18px;
-    height: 12px;
-    background: #1e293b;
-    border-radius: 8px 8px 3px 3px;
-    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4);
-}
-
-/* Nắp gỗ sồi mun - Mẫu 2 */
-.bottle-cap.cap-wood-cylinder {
-    width: 52px;
-    height: 42px;
-    background: linear-gradient(135deg, #3f2a1d 0%, #291c13 50%, #1a110b 100%);
-    border-radius: 6px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
-    border: 1px solid #573a27;
-}
-
-/* Nắp triện sáp thủ công - Mẫu 3 */
-.bottle-cap.cap-wax-seal {
-    width: 44px;
-    height: 42px;
-    background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 60%, #450a0a 100%);
-    border-radius: 12px 12px 6px 6px;
-    box-shadow: 0 6px 16px rgba(153, 27, 27, 0.45);
-    border: 2px solid #b91c1c;
-}
-
-/* Cổ chai kết nối nắp và thân */
-.bottle-cap::after {
-    content: "";
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 26px;
-    height: 7px;
-    background: #94a3b8;
-    border-radius: 2px;
-    z-index: 2;
-}
-.bottle-cap.cap-gold-dropper::after { background: #ca8a04; width: 24px; }
-.bottle-cap.cap-wood-cylinder::after { background: #3f2a1d; width: 28px; }
-.bottle-cap.cap-wax-seal::after { background: #991b1b; width: 24px; }
-
-/* Thân chai & chất liệu kính */
-.bottle-body {
-    width: 165px;
-    height: 245px;
-    border-radius: 24px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.4s ease;
-}
-
-/* Kính màu hổ phách mật ong (Mẫu 1) */
-.bottle-body.glass-amber {
-    background: linear-gradient(180deg, rgba(254, 240, 138, 0.5) 0%, rgba(245, 158, 11, 0.75) 60%, rgba(180, 83, 9, 0.9) 100%);
-    border: 3px solid rgba(255, 255, 255, 0.85);
-    box-shadow: 0 20px 40px -15px rgba(217, 119, 6, 0.35), inset 0 0 20px rgba(255, 255, 255, 0.6);
-}
-
-/* Kính Matte Noir đen mờ nhám siêu sang (Mẫu 2) */
-.bottle-body.glass-matte-noir {
-    background: linear-gradient(180deg, #27272a 0%, #18181b 60%, #09090b 100%);
-    border: 2px solid #3f3f46;
-    box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(255, 255, 255, 0.08);
-}
-
-/* Kính Crystal Frost mờ sương cổ điển (Mẫu 3) */
-.bottle-body.glass-crystal-frost {
-    background: linear-gradient(180deg, rgba(254, 243, 199, 0.5) 0%, rgba(226, 232, 240, 0.65) 50%, rgba(203, 213, 225, 0.8) 100%);
-    border: 3px solid rgba(255, 255, 255, 0.95);
-    box-shadow: 0 20px 40px -10px rgba(148, 163, 184, 0.35), inset 0 0 25px rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(6px);
-}
-
-/* Kiểu dáng hình học chai */
-.bottle-body.square { border-radius: 20px; width: 172px; }
-.bottle-body.cylinder { border-radius: 40px 40px 24px 24px; width: 162px; }
-.bottle-body.apothecary { border-radius: 28px 28px 24px 24px; width: 172px; height: 245px; }
-
-/* Nhãn in trên thân chai */
-.bottle-label-sticker {
-    width: 124px;
-    border-radius: 10px;
-    padding: 1.1rem 0.65rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-    transition: all 0.4s ease;
-}
-
-/* Nhãn Mẫu 1: Tối giản thanh lịch trắng tinh khôi */
-.bottle-label-sticker.label-minimal-clean {
-    background: #ffffff;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(229, 231, 235, 0.9);
-}
-.bottle-label-sticker.label-minimal-clean .bottle-label-brand { color: #475569; }
-.bottle-label-sticker.label-minimal-clean .bottle-label-title { color: #0f172a; }
-.bottle-label-sticker.label-minimal-clean .bottle-label-subtitle { color: #dc2626; }
-.bottle-label-sticker.label-minimal-clean .bottle-label-desc { color: #64748b; }
-
-/* Nhãn Mẫu 2: Luxury Gold nền đen chữ vàng kim sang chảnh */
-.bottle-label-sticker.label-luxury-gold {
-    background: #0f172a;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 0 0 1px #ca8a04;
-    border: 1px solid #eab308;
-}
-.bottle-label-sticker.label-luxury-gold .bottle-label-brand { color: #fef08a; }
-.bottle-label-sticker.label-luxury-gold .bottle-label-title { color: #ffffff; text-shadow: 0 1px 4px rgba(234, 179, 8, 0.3); }
-.bottle-label-sticker.label-luxury-gold .bottle-label-subtitle { color: #fbbf24; }
-.bottle-label-sticker.label-luxury-gold .bottle-label-desc { color: #cbd5e1; }
-.bottle-label-sticker.label-luxury-gold .bottle-label-volume { color: #fde047; }
-
-/* Nhãn Mẫu 3: Vintage Border giấy kraft cổ điển viền đỏ */
-.bottle-label-sticker.label-vintage-border {
-    background: #fef3c7;
-    box-shadow: 0 6px 18px rgba(120, 53, 15, 0.15);
-    border: 2px dashed #92400e;
-}
-.bottle-label-sticker.label-vintage-border .bottle-label-brand { color: #78350f; font-family: serif; }
-.bottle-label-sticker.label-vintage-border .bottle-label-title { color: #451a03; font-family: serif; }
-.bottle-label-sticker.label-vintage-border .bottle-label-subtitle { color: #991b1b; font-style: italic; }
-.bottle-label-sticker.label-vintage-border .bottle-label-desc { color: #78350f; }
-.bottle-label-sticker.label-vintage-border .bottle-label-volume { color: #92400e; font-weight: 700; }
-
-.bottle-label-brand {
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-}
-
-.bottle-label-title {
-    font-size: 0.85rem;
+/* Tiêu đề góc trái trên cùng */
+.showcase-header-title {
+    font-size: 1.85rem;
     font-weight: 800;
-    letter-spacing: 0.04em;
-    line-height: 1.2;
-    margin-bottom: 0.15rem;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.bottle-label-subtitle {
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+.showcase-header-title .title-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
-.bottle-label-desc {
-    font-size: 0.58rem;
-    margin-bottom: 0.6rem;
+/* Hero Banner */
+.custom-scent-hero-banner {
+    position: relative;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%);
+    color: #ffffff;
+    box-shadow: 0 10px 25px -5px rgba(49, 46, 129, 0.25);
+    padding: 3rem 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.bottle-label-volume {
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    font-weight: 600;
-}
-
-/* Lớp bóng phản quang */
-.bottle-liquid-shine {
+.custom-scent-hero-banner::after {
+    content: "";
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, transparent 50%, rgba(0, 0, 0, 0.05) 100%);
+    right: -5%;
+    top: -20%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(99, 102, 241, 0) 70%);
+    border-radius: 50%;
     pointer-events: none;
 }
 
-/* Nút chọn mẫu 1, 2, 3 */
-.design-sample-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    border: 1px solid #d6d3d1;
-    background: #ffffff;
-    color: #44403c;
+.banner-content {
+    max-width: 650px;
+    position: relative;
+    z-index: 2;
+}
+
+.banner-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e7ff;
+    font-size: 0.8rem;
     font-weight: 700;
-    font-size: 0.875rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+}
+
+.banner-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+}
+
+.banner-desc {
+    font-size: 1rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Nút Tùy Chỉnh bên phải dưới banner */
+.custom-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2.5rem;
+}
+
+.btn-open-customizer {
+    background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.85rem 2rem;
+    border-radius: 0.75rem;
+    border: none;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+    gap: 0.75rem;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 }
 
-.design-sample-btn:hover,
-.design-sample-btn.active {
-    border: 2px solid #dc2626;
-    color: #dc2626;
+.btn-open-customizer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.45);
+    color: #ffffff;
+}
+
+/* Section tiêu đề */
+.showcase-section {
+    margin-bottom: 3.5rem;
+}
+
+.section-header-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #7c3aed;
+    padding-left: 1rem;
+}
+
+.section-header-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Grid 4 thẻ mỗi hàng */
+.cards-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+    .cards-showcase-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .cards-showcase-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .cards-showcase-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card sản phẩm tùy chỉnh */
+.custom-card-item {
     background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.custom-card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e1;
+}
+
+.card-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-img-wrapper img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.custom-card-item:hover .card-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.card-body-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-product-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-ingredients-text {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.6rem;
+    line-height: 1.3rem;
+}
+
+.card-meta-row {
+    font-size: 0.82rem;
+    color: #475569;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.card-meta-row strong {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.card-meta-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-price-row {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #7c3aed;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #f1f5f9;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.btn-card-view {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 0.85rem;
+}
+
+.btn-card-view:hover {
+    background: #7c3aed;
+    color: #ffffff;
+    border-color: #7c3aed;
+}
+
+/* ================== DRAWING 2: DETAIL / CUSTOMIZER VIEW ================== */
+
+.detail-view-container {
+    background: #ffffff;
+    border-radius: 1.25rem;
+    border: 1px solid #e2e8f0;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Top Bar: Quay lại + Tên xưởng + Tên sản phẩm custom */
+.detail-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+.btn-back-custom {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-back-custom:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.top-bar-inputs {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.factory-select-box {
+    min-width: 240px;
+    flex: 1;
+}
+
+.factory-select-box label,
+.custom-name-box label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.custom-name-box {
+    min-width: 300px;
+    flex: 2;
+}
+
+.detail-input-control {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #0f172a;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 0.6rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.detail-input-control:focus {
+    background: #ffffff;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+/* Two Columns: Left (Bottle preview) & Right (Formula) */
+.detail-content-columns {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 2.5rem;
+}
+
+@media (max-width: 992px) {
+    .detail-content-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* CỘT TRÁI: PREVIEW LỌ & LABEL */
+.bottle-preview-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.preview-box-main {
+    width: 100%;
+    height: 380px;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 2px dashed #cbd5e1;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 1.5rem;
+}
+
+.preview-bottle-image {
+    max-width: 85%;
+    max-height: 280px;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
+}
+
+.preview-label-overlay {
+    position: absolute;
+    bottom: 25%;
+    width: 120px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1.5px solid #ca8a04;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    text-align: center;
+}
+
+.preview-label-name {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1.1;
+    margin-bottom: 2px;
+}
+
+.preview-label-sub {
+    font-size: 0.6rem;
+    color: #ca8a04;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.preview-box-title {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.35rem;
+}
+
+/* Hàng nút số [0] [1] [2] [3] ... */
+.number-buttons-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.btn-sample-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 0.5rem;
+    border: 1.5px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    font-weight: 700;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-sample-number:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.btn-sample-number.active {
+    background: #7c3aed;
+    color: #ffffff;
+    border-color: #7c3aed;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.number-buttons-hint {
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+}
+
+.btn-upload-label {
+    width: 100%;
+    background: #ffffff;
+    border: 1.5px dashed #7c3aed;
+    color: #7c3aed;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-upload-label:hover {
+    background: #f5f3ff;
+}
+
+/* CỘT PHẢI: BẢNG PHỐI HƯƠNG & ĐẶT HÀNG */
+.recipe-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header actions bên phải: [+] [Chia đều tỉ lệ] [Tổng: ... Ml] */
+.recipe-top-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    flex-wrap: wrap;
+}
+
+.recipe-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.btn-add-ingredient {
+    width: 38px;
+    height: 38px;
+    border-radius: 0.5rem;
+    background: #7c3aed;
+    color: #ffffff;
+    border: none;
+    font-size: 1.15rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    transition: all 0.2s ease;
+}
+
+.btn-add-ingredient:hover {
+    background: #6d28d9;
+    transform: scale(1.05);
+}
+
+.btn-distribute-ratio {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    color: #334155;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-distribute-ratio:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.recipe-total-volume-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+.input-total-volume {
+    width: 75px;
+    text-align: center;
+    padding: 0.4rem 0.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 0.4rem;
+    outline: none;
+}
+
+.input-total-volume:focus {
+    border-color: #7c3aed;
+    background: #ffffff;
+}
+
+/* Bảng danh sách dòng nguyên liệu */
+.recipe-rows-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.recipe-ingredient-row {
+    display: grid;
+    grid-template-columns: 1fr 110px 75px 42px;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.65rem;
+    padding: 0.65rem 0.85rem;
+    transition: border-color 0.2s ease;
+}
+
+.recipe-ingredient-row:hover {
+    border-color: #cbd5e1;
+}
+
+.ingredient-select {
+    width: 100%;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1e293b;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.45rem;
+    outline: none;
+}
+
+.ingredient-select:focus {
+    border-color: #7c3aed;
+}
+
+.ingredient-ml-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.ingredient-ml-input {
+    width: 100%;
+    padding: 0.5rem 0.5rem;
+    text-align: right;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #1e293b;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.45rem;
+    outline: none;
+}
+
+.ingredient-ml-unit {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.ingredient-pct-badge {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #6d28d9;
+    background: #ede9fe;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.4rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-delete-row {
+    width: 36px;
+    height: 36px;
+    border-radius: 0.45rem;
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-delete-row:hover {
+    background: #fecaca;
+    color: #dc2626;
+}
+
+/* Thanh trạng thái kiểm tra tỷ lệ 100% */
+.recipe-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-radius: 0.6rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+}
+
+.recipe-status-bar.valid {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.recipe-status-bar.invalid {
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+}
+
+/* Ô nhập Ghi chú */
+.recipe-notes-box {
+    margin-bottom: 1.5rem;
+}
+
+.recipe-notes-box label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+.recipe-notes-input {
+    width: 100%;
+    min-height: 65px;
+    padding: 0.65rem 1rem;
+    font-size: 0.92rem;
+    color: #1e293b;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 0.6rem;
+    outline: none;
+    resize: vertical;
+}
+
+.recipe-notes-input:focus {
+    border-color: #7c3aed;
+    background: #ffffff;
+}
+
+/* Thanh chân trang: [Số lượng] [Tổng tiền] [Thêm giỏ hàng] [Đặt hàng Ngay] */
+.recipe-footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+.quantity-stepper {
+    display: inline-flex;
+    align-items: center;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.btn-stepper {
+    width: 38px;
+    height: 38px;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-stepper:hover {
+    background: #e2e8f0;
+}
+
+.stepper-value {
+    width: 44px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #0f172a;
+}
+
+.recipe-price-total {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-total-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.price-total-value {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #7c3aed;
+}
+
+.recipe-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.btn-add-cart-custom {
+    background: #ffffff;
+    border: 1.5px solid #7c3aed;
+    color: #7c3aed;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.65rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.btn-add-cart-custom:hover:not(:disabled) {
+    background: #f5f3ff;
+}
+
+.btn-buy-now-custom {
+    background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+    color: #ffffff;
+    border: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.65rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+    transition: all 0.2s ease;
+}
+
+.btn-buy-now-custom:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.45);
+    color: #ffffff;
+}
+
+.btn-add-cart-custom:disabled,
+.btn-buy-now-custom:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
 }

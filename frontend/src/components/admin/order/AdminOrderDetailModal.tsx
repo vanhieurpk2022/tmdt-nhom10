@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faUser,
@@ -14,19 +14,20 @@ import {
     faTriangleExclamation,
     faTruckFast,
     faTag,
-    faCircleCheck,
+    faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import type { AdminOrderDetail } from "../../../api/AdminOrderService";
 import { getPaymentStatusLabel } from "../../../api/OrderService";
 import { OrderStatusBadge, ProductTypeBadge } from "../../../pages/AdminOrder";
 import CustomBadge from "../badge/CustomBadge";
 import { OrderStatus } from "../../../enums/OrderStatus";
-import { ProductType } from "../../../enums/ProductType";
 
 interface Props {
     order: AdminOrderDetail | null;
     loading: boolean;
     onClose: () => void;
+    onOpenStatusUpdate?: (order: AdminOrderDetail) => void;
+    onQuickStatusChange?: (id: number, status: OrderStatus) => Promise<void>;
 }
 
 const formatVnd = (val?: number) => (val || 0).toLocaleString("vi-VN") + "đ";
@@ -47,10 +48,56 @@ const formatDateTime = (dateStr?: string) => {
     }
 };
 
-export default function AdminOrderDetailModal({ order, loading, onClose }: Props) {
+export default function AdminOrderDetailModal({
+    order,
+    loading,
+    onClose,
+    onOpenStatusUpdate,
+    onQuickStatusChange,
+}: Props) {
     const [activeTab, setActiveTab] = useState<"overview" | "shippingSlip">("overview");
+    const [updatingQuickStatus, setUpdatingQuickStatus] = useState<boolean>(false);
+    const [selectedStatus, setSelectedStatus] = useState<OrderStatus>(order?.status || OrderStatus.PENDING);
+
+    useEffect(() => {
+        if (order?.status) {
+            setSelectedStatus(order.status);
+        }
+    }, [order?.status]);
 
     if (!order && !loading) return null;
+
+    // Khi người dùng bấm nút "Cập nhật trạng thái"
+    const handleApplyStatusUpdate = async () => {
+        if (!order) return;
+
+        // Nếu trạng thái mới là CANCELLED, mở modal chi tiết để nhập lý do hủy
+        if (selectedStatus === OrderStatus.CANCELLED) {
+            if (onOpenStatusUpdate) {
+                onOpenStatusUpdate(order);
+            }
+            return;
+        }
+
+        // Nếu có thay đổi trạng thái khác với hiện tại, gọi cập nhật
+        if (selectedStatus !== order.status) {
+            if (onQuickStatusChange) {
+                try {
+                    setUpdatingQuickStatus(true);
+                    await onQuickStatusChange(order.id, selectedStatus);
+                } finally {
+                    setUpdatingQuickStatus(false);
+                }
+            } else if (onOpenStatusUpdate) {
+                onOpenStatusUpdate(order);
+            }
+        } else {
+            // Nếu chưa thay đổi thì mở modal điều phối chi tiết
+            if (onOpenStatusUpdate) {
+                onOpenStatusUpdate(order);
+            }
+        }
+    };
 
     // Tiến trình 4 chặng đơn hàng chuẩn thương mại điện tử:
     // 1: Khách đặt hàng (User checkout)
@@ -92,7 +139,7 @@ export default function AdminOrderDetailModal({ order, loading, onClose }: Props
             <div className="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
                 <div className="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
                     {/* Header */}
-                    <div className="modal-header bg-dark text-white px-4 py-3 border-0">
+                    <div className="modal-header bg-dark text-white px-4 py-3 border-0 d-flex align-items-center justify-content-between w-100">
                         <div className="d-flex align-items-center gap-3">
                             <div
                                 className="d-flex align-items-center justify-content-center bg-danger rounded-3"
@@ -101,7 +148,7 @@ export default function AdminOrderDetailModal({ order, loading, onClose }: Props
                                 <FontAwesomeIcon icon={faReceipt} className="text-white fs-5" />
                             </div>
                             <div>
-                                <div className="d-flex align-items-center gap-2">
+                                <div className="d-flex align-items-center gap-2 flex-wrap">
                                     <h5 className="modal-title fw-bold text-white mb-0">
                                         Chi tiết đơn hàng {order?.code || `#ORD-${order?.id}`}
                                     </h5>
@@ -121,14 +168,13 @@ export default function AdminOrderDetailModal({ order, loading, onClose }: Props
                             </div>
                         </div>
 
-                        <div className="d-flex align-items-center gap-2">
-                            <button
-                                type="button"
-                                className="btn-close btn-close-white"
-                                onClick={onClose}
-                                aria-label="Close"
-                            />
-                        </div>
+                        <button
+                            type="button"
+                            className="btn-close btn-close-white ms-auto"
+                            onClick={onClose}
+                            aria-label="Close"
+                            style={{ filter: "brightness(0) invert(1)", opacity: 0.85, cursor: "pointer" }}
+                        />
                     </div>
 
                     {/* Sub-header Navigation Tabs */}
@@ -155,9 +201,57 @@ export default function AdminOrderDetailModal({ order, loading, onClose }: Props
                         </div>
 
                         <div className="d-flex align-items-center gap-2">
+                            {/* Select trạng thái ở vị trí ô đỏ */}
+                            <div className="d-flex align-items-center gap-2">
+                                <select
+                                    className={`form-select form-select-sm rounded-3 fw-semibold shadow-sm ${
+                                        selectedStatus !== order?.status ? "border-danger bg-danger-subtle text-danger" : "border bg-light"
+                                    }`}
+                                    style={{
+                                        minWidth: "175px",
+                                        height: "33px",
+                                        fontSize: "12.5px",
+                                        cursor: "pointer",
+                                    }}
+                                    value={selectedStatus}
+                                    onChange={(e) => setSelectedStatus(e.target.value as OrderStatus)}
+                                    disabled={loading || updatingQuickStatus || !order}
+                                    title="Chọn trạng thái để cập nhật"
+                                >
+                                    <option value={OrderStatus.PENDING}>⏳ Chờ xác nhận</option>
+                                    <option value={OrderStatus.CONFIRMED}>📋 Đã xác nhận</option>
+                                    <option value={OrderStatus.PROCESSING}>🧪 Đang gia công / Chiết rót</option>
+                                    <option value={OrderStatus.SHIPPED}>📦 Đã gửi hàng</option>
+                                    <option value={OrderStatus.DELIVERING}>🚚 Đang giao hàng</option>
+                                    <option value={OrderStatus.DELIVERED}>✅ Đã giao thành công</option>
+                                    <option value={OrderStatus.CANCELLED}>❌ Hủy đơn hàng</option>
+                                </select>
+
+                                {selectedStatus !== order?.status && (
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger btn-sm rounded-3 px-2 py-1 fw-semibold d-flex align-items-center gap-1 shadow-sm"
+                                        style={{ height: "33px", fontSize: "12px" }}
+                                        onClick={handleApplyStatusUpdate}
+                                        disabled={updatingQuickStatus}
+                                        title="Lưu trạng thái vừa chọn"
+                                    >
+                                        {updatingQuickStatus ? (
+                                            <span className="spinner-border spinner-border-sm" role="status" />
+                                        ) : (
+                                            <>
+                                                <FontAwesomeIcon icon={faPenToSquare} />
+                                                <span>Lưu</span>
+                                            </>
+                                        )}
+                                    </button>
+                                )}
+                            </div>
+
                             <button
                                 type="button"
-                                className="btn btn-sm btn-outline-dark rounded-3 px-3"
+                                className="btn btn-sm btn-outline-dark rounded-3 px-3 d-flex align-items-center gap-1"
+                                style={{ height: "33px", fontSize: "12.5px" }}
                                 onClick={() => window.print()}
                             >
                                 <FontAwesomeIcon icon={faPrint} className="me-1" />
@@ -477,7 +571,7 @@ export default function AdminOrderDetailModal({ order, loading, onClose }: Props
                                                             : "Miễn phí (0đ)"}
                                                     </span>
                                                 </div>
-                                                {order.discountAmount && order.discountAmount > 0 && (
+                                                {Boolean(order.discountAmount && order.discountAmount > 0) && (
                                                     <div className="d-flex justify-content-between small mb-2 text-danger">
                                                         <span>Giảm giá khuyến mãi / Voucher:</span>
                                                         <span className="fw-semibold">
@@ -622,10 +716,35 @@ export default function AdminOrderDetailModal({ order, loading, onClose }: Props
                         </div>
 
                         <div className="d-flex align-items-center gap-2">
+                            {order && (
+                                <button
+                                    type="button"
+                                    className="btn btn-danger btn-sm px-4 fw-semibold rounded-3 d-flex align-items-center gap-2 shadow-sm"
+                                    onClick={handleApplyStatusUpdate}
+                                    disabled={updatingQuickStatus}
+                                >
+                                    {updatingQuickStatus ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm" role="status" />
+                                            <span>Đang cập nhật...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <FontAwesomeIcon icon={faPenToSquare} />
+                                            <span>
+                                                {selectedStatus !== order.status
+                                                    ? "Lưu trạng thái mới"
+                                                    : "Cập nhật trạng thái"}
+                                            </span>
+                                        </>
+                                    )}
+                                </button>
+                            )}
                             <button
                                 type="button"
                                 className="btn btn-secondary btn-sm px-4 fw-semibold rounded-3"
                                 onClick={onClose}
+                                disabled={updatingQuickStatus}
                             >
                                 Đóng
                             </button>

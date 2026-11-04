@@ -205,49 +205,54 @@ function SidebarAdmin({
                 </div>
             ) : (
                 <div
-                    className="d-flex align-items-center gap-2 pb-3 mb-2 border-bottom"
+                    className="d-flex align-items-center justify-content-between gap-2 pb-3 mb-2 border-bottom"
                     style={{ borderColor: "rgba(255, 255, 255, 0.08)", minHeight: "53px" }}
                 >
-                    <div
-                        className="d-flex align-items-center justify-content-center flex-shrink-0"
-                        style={{
-                            width: "36px",
-                            height: "36px",
-                            backgroundColor: "#e11d48",
-                            borderRadius: "10px",
-                            boxShadow: "0 2px 8px rgba(225, 29, 72, 0.35)",
-                        }}
+                    <Link
+                        to={ROUTES.HOME}
+                        className="d-flex align-items-center gap-2 text-decoration-none flex-grow-1 overflow-hidden"
+                        title="Về trang chủ Oilia"
                     >
-                        <FontAwesomeIcon icon={faDroplet} style={{ color: "#ffffff", fontSize: "17px" }} />
-                    </div>
+                        <div
+                            className="d-flex align-items-center justify-content-center flex-shrink-0"
+                            style={{
+                                width: "36px",
+                                height: "36px",
+                                backgroundColor: "#e11d48",
+                                borderRadius: "10px",
+                                boxShadow: "0 2px 8px rgba(225, 29, 72, 0.35)",
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faDroplet} style={{ color: "#ffffff", fontSize: "17px" }} />
+                        </div>
 
-                    <div className="d-flex flex-column flex-grow-1" style={{ minWidth: 0 }}>
-                        <div className="d-flex align-items-center justify-content-between">
+                        <div className="d-flex flex-column flex-grow-1" style={{ minWidth: 0 }}>
                             <span className="fw-bold text-white text-truncate" style={{ fontSize: "14px", letterSpacing: "-0.2px" }}>
                                 OILIA ADMIN
                             </span>
-                            <button
-                                type="button"
-                                onClick={toggleSidebar}
-                                className="btn btn-link p-1 text-secondary border-0"
-                                title="Thu gọn thanh điều hướng"
-                                style={{
-                                    color: "#94a3b8",
-                                    cursor: "pointer",
-                                    lineHeight: 1,
-                                    textDecoration: "none",
-                                    transition: "all 0.15s ease",
-                                }}
-                                onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
-                                onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
-                            >
-                                <FontAwesomeIcon icon={faBars} style={{ fontSize: "16px" }} />
-                            </button>
+                            <span className="text-secondary text-truncate" style={{ fontSize: "11px" }}>
+                                Trang quản trị vận hành
+                            </span>
                         </div>
-                        <span className="text-secondary text-truncate" style={{ fontSize: "11px" }}>
-                            Trang quản trị vận hành
-                        </span>
-                    </div>
+                    </Link>
+
+                    <button
+                        type="button"
+                        onClick={toggleSidebar}
+                        className="btn btn-link p-1 text-secondary border-0 flex-shrink-0"
+                        title="Thu gọn thanh điều hướng"
+                        style={{
+                            color: "#94a3b8",
+                            cursor: "pointer",
+                            lineHeight: 1,
+                            textDecoration: "none",
+                            transition: "all 0.15s ease",
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#94a3b8")}
+                    >
+                        <FontAwesomeIcon icon={faBars} style={{ fontSize: "16px" }} />
+                    </button>
                 </div>
             )}
 

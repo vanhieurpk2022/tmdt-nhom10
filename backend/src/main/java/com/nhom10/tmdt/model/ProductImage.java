@@ -1,5 +1,7 @@
 package com.nhom10.tmdt.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -25,13 +27,29 @@ public class ProductImage {
     @Column(name="image_url")
     private String imageUrl;
 
-    @Column(name="uploaded_at")
+    @Column(name="uploaded_at", nullable = false)
     @UpdateTimestamp
     private LocalDateTime uploadedAt;
 
     @ColumnDefault("0")
     @Column(name = "is_thumbnail", nullable = false)
     private boolean isThumbnail;
+
+    /**
+     * Xác định chai này dành cho custom (chai mẫu, chai gợi ý cho sản phẩm phối hương)
+     */
+    @ColumnDefault("0")
+    @Column(name = "is_custom_example", nullable = false)
+    @JsonProperty("isCustomExample")
+    @JsonAlias({"isCustomSample", "isSampleBottle", "isCustom", "isSample", "isCustomBottle"})
+    @Builder.Default
+    private boolean isCustomExample = false;
+
+    @ColumnDefault("0")
+    @Column(name = "is_custom_sample", nullable = false)
+    @JsonProperty("isCustomSample")
+    @Builder.Default
+    private boolean isCustomSample = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")

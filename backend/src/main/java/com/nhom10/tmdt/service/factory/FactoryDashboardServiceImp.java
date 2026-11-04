@@ -262,10 +262,67 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     @Override
     public FactoryProductResponse factoryProductRes(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
-        Long factoryId =user.getFactory().getId();
-        return new FactoryProductResponse(
-                productRepository.getStats(factoryId),
-                productRepository.getProducts(factoryId));
+        Long factoryId = user.getFactory().getId();
+        List<FactoryProductItem> rawProducts = productRepository.getProducts(factoryId);
+
+        List<FactoryProductItem> products = new ArrayList<>();
+        for (FactoryProductItem item : rawProducts) {
+            if (item.type() == ProductType.CUSTOM) {
+                Long customStock = calculateCustomProductStock(item.id());
+                products.add(new FactoryProductItem(
+                        item.id(),
+                        item.name(),
+                        customStock,
+                        item.sold(),
+                        item.status(),
+                        item.type(),
+                        item.createdAt(),
+                        item.category(),
+                        item.thumbnailUrl()
+                ));
+            } else {
+                products.add(item);
+            }
+        }
+
+        long totalProducts = products.size();
+        long forSale = products.stream().filter(p -> p.status() == ProductStatus.ACTIVE).count();
+        long outOfStock = products.stream().filter(p -> p.stock() == null || p.stock() <= 0).count();
+        long totalSold = products.stream().mapToLong(p -> p.sold() != null ? p.sold() : 0L).sum();
+
+        FactoryProductStats stats = new FactoryProductStats(totalProducts, forSale, outOfStock, totalSold);
+
+        return new FactoryProductResponse(stats, products);
+    }
+
+    /**
+     * Tồn kho khả dụng của sản phẩm custom là lấy Min tồn kho của các sản phẩm có trong product_custom đó.
+     */
+    private Long calculateCustomProductStock(Long customProductId) {
+        Product product = productRepository.findById(customProductId).orElse(null);
+        if (product == null || product.getProductCustom() == null) {
+            return 0L;
+        }
+
+        List<ProductCustomItem> items = productCustomItemRepository.findByProductCustomId(product.getProductCustom().getId());
+        if (items == null || items.isEmpty()) {
+            return 0L;
+        }
+
+        long minStock = Long.MAX_VALUE;
+        for (ProductCustomItem item : items) {
+            if (item.getProduct() != null) {
+                Long ingStock = productMilRepository.sumStockByProductId(item.getProduct().getId());
+                long stockVal = (ingStock != null) ? ingStock : 0L;
+                if (stockVal < minStock) {
+                    minStock = stockVal;
+                }
+            } else {
+                minStock = 0L;
+            }
+        }
+
+        return minStock == Long.MAX_VALUE ? 0L : minStock;
     }
 
     @Override
@@ -668,6 +725,82 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
                 .joinedAt(u.getCreatedAt())
                 .avatar(initials)
                 .build();
+    }
+
+    @Override
+    public List<CustomBottleSampleResponse> getCustomBottleSamples() {
+        return productImageRepository.findByIsCustomSample(true).stream()
+                .map(img -> CustomBottleSampleResponse.builder()
+                        .id(img.getId())
+                        .imageUrl(img.getImageUrl())
+                        .isCustomSample(img.isCustomSample())
+                        .isThumbnail(img.isThumbnail())
+                        .productId(img.getProduct() != null ? img.getProduct().getId() : null)
+                        .productName(img.getProduct() != null ? img.getProduct().getName() : null)
+                        .uploadedAt(img.getUploadedAt())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public CustomBottleSampleResponse addCustomBottleSample(CustomBottleSampleRequest request) {
+        if (request.getImageUrl() == null || request.getImageUrl().isBlank()) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
+        }
+
+        Product product = null;
+        if (request.getProductId() != null) {
+            product = productRepository.findById(request.getProductId()).orElse(null);
+        }
+
+        ProductImage image = ProductImage.builder()
+                .imageUrl(request.getImageUrl().trim())
+                .isCustomSample(true)
+                .isThumbnail(false)
+                .uploadedAt(LocalDateTime.now())
+                .product(product)
+                .build();
+
+        ProductImage saved = productImageRepository.save(image);
+
+        return CustomBottleSampleResponse.builder()
+                .id(saved.getId())
+                .imageUrl(saved.getImageUrl())
+                .isCustomSample(saved.isCustomSample())
+                .isThumbnail(saved.isThumbnail())
+                .productId(product != null ? product.getId() : null)
+                .productName(product != null ? product.getName() : null)
+                .uploadedAt(saved.getUploadedAt())
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public void deleteCustomBottleSample(Long id) {
+        ProductImage image = productImageRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        productImageRepository.delete(image);
+    }
+
+    @Override
+    @Transactional
+    public void deleteDefaultBottleLabel(Long id) {
+        ProductImage image = productImageRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        productImageRepository.delete(image);
+    }
+
+    @Override
+    @Transactional
+    public void deleteProductCustomLabelDesign(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        ProductCustom pc = product.getProductCustom();
+        if (pc != null) {
+            pc.setLabelDesign(null);
+            productCustomRepository.save(pc);
+        }
     }
 }
 

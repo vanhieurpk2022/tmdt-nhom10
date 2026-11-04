@@ -20,6 +20,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import FactoriesPage from './pages/FactoriesPage';
 import FactoryDetailPage from './pages/FactoryDetailPage';
 import CustomScentPage from './pages/CustomScentPage';
+import CustomScentCustomizerPage from './pages/CustomScentCustomizerPage';
 import ProfilePage from './pages/ProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import AddressBookPage from './pages/AddressBookPage';
@@ -106,6 +107,8 @@ createRoot(document.getElementById('root')!).render(
                   <Route element={<MainLayout />}>
                     <Route path={ROUTES.FACTORY_FORM} element={<RegisterFactoryForm />} />
                     <Route path={ROUTES.CUSTOM_SCENT} element={<CustomScentPage />} />
+                    <Route path={ROUTES.CUSTOM_SCENT_CUSTOMIZER} element={<CustomScentCustomizerPage />} />
+                    <Route path={`${ROUTES.CUSTOM_SCENT_CUSTOMIZER}/:id`} element={<CustomScentCustomizerPage />} />
                     <Route path={ROUTES.HOME} element={<HomePage />} />
                     <Route path={ROUTES.CART} element={<CartPage />} />
                     <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />

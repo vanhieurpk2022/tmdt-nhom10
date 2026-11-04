@@ -2785,3 +2785,90 @@ VALUES
         5,
         NULL
     );
+
+
+-- ====================================================================
+-- DỮ LIỆU SẢN PHẨM PHỐI HƯƠNG (PRODUCT_CUSTOM & PRODUCT_CUSTOM_ITEM)
+-- ====================================================================
+
+-- 1. BẢNG PRODUCT_CUSTOM
+INSERT INTO `product_custom` (`id`, `name`, `bottle_type`, `label_design`, `total_volume_ml`, `price`, `notes`, `created_at`, `updated_at`, `factory_id`, `user_id`) VALUES
+(1, 'Thiên Nhiên Gỗ Hoàng Gia', 'Mẫu 1: Hổ Phách Hoàng Gia', 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792615885/products/haku/factory_haku_logo.jpg', 30.0, 280000, 'Hương thơm nốt gỗ trầm sâu lắng, phù hợp không gian thiền định hoặc phòng làm việc.', '2026-10-01 09:30:00', '2026-10-01 09:30:00', 1, NULL),
+(2, 'Bình Minh Thảo Mộc', 'Mẫu 2: Hắc Nguyệt Huyền Bí', 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792615885/products/haku/factory_haku_banner.jpg', 30.0, 245000, 'Nốt hương sảng khoái đánh thức mọi giác quan, tiếp thêm năng lượng đầu ngày.', '2026-10-02 10:15:00', '2026-10-02 10:15:00', 2, NULL),
+(3, 'Dạ Khúc Hoa Hồng', 'Mẫu 3: Dược Liệu Cổ Điển', 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bac-ha.jpg', 30.0, 350000, 'Hương hoa ngọt ngào quyến rũ, lưu hương bền lâu và thư giãn tinh thần.', '2026-10-03 14:20:00', '2026-10-03 14:20:00', 1, NULL),
+(4, 'Gió Rừng Nhiệt Đới', 'Mẫu 1: Hổ Phách Hoàng Gia', 'https://toplist.vn/images/800px/haku-farm-tinh-dau-thien-nhien-271516.jpg', 50.0, 210000, 'Tươi mát như làn gió rừng nguyên sinh, thanh lọc không khí cực tốt.', '2026-10-04 16:45:00', '2026-10-04 16:45:00', 2, NULL),
+(5, 'Thanh Âm Đất Mẹ', 'Mẫu 2: Hắc Nguyệt Huyền Bí', 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bach-dan-chanh-2.jpg', 30.0, 225000, 'Tông hương mộc mạc nhẹ nhàng, cân bằng cảm xúc sau ngày dài.', '2026-10-05 08:30:00', '2026-10-05 08:30:00', 1, 1),
+(6, 'Mộc Miên Chiều Đông', 'Mẫu 1: Hổ Phách Hoàng Gia', 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792616235/products/haku/factory_haku_gallery_2.jpg', 30.0, 290000, 'Ấm áp hoài niệm, bảo vệ đường hô hấp trong mùa đông se lạnh.', '2026-10-06 11:00:00', '2026-10-06 11:00:00', 2, 2),
+(7, 'Hương Sắc Phố Cổ', 'Mẫu 3: Dược Liệu Cổ Điển', 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792616408/products/haku/factory_haku_gallery_warm_store.jpg', 30.0, 215000, 'Hòa quyện hương cam gừng truyền thống gợi nhớ không gian phố xưa.', '2026-10-07 15:30:00', '2026-10-07 15:30:00', 1, 3),
+(8, 'Ngọc Lan Dịu Êm', 'Mẫu 1: Hổ Phách Hoàng Gia', 'https://fresherbal.com/wp-content/uploads/2021/08/logo-vipsen-green.png', 30.0, 260000, 'Thanh tao thuần khiết, giúp dễ đi vào giấc ngủ ngon và sâu.', '2026-10-08 19:00:00', '2026-10-08 19:00:00', 2, 4);
+
+-- 2. BẢNG PRODUCT_CUSTOM_ITEM
+INSERT INTO `product_custom_item` (`id`, `product_custom_id`, `product_id`, `percentage`, `volume_ml`, `note`) VALUES
+(1, 1, 5, 40.0, 12.0, 'Nốt đáy gỗ quý'),
+(2, 1, 3, 35.0, 10.5, 'Nốt giữa ngọt dịu'),
+(3, 1, 1, 25.0, 7.5, 'Nốt đầu the mát'),
+(4, 2, 37, 40.0, 12.0, 'Nốt giữa an thần'),
+(5, 2, 31, 40.0, 12.0, 'Nốt đầu tươi tắn'),
+(6, 2, 38, 20.0, 6.0, 'Nốt thanh tẩy'),
+(7, 3, 8, 50.0, 15.0, 'Nốt chủ đạo kiêu kỳ'),
+(8, 3, 7, 30.0, 9.0, 'Nốt nồng nàn'),
+(9, 3, 4, 20.0, 6.0, 'Nốt mở đầu tươi sáng'),
+(10, 4, 33, 40.0, 20.0, 'Nốt thanh lọc sâu'),
+(11, 4, 39, 40.0, 20.0, 'Nốt the mát sảng khoái'),
+(12, 4, 36, 20.0, 10.0, 'Nốt thảo mộc dân gian'),
+(13, 5, 1, 40.0, 12.0, 'Mát rượi thanh thoát'),
+(14, 5, 9, 60.0, 18.0, 'Hương hoa nhài quý phái'),
+(15, 6, 34, 30.0, 9.0, 'Ấm áp cay nồng'),
+(16, 6, 31, 40.0, 12.0, 'Hương vỏ bưởi tự nhiên'),
+(17, 6, 32, 30.0, 9.0, 'Hương gỗ lưu thông khí huyết'),
+(18, 7, 6, 25.0, 7.5, 'Nốt gừng ấm lòng'),
+(19, 7, 3, 50.0, 15.0, 'Nốt cam ngọt dịu'),
+(20, 7, 10, 25.0, 7.5, 'Nốt thảo mộc cay thơm'),
+(21, 8, 37, 50.0, 15.0, 'Nốt hoa tím thư thái'),
+(22, 8, 33, 50.0, 15.0, 'Nốt tràm gió ấm áp');
+
+-- 3. BẢNG PRODUCT
+INSERT INTO `product` (`id`, `name`, `description`, `min_price`, `min_base_price`, `total_sold`, `views`, `product_type`, `status`, `category_id`, `factory_id`, `product_custom_id`, `created_at`, `updated_at`) VALUES
+(701, 'Thiên Nhiên Gỗ Hoàng Gia', 'Công thức mùi: Gỗ Hồng (40%) + Cam Ngọt (35%) + Bạc Hà (25%) | Mẫu lọ: Mẫu 1: Hổ Phách Hoàng Gia | Xưởng: Labcos', 280000, 280000, 145, 1240, 'CUSTOM', 'ACTIVE', 1, 1, 1, '2026-10-01 09:30:00', '2026-10-01 09:30:00'),
+(702, 'Bình Minh Thảo Mộc', 'Công thức mùi: Oải Hương (40%) + Vỏ Bưởi (40%) + Sả Chanh (20%) | Mẫu lọ: Mẫu 2: Hắc Nguyệt Huyền Bí | Xưởng: VIPSEN', 245000, 245000, 112, 980, 'CUSTOM', 'ACTIVE', 1, 2, 2, '2026-10-02 10:15:00', '2026-10-02 10:15:00'),
+(703, 'Dạ Khúc Hoa Hồng', 'Công thức mùi: Hoa Hồng (50%) + Hoa Cam (30%) + Chanh (20%) | Mẫu lọ: Mẫu 3: Dược Liệu Cổ Điển | Xưởng: Labcos', 350000, 350000, 96, 850, 'CUSTOM', 'ACTIVE', 1, 1, 3, '2026-10-03 14:20:00', '2026-10-03 14:20:00'),
+(704, 'Gió Rừng Nhiệt Đới', 'Công thức mùi: Tràm Gió (40%) + Bạc Hà (40%) + Hương Nhu Trắng (20%) | Mẫu lọ: Mẫu 1: Hổ Phách Hoàng Gia | Xưởng: VIPSEN', 210000, 210000, 78, 620, 'CUSTOM', 'ACTIVE', 1, 2, 4, '2026-10-04 16:45:00', '2026-10-04 16:45:00'),
+(705, 'Thanh Âm Đất Mẹ', 'Công thức mùi: Bạc Hà (40%) + Hoa Lài (60%) | Mẫu lọ: Mẫu 2: Hắc Nguyệt Huyền Bí | Xưởng: Labcos', 225000, 225000, 38, 430, 'CUSTOM', 'ACTIVE', 1, 1, 5, '2026-10-05 08:30:00', '2026-10-05 08:30:00'),
+(706, 'Mộc Miên Chiều Đông', 'Công thức mùi: Nụ Đinh Hương (30%) + Vỏ Bưởi (40%) + Long Não (30%) | Mẫu lọ: Mẫu 1: Hổ Phách Hoàng Gia | Xưởng: VIPSEN', 290000, 290000, 29, 390, 'CUSTOM', 'ACTIVE', 1, 2, 6, '2026-10-06 11:00:00', '2026-10-06 11:00:00'),
+(707, 'Hương Sắc Phố Cổ', 'Công thức mùi: Gừng (25%) + Cam Ngọt (50%) + Húng Quế (25%) | Mẫu lọ: Mẫu 3: Dược Liệu Cổ Điển | Xưởng: Labcos', 215000, 215000, 24, 310, 'CUSTOM', 'ACTIVE', 1, 1, 7, '2026-10-07 15:30:00', '2026-10-07 15:30:00'),
+(708, 'Ngọc Lan Dịu Êm', 'Công thức mùi: Oải Hương (50%) + Tràm Gió (50%) | Mẫu lọ: Mẫu 1: Hổ Phách Hoàng Gia | Xưởng: VIPSEN', 260000, 260000, 19, 280, 'CUSTOM', 'ACTIVE', 1, 2, 8, '2026-10-08 19:00:00', '2026-10-08 19:00:00');
+
+-- 4. BẢNG PRODUCT_MIL
+INSERT INTO `product_mil` (`id`, `product_id`, `mil`, `base_price`, `price`, `stock_quantity`, `is_active`) VALUES
+(701, 701, 30, 280000, 280000, 999, 1),
+(702, 702, 30, 245000, 245000, 999, 1),
+(703, 703, 30, 350000, 350000, 999, 1),
+(704, 704, 50, 210000, 210000, 999, 1),
+(705, 705, 30, 225000, 225000, 999, 1),
+(706, 706, 30, 290000, 290000, 999, 1),
+(707, 707, 30, 215000, 215000, 999, 1),
+(708, 708, 30, 260000, 260000, 999, 1);
+
+-- 5. BẢNG PRODUCT_IMAGE
+INSERT INTO `product_image` (`id`, `image_url`, `uploaded_at`, `product_id`, `is_thumbnail`, `is_custom_sample`) VALUES
+(701, 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792615885/products/haku/factory_haku_logo.jpg', '2026-10-01 09:30:00', 701, 1, 0),
+(702, 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792615885/products/haku/factory_haku_banner.jpg', '2026-10-02 10:15:00', 702, 1, 0),
+(703, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bac-ha.jpg', '2026-10-03 14:20:00', 703, 1, 0),
+(704, 'https://toplist.vn/images/800px/haku-farm-tinh-dau-thien-nhien-271516.jpg', '2026-10-04 16:45:00', 704, 1, 0),
+(705, 'https://labcos.com.vn/wp-content/uploads/tinh-dau-bach-dan-chanh-2.jpg', '2026-10-05 08:30:00', 705, 1, 0),
+(706, 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792616235/products/haku/factory_haku_gallery_2.jpg', '2026-10-06 11:00:00', 706, 1, 0),
+(707, 'https://res.cloudinary.com/dvq1swjja/image/upload/v1792616408/products/haku/factory_haku_gallery_warm_store.jpg', '2026-10-07 15:30:00', 707, 1, 0),
+(708, 'https://fresherbal.com/wp-content/uploads/2021/08/logo-vipsen-green.png', '2026-10-08 19:00:00', 708, 1, 0),
+(801, '/images/home/lavender-france.png', '2026-10-01 00:00:00', NULL, 0, 1),
+(802, '/images/home/deep-sleep-blend.png', '2026-10-01 00:00:00', NULL, 0, 1),
+(803, '/images/home/tea-tree-australia.png', '2026-10-01 00:00:00', NULL, 0, 1),
+(804, '/images/home/jasmine-sambac.png', '2026-10-01 00:00:00', NULL, 0, 1);
+
+-- 6. BẢNG REVIEW
+INSERT INTO `review` (`id`, `comment`, `rating`, `created_at`, `updated_at`, `product_id`, `user_id`) VALUES
+(901, 'Công thức phối rất tinh tế, mùi hương thoang thoảng dịu nhẹ rất hợp để đọc sách.', 5, '2026-10-09 10:00:00', '2026-10-09 10:00:00', 705, 2),
+(902, 'Mùi nhài lên rất sang, the mát tự nhiên không bị gắt hóa học. Đã mua lại lần 2!', 5, '2026-10-10 11:30:00', '2026-10-10 11:30:00', 705, 3),
+(903, 'Hương nụ đinh hương và vỏ bưởi ấm áp cực kỳ, mùa đông này thắp trong phòng ngủ thì chuẩn bài.', 5, '2026-10-11 14:00:00', '2026-10-11 14:00:00', 706, 1),
+(904, 'Mùi hương rất đặc biệt, bạn bè ghé chơi ai cũng khen phòng thơm ấm cúng.', 5, '2026-10-12 16:20:00', '2026-10-12 16:20:00', 706, 4),
+(905, 'Nốt gừng kết hợp cam ngọt hoài niệm, tạo cảm giác an yên như ở các quán cafe cổ Hội An.', 5, '2026-10-13 09:15:00', '2026-10-13 09:15:00', 707, 2),
+(906, 'Dùng buổi tối giúp giảm căng thẳng và ngủ rất ngon, đánh giá 5 sao!', 5, '2026-10-14 20:45:00', '2026-10-14 20:45:00', 708, 1);
