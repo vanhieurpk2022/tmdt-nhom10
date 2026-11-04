@@ -203,4 +203,38 @@ public class FactoryDashboardController {
         factoryDashboard.deleteStaff(userDetails.getUsername(), id);
         return new ApiResponse<>(200, "Xóa nhân viên thành công");
     }
+
+    @GetMapping({"/custom-bottle-samples", "/default-bottle-labels"})
+    public ApiResponse<List<CustomBottleSampleResponse>> getCustomBottleSamples() {
+        return new ApiResponse<>(200, "Lấy danh sách chai mẫu custom thành công", factoryDashboard.getCustomBottleSamples());
+    }
+
+    @PostMapping({"/custom-bottle-samples", "/default-bottle-labels"})
+    public ApiResponse<CustomBottleSampleResponse> addCustomBottleSample(@RequestBody CustomBottleSampleRequest request) {
+        return new ApiResponse<>(201, "Thêm chai mẫu custom thành công", factoryDashboard.addCustomBottleSample(request));
+    }
+
+    @DeleteMapping({"/custom-bottle-samples/{id}", "/default-bottle-labels/{id}"})
+    public ApiResponse<Void> deleteCustomBottleSample(@PathVariable Long id) {
+        factoryDashboard.deleteCustomBottleSample(id);
+        return new ApiResponse<>(200, "Xóa ảnh nhãn chai / chai mẫu thành công");
+    }
+
+    /**
+     * API xóa ảnh nhãn chai mặc định theo image ID (từ bảng product_image)
+     */
+    @DeleteMapping("/default-bottle-labels/{id}")
+    public ApiResponse<Void> deleteDefaultBottleLabel(@PathVariable Long id) {
+        factoryDashboard.deleteDefaultBottleLabel(id);
+        return new ApiResponse<>(200, "Xóa ảnh nhãn chai mặc định thành công");
+    }
+
+    /**
+     * API xóa ảnh nhãn chai mặc định (labelDesign) của sản phẩm Custom
+     */
+    @DeleteMapping("/products/{productId}/default-label")
+    public ApiResponse<Void> deleteProductDefaultLabel(@PathVariable Long productId) {
+        factoryDashboard.deleteProductCustomLabelDesign(productId);
+        return new ApiResponse<>(200, "Xóa ảnh nhãn chai mặc định của sản phẩm thành công");
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryRestResource(path = "product")
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
@@ -44,6 +45,14 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<Product> findMostViewedProducts(Pageable pageable);
 
     List<Product> findByFactoryId(Long factoryId);
+
+    @Query("SELECT p FROM Product p WHERE p.productType = 'CUSTOM' ORDER BY COALESCE(p.totalSold, 0L) DESC, p.id DESC")
+    List<Product> findTopCustomProducts(Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.productType = 'CUSTOM' AND p.productCustom IS NOT NULL AND p.productCustom.user IS NOT NULL ORDER BY p.id DESC")
+    List<Product> findUserCustomProducts(Pageable pageable);
+
+    Optional<Product> findByProductCustomId(Long productCustomId);
 
     @Query("""
 SELECT new com.nhom10.tmdt.dto.factory.FactoryProductStats(

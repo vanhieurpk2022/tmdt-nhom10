@@ -1,8 +1,8 @@
 import type { FactoryOrderDashBoard, FactoryChartOrder, FactoryOrderStatusCount, DashboardOverview } from "../../dto/factory/FactoryDashBoard";
-import type { FactoryCustomRecipeDto, FactoryCustomRecipeSaveRequest, FactoryProductCreateRequest, FactoryProductEditRes, FactoryProductItem, FactoryProductMil, FactoryProductResponse, FactoryProductVariantItem } from "../../dto/factory/FactoryProductRes";
+import type { FactoryCustomRecipeDto, FactoryCustomRecipeSaveRequest, FactoryProductCreateRequest, FactoryProductEditRes, FactoryProductItem, FactoryProductMil, FactoryProductResponse, FactoryProductVariantItem, CustomBottleSampleItem } from "../../dto/factory/FactoryProductRes";
 import type { ProductStatus } from "../../enums/ProductStatus";
 import type { OrderStatus } from "../../enums/OrderStatus";
-import type { AdminOrderListItem, AdminOrderPageResult, AdminOrderStats, AdminOrderDetail } from "../AdminOrderService";
+import type { AdminOrderPageResult, AdminOrderStats, AdminOrderDetail } from "../AdminOrderService";
 import type { ProductImage } from "../../models/ProductImage";
 import api, { type ApiResponse } from "../api";
 
@@ -75,6 +75,54 @@ export const FactoryServiceManager = {
         const res = await api.patch<ApiResponse<FactoryProductItem>>(
             `/manager/products/${id}/status`,
             { status }
+        );
+        return res.data;
+    },
+
+    // Quản lý chai mẫu & chai gợi ý dành cho Custom (lưu trong product_image)
+    getCustomBottleSamples: async () => {
+        const res = await api.get<ApiResponse<CustomBottleSampleItem[]>>(
+            `/manager/custom-bottle-samples`
+        );
+        return res.data;
+    },
+    getDefaultBottleLabels: async () => {
+        const res = await api.get<ApiResponse<CustomBottleSampleItem[]>>(
+            `/manager/default-bottle-labels`
+        );
+        return res.data;
+    },
+    addCustomBottleSample: async (data: { imageUrl: string; productId?: number }) => {
+        const res = await api.post<ApiResponse<CustomBottleSampleItem>>(
+            `/manager/custom-bottle-samples`,
+            data
+        );
+        return res.data;
+    },
+    addDefaultBottleLabel: async (data: { imageUrl: string; productId?: number }) => {
+        const res = await api.post<ApiResponse<CustomBottleSampleItem>>(
+            `/manager/default-bottle-labels`,
+            data
+        );
+        return res.data;
+    },
+    deleteCustomBottleSample: async (id: number) => {
+        const res = await api.delete<ApiResponse<void>>(
+            `/manager/custom-bottle-samples/${id}`
+        );
+        return res.data;
+    },
+    // API xóa ảnh nhãn chai mặc định
+    deleteDefaultBottleLabel: async (id: number) => {
+        const res = await api.delete<ApiResponse<void>>(
+            `/manager/default-bottle-labels/${id}`
+        );
+        return res.data;
+    },
+    // API xóa ảnh thiết kế nhãn chai mặc định của sản phẩm Custom
+    deleteProductDefaultLabel: async (productId: number) => {
+        const res = await api.delete<ApiResponse<void>>(
+            `/manager/products/${productId}/default-label`
         );
         return res.data;
     },

@@ -40,5 +40,15 @@ public interface FactoryDashboardService {
     FactoryStaffResponse updateStaff(String email, Long staffId, FactoryStaffUpdateRequest request);
 
     void deleteStaff(String email, Long staffId);
+
+    List<CustomBottleSampleResponse> getCustomBottleSamples();
+
+    CustomBottleSampleResponse addCustomBottleSample(CustomBottleSampleRequest request);
+
+    void deleteCustomBottleSample(Long id);
+
+    void deleteDefaultBottleLabel(Long id);
+
+    void deleteProductCustomLabelDesign(Long productId);
 }
 

@@ -24,6 +24,7 @@ interface AddProductModalProps {
     show: boolean;
     onSuccess?: () => void;
     product: FactoryProductCreateRequest | FactoryProductEditRes | null;
+    defaultType?: ProductType;
     availableProducts?: FactoryProductItem[];
     onHide: () => void;
 }
@@ -102,7 +103,8 @@ export default function AddProductModal({
     show,
     onSuccess,
     product,
-    availableProducts = [],
+    defaultType,
+    availableProducts: _availableProducts = [],
     onHide,
 }: AddProductModalProps) {
     const [categoryOption, setCategoryOption] = useState<Category[]>([]);
@@ -147,9 +149,12 @@ export default function AddProductModal({
                 imageUrls: ("imageUrls" in product && Array.isArray((product as any).imageUrls)) ? (product as any).imageUrls : [],
             });
         } else {
-            setForm(INITIAL_FORM);
+            setForm({
+                ...INITIAL_FORM,
+                type: defaultType ?? ProductType.NORMAL,
+            });
         }
-    }, [show, product]);
+    }, [show, product, defaultType]);
 
     const handleChange = <K extends keyof FactoryProductCreateRequest>(
         key: K,

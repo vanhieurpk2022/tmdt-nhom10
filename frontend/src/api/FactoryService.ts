@@ -47,9 +47,9 @@ export interface ScentProductFromDb {
     tier?: number | null;
 }
 
-
 export interface CreateCustomScentPayload {
     factoryId: number;
+    name?: string;
     bottleType: string;
     labelDesign: string;
     totalVolumeMl: number;
@@ -64,7 +64,6 @@ export interface CreateCustomScentPayload {
     }[];
 }
 
-
 export interface CustomScentOrderResult {
     productId: number;
     productMilId: number;
@@ -72,6 +71,59 @@ export interface CustomScentOrderResult {
     name: string;
     price: number;
     quantity: number;
+}
+
+export interface CustomScentCardItem {
+    id: number;
+    productCustomId?: number | null;
+    name: string;
+    ingredientsText: string;
+    factoryId?: number | null;
+    factoryName: string;
+    creatorName: string;
+    price: number;
+    imageUrl: string;
+    totalSold: number;
+    reviewCount: number;
+    averageRating: number;
+}
+
+export interface CustomScentShowcaseData {
+    topSelling: CustomScentCardItem[];
+    userCreations: CustomScentCardItem[];
+}
+
+export interface CustomScentDetailItem {
+    productId: number;
+    productName: string;
+    volumeMl: number;
+    percentage: number;
+    price: number;
+}
+
+export interface CustomScentDetailData {
+    id: number;
+    productId?: number | null;
+    name: string;
+    factoryId: number | null;
+    factoryName: string;
+    bottleType: string;
+    labelDesign: string;
+    totalVolumeMl: number;
+    price: number;
+    notes: string;
+    creatorName: string;
+    items: CustomScentDetailItem[];
+}
+
+export interface BottleSampleItem {
+    id: number;
+    imageUrl: string;
+    isCustomSample: boolean;
+    isThumbnail: boolean;
+    productId?: number | null;
+    productName?: string | null;
+    uploadedAt?: string;
 }
 
 export const FactoryApiService = {
@@ -121,5 +173,22 @@ export const FactoryApiService = {
         const res = await api.post<ApiResponse<any>>("/custom-scent/add-to-cart", payload);
         return res.data.data;
     },
-};
 
+    /** Lấy dữ liệu showcase cho trang tùy chỉnh */
+    getCustomScentShowcase: async (): Promise<CustomScentShowcaseData> => {
+        const res = await api.get<ApiResponse<CustomScentShowcaseData>>("/custom-scent/showcase");
+        return res.data.data;
+    },
+
+    /** Lấy chi tiết công thức sản phẩm custom theo ID */
+    getCustomScentDetail: async (id: number | string): Promise<CustomScentDetailData> => {
+        const res = await api.get<ApiResponse<CustomScentDetailData>>(`/custom-scent/${id}`);
+        return res.data.data;
+    },
+
+    /** Lấy danh sách chai mẫu gợi ý từ xưởng */
+    getBottleSamples: async (): Promise<BottleSampleItem[]> => {
+        const res = await api.get<ApiResponse<BottleSampleItem[]>>("/custom-scent/bottle-samples");
+        return res.data.data;
+    },
+};
