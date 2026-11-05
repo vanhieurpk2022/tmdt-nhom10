@@ -42,34 +42,43 @@ export default function OrderSuccessHero({ order, detail = false }: OrderSuccess
 
     if (detail) {
         return (
-            <section className="bg-white rounded-4 border shadow-sm p-3 p-md-4 mb-3">
+            <section className="bg-white rounded-4 border shadow-sm p-4 mb-4">
                 <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                     <div>
-                        <div className="d-flex flex-wrap align-items-center gap-2 mb-1.5">
+                        {/* Huy hiệu trạng thái & thời gian đặt - cách nhau thoáng đãng */}
+                        <div className="d-flex flex-wrap align-items-center gap-3 mb-3">
                             <span
-                                className="d-inline-flex align-items-center gap-1.5 px-3 py-1 rounded-pill fw-bold fs-8 border"
-                                style={{ backgroundColor: badge.bg, color: badge.text, borderColor: badge.border }}
+                                className="d-inline-flex align-items-center px-3 py-1.5 rounded-pill fw-semibold border"
+                                style={{
+                                    backgroundColor: badge.bg,
+                                    color: badge.text,
+                                    borderColor: badge.border,
+                                    fontSize: "13px",
+                                }}
                             >
-                                <FontAwesomeIcon icon={badge.icon} />
+                                <FontAwesomeIcon icon={badge.icon} className="me-2" />
                                 <span>{view.label}</span>
                             </span>
-                            <span className="text-muted fs-8">
-                                Đặt lúc: <strong className="text-dark">{new Date(order.createdAt).toLocaleString("vi-VN")}</strong>
+
+                            <span className="text-muted" style={{ fontSize: "13px" }}>
+                                Đặt lúc: <strong className="text-dark fw-semibold">{new Date(order.createdAt).toLocaleString("vi-VN")}</strong>
                             </span>
                         </div>
 
-                        <h1 className="h4 fw-black text-dark mb-1">
+                        {/* Tiêu đề kích cỡ vừa phải, tinh tế, không bị quá to */}
+                        <h1 className="h5 fw-bold text-dark mb-2">
                             Chi tiết đơn hàng #{orderCode}
                         </h1>
-                        <p className="text-muted fs-7 mb-0">
+                        <p className="text-muted mb-0" style={{ fontSize: "13.5px", lineHeight: "1.5" }}>
                             {view.description}
                         </p>
                     </div>
 
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 pt-2 pt-md-0">
                         <Link
                             to={ROUTES.ORDERS}
-                            className="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2 fw-bold fs-7 d-inline-flex align-items-center gap-2 hover-border-dark"
+                            className="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2 fw-semibold d-inline-flex align-items-center gap-2 hover-border-dark"
+                            style={{ fontSize: "13px" }}
                         >
                             <FontAwesomeIcon icon={faArrowLeft} className="fs-8" />
                             <span>Về danh sách đơn hàng</span>
@@ -82,35 +91,40 @@ export default function OrderSuccessHero({ order, detail = false }: OrderSuccess
 
     // Giao diện khi vừa checkout thành công (Order Success page)
     return (
-        <section className="bg-white rounded-4 border shadow-sm p-4 p-md-5 text-center mb-3">
+        <section className="bg-white rounded-4 border shadow-sm p-4 p-md-5 text-center mb-4">
             <div
                 className="rounded-circle d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success mb-3 shadow-xs"
-                style={{ width: "68px", height: "68px" }}
+                style={{ width: "64px", height: "64px" }}
             >
-                <FontAwesomeIcon icon={faCheckCircle} className="fs-1" />
+                <FontAwesomeIcon icon={faCheckCircle} className="fs-2" />
             </div>
 
-            <div className="mb-2">
+            <div className="mb-3">
                 <span
-                    className="d-inline-flex align-items-center gap-1.5 px-3 py-1 rounded-pill fw-bold fs-8 border"
-                    style={{ backgroundColor: badge.bg, color: badge.text, borderColor: badge.border }}
+                    className="d-inline-flex align-items-center px-3 py-1.5 rounded-pill fw-semibold border"
+                    style={{
+                        backgroundColor: badge.bg,
+                        color: badge.text,
+                        borderColor: badge.border,
+                        fontSize: "13px",
+                    }}
                 >
-                    <FontAwesomeIcon icon={badge.icon} />
+                    <FontAwesomeIcon icon={badge.icon} className="me-2" />
                     <span>{view.label}</span>
                 </span>
             </div>
 
-            <h1 className="h3 fw-black text-dark mb-2">Đặt hàng thành công!</h1>
-            <p className="text-muted fs-6 mx-auto mb-3" style={{ maxWidth: "540px" }}>
+            <h1 className="h4 fw-bold text-dark mb-2">Đặt hàng thành công!</h1>
+            <p className="text-muted mx-auto mb-4" style={{ maxWidth: "520px", fontSize: "14px", lineHeight: "1.6" }}>
                 Cảm ơn bạn đã tin tưởng mua sắm tại Oilia. Đơn hàng của bạn đang được tiếp nhận và xử lý.
             </p>
 
-            <div className="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-light border text-dark fs-7 fw-bold mb-2">
-                <FontAwesomeIcon icon={faReceipt} className="text-primary" />
+            <div className="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-light border text-dark fs-7 fw-semibold mb-2">
+                <FontAwesomeIcon icon={faReceipt} className="text-primary me-1" />
                 <span className="text-muted">Mã đơn hàng:</span>
-                <span className="text-primary fw-black">#{orderCode}</span>
+                <span className="text-primary fw-bold">#{orderCode}</span>
             </div>
-            <p className="text-muted fs-8 mb-0">
+            <p className="text-muted mt-2 mb-0" style={{ fontSize: "12.5px" }}>
                 Thời gian đặt: {new Date(order.createdAt).toLocaleString("vi-VN")}
             </p>
         </section>

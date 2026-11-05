@@ -31,56 +31,63 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
     if (!cancelled && !awaitingRefund && !refunded && !refunds.length && !result?.error) return null;
 
     return (
-        <section className="bg-white rounded-4 border shadow-sm p-3 p-md-4 mb-3" aria-labelledby="order-refunds-title">
-            <div className="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-3 border-bottom gap-2">
-                <div className="d-flex align-items-center gap-2">
-                    <div className="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger" style={{ width: "36px", height: "36px" }}>
+        <section className="bg-white rounded-4 border shadow-sm p-4 mb-4" aria-labelledby="order-refunds-title">
+            {/* Header thẻ */}
+            <div className="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-4 border-bottom gap-2">
+                <div className="d-flex align-items-center gap-3">
+                    <div className="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger" style={{ width: "38px", height: "38px" }}>
                         <FontAwesomeIcon icon={cancelled ? faBan : faRotateLeft} className="fs-7" />
                     </div>
                     <div>
-                        <h2 id="order-refunds-title" className="fs-6 fw-bold text-dark mb-0">
+                        <h2 id="order-refunds-title" className="h6 fw-bold text-dark mb-1">
                             {cancelled ? "Thông tin hủy đơn & Hoàn tiền" : "Thông tin hoàn tiền"}
                         </h2>
-                        <span className="text-muted fs-8">
+                        <span className="text-muted" style={{ fontSize: "13px" }}>
                             {cancelled ? "Chi tiết lý do và tiến trình xử lý giao dịch" : "Tiến độ hoàn tiền từ cửa hàng"}
                         </span>
                     </div>
                 </div>
 
                 {awaitingRefund && (
-                    <span className="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-3 py-1 fs-8 fw-bold">
+                    <span className="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-3 py-1.5 fw-semibold" style={{ fontSize: "12.5px" }}>
+                        <FontAwesomeIcon icon={faClock} className="me-1.5" />
                         Đang chờ hoàn tiền
                     </span>
                 )}
                 {refunded && (
-                    <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1 fs-8 fw-bold">
+                    <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1.5 fw-semibold" style={{ fontSize: "12.5px" }}>
+                        <FontAwesomeIcon icon={faCircleCheck} className="me-1.5" />
                         Đã hoàn tiền
                     </span>
                 )}
             </div>
 
-            {/* Chi tiết thông tin hủy đơn */}
+            {/* Chi tiết thông tin hủy đơn - bố cục thoáng đãng */}
             {cancelled && (
-                <div className="p-3 rounded-3 bg-light bg-opacity-75 border mb-3">
-                    <div className="row g-3 fs-7 align-items-center">
+                <div className="p-3.5 p-md-4 rounded-3 bg-light bg-opacity-60 border mb-4">
+                    <div className="row g-3 align-items-center">
                         <div className="col-12 col-md-6">
-                            <span className="d-block fs-8 text-muted fw-bold text-uppercase mb-1">Lý do hủy đơn:</span>
-                            <span className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-1.5 fw-bold fs-7">
+                            <span className="d-block text-muted fw-bold text-uppercase mb-1.5" style={{ fontSize: "11.5px", letterSpacing: "0.5px" }}>
+                                Lý do hủy đơn:
+                            </span>
+                            <span className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-1.5 fw-semibold" style={{ fontSize: "13px" }}>
                                 {order.cancelReason ? cancelReasonLabels[order.cancelReason] : "Đơn hàng đã được hủy hoặc hết hạn thanh toán."}
                             </span>
                         </div>
                         {order.cancelledAt && (
                             <div className="col-12 col-md-6">
-                                <span className="d-block fs-8 text-muted fw-bold text-uppercase mb-1">Thời gian hủy đơn:</span>
-                                <span className="text-dark fw-bold">
+                                <span className="d-block text-muted fw-bold text-uppercase mb-1.5" style={{ fontSize: "11.5px", letterSpacing: "0.5px" }}>
+                                    Thời gian hủy đơn:
+                                </span>
+                                <span className="text-dark fw-semibold" style={{ fontSize: "13.5px" }}>
                                     {new Date(order.cancelledAt).toLocaleString("vi-VN")}
                                 </span>
                             </div>
                         )}
                         {order.cancellationNote && (
-                            <div className="col-12 pt-2 border-top">
-                                <span className="fs-8 text-muted fw-bold text-uppercase me-2">Ghi chú của bạn:</span>
-                                <span className="text-secondary text-break">{order.cancellationNote}</span>
+                            <div className="col-12 pt-3 border-top mt-2">
+                                <span className="text-muted fw-bold text-uppercase me-2" style={{ fontSize: "11.5px" }}>Ghi chú:</span>
+                                <span className="text-secondary text-break" style={{ fontSize: "13px" }}>{order.cancellationNote}</span>
                             </div>
                         )}
                     </div>
@@ -89,32 +96,32 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
 
             {/* Thông báo tiến độ hoàn tiền */}
             {awaitingRefund && (
-                <div className="p-3 rounded-3 bg-warning bg-opacity-10 border border-warning border-opacity-25 d-flex align-items-center gap-3 mb-3 text-warning-emphasis">
+                <div className="p-3.5 rounded-3 bg-warning bg-opacity-10 border border-warning border-opacity-25 d-flex align-items-center gap-3 mb-4 text-warning-emphasis">
                     <FontAwesomeIcon icon={faClock} className="text-warning fs-5 flex-shrink-0" />
-                    <p className="fs-7 mb-0">
+                    <p className="mb-0" style={{ fontSize: "13.5px", lineHeight: "1.5" }}>
                         Cửa hàng đang xử lý yêu cầu hoàn tiền cho đơn hàng này. Tiền sẽ được hoàn về tài khoản thanh toán ban đầu theo thời gian quy định của cổng thanh toán / ngân hàng.
                     </p>
                 </div>
             )}
 
             {refunded && (
-                <div className="p-3 rounded-3 bg-success bg-opacity-10 border border-success border-opacity-25 d-flex align-items-center gap-3 mb-3 text-success">
+                <div className="p-3.5 rounded-3 bg-success bg-opacity-10 border border-success border-opacity-25 d-flex align-items-center gap-3 mb-4 text-success">
                     <FontAwesomeIcon icon={faCircleCheck} className="fs-5 flex-shrink-0" />
-                    <p className="fs-7 mb-0">
+                    <p className="mb-0" style={{ fontSize: "13.5px", lineHeight: "1.5" }}>
                         Cửa hàng đã xác nhận hoàn tiền thành công cho đơn hàng này.
                     </p>
                 </div>
             )}
 
             {result?.error && (
-                <div className="p-3 rounded-3 bg-danger bg-opacity-10 border border-danger border-opacity-25 d-flex align-items-center gap-3 mb-3 text-danger" role="alert">
+                <div className="p-3.5 rounded-3 bg-danger bg-opacity-10 border border-danger border-opacity-25 d-flex align-items-center gap-3 mb-4 text-danger" role="alert">
                     <FontAwesomeIcon icon={faExclamationTriangle} className="fs-5 flex-shrink-0" />
-                    <p className="fs-7 mb-0">{result.error}</p>
+                    <p className="mb-0" style={{ fontSize: "13.5px" }}>{result.error}</p>
                 </div>
             )}
 
             {order.paymentMethod === "VNPAY" && !result && (
-                <div className="text-center py-3 text-muted fs-7">
+                <div className="text-center py-4 text-muted" style={{ fontSize: "13px" }}>
                     <span className="spinner-border spinner-border-sm me-2" role="status" />
                     Đang tải thông tin hoàn tiền…
                 </div>
@@ -125,38 +132,38 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
                 <div className="table-responsive rounded-3 border">
                     <table className="table table-hover align-middle mb-0">
                         <thead className="table-light">
-                            <tr className="fs-8 text-muted text-uppercase">
-                                <th className="ps-3 py-2">Mã yêu cầu</th>
-                                <th className="py-2">Số tiền hoàn</th>
-                                <th className="py-2">Trạng thái</th>
-                                <th className="pe-3 py-2">Thời gian</th>
+                            <tr style={{ fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }} className="text-muted">
+                                <th className="ps-3 py-3">Mã yêu cầu</th>
+                                <th className="py-3">Số tiền hoàn</th>
+                                <th className="py-3">Trạng thái</th>
+                                <th className="pe-3 py-3">Thời gian</th>
                             </tr>
                         </thead>
-                        <tbody className="fs-7">
+                        <tbody style={{ fontSize: "13.5px" }}>
                             {refunds.map(refund => (
                                 <tr key={refund.id}>
-                                    <td className="ps-3">
+                                    <td className="ps-3 py-3">
                                         <strong className="text-dark">#{refund.id}</strong>
-                                        <span className="d-block fs-8 text-muted text-break">{refund.reason}</span>
+                                        <span className="d-block text-muted text-break mt-0.5" style={{ fontSize: "12.5px" }}>{refund.reason}</span>
                                     </td>
-                                    <td className="text-nowrap fw-bold text-danger">
+                                    <td className="text-nowrap fw-bold text-danger py-3">
                                         {refund.amountVnd.toLocaleString("vi-VN")}₫
                                     </td>
-                                    <td>
-                                        <span className={`badge rounded-pill px-2.5 py-1 fs-8 fw-bold ${
+                                    <td className="py-3">
+                                        <span className={`badge rounded-pill px-3 py-1.5 fw-semibold ${
                                             refund.status === "SUCCEEDED"
                                                 ? "bg-success bg-opacity-10 text-success border border-success border-opacity-25"
                                                 : ["FAILED", "REJECTED"].includes(refund.status)
                                                 ? "bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25"
                                                 : "bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25"
-                                        }`}>
+                                        }`} style={{ fontSize: "12px" }}>
                                             {refundStatusLabels[refund.status]}
                                         </span>
                                     </td>
-                                    <td className="pe-3">
+                                    <td className="pe-3 py-3">
                                         <span className="text-dark">{new Date(refund.createdAt).toLocaleString("vi-VN")}</span>
                                         {refund.processedAt && (
-                                            <span className="d-block fs-8 text-muted">
+                                            <span className="d-block text-muted mt-0.5" style={{ fontSize: "12px" }}>
                                                 Xử lý: {new Date(refund.processedAt).toLocaleString("vi-VN")}
                                             </span>
                                         )}
@@ -169,7 +176,7 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
             )}
 
             {cancelled && !awaitingRefund && !refunded && !refunds.length && (
-                <div className="d-flex align-items-center gap-2 text-muted fs-8 mt-2">
+                <div className="d-flex align-items-center gap-2 text-muted mt-3" style={{ fontSize: "13px" }}>
                     <FontAwesomeIcon icon={faInfoCircle} />
                     <span>
                         {order.paymentMethod === "COD"

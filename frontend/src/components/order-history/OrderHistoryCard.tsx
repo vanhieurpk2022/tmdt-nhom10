@@ -52,17 +52,17 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
                     <span className="badge bg-light text-dark border rounded-pill px-2.5 py-1.5 fs-7 fw-bold">
                         #{order.code}
                     </span>
-                    <span className="text-muted fs-8 d-inline-flex align-items-center gap-1.5">
-                        <FontAwesomeIcon icon={faClock} className="opacity-50" />
+                    <span className="text-muted fs-8 d-inline-flex align-items-center">
+                        <FontAwesomeIcon icon={faClock} className="opacity-50 me-1.5" />
                         <span>{order.createdAt}</span>
                     </span>
                 </div>
 
                 <div
-                    className="d-inline-flex align-items-center gap-1.5 px-3 py-1 rounded-pill fw-bold fs-8 border"
-                    style={{ backgroundColor: style.bg, color: style.text, borderColor: style.border }}
+                    className="d-inline-flex align-items-center px-3 py-1 rounded-pill fw-semibold border"
+                    style={{ backgroundColor: style.bg, color: style.text, borderColor: style.border, fontSize: "12.5px" }}
                 >
-                    <FontAwesomeIcon icon={statusIcons[order.status]} />
+                    <FontAwesomeIcon icon={statusIcons[order.status]} className="me-1.5" />
                     <span>{order.statusLabel ?? orderStatusLabels[order.status]}</span>
                 </div>
             </div>
