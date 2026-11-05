@@ -140,23 +140,33 @@ export default function CartPage() {
     };
 
     return (
-        <main className="cart-page">
-            <div className="container-fluid px-4 px-lg-5">
+        <main className="cart-page py-3 py-md-4" style={{ minHeight: "85vh", backgroundColor: "#f8fafc" }}>
+            <div className="container-fluid px-3 px-md-4 px-xl-5" style={{ maxWidth: "1280px" }}>
                 <CartBreadcrumb />
+
+                {/* Tiêu đề trang */}
+                <div className="mb-4">
+                    <h1 className="h5 fw-bold text-dark mb-1">Giỏ hàng của bạn</h1>
+                    <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
+                        Hệ thống đã tự động cập nhật giá và tồn kho mới nhất cho các sản phẩm đã chọn
+                    </p>
+                </div>
 
                 <div className="row g-4 align-items-start">
                     <div className="col-12 col-xl-8">
-                        <section className="cart-card">
-                            <div className="cart-card-heading d-flex align-items-start justify-content-between">
+                        <section className="bg-white rounded-4 border shadow-sm p-4 mb-4">
+                            <div className="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-3 border-bottom gap-2">
                                 <div>
-                                    <h1>Giỏ hàng</h1>
-                                    <p>Hệ thống đã tự động cập nhật giá mới nhất cho các sản phẩm đã mua của bạn.</p>
+                                    <h2 className="h6 fw-bold text-dark mb-0">Danh sách sản phẩm trong giỏ</h2>
+                                    <span className="text-muted" style={{ fontSize: "12.5px" }}>Chọn sản phẩm bạn muốn đặt mua</span>
                                 </div>
-                                <span>{items.length} sản phẩm</span>
+                                <span className="badge bg-light text-dark border rounded-pill px-3 py-1.5 fw-semibold" style={{ fontSize: "12.5px" }}>
+                                    {items.length} mặt hàng
+                                </span>
                             </div>
 
                             {errorMessage && (
-                                <div className="alert alert-light border cart-alert" role="alert">
+                                <div className="alert alert-danger rounded-3 p-3 mb-3 border-0 shadow-sm" role="alert" style={{ fontSize: "13px" }}>
                                     {errorMessage}
                                 </div>
                             )}
@@ -175,7 +185,7 @@ export default function CartPage() {
                         </section>
                     </div>
 
-                    <div className="col-12 col-xl-4">
+                    <div className="col-12 col-xl-4 position-xl-sticky" style={{ top: "85px" }}>
                         <CartSummary selectedItems={selectedItems} subtotal={subtotal} />
                     </div>
                 </div>

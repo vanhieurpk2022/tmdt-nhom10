@@ -1,10 +1,8 @@
 import {
     faArrowLeft,
-    faBagShopping,
     faCheckCircle,
     faCircleXmark,
     faClock,
-    faListUl,
     faReceipt,
     faTruckFast,
 } from "@fortawesome/free-solid-svg-icons";
@@ -89,7 +87,7 @@ export default function OrderSuccessHero({ order, detail = false }: OrderSuccess
         );
     }
 
-    // Giao diện khi vừa checkout thành công (Order Success page) - Gọn gàng, tinh tế, không chiếm hết màn hình
+    // Giao diện khi vừa checkout thành công (Order Success page) - Gọn gàng, tinh tế, trang nhã
     return (
         <section className="bg-white rounded-4 border shadow-sm p-4 text-center mb-4">
             <div className="d-flex flex-column align-items-center">
@@ -100,13 +98,13 @@ export default function OrderSuccessHero({ order, detail = false }: OrderSuccess
                     <FontAwesomeIcon icon={faCheckCircle} className="fs-3" />
                 </div>
 
-                <h1 className="h5 fw-bold text-dark mb-1.5">Đặt hàng thành công!</h1>
+                <h1 className="h5 fw-bold text-dark mb-1">Đặt hàng thành công!</h1>
                 <p className="text-muted mb-3" style={{ maxWidth: "480px", fontSize: "13.5px" }}>
-                    Cảm ơn bạn đã tin tưởng mua sắm tại Oilia. Đơn hàng của bạn đang được tiếp nhận và xử lý.
+                    Cảm ơn bạn đã tin tưởng mua sắm tại Oilia. Đơn hàng của bạn đã được ghi nhận và đang được xử lý.
                 </p>
 
                 {/* Thông tin mã đơn & trạng thái trên 1 hàng gọn */}
-                <div className="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-3">
+                <div className="d-flex flex-wrap align-items-center justify-content-center gap-2">
                     <span className="badge bg-light text-dark border rounded-pill px-3 py-1.5 fw-semibold" style={{ fontSize: "13px" }}>
                         <FontAwesomeIcon icon={faReceipt} className="text-primary me-1.5" />
                         Mã đơn: <strong className="text-primary">#{orderCode}</strong>
@@ -126,28 +124,8 @@ export default function OrderSuccessHero({ order, detail = false }: OrderSuccess
                     </span>
 
                     <span className="text-muted" style={{ fontSize: "12.5px" }}>
-                        Đặt lúc: {new Date(order.createdAt).toLocaleString("vi-VN")}
+                        Thời gian đặt: {new Date(order.createdAt).toLocaleString("vi-VN")}
                     </span>
-                </div>
-
-                {/* 2 nút điều hướng chính đặt ngay tại banner */}
-                <div className="d-flex flex-wrap align-items-center justify-content-center gap-2.5">
-                    <Link
-                        to={ROUTES.ORDERS}
-                        className="btn btn-dark btn-sm rounded-pill px-3.5 py-2 fw-semibold d-inline-flex align-items-center gap-2 shadow-xs"
-                        style={{ fontSize: "13px" }}
-                    >
-                        <FontAwesomeIcon icon={faListUl} className="fs-8" />
-                        <span>Xem đơn hàng của tôi</span>
-                    </Link>
-                    <Link
-                        to={ROUTES.PRODUCTS}
-                        className="btn btn-outline-secondary btn-sm rounded-pill px-3.5 py-2 fw-semibold d-inline-flex align-items-center gap-2 hover-border-dark"
-                        style={{ fontSize: "13px" }}
-                    >
-                        <FontAwesomeIcon icon={faBagShopping} className="fs-8" />
-                        <span>Tiếp tục mua sắm</span>
-                    </Link>
                 </div>
             </div>
         </section>
