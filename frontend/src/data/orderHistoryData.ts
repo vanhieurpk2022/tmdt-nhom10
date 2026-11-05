@@ -15,6 +15,7 @@ export interface OrderHistoryItem {
     code: string;
     createdAt: string;
     status: OrderStatus;
+    statusLabel?: string;
     paymentMethod: string;
     paymentStatus: string;
     deliveryAddress: string;

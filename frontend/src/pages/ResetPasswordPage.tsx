@@ -1,70 +1,98 @@
-import { InfoCircleFill } from 'react-bootstrap-icons';
+import { useState, useEffect } from 'react';
+import { InfoCircleFill, Eye, EyeSlash, CheckCircleFill } from 'react-bootstrap-icons';
+import { useLocation, useNavigate, Link } from 'react-router';
+import LoginSideBar from '../components/layout/login/LoginSideBar';
+import { ROUTES } from '../routes/routes';
+import { authService } from '../api/AuthService';
+import axios from 'axios';
 
 export default function ResetPasswordPage() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState<string>('');
+    const [code, setCode] = useState<string>('');
+    const [newPassword, setNewPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+
+    const [loading, setLoading] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [successMessage, setSuccessMessage] = useState<string>('');
+
+    useEffect(() => {
+        const stateEmail = location.state?.email || sessionStorage.getItem('recoveryEmail');
+        const stateCode = location.state?.code || sessionStorage.getItem('recoveryCode');
+
+        if (!stateEmail || !stateCode) {
+            navigate(ROUTES.FORGOT_PASSWORD, { replace: true });
+        } else {
+            setEmail(stateEmail);
+            setCode(stateCode);
+        }
+    }, [location.state, navigate]);
+
+    // Password validations
+    const hasMinLength = newPassword.length >= 6;
+    const hasMatch = newPassword.length > 0 && newPassword === confirmPassword;
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        if (!newPassword) {
+            setErrorMessage('Vui lòng nhập mật khẩu mới');
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            setErrorMessage('Mật khẩu mới phải có ít nhất 6 ký tự');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setErrorMessage('Xác nhận mật khẩu không khớp');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await authService.resetPassword({
+                email,
+                code,
+                newPassword,
+                confirmPassword,
+            });
+
+            if (res.status === 200) {
+                setSuccessMessage('Đặt lại mật khẩu thành công! Đang chuyển đến trang đăng nhập...');
+                sessionStorage.removeItem('recoveryEmail');
+                sessionStorage.removeItem('recoveryCode');
+                setTimeout(() => {
+                    navigate(ROUTES.LOGIN, {
+                        replace: true,
+                        state: { message: 'Đặt lại mật khẩu thành công! Vui lòng đăng nhập với mật khẩu mới.' }
+                    });
+                }, 1200);
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setErrorMessage(error.response?.data?.message || 'Không thể đặt lại mật khẩu, vui lòng thử lại');
+            } else {
+                setErrorMessage('Đã xảy ra lỗi khi đặt lại mật khẩu');
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="login-page d-flex align-items-center justify-content-center bg-light" style={{ minHeight: 'calc(100vh - 100px)' }}>
             <div className="container py-5">
-                <div className="mb-3 text-secondary" style={{ fontSize: '12px', marginLeft: '10px' }}>
-                    Đặt lại mật khẩu khách hàng
-                </div>
                 <div className="row g-0 rounded-4 overflow-hidden shadow-lg login-container bg-white mx-auto" style={{ maxWidth: '1100px' }}>
-
-                    <div className="col-lg-6 login-left-panel p-4 p-md-5 text-white d-flex flex-column justify-content-center position-relative" style={{ backgroundColor: '#111827' }}>
-                        <div className="position-absolute top-0 end-0 translate-middle-y" style={{ width: '300px', height: '300px', backgroundColor: 'rgba(225, 29, 72, 0.1)', borderRadius: '50%', filter: 'blur(50px)' }}></div>
-                        <div className="position-absolute bottom-0 start-0 translate-middle-y" style={{ width: '200px', height: '200px', backgroundColor: 'rgba(52, 82, 55, 0.2)', borderRadius: '50%', filter: 'blur(50px)' }}></div>
-
-                        <div className="position-relative z-1">
-                            <h6 className="text-primary fw-bold mb-3 text-uppercase" style={{ fontSize: '12px', letterSpacing: '1px' }}>Oilia • SÀN KẾT NỐI TINH DẦU</h6>
-                            <h1 className="fw-bolder mb-3 display-6" style={{ lineHeight: '1.3' }}>Kết nối khách hàng<br />với các xưởng tinh dầu</h1>
-                            <p className="text-light mb-5 opacity-75" style={{ fontSize: '15px', lineHeight: '1.6' }}>
-                                Khám phá sản phẩm từ nhiều xưởng cung cấp, theo dõi thông tin nguồn gốc và quản lý đơn hàng tập trung trên NORDIC.
-                            </p>
-
-                            <div className="bg-dark bg-opacity-50 p-4 rounded-4 mb-4 border border-secondary border-opacity-25 shadow-sm">
-                                <h6 className="fw-bold mb-4 text-white" style={{ fontSize: '14px' }}>Hành trình trên NORDIC</h6>
-                                <div className="d-flex flex-column gap-3 position-relative journey-steps">
-                                    <div className="d-flex align-items-center bg-dark rounded-3 p-3 border border-secondary border-opacity-25 position-relative z-1">
-                                        <div className="rounded-circle bg-white d-flex align-items-center justify-content-center me-3" style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                                            <div className="rounded-circle bg-success" style={{ width: '10px', height: '10px' }}></div>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-1 text-white fw-bold" style={{ fontSize: '14px' }}>Xưởng tinh dầu</h6>
-                                            <p className="mb-0 text-white opacity-50" style={{ fontSize: '12px' }}>Đăng sản phẩm và cung cấp thông tin nguồn gốc</p>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex align-items-center bg-dark rounded-3 p-3 border border-secondary border-opacity-25 position-relative z-1">
-                                        <div className="rounded-circle bg-white d-flex align-items-center justify-content-center me-3" style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                                            <div className="rounded-circle bg-danger" style={{ width: '10px', height: '10px' }}></div>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-1 text-white fw-bold" style={{ fontSize: '14px' }}>Oilia</h6>
-                                            <p className="mb-0 text-white opacity-50" style={{ fontSize: '12px' }}>Kết nối, hỗ trợ giao dịch và quản lý đơn hàng</p>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex align-items-center bg-dark rounded-3 p-3 border border-secondary border-opacity-25 position-relative z-1">
-                                        <div className="rounded-circle bg-white d-flex align-items-center justify-content-center me-3" style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                                            <div className="rounded-circle bg-warning" style={{ width: '10px', height: '10px' }}></div>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-1 text-white fw-bold" style={{ fontSize: '14px' }}>Khách hàng</h6>
-                                            <p className="mb-0 text-white opacity-50" style={{ fontSize: '12px' }}>Tìm kiếm, lựa chọn và mua sản phẩm phù hợp</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="d-flex flex-wrap gap-2 mb-4">
-                                <span className="badge rounded-pill bg-dark border border-secondary border-opacity-25 px-3 py-2 fw-normal d-flex align-items-center gap-2" style={{ fontSize: '12px' }}><div className="rounded-circle bg-success" style={{ width: '6px', height: '6px' }}></div> Nhiều xưởng cung cấp</span>
-                                <span className="badge rounded-pill bg-dark border border-secondary border-opacity-25 px-3 py-2 fw-normal d-flex align-items-center gap-2" style={{ fontSize: '12px' }}><div className="rounded-circle bg-warning" style={{ width: '6px', height: '6px' }}></div> Thông tin nguồn gốc</span>
-                                <span className="badge rounded-pill bg-dark border border-secondary border-opacity-25 px-3 py-2 fw-normal d-flex align-items-center gap-2" style={{ fontSize: '12px' }}><div className="rounded-circle bg-danger" style={{ width: '6px', height: '6px' }}></div> Quản lý đơn hàng tập trung</span>
-                            </div>
-
-                            <p className="text-white opacity-50 mb-0" style={{ fontSize: '13px' }}>
-                                Mua sắm tinh dầu thuận tiện hơn, trong một trải nghiệm thống nhất.
-                            </p>
-                        </div>
-                    </div>
-
+                    <LoginSideBar />
 
                     <div className="col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center position-relative">
                         <div className="login-form-container mx-auto" style={{ width: '100%', maxWidth: '440px' }}>
@@ -74,14 +102,16 @@ export default function ResetPasswordPage() {
 
                             <div className="d-flex align-items-center mb-4" style={{ width: '100px' }}>
                                 <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
-                                <div style={{ flex: 1, height: '2px', backgroundColor: '#e2e8f0', margin: '0 4px' }}></div>
+                                <div style={{ flex: 1, height: '2px', backgroundColor: 'var(--color-primary)', margin: '0 4px' }}></div>
                                 <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
-                                <div style={{ flex: 1, height: '2px', backgroundColor: '#e2e8f0', margin: '0 4px' }}></div>
+                                <div style={{ flex: 1, height: '2px', backgroundColor: 'var(--color-primary)', margin: '0 4px' }}></div>
                                 <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
                             </div>
 
                             <h2 className="fw-bolder mb-2" style={{ color: '#111827' }}>Tạo mật khẩu mới</h2>
-                            <p className="text-secondary mb-4 pb-2" style={{ fontSize: '14px' }}>Tạo mật khẩu mới có ít nhất 8 ký tự để bảo vệ tài khoản tốt hơn.</p>
+                            <p className="text-secondary mb-4 pb-2" style={{ fontSize: '14px' }}>
+                                Đặt mật khẩu mới cho tài khoản <strong className="text-dark">{email}</strong>.
+                            </p>
 
                             <div className="d-flex p-3 rounded-3 mb-4" style={{ backgroundColor: '#f8fafc', border: '1px solid #f1f5f9' }}>
                                 <div className="me-3 mt-1" style={{ color: '#3b82f6' }}>
@@ -90,37 +120,111 @@ export default function ResetPasswordPage() {
                                     </div>
                                 </div>
                                 <div>
-                                    <h6 className="mb-1 fw-bold" style={{ fontSize: '13px', color: '#111827' }}>Gợi ý mật khẩu mạnh</h6>
-                                    <p className="mb-0 text-secondary" style={{ fontSize: '12px' }}>Sử dụng chữ hoa, chữ thường, số và ký tự đặc biệt để tăng độ an toàn.</p>
+                                    <h6 className="mb-1 fw-bold" style={{ fontSize: '13px', color: '#111827' }}>Gợi ý mật khẩu</h6>
+                                    <p className="mb-0 text-secondary" style={{ fontSize: '12px' }}>Mật khẩu nên có tối thiểu 6 ký tự kết hợp chữ và số để đảm bảo an toàn.</p>
                                 </div>
                             </div>
 
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
                                     <label className="form-label fw-bold mb-2" style={{ fontSize: '13px', color: '#111827' }}>Mật khẩu mới</label>
-                                    <input type="password" className="form-control form-control-lg bg-transparent" style={{ fontSize: '14px', borderRadius: '8px' }} />
+                                    <div className="position-relative">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            placeholder="Nhập mật khẩu mới"
+                                            className="form-control form-control-lg bg-transparent"
+                                            style={{ fontSize: '14px', borderRadius: '8px', paddingRight: '42px' }}
+                                            required
+                                            autoFocus
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent text-secondary pe-3"
+                                            style={{ zIndex: 5 }}
+                                        >
+                                            {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div className="mb-3">
                                     <label className="form-label fw-bold mb-2" style={{ fontSize: '13px', color: '#111827' }}>Xác nhận mật khẩu mới</label>
-                                    <input type="password" className="form-control form-control-lg bg-transparent" style={{ fontSize: '14px', borderRadius: '8px' }} />
+                                    <div className="position-relative">
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            placeholder="Nhập lại mật khẩu mới"
+                                            className="form-control form-control-lg bg-transparent"
+                                            style={{ fontSize: '14px', borderRadius: '8px', paddingRight: '42px' }}
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                            className="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent text-secondary pe-3"
+                                            style={{ zIndex: 5 }}
+                                        >
+                                            {showConfirmPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div className="mb-4">
-                                    <div className="d-flex align-items-center mb-1" style={{ fontSize: '12px', color: '#64748b' }}>
-                                        <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span> Ít nhất 8 ký tự
+                                    <div className="d-flex align-items-center mb-1" style={{ fontSize: '12px', color: hasMinLength ? '#16a34a' : '#64748b' }}>
+                                        {hasMinLength ? (
+                                            <CheckCircleFill className="me-2 text-success" />
+                                        ) : (
+                                            <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span>
+                                        )}
+                                        Ít nhất 6 ký tự
                                     </div>
-                                    <div className="d-flex align-items-center mb-1" style={{ fontSize: '12px', color: '#64748b' }}>
-                                        <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span> Bao gồm chữ và số
-                                    </div>
-                                    <div className="d-flex align-items-center" style={{ fontSize: '12px', color: '#64748b' }}>
-                                        <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span> Bao gồm 1 kí tự in hoa và 1 kí tự đặc biệt
+                                    <div className="d-flex align-items-center" style={{ fontSize: '12px', color: hasMatch ? '#16a34a' : '#64748b' }}>
+                                        {hasMatch ? (
+                                            <CheckCircleFill className="me-2 text-success" />
+                                        ) : (
+                                            <span style={{ color: 'var(--color-primary)', marginRight: '6px', fontWeight: 'bold' }}>*</span>
+                                        )}
+                                        Mật khẩu xác nhận trùng khớp
                                     </div>
                                 </div>
 
-                                <a href="/login" className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-2 text-center text-decoration-none d-block" style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}>
-                                    CẬP NHẬT MẬT KHẨU
-                                </a>
+                                {errorMessage && (
+                                    <div className="alert alert-danger py-2 px-3 small rounded-3 mb-3">
+                                        {errorMessage}
+                                    </div>
+                                )}
+
+                                {successMessage && (
+                                    <div className="alert alert-success py-2 px-3 small rounded-3 mb-3">
+                                        {successMessage}
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    disabled={loading || !hasMinLength || !hasMatch}
+                                    className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-3 d-flex align-items-center justify-content-center gap-2"
+                                    style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            ĐANG CẬP NHẬT...
+                                        </>
+                                    ) : (
+                                        'CẬP NHẬT MẬT KHẨU'
+                                    )}
+                                </button>
+
+                                <div className="text-center" style={{ fontSize: '14px' }}>
+                                    <Link to={ROUTES.LOGIN} className="text-decoration-none fw-bold" style={{ color: 'var(--color-primary)' }}>
+                                        Quay lại đăng nhập
+                                    </Link>
+                                </div>
                             </form>
                         </div>
                     </div>

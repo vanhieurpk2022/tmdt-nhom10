@@ -79,7 +79,10 @@ export default function ProductDetailPage() {
 
         Promise.all([
             productService.getProductDetail(productId),
-            productService.getNewestProducts(4),
+            productService.getSimilarProducts(productId, 4).then(async (list) => {
+                if (list && list.length > 0) return list;
+                return productService.getNewestProducts(4);
+            }),
         ])
             .then(([detailData, relatedData]) => {
                 if (!isMounted) return;
@@ -190,9 +193,19 @@ export default function ProductDetailPage() {
                             </Link>
                         </li>
                         <li className="breadcrumb-item">
-                            <Link to={ROUTES.PRODUCTS} className="text-muted text-decoration-none">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    if (window.history.length > 1) {
+                                        navigate(-1);
+                                    } else {
+                                        navigate(ROUTES.PRODUCTS);
+                                    }
+                                }}
+                                className="btn btn-link text-muted text-decoration-none p-0 border-0 fs-7 align-baseline"
+                            >
                                 {product.categoryName || "Sản phẩm"}
-                            </Link>
+                            </button>
                         </li>
                         <li className="breadcrumb-item active fw-bold text-dark text-truncate" aria-current="page" style={{ maxWidth: "300px" }}>
                             {product.name}
@@ -305,7 +318,7 @@ export default function ProductDetailPage() {
                                 </div>
                                 <span className="fw-bold text-dark fs-7">{product.avgRating.toFixed(1)}</span>
                                 <span className="text-muted fs-7">
-                                    • ({product.reviewCount} đánh giá • Đã bán {product.totalSold >= 1000 ? `${(product.totalSold / 1000).toFixed(1)}k+` : product.totalSold})
+                                    • ({product.reviewCount} đánh giá • Đã bán {product.totalSold >= 1000 ? `${(product.totalSold / 1000).toFixed(1)}k+` : product.totalSold} • {(product.views ?? 0).toLocaleString("vi-VN")} lượt xem)
                                 </span>
                             </div>
 
@@ -560,7 +573,7 @@ export default function ProductDetailPage() {
                 {relatedProducts.length > 0 && (
                     <>
                         <div className="d-flex justify-content-between align-items-end mb-4">
-                            <h3 className="fw-black mb-0">Gợi ý sản phẩm nổi bật</h3>
+                            <h3 className="fw-black mb-0">Gợi ý sản phẩm tương tự</h3>
                             <Link to={ROUTES.PRODUCTS} className="text-primary text-decoration-none fw-bold fs-7 hover-underline">
                                 Xem tất cả sản phẩm &rarr;
                             </Link>

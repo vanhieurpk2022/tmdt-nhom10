@@ -27,17 +27,20 @@ public class ProductService {
     private final CategoryRepository categoryRepo;
     private final FactoryRepository factoryRepo;
     private final PurchaseItemService purchases;
+    private final ProductRecommendationService recommendationService;
 
     public ProductService(
             ProductRepository productRepo,
             CategoryRepository categoryRepo,
             FactoryRepository factoryRepo,
-            PurchaseItemService purchases
+            PurchaseItemService purchases,
+            ProductRecommendationService recommendationService
     ) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.factoryRepo = factoryRepo;
         this.purchases = purchases;
+        this.recommendationService = recommendationService;
     }
 
     // Lấy metadata cho sidebar
@@ -71,6 +74,13 @@ public class ProductService {
                 .toList();
 
         return new FilterMetaResponse(categories, factories);
+    }
+
+    public List<CategoryDto> getFactoryCategories(Long factoryId) {
+        if (!factoryRepo.existsById(factoryId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy xưởng");
+        }
+        return productRepo.findCategoriesByFactoryId(factoryId);
     }
 
     // Lọc & phân trang sản phẩm
@@ -109,6 +119,32 @@ public class ProductService {
                 .filter(p -> p.getProductType() == null || p.getProductType() == com.nhom10.tmdt.enums.ProductType.NORMAL)
                 .sorted(this::compareBySales)
                 .limit(productLimit)
+                .map(this::toCard)
+                .toList();
+    }
+
+    public List<ProductCardResponse> getMostViewedProducts(Integer limit) {
+        Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
+        return productRepo.findMostViewedProducts(pageable).stream()
+                .map(this::toCard)
+                .toList();
+    }
+
+    /**
+     * Gợi ý sản phẩm tương tự dựa trên đặc trưng nốt hương và độ đo Cosine Similarity.
+     */
+    public List<ProductCardResponse> getSimilarProducts(Long productId, Integer limit) {
+        Product target = productRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + productId));
+
+        List<Product> candidates = productRepo.findAll().stream()
+                .filter(p -> p.getProductType() == null || p.getProductType() == com.nhom10.tmdt.enums.ProductType.NORMAL)
+                .toList();
+
+        int topK = (limit != null && limit > 0) ? limit : 4;
+        List<Product> similar = recommendationService.findSimilarProducts(target, candidates, topK);
+
+        return similar.stream()
                 .map(this::toCard)
                 .toList();
     }
@@ -154,7 +190,7 @@ public class ProductService {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Chỉ lấy sản phẩm thương mại thông thường (NORMAL), loại trừ nguyên liệu phối hương (CUSTOM)
+            // Chỉ lấy sản phẩm thông thường (NORMAL), loại trừ sản phẩm đã phối hương (CUSTOM).
             predicates.add(cb.or(
                     cb.isNull(root.get("productType")),
                     cb.equal(root.get("productType"), com.nhom10.tmdt.enums.ProductType.NORMAL)
@@ -207,6 +243,7 @@ public class ProductService {
         if (sort == null) return Sort.by(Sort.Direction.ASC, "id");
         return switch (sort) {
             case "newest"     -> Sort.by(Sort.Direction.DESC, "createdAt", "id");
+            case "views", "most-viewed" -> Sort.by(Sort.Direction.DESC, "views", "id");
             case "price-asc", "price-desc" -> Sort.unsorted();
             default           -> Sort.by(Sort.Direction.ASC, "id"); // popular / mặc định: ID tăng dần
         };
@@ -230,10 +267,15 @@ public class ProductService {
 
     // Chuyển Product entity sang DTO ProductCardResponse
     private ProductCardResponse toCard(Product p) {
-        // Ảnh thumbnail: lấy ảnh đầu tiên
-        String thumbnail = (p.getProductImages() != null && !p.getProductImages().isEmpty())
-                ? p.getProductImages().get(0).getImageUrl()
-                : null;
+        // Ảnh thumbnail: ưu tiên ảnh đánh dấu isThumbnail, fallback ảnh đầu tiên
+        String thumbnail = null;
+        if (p.getProductImages() != null && !p.getProductImages().isEmpty()) {
+            thumbnail = p.getProductImages().stream()
+                    .filter(img -> img.isThumbnail() && img.getImageUrl() != null && !img.getImageUrl().isBlank())
+                    .map(ProductImage::getImageUrl)
+                    .findFirst()
+                    .orElse(p.getProductImages().get(0).getImageUrl());
+        }
 
         // Rating trung bình
         double avgRating = 0;
@@ -267,13 +309,19 @@ public class ProductService {
                 Math.round(avgRating * 10.0) / 10.0,
                 totalSold,
                 stockStatus,
-                thumbnail
+                thumbnail,
+                p.getViews() != null ? p.getViews() : 0L
         );
     }
 
+    @Transactional
     public ProductDetailResponse getProductDetail(Long id) {
         Product p = productRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + id));
+
+        long currentViews = (p.getViews() != null ? p.getViews() : 0L) + 1L;
+        p.setViews(currentViews);
+        productRepo.save(p);
 
         // Danh sách đường dẫn hình ảnh chi tiết của sản phẩm
         List<String> imageUrls = (p.getProductImages() != null && !p.getProductImages().isEmpty())
@@ -348,8 +396,30 @@ public class ProductService {
                 stockStatus,
                 imageUrls,
                 variants,
-                reviews
+                reviews,
+                currentViews
         );
+    }
+
+    @jakarta.annotation.PostConstruct
+    @Transactional
+    public void initViewsIfNull() {
+        try {
+            List<Product> products = productRepo.findAll();
+            boolean changed = false;
+            for (Product p : products) {
+                if (p.getViews() == null || p.getViews() == 0L) {
+                    long baseSold = p.getTotalSold() != null && p.getTotalSold() > 0 ? p.getTotalSold() : 15L;
+                    long initialViews = Math.max(60L, baseSold * 5 + (p.getId() != null ? (p.getId() * 37) % 250 : 20));
+                    p.setViews(initialViews);
+                    changed = true;
+                }
+            }
+            if (changed) {
+                productRepo.saveAll(products);
+            }
+        } catch (Exception ignored) {
+        }
     }
 }
 

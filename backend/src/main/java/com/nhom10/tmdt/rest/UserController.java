@@ -3,7 +3,11 @@ package com.nhom10.tmdt.rest;
 import com.cloudinary.Api;
 import com.nhom10.tmdt.dto.ApiResponse;
 import com.nhom10.tmdt.dto.user.CreateUserRequest;
+import com.nhom10.tmdt.dto.user.FacebookLoginRequest;
+import com.nhom10.tmdt.dto.user.ForgotPasswordRequest;
 import com.nhom10.tmdt.dto.user.GoogleLoginRequest;
+import com.nhom10.tmdt.dto.user.ResetPasswordRequest;
+import com.nhom10.tmdt.dto.user.VerifyRecoveryCodeRequest;
 import com.nhom10.tmdt.dto.user.LoginRequest;
 import com.nhom10.tmdt.dto.user.LoginResponse;
 import com.nhom10.tmdt.dto.verify.ResendRequest;
@@ -122,5 +126,44 @@ public class UserController {
         response.addCookie(jwtCookie);
 
         return new ApiResponse<>(200, "Đăng nhập bằng Google thành công", loginResponse);
+    }
+
+    @PostMapping("/facebook")
+    public ApiResponse<LoginResponse> loginWithFacebook(
+            @RequestBody FacebookLoginRequest request,
+            HttpServletResponse response) {
+
+        LoginResponse loginResponse = userService.loginWithFacebook(request);
+
+        Cookie jwtCookie = new Cookie("accessToken", loginResponse.accessToken());
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(false);
+        jwtCookie.setPath("/");
+        if (request.rememberMe()) {
+            jwtCookie.setMaxAge((int) loginResponse.expiresIn());
+        } else {
+            jwtCookie.setMaxAge(-1);
+        }
+        response.addCookie(jwtCookie);
+
+        return new ApiResponse<>(200, "Đăng nhập bằng Facebook thành công", loginResponse);
+    }
+
+    @PostMapping("/forgot-password")
+    public ApiResponse<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        userService.forgotPassword(request.email());
+        return new ApiResponse<>(200, "Mã khôi phục mật khẩu đã được gửi đến email của bạn");
+    }
+
+    @PostMapping("/verify-recovery-code")
+    public ApiResponse<Void> verifyRecoveryCode(@Valid @RequestBody VerifyRecoveryCodeRequest request) {
+        userService.verifyRecoveryCode(request.email(), request.code());
+        return new ApiResponse<>(200, "Xác thực mã khôi phục thành công");
+    }
+
+    @PostMapping("/reset-password")
+    public ApiResponse<Void> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        userService.resetPassword(request);
+        return new ApiResponse<>(200, "Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại");
     }
 }

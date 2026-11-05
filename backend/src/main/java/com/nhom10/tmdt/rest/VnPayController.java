@@ -71,11 +71,19 @@ public class VnPayController {
 
     @GetMapping("/return")
     public ResponseEntity<Void> paymentReturn(HttpServletRequest request) {
-        // Validate, then redirect only the reference to the app; no order lookup, no mutation.
         String suffix;
         try {
             var callback = gateways.gateway().validateCallback(VnPayQueryParser.parse(request.getQueryString()));
             suffix = "?ref=" + callback.txnRef();
+            try {
+                String result = payments.apply(callback);
+                if (!"00".equals(result) && !"02".equals(result)) suffix = "?invalid=1";
+            } catch (RuntimeException ex) {
+                log.error("VNPay return was not committed: error={}", ex.getClass().getSimpleName());
+            }
+        } catch (VnPayGateway.InvalidCallback ex) {
+            log.warn("VNPay return rejected: code={}, reason={}", ex.rspCode(), ex.getMessage());
+            suffix = "?invalid=1";
         } catch (RuntimeException ex) { suffix = "?invalid=1"; }
         return ResponseEntity.status(HttpStatus.SEE_OTHER).cacheControl(CacheControl.noStore())
                 .header("Referrer-Policy", "no-referrer")

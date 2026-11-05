@@ -30,6 +30,7 @@ import { VoucherStatusBadge } from "../models/VoucherStatusBadge";
 import { faEye, faPause, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
+import { useAdminSidebar } from "../api/AdminSidebarContext";
 import StatCard from "../components/admin/dashboard/StartCard";
 import PromotionEffectChart from "../components/admin/statistics/PromotionEffectChart";
 import { useState } from "react";
@@ -194,18 +195,24 @@ export function AdminSale() {
     });
 
 
+    const { isCollapsed } = useAdminSidebar();
+
     return (
-        <div className="row g-0 min-vh-100 bg-light">
+        <div className="d-flex min-vh-100 bg-light">
             {/* Sidebar */}
             <aside
-                className="col-12 col-xl-2 flex-shrink-0 position-sticky top-0 align-self-start"
-                style={{ height: "100vh" }}
+                className="flex-shrink-0 position-sticky top-0 align-self-start"
+                style={{
+                    height: "100vh",
+                    width: isCollapsed ? "72px" : "250px",
+                    transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                }}
             >
                 <SidebarAdmin isVoucher={true} />
             </aside>
 
             {/* Main content */}
-            <main className="col-12 col-xl-10 p-3 p-lg-4 admin-content">
+            <main className="flex-grow-1 p-3 p-lg-4 admin-content overflow-x-auto" style={{ minWidth: 0 }}>
                 {/* Header */}
                 <div className="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
                     <div>

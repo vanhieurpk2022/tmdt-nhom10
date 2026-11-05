@@ -1,80 +1,167 @@
-import { Envelope, ClockHistory } from 'react-bootstrap-icons';
+import { useState, useEffect, useRef } from 'react';
+import { Envelope, ClockHistory, ArrowLeft } from 'react-bootstrap-icons';
+import { useLocation, useNavigate, Link } from 'react-router';
+import LoginSideBar from '../components/layout/login/LoginSideBar';
+import { ROUTES } from '../routes/routes';
+import { authService } from '../api/AuthService';
+import axios from 'axios';
 
 export default function VerifyRecoveryCodePage() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState<string>('');
+    const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
+    const [countdown, setCountdown] = useState<number>(300); // 5 minutes
+    const [loading, setLoading] = useState<boolean>(false);
+    const [resendLoading, setResendLoading] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [successMessage, setSuccessMessage] = useState<string>('');
+
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+    useEffect(() => {
+        const stateEmail = location.state?.email || sessionStorage.getItem('recoveryEmail');
+        if (!stateEmail) {
+            navigate(ROUTES.FORGOT_PASSWORD, { replace: true });
+        } else {
+            setEmail(stateEmail);
+            sessionStorage.setItem('recoveryEmail', stateEmail);
+        }
+    }, [location.state, navigate]);
+
+    // Countdown timer
+    useEffect(() => {
+        if (countdown <= 0) return;
+        const interval = setInterval(() => {
+            setCountdown((prev) => prev - 1);
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [countdown]);
+
+    const formatTime = (secs: number) => {
+        const m = Math.floor(secs / 60);
+        const s = secs % 60;
+        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    };
+
+    const handleDigitChange = (index: number, value: string) => {
+        const lastChar = value.slice(-1);
+        if (value && !/^\d$/.test(lastChar)) {
+            return;
+        }
+
+        const newDigits = [...digits];
+        newDigits[index] = lastChar;
+        setDigits(newDigits);
+        setErrorMessage('');
+
+        if (lastChar && index < 5) {
+            inputRefs.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Backspace' && !digits[index] && index > 0) {
+            inputRefs.current[index - 1]?.focus();
+        }
+    };
+
+    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+        if (!pasted) return;
+
+        const newDigits = [...digits];
+        for (let i = 0; i < 6; i++) {
+            newDigits[i] = pasted[i] || '';
+        }
+        setDigits(newDigits);
+
+        const nextFocusIndex = Math.min(pasted.length, 5);
+        inputRefs.current[nextFocusIndex]?.focus();
+    };
+
+    const handleResend = async () => {
+        if (resendLoading || !email) return;
+        setResendLoading(true);
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        try {
+            await authService.forgotPassword(email);
+            setCountdown(300);
+            setDigits(['', '', '', '', '', '']);
+            setSuccessMessage('Mã xác thực mới đã được gửi đến email của bạn!');
+            inputRefs.current[0]?.focus();
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setErrorMessage(error.response?.data?.message || 'Không thể gửi lại mã, vui lòng thử lại');
+            } else {
+                setErrorMessage('Lỗi gửi lại mã');
+            }
+        } finally {
+            setResendLoading(false);
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        const code = digits.join('');
+        if (code.length < 6) {
+            setErrorMessage('Vui lòng nhập đầy đủ 6 chữ số mã xác thực');
+            return;
+        }
+
+        if (countdown <= 0) {
+            setErrorMessage('Mã xác thực đã hết hạn. Vui lòng bấm "Gửi lại mã"');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await authService.verifyRecoveryCode(email, code);
+            if (res.status === 200) {
+                setSuccessMessage('Xác thực thành công! Đang chuyển tiếp...');
+                sessionStorage.setItem('recoveryCode', code);
+                setTimeout(() => {
+                    navigate(ROUTES.RESET_PASSWORD, { state: { email, code } });
+                }, 600);
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setErrorMessage(error.response?.data?.message || 'Mã xác thực không hợp lệ hoặc đã hết hạn');
+            } else {
+                setErrorMessage('Lỗi xác thực mã');
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="login-page d-flex align-items-center justify-content-center bg-light" style={{ minHeight: 'calc(100vh - 100px)' }}>
             <div className="container py-5">
-                <div className="mb-3 text-secondary" style={{ fontSize: '12px', marginLeft: '10px' }}>
-                    Xác thực mã khôi phục mật khẩu
-                </div>
                 <div className="row g-0 rounded-4 overflow-hidden shadow-lg login-container bg-white mx-auto" style={{ maxWidth: '1100px' }}>
-
-                    <div className="col-lg-6 login-left-panel p-4 p-md-5 text-white d-flex flex-column justify-content-center position-relative" style={{ backgroundColor: '#111827' }}>
-                        <div className="position-absolute top-0 end-0 translate-middle-y" style={{ width: '300px', height: '300px', backgroundColor: 'rgba(225, 29, 72, 0.1)', borderRadius: '50%', filter: 'blur(50px)' }}></div>
-                        <div className="position-absolute bottom-0 start-0 translate-middle-y" style={{ width: '200px', height: '200px', backgroundColor: 'rgba(52, 82, 55, 0.2)', borderRadius: '50%', filter: 'blur(50px)' }}></div>
-
-                        <div className="position-relative z-1">
-                            <h6 className="text-primary fw-bold mb-3 text-uppercase" style={{ fontSize: '12px', letterSpacing: '1px' }}>Oilia • SÀN KẾT NỐI TINH DẦU</h6>
-                            <h1 className="fw-bolder mb-3 display-6" style={{ lineHeight: '1.3' }}>Kết nối khách hàng<br />với các xưởng tinh dầu</h1>
-                            <p className="text-light mb-5 opacity-75" style={{ fontSize: '15px', lineHeight: '1.6' }}>
-                                Khám phá sản phẩm từ nhiều xưởng cung cấp, theo dõi thông tin nguồn gốc và quản lý đơn hàng tập trung trên NORDIC.
-                            </p>
-
-                            <div className="bg-dark bg-opacity-50 p-4 rounded-4 mb-4 border border-secondary border-opacity-25 shadow-sm">
-                                <h6 className="fw-bold mb-4 text-white" style={{ fontSize: '14px' }}>Hành trình trên NORDIC</h6>
-                                <div className="d-flex flex-column gap-3 position-relative journey-steps">
-                                    <div className="d-flex align-items-center bg-dark rounded-3 p-3 border border-secondary border-opacity-25 position-relative z-1">
-                                        <div className="rounded-circle bg-white d-flex align-items-center justify-content-center me-3" style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                                            <div className="rounded-circle bg-success" style={{ width: '10px', height: '10px' }}></div>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-1 text-white fw-bold" style={{ fontSize: '14px' }}>Xưởng tinh dầu</h6>
-                                            <p className="mb-0 text-white opacity-50" style={{ fontSize: '12px' }}>Đăng sản phẩm và cung cấp thông tin nguồn gốc</p>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex align-items-center bg-dark rounded-3 p-3 border border-secondary border-opacity-25 position-relative z-1">
-                                        <div className="rounded-circle bg-white d-flex align-items-center justify-content-center me-3" style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                                            <div className="rounded-circle bg-danger" style={{ width: '10px', height: '10px' }}></div>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-1 text-white fw-bold" style={{ fontSize: '14px' }}>Oilia</h6>
-                                            <p className="mb-0 text-white opacity-50" style={{ fontSize: '12px' }}>Kết nối, hỗ trợ giao dịch và quản lý đơn hàng</p>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex align-items-center bg-dark rounded-3 p-3 border border-secondary border-opacity-25 position-relative z-1">
-                                        <div className="rounded-circle bg-white d-flex align-items-center justify-content-center me-3" style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                                            <div className="rounded-circle bg-warning" style={{ width: '10px', height: '10px' }}></div>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-1 text-white fw-bold" style={{ fontSize: '14px' }}>Khách hàng</h6>
-                                            <p className="mb-0 text-white opacity-50" style={{ fontSize: '12px' }}>Tìm kiếm, lựa chọn và mua sản phẩm phù hợp</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="d-flex flex-wrap gap-2 mb-4">
-                                <span className="badge rounded-pill bg-dark border border-secondary border-opacity-25 px-3 py-2 fw-normal d-flex align-items-center gap-2" style={{ fontSize: '12px' }}><div className="rounded-circle bg-success" style={{ width: '6px', height: '6px' }}></div> Nhiều xưởng cung cấp</span>
-                                <span className="badge rounded-pill bg-dark border border-secondary border-opacity-25 px-3 py-2 fw-normal d-flex align-items-center gap-2" style={{ fontSize: '12px' }}><div className="rounded-circle bg-warning" style={{ width: '6px', height: '6px' }}></div> Thông tin nguồn gốc</span>
-                                <span className="badge rounded-pill bg-dark border border-secondary border-opacity-25 px-3 py-2 fw-normal d-flex align-items-center gap-2" style={{ fontSize: '12px' }}><div className="rounded-circle bg-danger" style={{ width: '6px', height: '6px' }}></div> Quản lý đơn hàng tập trung</span>
-                            </div>
-
-                            <p className="text-white opacity-50 mb-0" style={{ fontSize: '13px' }}>
-                                Mua sắm tinh dầu thuận tiện hơn, trong một trải nghiệm thống nhất.
-                            </p>
-                        </div>
-                    </div>
-
+                    <LoginSideBar />
 
                     <div className="col-lg-6 bg-white p-4 p-md-5 d-flex flex-column justify-content-center position-relative">
                         <div className="login-form-container mx-auto" style={{ width: '100%', maxWidth: '440px' }}>
-                            <div className="d-inline-block px-3 py-1 rounded-pill mb-4" style={{ backgroundColor: '#fff1f2', color: 'var(--color-primary)', fontSize: '11px', fontWeight: '800', letterSpacing: '0.5px' }}>
-                                XÁC THỰC KHÔI PHỤC
+                            <div className="d-flex justify-content-between align-items-center mb-4">
+                                <div className="d-inline-block px-3 py-1 rounded-pill" style={{ backgroundColor: '#fff1f2', color: 'var(--color-primary)', fontSize: '11px', fontWeight: '800', letterSpacing: '0.5px' }}>
+                                    XÁC THỰC KHÔI PHỤC
+                                </div>
+                                <Link to={ROUTES.FORGOT_PASSWORD} className="text-decoration-none text-secondary small d-flex align-items-center gap-1">
+                                    <ArrowLeft /> Đổi email
+                                </Link>
                             </div>
 
                             <div className="d-flex align-items-center mb-4" style={{ width: '100px' }}>
                                 <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
-                                <div style={{ flex: 1, height: '2px', backgroundColor: '#e2e8f0', margin: '0 4px' }}></div>
+                                <div style={{ flex: 1, height: '2px', backgroundColor: 'var(--color-primary)', margin: '0 4px' }}></div>
                                 <div className="rounded-circle" style={{ width: '10px', height: '10px', backgroundColor: 'var(--color-primary)' }}></div>
                                 <div style={{ flex: 1, height: '2px', backgroundColor: '#e2e8f0', margin: '0 4px' }}></div>
                                 <div className="rounded-circle border" style={{ width: '10px', height: '10px', backgroundColor: '#f8fafc', borderColor: '#cbd5e1' }}></div>
@@ -89,53 +176,97 @@ export default function VerifyRecoveryCodePage() {
                                 </div>
                                 <div>
                                     <h6 className="mb-0 fw-bold" style={{ fontSize: '14px', color: '#111827' }}>Email nhận mã</h6>
-                                    <p className="mb-0 text-secondary" style={{ fontSize: '13px' }}>name@email.com</p>
+                                    <p className="mb-0 text-secondary" style={{ fontSize: '13px' }}>{email || 'Đang tải...'}</p>
                                 </div>
                             </div>
 
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div className="mb-4">
                                     <label className="form-label fw-bold mb-1" style={{ fontSize: '13px', color: '#111827' }}>Nhập mã xác thực</label>
                                     <p className="text-secondary mb-3" style={{ fontSize: '12px' }}>Mã gồm 6 chữ số</p>
 
-                                    <div className="d-flex justify-content-between gap-2 mb-4">
-                                        {[1, 2, 3, 4, 5, 6].map((num, idx) => (
+                                    <div className="d-flex justify-content-between gap-2 mb-3" onPaste={handlePaste}>
+                                        {[0, 1, 2, 3, 4, 5].map((idx) => (
                                             <input
-                                                key={num}
+                                                key={idx}
+                                                ref={(el) => { inputRefs.current[idx] = el; }}
                                                 type="text"
+                                                inputMode="numeric"
                                                 maxLength={1}
+                                                value={digits[idx]}
+                                                onChange={(e) => handleDigitChange(idx, e.target.value)}
+                                                onKeyDown={(e) => handleKeyDown(idx, e)}
                                                 className="form-control text-center fw-bold"
                                                 style={{
-                                                    width: '56px',
-                                                    height: '64px',
+                                                    width: '52px',
+                                                    height: '60px',
                                                     fontSize: '24px',
                                                     borderRadius: '12px',
-                                                    borderColor: idx === 0 ? 'var(--color-primary)' : '#e2e8f0',
-                                                    color: '#2e323aff',
-                                                    padding: '0'
+                                                    borderColor: digits[idx] ? 'var(--color-primary)' : '#e2e8f0',
+                                                    color: '#111827',
+                                                    backgroundColor: digits[idx] ? '#fff1f2' : '#ffffff',
+                                                    padding: '0',
+                                                    transition: 'all 0.15s ease-in-out'
                                                 }}
+                                                autoFocus={idx === 0}
                                             />
                                         ))}
                                     </div>
                                 </div>
 
-                                <div className="d-flex align-items-center justify-content-center p-3 rounded-3 mb-4" style={{ backgroundColor: '#fff7ed', border: '1px solid #ffedd5' }}>
-                                    <div className="me-2 d-flex align-items-center" style={{ color: '#ea580c' }}>
+                                <div className="d-flex align-items-center justify-content-center p-3 rounded-3 mb-4" style={{ backgroundColor: countdown > 0 ? '#fff7ed' : '#fee2e2', border: `1px solid ${countdown > 0 ? '#ffedd5' : '#fecaca'}` }}>
+                                    <div className="me-2 d-flex align-items-center" style={{ color: countdown > 0 ? '#ea580c' : '#dc2626' }}>
                                         <ClockHistory size={18} />
                                     </div>
                                     <div className="d-flex align-items-center gap-2">
-                                        <span className="fw-bold" style={{ fontSize: '13px', color: '#ea580c' }}>Mã có hiệu lực trong</span>
-                                        <span className="fw-bold fs-6" style={{ color: '#ea580c', lineHeight: '1' }}>03:18</span>
+                                        <span className="fw-bold" style={{ fontSize: '13px', color: countdown > 0 ? '#ea580c' : '#dc2626' }}>
+                                            {countdown > 0 ? 'Mã có hiệu lực trong' : 'Mã đã hết hạn'}
+                                        </span>
+                                        <span className="fw-bold fs-6 font-monospace" style={{ color: countdown > 0 ? '#ea580c' : '#dc2626', lineHeight: '1' }}>
+                                            {formatTime(countdown)}
+                                        </span>
                                     </div>
                                 </div>
 
-                                <button type="submit" className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-4" style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}>
-                                    TIẾP TỤC
+                                {errorMessage && (
+                                    <div className="alert alert-danger py-2 px-3 small rounded-3 mb-3">
+                                        {errorMessage}
+                                    </div>
+                                )}
+
+                                {successMessage && (
+                                    <div className="alert alert-success py-2 px-3 small rounded-3 mb-3">
+                                        {successMessage}
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    disabled={loading || digits.join('').length < 6 || countdown <= 0}
+                                    className="btn btn-primary w-100 py-3 fw-bold rounded-3 mb-4 d-flex align-items-center justify-content-center gap-2"
+                                    style={{ backgroundColor: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontSize: '15px' }}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            ĐANG XÁC THỰC...
+                                        </>
+                                    ) : (
+                                        'TIẾP TỤC'
+                                    )}
                                 </button>
 
                                 <div className="text-center" style={{ fontSize: '14px' }}>
                                     <span className="text-secondary">Không nhận được mã? </span>
-                                    <a href="#" className="text-decoration-none fw-bold" style={{ color: 'var(--color-primary)' }}>Gửi lại mã</a>
+                                    <button
+                                        type="button"
+                                        onClick={handleResend}
+                                        disabled={resendLoading}
+                                        className="btn btn-link p-0 text-decoration-none fw-bold"
+                                        style={{ color: 'var(--color-primary)', fontSize: '14px' }}
+                                    >
+                                        {resendLoading ? 'Đang gửi lại...' : 'Gửi lại mã'}
+                                    </button>
                                 </div>
                             </form>
                         </div>

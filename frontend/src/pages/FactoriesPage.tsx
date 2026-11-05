@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faIndustry,
     faLocationDot,
     faBoxArchive,
     faSearch,
@@ -10,9 +9,6 @@ import {
     faShieldHalved,
     faCircleCheck,
     faStore,
-    faXmark,
-    faImages,
-    faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FactoryApiService, type FactoryItem } from "../api/FactoryService";
 import { ROUTES } from "../routes/routes";
@@ -22,7 +18,6 @@ export default function FactoriesPage() {
     const [factories, setFactories] = useState<FactoryItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const [selectedFactory, setSelectedFactory] = useState<FactoryItem | null>(null);
 
     useEffect(() => {
         let isMounted = true;
@@ -194,13 +189,8 @@ export default function FactoriesPage() {
 
                                         {/* CARD BODY */}
                                         <div className="factory-card-body">
-                                            <h3
-                                                className="factory-card-title cursor-pointer"
-                                                title={factory.name}
-                                                onClick={() => setSelectedFactory(factory)}
-                                                style={{ cursor: "pointer" }}
-                                            >
-                                                {factory.name}
+                                            <h3 className="factory-card-title" title={factory.name}>
+                                                <Link to={`${ROUTES.FACTORY_DETAIL}/${factory.id}`} className="text-reset text-decoration-none">{factory.name}</Link>
                                             </h3>
 
                                             <div className="factory-card-address" title={factory.address}>
@@ -231,7 +221,7 @@ export default function FactoriesPage() {
                                             {/* ACTIONS */}
                                             <div className="mt-auto pt-2">
                                                 <Link
-                                                    to={`${ROUTES.PRODUCTS}?factoryIds=${factory.id}`}
+                                                    to={`${ROUTES.FACTORY_DETAIL}/${factory.id}`}
                                                     className="btn-view-factory-products"
                                                 >
                                                     <span>Xem {factory.productCount} sản phẩm</span>
@@ -247,127 +237,6 @@ export default function FactoriesPage() {
                 )}
             </div>
 
-            {/* DETAIL MODAL */}
-            {selectedFactory && (
-                <div
-                    className="modal fade show d-block"
-                    tabIndex={-1}
-                    style={{ backgroundColor: "rgba(0, 0, 0, 0.65)", backdropFilter: "blur(4px)" }}
-                    onClick={() => setSelectedFactory(null)}
-                >
-                    <div
-                        className="modal-dialog modal-dialog-centered modal-lg"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
-                            {/* MODAL BANNER */}
-                            <div className="factory-modal-header-banner position-relative">
-                                {selectedFactory.bannerUrl ? (
-                                    <img src={selectedFactory.bannerUrl} alt={selectedFactory.name} />
-                                ) : (
-                                    <div className="w-100 h-100 bg-dark" />
-                                )}
-                                <button
-                                    type="button"
-                                    className="btn btn-sm btn-light rounded-circle position-absolute top-0 end-0 m-3 shadow"
-                                    style={{ width: "36px", height: "36px", zIndex: 10 }}
-                                    onClick={() => setSelectedFactory(null)}
-                                >
-                                    <FontAwesomeIcon icon={faXmark} />
-                                </button>
-                            </div>
-
-                            {/* MODAL BODY */}
-                            <div className="modal-body p-4">
-                                <div className="d-flex align-items-center gap-3 mb-3">
-                                    <div
-                                        style={{
-                                            width: "60px",
-                                            height: "60px",
-                                            borderRadius: "12px",
-                                            overflow: "hidden",
-                                            border: "2px solid #ef4444",
-                                            flexShrink: 0,
-                                        }}
-                                    >
-                                        {selectedFactory.avatarUrl ? (
-                                            <img
-                                                src={selectedFactory.avatarUrl}
-                                                alt={selectedFactory.name}
-                                                className="w-100 h-100 object-fit-cover"
-                                            />
-                                        ) : (
-                                            <div className="w-100 h-100 bg-danger text-white d-flex align-items-center justify-content-center fw-bold fs-4">
-                                                {selectedFactory.name.charAt(0)}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <h4 className="fw-bold mb-1 text-dark">{selectedFactory.name}</h4>
-                                        <p className="text-secondary small mb-0">
-                                            <FontAwesomeIcon icon={faLocationDot} className="text-danger me-1" />
-                                            {selectedFactory.address}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="p-3 bg-light rounded-3 mb-3">
-                                    <h6 className="fw-bold text-dark mb-2">
-                                        <FontAwesomeIcon icon={faInfoCircle} className="text-danger me-2" />
-                                        Giới thiệu nhà xưởng
-                                    </h6>
-                                    <p className="text-secondary mb-0 small" style={{ lineHeight: 1.6 }}>
-                                        {selectedFactory.description || "Chưa có mô tả chi tiết."}
-                                    </p>
-                                </div>
-
-                                {selectedFactory.galleryImages && selectedFactory.galleryImages.length > 0 && (
-                                    <div className="mb-4">
-                                        <h6 className="fw-bold text-dark mb-2">
-                                            <FontAwesomeIcon icon={faImages} className="text-danger me-2" />
-                                            Hình ảnh cơ sở / sản xuất
-                                        </h6>
-                                        <div className="d-flex gap-2 overflow-x-auto pb-2">
-                                            {selectedFactory.galleryImages.map((imgUrl, idx) => (
-                                                <img
-                                                    key={idx}
-                                                    src={imgUrl}
-                                                    alt={`Gallery ${idx + 1}`}
-                                                    style={{
-                                                        width: "120px",
-                                                        height: "80px",
-                                                        objectFit: "cover",
-                                                        borderRadius: "8px",
-                                                        flexShrink: 0,
-                                                        border: "1px solid #e2e8f0",
-                                                    }}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                <div className="d-flex justify-content-end gap-2 pt-2 border-top">
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-secondary px-3"
-                                        onClick={() => setSelectedFactory(null)}
-                                    >
-                                        Đóng
-                                    </button>
-                                    <Link
-                                        to={`${ROUTES.PRODUCTS}?factoryIds=${selectedFactory.id}`}
-                                        className="btn btn-danger px-4 fw-semibold"
-                                        onClick={() => setSelectedFactory(null)}
-                                    >
-                                        Xem tất cả {selectedFactory.productCount} sản phẩm
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

@@ -84,9 +84,20 @@ public class User {
     @Column(name="avatar_url")
     private String avatarUrl;
 
+    @Column(name="cskh_note", columnDefinition = "TEXT")
+    private String cskhNote;
+
+    @Column(name="store_credit")
+    @Builder.Default
+    private Double storeCredit = 0.0;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "factory_role")
     private FactoryRole factoryRole;
+
+    @Column(name = "factory_position")
+    private String factoryPosition;
+
     @Column(name="verify_code_expires_at")
     private LocalDateTime verifyCodeExpiresAt;
 }

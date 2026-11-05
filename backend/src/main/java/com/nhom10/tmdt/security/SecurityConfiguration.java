@@ -1,6 +1,5 @@
 package com.nhom10.tmdt.security;
 
-import lombok.RequiredArgsConstructor;
 import com.nhom10.tmdt.config.VnPayProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +42,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        String[] roleManagementPaths = {"/v1/role", "/v1/role/**", "/v1/user/*/roles", "/v1/user/*/roles/**"};
         // Cấu hình phân quyền cho endpoint
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/error").permitAll()
@@ -58,6 +58,11 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, "/custom-scent/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/custom-scent/**").permitAll()
                 .requestMatchers("/shipping/provinces", "/shipping/districts", "/shipping/wards").permitAll()
+                .requestMatchers(HttpMethod.POST, roleManagementPaths).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, roleManagementPaths).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, roleManagementPaths).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, roleManagementPaths).hasRole("ADMIN")
+                .requestMatchers("/admin/payments/**").hasRole("ADMIN")
                 .requestMatchers("/admin/**").permitAll()
                 .anyRequest().authenticated());
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

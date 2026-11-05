@@ -8,7 +8,7 @@ import HeroBanner from "../components/home/HeroBanner";
 import ProductSection from "../components/home/ProductSection";
 import SearchSuggestions from "../components/home/SearchSuggestions";
 import type { HomeProduct } from "../data/homeData";
-import { bestSellerProducts, newestProducts } from "../data/homeData";
+import { bestSellerProducts, mostViewedProducts, newestProducts } from "../data/homeData";
 import { ROUTES } from "../routes/routes";
 
 const HOME_PRODUCT_LIMIT = 4;
@@ -19,7 +19,7 @@ const fallbackProductImages = [
     "/images/home/jasmine-sambac.png",
 ];
 
-function toHomeProduct(product: ApiProductCard, index: number, tag: string): HomeProduct {
+function toHomeProduct(product: ApiProductCard, index: number, tag: string, customMetric?: string): HomeProduct {
     const price = product.price ?? 0;
     const totalSold = Math.max(product.totalSold ?? 0, 0);
 
@@ -33,7 +33,7 @@ function toHomeProduct(product: ApiProductCard, index: number, tag: string): Hom
         unit: "chai",
         rating: product.avgRating || 4.8,
         reviews: totalSold,
-        metricLabel: totalSold > 0 ? `${totalSold}+ đã bán` : "Đang cập nhật",
+        metricLabel: customMetric ?? (totalSold > 0 ? `${totalSold}+ đã bán` : "Đang cập nhật"),
         tag,
     };
 }
@@ -42,6 +42,7 @@ export default function HomePage() {
     const { applyCart, showCartNotice } = useCart();
     const [homeNewestProducts, setHomeNewestProducts] = useState<HomeProduct[]>(newestProducts);
     const [homeBestSellerProducts, setHomeBestSellerProducts] = useState<HomeProduct[]>(bestSellerProducts);
+    const [homeMostViewedProducts, setHomeMostViewedProducts] = useState<HomeProduct[]>(mostViewedProducts);
     const [isLoadingHomeProducts, setIsLoadingHomeProducts] = useState(true);
     const [homeProductError, setHomeProductError] = useState("");
     const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
@@ -54,9 +55,10 @@ export default function HomePage() {
                 setIsLoadingHomeProducts(true);
                 setHomeProductError("");
 
-                const [newestResult, bestSellerResult] = await Promise.all([
+                const [newestResult, bestSellerResult, mostViewedResult] = await Promise.all([
                     productService.getNewestProducts(HOME_PRODUCT_LIMIT),
                     productService.getBestSellerProducts(HOME_PRODUCT_LIMIT),
+                    productService.getMostViewedProducts(HOME_PRODUCT_LIMIT),
                 ]);
 
                 if (!isMounted) return;
@@ -71,12 +73,25 @@ export default function HomePage() {
                         ? bestSellerResult.map((product, index) => toHomeProduct(product, index, "Bán chạy"))
                         : bestSellerProducts,
                 );
+                setHomeMostViewedProducts(
+                    mostViewedResult.length > 0
+                        ? mostViewedResult.map((product, index) =>
+                              toHomeProduct(
+                                  product,
+                                  index,
+                                  "Xem nhiều",
+                                  (product.views ?? 0) > 0 ? `${(product.views ?? 0).toLocaleString("vi-VN")} lượt xem` : undefined,
+                              ),
+                          )
+                        : mostViewedProducts,
+                );
             } catch (error) {
                 console.error(error);
                 if (!isMounted) return;
 
                 setHomeNewestProducts(newestProducts);
                 setHomeBestSellerProducts(bestSellerProducts);
+                setHomeMostViewedProducts(mostViewedProducts);
                 setHomeProductError("Chưa tải được dữ liệu mới từ backend, đang hiển thị dữ liệu mẫu.");
             } finally {
                 if (isMounted) {
@@ -120,13 +135,23 @@ export default function HomePage() {
             <div className="container-fluid px-4 px-lg-5 home-page-content d-flex flex-column">
                 <HeroBanner />
                 <ProductSection
+                    eyebrow="Được quan tâm nhất"
+                    title="Sản Phẩm Xem Nhiều Nhất"
+                    products={homeMostViewedProducts}
+                    actionLabel="Xem tất cả"
+                    actionTo={`${ROUTES.PRODUCTS}?sort=most-viewed`}
+                    isLoading={isLoadingHomeProducts}
+                    errorMessage={homeProductError}
+                    addingProductIds={addingProductIds}
+                    onAddToCart={addProductToCart}
+                />
+                <ProductSection
                     eyebrow="Bộ sưu tập mới nhất"
                     title="Sản Phẩm Mới Về"
                     products={homeNewestProducts}
                     actionLabel="Xem tất cả sản phẩm mới"
                     actionTo={`${ROUTES.PRODUCTS}?sort=newest`}
                     isLoading={isLoadingHomeProducts}
-                    errorMessage={homeProductError}
                     addingProductIds={addingProductIds}
                     onAddToCart={addProductToCart}
                 />

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useCart } from "../api/CartContext";
 import { cartService, type CartResponse, type CartItemResponse } from "../api/CartService";
 import CartBreadcrumb from "../components/cart/CartBreadcrumb";
@@ -42,6 +42,10 @@ export default function CartPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [updatingItemIds, setUpdatingItemIds] = useState<number[]>([]);
+
+    useLayoutEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }, []);
 
     const applyCart = useCallback((cart: CartResponse) => {
         applyCartSummary(cart);

@@ -169,7 +169,10 @@ public class OrderService {
                 valueOrZero(order.getTotalPrice()),
                 order.getCreatedAt(),
                 items.stream().map(this::toItemResponse).toList(),
-                order.getPaymentStatus()
+                order.getPaymentStatus(),
+                order.getCancelReason(),
+                order.getCancelledAt(),
+                order.getCancellationNote()
         );
     }
 

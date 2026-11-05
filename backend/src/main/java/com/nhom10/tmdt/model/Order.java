@@ -39,7 +39,7 @@ public class Order {
     private Instant reservationExpiresAt;
 
     @Builder.Default
-    @Column(name = "stock_held", nullable = false)
+    @Column(name = "stock_held", nullable = false, columnDefinition = "boolean default false")
     private boolean stockHeld = false;
 
     @Column(name = "paid_attempt_id")
@@ -99,6 +99,18 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(name = "cancel_reason")
     private CancelReason cancelReason;
+
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
+
+    @Column(name = "cancelled_by", length = 255)
+    private String cancelledBy;
+
+    @Column(name = "cancellation_note", length = 500)
+    private String cancellationNote;
+
+    @Column(name = "stock_restored_at")
+    private Instant stockRestoredAt;
 
     @Column(name = "delivered_at")
     private LocalDateTime deliveredAt;

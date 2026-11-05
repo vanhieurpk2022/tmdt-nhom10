@@ -24,11 +24,11 @@ public class PaymentJobs {
         // Each item gets its own transaction; a failed row cannot roll back the batch.
         var page = PageRequest.of(0, 100);
         if (properties.isEnabled()) {
-            var candidates = attempts.findAwaitingConfirmationIds(clock.instant().minusSeconds(30),
+            var candidates = attempts.findAwaitingConfirmationIds(clock.instant().minusSeconds(VnPayQueryLimiter.INTERVAL_SECONDS),
                     properties.getTmnCode(), queryCursor, PageRequest.of(0, 10));
             if (candidates.isEmpty() && queryCursor != 0) {
                 queryCursor = 0;
-                candidates = attempts.findAwaitingConfirmationIds(clock.instant().minusSeconds(30),
+                candidates = attempts.findAwaitingConfirmationIds(clock.instant().minusSeconds(VnPayQueryLimiter.INTERVAL_SECONDS),
                         properties.getTmnCode(), queryCursor, PageRequest.of(0, 10));
             }
             for (Long id : candidates) {

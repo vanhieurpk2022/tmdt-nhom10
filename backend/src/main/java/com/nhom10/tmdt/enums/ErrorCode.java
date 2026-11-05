@@ -12,6 +12,8 @@ public enum ErrorCode {
     INTERNAL_ERROR(500, "Lỗi hệ thống"),
     EMAIL_EXISTED(409, "Email đã tồn tại"),
     INVALID_CREDENTIALS(401,"Tài khoản hoặc mật khẩu không chính xác"),
+    GOOGLE_AUTH_FAILED(401, "Phiên đăng nhập Google không hợp lệ hoặc đã hết hạn. Vui lòng thử lại"),
+    GOOGLE_AUTH_UNAVAILABLE(503, "Không thể kết nối Google để xác thực. Vui lòng thử lại sau"),
     ROLE_NOT_FOUND(404, "Không tìm thấy quyền"),
     VERIFY_EMAIL(410,"Vui lòng xác thực email"),
     VERIFY_CODE_EXPIRED(401,"Đường dẫn xác thực đã hết thời hạn"),

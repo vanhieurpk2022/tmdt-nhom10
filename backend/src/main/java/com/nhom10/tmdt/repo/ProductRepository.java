@@ -3,6 +3,9 @@ package com.nhom10.tmdt.repo;
 import com.nhom10.tmdt.dto.factory.FactoryProductItem;
 import com.nhom10.tmdt.dto.factory.FactoryProductResponse;
 import com.nhom10.tmdt.dto.factory.FactoryProductStats;
+import com.nhom10.tmdt.dto.product.CategoryDto;
+import com.nhom10.tmdt.enums.ProductStatus;
+import com.nhom10.tmdt.enums.ProductType;
 import com.nhom10.tmdt.model.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryRestResource(path = "product")
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
@@ -20,6 +24,16 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     @Query("SELECT p.category.id, COUNT(p) FROM Product p WHERE p.category IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.category.id")
     List<Object[]> countByCategory();
 
+    @Query("""
+        SELECT new com.nhom10.tmdt.dto.product.CategoryDto(c.id, c.name, COUNT(p))
+        FROM Product p JOIN p.category c
+        WHERE p.factory.id = :factoryId
+          AND (p.productType = 'NORMAL' OR p.productType IS NULL)
+        GROUP BY c.id, c.name
+        ORDER BY c.name
+        """)
+    List<CategoryDto> findCategoriesByFactoryId(@Param("factoryId") Long factoryId);
+
     // Đếm số sản phẩm theo từng factory (chỉ tính sản phẩm bán lẻ thông thường)
     @Query("SELECT p.factory.id, COUNT(p) FROM Product p WHERE p.factory IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.factory.id")
     List<Object[]> countByFactory();
@@ -27,7 +41,18 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) ORDER BY p.createdAt DESC, p.id DESC")
     List<Product> findNewestProducts(Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) ORDER BY COALESCE(p.views, 0L) DESC, p.id DESC")
+    List<Product> findMostViewedProducts(Pageable pageable);
+
     List<Product> findByFactoryId(Long factoryId);
+
+    @Query("SELECT p FROM Product p WHERE p.productType = 'CUSTOM' ORDER BY COALESCE(p.totalSold, 0L) DESC, p.id DESC")
+    List<Product> findTopCustomProducts(Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.productType = 'CUSTOM' AND p.productCustom IS NOT NULL AND p.productCustom.user IS NOT NULL ORDER BY p.id DESC")
+    List<Product> findUserCustomProducts(Pageable pageable);
+
+    Optional<Product> findByProductCustomId(Long productCustomId);
 
     @Query("""
 SELECT new com.nhom10.tmdt.dto.factory.FactoryProductStats(
@@ -69,4 +94,11 @@ WHERE f.id = :factoryId
         ORDER BY p.createdAt DESC
         """)
     List<FactoryProductItem> getProducts(@Param("factoryId") Long factoryId);
+
+    long countByStatus(ProductStatus status);
+
+    long countByProductType(ProductType productType);
+
+    @Query("SELECT COUNT(DISTINCT p.factory.id) FROM Product p WHERE p.factory IS NOT NULL")
+    long countDistinctFactories();
 }

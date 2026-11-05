@@ -2,7 +2,7 @@ import { faBuilding, faMagnifyingGlass, faSpinner, faTimes, faBoxOpen } from "@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { productService, type FactoryDto, type ProductCard } from "../../../api/ProductService";
+import { productService, type FactoryMeta as FactoryDto, type ProductCard } from "../../../api/ProductService";
 import { ROUTES } from "../../../routes/routes";
 
 interface FindProps {

@@ -1,6 +1,6 @@
 export interface ScentNoteOption {
     id: number;
-    tier: 1 | 2 | 3; // 1: Tầng 1 (Top Note), 2: Tầng 2 (Heart Note), 3: Tầng 3 (Base Note)
+    tier?: number | null;
     name: string;
     description: string;
     color: string; // Mã màu hiển thị hòa sắc trong chai

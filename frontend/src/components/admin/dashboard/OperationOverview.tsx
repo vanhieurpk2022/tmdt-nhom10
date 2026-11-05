@@ -1,4 +1,5 @@
 import type { RowData } from "@tanstack/react-table";
+import type { FactoryOrderDashBoard, DashboardOverview } from "../../../dto/factory/FactoryDashBoard";
 import {
     faArrowDownAZ,
     faArrowUpAZ,
@@ -12,33 +13,50 @@ import {
     faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import PageHeader from "./PageHeader";
 import StatCard from "./StartCard";
 import "../../../css/pages/dashboard/dashboard.css";
 import type { AppTable } from "../../table/features";
-import { formatVnd } from "../../format/FormatMoney";
 import { PieChartStatistics } from "../statistics/PieChartStatistics";
 import { BarChartStatistic } from "../statistics/BarChartStatistic";
-
-// 1. Import 2 component biểu đồ mới (Sửa lại đường dẫn cho đúng với thư mục của bạn)
-
-const TOTAL_SELLER_REVENUE = 450000000;
+import { FactoryServiceManager } from "../../../api/factory/FactoryService";
 
 /* ---------- Props dành riêng cho Factory Dashboard ---------- */
 interface OperationsOverviewProps<TData extends RowData> {
     isShow?: boolean;
     table: AppTable<TData>;
     pageIndex: number;
+    orders?: FactoryOrderDashBoard[];
 }
 
 function OperationsOverview<TData extends RowData>({
     isShow,
     table,
     pageIndex,
+    orders = [],
 }: OperationsOverviewProps<TData>) {
     const [search, setSearch] = useState("");
+    const [overview, setOverview] = useState<DashboardOverview | null>(null);
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchOverview = async () => {
+            try {
+                const res = await FactoryServiceManager.getOverview();
+                if (isMounted && res.status === 200 && res.data) {
+                    setOverview(res.data);
+                }
+            } catch (err) {
+                console.error("Lỗi khi tải overview dashboard:", err);
+            }
+        };
+        fetchOverview();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     const totalRows = table.getFilteredRowModel().rows.length;
     const hasRows = table.getRowModel().rows.length > 0;
@@ -60,7 +78,7 @@ function OperationsOverview<TData extends RowData>({
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
                         label="Đơn đặt hàng của Shop"
-                        value="36"
+                        value={overview ? String(overview.summary.newOrders) : "36"}
                         icon={faBagShopping}
                         tone="danger"
                         note="đơn mới chờ xác nhận"
@@ -70,7 +88,7 @@ function OperationsOverview<TData extends RowData>({
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
                         label="Tỷ lệ giao hàng đúng hạn"
-                        value="96.8%"
+                        value={overview ? `${overview.summary.onTimeDeliveryRate.toFixed(1)}%` : "96.8%"}
                         icon={faTruckFast}
                         tone="success"
                         note="Đạt chuẩn Shop Uy Tín"
@@ -80,17 +98,17 @@ function OperationsOverview<TData extends RowData>({
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
                         label="Đánh giá Gian hàng & Hồ sơ"
-                        value="4.9 / 5"
+                        value={overview ? `${overview.summary.ratingAverage.toFixed(1)} / 5` : "4.9 / 5"}
                         icon={faStar}
                         tone="info"
-                        actionText="128 đánh giá từ khách"
+                        actionText={overview ? `${overview.summary.ratingCount} đánh giá từ khách` : "128 đánh giá từ khách"}
                     />
                 </div>
 
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
                         label="Trả hàng / Hoàn tiền / Khiếu nại"
-                        value="01"
+                        value={overview ? String(overview.summary.openDisputes).padStart(2, '0') : "01"}
                         icon={faTriangleExclamation}
                         tone="warning"
                         actionText="Phản hồi khiếu nại"
@@ -102,12 +120,12 @@ function OperationsOverview<TData extends RowData>({
             <section className="row g-3">
                 {/* Cancel rate PieChart */}
                 <div className="col-12 col-xl-5">
-                    <PieChartStatistics />
+                    <PieChartStatistics orders={orders} />
                 </div>
 
-                {/* Revenue BarChart */}
+                {/* Sản lượng & Doanh thu gia công BarChart */}
                 <div className="col-12 col-xl-7">
-                    <BarChartStatistic totalRevenue={formatVnd(TOTAL_SELLER_REVENUE)} />
+                    <BarChartStatistic orders={orders} />
                 </div>
             </section>
 

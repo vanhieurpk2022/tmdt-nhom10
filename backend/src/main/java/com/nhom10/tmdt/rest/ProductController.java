@@ -48,6 +48,17 @@ public class ProductController {
     }
 
     /**
+     * GET /api/products/most-viewed
+     * Lấy sản phẩm xem nhiều nhất để hiển thị trên trang chủ.
+     */
+    @GetMapping("/most-viewed")
+    public ApiResponse<List<ProductCardResponse>> getMostViewedProducts(
+            @RequestParam(defaultValue = "4") Integer limit
+    ) {
+        return new ApiResponse<>(200, "Lấy danh sách sản phẩm xem nhiều nhất thành công", productService.getMostViewedProducts(limit));
+    }
+
+    /**
      * GET /api/products/filter
      * Lọc sản phẩm theo các tiêu chí: category, factory, giá, rating, sort, phân trang.
      */
@@ -76,5 +87,16 @@ public class ProductController {
     public ApiResponse<ProductDetailResponse> getProductDetail(@PathVariable Long id) {
         return new ApiResponse<>(200, "Lấy thông tin chi tiết sản phẩm thành công", productService.getProductDetail(id));
     }
-}
 
+    /**
+     * GET /products/{id}/similar
+     * Gợi ý sản phẩm tương tự dựa trên đặc trưng nốt hương và độ đo Cosine Similarity.
+     */
+    @GetMapping("/{id}/similar")
+    public ApiResponse<List<ProductCardResponse>> getSimilarProducts(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "4") Integer limit
+    ) {
+        return new ApiResponse<>(200, "Lấy danh sách sản phẩm tương tự thành công", productService.getSimilarProducts(id, limit));
+    }
+}

@@ -13,4 +13,11 @@ public interface ProductImageRepository extends JpaRepository<ProductImage,Long>
     List<ProductImage> findByProductId(Long productId);
 
     List<ProductImage> findByIsThumbnail(boolean isThumbnail);
+
+    @RestResource(path = "customSamples", rel = "customSamples")
+    List<ProductImage> findByIsCustomSample(boolean isCustomSample);
+
+    List<ProductImage> findByIsCustomSampleTrue();
+
+    List<ProductImage> findByIsCustomExampleTrue();
 }

@@ -2,11 +2,11 @@
 import VariantToolbar from "./VariantToolbar";
 import SideBarFactory from "../SideBarFactory";
 import { VariantHeader } from "./VariantHeader";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createColumnHelper, useTable, type PaginationState } from "@tanstack/react-table";
 import { features } from "../../../table/features";
-import type { EditableVariant, FactoryProductMil, FactoryProductVariantItem } from "../../../../dto/factory/FactoryProductRes";
+import type { EditableVariant, FactoryProductEditRes, FactoryProductVariantItem } from "../../../../dto/factory/FactoryProductRes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPenToSquare, faTag, faToggleOff, faToggleOn, faTrash } from "@fortawesome/free-solid-svg-icons";
 import CustomBadge from "../../badge/CustomBadge";
@@ -14,6 +14,8 @@ import { VariantTable } from "./VariantTable";
 import { FactoryServiceManager } from "../../../../api/factory/FactoryService";
 import { formatVnd } from "../../../format/FormatMoney";
 import { ModalAddVariant } from "./ModalAddVariant";
+import { ProductType } from "../../../../enums/ProductType";
+import { CustomProductRecipeConfig } from "./CustomProductRecipeConfig";
 
 
 const columnHelper = createColumnHelper<typeof features, FactoryProductVariantItem>();
@@ -21,11 +23,27 @@ const columnHelper = createColumnHelper<typeof features, FactoryProductVariantIt
 
 export function FactoryProductDetails() {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
     const productId = Number(id);
 
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingVariant, setEditingVariant] = useState<EditableVariant | null>(null);
+
+    const [productInfo, setProductInfo] = useState<FactoryProductEditRes | null>(null);
+    const [loadingInfo, setLoadingInfo] = useState(false);
+
+    const fetchProductInfo = useCallback(async () => {
+        try {
+            setLoadingInfo(true);
+            const res = await FactoryServiceManager.getProductEdit(productId);
+            if (res.status === 200 && res.data) {
+                setProductInfo(res.data);
+            }
+        } catch (error) {
+            console.error("Lỗi lấy thông tin sản phẩm", error);
+        } finally {
+            setLoadingInfo(false);
+        }
+    }, [productId]);
 
     const openAdd = () => {
         setEditingVariant(null);
@@ -50,10 +68,9 @@ export function FactoryProductDetails() {
                 setVariant(res.data);
             }
         } catch (error) {
-            console.log("Lỗi getVariant")
-
+            console.log("Lỗi getVariant");
         }
-    }, [productId])
+    }, [productId]);
 
     const handleActive = useCallback(async (id: number) => {
         try {
@@ -62,22 +79,23 @@ export function FactoryProductDetails() {
                 prev.map(v => (v.id === id ? { ...v, isActive: !v.isActive } : v))
             );
         } catch (error) {
-            console.log("Lỗi active Variant")
+            console.log("Lỗi active Variant");
         }
-    }, [])
+    }, []);
 
     const handleDelete = useCallback(async (id: number) => {
         try {
             await FactoryServiceManager.deleteProductMil(id);
             setVariant(prev => prev.filter(v => v.id !== id));
         } catch (error) {
-            console.log("Lỗi Xóa Variant")
+            console.log("Lỗi Xóa Variant");
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         getVariant();
-    }, [getVariant])
+        fetchProductInfo();
+    }, [getVariant, fetchProductInfo]);
     const columns = useMemo(
         () =>
             columnHelper.columns([
@@ -226,9 +244,24 @@ export function FactoryProductDetails() {
             {/* CONTENT */}
             <main className="col-12 col-xl-10 p-3 p-lg-4">
 
-                <VariantHeader onVariants={openAdd} productId={productId} />
+                <VariantHeader
+                    onVariants={openAdd}
+                    productId={productId}
+                    isCustom={productInfo?.type === ProductType.CUSTOM}
+                    productName={productInfo?.name}
+                />
 
-                <VariantTable table={table} pageIndex={pagination.pageIndex} />
+                {productInfo?.type === ProductType.CUSTOM && (
+                    <CustomProductRecipeConfig
+                        productId={productId}
+                        productInfo={productInfo}
+                        onUpdated={fetchProductInfo}
+                    />
+                )}
+
+                {productInfo?.type !== ProductType.CUSTOM && (
+                    <VariantTable table={table} pageIndex={pagination.pageIndex} />
+                )}
 
             </main>
 

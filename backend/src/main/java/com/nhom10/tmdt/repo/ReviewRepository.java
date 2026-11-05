@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(path = "review")
-public interface ReviewRepository extends JpaRepository<Review,Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("""
         SELECT AVG(r.rating)
         FROM Review r
@@ -27,4 +27,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     long countByFactoryId(
             @Param("factoryId") Long factoryId
     );
+
+    @Query("SELECT AVG(r.rating) FROM Review r")
+    Double findPlatformAverageRating();
 }

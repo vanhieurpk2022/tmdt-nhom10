@@ -57,10 +57,10 @@ export default function ViewProductModal({
             <Modal.Body className="py-3 px-4">
                 <div className="row g-4">
                     {/* Ảnh sản phẩm nếu có */}
-                    {product.imageUrl && (
+                    {(product.imageUrl || product.thumbnailUrl) && (
                         <div className="col-12 text-center mb-2">
                             <img
-                                src={product.imageUrl}
+                                src={product.imageUrl || product.thumbnailUrl}
                                 alt={product.name}
                                 className="img-fluid rounded-3 border shadow-sm"
                                 style={{ maxHeight: 220, objectFit: "cover" }}

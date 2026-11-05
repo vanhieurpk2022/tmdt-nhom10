@@ -37,6 +37,20 @@
     margin: 0 0 12px;
 }
 
+.order-success-hero-cancelled .order-success-icon,
+.order-success-hero-cancelled .order-success-label {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+}
+
+.order-success-hero-pending .order-success-icon,
+.order-success-hero-pending .order-success-label {
+    background: #fffbeb;
+    border-color: #fde68a;
+    color: #a16207;
+}
+
 .order-success-hero p {
     color: #64748b;
     font-size: 16px;

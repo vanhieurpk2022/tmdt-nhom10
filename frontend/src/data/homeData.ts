@@ -120,6 +120,61 @@ export const bestSellerProducts: HomeProduct[] = [
     },
 ];
 
+export const mostViewedProducts: HomeProduct[] = [
+    {
+        id: 1,
+        name: "Tinh Dầu Oải Hương Lavender Pháp",
+        category: "Hương thư giãn",
+        description: "Hương thơm quý phái giúp an dịu tinh thần và giảm âu lo.",
+        image: `${imageBase}/lavender-france.png`,
+        price: 220000,
+        unit: "10ml",
+        rating: 4.9,
+        reviews: 180,
+        metricLabel: "1.250+ lượt xem",
+        tag: "Xem nhiều",
+    },
+    {
+        id: 9,
+        name: "Tinh Dầu Sả Chanh Lemongrass Ấn Độ",
+        category: "Hương tươi mát",
+        description: "Làm sạch mùi, tạo cảm giác thoáng đãng cho căn phòng.",
+        image: `${imageBase}/jasmine-sambac.png`,
+        price: 145000,
+        unit: "10ml",
+        rating: 4.9,
+        reviews: 214,
+        metricLabel: "980+ lượt xem",
+        tag: "Xem nhiều",
+    },
+    {
+        id: 10,
+        name: "Tinh Dầu Bạc Hà Peppermint",
+        category: "Hương mát tỉnh táo",
+        description: "Lựa chọn bán chạy cho bàn học và phòng làm việc.",
+        image: `${imageBase}/ylang-ylang.png`,
+        price: 160000,
+        unit: "10ml",
+        rating: 5.0,
+        reviews: 182,
+        metricLabel: "840+ lượt xem",
+        tag: "Xem nhiều",
+    },
+    {
+        id: 7,
+        name: "Tinh Dầu Hoa Nhài Sambac",
+        category: "Hương hoa cao cấp",
+        description: "Mùi hoa nhài sâu, mềm và sang trọng.",
+        image: `${imageBase}/jasmine-sambac.png`,
+        price: 290000,
+        unit: "10ml",
+        rating: 4.9,
+        reviews: 64,
+        metricLabel: "760+ lượt xem",
+        tag: "Xem nhiều",
+    },
+];
+
 export const commitments = [
     {
         icon: "leaf",

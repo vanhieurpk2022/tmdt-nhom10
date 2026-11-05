@@ -16,6 +16,8 @@ import com.nhom10.tmdt.repo.ProductRepository;
 import com.nhom10.tmdt.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -82,7 +84,7 @@ public class FactoryServiceImp implements FactoryService{
     @Override
     public FactoryItemResponse getFactoryDetail(Long id) {
         Factory f = factoryRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin xưởng: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin xưởng: " + id));
 
         Map<Long, Long> facCount = productRepo.countByFactory().stream()
                 .collect(Collectors.toMap(r -> (Long) r[0], r -> (Long) r[1]));

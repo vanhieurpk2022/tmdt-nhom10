@@ -7,7 +7,8 @@ import java.time.Instant;
 @Entity
 @Table(name = "payment_attempt", uniqueConstraints = {
         @UniqueConstraint(name = "uk_payment_ref", columnNames = "txn_ref"),
-        @UniqueConstraint(name = "uk_payment_receipt", columnNames = {"merchant_code", "receipt_no"})})
+        @UniqueConstraint(name = "uk_payment_receipt", columnNames = {"merchant_code", "receipt_no"}),
+        @UniqueConstraint(name = "uk_payment_attempt_order", columnNames = {"id", "order_id"})})
 @Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
 public class PaymentAttempt {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
