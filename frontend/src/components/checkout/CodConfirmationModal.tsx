@@ -1,5 +1,5 @@
 import Modal from "react-bootstrap/Modal";
-import { faBoxCheck, faHandHoldingDollar, faShieldCheck, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+import { faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CodConfirmationModalProps {
