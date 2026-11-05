@@ -1,4 +1,4 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { OrderStatus } from "../../data/orderHistoryData";
 import { orderStatusLabels } from "../../data/orderHistoryData";
@@ -29,42 +29,64 @@ export default function OrderHistoryFilters({
     onSearchChange,
 }: OrderHistoryFiltersProps) {
     return (
-
-        <section className="bg-white rounded-4 shadow-sm p-3 d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
-            <div className="d-flex flex-wrap gap-2" aria-label="Lọc đơn hàng theo trạng thái">
+        <section className="bg-white rounded-4 shadow-sm border p-3 d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+            {/* Thanh chọn trạng thái lọc */}
+            <div className="d-flex flex-wrap gap-2" role="tablist" aria-label="Lọc đơn hàng theo trạng thái">
                 {filterOptions.map((option) => {
                     const isActive = activeFilter === option.value;
-                    const count = counts?.[option.value] ?? "—";
+                    const count = counts?.[option.value] ?? 0;
 
                     return (
                         <button
-                            className={`btn btn-sm rounded-pill d-inline-flex align-items-center px-3 py-2 fw-bold ${isActive ? "btn-dark text-white" : "btn-white border text-muted"
-                                }`}
                             key={option.value}
                             type="button"
+                            className={`btn btn-sm rounded-pill d-inline-flex align-items-center px-3 py-2 fw-bold transition-all ${
+                                isActive
+                                    ? "btn-dark text-white shadow-sm"
+                                    : "btn-light text-muted border border-light-subtle hover-border-dark"
+                            }`}
                             onClick={() => onFilterChange(option.value)}
                         >
-                            {option.label}
-                            {isActive ? (
-                                <span className="badge bg-white text-danger rounded-pill ms-2">{count}</span>
-                            ) : (
-                                <span className="text-danger ms-2">{count}</span>
-                            )}
+                            <span>{option.label}</span>
+                            <span
+                                className={`badge rounded-pill ms-2 ${
+                                    isActive
+                                        ? "bg-white text-dark"
+                                        : "bg-secondary bg-opacity-10 text-secondary"
+                                }`}
+                                style={{ fontSize: "0.75rem", padding: "0.25em 0.6em" }}
+                            >
+                                {count}
+                            </span>
                         </button>
                     );
                 })}
             </div>
 
-            <div className="position-relative w-100 flex-shrink-0" style={{ maxWidth: "350px" }}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" />
+            {/* Ô tìm kiếm mã đơn hoặc tên sản phẩm */}
+            <div className="position-relative w-100 flex-shrink-0" style={{ maxWidth: "340px" }}>
+                <FontAwesomeIcon
+                    icon={faMagnifyingGlass}
+                    className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-7 pointer-events-none"
+                />
                 <input
                     type="search"
-                    className="form-control rounded-pill ps-5 py-2 text-muted border"
+                    className="form-control rounded-pill ps-5 pe-4 py-2 fs-7 text-dark border bg-light bg-opacity-50"
                     maxLength={150}
-                    placeholder="Mã đơn đầy đủ hoặc tên sản phẩm..."
+                    placeholder="Tìm mã đơn hoặc tên sản phẩm..."
                     value={searchValue}
                     onChange={(event) => onSearchChange(event.target.value)}
                 />
+                {searchValue && (
+                    <button
+                        type="button"
+                        onClick={() => onSearchChange("")}
+                        className="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-muted border-0"
+                        title="Xóa tìm kiếm"
+                    >
+                        <FontAwesomeIcon icon={faXmark} className="fs-7" />
+                    </button>
+                )}
             </div>
         </section>
     );

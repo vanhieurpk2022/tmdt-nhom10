@@ -57,24 +57,51 @@ function OrderDetails({ id, validId, detail }: { id: number; validId: boolean; d
         setVersion(current => current + 1);
     }
 
-    if (!order || error) return <main className="container py-5">
-        <p role={error ? "alert" : "status"}>{error || (validId ? "Đang tải đơn hàng…" : "Mã đơn hàng không hợp lệ hoặc chưa có đơn hàng để hiển thị.")}</p>
-        {error && <button type="button" className="btn btn-outline-secondary me-3" onClick={refresh}>Thử lại</button>}
-        <Link to={ROUTES.ORDERS}>Về đơn hàng của tôi</Link>
-    </main>;
+    if (!order || error) return (
+        <main className="container py-5 text-center min-vh-50 d-flex flex-column align-items-center justify-content-center">
+            <div className="bg-white rounded-4 border shadow-sm p-5 w-100" style={{ maxWidth: "520px" }}>
+                <p className="fs-6 text-dark mb-4" role={error ? "alert" : "status"}>
+                    {error || (validId ? "Đang tải thông tin đơn hàng…" : "Mã đơn hàng không hợp lệ hoặc chưa có đơn hàng để hiển thị.")}
+                </p>
+                <div className="d-flex justify-content-center gap-3">
+                    {error && (
+                        <button type="button" className="btn btn-outline-primary rounded-pill px-4 fw-bold fs-7" onClick={refresh}>
+                            Thử lại
+                        </button>
+                    )}
+                    <Link to={ROUTES.ORDERS} className="btn btn-dark rounded-pill px-4 fw-bold fs-7">
+                        Về đơn hàng của tôi
+                    </Link>
+                </div>
+            </div>
+        </main>
+    );
 
     return (
-        <main className="order-success-page">
-            <div className="container-fluid px-4 px-lg-5">
-                <div className="order-success-content">
-                    <OrderSuccessBreadcrumb />
-                    <OrderSuccessHero order={order} detail={detail} />
-                    <OrderActions key={order.id} order={order} onOrderChange={updated => setResult({ id, order: updated, error: "" })} onRefresh={refresh} />
-                    <OrderSuccessSummary order={order} />
-                    <OrderRefunds order={order} />
-                    <OrderStatusTimeline status={order.status} />
-                    <OrderShippingInfo order={order} />
-                    <OrderProductList items={orderedItems} />
+        <main className="order-success-page py-4" style={{ minHeight: "85vh", backgroundColor: "#f8fafc" }}>
+            <div className="container-fluid px-3 px-md-4 px-xl-5" style={{ maxWidth: "1400px" }}>
+                <OrderSuccessBreadcrumb />
+                <OrderSuccessHero order={order} detail={detail} />
+
+                <div className="row g-4 align-items-start">
+                    {/* Cột chính (8 cột): Tiến trình, Sản phẩm, Hoàn tiền, Giao nhận */}
+                    <div className="col-12 col-xl-8">
+                        <OrderStatusTimeline status={order.status} />
+                        <OrderProductList items={orderedItems} />
+                        <OrderRefunds order={order} />
+                        <OrderShippingInfo order={order} />
+                    </div>
+
+                    {/* Cột bên phải (4 cột, sticky): Thao tác & Tóm tắt đơn hàng */}
+                    <div className="col-12 col-xl-4 position-xl-sticky" style={{ top: "90px" }}>
+                        <OrderActions
+                            key={order.id}
+                            order={order}
+                            onOrderChange={updated => setResult({ id, order: updated, error: "" })}
+                            onRefresh={refresh}
+                        />
+                        <OrderSuccessSummary order={order} />
+                    </div>
                 </div>
             </div>
         </main>
