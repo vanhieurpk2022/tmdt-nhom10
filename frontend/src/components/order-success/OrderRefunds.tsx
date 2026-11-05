@@ -33,19 +33,14 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
     return (
         <section className="bg-white rounded-4 border shadow-sm p-4 mb-4" aria-labelledby="order-refunds-title">
             {/* Header thẻ */}
-            <div className="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-4 border-bottom gap-2">
-                <div className="d-flex align-items-center gap-3">
-                    <div className="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger" style={{ width: "38px", height: "38px" }}>
-                        <FontAwesomeIcon icon={cancelled ? faBan : faRotateLeft} className="fs-7" />
-                    </div>
-                    <div>
-                        <h2 id="order-refunds-title" className="h6 fw-bold text-dark mb-1">
-                            {cancelled ? "Thông tin hủy đơn & Hoàn tiền" : "Thông tin hoàn tiền"}
-                        </h2>
-                        <span className="text-muted" style={{ fontSize: "13px" }}>
-                            {cancelled ? "Chi tiết lý do và tiến trình xử lý giao dịch" : "Tiến độ hoàn tiền từ cửa hàng"}
-                        </span>
-                    </div>
+            <div className="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-3 border-bottom gap-2">
+                <div>
+                    <h2 id="order-refunds-title" className="h6 fw-bold text-dark mb-0.5">
+                        {cancelled ? "Thông tin hủy đơn & Hoàn tiền" : "Thông tin hoàn tiền"}
+                    </h2>
+                    <span className="text-muted" style={{ fontSize: "12.5px" }}>
+                        {cancelled ? "Chi tiết lý do và tiến trình xử lý giao dịch" : "Tiến độ hoàn tiền từ cửa hàng"}
+                    </span>
                 </div>
 
                 {awaitingRefund && (
@@ -64,10 +59,10 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
 
             {/* Chi tiết thông tin hủy đơn - bố cục thoáng đãng */}
             {cancelled && (
-                <div className="p-3.5 p-md-4 rounded-3 bg-light bg-opacity-60 border mb-4">
+                <div className="mb-4">
                     <div className="row g-3 align-items-center">
                         <div className="col-12 col-md-6">
-                            <span className="d-block text-muted fw-bold text-uppercase mb-1.5" style={{ fontSize: "11.5px", letterSpacing: "0.5px" }}>
+                            <span className="d-block text-muted fw-semibold text-uppercase mb-1.5" style={{ fontSize: "11px", letterSpacing: "0.5px" }}>
                                 Lý do hủy đơn:
                             </span>
                             <span className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-1.5 fw-semibold" style={{ fontSize: "13px" }}>
@@ -76,7 +71,7 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
                         </div>
                         {order.cancelledAt && (
                             <div className="col-12 col-md-6">
-                                <span className="d-block text-muted fw-bold text-uppercase mb-1.5" style={{ fontSize: "11.5px", letterSpacing: "0.5px" }}>
+                                <span className="d-block text-muted fw-semibold text-uppercase mb-1.5" style={{ fontSize: "11px", letterSpacing: "0.5px" }}>
                                     Thời gian hủy đơn:
                                 </span>
                                 <span className="text-dark fw-semibold" style={{ fontSize: "13.5px" }}>
@@ -85,8 +80,8 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
                             </div>
                         )}
                         {order.cancellationNote && (
-                            <div className="col-12 pt-3 border-top mt-2">
-                                <span className="text-muted fw-bold text-uppercase me-2" style={{ fontSize: "11.5px" }}>Ghi chú:</span>
+                            <div className="col-12 pt-2">
+                                <span className="text-muted fw-semibold text-uppercase me-2" style={{ fontSize: "11px" }}>Ghi chú:</span>
                                 <span className="text-secondary text-break" style={{ fontSize: "13px" }}>{order.cancellationNote}</span>
                             </div>
                         )}

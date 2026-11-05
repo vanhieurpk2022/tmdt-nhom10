@@ -1,5 +1,3 @@
-import { faBagShopping, faReceipt, faShieldHalved, faTruckFast } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { CartItem } from "../../data/cartData";
 
 interface CheckoutSummaryProps {
@@ -37,18 +35,13 @@ export default function CheckoutSummary({
 
     return (
         <aside className="bg-white rounded-4 border shadow-sm p-4 mb-4" aria-labelledby="checkout-summary-title">
-            {/* Header */}
+            {/* Header sạch sẽ, không icon tròn rườm rà */}
             <div className="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
-                <div className="d-flex align-items-center gap-2.5">
-                    <div className="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary" style={{ width: "36px", height: "36px" }}>
-                        <FontAwesomeIcon icon={faReceipt} className="fs-7" />
-                    </div>
-                    <div>
-                        <h2 id="checkout-summary-title" className="h6 fw-bold text-dark mb-0">
-                            Chi tiết đơn hàng
-                        </h2>
-                        <span className="text-muted" style={{ fontSize: "12.5px" }}>Tóm tắt chi phí thanh toán</span>
-                    </div>
+                <div>
+                    <h2 id="checkout-summary-title" className="h6 fw-bold text-dark mb-0.5">
+                        Chi tiết đơn hàng
+                    </h2>
+                    <span className="text-muted" style={{ fontSize: "12.5px" }}>Tóm tắt chi phí thanh toán</span>
                 </div>
 
                 <span className="badge bg-light text-dark border rounded-pill px-2.5 py-1 fw-semibold" style={{ fontSize: "12px" }}>
@@ -62,7 +55,7 @@ export default function CheckoutSummary({
                     items.map((item) => (
                         <div className="d-flex align-items-center justify-content-between text-muted py-1" key={item.id}>
                             <div className="d-flex align-items-center gap-2 text-truncate me-2">
-                                <span className="badge bg-light text-secondary border px-1.5 py-0.5" style={{ fontSize: "11px" }}>x{item.quantity}</span>
+                                <span className="text-muted fw-semibold" style={{ fontSize: "12px" }}>x{item.quantity}</span>
                                 <span className="text-dark text-truncate" title={item.name}>{item.name}</span>
                             </div>
                             <strong className="text-dark fw-semibold text-nowrap">{formatPrice(item.price * item.quantity)}</strong>
@@ -83,10 +76,7 @@ export default function CheckoutSummary({
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between text-muted">
-                    <span className="d-inline-flex align-items-center gap-1.5">
-                        <FontAwesomeIcon icon={faTruckFast} className="fs-8 text-secondary" />
-                        <span>Phí vận chuyển</span>
-                    </span>
+                    <span>Phí vận chuyển</span>
                     <strong className={`fw-semibold ${shippingFeeError ? "text-danger" : "text-dark"}`}>
                         {isShippingFeeLoading ? (
                             <span className="text-muted fw-normal" style={{ fontSize: "12.5px" }}>Đang tính phí GHN…</span>
@@ -120,7 +110,7 @@ export default function CheckoutSummary({
 
             {/* Nút đặt hàng chuẩn màu Oilia */}
             <button
-                className="btn w-100 rounded-pill py-3 fw-bold fs-7 d-inline-flex align-items-center justify-content-center gap-2 shadow-sm text-white transition-all"
+                className="btn w-100 rounded-pill py-3 fw-bold fs-7 d-inline-flex align-items-center justify-content-center shadow-sm text-white transition-all"
                 style={{
                     backgroundColor: "var(--color-primary, #e11d48)",
                     borderColor: "var(--color-primary, #e11d48)",
@@ -131,15 +121,13 @@ export default function CheckoutSummary({
                 disabled={isDisabled}
                 onClick={onContinue}
             >
-                <FontAwesomeIcon icon={faBagShopping} />
                 <span>{isSubmitting ? "Đang xử lý đặt hàng…" : "Xác nhận đặt hàng"}</span>
             </button>
 
-            {/* Cam kết bảo mật */}
-            <div className="d-flex align-items-center justify-content-center gap-1.5 text-muted mt-3 pt-2 text-center" style={{ fontSize: "12px" }}>
-                <FontAwesomeIcon icon={faShieldHalved} className="text-success" />
-                <span>Thông tin thanh toán được bảo mật 100%</span>
-            </div>
+            {/* Thông báo bảo mật tinh tế */}
+            <p className="text-center text-muted mb-0 mt-3" style={{ fontSize: "12px" }}>
+                Thông tin thanh toán được bảo mật 100%
+            </p>
         </aside>
     );
 }

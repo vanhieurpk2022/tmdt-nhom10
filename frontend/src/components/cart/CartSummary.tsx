@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { faArrowRight, faReceipt, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { CartItem } from "../../data/cartData";
 import { checkoutCartItemIdsKey } from "../../api/CheckoutSelection";
@@ -17,10 +17,8 @@ function formatPrice(price: number) {
 }
 
 function saveCheckoutSelection(selectedItems: CartItem[]) {
-    window.sessionStorage.setItem(
-        checkoutCartItemIdsKey,
-        JSON.stringify(selectedItems.map((item) => item.id)),
-    );
+    const itemIds = selectedItems.map((item) => item.id);
+    sessionStorage.setItem(checkoutCartItemIdsKey, JSON.stringify(itemIds));
 }
 
 export default function CartSummary({ selectedItems, subtotal }: CartSummaryProps) {
@@ -29,18 +27,13 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
 
     return (
         <aside className="bg-white rounded-4 border shadow-sm p-4 mb-4" aria-labelledby="cart-summary-title">
-            {/* Header */}
+            {/* Header sạch sẽ, không icon trang trí thừa */}
             <div className="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
-                <div className="d-flex align-items-center gap-2.5">
-                    <div className="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary" style={{ width: "36px", height: "36px" }}>
-                        <FontAwesomeIcon icon={faReceipt} className="fs-7" />
-                    </div>
-                    <div>
-                        <h2 id="cart-summary-title" className="h6 fw-bold text-dark mb-0">
-                            Tóm tắt đơn hàng
-                        </h2>
-                        <span className="text-muted" style={{ fontSize: "12.5px" }}>Chi tiết giỏ hàng hiện tại</span>
-                    </div>
+                <div>
+                    <h2 id="cart-summary-title" className="h6 fw-bold text-dark mb-0.5">
+                        Tóm tắt đơn hàng
+                    </h2>
+                    <span className="text-muted" style={{ fontSize: "12.5px" }}>Chi tiết giỏ hàng hiện tại</span>
                 </div>
 
                 <span className="badge bg-light text-dark border rounded-pill px-2.5 py-1 fw-semibold" style={{ fontSize: "12px" }}>
@@ -54,7 +47,7 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
                     selectedItems.map((item) => (
                         <div className="d-flex align-items-center justify-content-between text-muted py-1" key={item.id}>
                             <div className="d-flex align-items-center gap-2 text-truncate me-2">
-                                <span className="badge bg-light text-secondary border px-1.5 py-0.5" style={{ fontSize: "11px" }}>x{item.quantity}</span>
+                                <span className="text-muted fw-semibold" style={{ fontSize: "12px" }}>x{item.quantity}</span>
                                 <span className="text-dark text-truncate" title={item.name}>{item.name}</span>
                             </div>
                             <strong className="text-dark fw-semibold text-nowrap">{formatPrice(item.price * item.quantity)}</strong>
@@ -112,11 +105,9 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
                 <FontAwesomeIcon icon={faArrowRight} className="fs-8" />
             </Link>
 
-            {/* Cam kết bảo mật */}
-            <div className="d-flex align-items-center justify-content-center gap-1.5 text-muted mt-3 pt-2 text-center" style={{ fontSize: "12px" }}>
-                <FontAwesomeIcon icon={faShieldHalved} className="text-success" />
-                <span>Cam kết tinh dầu 100% tự nhiên chính hãng</span>
-            </div>
+            <p className="text-center text-muted mb-0 mt-3" style={{ fontSize: "12px" }}>
+                Cam kết tinh dầu 100% tự nhiên chính hãng
+            </p>
         </aside>
     );
 }

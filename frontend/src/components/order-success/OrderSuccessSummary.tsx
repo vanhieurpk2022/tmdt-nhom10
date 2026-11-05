@@ -97,18 +97,13 @@ export default function OrderSuccessSummary({ order, detail = false, onOrderChan
 
     return (
         <aside className="bg-white rounded-4 border shadow-sm p-4 mb-4" aria-labelledby="order-summary-title">
-            {/* Header thẻ tóm tắt */}
+            {/* Header thẻ tóm tắt - Sạch sẽ */}
             <div className="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
-                <div className="d-flex align-items-center gap-2.5">
-                    <div className="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary" style={{ width: "36px", height: "36px" }}>
-                        <FontAwesomeIcon icon={faReceipt} className="fs-7" />
-                    </div>
-                    <div>
-                        <h2 id="order-summary-title" className="h6 fw-bold text-dark mb-0">
-                            Tóm tắt thanh toán
-                        </h2>
-                        <span className="text-muted" style={{ fontSize: "12.5px" }}>Chi tiết chi phí đơn hàng</span>
-                    </div>
+                <div>
+                    <h2 id="order-summary-title" className="h6 fw-bold text-dark mb-0.5">
+                        Tóm tắt thanh toán
+                    </h2>
+                    <span className="text-muted" style={{ fontSize: "12.5px" }}>Chi tiết chi phí đơn hàng</span>
                 </div>
 
                 <span className="badge bg-light text-dark border rounded-pill px-2.5 py-1 fw-bold" style={{ fontSize: "12px" }}>
@@ -130,13 +125,8 @@ export default function OrderSuccessSummary({ order, detail = false, onOrderChan
 
                 <div className="d-flex align-items-center justify-content-between text-muted">
                     <span>Phương thức</span>
-                    <span className="d-inline-flex align-items-center text-dark fw-medium">
-                        <FontAwesomeIcon
-                            icon={order.paymentMethod === "VNPAY" ? faCreditCard : faMoneyBill1Wave}
-                            className={order.paymentMethod === "VNPAY" ? "text-primary me-1.5" : "text-success me-1.5"}
-                            style={{ fontSize: "12px" }}
-                        />
-                        <span>{paymentMethod}</span>
+                    <span className="text-dark fw-medium">
+                        {paymentMethod}
                     </span>
                 </div>
 
