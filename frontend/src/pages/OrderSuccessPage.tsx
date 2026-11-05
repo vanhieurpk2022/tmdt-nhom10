@@ -82,19 +82,21 @@ function OrderDetails({ id, validId, detail }: { id: number; validId: boolean; d
                 <OrderSuccessBreadcrumb />
                 <OrderSuccessHero order={order} detail={detail} />
 
-                <div className="row g-3 g-md-4 align-items-start">
-                    {/* Cột chính (8 cột): Tiến trình đơn (nếu có), Danh sách sản phẩm, Thông tin hủy/hoàn tiền, Thông tin giao nhận */}
-                    <div className="col-12 col-xl-8">
-                        <OrderStatusTimeline status={order.status} />
+                {/* Bố cục 2 cột cân bằng: Cột trái (7 cột) & Cột phải (5 cột) */}
+                <div className="row g-4 align-items-start">
+                    {/* Cột trái: Sản phẩm đã đặt + Thông tin giao nhận + Hoàn tiền (nếu có) */}
+                    <div className="col-12 col-lg-7">
                         <OrderProductList items={orderedItems} />
-                        <OrderRefunds order={order} />
                         <OrderShippingInfo order={order} />
+                        <OrderRefunds order={order} />
                     </div>
 
-                    {/* Cột bên phải (4 cột, sticky): Tóm tắt thanh toán & Các nút thao tác tập trung */}
-                    <div className="col-12 col-xl-4 position-xl-sticky" style={{ top: "85px" }}>
+                    {/* Cột phải: Tiến trình xử lý đơn hàng + Tóm tắt thanh toán */}
+                    <div className="col-12 col-lg-5 position-lg-sticky" style={{ top: "85px" }}>
+                        <OrderStatusTimeline status={order.status} />
                         <OrderSuccessSummary
                             order={order}
+                            detail={detail}
                             onOrderChange={updated => setResult({ id, order: updated, error: "" })}
                             onRefresh={refresh}
                         />

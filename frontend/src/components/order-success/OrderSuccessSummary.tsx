@@ -7,6 +7,7 @@ import {
     faBan,
     faCheckCircle,
     faCreditCard,
+    faListUl,
     faMoneyBill1Wave,
     faReceipt,
     faRotateRight,
@@ -26,6 +27,7 @@ import { ROUTES } from "../../routes/routes";
 
 interface OrderSuccessSummaryProps {
     order: OrderResponse;
+    detail?: boolean;
     onOrderChange?: (order: OrderResponse) => void;
     onRefresh?: () => void;
 }
@@ -36,7 +38,7 @@ function formatPrice(price: number) {
     return `${currencyFormatter.format(price)}₫`;
 }
 
-export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }: OrderSuccessSummaryProps) {
+export default function OrderSuccessSummary({ order, detail = false, onOrderChange, onRefresh }: OrderSuccessSummaryProps) {
     const navigate = useNavigate();
     const { applyCart, showCartNotice } = useCart();
     const [dialog, setDialog] = useState<"cancel" | "reorder" | null>(null);
@@ -105,7 +107,7 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
                         <h2 id="order-summary-title" className="h6 fw-bold text-dark mb-0">
                             Tóm tắt thanh toán
                         </h2>
-                        <span className="text-muted" style={{ fontSize: "12.5px" }}>Chi tiết chi phí & thao tác</span>
+                        <span className="text-muted" style={{ fontSize: "12.5px" }}>Chi tiết chi phí đơn hàng</span>
                     </div>
                 </div>
 
@@ -114,7 +116,7 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
                 </span>
             </div>
 
-            {/* Các dòng chiết tính - khoảng cách đều đặn */}
+            {/* Các dòng chiết tính */}
             <div className="d-flex flex-column gap-2.5 mb-3" style={{ fontSize: "13.5px" }}>
                 <div className="d-flex align-items-center justify-content-between text-muted">
                     <span>Tạm tính</span>
@@ -156,7 +158,7 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
 
             <hr className="my-3 opacity-25" />
 
-            {/* Tổng thanh toán - kích cỡ vừa vặn, chuẩn màu thương hiệu */}
+            {/* Tổng thanh toán */}
             <div className="d-flex align-items-baseline justify-content-between mb-3">
                 <div>
                     <span className="fw-semibold text-dark d-block" style={{ fontSize: "14px" }}>Tổng thanh toán</span>
@@ -174,7 +176,7 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
                 </div>
             )}
 
-            {/* Khối các nút thao tác tập trung - chuẩn màu thương hiệu Oilia */}
+            {/* Khối nút thao tác - Phân biệt giữa vừa checkout thành công và xem lịch sử đơn hàng */}
             <div className="d-flex flex-column gap-2 pt-3 border-top">
                 {canPay && (
                     <Link
@@ -187,7 +189,8 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
                     </Link>
                 )}
 
-                {order.items.length > 0 && (
+                {/* Nút đặt lại đơn chỉ hiện trong trang chi tiết lịch sử đơn hàng detail={true} */}
+                {detail && order.items.length > 0 && (
                     <button
                         type="button"
                         className="btn rounded-pill py-2.5 fw-bold fs-7 d-inline-flex align-items-center justify-content-center gap-2 shadow-xs text-white"
@@ -200,7 +203,7 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
                     </button>
                 )}
 
-                {onRefresh && (
+                {detail && onRefresh && (
                     <button
                         type="button"
                         className="btn btn-light border rounded-pill py-2 fw-semibold fs-7 text-dark d-inline-flex align-items-center justify-content-center gap-2 hover-border-dark"
@@ -210,6 +213,16 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
                         <FontAwesomeIcon icon={faArrowsRotate} className="me-1 text-muted" />
                         <span>Cập nhật trạng thái</span>
                     </button>
+                )}
+
+                {!detail && (
+                    <Link
+                        to={ROUTES.ORDERS}
+                        className="btn btn-dark rounded-pill py-2.5 fw-bold fs-7 d-inline-flex align-items-center justify-content-center gap-2 shadow-xs"
+                    >
+                        <FontAwesomeIcon icon={faListUl} className="fs-8 me-1" />
+                        <span>Quản lý đơn hàng</span>
+                    </Link>
                 )}
 
                 <Link
@@ -233,7 +246,7 @@ export default function OrderSuccessSummary({ order, onOrderChange, onRefresh }:
                 )}
             </div>
 
-            {/* Modal xác nhận hủy / đặt lại */}
+            {/* Modal xác nhận */}
             <Modal
                 show={dialog !== null}
                 onHide={() => { if (!busy) setDialog(null); }}

@@ -340,49 +340,56 @@ export default function CheckoutPage() {
     }, [checkoutItems, purchaseSelection, selectedAddress]);
 
     return (
-        <main className="checkout-page">
-            <div className="container-fluid px-4 px-lg-5">
+        <main className="checkout-page py-3 py-md-4" style={{ minHeight: "85vh", backgroundColor: "#f8fafc" }}>
+            <div className="container-fluid px-3 px-md-4 px-xl-5" style={{ maxWidth: "1280px" }}>
                 <CheckoutBreadcrumb />
 
-                <div className="row g-4 align-items-start">
-                    <div className="col-12 col-xl-8">
-                        <section className="checkout-panel">
-                            <div className="checkout-heading">
-                                <h1>Thông tin thanh toán & Giao hàng</h1>
-                                <p>Vui lòng kiểm tra kỹ danh sách sản phẩm, địa chỉ nhận hàng và phương thức thanh toán.</p>
-                            </div>
+                {/* Tiêu đề trang gọn gàng */}
+                <div className="mb-4">
+                    <h1 className="h5 fw-bold text-dark mb-1">Thanh toán & Đặt hàng</h1>
+                    <p className="text-muted mb-0" style={{ fontSize: "13.5px" }}>
+                        Vui lòng kiểm tra kỹ địa chỉ giao nhận, sản phẩm đặt mua và phương thức thanh toán
+                    </p>
+                </div>
 
-                            {errorMessage && (
-                                <div className="alert alert-light border checkout-alert" role="alert">
-                                    {errorMessage}
-                                </div>
-                            )}
-                            {recoveryRequired && <div className="alert alert-info" role="status">
-                                <p>Đang xác nhận yêu cầu đặt hàng trước. Vui lòng khôi phục để tránh tạo đơn trùng.</p>
-                                <button className="btn btn-outline-primary" disabled={isLoading || isSubmitting}
+                <div className="row g-4 align-items-start">
+                    {/* Cột trái: Bước 1 Địa chỉ giao hàng -> Bước 2 Sản phẩm -> Bước 3 Phương thức */}
+                    <div className="col-12 col-xl-8">
+                        {errorMessage && (
+                            <div className="alert alert-danger rounded-3 p-3 mb-3 border-0 shadow-sm" role="alert" style={{ fontSize: "13.5px" }}>
+                                {errorMessage}
+                            </div>
+                        )}
+                        {recoveryRequired && (
+                            <div className="alert alert-info rounded-3 p-3 mb-3" role="status">
+                                <p className="mb-2" style={{ fontSize: "13px" }}>Đang xác nhận yêu cầu đặt hàng trước. Vui lòng khôi phục để tránh tạo đơn trùng.</p>
+                                <button className="btn btn-outline-primary btn-sm rounded-pill" disabled={isLoading || isSubmitting}
                                     onClick={() => { setRecoveryVersion(version => version + 1); }}>
                                     {isLoading ? "Đang khôi phục…" : "Khôi phục yêu cầu đặt hàng"}
                                 </button>
-                            </div>}
+                            </div>
+                        )}
 
-                            <CheckoutProductList items={checkoutItems} isLoading={isLoading} />
-                            <ShippingInfo
-                                address={selectedAddress}
-                                deliveryNote={deliveryNote}
-                                isLoading={isLoading}
-                                onDeliveryNoteChange={setDeliveryNote}
-                            />
-                            <PaymentMethodList
-                                methods={paymentMethods}
-                                selectedMethodId={selectedPaymentMethod}
-                                onSelectMethod={setSelectedPaymentMethod}
-                                vnpayAvailable={vnpayAvailability.available}
-                                vnpayMessage={vnpayAvailability.message}
-                            />
-                        </section>
+                        <ShippingInfo
+                            address={selectedAddress}
+                            deliveryNote={deliveryNote}
+                            isLoading={isLoading}
+                            onDeliveryNoteChange={setDeliveryNote}
+                        />
+
+                        <CheckoutProductList items={checkoutItems} isLoading={isLoading} />
+
+                        <PaymentMethodList
+                            methods={paymentMethods}
+                            selectedMethodId={selectedPaymentMethod}
+                            onSelectMethod={setSelectedPaymentMethod}
+                            vnpayAvailable={vnpayAvailability.available}
+                            vnpayMessage={vnpayAvailability.message}
+                        />
                     </div>
 
-                    <div className="col-12 col-xl-4">
+                    {/* Cột phải: Tóm tắt thanh toán sticky */}
+                    <div className="col-12 col-xl-4 position-xl-sticky" style={{ top: "85px" }}>
                         <CheckoutSummary
                             items={checkoutItems}
                             shippingFee={selectedAddress && checkoutItems.length > 0 ? shippingFee : 0}
@@ -397,6 +404,7 @@ export default function CheckoutPage() {
                     </div>
                 </div>
             </div>
+
             <CodConfirmationModal
                 show={showCodConfirmation}
                 total={checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0) + shippingFee}

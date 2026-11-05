@@ -1,4 +1,6 @@
 import Modal from "react-bootstrap/Modal";
+import { faBoxCheck, faHandHoldingDollar, faShieldCheck, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CodConfirmationModalProps {
     show: boolean;
@@ -19,29 +21,58 @@ export default function CodConfirmationModal({
             centered
             backdrop={isSubmitting ? "static" : true}
             keyboard={!isSubmitting}
-            className="cod-confirmation-modal"
             aria-labelledby="cod-confirmation-title"
-            aria-describedby="cod-confirmation-description"
         >
-            <Modal.Header>
-                <Modal.Title as="h2" id="cod-confirmation-title">Xác nhận đặt hàng</Modal.Title>
-            </Modal.Header>
-            <Modal.Body aria-busy={isSubmitting}>
-                <p id="cod-confirmation-description" className="text-muted">
-                    Bạn có chắc muốn đặt đơn hàng này? Bạn sẽ thanh toán cho nhân viên giao hàng khi nhận hàng.
-                </p>
-                <div className="cod-confirmation-total">
-                    <span>Tổng thanh toán khi nhận hàng</span>
-                    <strong>{total.toLocaleString("vi-VN")}đ</strong>
+            <Modal.Header closeButton={!isSubmitting} className="border-bottom pb-3">
+                <div className="d-flex align-items-center gap-2.5">
+                    <div className="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary" style={{ width: "36px", height: "36px" }}>
+                        <FontAwesomeIcon icon={faTruckFast} className="fs-7" />
+                    </div>
+                    <Modal.Title as="h2" id="cod-confirmation-title" className="h6 fw-bold text-dark mb-0">
+                        Xác nhận đặt hàng (COD)
+                    </Modal.Title>
                 </div>
-                {errorMessage && <p className="alert alert-danger mt-3 mb-0" role="alert">{errorMessage}</p>}
+            </Modal.Header>
+            <Modal.Body aria-busy={isSubmitting} className="py-3">
+                <p className="text-secondary mb-3" style={{ fontSize: "13.5px", lineHeight: "1.5" }}>
+                    Bạn sẽ thanh toán bằng tiền mặt trực tiếp cho nhân viên bưu tá khi nhận và kiểm tra kiện hàng tinh dầu.
+                </p>
+
+                <div className="p-3 rounded-3 bg-light border d-flex align-items-center justify-content-between mb-2">
+                    <span className="text-muted fw-semibold" style={{ fontSize: "13.5px" }}>Tổng thanh toán khi nhận hàng:</span>
+                    <strong className="fs-5 fw-bold text-danger">
+                        {total.toLocaleString("vi-VN")}₫
+                    </strong>
+                </div>
+
+                {errorMessage && (
+                    <div className="p-2.5 rounded-3 bg-danger bg-opacity-10 border border-danger border-opacity-25 text-danger mt-3" style={{ fontSize: "12.5px" }} role="alert">
+                        {errorMessage}
+                    </div>
+                )}
             </Modal.Body>
-            <Modal.Footer>
-                <button type="button" className="btn btn-outline-secondary" disabled={isSubmitting} onClick={onCancel} autoFocus>
-                    Hủy
+            <Modal.Footer className="border-top pt-2">
+                <button
+                    type="button"
+                    className="btn btn-outline-secondary rounded-pill px-4 fw-semibold"
+                    style={{ fontSize: "13px" }}
+                    disabled={isSubmitting}
+                    onClick={onCancel}
+                >
+                    Quay lại
                 </button>
-                <button type="button" className="btn checkout-continue-btn fw-bold" disabled={isSubmitting} onClick={onConfirm}>
-                    {isSubmitting ? "Đang tạo đơn…" : "Xác nhận"}
+                <button
+                    type="button"
+                    className="btn rounded-pill px-4 fw-bold text-white shadow-xs"
+                    style={{
+                        backgroundColor: "var(--color-primary, #e11d48)",
+                        borderColor: "var(--color-primary, #e11d48)",
+                        fontSize: "13px",
+                    }}
+                    disabled={isSubmitting}
+                    onClick={onConfirm}
+                >
+                    {isSubmitting ? "Đang tạo đơn…" : "Xác nhận đặt đơn"}
                 </button>
             </Modal.Footer>
         </Modal>
