@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import {
+    faBan,
     faCircleCheck,
     faClock,
     faExclamationTriangle,
     faInfoCircle,
-    faMoneyBillTransfer,
+    faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { orderService, type OrderResponse } from "../../api/OrderService";
@@ -30,18 +31,18 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
     if (!cancelled && !awaitingRefund && !refunded && !refunds.length && !result?.error) return null;
 
     return (
-        <section className="bg-white rounded-4 border shadow-sm p-4 mb-4" aria-labelledby="order-refunds-title">
+        <section className="bg-white rounded-4 border shadow-sm p-3 p-md-4 mb-3" aria-labelledby="order-refunds-title">
             <div className="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-3 border-bottom gap-2">
                 <div className="d-flex align-items-center gap-2">
                     <div className="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger" style={{ width: "36px", height: "36px" }}>
-                        <FontAwesomeIcon icon={faMoneyBillTransfer} className="fs-7" />
+                        <FontAwesomeIcon icon={cancelled ? faBan : faRotateLeft} className="fs-7" />
                     </div>
                     <div>
                         <h2 id="order-refunds-title" className="fs-6 fw-bold text-dark mb-0">
-                            {cancelled ? "Thông tin hủy đơn & hoàn tiền" : "Thông tin hoàn tiền"}
+                            {cancelled ? "Thông tin hủy đơn & Hoàn tiền" : "Thông tin hoàn tiền"}
                         </h2>
                         <span className="text-muted fs-8">
-                            {cancelled ? "Lý do hủy đơn và trạng thái đối soát hoàn tiền" : "Tiến độ xử lý hoàn tiền từ cửa hàng"}
+                            {cancelled ? "Chi tiết lý do và tiến trình xử lý giao dịch" : "Tiến độ hoàn tiền từ cửa hàng"}
                         </span>
                     </div>
                 </div>
@@ -61,27 +62,25 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
             {/* Chi tiết thông tin hủy đơn */}
             {cancelled && (
                 <div className="p-3 rounded-3 bg-light bg-opacity-75 border mb-3">
-                    <div className="row g-2 fs-7">
-                        <div className="col-12 col-md-5">
+                    <div className="row g-3 fs-7 align-items-center">
+                        <div className="col-12 col-md-6">
                             <span className="d-block fs-8 text-muted fw-bold text-uppercase mb-1">Lý do hủy đơn:</span>
-                            <span className="fw-bold text-danger">
-                                {order.cancelReason ? cancelReasonLabels[order.cancelReason] : "Đơn hàng đã được hủy hoặc hết thời gian thanh toán."}
+                            <span className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-1.5 fw-bold fs-7">
+                                {order.cancelReason ? cancelReasonLabels[order.cancelReason] : "Đơn hàng đã được hủy hoặc hết hạn thanh toán."}
                             </span>
                         </div>
                         {order.cancelledAt && (
-                            <div className="col-12 col-md-4">
-                                <span className="d-block fs-8 text-muted fw-bold text-uppercase mb-1">Thời gian hủy:</span>
-                                <span className="text-dark fw-medium">
+                            <div className="col-12 col-md-6">
+                                <span className="d-block fs-8 text-muted fw-bold text-uppercase mb-1">Thời gian hủy đơn:</span>
+                                <span className="text-dark fw-bold">
                                     {new Date(order.cancelledAt).toLocaleString("vi-VN")}
                                 </span>
                             </div>
                         )}
                         {order.cancellationNote && (
-                            <div className="col-12 col-md-3">
-                                <span className="d-block fs-8 text-muted fw-bold text-uppercase mb-1">Ghi chú hủy:</span>
-                                <span className="text-muted text-break">
-                                    {order.cancellationNote}
-                                </span>
+                            <div className="col-12 pt-2 border-top">
+                                <span className="fs-8 text-muted fw-bold text-uppercase me-2">Ghi chú của bạn:</span>
+                                <span className="text-secondary text-break">{order.cancellationNote}</span>
                             </div>
                         )}
                     </div>
@@ -93,7 +92,7 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
                 <div className="p-3 rounded-3 bg-warning bg-opacity-10 border border-warning border-opacity-25 d-flex align-items-center gap-3 mb-3 text-warning-emphasis">
                     <FontAwesomeIcon icon={faClock} className="text-warning fs-5 flex-shrink-0" />
                     <p className="fs-7 mb-0">
-                        Cửa hàng đang xử lý yêu cầu hoàn tiền của bạn. Khoản tiền sẽ được chuyển về tài khoản thanh toán ban đầu theo thời gian quy định của cổng thanh toán / ngân hàng.
+                        Cửa hàng đang xử lý yêu cầu hoàn tiền cho đơn hàng này. Tiền sẽ được hoàn về tài khoản thanh toán ban đầu theo thời gian quy định của cổng thanh toán / ngân hàng.
                     </p>
                 </div>
             )}
@@ -123,7 +122,7 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
 
             {/* Bảng danh sách yêu cầu hoàn tiền */}
             {refunds.length > 0 && (
-                <div className="table-responsive rounded-3 border mb-3">
+                <div className="table-responsive rounded-3 border">
                     <table className="table table-hover align-middle mb-0">
                         <thead className="table-light">
                             <tr className="fs-8 text-muted text-uppercase">
@@ -141,10 +140,10 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
                                         <span className="d-block fs-8 text-muted text-break">{refund.reason}</span>
                                     </td>
                                     <td className="text-nowrap fw-bold text-danger">
-                                        {refund.amountVnd.toLocaleString("vi-VN")} ₫
+                                        {refund.amountVnd.toLocaleString("vi-VN")}₫
                                     </td>
                                     <td>
-                                        <span className={`badge rounded-pill px-2 py-1 fs-8 fw-bold ${
+                                        <span className={`badge rounded-pill px-2.5 py-1 fs-8 fw-bold ${
                                             refund.status === "SUCCEEDED"
                                                 ? "bg-success bg-opacity-10 text-success border border-success border-opacity-25"
                                                 : ["FAILED", "REJECTED"].includes(refund.status)
@@ -170,7 +169,7 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
             )}
 
             {cancelled && !awaitingRefund && !refunded && !refunds.length && (
-                <div className="d-flex align-items-center gap-2 text-muted fs-8">
+                <div className="d-flex align-items-center gap-2 text-muted fs-8 mt-2">
                     <FontAwesomeIcon icon={faInfoCircle} />
                     <span>
                         {order.paymentMethod === "COD"

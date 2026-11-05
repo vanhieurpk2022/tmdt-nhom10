@@ -12,7 +12,6 @@ import OrderStatusTimeline from "../components/order-success/OrderStatusTimeline
 import OrderSuccessBreadcrumb from "../components/order-success/OrderSuccessBreadcrumb";
 import OrderSuccessHero from "../components/order-success/OrderSuccessHero";
 import OrderSuccessSummary from "../components/order-success/OrderSuccessSummary";
-import OrderActions from "../components/order-success/OrderActions";
 import OrderRefunds from "../components/order-success/OrderRefunds";
 import { ROUTES } from "../routes/routes";
 
@@ -59,7 +58,7 @@ function OrderDetails({ id, validId, detail }: { id: number; validId: boolean; d
 
     if (!order || error) return (
         <main className="container py-5 text-center min-vh-50 d-flex flex-column align-items-center justify-content-center">
-            <div className="bg-white rounded-4 border shadow-sm p-5 w-100" style={{ maxWidth: "520px" }}>
+            <div className="bg-white rounded-4 border shadow-sm p-4 p-md-5 w-100" style={{ maxWidth: "480px" }}>
                 <p className="fs-6 text-dark mb-4" role={error ? "alert" : "status"}>
                     {error || (validId ? "Đang tải thông tin đơn hàng…" : "Mã đơn hàng không hợp lệ hoặc chưa có đơn hàng để hiển thị.")}
                 </p>
@@ -78,13 +77,13 @@ function OrderDetails({ id, validId, detail }: { id: number; validId: boolean; d
     );
 
     return (
-        <main className="order-success-page py-4" style={{ minHeight: "85vh", backgroundColor: "#f8fafc" }}>
-            <div className="container-fluid px-3 px-md-4 px-xl-5" style={{ maxWidth: "1400px" }}>
+        <main className="order-success-page py-3 py-md-4" style={{ minHeight: "85vh", backgroundColor: "#f8fafc" }}>
+            <div className="container-fluid px-3 px-md-4 px-xl-5" style={{ maxWidth: "1280px" }}>
                 <OrderSuccessBreadcrumb />
                 <OrderSuccessHero order={order} detail={detail} />
 
-                <div className="row g-4 align-items-start">
-                    {/* Cột chính (8 cột): Tiến trình, Sản phẩm, Hoàn tiền, Giao nhận */}
+                <div className="row g-3 g-md-4 align-items-start">
+                    {/* Cột chính (8 cột): Tiến trình đơn (nếu có), Danh sách sản phẩm, Thông tin hủy/hoàn tiền, Thông tin giao nhận */}
                     <div className="col-12 col-xl-8">
                         <OrderStatusTimeline status={order.status} />
                         <OrderProductList items={orderedItems} />
@@ -92,15 +91,13 @@ function OrderDetails({ id, validId, detail }: { id: number; validId: boolean; d
                         <OrderShippingInfo order={order} />
                     </div>
 
-                    {/* Cột bên phải (4 cột, sticky): Thao tác & Tóm tắt đơn hàng */}
-                    <div className="col-12 col-xl-4 position-xl-sticky" style={{ top: "90px" }}>
-                        <OrderActions
-                            key={order.id}
+                    {/* Cột bên phải (4 cột, sticky): Tóm tắt thanh toán & Các nút thao tác tập trung */}
+                    <div className="col-12 col-xl-4 position-xl-sticky" style={{ top: "85px" }}>
+                        <OrderSuccessSummary
                             order={order}
                             onOrderChange={updated => setResult({ id, order: updated, error: "" })}
                             onRefresh={refresh}
                         />
-                        <OrderSuccessSummary order={order} />
                     </div>
                 </div>
             </div>

@@ -29,7 +29,7 @@ export default function OrderHistoryFilters({
     onSearchChange,
 }: OrderHistoryFiltersProps) {
     return (
-        <section className="bg-white rounded-4 shadow-sm border p-3 d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+        <section className="bg-white rounded-4 shadow-sm border p-3 d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
             {/* Thanh chọn trạng thái lọc */}
             <div className="d-flex flex-wrap gap-2" role="tablist" aria-label="Lọc đơn hàng theo trạng thái">
                 {filterOptions.map((option) => {

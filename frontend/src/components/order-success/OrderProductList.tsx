@@ -17,7 +17,7 @@ function formatPrice(price: number) {
 
 export default function OrderProductList({ items }: OrderProductListProps) {
     return (
-        <section className="bg-white rounded-4 border shadow-sm p-4 mb-4">
+        <section className="bg-white rounded-4 border shadow-sm p-3 p-md-4 mb-3">
             <div className="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-3 border-bottom gap-2">
                 <div className="d-flex align-items-center gap-2">
                     <div className="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary" style={{ width: "36px", height: "36px" }}>
