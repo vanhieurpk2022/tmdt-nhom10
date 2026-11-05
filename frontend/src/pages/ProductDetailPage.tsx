@@ -79,7 +79,10 @@ export default function ProductDetailPage() {
 
         Promise.all([
             productService.getProductDetail(productId),
-            productService.getNewestProducts(4),
+            productService.getSimilarProducts(productId, 4).then(async (list) => {
+                if (list && list.length > 0) return list;
+                return productService.getNewestProducts(4);
+            }),
         ])
             .then(([detailData, relatedData]) => {
                 if (!isMounted) return;
@@ -570,7 +573,7 @@ export default function ProductDetailPage() {
                 {relatedProducts.length > 0 && (
                     <>
                         <div className="d-flex justify-content-between align-items-end mb-4">
-                            <h3 className="fw-black mb-0">Gợi ý sản phẩm nổi bật</h3>
+                            <h3 className="fw-black mb-0">Gợi ý sản phẩm tương tự</h3>
                             <Link to={ROUTES.PRODUCTS} className="text-primary text-decoration-none fw-bold fs-7 hover-underline">
                                 Xem tất cả sản phẩm &rarr;
                             </Link>

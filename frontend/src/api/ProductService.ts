@@ -83,7 +83,6 @@ export interface ProductDetail {
     views?: number;
 }
 
-
 interface ApiResponse<T> {
     status: number;
     message: string;
@@ -108,7 +107,6 @@ export const productService = {
             params: {
                 ...params,
             },
-            // Tuỳ chỉnh cấu hình chuỗi truy vấn tham số URL
             paramsSerializer: (p) => {
                 const searchParams = new URLSearchParams();
                 Object.entries(p).forEach(([key, val]) => {
@@ -149,6 +147,22 @@ export const productService = {
         return res.data.data;
     },
 
+    /**
+     * Gợi ý sản phẩm tương tự dựa trên đặc trưng nốt hương và Cosine Similarity.
+     * Thuật toán: Vector hóa thuộc tính nốt hương, công dụng trị liệu, dung tích
+     * và tính toán độ đo tương đồng Cosine trực tiếp từ cơ sở dữ liệu.
+     */
+    getSimilarProducts: async (id: number | string, limit = 4): Promise<ProductCard[]> => {
+        try {
+            const res = await api.get<ApiResponse<ProductCard[]>>(`/products/${id}/similar`, {
+                params: { limit },
+            });
+            return res.data.data;
+        } catch {
+            return [];
+        }
+    },
+
     /** Lấy thông tin chi tiết một sản phẩm theo ID */
     getProductDetail: (id: number | string): Promise<ProductDetail> => {
         const key = String(id);
@@ -164,5 +178,3 @@ export const productService = {
         return request;
     },
 };
-
-
