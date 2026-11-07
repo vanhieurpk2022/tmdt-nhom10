@@ -2,82 +2,8 @@
     background: var(--color-page-background);
 }
 
-.order-success-hero {
-    margin-bottom: 24px;
-    padding: 36px;
-    text-align: center;
-}
-
-.order-success-icon {
-    background: #dcfce7;
-    border-radius: 999px;
-    color: #16a34a;
-    font-size: 34px;
-    height: 72px;
-    margin-bottom: 18px;
-    width: 72px;
-}
-
-.order-success-label {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    border-radius: 999px;
-    color: #15803d;
-    font-size: 13px;
-    font-weight: 900;
-    margin-bottom: 14px;
-    padding: 7px 14px;
-}
-
-.order-success-hero h1 {
-    color: var(--color-bg-dark);
-    font-size: 36px;
-    font-weight: 900;
-    line-height: 44px;
-    margin: 0 0 12px;
-}
-
-.order-success-hero-cancelled .order-success-icon,
-.order-success-hero-cancelled .order-success-label {
-    background: #fef2f2;
-    border-color: #fecaca;
-    color: #b91c1c;
-}
-
-.order-success-hero-pending .order-success-icon,
-.order-success-hero-pending .order-success-label {
-    background: #fffbeb;
-    border-color: #fde68a;
-    color: #a16207;
-}
-
-.order-success-hero p {
-    color: #64748b;
-    font-size: 16px;
-    line-height: 26px;
-    margin: 0;
-    max-width: 620px;
-}
-
-.order-success-code {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 999px;
-    color: #475569;
-    gap: 10px;
-    margin-top: 22px;
-    padding: 10px 18px;
-}
-
-.order-success-code span {
-    font-size: 13px;
-    font-weight: 800;
-}
-
-.order-success-code strong {
-    color: var(--color-bg-dark);
-    font-size: 14px;
-    font-weight: 900;
+.payment-result-page .payment-result-total {
+    color: var(--color-primary);
 }
 
 .order-success-card {
@@ -235,30 +161,6 @@
     padding-bottom: 18px;
 }
 
-.order-success-summary-code {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    padding: 14px;
-}
-
-.order-success-summary-code span {
-    color: #94a3b8;
-    display: block;
-    font-size: 12px;
-    font-weight: 900;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-}
-
-.order-success-summary-code strong {
-    color: var(--color-bg-dark);
-    display: block;
-    font-size: 15px;
-    font-weight: 900;
-}
-
 .order-success-summary-lines {
     border-bottom: 1px solid #e2e8f0;
     display: flex;
@@ -288,13 +190,5 @@
 
 .order-success-actions {
     max-width: 460px;
-}
-
-.order-success-primary-btn {
-    width: 100%;
-}
-
-.order-success-secondary-btn {
-    width: 100%;
 }
 

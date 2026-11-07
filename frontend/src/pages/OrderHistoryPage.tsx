@@ -9,7 +9,6 @@ import { ROUTES } from "../routes/routes";
 import AccountLayout from "../components/layout/AccountLayout";
 import { getOrderStatusView } from "../data/orderSuccessData";
 
-
 export default function OrderHistoryPage() {
     const [query, setQuery] = useState<{ page: number; status: OrderHistoryFilter; search: string }>({
         page: 0, status: "all", search: "",
@@ -37,10 +36,10 @@ export default function OrderHistoryPage() {
 
     return (
         <AccountLayout breadcrumbCurrent="Đơn hàng của tôi">
-            <div className="d-flex flex-column gap-4">
+            <div className="order-history-page">
                 <OrderHistoryHero summary={result?.summary} />
-                {error && <p className="alert alert-danger">{error}</p>}
-                {loading && <p role="status">Đang tải đơn hàng…</p>}
+                {error && <p className="alert alert-danger mb-0" role="alert">{error}</p>}
+                {loading && <p className="order-history-feedback" role="status">Đang tải đơn hàng…</p>}
 
                 <OrderHistoryFilters
                     activeFilter={query.status}
@@ -51,13 +50,13 @@ export default function OrderHistoryPage() {
                 />
 
                 {!loading && !error && <OrderHistoryList orders={(result?.orders ?? []).map(toHistoryItem)} />}
-                <div className="d-flex gap-2 align-items-center">
-                    <button className="btn btn-outline-secondary" disabled={query.page === 0 || loading}
+                {!error && Boolean(result?.totalPages) && <nav className="order-history-pagination" aria-label="Phân trang đơn hàng">
+                    <button type="button" disabled={query.page === 0 || loading}
                         onClick={() => updateQuery({ ...query, page: query.page - 1 })}>Trang trước</button>
-                    <span>Trang {result?.totalPages ? query.page + 1 : 0}/{result?.totalPages ?? 0}</span>
-                    <button className="btn btn-outline-secondary" disabled={loading || query.page + 1 >= (result?.totalPages ?? 0)}
+                    <span aria-live="polite">Trang {query.page + 1} / {result?.totalPages}</span>
+                    <button type="button" disabled={loading || query.page + 1 >= (result?.totalPages ?? 0)}
                         onClick={() => updateQuery({ ...query, page: query.page + 1 })}>Trang sau</button>
-                </div>
+                </nav>}
             </div>
         </AccountLayout>
     );

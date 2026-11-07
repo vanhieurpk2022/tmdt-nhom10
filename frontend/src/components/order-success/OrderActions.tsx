@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Modal from "react-bootstrap/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRotateLeft, faCreditCard, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { orderService, type CancelOrderRequest, type OrderResponse } from "../../api/OrderService";
 import { useCart } from "../../api/CartContext";
 import { cancelReasonLabels, getOrderError } from "../../data/orderDetailsData";
@@ -25,6 +27,8 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
         && !["REFUND_PENDING", "REFUNDED"].includes(order.paymentStatus ?? "");
     const canPay = order.paymentMethod === "VNPAY" && order.status === "PENDING_PAYMENT"
         && ["PENDING", "FAILED"].includes(order.paymentStatus ?? "PENDING");
+    const canReorder = order.items.length > 0
+        && ["DELIVERED", "CANCELLED", "RETURNED", "REFUNDED"].includes(order.status);
 
     function openDialog(value: "cancel" | "reorder") {
         setError("");
@@ -60,22 +64,31 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
     }
 
     return (
-        <section className="order-success-card" aria-label="Thao tác đơn hàng">
+        <section className="order-details-actions" aria-label="Thao tác đơn hàng">
             <div className="d-flex flex-wrap gap-2">
-                {canPay && <Link className="btn order-success-primary-btn w-auto" to={`${ROUTES.VNPAY_RESULT}?orderId=${order.id}`}>Kiểm tra / tiếp tục thanh toán</Link>}
-                {canCancel && <button type="button" className="btn btn-outline-danger" disabled={busy} onClick={() => openDialog("cancel")}>Hủy đơn hàng</button>}
-                {order.items.length > 0 && <button type="button" className="btn btn-outline-primary" disabled={busy} onClick={() => openDialog("reorder")}>Đặt lại đơn</button>}
-                <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={onRefresh}>Cập nhật trạng thái</button>
+                {canPay && <Link className="btn order-detail-button order-detail-button-primary order-details-pay" to={`${ROUTES.VNPAY_RESULT}?orderId=${order.id}`}>
+                    <FontAwesomeIcon icon={faCreditCard} aria-hidden="true" /> Tiếp tục thanh toán
+                </Link>}
+                {canReorder && <button type="button" className="btn order-detail-button order-detail-button-primary" disabled={busy} onClick={() => openDialog("reorder")}>
+                    <FontAwesomeIcon icon={faArrowRotateLeft} aria-hidden="true" /> Đặt lại đơn
+                </button>}
+                {canCancel && <button type="button" className="btn order-detail-button order-detail-button-danger" disabled={busy} onClick={() => openDialog("cancel")}>
+                    <FontAwesomeIcon icon={faXmark} aria-hidden="true" /> Hủy đơn hàng
+                </button>}
+                <button type="button" className="btn order-detail-button order-details-refresh" disabled={busy} onClick={onRefresh}>
+                    <FontAwesomeIcon icon={faRotate} aria-hidden="true" /> Cập nhật trạng thái
+                </button>
             </div>
             {message && <p className="alert alert-success mt-3 mb-0" role="status">{message}</p>}
             <Modal show={dialog !== null} onHide={() => { if (!busy) setDialog(null); }} centered
-                backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="order-action-title">
-                <Modal.Header closeButton={!busy}>
+                className="account-modal account-modal-compact" backdrop={busy ? "static" : true} keyboard={!busy}
+                aria-labelledby="order-action-title" aria-describedby="order-action-description">
+                <Modal.Header closeButton={!busy} closeLabel="Đóng">
                     <Modal.Title as="h2" id="order-action-title">{dialog === "cancel" ? "Xác nhận hủy đơn hàng" : "Đặt lại đơn hàng"}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body aria-busy={busy}>
+                <Modal.Body className="account-form" aria-busy={busy}>
                     {dialog === "cancel" ? <>
-                        <p>{order.paymentStatus === "PAID"
+                        <p id="order-action-description" className="text-secondary">{order.paymentStatus === "PAID"
                             ? "Đơn hàng sẽ được hủy và tạo yêu cầu hoàn tiền. Tiền chỉ được ghi nhận đã hoàn khi có kết quả xác nhận."
                             : "Đơn hàng sẽ ngừng xử lý sau khi hủy. Nếu đã thanh toán qua VNPay, khoản tiền sẽ được đối soát để xử lý hoàn tiền."}</p>
                         <label className="form-label" htmlFor="cancel-reason">Lý do hủy đơn</label>
@@ -87,12 +100,12 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
                         <textarea id="cancel-note" className="form-control" rows={3} maxLength={500} disabled={busy}
                             value={request.note} onChange={event => setRequest({ ...request, note: event.target.value })} />
                         <p className="small text-secondary mt-1 mb-0">{request.note?.length ?? 0}/500 ký tự</p>
-                    </> : <p className="mb-0">Sản phẩm trong đơn sẽ được cập nhật vào giỏ hàng theo giá và tồn kho hiện tại. Bạn sẽ kiểm tra lại giỏ hàng, địa chỉ và phương thức thanh toán trước khi tạo đơn mới.</p>}
+                    </> : <p id="order-action-description" className="text-secondary mb-0">Sản phẩm sẽ được cập nhật vào giỏ hàng theo giá và tồn kho hiện tại. Vui lòng kiểm tra lại trước khi đặt đơn mới.</p>}
                     {error && <p className="alert alert-danger mt-3 mb-0" role="alert">{error}</p>}
                 </Modal.Body>
-                <Modal.Footer>
-                    <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={() => setDialog(null)}>Quay lại</button>
-                    <button type="button" className={`btn ${dialog === "cancel" ? "btn-danger" : "btn-primary"}`} disabled={busy} onClick={() => { void confirm(); }}>
+                <Modal.Footer className="border-0 pt-0">
+                    <button type="button" className="btn btn-light border account-button m-0" disabled={busy} onClick={() => setDialog(null)} autoFocus>Quay lại</button>
+                    <button type="button" className={`btn account-button m-0 ${dialog === "cancel" ? "btn-danger" : "btn-primary"}`} disabled={busy} onClick={() => { void confirm(); }}>
                         {busy ? "Đang xử lý…" : dialog === "cancel" ? "Xác nhận hủy đơn" : "Cập nhật giỏ hàng"}
                     </button>
                 </Modal.Footer>

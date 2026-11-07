@@ -22,24 +22,24 @@
         flex: none;
         width: min(100%, 520px);
     }
-
-    .order-history-hero,
-    .order-history-toolbar {
-        grid-template-columns: 1fr;
-    }
-
-    .order-history-meta {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 767.98px) {
     .site-nav {
         flex-wrap: wrap;
+        max-width: 100%;
     }
 
-    .site-user-actions {
-        display: none !important;
+    .site-header .site-user-actions {
+        display: flex !important;
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px !important;
+    }
+
+    .site-header .user-nav-details {
+        max-width: 70px !important;
     }
 
     .cart-toast {
@@ -80,79 +80,6 @@
         padding: 20px;
     }
 
-    .cart-card-heading {
-        flex-direction: column;
-    }
-
-    .cart-table-header {
-        display: none;
-    }
-
-    .cart-row {
-        gap: 12px;
-        grid-template-columns: 28px 1fr;
-        padding: 18px;
-    }
-
-    .cart-product-cell {
-        align-items: flex-start;
-    }
-
-    .cart-product-thumb {
-        flex-basis: 52px;
-        height: 52px;
-        width: 52px;
-    }
-
-    .cart-price,
-    .cart-row-actions {
-        grid-column: 2;
-    }
-
-    .cart-row-actions {
-        justify-content: space-between;
-    }
-
-    .checkout-heading h1 {
-        font-size: 24px;
-        line-height: 32px;
-    }
-
-    .checkout-section-title {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .checkout-product-row {
-        grid-template-columns: 44px minmax(0, 1fr);
-    }
-
-    .checkout-product-row > strong {
-        grid-column: 2;
-    }
-
-    .checkout-payment-option {
-        grid-template-columns: 20px minmax(0, 1fr);
-    }
-
-    .checkout-payment-mark {
-        grid-column: 2;
-        justify-self: flex-start;
-    }
-
-    .order-success-hero h1 {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
-    .order-success-code {
-        align-items: flex-start;
-        border-radius: 14px;
-        flex-direction: column;
-        width: 100%;
-    }
-
     .order-success-section-heading {
         align-items: flex-start;
         flex-direction: column;
@@ -160,37 +87,5 @@
 
     .order-success-shipping-grid {
         grid-template-columns: 1fr;
-    }
-
-    .order-history-hero h1 {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
-    .order-history-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .order-history-filter-tabs {
-        flex-wrap: nowrap;
-        margin: 0 -20px;
-        overflow-x: auto;
-        padding: 0 20px 4px;
-    }
-
-    .order-history-filter-tabs button {
-        flex: 0 0 auto;
-    }
-
-    .order-history-card-head {
-        flex-direction: column;
-    }
-
-    .order-history-actions {
-        justify-content: stretch;
-    }
-
-    .order-history-actions .btn {
-        flex: 1 1 100%;
     }
 }

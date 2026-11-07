@@ -4,6 +4,7 @@ import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { OrderHistoryItem, OrderStatus } from "../../data/orderHistoryData";
 import { orderStatusLabels } from "../../data/orderHistoryData";
 import { Link } from "react-router";
+import { fallbackCartImage } from "../../data/cartData";
 
 interface OrderHistoryCardProps {
     order: OrderHistoryItem;
@@ -19,40 +20,39 @@ const statusIcons: Record<OrderStatus, IconDefinition> = {
 };
 
 function formatPrice(price: number) {
-    return `${currencyFormatter.format(price)}đ`;
+    return `${currencyFormatter.format(price)} ₫`;
 }
 
 export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
     const remainingProducts = Math.max(order.products.length - 2, 0);
 
     return (
-        <article className="order-history-card">
-            <div className="order-history-card-head d-flex align-items-start justify-content-between">
+        <article className="account-panel order-history-card">
+            <div className="order-history-card-head">
                 <div>
                     <span>Mã đơn hàng</span>
-                    <h2>{order.code}</h2>
+                    <h3>{order.code}</h3>
                     <p>{order.createdAt}</p>
                 </div>
-                <div className={`order-history-status d-inline-flex align-items-center ${order.status}`}>
+                <div className={`order-history-status ${order.status}`}>
                     <FontAwesomeIcon icon={statusIcons[order.status]} />
                     {order.statusLabel ?? orderStatusLabels[order.status]}
                 </div>
             </div>
 
-            <div className="order-history-products d-flex flex-column">
+            <div className="order-history-products">
                 {order.products.slice(0, 2).map((product) => (
                     <div className="order-history-product" key={product.id}>
-                        <img src={product.image} alt={product.name} />
+                        <img src={product.image} alt={product.name} onError={(event) => { event.currentTarget.src = fallbackCartImage; }} />
                         <div>
-                            <h3>{product.name}</h3>
-                            <p>{product.variant}</p>
-                            <span>Số lượng: {product.quantity}</span>
+                            <h4>{product.name}</h4>
+                            <p>{product.variant} · Số lượng: {product.quantity}</p>
                         </div>
                         <strong>{formatPrice(product.price * product.quantity)}</strong>
                     </div>
                 ))}
                 {remainingProducts > 0 && (
-                    <p className="order-history-more-products">+{remainingProducts} sản phẩm khác trong đơn hàng</p>
+                    <p className="order-history-more-products">+{remainingProducts} sản phẩm khác</p>
                 )}
             </div>
 
@@ -60,22 +60,21 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
                 <div>
                     <span>Thanh toán</span>
                     <strong>{order.paymentMethod}</strong>
-                    <p>{order.paymentStatus}</p>
+                    {order.paymentStatus !== order.paymentMethod && <p>{order.paymentStatus}</p>}
                 </div>
                 <div>
                     <span>Giao đến</span>
                     <strong>{order.deliveryAddress}</strong>
-                    <p>{order.status === "completed" ? "Đơn hàng đã hoàn tất" : "Địa chỉ nhận hàng đã xác nhận"}</p>
                 </div>
                 <div>
-                    <span>Tổng tiền</span>
+                    <span>Tổng thanh toán</span>
                     <strong className="order-history-total">{formatPrice(order.total)}</strong>
                     <p>Đã gồm phí vận chuyển</p>
                 </div>
             </div>
 
-            <div className="order-history-actions d-flex flex-wrap gap-2 justify-content-end">
-                <Link className="btn order-history-outline-btn fw-bold" to={order.detailUrl || "/orders"}>
+            <div className="order-history-actions">
+                <Link className="btn btn-outline-primary account-button order-history-outline-btn" to={order.detailUrl || "/orders"}>
                     Xem chi tiết
                 </Link>
             </div>

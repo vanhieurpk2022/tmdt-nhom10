@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import AccountLayout from "../components/layout/AccountLayout";
 import { addressService, type AddressItem, type AddressPayload } from "../api/AddressService";
 import { locationService, type LocationItem } from "../api/LocationService";
+import "../css/pages/address-book.css";
 
 // Trang Sổ địa chỉ - Quản lý danh sách địa chỉ giao hàng của người dùng
 export default function AddressBookPage() {
@@ -51,8 +52,16 @@ export default function AddressBookPage() {
 
     // Tải danh sách địa chỉ và danh mục tỉnh thành khi mở trang
     useEffect(() => {
-        fetchAddresses();
-        loadProvinces();
+        let active = true;
+        addressService.getAddresses().then(data => {
+            if (active) setAddresses(data);
+        }).catch(() => {
+            if (active) setMessage({ text: "Không thể tải danh sách địa chỉ. Vui lòng thử lại sau.", type: "danger" });
+        }).finally(() => { if (active) setLoading(false); });
+        locationService.getProvinces().then(list => {
+            if (active) setProvinces(list);
+        });
+        return () => { active = false; };
     }, []);
 
     // Tải danh sách Tỉnh / Thành phố
@@ -312,14 +321,15 @@ export default function AddressBookPage() {
 
     return (
         <AccountLayout breadcrumbCurrent="Sổ địa chỉ">
-            <div className="bg-white rounded-4 shadow-sm p-4 px-lg-5 pb-lg-5 pt-lg-4">
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+            <section className="account-panel address-book-page">
+                <div className="account-heading address-book-heading d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
                     <div>
-                        <h2 className="h4 fw-bold text-dark mb-2">Sổ địa chỉ</h2>
-                        <p className="text-muted fs-7 mb-0">Quản lý địa chỉ giao hàng và thông tin liên hệ của bạn.</p>
+                        <h2>Sổ địa chỉ</h2>
+                        <p>Quản lý địa chỉ giao hàng và thông tin liên hệ của bạn.</p>
                     </div>
                     <button
-                        className="btn btn-primary fw-bold px-4 py-2 rounded-3 d-flex align-items-center gap-2 text-nowrap"
+                        type="button"
+                        className="btn btn-primary account-button"
                         onClick={handleOpenAddModal}
                     >
                         <FontAwesomeIcon icon={faPlus} />
@@ -331,7 +341,7 @@ export default function AddressBookPage() {
                 {message && (
                     <div className={`alert alert-${message.type} alert-dismissible fade show rounded-3 fs-7 mb-4`} role="alert">
                         {message.text}
-                        <button type="button" className="btn-close" onClick={() => setMessage(null)} aria-label="Close"></button>
+                        <button type="button" className="btn-close" onClick={() => setMessage(null)} aria-label="Đóng"></button>
                     </div>
                 )}
 
@@ -347,8 +357,8 @@ export default function AddressBookPage() {
                         <FontAwesomeIcon icon={faLocationDot} className="text-muted fs-1 mb-3" />
                         <h5 className="fw-bold text-dark mb-2">Chưa có địa chỉ nào</h5>
                         <p className="text-muted fs-7 mb-3">Hãy thêm địa chỉ giao hàng để thuận tiện hơn khi đặt hàng.</p>
-                        <button className="btn btn-primary fw-bold px-4 py-2 rounded-3" onClick={handleOpenAddModal}>
-                            <FontAwesomeIcon icon={faPlus} className="me-2" />
+                        <button type="button" className="btn btn-primary account-button" onClick={handleOpenAddModal}>
+                            <FontAwesomeIcon icon={faPlus} />
                             Thêm địa chỉ ngay
                         </button>
                     </div>
@@ -361,59 +371,58 @@ export default function AddressBookPage() {
                             const fullAddress = fullAddressParts.join(", ");
 
                             return (
-                                <div
+                                <article
                                     key={addr.id}
-                                    className={`rounded-4 p-4 position-relative border ${
-                                        addr.isDefault
-                                            ? "border-primary bg-primary bg-opacity-10"
-                                            : "bg-light bg-opacity-50"
-                                    }`}
+                                    className={`address-card p-3 ${addr.isDefault ? "is-default" : ""}`}
                                 >
-                                    {addr.isDefault && (
-                                        <span className="badge bg-primary position-absolute top-0 end-0 mt-3 me-3 px-3 py-2 rounded-pill">
-                                            <FontAwesomeIcon icon={faCheck} className="me-1" />
-                                            Mặc định
-                                        </span>
-                                    )}
-
-                                    <div className="d-flex flex-column gap-2 mb-3">
-                                        <div className="d-flex align-items-center gap-2">
-                                            <FontAwesomeIcon icon={faUser} className="text-muted" style={{ width: "16px" }} />
-                                            <span className="fw-bold fs-5 text-dark">{addr.recipentName}</span>
+                                    <div className="address-card-heading d-flex flex-wrap align-items-center justify-content-between gap-2">
+                                        <div className="address-card-recipient d-flex align-items-center gap-2">
+                                            <FontAwesomeIcon icon={faUser} aria-hidden="true" />
+                                            <h3 className="h6 fw-semibold mb-0">{addr.recipentName}</h3>
                                         </div>
-                                        <div className="d-flex align-items-center gap-2 text-muted">
-                                            <FontAwesomeIcon icon={faPhone} style={{ width: "16px" }} />
-                                            <span>{addr.phoneNumber}</span>
-                                        </div>
-                                        <div className="d-flex align-items-start gap-2 text-muted">
-                                            <FontAwesomeIcon icon={faLocationDot} className="mt-1" style={{ width: "16px" }} />
-                                            <span>{fullAddress || "Chưa cập nhật địa chỉ"}</span>
-                                        </div>
+                                        {addr.isDefault && (
+                                            <span className="address-default-badge badge rounded-pill text-primary bg-primary bg-opacity-10 d-inline-flex align-items-center gap-1 fw-medium fs-8 px-2 py-1">
+                                                <FontAwesomeIcon icon={faCheck} aria-hidden="true" />
+                                                Mặc định
+                                            </span>
+                                        )}
                                     </div>
 
-                                    <div className="d-flex gap-2 align-items-center">
+                                    <div className="address-card-details d-grid gap-2 my-3">
+                                        <p className="d-flex align-items-start gap-2 text-muted mb-0 lh-base">
+                                            <FontAwesomeIcon icon={faPhone} className="mt-1" aria-hidden="true" />
+                                            <span>{addr.phoneNumber}</span>
+                                        </p>
+                                        <p className="d-flex align-items-start gap-2 text-muted mb-0 lh-base">
+                                            <FontAwesomeIcon icon={faLocationDot} className="mt-1" aria-hidden="true" />
+                                            <span>{fullAddress || "Chưa cập nhật địa chỉ"}</span>
+                                        </p>
+                                    </div>
+
+                                    <div className="address-card-actions d-flex flex-wrap align-items-center gap-2">
                                         <button
-                                            className={`btn btn-sm fw-bold px-3 ${
-                                                addr.isDefault ? "btn-outline-primary" : "btn-outline-dark"
-                                            }`}
+                                            type="button"
+                                            className="btn btn-outline-secondary account-button"
                                             onClick={() => handleOpenEditModal(addr)}
                                             disabled={actionLoading}
                                         >
-                                            <FontAwesomeIcon icon={faPenToSquare} className="me-1" />
+                                            <FontAwesomeIcon icon={faPenToSquare} />
                                             Cập nhật
                                         </button>
                                         {!addr.isDefault && (
                                             <>
                                                 <button
-                                                    className="btn btn-sm btn-outline-danger fw-bold px-3"
+                                                    type="button"
+                                                    className="btn btn-outline-danger account-button"
                                                     onClick={() => handleDelete(addr.id)}
                                                     disabled={actionLoading}
                                                 >
-                                                    <FontAwesomeIcon icon={faTrash} className="me-1" />
+                                                    <FontAwesomeIcon icon={faTrash} />
                                                     Xóa
                                                 </button>
                                                 <button
-                                                    className="btn btn-sm btn-link text-muted text-decoration-none fw-bold ms-auto"
+                                                    type="button"
+                                                    className="btn btn-outline-primary account-button address-book-select ms-auto"
                                                     onClick={() => handleSelectAddress(addr)}
                                                     disabled={actionLoading}
                                                 >
@@ -423,7 +432,8 @@ export default function AddressBookPage() {
                                         )}
                                         {canReturnAfterSelect && addr.isDefault && (
                                             <button
-                                                className="btn btn-sm btn-link text-muted text-decoration-none fw-bold ms-auto"
+                                                type="button"
+                                                className="btn btn-outline-primary account-button address-book-select ms-auto"
                                                 onClick={() => handleSelectAddress(addr)}
                                                 disabled={actionLoading}
                                             >
@@ -431,42 +441,44 @@ export default function AddressBookPage() {
                                             </button>
                                         )}
                                     </div>
-                                </div>
+                                </article>
                             );
                         })}
                     </div>
                 )}
-            </div>
+            </section>
 
             {/* Modal Thêm / Chỉnh sửa địa chỉ */}
             {showModal && (
                 <div
-                    className="modal fade show"
+                    className="modal fade show account-modal address-book-modal"
                     style={{ display: "block", zIndex: 1055, backgroundColor: "rgba(0,0,0,0.5)" }}
                     tabIndex={-1}
                     aria-modal="true"
+                    aria-labelledby="address-book-dialog-title"
                     role="dialog"
                 >
                     <div className="modal-dialog modal-dialog-centered modal-lg">
-                        <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-                            <div className="modal-header border-0 bg-light p-4 pb-3">
-                                <h5 className="modal-title fw-bold text-dark">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h2 className="modal-title" id="address-book-dialog-title">
                                     {editingAddress ? "Cập nhật địa chỉ" : "Thêm địa chỉ mới"}
-                                </h5>
+                                </h2>
                                 <button
                                     type="button"
                                     className="btn-close"
                                     onClick={() => setShowModal(false)}
-                                    aria-label="Close"
+                                    aria-label="Đóng"
                                     disabled={actionLoading}
                                 ></button>
                             </div>
-                            <div className="modal-body p-4 pt-3">
-                                <form onSubmit={handleSubmit}>
+                            <div className="modal-body">
+                                <form className="account-form" onSubmit={handleSubmit}>
                                     <div className="row g-3 mb-3">
                                         <div className="col-12 col-md-6">
-                                            <label className="form-label fw-bold text-dark fs-7">Họ và tên người nhận</label>
+                                            <label className="form-label" htmlFor="address-recipient">Họ và tên người nhận</label>
                                             <input
+                                                id="address-recipient"
                                                 type="text"
                                                 className="form-control rounded-3 py-2 text-dark"
                                                 placeholder="Nhập họ và tên người nhận"
@@ -476,8 +488,9 @@ export default function AddressBookPage() {
                                             />
                                         </div>
                                         <div className="col-12 col-md-6">
-                                            <label className="form-label fw-bold text-dark fs-7">Số điện thoại liên hệ</label>
+                                            <label className="form-label" htmlFor="address-phone">Số điện thoại liên hệ</label>
                                             <input
+                                                id="address-phone"
                                                 type="text"
                                                 className="form-control rounded-3 py-2 text-dark"
                                                 placeholder="Ví dụ: 0901234567"
@@ -490,10 +503,11 @@ export default function AddressBookPage() {
 
                                     <div className="row g-3 mb-3">
                                         <div className="col-12 col-md-4">
-                                            <label className="form-label fw-bold text-dark fs-7">
+                                            <label className="form-label" htmlFor="address-province">
                                                 Tỉnh / Thành phố <span className="text-danger">*</span>
                                             </label>
                                             <select
+                                                id="address-province"
                                                 className="form-select rounded-3 py-2 text-dark"
                                                 value={selectedProvinceCode}
                                                 onChange={handleProvinceChange}
@@ -513,10 +527,11 @@ export default function AddressBookPage() {
                                             </select>
                                         </div>
                                         <div className="col-12 col-md-4">
-                                            <label className="form-label fw-bold text-dark fs-7">
+                                            <label className="form-label" htmlFor="address-district">
                                                 Quận / Huyện <span className="text-danger">*</span>
                                             </label>
                                             <select
+                                                id="address-district"
                                                 className="form-select rounded-3 py-2 text-dark"
                                                 value={selectedDistrictCode}
                                                 onChange={handleDistrictChange}
@@ -538,10 +553,11 @@ export default function AddressBookPage() {
                                             </select>
                                         </div>
                                         <div className="col-12 col-md-4">
-                                            <label className="form-label fw-bold text-dark fs-7">
+                                            <label className="form-label" htmlFor="address-ward">
                                                 Phường / Xã <span className="text-danger">*</span>
                                             </label>
                                             <select
+                                                id="address-ward"
                                                 className="form-select rounded-3 py-2 text-dark"
                                                 value={selectedWardCode}
                                                 onChange={handleWardChange}
@@ -565,8 +581,9 @@ export default function AddressBookPage() {
                                     </div>
 
                                     <div className="mb-3">
-                                        <label className="form-label fw-bold text-dark fs-7">Địa chỉ cụ thể (Số nhà, tên đường)</label>
+                                        <label className="form-label" htmlFor="address-street">Địa chỉ cụ thể (Số nhà, tên đường)</label>
                                         <textarea
+                                            id="address-street"
                                             className="form-control rounded-3 py-2 text-dark"
                                             rows={3}
                                             placeholder="Ví dụ: 123 Đường Nguyễn Văn Linh"
@@ -585,15 +602,15 @@ export default function AddressBookPage() {
                                             disabled={editingAddress?.isDefault}
                                             onChange={(e) => setFormData({ ...formData, isDefault: e.target.checked })}
                                         />
-                                        <label className="form-check-label fs-7 text-dark" htmlFor="defaultAddress">
+                                        <label className="form-check-label" htmlFor="defaultAddress">
                                             Đặt làm địa chỉ mặc định
                                         </label>
                                     </div>
 
-                                    <div className="d-flex justify-content-end gap-3">
+                                    <div className="account-form-actions address-form-actions">
                                         <button
                                             type="button"
-                                            className="btn btn-white border fw-bold px-4 py-2 rounded-3 text-dark"
+                                            className="btn btn-outline-secondary account-button"
                                             onClick={() => setShowModal(false)}
                                             disabled={actionLoading}
                                         >
@@ -601,11 +618,11 @@ export default function AddressBookPage() {
                                         </button>
                                         <button
                                             type="submit"
-                                            className="btn btn-primary fw-bold px-4 py-2 rounded-3 d-flex align-items-center gap-2"
+                                            className="btn btn-primary account-button"
                                             disabled={actionLoading}
                                         >
                                             {actionLoading && <FontAwesomeIcon icon={faSpinner} spin />}
-                                            {editingAddress ? "LƯU THAY ĐỔI" : "LƯU ĐỊA CHỈ"}
+                                            {editingAddress ? "Lưu thay đổi" : "Lưu địa chỉ"}
                                         </button>
                                     </div>
                                 </form>

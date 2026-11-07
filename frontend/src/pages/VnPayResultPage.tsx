@@ -2,12 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faArrowRight, faArrowRotateRight, faBagShopping, faCheck, faChevronRight,
+    faArrowRight, faArrowRotateRight, faBagShopping, faCheck,
     faCircleExclamation, faClock, faCreditCard, faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 import { orderService, formatOrderCode, type OrderResponse, type PaymentStatusResponse } from "../api/OrderService";
 import { useCart } from "../api/CartContext";
 import { ROUTES } from "../routes/routes";
+import Breadcrumb from "../components/layout/Breadcrumb";
 
 const resultViews = {
     invalid: {
@@ -159,25 +160,25 @@ function PaymentResult({ params }: { params: URLSearchParams }) {
     }
 
     return (
-        <main className="order-success-page">
+        <main className="order-success-page payment-result-page">
             <div className="container-fluid px-4 px-lg-5">
                 <div className="order-success-content">
-                    <nav className="order-success-breadcrumb d-flex flex-wrap align-items-center gap-2 mb-4" aria-label="Đường dẫn trang">
-                        <Link to={ROUTES.HOME}>Trang chủ</Link>
-                        <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" />
-                        <Link to={ROUTES.ORDERS}>Đơn hàng</Link>
-                        <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" />
-                        <span aria-current="page">Kết quả thanh toán</span>
-                    </nav>
+                    <Breadcrumb items={[
+                        { label: "Trang chủ", to: ROUTES.HOME },
+                        { label: "Đơn hàng của tôi", to: ROUTES.ORDERS },
+                        { label: "Kết quả thanh toán" },
+                    ]} />
 
-                    <section className="order-success-card" aria-labelledby="vnpay-result-title">
-                        <header className="text-center d-flex flex-column align-items-center mb-4" aria-live="polite">
-                            <div className={`d-inline-flex align-items-center justify-content-center rounded-circle p-3 fs-2 mb-3 text-${view.tone} bg-${view.tone}-subtle`} aria-hidden="true">
+                    <section className="account-panel" aria-labelledby="vnpay-result-title">
+                        <header className="d-flex flex-column flex-sm-row align-items-start gap-3 mb-4" aria-live="polite">
+                            <div className={`d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-circle p-3 fs-4 text-${view.tone} bg-${view.tone}-subtle`} aria-hidden="true">
                                 <FontAwesomeIcon icon={view.icon} />
                             </div>
-                            <span className={`badge rounded-pill px-3 py-2 mb-3 text-${view.tone}-emphasis bg-${view.tone}-subtle`}>{view.label}</span>
-                            <h1 className="h2 fw-bold mb-3" id="vnpay-result-title">{view.title}</h1>
-                            <p className="text-secondary mb-0">{description}</p>
+                            <div className="account-heading">
+                                <h1 id="vnpay-result-title">{view.title}</h1>
+                                <p>{description}</p>
+                                <span className={`d-inline-block small rounded-pill px-2 py-1 mt-2 fw-medium text-${view.tone}-emphasis bg-${view.tone}-subtle`}>{view.label}</span>
+                            </div>
                         </header>
 
                         {error && <div className="alert alert-warning d-flex align-items-center gap-2" role="alert">
@@ -185,47 +186,48 @@ function PaymentResult({ params }: { params: URLSearchParams }) {
                             <span>{error}</span>
                         </div>}
 
-                        {!invalidLink && <section className="border rounded-3 overflow-hidden mb-4" aria-labelledby="vnpay-receipt-title">
-                            <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 p-3 border-bottom bg-body-tertiary">
-                                <h2 className="h6 fw-bold mb-0" id="vnpay-receipt-title"><FontAwesomeIcon icon={faReceipt} aria-hidden="true" /> Thông tin giao dịch</h2>
+                        {!invalidLink && <section className="border rounded-3 p-3 p-sm-4 mb-4" aria-labelledby="vnpay-receipt-title">
+                            <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                                <h2 className="h6 fw-semibold mb-0" id="vnpay-receipt-title"><FontAwesomeIcon icon={faReceipt} aria-hidden="true" /> Thông tin giao dịch</h2>
                                 <span className="small text-secondary"><FontAwesomeIcon icon={faCreditCard} aria-hidden="true" /> VNPay</span>
                             </div>
-                            <div className="row g-0">
-                                <dl className="col-12 col-md-7 p-3 p-lg-4 mb-0">
-                                    <div className="mb-3">
-                                        <dt className="small text-secondary fw-normal mb-1">Mã đơn hàng</dt>
-                                        <dd className="fw-bold mb-0">{order ? formatOrderCode(order.id) : "Đang tải…"}</dd>
-                                    </div>
-                                    <div className="mb-3">
-                                        <dt className="small text-secondary fw-normal mb-1">Người nhận</dt>
-                                        <dd className="fw-bold text-break mb-0">{order?.recipientName || "Đang tải…"}</dd>
-                                    </div>
-                                    <div>
-                                        <dt className="small text-secondary fw-normal mb-1">Mã giao dịch</dt>
-                                        <dd className="text-break mb-0"><code className="text-secondary">{ref || status?.txnRef || "Đang tải…"}</code></dd>
-                                    </div>
-                                </dl>
-                                <div className={`col-12 col-md-5 d-flex flex-column justify-content-center align-items-center gap-2 p-4 bg-${view.tone}-subtle`}>
-                                    <span className="text-secondary">Tổng thanh toán</span>
-                                    <strong className="fs-2 text-center text-break">{order ? <>{order.totalPrice.toLocaleString("vi-VN")} <small>₫</small></> : "Đang tải…"}</strong>
-                                    <span className={`badge rounded-pill px-3 py-2 text-${view.tone}-emphasis bg-body`}><FontAwesomeIcon icon={view.icon} aria-hidden="true" /> {view.label}</span>
+                            <dl className="row g-3 mb-0">
+                                <div className="col-12 col-sm-6">
+                                    <dt className="small text-secondary fw-normal mb-1">Mã đơn hàng</dt>
+                                    <dd className="fw-semibold mb-0">{order ? formatOrderCode(order.id) : "Đang tải…"}</dd>
                                 </div>
+                                <div className="col-12 col-sm-6">
+                                    <dt className="small text-secondary fw-normal mb-1">Người nhận</dt>
+                                    <dd className="fw-semibold text-break mb-0">{order?.recipientName || "Đang tải…"}</dd>
+                                </div>
+                                <div className="col-12">
+                                    <dt className="small text-secondary fw-normal mb-1">Mã giao dịch</dt>
+                                    <dd className="text-break mb-0"><code className="text-secondary">{ref || status?.txnRef || "Đang tải…"}</code></dd>
+                                </div>
+                            </dl>
+                            <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 border-top mt-3 pt-3">
+                                <span>Tổng thanh toán</span>
+                                <strong className="payment-result-total h4 fw-bold mb-0 text-break">{order ? `${order.totalPrice.toLocaleString("vi-VN")} ₫` : "Đang tải…"}</strong>
                             </div>
                         </section>}
 
-                        <div className="order-success-actions d-grid gap-2 mx-auto">
-                            {!invalidLink && status?.canRetry && (!ref || status.attemptStatus === "FAILED") && <button className="btn order-success-primary-btn d-flex align-items-center justify-content-center gap-2" disabled={busy || checking} onClick={() => { void retry(); }}>
+                        <div className="d-grid d-md-flex flex-wrap align-items-center justify-content-md-end gap-2" role="group" aria-label="Thao tác thanh toán và đơn hàng">
+                            {!invalidLink && status?.canRetry && (!ref || status.attemptStatus === "FAILED") && <button type="button" className="btn btn-primary account-button" disabled={busy || checking} onClick={() => { void retry(); }}>
                                 {busy ? "Đang xử lý…" : status.attemptStatus === "INITIATED" ? "Tiếp tục thanh toán" : "Thanh toán lại"}
                                 <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
                             </button>}
-                            {invalidLink || status?.paymentStatus === "REFUNDED" ? <Link className="btn order-success-secondary-btn d-flex align-items-center justify-content-center gap-2" to={ROUTES.PRODUCTS}>
+                            {invalidLink || status?.paymentStatus === "REFUNDED" ? <Link className="btn btn-primary account-button" to={ROUTES.PRODUCTS}>
                                 <FontAwesomeIcon icon={faBagShopping} aria-hidden="true" /> Tiếp tục mua sắm
-                            </Link> : <button className="btn order-success-secondary-btn d-flex align-items-center justify-content-center gap-2" disabled={checking || busy} onClick={() => { void checkAgain(); }}>
+                            </Link> : <button type="button" className="btn btn-outline-secondary account-button" disabled={checking || busy} onClick={() => { void checkAgain(); }}>
                                 <FontAwesomeIcon icon={faArrowRotateRight} spin={checking} aria-hidden="true" /> {checking ? "Đang kiểm tra…" : "Kiểm tra lại"}
                             </button>}
+                            <Link className="btn btn-light border account-button" to={ROUTES.ORDERS}>
+                                <FontAwesomeIcon icon={faBagShopping} aria-hidden="true" /> Đơn hàng của tôi
+                            </Link>
+                            {status && <Link className="btn btn-outline-primary account-button" to={ROUTES.ORDER_DETAIL.replace(":id", String(status.orderId))}>
+                                <FontAwesomeIcon icon={faReceipt} aria-hidden="true" /> Xem chi tiết đơn hàng
+                            </Link>}
                         </div>
-                        <Link className="d-flex align-items-center justify-content-center gap-2 mt-3 text-secondary text-decoration-none" to={ROUTES.ORDERS}>Xem lịch sử đơn hàng <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" /></Link>
-                        {status && <Link className="d-block text-center mt-3" to={ROUTES.ORDER_DETAIL.replace(":id", String(status.orderId))}>Xem chi tiết đơn hàng</Link>}
                     </section>
                 </div>
             </div>

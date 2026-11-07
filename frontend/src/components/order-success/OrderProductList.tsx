@@ -13,7 +13,7 @@ function formatPrice(price: number) {
 export default function OrderProductList({ items }: OrderProductListProps) {
     return (
         <section className="order-success-card">
-            <div className="order-success-section-heading d-flex align-items-center justify-content-between">
+            <div className="order-success-section-heading d-flex align-items-start justify-content-between">
                 <h2>Sản phẩm đã đặt</h2>
                 <span>{items.length} sản phẩm</span>
             </div>
@@ -24,7 +24,7 @@ export default function OrderProductList({ items }: OrderProductListProps) {
                         <img src={item.image} alt={item.name} />
                         <div>
                             <h3>{item.name}</h3>
-                            <p>{item.variant} / {item.origin}</p>
+                            <p>{item.variant} · Số lượng: {item.quantity}</p>
                             <p>Xưởng: {item.factoryName} • #{item.factoryCode}</p>
                         </div>
                         <strong>{formatPrice(item.price * item.quantity)}</strong>

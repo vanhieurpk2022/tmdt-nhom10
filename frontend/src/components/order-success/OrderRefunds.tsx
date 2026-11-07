@@ -26,28 +26,33 @@ export default function OrderRefunds({ order }: { order: OrderResponse }) {
             <div className="order-success-section-heading">
                 <h2 id="order-refunds-title">{cancelled ? "Thông tin hủy đơn và hoàn tiền" : "Thông tin hoàn tiền"}</h2>
             </div>
-            {cancelled && <dl className="mb-3">
-                <dt>Lý do hủy</dt>
-                <dd>{order.cancelReason ? cancelReasonLabels[order.cancelReason] : "Đơn hàng đã được hủy hoặc hết thời gian thanh toán."}</dd>
-                {order.cancelledAt && <><dt>Thời gian hủy</dt><dd>{new Date(order.cancelledAt).toLocaleString("vi-VN")}</dd></>}
-                {order.cancellationNote && <><dt>Ghi chú</dt><dd className="text-break">{order.cancellationNote}</dd></>}
+            {cancelled && <dl className="order-refund-meta">
+                <div>
+                    <dt>Lý do hủy</dt>
+                    <dd>{order.cancelReason ? cancelReasonLabels[order.cancelReason] : "Đơn hàng đã được hủy hoặc hết thời gian thanh toán."}</dd>
+                </div>
+                {order.cancelledAt && <div><dt>Thời gian hủy</dt><dd>{new Date(order.cancelledAt).toLocaleString("vi-VN")}</dd></div>}
+                {order.cancellationNote && <div><dt>Ghi chú</dt><dd className="text-break">{order.cancellationNote}</dd></div>}
             </dl>}
             {awaitingRefund && <p className="alert alert-warning">Cửa hàng đang xử lý yêu cầu hoàn tiền. Kết quả sẽ được cập nhật tại đây.</p>}
             {refunded && <p className="alert alert-success">Cửa hàng đã xác nhận hoàn tiền cho đơn hàng.</p>}
             {result?.error && <p className="alert alert-warning" role="alert">{result.error}</p>}
             {order.paymentMethod === "VNPAY" && !result && <p role="status">Đang tải thông tin hoàn tiền…</p>}
-            {refunds.length > 0 && <div className="table-responsive">
-                <table className="table align-middle mb-0">
-                    <thead><tr><th>Yêu cầu</th><th>Số tiền</th><th>Trạng thái</th><th>Thời gian</th></tr></thead>
-                    <tbody>{refunds.map(refund => <tr key={refund.id}>
-                        <td>#{refund.id}<span className="d-block small text-secondary text-break">{refund.reason}</span></td>
-                        <td className="text-nowrap">{refund.amountVnd.toLocaleString("vi-VN")} ₫</td>
-                        <td><span className={`badge text-bg-${refund.status === "SUCCEEDED" ? "success" : ["FAILED", "REJECTED"].includes(refund.status) ? "danger" : "warning"}`}>{refundStatusLabels[refund.status]}</span></td>
-                        <td>{new Date(refund.createdAt).toLocaleString("vi-VN")}
-                            {refund.processedAt && <span className="d-block small text-secondary">Kết quả: {new Date(refund.processedAt).toLocaleString("vi-VN")}</span>}
-                        </td>
-                    </tr>)}</tbody>
-                </table>
+            {refunds.length > 0 && <div className="d-grid gap-3">
+                {refunds.map(refund => <article className="order-refund-item border rounded-3 p-3" key={refund.id}>
+                    <div className="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <strong className="fw-semibold">Yêu cầu #{refund.id}</strong>
+                        <span className={`badge rounded-pill text-bg-${refund.status === "SUCCEEDED" ? "success" : ["FAILED", "REJECTED"].includes(refund.status) ? "danger" : "warning"}`}>{refundStatusLabels[refund.status]}</span>
+                    </div>
+                    <p className="small text-secondary text-break my-2">{refund.reason}</p>
+                    <div className="d-flex flex-wrap justify-content-between gap-2">
+                        <strong className="text-nowrap fw-semibold">{refund.amountVnd.toLocaleString("vi-VN")} ₫</strong>
+                        <div className="small text-secondary">
+                            <span className="d-block">Ngày tạo: {new Date(refund.createdAt).toLocaleString("vi-VN")}</span>
+                            {refund.processedAt && <span className="d-block">Kết quả: {new Date(refund.processedAt).toLocaleString("vi-VN")}</span>}
+                        </div>
+                    </div>
+                </article>)}
             </div>}
             {cancelled && !awaitingRefund && !refunded && !refunds.length && <p className="mb-0 text-secondary">
                 {order.paymentMethod === "COD" ? "Đơn thanh toán khi nhận hàng đã hủy, không phát sinh hoàn tiền trực tuyến."

@@ -1,0 +1,34 @@
+.address-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.address-card.is-default {
+    border-color: #fecdd3;
+}
+
+.address-card-recipient {
+    min-width: 0;
+}
+
+.address-card-recipient h3,
+.address-card-details p {
+    overflow-wrap: anywhere;
+}
+
+:is(.address-card-recipient, .address-card-details) svg {
+    flex: 0 0 14px;
+    width: 14px;
+    color: #94a3b8;
+}
+
+@media (max-width: 575.98px) {
+    .address-card-actions .btn {
+        flex: 1 1 auto;
+    }
+
+    .address-card-actions .address-book-select {
+        flex-basis: 100%;
+    }
+}

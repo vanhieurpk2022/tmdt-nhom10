@@ -28,6 +28,7 @@ import {
     type ProductMilItem,
 } from "../api/ProductService";
 import { ROUTES } from "../routes/routes";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import "../css/pages/product-detail.css";
 
 const FALLBACK_IMAGE = "/images/home/grapefruit-cold-pressed.png";
@@ -184,34 +185,14 @@ export default function ProductDetailPage() {
     return (
         <main className="product-detail-page bg-light py-4">
             <div className="container-fluid px-4 px-lg-5">
-                {/* Thanh điều hướng breadcrumb */}
-                <nav aria-label="breadcrumb" className="mb-4">
-                    <ol className="breadcrumb mb-0 fs-7">
-                        <li className="breadcrumb-item">
-                            <Link to={ROUTES.HOME} className="text-muted text-decoration-none">
-                                Trang chủ
-                            </Link>
-                        </li>
-                        <li className="breadcrumb-item">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    if (window.history.length > 1) {
-                                        navigate(-1);
-                                    } else {
-                                        navigate(ROUTES.PRODUCTS);
-                                    }
-                                }}
-                                className="btn btn-link text-muted text-decoration-none p-0 border-0 fs-7 align-baseline"
-                            >
-                                {product.categoryName || "Sản phẩm"}
-                            </button>
-                        </li>
-                        <li className="breadcrumb-item active fw-bold text-dark text-truncate" aria-current="page" style={{ maxWidth: "300px" }}>
-                            {product.name}
-                        </li>
-                    </ol>
-                </nav>
+                <Breadcrumb items={[
+                    { label: "Trang chủ", to: ROUTES.HOME },
+                    { label: product.categoryName || "Sản phẩm", onClick: () => {
+                        if (window.history.length > 1) navigate(-1);
+                        else navigate(ROUTES.PRODUCTS);
+                    } },
+                    { label: product.name },
+                ]} />
 
                 <div className="bg-white rounded-4 shadow-sm p-4 mb-5">
                     <div className="row g-5">

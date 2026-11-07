@@ -9,7 +9,7 @@ interface OrderShippingInfoProps {
 export default function OrderShippingInfo({ order }: OrderShippingInfoProps) {
     return (
         <section className="order-success-card">
-            <div className="order-success-section-heading d-flex align-items-center justify-content-between">
+            <div className="order-success-section-heading d-flex align-items-start justify-content-between">
                 <h2>Thông tin giao hàng</h2>
             </div>
 

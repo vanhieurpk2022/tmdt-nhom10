@@ -17,6 +17,7 @@ import {
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { ROUTES } from "../routes/routes";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import { ProductType } from "../enums/ProductType";
 import { ProductStatus } from "../enums/ProductStatus";
 import AdminProductDetailModal, {
@@ -553,13 +554,11 @@ export default function AdminProductPage() {
                 {/* Breadcrumb & Header */}
                 <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                     <div>
-                        <div className="admin-breadcrumb">
-                            <span>Quản trị hệ thống</span>
-                            <span className="crumb-sep">›</span>
-                            <span>Vận hành lõi</span>
-                            <span className="crumb-sep">›</span>
-                            <span className="active-crumb">Quản lý sản phẩm toàn sàn</span>
-                        </div>
+                        <Breadcrumb className="mb-1" items={[
+                            { label: "Quản trị hệ thống" },
+                            { label: "Vận hành lõi" },
+                            { label: "Quản lý sản phẩm toàn sàn" },
+                        ]} />
                         <h1 className="h4 fw-bold text-dark mb-0">Quản lý Sản phẩm &amp; Xưởng chế tác</h1>
                     </div>
 

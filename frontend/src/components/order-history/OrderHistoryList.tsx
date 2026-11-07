@@ -8,7 +8,7 @@ interface OrderHistoryListProps {
 export default function OrderHistoryList({ orders }: OrderHistoryListProps) {
     if (orders.length === 0) {
         return (
-            <section className="order-history-empty">
+            <section className="account-panel order-history-empty">
                 <h2>Chưa tìm thấy đơn hàng phù hợp</h2>
                 <p>Thử đổi trạng thái lọc hoặc nhập mã đơn hàng khác để kiểm tra lại.</p>
             </section>
