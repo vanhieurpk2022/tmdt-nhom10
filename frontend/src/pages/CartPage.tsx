@@ -56,23 +56,24 @@ export default function CartPage() {
         });
     }, [applyCartSummary]);
 
-    const loadCart = useCallback(async () => {
-        try {
-            setIsLoading(true);
-            setErrorMessage("");
-            applyCart(await cartService.getCart());
-        } catch (error) {
-            console.error(error);
-            setItems([]);
-            setErrorMessage("Chưa tải được giỏ hàng. Vui lòng đăng nhập hoặc thử lại sau.");
-        } finally {
-            setIsLoading(false);
-        }
-    }, [applyCart]);
-
     useEffect(() => {
-        loadCart();
-    }, [loadCart]);
+        let active = true;
+        async function loadCart() {
+            try {
+                const cart = await cartService.getCart();
+                if (active) applyCart(cart);
+            } catch (error) {
+                if (!active) return;
+                console.error(error);
+                setItems([]);
+                setErrorMessage("Chưa tải được giỏ hàng. Vui lòng đăng nhập hoặc thử lại sau.");
+            } finally {
+                if (active) setIsLoading(false);
+            }
+        }
+        void loadCart();
+        return () => { active = false; };
+    }, [applyCart]);
 
     const selectedItems = useMemo(() => items.filter((item) => item.selected), [items]);
     const subtotal = useMemo(
@@ -142,17 +143,14 @@ export default function CartPage() {
     return (
         <main className="cart-page">
             <div className="container-fluid px-4 px-lg-5">
-                <CartBreadcrumb />
-
-                <div className="row g-4 align-items-start">
-                    <div className="col-12 col-xl-8">
+                <div className="cart-content">
+                    <CartBreadcrumb />
+                    <div className="cart-layout">
                         <section className="cart-card">
-                            <div className="cart-card-heading d-flex align-items-start justify-content-between">
-                                <div>
-                                    <h1>Giỏ hàng</h1>
-                                    <p>Hệ thống đã tự động cập nhật giá mới nhất cho các sản phẩm đã mua của bạn.</p>
-                                </div>
+                            <div className="cart-card-heading">
+                                <h1>Giỏ hàng</h1>
                                 <span>{items.length} sản phẩm</span>
+                                <p>Chọn sản phẩm và kiểm tra số lượng trước khi thanh toán.</p>
                             </div>
 
                             {errorMessage && (
@@ -173,9 +171,6 @@ export default function CartPage() {
                                 onRemove={removeItem}
                             />
                         </section>
-                    </div>
-
-                    <div className="col-12 col-xl-4">
                         <CartSummary selectedItems={selectedItems} subtotal={subtotal} />
                     </div>
                 </div>

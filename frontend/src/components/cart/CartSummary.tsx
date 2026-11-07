@@ -10,7 +10,7 @@ interface CartSummaryProps {
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
 
 function formatPrice(price: number) {
-    return `${currencyFormatter.format(price)}đ`;
+    return `${currencyFormatter.format(price)} ₫`;
 }
 
 function saveCheckoutSelection(selectedItems: CartItem[]) {
@@ -21,21 +21,21 @@ function saveCheckoutSelection(selectedItems: CartItem[]) {
 }
 
 export default function CartSummary({ selectedItems, subtotal }: CartSummaryProps) {
-    const total = subtotal;
-
     return (
         <aside className="cart-summary-card">
             <div className="cart-summary-heading d-flex align-items-center justify-content-between">
-                <h2>Xác nhận</h2>
-                <span>{selectedItems.length} sản phẩm</span>
+                <h2>Tóm tắt đơn hàng</h2>
+                <span>{selectedItems.length} đã chọn</span>
             </div>
 
             <div className="cart-summary-products">
-                <span>Sản phẩm</span>
                 {selectedItems.length > 0 ? (
                     selectedItems.map((item) => (
                         <div className="cart-summary-line" key={item.id}>
-                            <p>{item.name}</p>
+                            <div>
+                                <p>{item.name}</p>
+                                <small>{item.variant} · SL: {item.quantity}</small>
+                            </div>
                             <strong>{formatPrice(item.price * item.quantity)}</strong>
                         </div>
                     ))
@@ -44,26 +44,20 @@ export default function CartSummary({ selectedItems, subtotal }: CartSummaryProp
                 )}
             </div>
 
-            {selectedItems.length > 0 && (
-                <div className="cart-summary-adjustments">
-                    <div>
-                        <span>Tạm tính</span>
-                        <strong>{formatPrice(subtotal)}</strong>
-                    </div>
-                </div>
-            )}
-
             <div className="cart-summary-total">
-                <span>Tổng tiền</span>
-                <strong>{formatPrice(total)}</strong>
+                <span>Tổng tiền hàng</span>
+                <strong>{formatPrice(subtotal)}</strong>
             </div>
+            <p className="cart-summary-note">Phí vận chuyển được tính ở bước thanh toán.</p>
 
             <Link
                 to="/checkout"
                 onClick={() => saveCheckoutSelection(selectedItems)}
-                className={`btn cart-continue-btn d-flex align-items-center justify-content-center fw-bold w-100 ${selectedItems.length === 0 ? "disabled" : ""}`}
+                className={`btn cart-continue-btn ${selectedItems.length === 0 ? "disabled" : ""}`}
+                aria-disabled={selectedItems.length === 0}
+                tabIndex={selectedItems.length === 0 ? -1 : undefined}
             >
-                Tiếp tục
+                Tiếp tục thanh toán
             </Link>
         </aside>
     );
