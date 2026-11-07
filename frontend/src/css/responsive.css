@@ -22,15 +22,6 @@
         flex: none;
         width: min(100%, 520px);
     }
-
-    .order-history-hero,
-    .order-history-toolbar {
-        grid-template-columns: 1fr;
-    }
-
-    .order-history-meta {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 767.98px) {
@@ -96,37 +87,5 @@
 
     .order-success-shipping-grid {
         grid-template-columns: 1fr;
-    }
-
-    .order-history-hero h1 {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
-    .order-history-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .order-history-filter-tabs {
-        flex-wrap: nowrap;
-        margin: 0 -20px;
-        overflow-x: auto;
-        padding: 0 20px 4px;
-    }
-
-    .order-history-filter-tabs button {
-        flex: 0 0 auto;
-    }
-
-    .order-history-card-head {
-        flex-direction: column;
-    }
-
-    .order-history-actions {
-        justify-content: stretch;
-    }
-
-    .order-history-actions .btn {
-        flex: 1 1 100%;
     }
 }

@@ -27,6 +27,8 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
         && !["REFUND_PENDING", "REFUNDED"].includes(order.paymentStatus ?? "");
     const canPay = order.paymentMethod === "VNPAY" && order.status === "PENDING_PAYMENT"
         && ["PENDING", "FAILED"].includes(order.paymentStatus ?? "PENDING");
+    const canReorder = order.items.length > 0
+        && ["DELIVERED", "CANCELLED", "RETURNED", "REFUNDED"].includes(order.status);
 
     function openDialog(value: "cancel" | "reorder") {
         setError("");
@@ -67,7 +69,7 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
                 {canPay && <Link className="btn order-detail-button order-detail-button-primary order-details-pay" to={`${ROUTES.VNPAY_RESULT}?orderId=${order.id}`}>
                     <FontAwesomeIcon icon={faCreditCard} aria-hidden="true" /> Tiếp tục thanh toán
                 </Link>}
-                {order.items.length > 0 && <button type="button" className={`btn order-detail-button ${canPay ? "" : "order-detail-button-primary"}`} disabled={busy} onClick={() => openDialog("reorder")}>
+                {canReorder && <button type="button" className="btn order-detail-button order-detail-button-primary" disabled={busy} onClick={() => openDialog("reorder")}>
                     <FontAwesomeIcon icon={faArrowRotateLeft} aria-hidden="true" /> Đặt lại đơn
                 </button>}
                 {canCancel && <button type="button" className="btn order-detail-button order-detail-button-danger" disabled={busy} onClick={() => openDialog("cancel")}>

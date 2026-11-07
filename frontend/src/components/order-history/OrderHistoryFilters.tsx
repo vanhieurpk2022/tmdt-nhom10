@@ -29,43 +29,38 @@ export default function OrderHistoryFilters({
     onSearchChange,
 }: OrderHistoryFiltersProps) {
     return (
-
-        <section className="bg-white rounded-4 shadow-sm p-3 d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
-            <div className="d-flex flex-wrap gap-2" aria-label="Lọc đơn hàng theo trạng thái">
+        <section className="account-panel order-history-toolbar" aria-label="Tìm kiếm và lọc đơn hàng">
+            <div className="order-history-filter-tabs" role="group" aria-label="Lọc đơn hàng theo trạng thái">
                 {filterOptions.map((option) => {
                     const isActive = activeFilter === option.value;
                     const count = counts?.[option.value] ?? "—";
 
                     return (
                         <button
-                            className={`btn btn-sm rounded-pill d-inline-flex align-items-center px-3 py-2 fw-bold ${isActive ? "btn-dark text-white" : "btn-white border text-muted"
-                                }`}
+                            className={isActive ? "active" : ""}
                             key={option.value}
                             type="button"
+                            aria-pressed={isActive}
                             onClick={() => onFilterChange(option.value)}
                         >
                             {option.label}
-                            {isActive ? (
-                                <span className="badge bg-white text-danger rounded-pill ms-2">{count}</span>
-                            ) : (
-                                <span className="text-danger ms-2">{count}</span>
-                            )}
+                            <span>{count}</span>
                         </button>
                     );
                 })}
             </div>
 
-            <div className="position-relative w-100 flex-shrink-0" style={{ maxWidth: "350px" }}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" />
+            <label className="order-history-search">
+                <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden="true" />
                 <input
                     type="search"
-                    className="form-control rounded-pill ps-5 py-2 text-muted border"
                     maxLength={150}
-                    placeholder="Mã đơn đầy đủ hoặc tên sản phẩm..."
+                    aria-label="Tìm đơn hàng theo mã hoặc tên sản phẩm"
+                    placeholder="Mã đơn đầy đủ hoặc tên sản phẩm"
                     value={searchValue}
                     onChange={(event) => onSearchChange(event.target.value)}
                 />
-            </div>
+            </label>
         </section>
     );
 }
