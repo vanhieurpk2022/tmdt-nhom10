@@ -38,8 +38,16 @@
         flex-wrap: wrap;
     }
 
-    .site-user-actions {
-        display: none !important;
+    .site-header .site-user-actions {
+        display: flex !important;
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px !important;
+    }
+
+    .site-header .user-nav-details {
+        max-width: 70px !important;
     }
 
     .cart-toast {
@@ -139,18 +147,6 @@
     .checkout-payment-mark {
         grid-column: 2;
         justify-self: flex-start;
-    }
-
-    .order-success-hero h1 {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
-    .order-success-code {
-        align-items: flex-start;
-        border-radius: 14px;
-        flex-direction: column;
-        width: 100%;
     }
 
     .order-success-section-heading {

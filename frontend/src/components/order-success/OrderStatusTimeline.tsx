@@ -3,7 +3,7 @@ import { getOrderProgress, getOrderStatusView } from "../../data/orderSuccessDat
 export default function OrderStatusTimeline({ status }: { status: string }) {
     return (
         <section className="order-success-card">
-            <div className="order-success-section-heading d-flex align-items-center justify-content-between">
+            <div className="order-success-section-heading d-flex align-items-start justify-content-between">
                 <h2>Tiến trình xử lý</h2>
                 <span>{getOrderStatusView(status).label}</span>
             </div>

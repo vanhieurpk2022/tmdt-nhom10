@@ -1,32 +1,41 @@
 import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { ReactNode } from "react";
 import { formatOrderCode, type OrderResponse } from "../../api/OrderService";
 import { getOrderStatusView } from "../../data/orderSuccessData";
 
 interface OrderSuccessHeroProps {
     order: OrderResponse;
     detail?: boolean;
+    children?: ReactNode;
 }
 
-export default function OrderSuccessHero({ order, detail = false }: OrderSuccessHeroProps) {
+export default function OrderSuccessHero({ order, detail = false, children }: OrderSuccessHeroProps) {
     const orderCode = formatOrderCode(order.id);
     const view = getOrderStatusView(order.status);
+    const description = order.status === "CANCELLED" && order.paymentStatus === "REFUNDED"
+        ? "Đơn hàng đã hủy. Cửa hàng đã xác nhận hoàn tiền cho bạn."
+        : order.status === "CANCELLED" && order.paymentStatus === "REFUND_PENDING"
+        ? "Đơn hàng đã hủy. Cửa hàng đang xử lý yêu cầu hoàn tiền."
+        : view.description;
+    const tone = ["CANCELLED", "RETURNED"].includes(order.status) ? "danger"
+        : ["PENDING_PAYMENT", "PENDING"].includes(order.status) ? "warning"
+        : ["DELIVERED", "REFUNDED"].includes(order.status) ? "success" : "info";
 
     return (
-        <section className={`order-success-hero d-flex flex-column align-items-center ${["CANCELLED", "RETURNED"].includes(order.status) ? "order-success-hero-cancelled" : order.status === "PENDING_PAYMENT" ? "order-success-hero-pending" : ""}`}>
-            <div className="order-success-icon d-flex align-items-center justify-content-center">
-                <FontAwesomeIcon icon={faReceipt} />
+        <section className="order-details-header" aria-labelledby="order-details-title">
+            <div className="order-details-heading">
+                <div>
+                    <h1 id="order-details-title">{detail ? "Chi tiết đơn hàng" : order.status === "PENDING" ? "Đặt hàng thành công" : "Thông tin đơn hàng"}</h1>
+                    <div className="order-details-meta">
+                        <strong><FontAwesomeIcon icon={faReceipt} aria-hidden="true" /> {orderCode}</strong>
+                        <span>Đặt lúc <time dateTime={order.createdAt}>{new Date(order.createdAt).toLocaleString("vi-VN")}</time></span>
+                    </div>
+                </div>
+                <span className={`badge rounded-pill bg-${tone}-subtle text-${tone}-emphasis order-details-status`}>{view.label}</span>
             </div>
-            <span className="order-success-label d-inline-flex">{view.label}</span>
-            <h1>{detail ? "Chi tiết đơn hàng" : order.status === "PENDING" ? "Đặt hàng thành công" : "Thông tin đơn hàng"}</h1>
-            <p>{view.description}</p>
-
-            <div className="order-success-code d-inline-flex align-items-center">
-                <FontAwesomeIcon icon={faReceipt} />
-                <span>Mã đơn hàng</span>
-                <strong>{orderCode}</strong>
-            </div>
-            <p className="mt-3 small">Đặt lúc {new Date(order.createdAt).toLocaleString("vi-VN")}</p>
+            <p className="order-details-description">{description}</p>
+            {children}
         </section>
     );
 }

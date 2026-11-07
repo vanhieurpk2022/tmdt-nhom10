@@ -15,6 +15,7 @@ import OrderSuccessSummary from "../components/order-success/OrderSuccessSummary
 import OrderActions from "../components/order-success/OrderActions";
 import OrderRefunds from "../components/order-success/OrderRefunds";
 import { ROUTES } from "../routes/routes";
+import "../css/pages/order-details.css";
 
 interface OrderSuccessLocationState {
     order?: OrderResponse;
@@ -64,17 +65,22 @@ function OrderDetails({ id, validId, detail }: { id: number; validId: boolean; d
     </main>;
 
     return (
-        <main className="order-success-page">
+        <main className="order-success-page order-details-page">
             <div className="container-fluid px-4 px-lg-5">
                 <div className="order-success-content">
                     <OrderSuccessBreadcrumb />
-                    <OrderSuccessHero order={order} detail={detail} />
-                    <OrderActions key={order.id} order={order} onOrderChange={updated => setResult({ id, order: updated, error: "" })} onRefresh={refresh} />
-                    <OrderSuccessSummary order={order} />
-                    <OrderRefunds order={order} />
-                    <OrderStatusTimeline status={order.status} />
-                    <OrderShippingInfo order={order} />
-                    <OrderProductList items={orderedItems} />
+                    <OrderSuccessHero order={order} detail={detail}>
+                        <OrderActions key={order.id} order={order} onOrderChange={updated => setResult({ id, order: updated, error: "" })} onRefresh={refresh} />
+                    </OrderSuccessHero>
+                    <div className="order-details-layout">
+                        <div className="order-details-main">
+                            <OrderProductList items={orderedItems} />
+                            <OrderRefunds order={order} />
+                            <OrderShippingInfo order={order} />
+                            {!["CANCELLED", "RETURNED", "REFUNDED"].includes(order.status) && <OrderStatusTimeline status={order.status} />}
+                        </div>
+                        <OrderSuccessSummary order={order} />
+                    </div>
                 </div>
             </div>
         </main>

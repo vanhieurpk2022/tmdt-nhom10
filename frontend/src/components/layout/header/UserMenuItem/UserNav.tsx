@@ -38,7 +38,7 @@ export default function UserNav({ fullname, avatar, email }: UserNavProps) {
                 )}
             </div>
 
-            <div className="d-flex flex-column ms-2" style={{ maxWidth: "150px" }}>
+            <div className="user-nav-details d-flex flex-column ms-2" style={{ maxWidth: "150px" }}>
                 <span className="fw-semibold text-truncate" style={{ fontSize: "14px" }}>
                     {fullname || "Người dùng"}
                 </span>
