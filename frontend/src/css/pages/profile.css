@@ -38,24 +38,26 @@
     box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.1);
 }
 
-.profile-page .btn-primary {
-    --bs-btn-bg: var(--bs-primary);
-    --bs-btn-border-color: var(--bs-primary);
+.profile-page .btn-primary,
+.account-button.btn-primary {
+    --bs-btn-bg: var(--color-primary);
+    --bs-btn-border-color: var(--color-primary);
     --bs-btn-hover-bg: #be123c;
     --bs-btn-hover-border-color: #be123c;
     --bs-btn-active-bg: #be123c;
     --bs-btn-active-border-color: #be123c;
 }
 
-.profile-page .btn-outline-primary {
-    --bs-btn-color: var(--bs-primary);
-    --bs-btn-border-color: var(--bs-primary);
+.profile-page .btn-outline-primary,
+.account-button.btn-outline-primary {
+    --bs-btn-color: var(--color-primary);
+    --bs-btn-border-color: var(--color-primary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--bs-primary);
-    --bs-btn-hover-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: var(--color-primary);
+    --bs-btn-hover-border-color: var(--color-primary);
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--bs-primary);
-    --bs-btn-active-border-color: var(--bs-primary);
+    --bs-btn-active-bg: var(--color-primary);
+    --bs-btn-active-border-color: var(--color-primary);
 }
 
 .account-panel {
@@ -69,12 +71,17 @@
     box-shadow: 0 2px 8px rgb(15 23 42 / 3%);
 }
 
-.account-heading h2 {
+.account-heading :is(h1, h2) {
     margin: 0 0 8px;
     color: var(--color-bg-dark);
     font-size: 24px;
     font-weight: 700;
     line-height: 1.4;
+}
+
+.account-heading h1 {
+    font-size: 28px;
+    line-height: 1.3;
 }
 
 .account-heading p {
@@ -83,7 +90,7 @@
     line-height: 1.6;
 }
 
-.profile-page .account-button {
+.account-button.btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -150,12 +157,16 @@
     min-width: 112px;
 }
 
-.profile-page .account-button:focus-visible {
+.account-button.btn:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 3px;
 }
 
 @media (max-width: 575.98px) {
+    .account-heading h1 {
+        font-size: 24px;
+    }
+
     .account-panel,
     .account-modal :is(.modal-header, .modal-body) {
         padding: 18px;

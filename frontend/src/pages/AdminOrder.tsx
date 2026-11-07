@@ -18,6 +18,7 @@ import {
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { ROUTES } from "../routes/routes";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import { OrderStatus } from "../enums/OrderStatus";
 import { getPaymentStatusLabel } from "../api/OrderService";
 import { ProductType } from "../enums/ProductType";
@@ -342,13 +343,11 @@ export default function AdminOrder() {
                 {/* Breadcrumb & Header */}
                 <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                     <div>
-                        <div className="admin-breadcrumb">
-                            <span>Quản trị hệ thống</span>
-                            <span className="crumb-sep">›</span>
-                            <span>Vận hành lõi</span>
-                            <span className="crumb-sep">›</span>
-                            <span className="active-crumb">Quản lý đơn hàng</span>
-                        </div>
+                        <Breadcrumb className="mb-1" items={[
+                            { label: "Quản trị hệ thống" },
+                            { label: "Vận hành lõi" },
+                            { label: "Quản lý đơn hàng" },
+                        ]} />
                         <h1 className="h4 fw-bold text-dark mb-0">Quản lý Đơn đặt hàng</h1>
                     </div>
 

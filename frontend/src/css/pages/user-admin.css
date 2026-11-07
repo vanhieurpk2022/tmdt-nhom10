@@ -9,27 +9,6 @@
     min-height: 100vh;
 }
 
-
-.admin-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #64748b;
-    margin-bottom: 6px;
-}
-
-.admin-breadcrumb .active-crumb {
-    color: #e11d48;
-    font-weight: 600;
-}
-
-.admin-breadcrumb .crumb-sep {
-    color: #94a3b8;
-    font-size: 14px;
-}
-
-
 .btn-header-export {
     background-color: #ffffff;
     border: 1px solid #cbd5e1;
@@ -1111,7 +1090,7 @@
     .modal-footer,
     .nav-pills,
     .btn,
-    .admin-breadcrumb,
+    .site-breadcrumb,
     .filter-card,
     .table-footer {
         display: none !important;

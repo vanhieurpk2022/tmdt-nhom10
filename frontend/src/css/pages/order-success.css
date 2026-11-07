@@ -2,6 +2,10 @@
     background: var(--color-page-background);
 }
 
+.payment-result-page .payment-result-total {
+    color: var(--color-primary);
+}
+
 .order-success-card {
     margin-bottom: 24px;
     padding: 26px;
@@ -186,13 +190,5 @@
 
 .order-success-actions {
     max-width: 460px;
-}
-
-.order-success-primary-btn {
-    width: 100%;
-}
-
-.order-success-secondary-btn {
-    width: 100%;
 }
 

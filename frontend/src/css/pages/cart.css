@@ -25,11 +25,6 @@
     box-shadow: 0 2px 8px rgb(15 23 42 / 3%);
 }
 
-.cart-page .cart-breadcrumb :is(a, span, strong) {
-    font-size: 13px;
-    font-weight: 500;
-}
-
 .cart-card-heading {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;

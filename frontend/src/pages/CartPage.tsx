@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useCart } from "../api/CartContext";
 import { cartService, type CartResponse, type CartItemResponse } from "../api/CartService";
-import CartBreadcrumb from "../components/cart/CartBreadcrumb";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import CartSummary from "../components/cart/CartSummary";
 import CartTable from "../components/cart/CartTable";
 import { fallbackCartImage, type CartItem } from "../data/cartData";
@@ -144,7 +144,11 @@ export default function CartPage() {
         <main className="cart-page">
             <div className="container-fluid px-4 px-lg-5">
                 <div className="cart-content">
-                    <CartBreadcrumb />
+                    <Breadcrumb items={[
+                        { label: "Trang chủ", to: "/" },
+                        { label: "Sản phẩm", to: "/products" },
+                        { label: "Giỏ hàng" },
+                    ]} />
                     <div className="cart-layout">
                         <section className="cart-card">
                             <div className="cart-card-heading">

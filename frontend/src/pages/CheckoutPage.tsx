@@ -8,7 +8,7 @@ import { useCart } from "../api/CartContext";
 import { cartService, type CartItemResponse, type CartResponse } from "../api/CartService";
 import { orderService, saveLastOrder, type CheckoutResult, type PaymentMethod, type PaymentAvailability } from "../api/OrderService";
 import { shippingService } from "../api/ShippingService";
-import CheckoutBreadcrumb from "../components/checkout/CheckoutBreadcrumb";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import CheckoutProductList from "../components/checkout/CheckoutProductList";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
 import CodConfirmationModal from "../components/checkout/CodConfirmationModal";
@@ -343,7 +343,11 @@ export default function CheckoutPage() {
         <main className="checkout-page">
             <div className="container-fluid px-4 px-lg-5">
                 <div className="checkout-content">
-                    <CheckoutBreadcrumb />
+                    <Breadcrumb items={[
+                        { label: "Trang chủ", to: ROUTES.HOME },
+                        { label: "Giỏ hàng", to: ROUTES.CART },
+                        { label: "Thanh toán" },
+                    ]} />
                     <div className="checkout-layout">
                         <section className="checkout-panel">
                             <div className="checkout-heading">

@@ -14,6 +14,7 @@ import { Button, CloseButton } from "react-bootstrap";
 import { ModalAddVariant } from "./ModalAddVariant";
 import axios from "axios";
 import { useToastContext } from "../../../toasts/ToastContext";
+import Breadcrumb from "../../../layout/Breadcrumb";
 
 interface VariantHeaderProps {
     productId: number;
@@ -95,20 +96,10 @@ export function VariantHeader({ productId, onVariants, isCustom, productName }: 
                     {/* Title */}
                     <div>
 
-                        {/* Breadcrumb */}
-                        <div className="small text-secondary mb-1">
-                            <span>
-                                Sản phẩm
-                            </span>
-
-                            <span className="mx-2">
-                                /
-                            </span>
-
-                            <span className="text-danger">
-                                {isCustom ? "Cấu hình & Biến thể" : "Biến thể"}
-                            </span>
-                        </div>
+                        <Breadcrumb className="mb-1" items={[
+                            { label: "Sản phẩm" },
+                            { label: isCustom ? "Cấu hình & Biến thể" : "Biến thể" },
+                        ]} />
 
                         {/* Heading */}
                         <div className="d-flex align-items-center gap-2 flex-wrap">

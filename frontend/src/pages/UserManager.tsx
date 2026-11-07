@@ -8,6 +8,7 @@ import CustomerDetailModal from "../components/admin/customer/CustomerDetailModa
 import { CustomerAdminService, type CustomerItem, type CustomerStats, type CustomerDetail } from "../api/CustomerAdminService";
 import { authService } from "../api/AuthService";
 import { ROUTES } from "../routes/routes";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import { useAuth } from "../api/AuthContext";
 
 const formatVnd = (value: number) => (value || 0).toLocaleString("vi-VN") + "đ";
@@ -382,13 +383,11 @@ export default function UserManager() {
             <div className="flex-grow-1 p-3 p-lg-4 overflow-x-auto" style={{ minWidth: 0 }}>
                 <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                     <div>
-                        <div className="admin-breadcrumb">
-                            <span>Quản trị hệ thống</span>
-                            <span className="crumb-sep">›</span>
-                            <span>Người dùng</span>
-                            <span className="crumb-sep">›</span>
-                            <span className="active-crumb">Danh sách khách hàng</span>
-                        </div>
+                        <Breadcrumb className="mb-1" items={[
+                            { label: "Quản trị hệ thống" },
+                            { label: "Người dùng" },
+                            { label: "Danh sách khách hàng" },
+                        ]} />
                         <h1 className="h4 fw-bold text-dark mb-0">Quản trị Khách hàng</h1>
                     </div>
                     <div className="d-flex flex-wrap gap-2">

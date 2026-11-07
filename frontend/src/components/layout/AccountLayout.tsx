@@ -1,8 +1,9 @@
-import { Link, NavLink, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import type { ReactNode } from "react";
 import { useAuth } from "../../api/AuthContext";
 import { authService } from "../../api/AuthService";
 import { ROUTES } from "../../routes/routes";
+import Breadcrumb from "./Breadcrumb";
 import "../../css/pages/profile.css";
 
 interface AccountLayoutProps {
@@ -34,14 +35,11 @@ export default function AccountLayout({ children, breadcrumbCurrent }: AccountLa
     return (
         <main className="profile-page bg-light py-4">
             <div className="container-fluid px-4 px-lg-5">
-                {/* Đường dẫn phân cấp (Breadcrumb) */}
-                <nav aria-label="breadcrumb" className="mb-4">
-                    <ol className="breadcrumb mb-0 fs-7">
-                        <li className="breadcrumb-item"><Link to="/" className="text-muted text-decoration-none">Trang chủ</Link></li>
-                        <li className="breadcrumb-item"><Link to="/profile" className="text-muted text-decoration-none">Tài khoản khách hàng</Link></li>
-                        <li className="breadcrumb-item active fw-bold text-dark" aria-current="page">{breadcrumbCurrent}</li>
-                    </ol>
-                </nav>
+                <Breadcrumb items={[
+                    { label: "Trang chủ", to: ROUTES.HOME },
+                    { label: "Tài khoản khách hàng", to: ROUTES.PROFILE },
+                    { label: breadcrumbCurrent },
+                ]} />
 
                 {/* Tiêu đề trang */}
                 <div className="mb-4">

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faRotate } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +10,7 @@ import { refundService, type RefundAction, type RefundSummary } from "../api/Ref
 import { getOrderError, refundStatusLabels } from "../data/orderDetailsData";
 import type { RefundStatus } from "../enums/RefundStatus";
 import { ROUTES } from "../routes/routes";
+import Breadcrumb from "../components/layout/Breadcrumb";
 import "../css/pages/user-admin.css";
 
 const filters: RefundStatus[] = ["REQUESTED", "APPROVED", "SUCCEEDED", "FAILED", "REJECTED"];
@@ -82,10 +83,10 @@ function RefundQueue({ params }: { params: URLSearchParams }) {
         <main className="flex-grow-1 p-3 p-lg-4" style={{ minWidth: 0 }}>
             <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div>
-                    <nav className="admin-breadcrumb" aria-label="Đường dẫn">
-                        <Link className="text-secondary text-decoration-none" to={ROUTES.ADMIN_ORDER}>Quản lý đơn hàng</Link>
-                        <span className="crumb-sep">›</span><span className="active-crumb">Hoàn tiền VNPay</span>
-                    </nav>
+                    <Breadcrumb className="mb-1" items={[
+                        { label: "Quản lý đơn hàng", to: ROUTES.ADMIN_ORDER },
+                        { label: "Hoàn tiền VNPay" },
+                    ]} />
                     <h1 className="h4 fw-bold text-dark mb-1">Quản lý hoàn tiền VNPay</h1>
                     <p className="text-secondary mb-0">Xử lý các khoản VNPay cần hoàn khi khách hủy đơn hoặc phát sinh thanh toán thừa, đến muộn.</p>
                 </div>
