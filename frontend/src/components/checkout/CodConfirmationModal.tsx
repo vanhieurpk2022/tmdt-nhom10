@@ -1,4 +1,6 @@
 import Modal from "react-bootstrap/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 
 interface CodConfirmationModalProps {
     show: boolean;
@@ -24,20 +26,26 @@ export default function CodConfirmationModal({
             aria-describedby="cod-confirmation-description"
         >
             <Modal.Header>
-                <Modal.Title as="h2" id="cod-confirmation-title">Xác nhận đặt hàng</Modal.Title>
+                <span className="cod-confirmation-icon" aria-hidden="true">
+                    <FontAwesomeIcon icon={faBagShopping} />
+                </span>
+                <div>
+                    <Modal.Title as="h2" id="cod-confirmation-title">Xác nhận đặt hàng</Modal.Title>
+                    <p className="cod-confirmation-subtitle">Thanh toán khi nhận hàng (COD)</p>
+                </div>
             </Modal.Header>
             <Modal.Body aria-busy={isSubmitting}>
-                <p id="cod-confirmation-description" className="text-muted">
-                    Bạn có chắc muốn đặt đơn hàng này? Bạn sẽ thanh toán cho nhân viên giao hàng khi nhận hàng.
+                <p id="cod-confirmation-description">
+                    Bạn sẽ thanh toán bằng tiền mặt cho nhân viên giao hàng khi nhận hàng.
                 </p>
                 <div className="cod-confirmation-total">
-                    <span>Tổng thanh toán khi nhận hàng</span>
+                    <span>Tổng thanh toán</span>
                     <strong>{total.toLocaleString("vi-VN")} ₫</strong>
                 </div>
                 {errorMessage && <p className="alert alert-danger mt-3 mb-0" role="alert">{errorMessage}</p>}
             </Modal.Body>
             <Modal.Footer>
-                <button type="button" className="btn btn-outline-secondary" disabled={isSubmitting} onClick={onCancel} autoFocus>
+                <button type="button" className="btn cod-confirmation-back" disabled={isSubmitting} onClick={onCancel} autoFocus>
                     Quay lại
                 </button>
                 <button type="button" className="btn checkout-continue-btn" disabled={isSubmitting} onClick={onConfirm}>
