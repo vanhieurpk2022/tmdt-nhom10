@@ -342,14 +342,13 @@ export default function CheckoutPage() {
     return (
         <main className="checkout-page">
             <div className="container-fluid px-4 px-lg-5">
-                <CheckoutBreadcrumb />
-
-                <div className="row g-4 align-items-start">
-                    <div className="col-12 col-xl-8">
+                <div className="checkout-content">
+                    <CheckoutBreadcrumb />
+                    <div className="checkout-layout">
                         <section className="checkout-panel">
                             <div className="checkout-heading">
-                                <h1>Thông tin thanh toán & Giao hàng</h1>
-                                <p>Vui lòng kiểm tra kỹ danh sách sản phẩm, địa chỉ nhận hàng và phương thức thanh toán.</p>
+                                <h1>Thanh toán</h1>
+                                <p>Kiểm tra sản phẩm, địa chỉ nhận hàng và chọn phương thức thanh toán.</p>
                             </div>
 
                             {errorMessage && (
@@ -380,9 +379,6 @@ export default function CheckoutPage() {
                                 vnpayMessage={vnpayAvailability.message}
                             />
                         </section>
-                    </div>
-
-                    <div className="col-12 col-xl-4">
                         <CheckoutSummary
                             items={checkoutItems}
                             shippingFee={selectedAddress && checkoutItems.length > 0 ? shippingFee : 0}
@@ -391,6 +387,7 @@ export default function CheckoutPage() {
                             shippingFeeError={selectedAddress && checkoutItems.length > 0 ? shippingFeeError : ""}
                             isSubmitting={isSubmitting || recoveryRequired}
                             hasAddress={Boolean(selectedAddress)}
+                            paymentMethod={selectedPaymentMethod}
                             paymentUnavailable={selectedPaymentMethod === "vnpay" && !vnpayAvailability.available}
                             onContinue={handleContinue}
                         />

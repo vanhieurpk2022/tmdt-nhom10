@@ -1,4 +1,5 @@
 import type { CartItem } from "../../data/cartData";
+import type { PaymentMethod } from "../../data/checkoutData";
 
 interface CheckoutSummaryProps {
     items: CartItem[];
@@ -8,6 +9,7 @@ interface CheckoutSummaryProps {
     shippingFeeError?: string;
     isSubmitting?: boolean;
     hasAddress?: boolean;
+    paymentMethod: PaymentMethod["id"];
     paymentUnavailable?: boolean;
     onContinue: () => void;
 }
@@ -15,7 +17,7 @@ interface CheckoutSummaryProps {
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
 
 function formatPrice(price: number) {
-    return `${currencyFormatter.format(price)}đ`;
+    return `${currencyFormatter.format(price)} ₫`;
 }
 
 export default function CheckoutSummary({
@@ -26,6 +28,7 @@ export default function CheckoutSummary({
     shippingFeeError = "",
     isSubmitting = false,
     hasAddress = true,
+    paymentMethod,
     paymentUnavailable = false,
     onContinue,
 }: CheckoutSummaryProps) {
@@ -35,14 +38,19 @@ export default function CheckoutSummary({
 
     return (
         <aside className="checkout-summary-card">
-            <h2>Xác nhận</h2>
+            <div className="checkout-summary-heading">
+                <h2>Tóm tắt đơn hàng</h2>
+                <span>{items.length} sản phẩm</span>
+            </div>
 
             <div className="checkout-summary-products">
-                <span>Sản phẩm</span>
                 {items.length > 0 ? (
                     items.map((item) => (
                         <div className="checkout-summary-line" key={item.id}>
-                            <p>{item.name}</p>
+                            <div>
+                                <p>{item.name}</p>
+                                <small>{item.variant} · SL: {item.quantity}</small>
+                            </div>
                             <strong>{formatPrice(item.price * item.quantity)}</strong>
                         </div>
                     ))
@@ -74,13 +82,16 @@ export default function CheckoutSummary({
             </div>
 
             <button
-                className="btn checkout-continue-btn d-flex align-items-center justify-content-center fw-bold w-100"
+                className="btn checkout-continue-btn"
                 type="button"
                 disabled={isDisabled}
                 onClick={onContinue}
             >
-                {isSubmitting ? "Đang tạo đơn..." : "Tiếp tục"}
+                {isSubmitting ? "Đang tạo đơn..." : paymentMethod === "vnpay" ? "Thanh toán VNPay" : "Đặt hàng"}
             </button>
+            <p className="checkout-summary-note">
+                {paymentMethod === "vnpay" ? "Bạn sẽ được chuyển đến VNPay để thanh toán." : "Thanh toán bằng tiền mặt khi nhận hàng."}
+            </p>
         </aside>
     );
 }

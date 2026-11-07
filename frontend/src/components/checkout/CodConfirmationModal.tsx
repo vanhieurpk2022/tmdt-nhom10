@@ -32,16 +32,16 @@ export default function CodConfirmationModal({
                 </p>
                 <div className="cod-confirmation-total">
                     <span>Tổng thanh toán khi nhận hàng</span>
-                    <strong>{total.toLocaleString("vi-VN")}đ</strong>
+                    <strong>{total.toLocaleString("vi-VN")} ₫</strong>
                 </div>
                 {errorMessage && <p className="alert alert-danger mt-3 mb-0" role="alert">{errorMessage}</p>}
             </Modal.Body>
             <Modal.Footer>
                 <button type="button" className="btn btn-outline-secondary" disabled={isSubmitting} onClick={onCancel} autoFocus>
-                    Hủy
+                    Quay lại
                 </button>
-                <button type="button" className="btn checkout-continue-btn fw-bold" disabled={isSubmitting} onClick={onConfirm}>
-                    {isSubmitting ? "Đang tạo đơn…" : "Xác nhận"}
+                <button type="button" className="btn checkout-continue-btn" disabled={isSubmitting} onClick={onConfirm}>
+                    {isSubmitting ? "Đang tạo đơn…" : "Xác nhận đặt hàng"}
                 </button>
             </Modal.Footer>
         </Modal>

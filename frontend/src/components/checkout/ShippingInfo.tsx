@@ -1,4 +1,4 @@
-import { faCommentDots, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLocation } from "react-router";
 import type { AddressItem } from "../../api/AddressService";
@@ -30,11 +30,11 @@ export default function ShippingInfo({
         <section className="checkout-block">
             <CheckoutSectionTitle
                 index={2}
-                title="Thông tin người nhận & Địa chỉ giao hàng"
+                title="Địa chỉ giao hàng"
                 action={
                     <Link className="btn checkout-change-btn" to={`${ROUTES.ADDRESSES}?returnTo=${returnTo}`}>
                         <FontAwesomeIcon icon={faPenToSquare} />
-                        Thay đổi
+                        {address ? "Thay đổi" : "Thêm địa chỉ"}
                     </Link>
                 }
             />
@@ -72,23 +72,18 @@ export default function ShippingInfo({
                 </div>
             )}
 
-            <div className="checkout-note-card d-flex align-items-start">
-                <div className="checkout-note-icon d-inline-flex align-items-center justify-content-center">
-                    <FontAwesomeIcon icon={faCommentDots} />
-                </div>
-                <div className="checkout-note-content">
-                    <label htmlFor="delivery-note">Ghi chú giao hàng</label>
-                    <textarea
-                        id="delivery-note"
-                        className="form-control checkout-note-input"
-                        maxLength={255}
-                        rows={3}
-                        value={deliveryNote}
-                        onChange={(event) => onDeliveryNoteChange(event.target.value)}
-                        placeholder="Ví dụ: Giao trong giờ hành chính, gọi trước khi đến."
-                    />
-                    <small>{deliveryNote.length}/255 ký tự</small>
-                </div>
+            <div className="checkout-note-card">
+                <label htmlFor="delivery-note">Ghi chú giao hàng</label>
+                <textarea
+                    id="delivery-note"
+                    className="form-control checkout-note-input"
+                    maxLength={255}
+                    rows={2}
+                    value={deliveryNote}
+                    onChange={(event) => onDeliveryNoteChange(event.target.value)}
+                    placeholder="Ví dụ: Giao trong giờ hành chính, gọi trước khi đến."
+                />
+                <small>{deliveryNote.length}/255 ký tự</small>
             </div>
         </section>
     );

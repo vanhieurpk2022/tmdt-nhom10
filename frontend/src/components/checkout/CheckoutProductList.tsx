@@ -1,4 +1,4 @@
-import type { CartItem } from "../../data/cartData";
+import { fallbackCartImage, type CartItem } from "../../data/cartData";
 import CheckoutSectionTitle from "./CheckoutSectionTitle";
 
 interface CheckoutProductListProps {
@@ -9,7 +9,7 @@ interface CheckoutProductListProps {
 const currencyFormatter = new Intl.NumberFormat("vi-VN");
 
 function formatPrice(price: number) {
-    return `${currencyFormatter.format(price)}đ`;
+    return `${currencyFormatter.format(price)} ₫`;
 }
 
 export default function CheckoutProductList({ items, isLoading = false }: CheckoutProductListProps) {
@@ -17,7 +17,7 @@ export default function CheckoutProductList({ items, isLoading = false }: Checko
         <section className="checkout-block">
             <CheckoutSectionTitle
                 index={1}
-                title="Danh sách sản phẩm thanh toán"
+                title="Sản phẩm trong đơn"
                 action={<span className="checkout-muted-count">{items.length} sản phẩm</span>}
             />
 
@@ -39,15 +39,17 @@ export default function CheckoutProductList({ items, isLoading = false }: Checko
                 {!isLoading && items.map((item) => (
                     <article className="checkout-product-row" key={item.id}>
                         <div className="checkout-product-thumb">
-                            <img src={item.image} alt={item.name} />
+                            <img src={item.image} alt={item.name} onError={(event) => { event.currentTarget.src = fallbackCartImage; }} />
                         </div>
                         <div className="checkout-product-main">
                             <div className="d-flex align-items-center gap-2 flex-wrap">
                                 <h3>{item.name}</h3>
-                                <span>{item.stockStatus ?? (item.inStock ? "Còn hàng" : "Hết hàng")}</span>
+                                <span className={`checkout-stock-badge ${item.inStock ? "" : "checkout-stock-badge-empty"}`}>
+                                    {item.stockStatus ?? (item.inStock ? "Còn hàng" : "Hết hàng")}
+                                </span>
                             </div>
-                            <p>{item.variant} • {item.origin}</p>
-                            <p>Xưởng: {item.factoryName} • #{item.factoryCode}</p>
+                            <p>{item.variant} · {item.origin}</p>
+                            <p>Xưởng: {item.factoryName} · #{item.factoryCode}</p>
                             <p>Số lượng: {item.quantity}</p>
                         </div>
                         <strong>{formatPrice(item.price * item.quantity)}</strong>

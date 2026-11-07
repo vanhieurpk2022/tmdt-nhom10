@@ -19,7 +19,7 @@ const methodIcons = {
 export default function PaymentMethodList({ methods, selectedMethodId, onSelectMethod, vnpayAvailable, vnpayMessage }: PaymentMethodListProps) {
     return (
         <section className="checkout-block">
-            <CheckoutSectionTitle index={3} title="Chọn phương thức thanh toán" />
+            <CheckoutSectionTitle index={3} title="Phương thức thanh toán" />
 
             <div className="checkout-payment-list d-flex flex-column">
                 {methods.map((method) => (
@@ -27,11 +27,12 @@ export default function PaymentMethodList({ methods, selectedMethodId, onSelectM
                         <input
                             type="radio"
                             name="paymentMethod"
+                            value={method.id}
+                            aria-label={method.name}
                             checked={method.id === selectedMethodId}
                             disabled={method.type === "vnpay" && !vnpayAvailable}
                             onChange={() => onSelectMethod(method.id)}
                         />
-                        <span className="checkout-payment-check" />
                         <div>
                             <strong>{method.name}</strong>
                             <p>{method.type === "vnpay" && !vnpayAvailable ? vnpayMessage : method.description}</p>
@@ -48,8 +49,8 @@ export default function PaymentMethodList({ methods, selectedMethodId, onSelectM
                     <FontAwesomeIcon icon={faShieldHalved} />
                 </span>
                 <div>
-                    <strong>Thanh toán qua VNPay an toàn, tiện lợi</strong>
-                    <p>Với COD, bạn chỉ thanh toán tiền mặt sau khi đã nhận và kiểm tra hàng.</p>
+                    <strong>Thông tin thanh toán</strong>
+                    <p>Với COD, bạn thanh toán khi nhận hàng. Với VNPay, bạn được chuyển đến cổng thanh toán để hoàn tất.</p>
                 </div>
             </div>
         </section>
