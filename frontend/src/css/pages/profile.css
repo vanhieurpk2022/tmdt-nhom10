@@ -46,6 +46,8 @@
     --bs-btn-hover-border-color: #be123c;
     --bs-btn-active-bg: #be123c;
     --bs-btn-active-border-color: #be123c;
+    --bs-btn-disabled-bg: var(--color-primary);
+    --bs-btn-disabled-border-color: var(--color-primary);
 }
 
 .profile-page .btn-outline-primary,
@@ -115,7 +117,7 @@
     box-shadow: 0 16px 48px rgb(15 23 42 / 12%);
 }
 
-.account-modal :is(.modal-header, .modal-body) {
+.account-modal :is(.modal-header, .modal-body, .modal-footer) {
     padding: 20px 24px;
 }
 
@@ -127,6 +129,22 @@
     color: var(--color-bg-dark);
     font-size: 20px;
     font-weight: 700;
+}
+
+.account-modal-compact {
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.account-modal-compact .modal-dialog {
+    max-width: 480px;
+}
+
+.account-modal-compact .modal-footer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
 .account-form :is(.form-label, .form-check-label) {
@@ -168,7 +186,7 @@
     }
 
     .account-panel,
-    .account-modal :is(.modal-header, .modal-body) {
+    .account-modal :is(.modal-header, .modal-body, .modal-footer) {
         padding: 18px;
     }
 
@@ -183,5 +201,11 @@
 
     .account-form-actions .btn {
         min-width: 0;
+    }
+}
+
+@media (max-width: 399.98px) {
+    .account-modal-compact .modal-footer {
+        grid-template-columns: minmax(0, 1fr);
     }
 }

@@ -81,13 +81,14 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
             </div>
             {message && <p className="alert alert-success mt-3 mb-0" role="status">{message}</p>}
             <Modal show={dialog !== null} onHide={() => { if (!busy) setDialog(null); }} centered
-                backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="order-action-title">
-                <Modal.Header closeButton={!busy}>
+                className="account-modal account-modal-compact" backdrop={busy ? "static" : true} keyboard={!busy}
+                aria-labelledby="order-action-title" aria-describedby="order-action-description">
+                <Modal.Header closeButton={!busy} closeLabel="Đóng">
                     <Modal.Title as="h2" id="order-action-title">{dialog === "cancel" ? "Xác nhận hủy đơn hàng" : "Đặt lại đơn hàng"}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body aria-busy={busy}>
+                <Modal.Body className="account-form" aria-busy={busy}>
                     {dialog === "cancel" ? <>
-                        <p>{order.paymentStatus === "PAID"
+                        <p id="order-action-description" className="text-secondary">{order.paymentStatus === "PAID"
                             ? "Đơn hàng sẽ được hủy và tạo yêu cầu hoàn tiền. Tiền chỉ được ghi nhận đã hoàn khi có kết quả xác nhận."
                             : "Đơn hàng sẽ ngừng xử lý sau khi hủy. Nếu đã thanh toán qua VNPay, khoản tiền sẽ được đối soát để xử lý hoàn tiền."}</p>
                         <label className="form-label" htmlFor="cancel-reason">Lý do hủy đơn</label>
@@ -99,12 +100,12 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
                         <textarea id="cancel-note" className="form-control" rows={3} maxLength={500} disabled={busy}
                             value={request.note} onChange={event => setRequest({ ...request, note: event.target.value })} />
                         <p className="small text-secondary mt-1 mb-0">{request.note?.length ?? 0}/500 ký tự</p>
-                    </> : <p className="mb-0">Sản phẩm trong đơn sẽ được cập nhật vào giỏ hàng theo giá và tồn kho hiện tại. Bạn sẽ kiểm tra lại giỏ hàng, địa chỉ và phương thức thanh toán trước khi tạo đơn mới.</p>}
+                    </> : <p id="order-action-description" className="text-secondary mb-0">Sản phẩm sẽ được cập nhật vào giỏ hàng theo giá và tồn kho hiện tại. Vui lòng kiểm tra lại trước khi đặt đơn mới.</p>}
                     {error && <p className="alert alert-danger mt-3 mb-0" role="alert">{error}</p>}
                 </Modal.Body>
-                <Modal.Footer>
-                    <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={() => setDialog(null)}>Quay lại</button>
-                    <button type="button" className={`btn ${dialog === "cancel" ? "btn-danger" : "btn-primary"}`} disabled={busy} onClick={() => { void confirm(); }}>
+                <Modal.Footer className="border-0 pt-0">
+                    <button type="button" className="btn btn-light border account-button m-0" disabled={busy} onClick={() => setDialog(null)} autoFocus>Quay lại</button>
+                    <button type="button" className={`btn account-button m-0 ${dialog === "cancel" ? "btn-danger" : "btn-primary"}`} disabled={busy} onClick={() => { void confirm(); }}>
                         {busy ? "Đang xử lý…" : dialog === "cancel" ? "Xác nhận hủy đơn" : "Cập nhật giỏ hàng"}
                     </button>
                 </Modal.Footer>
