@@ -580,6 +580,11 @@ public class AdminDashboardServiceImp implements AdminDashboardService {
             case OUT_OF_STOCK -> "Hết nguyên liệu / Tinh dầu gốc";
             case DELIVERY_TIME_CONFLICT -> "Không thống nhất thời gian giao";
             case FACTORY_CONFIRM_LATE -> "Xưởng xác nhận quá hạn 24h";
+            case CHANGE_ITEMS -> "Thay đổi sản phẩm hoặc số lượng";
+            case CHANGE_ADDRESS -> "Thay đổi địa chỉ nhận hàng";
+            case CHANGE_PAYMENT_METHOD -> "Thay đổi phương thức thanh toán";
+            case DUPLICATE_ORDER -> "Đặt trùng đơn hàng";
+            case OTHER -> "Lý do khác";
         };
     }
 
@@ -589,6 +594,11 @@ public class AdminDashboardServiceImp implements AdminDashboardService {
             case OUT_OF_STOCK -> "#e11d48";          
             case DELIVERY_TIME_CONFLICT -> "#f59e0b"; 
             case FACTORY_CONFIRM_LATE -> "#64748b";  
+            case CHANGE_ITEMS -> "#8b5cf6";
+            case CHANGE_ADDRESS -> "#10b981";
+            case CHANGE_PAYMENT_METHOD -> "#3b82f6";
+            case DUPLICATE_ORDER -> "#f97316";
+            case OTHER -> "#94a3b8";
         };
     }
 }

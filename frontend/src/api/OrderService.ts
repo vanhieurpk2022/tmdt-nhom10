@@ -3,16 +3,18 @@ import { fallbackCartImage } from "../data/cartData";
 import api, { type ApiResponse } from "./api";
 import type { BuyNowSelection } from "./CheckoutSelection";
 import type { CartItemResponse, CartResponse } from "./CartService";
-import type { CustomerRefund } from "./RefundService";
+import type { CustomerRefund, RefundBankAccount } from "./RefundService";
 import type { PendingCheckout } from "./CheckoutSession";
 import type { OrderStatus } from "../data/orderHistoryData";
 
 export type PaymentMethod = "COD" | "VNPAY";
-export type CancelReason = "CUSTOMER_CHANGED_MIND" | "OUT_OF_STOCK" | "DELIVERY_TIME_CONFLICT" | "FACTORY_CONFIRM_LATE";
+export type CancelReason = "CUSTOMER_CHANGED_MIND" | "OUT_OF_STOCK" | "DELIVERY_TIME_CONFLICT" | "FACTORY_CONFIRM_LATE"
+    | "CHANGE_ITEMS" | "CHANGE_ADDRESS" | "CHANGE_PAYMENT_METHOD" | "DUPLICATE_ORDER" | "OTHER";
 
 export interface CancelOrderRequest {
     reason: CancelReason;
     note?: string;
+    refundAccount?: RefundBankAccount;
 }
 
 export interface CreateOrderRequest {

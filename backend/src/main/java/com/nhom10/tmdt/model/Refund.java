@@ -34,6 +34,20 @@ public class Refund {
 
     private String reason;
 
+    @Column(name = "bank_name", length = 120, updatable = false)
+    private String bankName;
+
+    @ToString.Exclude
+    @Column(name = "account_number", length = 30, updatable = false)
+    private String accountNumber;
+
+    @ToString.Exclude
+    @Column(name = "account_holder", length = 120, updatable = false)
+    private String accountHolder;
+
+    @Column(name = "account_confirmed_at", updatable = false)
+    private Instant accountConfirmedAt;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(32)", length = 32)

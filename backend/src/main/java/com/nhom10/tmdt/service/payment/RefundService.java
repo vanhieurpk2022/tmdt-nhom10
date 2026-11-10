@@ -1,6 +1,8 @@
 package com.nhom10.tmdt.service.payment;
 
 import com.nhom10.tmdt.enums.OrderStatus;
+import com.nhom10.tmdt.enums.CancelReason;
+import com.nhom10.tmdt.dto.order.RefundBankAccount;
 import com.nhom10.tmdt.enums.PaymentMethod;
 import com.nhom10.tmdt.enums.PaymentStatus;
 import com.nhom10.tmdt.enums.RefundStatus;
@@ -60,11 +62,23 @@ public class RefundService {
 
     @Transactional(propagation = Propagation.MANDATORY)
     public void enqueue(Order order, PaymentAttempt attempt, String reason, String actor) {
+        enqueue(order, attempt, reason, actor, null);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void enqueue(Order order, PaymentAttempt attempt, String reason, String actor, RefundBankAccount account) {
         String key = "auto_refund_" + attempt.getId();
         if (refunds.findByOrderIdAndRequestKey(order.getId(), key).isPresent() || hasReservation(order, attempt, null)) return;
         validateCapture(order, attempt);
-        Refund refund = refunds.saveAndFlush(Refund.builder().order(order).paymentAttemptId(attempt.getId())
-                .amountVnd(attempt.getAmountVnd()).requestKey(key).reason(reason).requestedBy(actor).build());
+        Refund refund = Refund.builder().order(order).paymentAttemptId(attempt.getId())
+                .amountVnd(attempt.getAmountVnd()).requestKey(key).reason(reason).requestedBy(actor).build();
+        if (account != null) {
+            refund.setBankName(account.bankName());
+            refund.setAccountNumber(account.accountNumber());
+            refund.setAccountHolder(account.accountHolder());
+            refund.setAccountConfirmedAt(clock.instant());
+        }
+        refund = refunds.saveAndFlush(refund);
         audit(refund, "REQUESTED", reason, actor);
         updatePaymentStatus(order);
     }
@@ -199,14 +213,17 @@ public class RefundService {
 
     public record Summary(Long id, Long orderId, String recipientName, String phoneNumber, OrderStatus orderStatus,
             Instant cancelledAt, long amountVnd, String reason, RefundStatus status, String approvedBy,
-            String processedBy, String note, LocalDateTime createdAt, Instant approvedAt, Instant processedAt) {
+            String processedBy, String note, LocalDateTime createdAt, Instant approvedAt, Instant processedAt,
+            CancelReason cancelReason, String cancellationNote, RefundBankAccount refundAccount) {
         static Summary from(Refund r) {
             Order order = r.getOrder();
             return new Summary(r.getId(), order.getId(), order.getRecipientName(), order.getPhoneNumber(),
                     order.getStatus(), order.getCancelledAt(), r.getAmountVnd(), r.getReason(), r.getStatus(),
                     r.getApprovedBy(), r.getProcessedBy(), r.getProcessedAt() == null ? null : r.getLastError(),
                     r.getCreatedAt(), r.getApprovedAt(),
-                    r.getProcessedAt() == null ? null : r.getProcessedAt().toInstant(ZoneOffset.UTC));
+                    r.getProcessedAt() == null ? null : r.getProcessedAt().toInstant(ZoneOffset.UTC),
+                    order.getCancelReason(), order.getCancellationNote(), r.getBankName() == null ? null
+                            : new RefundBankAccount(r.getBankName(), r.getAccountNumber(), r.getAccountHolder(), r.getAccountConfirmedAt() != null));
         }
     }
 }

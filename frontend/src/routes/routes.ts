@@ -13,6 +13,7 @@ export const ROUTES = {
   PAYMENT_REVIEWS: "/admin-payment-reviews",
   ORDERS: "/orders",
   ORDER_DETAIL: "/orders/:id",
+  ORDER_CANCEL: "/orders/:id/cancel",
   REFUNDS: "/admin-refunds",
   PROFILE: "/profile",
   CHANGE_PASSWORD: "/change-password",

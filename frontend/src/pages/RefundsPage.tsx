@@ -7,7 +7,7 @@ import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
 import { useAdminSidebar } from "../api/AdminSidebarContext";
 import { formatOrderCode } from "../api/OrderService";
 import { refundService, type RefundAction, type RefundSummary } from "../api/RefundService";
-import { getOrderError, refundStatusLabels } from "../data/orderDetailsData";
+import { cancelReasonLabels, getOrderError, refundStatusLabels } from "../data/orderDetailsData";
 import type { RefundStatus } from "../enums/RefundStatus";
 import { ROUTES } from "../routes/routes";
 import Breadcrumb from "../components/layout/Breadcrumb";
@@ -177,7 +177,7 @@ function RefundDetails({ refund, onClose, onChanged }: { refund: RefundSummary; 
         finally { submitting.current = false; setBusy(false); }
     }
 
-    return <Modal show onHide={() => { if (!busy) onClose(); }} centered backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="refund-details-title">
+    return <Modal show onHide={() => { if (!busy) onClose(); }} centered className="account-modal" backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="refund-details-title">
         <Modal.Header closeButton={!busy}><Modal.Title as="h2" id="refund-details-title" className="h5">Yêu cầu hoàn tiền #{refund.id}</Modal.Title></Modal.Header>
         <Modal.Body aria-busy={busy}>
             <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
@@ -192,7 +192,18 @@ function RefundDetails({ refund, onClose, onChanged }: { refund: RefundSummary; 
                 {refund.cancelledAt && <><dt className="col-5">Ngày hủy</dt><dd className="col-7">{date(refund.cancelledAt)}</dd></>}
                 <dt className="col-5">Số tiền hoàn</dt><dd className="col-7 fw-bold text-danger">{money(refund.amountVnd)}</dd>
                 <dt className="col-5">Lý do hoàn</dt><dd className="col-7 text-break">{refund.reason}</dd>
+                {refund.cancelReason && <><dt className="col-5">Lý do hủy đơn</dt><dd className="col-7 text-break">{cancelReasonLabels[refund.cancelReason]}</dd></>}
+                {refund.cancellationNote && <><dt className="col-5">Ghi chú của khách</dt><dd className="col-7 text-break">{refund.cancellationNote}</dd></>}
             </dl>
+            {refund.refundAccount ? <section className="border rounded-3 p-3 mb-3" aria-labelledby="refund-bank-details-title">
+                <h3 className="h6 fw-semibold mb-3" id="refund-bank-details-title">Tài khoản nhận hoàn tiền</h3>
+                <dl className="row mb-0">
+                    <dt className="col-5 fw-medium">Ngân hàng</dt><dd className="col-7 text-break">{refund.refundAccount.bankName}</dd>
+                    <dt className="col-5 fw-medium">Số tài khoản</dt><dd className="col-7 font-monospace text-break user-select-all">{refund.refundAccount.accountNumber}</dd>
+                    <dt className="col-5 fw-medium">Chủ tài khoản</dt><dd className="col-7 text-break mb-0">{refund.refundAccount.accountHolder}</dd>
+                </dl>
+                {refund.refundAccount.confirmed && <p className="small text-secondary mt-3 mb-0">Khách đã xác nhận thông tin và đồng ý liên hệ xác minh yêu cầu.</p>}
+            </section> : <p className="small text-secondary mb-3">Yêu cầu chưa có tài khoản nhận hoàn tiền. Vui lòng liên hệ khách để xác nhận trước khi chuyển khoản.</p>}
             {refund.approvedBy && <p className="small text-secondary text-break mb-2">Người duyệt: {refund.approvedBy}{refund.approvedAt && ` · ${date(refund.approvedAt)}`}</p>}
             {refund.processedBy && refund.processedAt && <p className="small text-secondary text-break mb-2">Người cập nhật: {refund.processedBy} · {date(refund.processedAt)}</p>}
             {refund.note && <p className="bg-light rounded p-3 text-break mb-0">{refund.note}</p>}

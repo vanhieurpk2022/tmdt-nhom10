@@ -29,10 +29,14 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.EnumSet;
 
 @Service
 @RequiredArgsConstructor
 public class OrderCancellationService {
+    private static final EnumSet<OrderStatus> CANCELLABLE_STATUSES = EnumSet.of(
+            OrderStatus.PENDING_PAYMENT, OrderStatus.PENDING, OrderStatus.CONFIRMED, OrderStatus.PROCESSING);
+
     private final OrderRepository orders;
     private final PaymentAttemptRepository attempts;
     private final PaymentEventRepository events;
@@ -47,7 +51,7 @@ public class OrderCancellationService {
         Order order = orders.lockById(id).orElseThrow(OrderCancellationService::notFound);
         entityManager.refresh(order, LockModeType.PESSIMISTIC_WRITE);
         if (!email.equals(order.getUser().getEmail())) throw notFound();
-        cancelLocked(order, email, request);
+        cancelLocked(order, email, request, true);
         return orderService.response(order);
     }
 
@@ -58,7 +62,7 @@ public class OrderCancellationService {
                 || order.getPaidAttemptId() != null;
         if (checkout && status == OrderStatus.CANCELLED) {
             if (note != null && note.length() > 500) throw conflict("Ghi chú hủy đơn không quá 500 ký tự");
-            cancelLocked(order, actor, new CancelOrderRequest(reason == null ? CancelReason.CUSTOMER_CHANGED_MIND : reason, note));
+            cancelLocked(order, actor, new CancelOrderRequest(reason == null ? CancelReason.CUSTOMER_CHANGED_MIND : reason, note, null), false);
             return;
         }
         if (checkout && (order.getStatus() == OrderStatus.PENDING_PAYMENT || order.getStockRestoredAt() != null
@@ -73,14 +77,20 @@ public class OrderCancellationService {
         if (status == OrderStatus.CANCELLED) order.setCancelReason(reason == null ? CancelReason.CUSTOMER_CHANGED_MIND : reason);
     }
 
-    private void cancelLocked(Order order, String actor, CancelOrderRequest request) {
+    private void cancelLocked(Order order, String actor, CancelOrderRequest request, boolean customerRequest) {
         if (order.getStatus() == OrderStatus.CANCELLED) return;
-        if ((order.getStatus() != OrderStatus.PENDING_PAYMENT && order.getStatus() != OrderStatus.PENDING)
-                || order.getStockRestoredAt() != null) {
-            throw conflict("Chỉ được hủy đơn đang chờ thanh toán hoặc chờ xác nhận");
+        if (!CANCELLABLE_STATUSES.contains(order.getStatus()) || order.getStockRestoredAt() != null) {
+            throw conflict("Chỉ được hủy đơn hàng trước khi bàn giao cho đơn vị vận chuyển");
+        }
+        if (request.reason() == CancelReason.OTHER && (request.note() == null || request.note().isBlank())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng ghi rõ lý do hủy đơn khi chọn lý do khác");
         }
 
         PaymentAttempt paid = validatePayment(order);
+        if (paid != null && customerRequest && (request.refundAccount() == null
+                || !Boolean.TRUE.equals(request.refundAccount().confirmed()))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng cung cấp và xác nhận tài khoản nhận hoàn tiền cho đơn VNPay đã thanh toán");
+        }
         inventory.restore(order);
         order.setStatus(OrderStatus.CANCELLED);
         order.setCancelReason(request.reason());
@@ -91,12 +101,12 @@ public class OrderCancellationService {
             order.setPaymentStatus(PaymentStatus.REFUND_PENDING);
             events.save(PaymentEvent.builder().eventKey("cancel:" + order.getId()).orderId(order.getId()).attemptId(paid.getId())
                     .type("ORDER_CANCELLED").status("OPEN").createdAt(clock.instant()).build());
-            refunds.enqueue(order, paid, "Hoàn tiền đơn hàng đã hủy", actor);
+            refunds.enqueue(order, paid, "Hoàn tiền đơn hàng đã hủy", actor, request.refundAccount());
         }
     }
 
     private PaymentAttempt validatePayment(Order order) {
-        if (order.getPaymentMethod() == PaymentMethod.COD && order.getStatus() == OrderStatus.PENDING
+        if (order.getPaymentMethod() == PaymentMethod.COD && order.getStatus() != OrderStatus.PENDING_PAYMENT
                 && order.getPaidAttemptId() == null && !order.isStockHeld()
                 && (order.getPaymentStatus() == null || order.getPaymentStatus() == PaymentStatus.PENDING)) {
             return null;
@@ -114,7 +124,7 @@ public class OrderCancellationService {
                 && history.stream().noneMatch(attempt -> "SUCCESS".equals(attempt.getStatus()))) {
             return null;
         }
-        if (order.getStatus() == OrderStatus.PENDING && order.getPaymentStatus() == PaymentStatus.PAID
+        if (order.getStatus() != OrderStatus.PENDING_PAYMENT && order.getPaymentStatus() == PaymentStatus.PAID
                 && order.getPaidAttemptId() != null && !order.isStockHeld()) {
             return history.stream().filter(attempt -> order.getPaidAttemptId().equals(attempt.getId())
                     && "SUCCESS".equals(attempt.getStatus()) && "VNPAY".equals(attempt.getProvider())
