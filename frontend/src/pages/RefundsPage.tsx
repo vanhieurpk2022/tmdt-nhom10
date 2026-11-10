@@ -177,60 +177,88 @@ function RefundDetails({ refund, onClose, onChanged }: { refund: RefundSummary; 
         finally { submitting.current = false; setBusy(false); }
     }
 
-    return <Modal show onHide={() => { if (!busy) onClose(); }} centered className="account-modal" backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="refund-details-title">
-        <Modal.Header closeButton={!busy}><Modal.Title as="h2" id="refund-details-title" className="h5">Yêu cầu hoàn tiền #{refund.id}</Modal.Title></Modal.Header>
-        <Modal.Body aria-busy={busy}>
-            <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
-                <strong className="fs-5">{formatOrderCode(refund.orderId)}</strong>
-                <span className={`badge bg-${tone(refund.status)}-subtle text-${tone(refund.status)}-emphasis`}>{refundStatusLabels[refund.status]}</span>
+    return <Modal show onHide={() => { if (!busy) onClose(); }} centered scrollable className="account-modal account-modal-wide"
+        backdrop={busy ? "static" : true} keyboard={!busy} aria-labelledby="refund-details-title">
+        <Modal.Header className="py-3" closeButton={!busy} closeLabel="Đóng"><Modal.Title as="h2" id="refund-details-title">Yêu cầu hoàn tiền #{refund.id}</Modal.Title></Modal.Header>
+        <Modal.Body className="small account-form py-3" aria-busy={busy}>
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 bg-light border rounded-3 px-3 py-2 mb-3">
+                <div className="d-flex flex-wrap align-items-center gap-2">
+                    <strong className="fs-6 fw-semibold">{formatOrderCode(refund.orderId)}</strong>
+                    <span className={`badge rounded-pill bg-${tone(refund.status)}-subtle text-${tone(refund.status)}-emphasis`}>{refundStatusLabels[refund.status]}</span>
+                </div>
+                <div className="d-flex flex-wrap align-items-baseline gap-2">
+                    <span className="small text-secondary">Số tiền hoàn</span>
+                    <strong className="fs-4 text-primary text-break">{money(refund.amountVnd)}</strong>
+                </div>
             </div>
-            <dl className="row mb-0">
-                <dt className="col-5">Khách hàng</dt><dd className="col-7 text-break">{refund.recipientName}</dd>
-                <dt className="col-5">Số điện thoại</dt><dd className="col-7">{refund.phoneNumber}</dd>
-                <dt className="col-5">Thanh toán</dt><dd className="col-7">VNPay · Đã thu tiền</dd>
-                <dt className="col-5">Đơn hàng</dt><dd className="col-7">{refund.orderStatus === "CANCELLED" ? "Đã hủy" : "Khoản thu thừa / đến muộn"}</dd>
-                {refund.cancelledAt && <><dt className="col-5">Ngày hủy</dt><dd className="col-7">{date(refund.cancelledAt)}</dd></>}
-                <dt className="col-5">Số tiền hoàn</dt><dd className="col-7 fw-bold text-danger">{money(refund.amountVnd)}</dd>
-                <dt className="col-5">Lý do hoàn</dt><dd className="col-7 text-break">{refund.reason}</dd>
-                {refund.cancelReason && <><dt className="col-5">Lý do hủy đơn</dt><dd className="col-7 text-break">{cancelReasonLabels[refund.cancelReason]}</dd></>}
-                {refund.cancellationNote && <><dt className="col-5">Ghi chú của khách</dt><dd className="col-7 text-break">{refund.cancellationNote}</dd></>}
-            </dl>
-            {refund.refundAccount ? <section className="border rounded-3 p-3 mb-3" aria-labelledby="refund-bank-details-title">
-                <h3 className="h6 fw-semibold mb-3" id="refund-bank-details-title">Tài khoản nhận hoàn tiền</h3>
-                <dl className="row mb-0">
-                    <dt className="col-5 fw-medium">Ngân hàng</dt><dd className="col-7 text-break">{refund.refundAccount.bankName}</dd>
-                    <dt className="col-5 fw-medium">Số tài khoản</dt><dd className="col-7 font-monospace text-break user-select-all">{refund.refundAccount.accountNumber}</dd>
-                    <dt className="col-5 fw-medium">Chủ tài khoản</dt><dd className="col-7 text-break mb-0">{refund.refundAccount.accountHolder}</dd>
-                </dl>
-                {refund.refundAccount.confirmed && <p className="small text-secondary mt-3 mb-0">Khách đã xác nhận thông tin và đồng ý liên hệ xác minh yêu cầu.</p>}
-            </section> : <p className="small text-secondary mb-3">Yêu cầu chưa có tài khoản nhận hoàn tiền. Vui lòng liên hệ khách để xác nhận trước khi chuyển khoản.</p>}
-            {refund.approvedBy && <p className="small text-secondary text-break mb-2">Người duyệt: {refund.approvedBy}{refund.approvedAt && ` · ${date(refund.approvedAt)}`}</p>}
-            {refund.processedBy && refund.processedAt && <p className="small text-secondary text-break mb-2">Người cập nhật: {refund.processedBy} · {date(refund.processedAt)}</p>}
-            {refund.note && <p className="bg-light rounded p-3 text-break mb-0">{refund.note}</p>}
-            {action && <div className="border-top mt-3 pt-3">
-                <p className="fw-semibold">{actionLabels[action]}</p>
+            {action ? <section className="border rounded-3 p-3">
+                <h3 className="h6 fw-semibold mb-3">{actionLabels[action]}</h3>
                 <p>{action === "succeed" ? `Bạn xác nhận đã hoàn ${money(refund.amountVnd)} cho khách. Đơn hàng sẽ được cập nhật kết quả hoàn tiền.`
                     : action === "reject" ? "Yêu cầu sẽ được ghi nhận là từ chối. Khoản tiền chưa được ghi nhận đã hoàn."
                     : "Khoản tiền sẽ tiếp tục được ghi nhận là chưa hoàn cho khách. Bạn có thể xử lý lại sau."}</p>
+                {refund.refundAccount && <p className="small text-secondary text-break mb-3">
+                    {refund.refundAccount.bankName} · <span className="font-monospace">{refund.refundAccount.accountNumber}</span> · {refund.refundAccount.accountHolder}
+                </p>}
                 {action !== "succeed" && <label className="form-label w-100">Ghi chú (không bắt buộc)
-                    <textarea className="form-control mt-2" rows={2} maxLength={500} value={note} disabled={busy} onChange={event => setNote(event.target.value)} />
+                    <textarea className="form-control mt-2" rows={3} maxLength={500} value={note} disabled={busy} onChange={event => setNote(event.target.value)} />
                 </label>}
-            </div>}
+            </section> : <>
+                <div className="row g-3">
+                    <div className="col-12 col-md-6">
+                        <section className="border rounded-3 p-3 h-100" aria-labelledby="refund-customer-title">
+                            <h3 className="h6 fw-semibold mb-2" id="refund-customer-title">Khách hàng và đơn hàng</h3>
+                            <dl className="row g-2 mb-0">
+                                <dt className="col-5 text-secondary fw-normal">Khách hàng</dt><dd className="col-7 text-break mb-0">{refund.recipientName}</dd>
+                                <dt className="col-5 text-secondary fw-normal">Điện thoại</dt><dd className="col-7 text-break mb-0">{refund.phoneNumber}</dd>
+                                <dt className="col-5 text-secondary fw-normal">Thanh toán</dt><dd className="col-7 mb-0">VNPay · Đã thu tiền</dd>
+                                <dt className="col-5 text-secondary fw-normal">Đơn hàng</dt><dd className="col-7 mb-0">{refund.orderStatus === "CANCELLED" ? "Đã hủy" : "Khoản thu thừa / đến muộn"}</dd>
+                                {refund.cancelledAt && <><dt className="col-5 text-secondary fw-normal">Ngày hủy</dt><dd className="col-7 mb-0">{date(refund.cancelledAt)}</dd></>}
+                            </dl>
+                            <div className="border-top mt-2 pt-2 text-break">
+                                <p className="mb-2"><span className="text-secondary">Lý do hoàn: </span>{refund.reason}</p>
+                                {refund.cancelReason && <p className="mb-0"><span className="text-secondary">Lý do hủy: </span>{cancelReasonLabels[refund.cancelReason]}</p>}
+                                {refund.cancellationNote && <div className="mt-2"><span className="small text-secondary">Ghi chú của khách</span><p className="mt-1 mb-0">{refund.cancellationNote}</p></div>}
+                            </div>
+                        </section>
+                    </div>
+                    <div className="col-12 col-md-6">
+                        <section className="border rounded-3 p-3 h-100" aria-labelledby="refund-bank-details-title">
+                            <h3 className="h6 fw-semibold mb-2" id="refund-bank-details-title">Tài khoản nhận hoàn tiền</h3>
+                            {refund.refundAccount ? <>
+                                <dl className="d-grid gap-3 mb-0">
+                                    <div><dt className="small text-secondary fw-normal mb-1">Ngân hàng</dt><dd className="fw-medium mb-0 text-break">{refund.refundAccount.bankName}</dd></div>
+                                    <div className="bg-light border rounded-3 p-2"><dt className="small text-secondary fw-normal mb-1">Số tài khoản</dt><dd className="font-monospace fw-semibold text-break user-select-all mb-0">{refund.refundAccount.accountNumber}</dd></div>
+                                    <div><dt className="small text-secondary fw-normal mb-1">Chủ tài khoản</dt><dd className="fw-medium text-break mb-0">{refund.refundAccount.accountHolder}</dd></div>
+                                </dl>
+                                {refund.refundAccount.confirmed && <p className="small text-secondary border-top mt-3 pt-3 mb-0">Khách đã xác nhận thông tin và đồng ý liên hệ xác minh yêu cầu.</p>}
+                            </> : <p className="small text-secondary mb-0">Yêu cầu chưa có tài khoản nhận hoàn tiền. Vui lòng liên hệ khách để xác nhận trước khi chuyển khoản.</p>}
+                        </section>
+                    </div>
+                </div>
+                {refund.note && <p className="bg-light border rounded-3 px-3 py-2 text-break mt-3 mb-0"><span className="text-secondary">Ghi chú xử lý: </span>{refund.note}</p>}
+                {(refund.approvedBy || (refund.processedBy && refund.processedAt)) && <details className="small border-top mt-2 pt-2">
+                    <summary className="text-secondary fw-medium">Thông tin xử lý</summary>
+                    <div className="mt-2 text-secondary text-break">
+                        {refund.approvedBy && <p className="mb-1">Người duyệt: {refund.approvedBy}{refund.approvedAt && ` · ${date(refund.approvedAt)}`}</p>}
+                        {refund.processedBy && refund.processedAt && <p className="mb-0">Người cập nhật: {refund.processedBy} · {date(refund.processedAt)}</p>}
+                    </div>
+                </details>}
+            </>}
             {error && <p className="alert alert-danger mt-3 mb-0" role="alert">{error}</p>}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="gap-2 py-3">
             {action ? <>
-                <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={() => { setAction(null); setError(""); }}>Quay lại</button>
-                <button type="button" className={`btn ${action === "succeed" ? "btn-success" : "btn-danger"}`} disabled={busy} onClick={() => { void submit(action); }}>{busy ? "Đang lưu…" : "Xác nhận"}</button>
+                <button type="button" className="btn btn-light border account-button m-0" disabled={busy} onClick={() => { setAction(null); setError(""); }}>Quay lại</button>
+                <button type="button" className={`btn account-button m-0 ${action === "succeed" ? "btn-primary" : "btn-danger"}`} disabled={busy} onClick={() => { void submit(action); }}>{busy ? "Đang lưu…" : "Xác nhận"}</button>
             </> : <>
-                <button type="button" className="btn btn-outline-secondary" disabled={busy} onClick={onClose}>Đóng</button>
-                {refund.status === "REQUESTED" && <button type="button" className="btn btn-outline-danger" disabled={busy} onClick={() => setAction("reject")}>Từ chối</button>}
-                {["REQUESTED", "FAILED"].includes(refund.status) && <button type="button" className="btn-header-primary" disabled={busy} onClick={() => { void submit("approve"); }}>
+                <button type="button" className="btn btn-light border account-button m-0" disabled={busy} onClick={onClose}>Đóng</button>
+                {refund.status === "REQUESTED" && <button type="button" className="btn btn-outline-danger account-button m-0" disabled={busy} onClick={() => setAction("reject")}>Từ chối</button>}
+                {["REQUESTED", "FAILED"].includes(refund.status) && <button type="button" className="btn btn-primary account-button m-0" disabled={busy} onClick={() => { void submit("approve"); }}>
                     {busy ? "Đang lưu…" : refund.status === "FAILED" ? "Xử lý lại" : actionLabels.approve}
                 </button>}
                 {awaiting && <>
-                    <button type="button" className="btn btn-outline-danger" disabled={busy} onClick={() => setAction("fail")}>Chưa hoàn được</button>
-                    <button type="button" className="btn btn-success" disabled={busy} onClick={() => setAction("succeed")}>Xác nhận đã hoàn tiền</button>
+                    <button type="button" className="btn btn-outline-danger account-button m-0" disabled={busy} onClick={() => setAction("fail")}>Chưa hoàn được</button>
+                    <button type="button" className="btn btn-primary account-button m-0" disabled={busy} onClick={() => setAction("succeed")}>Xác nhận đã hoàn tiền</button>
                 </>}
             </>}
         </Modal.Footer>
