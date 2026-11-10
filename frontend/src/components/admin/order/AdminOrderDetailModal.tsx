@@ -18,6 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { AdminOrderDetail } from "../../../api/AdminOrderService";
 import { getPaymentStatusLabel } from "../../../api/OrderService";
+import { cancelReasonLabels } from "../../../data/orderDetailsData";
 import { OrderStatusBadge, ProductTypeBadge } from "../../../pages/AdminOrder";
 import CustomBadge from "../badge/CustomBadge";
 import { OrderStatus } from "../../../enums/OrderStatus";
@@ -450,7 +451,7 @@ export default function AdminOrderDetailModal({
                                                 {order.cancelReason && (
                                                     <div className="mt-2 p-2 bg-danger-subtle rounded-3 small text-danger border border-danger">
                                                         <FontAwesomeIcon icon={faTriangleExclamation} className="me-1" />
-                                                        <strong>Lý do hủy:</strong> {order.cancelReason}
+                                                        <strong>Lý do hủy:</strong> {cancelReasonLabels[order.cancelReason]}
                                                     </div>
                                                 )}
                                             </div>

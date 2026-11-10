@@ -1,4 +1,5 @@
-.profile-page {
+.profile-page,
+.account-modal {
     --bs-primary: var(--color-primary);
     --bs-primary-rgb: 225, 29, 72;
 }
@@ -33,6 +34,7 @@
 }
 
 .profile-page .form-control:focus,
+.account-modal .form-control:focus,
 .profile-page .account-form .form-select:focus {
     border-color: rgba(var(--bs-primary-rgb), 0.5);
     box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.1);
@@ -111,6 +113,10 @@
     margin-inline: auto;
 }
 
+.account-modal-wide .modal-dialog {
+    max-width: 920px;
+}
+
 .account-modal .modal-content {
     border: 1px solid #e2e8f0;
     border-radius: 14px;
@@ -162,6 +168,21 @@
 .account-form .form-check-input:checked {
     border-color: var(--color-primary);
     background-color: var(--color-primary);
+}
+
+.account-choice {
+    min-height: 44px;
+    cursor: pointer;
+}
+
+.account-choice:has(input:checked) {
+    --bs-border-color: var(--color-primary);
+    background: #fff1f2;
+}
+
+.account-choice:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 .account-form-actions {

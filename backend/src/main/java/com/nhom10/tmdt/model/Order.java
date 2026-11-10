@@ -7,6 +7,8 @@ import com.nhom10.tmdt.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.time.Instant;
@@ -97,7 +99,8 @@ public class Order {
     private String note;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "cancel_reason")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "cancel_reason", length = 32)
     private CancelReason cancelReason;
 
     @Column(name = "cancelled_at")

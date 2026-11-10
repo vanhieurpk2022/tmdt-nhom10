@@ -12,6 +12,7 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import OrderCancellationPage from './pages/OrderCancellationPage';
 import VnPayResultPage from './pages/VnPayResultPage';
 import PaymentReviewsPage from './pages/PaymentReviewsPage';
 import RefundsPage from './pages/RefundsPage';
@@ -117,6 +118,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                     <Route path={ROUTES.ORDER_SUCCESS} element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
                     <Route path={ROUTES.ORDER_DETAIL} element={<ProtectedRoute><OrderSuccessPage detail /></ProtectedRoute>} />
+                    <Route path={ROUTES.ORDER_CANCEL} element={<ProtectedRoute><OrderCancellationPage /></ProtectedRoute>} />
                     <Route path={ROUTES.VNPAY_RESULT} element={<ProtectedRoute><VnPayResultPage /></ProtectedRoute>} />
                     <Route path={ROUTES.ORDERS} element={<ProtectedRoute><OrderHistoryPage /></ProtectedRoute>} />
                     <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />

@@ -1,6 +1,14 @@
 import api from "./api";
 import type { RefundStatus } from "../enums/RefundStatus";
 import type { OrderStatus } from "../enums/OrderStatus";
+import type { CancelReason } from "./OrderService";
+
+export interface RefundBankAccount {
+    bankName: string;
+    accountNumber: string;
+    accountHolder: string;
+    confirmed: boolean;
+}
 
 export interface CustomerRefund {
     id: number;
@@ -12,6 +20,9 @@ export interface CustomerRefund {
 }
 
 export interface RefundSummary extends CustomerRefund {
+    refundAccount: RefundBankAccount | null;
+    cancelReason: CancelReason | null;
+    cancellationNote: string | null;
     orderId: number;
     recipientName: string;
     phoneNumber: string;

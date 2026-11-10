@@ -1,7 +1,7 @@
 import api from "./api";
 import type { ApiResponse } from "./api";
 import type { OrderStatus } from "../enums/OrderStatus";
-import type { PaymentMethod, OrderResponse } from "./OrderService";
+import type { CancelReason, PaymentMethod, OrderResponse } from "./OrderService";
 import type { ProductType } from "../enums/ProductType";
 
 type PaymentStatus = NonNullable<OrderResponse["paymentStatus"]>;
@@ -64,7 +64,7 @@ export interface AdminOrderDetail {
     discountAmount: number;
     totalPrice: number;
     note?: string;
-    cancelReason?: string;
+    cancelReason?: CancelReason;
     user: {
         id: number;
         name: string;

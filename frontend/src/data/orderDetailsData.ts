@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import type { CancelReason } from "../api/OrderService";
+import type { CancelReason, OrderResponse } from "../api/OrderService";
 import type { RefundStatus } from "../enums/RefundStatus";
 
 export const cancelReasonLabels: Record<CancelReason, string> = {
@@ -7,7 +7,21 @@ export const cancelReasonLabels: Record<CancelReason, string> = {
     OUT_OF_STOCK: "Sản phẩm hết hàng",
     DELIVERY_TIME_CONFLICT: "Thời gian giao hàng không phù hợp",
     FACTORY_CONFIRM_LATE: "Cửa hàng xác nhận chậm",
+    CHANGE_ITEMS: "Thay đổi sản phẩm hoặc số lượng",
+    CHANGE_ADDRESS: "Thay đổi địa chỉ nhận hàng",
+    CHANGE_PAYMENT_METHOD: "Thay đổi phương thức thanh toán",
+    DUPLICATE_ORDER: "Đặt trùng đơn hàng",
+    OTHER: "Lý do khác",
 };
+
+export const customerCancelReasons: CancelReason[] = [
+    "CHANGE_ITEMS", "CHANGE_ADDRESS", "CHANGE_PAYMENT_METHOD", "DUPLICATE_ORDER", "CUSTOMER_CHANGED_MIND", "OTHER",
+];
+
+export function canCancelOrder(order: Pick<OrderResponse, "status" | "paymentStatus">) {
+    return ["PENDING_PAYMENT", "PENDING", "CONFIRMED", "PROCESSING"].includes(order.status)
+        && !["REFUND_PENDING", "REFUNDED"].includes(order.paymentStatus ?? "");
+}
 
 export const refundStatusLabels: Record<RefundStatus, string> = {
     REQUESTED: "Chờ duyệt",

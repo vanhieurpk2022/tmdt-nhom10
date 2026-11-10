@@ -3,58 +3,38 @@ import { Link, useNavigate } from "react-router";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faCreditCard, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { orderService, type CancelOrderRequest, type OrderResponse } from "../../api/OrderService";
+import { orderService, type OrderResponse } from "../../api/OrderService";
 import { useCart } from "../../api/CartContext";
-import { cancelReasonLabels, getOrderError } from "../../data/orderDetailsData";
+import { canCancelOrder, getOrderError } from "../../data/orderDetailsData";
 import { ROUTES } from "../../routes/routes";
 
 interface OrderActionsProps {
     order: OrderResponse;
-    onOrderChange: (order: OrderResponse) => void;
     onRefresh: () => void;
 }
 
-export default function OrderActions({ order, onOrderChange, onRefresh }: OrderActionsProps) {
+export default function OrderActions({ order, onRefresh }: OrderActionsProps) {
     const navigate = useNavigate();
     const { applyCart, showCartNotice } = useCart();
-    const [dialog, setDialog] = useState<"cancel" | "reorder" | null>(null);
-    const [request, setRequest] = useState<CancelOrderRequest>({ reason: "CUSTOMER_CHANGED_MIND", note: "" });
+    const [showReorder, setShowReorder] = useState(false);
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState("");
-    const [message, setMessage] = useState("");
     const submitting = useRef(false);
-    const canCancel = ["PENDING_PAYMENT", "PENDING"].includes(order.status)
-        && !["REFUND_PENDING", "REFUNDED"].includes(order.paymentStatus ?? "");
     const canPay = order.paymentMethod === "VNPAY" && order.status === "PENDING_PAYMENT"
         && ["PENDING", "FAILED"].includes(order.paymentStatus ?? "PENDING");
     const canReorder = order.items.length > 0
         && ["DELIVERED", "CANCELLED", "RETURNED", "REFUNDED"].includes(order.status);
 
-    function openDialog(value: "cancel" | "reorder") {
-        setError("");
-        setMessage("");
-        setDialog(value);
-    }
-
     async function confirm() {
-        if (!dialog || submitting.current) return;
+        if (!showReorder || submitting.current) return;
         submitting.current = true;
         setBusy(true);
         setError("");
         try {
-            if (dialog === "cancel") {
-                const updated = await orderService.cancelOrder(order.id, { ...request, note: request.note?.trim() });
-                onOrderChange(updated);
-                setMessage(updated.paymentStatus === "REFUND_PENDING"
-                    ? "Đã hủy đơn và ghi nhận yêu cầu hoàn tiền. Bạn có thể theo dõi tiến trình bên dưới."
-                    : "Đã hủy đơn hàng thành công.");
-                setDialog(null);
-            } else {
-                const cart = await orderService.reorder(order.id);
-                applyCart(cart);
-                showCartNotice("Đã cập nhật giỏ hàng theo giá và tồn kho hiện tại. Vui lòng kiểm tra trước khi thanh toán.");
-                navigate(ROUTES.CART);
-            }
+            const cart = await orderService.reorder(order.id);
+            applyCart(cart);
+            showCartNotice("Đã cập nhật giỏ hàng theo giá và tồn kho hiện tại. Vui lòng kiểm tra trước khi thanh toán.");
+            navigate(ROUTES.CART);
         } catch (cause) {
             setError(getOrderError(cause, "Chưa thể thực hiện thao tác. Vui lòng kiểm tra lại trạng thái đơn và thử lại."));
         } finally {
@@ -69,44 +49,30 @@ export default function OrderActions({ order, onOrderChange, onRefresh }: OrderA
                 {canPay && <Link className="btn order-detail-button order-detail-button-primary order-details-pay" to={`${ROUTES.VNPAY_RESULT}?orderId=${order.id}`}>
                     <FontAwesomeIcon icon={faCreditCard} aria-hidden="true" /> Tiếp tục thanh toán
                 </Link>}
-                {canReorder && <button type="button" className="btn order-detail-button order-detail-button-primary" disabled={busy} onClick={() => openDialog("reorder")}>
+                {canReorder && <button type="button" className="btn order-detail-button order-detail-button-primary" disabled={busy} onClick={() => { setError(""); setShowReorder(true); }}>
                     <FontAwesomeIcon icon={faArrowRotateLeft} aria-hidden="true" /> Đặt lại đơn
                 </button>}
-                {canCancel && <button type="button" className="btn order-detail-button order-detail-button-danger" disabled={busy} onClick={() => openDialog("cancel")}>
+                {canCancelOrder(order) && <Link className="btn order-detail-button order-detail-button-danger" to={ROUTES.ORDER_CANCEL.replace(":id", String(order.id))}>
                     <FontAwesomeIcon icon={faXmark} aria-hidden="true" /> Hủy đơn hàng
-                </button>}
+                </Link>}
                 <button type="button" className="btn order-detail-button order-details-refresh" disabled={busy} onClick={onRefresh}>
                     <FontAwesomeIcon icon={faRotate} aria-hidden="true" /> Cập nhật trạng thái
                 </button>
             </div>
-            {message && <p className="alert alert-success mt-3 mb-0" role="status">{message}</p>}
-            <Modal show={dialog !== null} onHide={() => { if (!busy) setDialog(null); }} centered
+            <Modal show={showReorder} onHide={() => { if (!busy) setShowReorder(false); }} centered
                 className="account-modal account-modal-compact" backdrop={busy ? "static" : true} keyboard={!busy}
                 aria-labelledby="order-action-title" aria-describedby="order-action-description">
                 <Modal.Header closeButton={!busy} closeLabel="Đóng">
-                    <Modal.Title as="h2" id="order-action-title">{dialog === "cancel" ? "Xác nhận hủy đơn hàng" : "Đặt lại đơn hàng"}</Modal.Title>
+                    <Modal.Title as="h2" id="order-action-title">Đặt lại đơn hàng</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="account-form" aria-busy={busy}>
-                    {dialog === "cancel" ? <>
-                        <p id="order-action-description" className="text-secondary">{order.paymentStatus === "PAID"
-                            ? "Đơn hàng sẽ được hủy và tạo yêu cầu hoàn tiền. Tiền chỉ được ghi nhận đã hoàn khi có kết quả xác nhận."
-                            : "Đơn hàng sẽ ngừng xử lý sau khi hủy. Nếu đã thanh toán qua VNPay, khoản tiền sẽ được đối soát để xử lý hoàn tiền."}</p>
-                        <label className="form-label" htmlFor="cancel-reason">Lý do hủy đơn</label>
-                        <select id="cancel-reason" className="form-select mb-3" disabled={busy} value={request.reason}
-                            onChange={event => setRequest({ ...request, reason: event.target.value as CancelOrderRequest["reason"] })}>
-                            {Object.entries(cancelReasonLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-                        </select>
-                        <label className="form-label" htmlFor="cancel-note">Ghi chú (không bắt buộc)</label>
-                        <textarea id="cancel-note" className="form-control" rows={3} maxLength={500} disabled={busy}
-                            value={request.note} onChange={event => setRequest({ ...request, note: event.target.value })} />
-                        <p className="small text-secondary mt-1 mb-0">{request.note?.length ?? 0}/500 ký tự</p>
-                    </> : <p id="order-action-description" className="text-secondary mb-0">Sản phẩm sẽ được cập nhật vào giỏ hàng theo giá và tồn kho hiện tại. Vui lòng kiểm tra lại trước khi đặt đơn mới.</p>}
+                <Modal.Body aria-busy={busy}>
+                    <p id="order-action-description" className="text-secondary mb-0">Sản phẩm sẽ được cập nhật vào giỏ hàng theo giá và tồn kho hiện tại. Vui lòng kiểm tra lại trước khi đặt đơn mới.</p>
                     {error && <p className="alert alert-danger mt-3 mb-0" role="alert">{error}</p>}
                 </Modal.Body>
                 <Modal.Footer className="border-0 pt-0">
-                    <button type="button" className="btn btn-light border account-button m-0" disabled={busy} onClick={() => setDialog(null)} autoFocus>Quay lại</button>
-                    <button type="button" className={`btn account-button m-0 ${dialog === "cancel" ? "btn-danger" : "btn-primary"}`} disabled={busy} onClick={() => { void confirm(); }}>
-                        {busy ? "Đang xử lý…" : dialog === "cancel" ? "Xác nhận hủy đơn" : "Cập nhật giỏ hàng"}
+                    <button type="button" className="btn btn-light border account-button m-0" disabled={busy} onClick={() => setShowReorder(false)} autoFocus>Quay lại</button>
+                    <button type="button" className="btn btn-primary account-button m-0" disabled={busy} onClick={() => { void confirm(); }}>
+                        {busy ? "Đang xử lý…" : "Cập nhật giỏ hàng"}
                     </button>
                 </Modal.Footer>
             </Modal>

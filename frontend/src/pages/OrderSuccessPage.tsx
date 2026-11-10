@@ -74,7 +74,7 @@ function OrderDetails({ id, validId, detail }: { id: number; validId: boolean; d
                         { label: "Chi tiết đơn hàng" },
                     ]} />
                     <OrderSuccessHero order={order} detail={detail}>
-                        <OrderActions key={order.id} order={order} onOrderChange={updated => setResult({ id, order: updated, error: "" })} onRefresh={refresh} />
+                        <OrderActions key={order.id} order={order} onRefresh={refresh} />
                     </OrderSuccessHero>
                     <div className="order-details-layout">
                         <div className="order-details-main">
