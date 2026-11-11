@@ -42,28 +42,13 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] roleManagementPaths = {"/v1/role", "/v1/role/**", "/v1/user/*/roles", "/v1/user/*/roles/**"};
-        // Cấu hình phân quyền cho endpoint
+        // Cấu hình phân quyền cho endpoint từ Endpoints.java
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/error").permitAll()
-                .requestMatchers(HttpMethod.GET, "/payments/vnpay/ipn", "/payments/vnpay/return").permitAll()
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/v1/product/**").permitAll()
-                .requestMatchers("/manager/**").permitAll()
-                .requestMatchers("/v1/category/**").permitAll() // có xài
-                .requestMatchers("/v1/product-image/**").permitAll() // có xài
-                .requestMatchers("/uploads/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
-                .requestMatchers( "/factories/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/custom-scent/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/custom-scent/**").permitAll()
-                .requestMatchers("/shipping/provinces", "/shipping/districts", "/shipping/wards").permitAll()
-                .requestMatchers(HttpMethod.POST, roleManagementPaths).hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, roleManagementPaths).hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PATCH, roleManagementPaths).hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, roleManagementPaths).hasRole("ADMIN")
-                .requestMatchers("/admin/payments/**").hasRole("ADMIN")
-                .requestMatchers("/admin/**").permitAll()
+                .requestMatchers(HttpMethod.GET, Endpoints.PUBLIC_GET).permitAll()
+                .requestMatchers(HttpMethod.POST, Endpoints.PUBLIC_POST).permitAll()
+                .requestMatchers(Endpoints.FACTORY_ENDPOINT).hasAnyRole("FACTORY", "STAFF")
+                .requestMatchers(Endpoints.ADMIN_ENDPOINT).hasRole("ADMIN")
                 .anyRequest().authenticated());
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex

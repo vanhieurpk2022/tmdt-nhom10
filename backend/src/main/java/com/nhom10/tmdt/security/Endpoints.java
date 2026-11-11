@@ -10,80 +10,63 @@ public class Endpoints {
     );
 
     public static final String[] PUBLIC_GET = {
-            "/books",
-            "/books/**",
-            "/genre/**",
-            "/images/**",
-            "/reviews/**",
-            "/users/search/existsByUsername/**",
-            "/users/search/existsByEmail/**",
-            "/user/active-account/**",
-            "/cart-items/**",
-            "/users/*/listCartItems",
-            "/orders/**",
-            "/order-detail/**",
-            "/users/*/listOrders",
-            "/users/*/listRoles",
-            "/users/*",
-            "/favorite-book/get-favorite-book/**",
-            "/users/*/listFavoriteBooks",
-            "/favorite-books/*/book",
-            "/vnpay/**",
+            "/error",
+            // Auth (kiểm tra phiên & xác thực email)
+            "/auth/me",
+            "/auth/verify-email",
+            // Catalog sản phẩm, xưởng & phối hương công khai
             "/products/**",
+            "/factories",
+            "/factories/*",
+            "/factories/*/categories",
+            "/custom-scent/**",
+            // Địa giới hành chính (GHN)
+            "/shipping/provinces",
+            "/shipping/districts",
+            "/shipping/wards",
+            // Callback / IPN từ VNPay (xác thực chữ ký HMAC)
+            "/payments/vnpay/ipn",
+            "/payments/vnpay/return",
+            // Spring Data REST GET công khai mà FE đang dùng
+            "/v1/category",
+            "/v1/category/**",
+            "/v1/product-image/search/byProductId"
     };
 
 
     public static final String[] PUBLIC_POST = {
-            "/user/register",
-            "/user/authenticate",
-            "/cart-item/add-item",
-            "/order/**",
-            "/review/add-review/**",
-            "/feedback/add-feedback",
-            "/favorite-book/add-book",
-            "/vnpay/create-payment/**",
-            "/review/get-review/**",
+            "/auth/login",
+            "/auth/logout",
+            "/auth/register",
+            "/auth/resend",
+            "/auth/google",
+            "/auth/facebook",
+            "/auth/forgot-password",
+            "/auth/verify-recovery-code",
+            "/auth/reset-password"
     };
-
-    public static final String[] PUBLIC_PUT = {
-            "/cart-item/**",
-            "/cart-items/**",
-            "/users/**",
-            "/user/update-profile",
-            "/user/change-password",
-            "/user/forgot-password",
-            "/user/change-avatar",
-            "/order/update-order",
-            "/order/cancel-order",
-            "/review/update-review"
-    };
-
-    public static final String[] PUBLIC_DELETE = {
-            "/cart-items/**",
-            "/favorite-book/delete-book",
-    };
-
     public static final String[] ADMIN_ENDPOINT = {
-            "/users",
-            "/users/**",
-            "/cart-items/**",
-            "/books",
-            "/books/**",
-            "/book/add-book/**",
-            "/user/add-user/**",
-            "/feedbacks/**",
-            "/cart-items/**",
-            "/cart-item/**",
-            "/orders/**",
-            "/order/**",
-            "/order-detail/**",
-            "/roles/**",
-            "/favorite-book/**",
-            "/favorite-books/**",
-            "/review/**",
-            "/book/get-total/**",
-            "/feedbacks/search/countBy/**",
-            "/**",
+            "/admin/**",
+            "/v1/role",
+            "/v1/role/**",
+            "/v1/user/*/roles",
+            "/v1/user/*/roles/**"
+    };
 
+    public static final String[] FACTORY_ENDPOINT = {
+            // Thống kê Dashboard xưởng
+            "/manager/dashboard/**",
+            // Quản lý sản phẩm, biến thể (mil), công thức custom & ảnh thumbnail
+            "/manager/products/**",
+            "/manager/productMils/**",
+            "/manager/product-mil/**",
+            "/manager/product-images/**",
+            // Quản lý mẫu chai & nhãn mặc định
+            "/manager/custom-bottle-samples/**",
+            "/manager/default-bottle-labels/**",
+            // Quản lý đơn hàng của xưởng
+            "/manager/orders/**",
+            // Quản lý nhân viên xưởng (cân nhắc giới hạn riêng cho OWNER / ROLE_FACTORY nếu tách quyền STAFF)
+            "/manager/staffs/**"
     };
 }
