@@ -29,6 +29,7 @@ public class ProductService {
     private final PurchaseItemService purchases;
     private final ProductRecommendationService recommendationService;
     private final FaissRecommendationClient faissRecommendationClient;
+    private final FrequentlyBoughtTogetherService boughtTogetherService;
 
     public ProductService(
             ProductRepository productRepo,
@@ -36,7 +37,8 @@ public class ProductService {
             FactoryRepository factoryRepo,
             PurchaseItemService purchases,
             ProductRecommendationService recommendationService,
-            FaissRecommendationClient faissRecommendationClient
+            FaissRecommendationClient faissRecommendationClient,
+            FrequentlyBoughtTogetherService boughtTogetherService
     ) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
@@ -44,6 +46,7 @@ public class ProductService {
         this.purchases = purchases;
         this.recommendationService = recommendationService;
         this.faissRecommendationClient = faissRecommendationClient;
+        this.boughtTogetherService = boughtTogetherService;
     }
 
     // Lấy metadata cho sidebar
@@ -159,6 +162,26 @@ public class ProductService {
         return similar.stream()
                 .map(this::toCard)
                 .toList();
+    }
+
+    /**
+     * Gợi ý sản phẩm mua kèm thường xuyên bằng Association Rule Mining.
+     * Fallback: nếu không có dữ liệu đơn hàng → trả sản phẩm bán chạy nhất.
+     */
+    public List<ProductCardResponse> getBoughtTogetherProducts(Long productId, Integer limit) {
+        if (productRepo.findById(productId).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + productId);
+        }
+        int topK = (limit != null && limit > 0) ? limit : 4;
+        List<Product> result = boughtTogetherService.findBoughtTogether(productId, topK);
+        if (result.isEmpty()) {
+            Pageable pageable = PageRequest.of(0, topK);
+            result = productRepo.findBestSellerProducts(pageable).stream()
+                    .filter(p -> !p.getId().equals(productId))
+                    .limit(topK)
+                    .toList();
+        }
+        return result.stream().map(this::toCard).toList();
     }
 
     private ProductPageResponse filterBySales(Specification<Product> spec, ProductFilterRequest req) {

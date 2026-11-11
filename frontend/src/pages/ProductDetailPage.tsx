@@ -45,6 +45,7 @@ export default function ProductDetailPage() {
 
     const [product, setProduct] = useState<ProductDetail | null>(null);
     const [relatedProducts, setRelatedProducts] = useState<ProductCard[]>([]);
+    const [boughtTogetherProducts, setBoughtTogetherProducts] = useState<ProductCard[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -103,6 +104,15 @@ export default function ProductDetailPage() {
                     }
                 } catch (relatedError) {
                     console.error("Lỗi khi tải sản phẩm gợi ý:", relatedError);
+                }
+
+                try {
+                    const boughtTogether = await productService.getBoughtTogetherProducts(productId, 4);
+                    if (isMounted) {
+                        setBoughtTogetherProducts(boughtTogether.filter((p) => p.id !== Number(productId)).slice(0, 4));
+                    }
+                } catch (boughtErr) {
+                    console.error("Lỗi khi tải sản phẩm mua kèm:", boughtErr);
                 }
             } catch (err) {
                 if (!isMounted) return;
@@ -553,6 +563,68 @@ export default function ProductDetailPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Danh sản phẩm mua kèm thường xuyên */}
+                {boughtTogetherProducts.length > 0 && (
+                    <>
+                        <div className="d-flex justify-content-between align-items-end mb-4">
+                            <h3 className="fw-black mb-0">🛒 Thường mua kèm cùng</h3>
+                        </div>
+                        <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-5">
+                            {boughtTogetherProducts.map((btProduct) => (
+                                <div className="col" key={btProduct.id}>
+                                    <div className="card h-100 product-card border-0 shadow-sm rounded-4 overflow-hidden">
+                                        <div className="position-relative">
+                                            <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`}>
+                                                <img
+                                                    src={btProduct.thumbnailUrl || FALLBACK_IMAGE}
+                                                    className="card-img-top product-img"
+                                                    alt={btProduct.name}
+                                                    onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_IMAGE; }}
+                                                />
+                                            </Link>
+                                            <button className="btn btn-light bg-white rounded-circle position-absolute top-0 end-0 m-3 p-2 shadow-sm d-flex align-items-center justify-content-center text-muted fav-btn">
+                                                <FontAwesomeIcon icon={faHeart} />
+                                            </button>
+                                        </div>
+                                        <div className="card-body p-4 d-flex flex-column">
+                                            <div className="d-flex align-items-center gap-1 mb-2">
+                                                <FontAwesomeIcon icon={faStar} className="text-warning fs-7" />
+                                                <span className="fw-bold fs-7">{btProduct.avgRating.toFixed(1)}</span>
+                                                <span className="text-muted fs-7">({btProduct.totalSold}+ đã bán)</span>
+                                            </div>
+                                            <h5 className="card-title fs-6 fw-bold mb-1 product-title">
+                                                <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`} className="text-dark text-decoration-none">
+                                                    {btProduct.name}
+                                                </Link>
+                                            </h5>
+                                            <p className="card-text text-muted fs-7 mb-3 product-desc">{btProduct.description}</p>
+                                            <div className="mt-auto">
+                                                {btProduct.factoryName && (
+                                                    <div className="d-flex align-items-center gap-2 mb-3 text-success fs-7 fw-bold">
+                                                        <FontAwesomeIcon icon={faLeaf} />
+                                                        <span>{btProduct.factoryName}</span>
+                                                    </div>
+                                                )}
+                                                <div className="d-flex justify-content-between align-items-end mb-1">
+                                                    <span className="fs-5 fw-bold text-dark">{(btProduct.price ?? 0).toLocaleString("vi-VN")}đ</span>
+                                                    <span className="badge rounded-pill fw-normal px-2 py-1 stock-green">{btProduct.stockStatus}</span>
+                                                </div>
+                                                <div className="row g-2 mt-2">
+                                                    <div className="col-12">
+                                                        <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`} className="btn btn-outline-primary w-100 fw-bold bg-white text-primary">
+                                                            Xem chi tiết
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
 
                 {/* Danh sách sản phẩm gợi ý liên quan */}
                 {relatedProducts.length > 0 && (

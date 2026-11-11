@@ -99,4 +99,18 @@ public class ProductController {
     ) {
         return new ApiResponse<>(200, "Lấy danh sách sản phẩm tương tự thành công", productService.getSimilarProducts(id, limit));
     }
+
+    /**
+     * GET /products/{id}/bought-together
+     * Gợi ý sản phẩm mua kèm thường xuyên dựa trên Association Rule Mining từ lịch sử đơn hàng.
+     * Confidence = (số đơn chứa cả A và B) / (số đơn chứa A).
+     * Fallback: sản phẩm bán chạy nếu chưa có đủ dữ liệu đơn hàng.
+     */
+    @GetMapping("/{id}/bought-together")
+    public ApiResponse<List<ProductCardResponse>> getBoughtTogetherProducts(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "4") Integer limit
+    ) {
+        return new ApiResponse<>(200, "Lấy danh sách sản phẩm mua kèm thành công", productService.getBoughtTogetherProducts(id, limit));
+    }
 }
