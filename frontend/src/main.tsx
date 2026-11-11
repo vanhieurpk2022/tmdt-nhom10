@@ -38,6 +38,7 @@ import { AuthProvider } from './api/AuthContext';
 import { CartProvider } from './api/CartContext';
 import { AdminSidebarProvider } from './api/AdminSidebarContext';
 import ProtectedRoute from './api/ProtectedRoute';
+import FactoryProtectedRoute from './api/protected/FactoryProtectedRoute';
 import { VerifyAccount } from './pages/VerifyAccount';
 import RequireVerifyState from './api/RequireVerifyState';
 import { VerifyEmailSuccess } from './pages/VerifyEmailSuccess';
@@ -82,31 +83,31 @@ createRoot(document.getElementById('root')!).render(
               <AdminSidebarProvider>
                 <Routes>
                   {/* Dashboard routes without MainLayout */}
-                  <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryDashBoard />} />
-                  <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProfile />} />
-                  <Route path={ROUTES.FACTORY_SUPPORT} element={<FactorySupport />} />
-                  <Route path={ROUTES.FACTORY_ORDER} element={<FactoryOrder />} />
-                  <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProductPage />} />
-                  <Route path={ROUTES.FACTORY_STAFF} element={<FactoryStaff />} />
-                  <Route path={ROUTES.FACTORY_SALE} element={<FactorySale />} />
+                  <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryProtectedRoute><FactoryDashBoard /></FactoryProtectedRoute>} />
+                  <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProtectedRoute><FactoryProfile /></FactoryProtectedRoute>} />
+                  <Route path={ROUTES.FACTORY_SUPPORT} element={<FactoryProtectedRoute><FactorySupport /></FactoryProtectedRoute>} />
+                  <Route path={ROUTES.FACTORY_ORDER} element={<FactoryProtectedRoute><FactoryOrder /></FactoryProtectedRoute>} />
+                  <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProtectedRoute><FactoryProductPage /></FactoryProtectedRoute>} />
+                  <Route path={ROUTES.FACTORY_STAFF} element={<FactoryProtectedRoute><FactoryStaff /></FactoryProtectedRoute>} />
+                  <Route path={ROUTES.FACTORY_SALE} element={<FactoryProtectedRoute><FactorySale /></FactoryProtectedRoute>} />
+                  <Route path={`${ROUTES.FACTORY_PRODUCT_DETAILS}/:id`} element={<FactoryProtectedRoute><FactoryProductDetails /></FactoryProtectedRoute>} />
 
-                  <Route path={ROUTES.AdMIN_SALE} element={<AdminSale />} />
-                  <Route path={ROUTES.ADMIN_DASHBOARD} element={<Admin />} />
-                  <Route path={ROUTES.ADMIN_WORKSHOP} element={<WorkshopManagement />} />
-                  <Route path={ROUTES.ADMIN_CUSTOMER} element={<UserManager />} />
-                  <Route path={ROUTES.ADMIN_ORDER} element={<AdminOrder />} />
-                  <Route path={ROUTES.ADMIN_PRODUCT} element={<AdminProductPage />} />
-                  <Route path="/admin-products" element={<AdminProductPage />} />
-                  <Route path="/admin/products" element={<AdminProductPage />} />
-                  <Route path="/admin/product" element={<AdminProductPage />} />
+                  <Route path={ROUTES.AdMIN_SALE} element={<ProtectedRoute requiredRole="ADMIN"><AdminSale /></ProtectedRoute>} />
+                  <Route path={ROUTES.ADMIN_DASHBOARD} element={<ProtectedRoute requiredRole="ADMIN"><Admin /></ProtectedRoute>} />
+                  <Route path={ROUTES.ADMIN_WORKSHOP} element={<ProtectedRoute requiredRole="ADMIN"><WorkshopManagement /></ProtectedRoute>} />
+                  <Route path={ROUTES.ADMIN_CUSTOMER} element={<ProtectedRoute requiredRole="ADMIN"><UserManager /></ProtectedRoute>} />
+                  <Route path={ROUTES.ADMIN_ORDER} element={<ProtectedRoute requiredRole="ADMIN"><AdminOrder /></ProtectedRoute>} />
+                  <Route path={ROUTES.ADMIN_PRODUCT} element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                  <Route path="/admin-products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                  <Route path="/admin/products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                  <Route path="/admin/product" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
                   <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute requiredRole="ADMIN"><PaymentReviewsPage /></ProtectedRoute>} />
                   <Route path={ROUTES.REFUNDS} element={<ProtectedRoute requiredRole="ADMIN"><RefundsPage /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_SUPPORT} element={<AdminSupport />} />
-                  <Route path={`${ROUTES.FACTORY_PRODUCT_DETAILS}/:id`} element={<FactoryProductDetails />} />
+                  <Route path={ROUTES.ADMIN_SUPPORT} element={<ProtectedRoute requiredRole="ADMIN"><AdminSupport /></ProtectedRoute>} />
 
                   {/* Main shop routes with MainLayout */}
                   <Route element={<MainLayout />}>
-                    <Route path={ROUTES.FACTORY_FORM} element={<RegisterFactoryForm />} />
+                    <Route path={ROUTES.FACTORY_FORM} element={<ProtectedRoute><RegisterFactoryForm /></ProtectedRoute>} />
                     <Route path={ROUTES.CUSTOM_SCENT} element={<CustomScentPage />} />
                     <Route path={ROUTES.CUSTOM_SCENT_CUSTOMIZER} element={<CustomScentCustomizerPage />} />
                     <Route path={`${ROUTES.CUSTOM_SCENT_CUSTOMIZER}/:id`} element={<CustomScentCustomizerPage />} />
@@ -123,13 +124,13 @@ createRoot(document.getElementById('root')!).render(
                     <Route path={ROUTES.ORDERS} element={<ProtectedRoute><OrderHistoryPage /></ProtectedRoute>} />
                     <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
                     <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetailPage />} />
-                    <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
-                    <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePasswordPage />} />
-                    <Route path={ROUTES.ADDRESSES} element={<AddressBookPage />} />
-                    <Route path={ROUTES.FAVORITES} element={<FavoriteProductsPage />} />
-                    <Route path={ROUTES.NOTIFICATIONS} element={<NotificationsPage />} />
+                    <Route path={ROUTES.PROFILE} element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                    <Route path={ROUTES.CHANGE_PASSWORD} element={<ProtectedRoute><ChangePasswordPage /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADDRESSES} element={<ProtectedRoute><AddressBookPage /></ProtectedRoute>} />
+                    <Route path={ROUTES.FAVORITES} element={<ProtectedRoute><FavoriteProductsPage /></ProtectedRoute>} />
+                    <Route path={ROUTES.NOTIFICATIONS} element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
                     <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-                    <Route path={ROUTES.REGISTER_FACTORY} element={<RegisterFactoryPage />} />
+                    <Route path={ROUTES.REGISTER_FACTORY} element={<ProtectedRoute><RegisterFactoryPage /></ProtectedRoute>} />
                     <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
                     <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
                     <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />

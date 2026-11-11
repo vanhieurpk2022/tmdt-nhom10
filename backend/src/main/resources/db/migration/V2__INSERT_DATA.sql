@@ -2872,3 +2872,25 @@ INSERT INTO `review` (`id`, `comment`, `rating`, `created_at`, `updated_at`, `pr
 (904, 'Mùi hương rất đặc biệt, bạn bè ghé chơi ai cũng khen phòng thơm ấm cúng.', 5, '2026-10-12 16:20:00', '2026-10-12 16:20:00', 706, 4),
 (905, 'Nốt gừng kết hợp cam ngọt hoài niệm, tạo cảm giác an yên như ở các quán cafe cổ Hội An.', 5, '2026-10-13 09:15:00', '2026-10-13 09:15:00', 707, 2),
 (906, 'Dùng buổi tối giúp giảm căng thẳng và ngủ rất ngon, đánh giá 5 sao!', 5, '2026-10-14 20:45:00', '2026-10-14 20:45:00', 708, 1);
+
+
+
+-- ============================================================
+-- ACCOUNT MẪU: ADMIN và FACTORY
+-- Password: Admin@123  (bcrypt)
+-- Password: Factory@123 (bcrypt)
+-- ============================================================
+
+-- Tài khoản Admin (id = 7)
+INSERT INTO `user` (id, fullname, username, password, email, phone, status, email_verified, created_at)
+VALUES (7, 'Quản Trị Viên', 'admin', '$2b$10$AVfoxbuMkechBuoSSnBRd.Qmoga0Iv/DewyqvkSXq192zJ34E3Xie', 'admin@oilia.vn', '0900000001', 'ACTIVE', 1, '2026-11-11 00:00:00');
+
+-- Tài khoản Xưởng / Factory (id = 8) – gắn với xưởng Labcos (factory_id = 1)
+INSERT INTO `user` (id, fullname, username, password, email, phone, status, email_verified, created_at)
+VALUES (8, 'Quản Lý Xưởng Labcos', 'factory_labcos', '$2b$10$z6hhZUPaeuUh.OrYwfi9fuxs9.dr5T.SECmjbZ7HxnRT6L48gPw/C', 'factory@labcos.vn', '0900000002', 'ACTIVE', 1, '2026-11-11 00:00:00');
+
+-- Gán role ADMIN (role_id = 1) cho user 7
+INSERT INTO `user_role` (user_id, role_id) VALUES (7, 1);
+
+-- Gán role FACTORY (role_id = 4) cho user 8
+INSERT INTO `user_role` (user_id, role_id) VALUES (8, 4);
