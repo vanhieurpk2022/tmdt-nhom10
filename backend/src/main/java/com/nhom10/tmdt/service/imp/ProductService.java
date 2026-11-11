@@ -28,19 +28,25 @@ public class ProductService {
     private final FactoryRepository factoryRepo;
     private final PurchaseItemService purchases;
     private final ProductRecommendationService recommendationService;
+    private final FaissRecommendationClient faissRecommendationClient;
+    private final FrequentlyBoughtTogetherService boughtTogetherService;
 
     public ProductService(
             ProductRepository productRepo,
             CategoryRepository categoryRepo,
             FactoryRepository factoryRepo,
             PurchaseItemService purchases,
-            ProductRecommendationService recommendationService
+            ProductRecommendationService recommendationService,
+            FaissRecommendationClient faissRecommendationClient,
+            FrequentlyBoughtTogetherService boughtTogetherService
     ) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.factoryRepo = factoryRepo;
         this.purchases = purchases;
         this.recommendationService = recommendationService;
+        this.faissRecommendationClient = faissRecommendationClient;
+        this.boughtTogetherService = boughtTogetherService;
     }
 
     // Lấy metadata cho sidebar
@@ -131,7 +137,7 @@ public class ProductService {
     }
 
     /**
-     * Gợi ý sản phẩm tương tự dựa trên đặc trưng nốt hương và độ đo Cosine Similarity.
+     * Gợi ý sản phẩm tương tự bằng FAISS; dùng TF-IDF nội bộ khi chatbot không khả dụng.
      */
     public List<ProductCardResponse> getSimilarProducts(Long productId, Integer limit) {
         Product target = productRepo.findById(productId)
@@ -142,11 +148,33 @@ public class ProductService {
                 .toList();
 
         int topK = (limit != null && limit > 0) ? limit : 4;
-        List<Product> similar = recommendationService.findSimilarProducts(target, candidates, topK);
+        List<Long> faissIds = faissRecommendationClient.findSimilarProductIds(productId, topK);
+        Map<Long, Product> productsById = candidates.stream()
+                .collect(Collectors.toMap(Product::getId, product -> product));
+        List<Product> similar = faissIds.stream()
+                .map(productsById::get)
+                .filter(Objects::nonNull)
+                .toList();
+        if (similar.isEmpty()) {
+            similar = recommendationService.findSimilarProducts(target, candidates, topK);
+        }
 
         return similar.stream()
                 .map(this::toCard)
                 .toList();
+    }
+
+    /**
+     * Gợi ý sản phẩm mua kèm thường xuyên bằng Association Rule Mining.
+     * Fallback: nếu không có dữ liệu đơn hàng → trả sản phẩm bán chạy nhất.
+     */
+    public List<ProductCardResponse> getBoughtTogetherProducts(Long productId, Integer limit) {
+        if (productRepo.findById(productId).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + productId);
+        }
+        int topK = (limit != null && limit > 0) ? limit : 4;
+        List<Product> result = boughtTogetherService.findBoughtTogether(productId, topK);
+        return result.stream().map(this::toCard).toList();
     }
 
     private ProductPageResponse filterBySales(Specification<Product> spec, ProductFilterRequest req) {
@@ -422,4 +450,3 @@ public class ProductService {
         }
     }
 }
-

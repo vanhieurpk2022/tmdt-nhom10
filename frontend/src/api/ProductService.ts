@@ -163,6 +163,22 @@ export const productService = {
         }
     },
 
+    /**
+     * Gợi ý sản phẩm mua kèm thường xuyên bằng Association Rule Mining.
+     * Confidence = (số đơn chứa cả A và B) / (số đơn chứa A).
+     * Fallback tự động sang sản phẩm bán chạy nếu chưa đủ dữ liệu.
+     */
+    getBoughtTogetherProducts: async (id: number | string, limit = 4): Promise<ProductCard[]> => {
+        try {
+            const res = await api.get<ApiResponse<ProductCard[]>>(`/products/${id}/bought-together`, {
+                params: { limit },
+            });
+            return res.data.data;
+        } catch {
+            return [];
+        }
+    },
+
     /** Lấy thông tin chi tiết một sản phẩm theo ID */
     getProductDetail: (id: number | string): Promise<ProductDetail> => {
         const key = String(id);

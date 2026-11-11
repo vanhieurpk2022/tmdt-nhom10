@@ -14,8 +14,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
 from app import config
-from app.schemas import ChatRequest, ChatResponse, HealthResponse, ProductItem
-from app.rag import ask_question, stream_question, PRODUCTS_MAP
+from app.schemas import ChatRequest, ChatResponse, HealthResponse, ProductItem, RecommendationResponse
+from app.rag import ask_question, stream_question, find_similar_product_ids, PRODUCTS_MAP
 
 app = FastAPI(
     title="Oilia Chatbot RAG API",
@@ -46,6 +46,12 @@ async def health_check():
         status="ok",
         ollama_url=config.OLLAMA_BASE_URL,
         faiss_index_exists=os.path.exists(config.INDEX_DIR),
+    )
+
+@app.get("/api/recommendations/{product_id}", response_model=RecommendationResponse, tags=["Recommendations"])
+async def recommendations(product_id: int, limit: int = Query(default=4, ge=1, le=12)):
+    return RecommendationResponse(
+        product_ids=find_similar_product_ids(product_id, limit)
     )
 
 @app.post("/api/chat", response_model=ChatResponse, tags=["Chat"])

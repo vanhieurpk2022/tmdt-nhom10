@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -72,6 +73,7 @@ public class Product {
     private Factory factory;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @BatchSize(size = 32)
     private List<ProductImage> productImages;
 
     // here
@@ -84,13 +86,14 @@ public class Product {
     private Sales sale;
 
     @OneToMany(mappedBy = "product")
+    @BatchSize(size = 32)
     private List<ProductMil> productMils;
 
     @OneToMany(mappedBy = "product")
+    @BatchSize(size = 32)
     private List<Review> reviews;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private ProductStatus status = ProductStatus.ACTIVE;
 }
-

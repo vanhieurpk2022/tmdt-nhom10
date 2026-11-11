@@ -45,6 +45,7 @@ export default function ProductDetailPage() {
 
     const [product, setProduct] = useState<ProductDetail | null>(null);
     const [relatedProducts, setRelatedProducts] = useState<ProductCard[]>([]);
+    const [boughtTogetherProducts, setBoughtTogetherProducts] = useState<ProductCard[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -72,23 +73,18 @@ export default function ProductDetailPage() {
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }, [productId]);
 
-    // Tải thông tin chi tiết sản phẩm và danh sách sản phẩm gợi ý
+    // Tải thông tin chi tiết trước; sản phẩm gợi ý được tải nền để không chặn nội dung chính.
     useEffect(() => {
         let isMounted = true;
         setLoading(true);
         setError(null);
 
-        Promise.all([
-            productService.getProductDetail(productId),
-            productService.getSimilarProducts(productId, 4).then(async (list) => {
-                if (list && list.length > 0) return list;
-                return productService.getNewestProducts(4);
-            }),
-        ])
-            .then(([detailData, relatedData]) => {
+        const loadProduct = async () => {
+            try {
+                const detailData = await productService.getProductDetail(productId);
                 if (!isMounted) return;
+
                 setProduct(detailData);
-                setRelatedProducts(relatedData.filter((p) => p.id !== Number(productId)).slice(0, 4));
                 if (detailData.variants && detailData.variants.length > 0) {
                     setSelectedVariant(detailData.variants.find((v) => v.isActive && v.stockQuantity > 0) ?? detailData.variants[0]);
                 } else {
@@ -96,15 +92,48 @@ export default function ProductDetailPage() {
                 }
                 setQuantity(1);
                 setSelectedImageIndex(0);
-            })
-            .catch((err) => {
+                setLoading(false);
+
+                // Tải sản phẩm tương tự và sản phẩm mua kèm song song trong nền
+                void productService.getSimilarProducts(productId, 4)
+                    .then(async (relatedData) => {
+                        if (!relatedData || relatedData.length === 0) {
+                            relatedData = await productService.getNewestProducts(4);
+                        }
+                        if (isMounted) {
+                            setRelatedProducts(relatedData.filter((p) => p.id !== Number(productId)).slice(0, 4));
+                        }
+                    })
+                    .catch(async (relatedError) => {
+                        console.error("Lỗi khi tải sản phẩm gợi ý:", relatedError);
+                        try {
+                            const fallbackData = await productService.getNewestProducts(4);
+                            if (isMounted) {
+                                setRelatedProducts(fallbackData.filter((p) => p.id !== Number(productId)).slice(0, 4));
+                            }
+                        } catch {
+                            // ignore
+                        }
+                    });
+
+                void productService.getBoughtTogetherProducts(productId, 4)
+                    .then((boughtTogether) => {
+                        if (isMounted && boughtTogether && boughtTogether.length > 0) {
+                            setBoughtTogetherProducts(boughtTogether.filter((p) => p.id !== Number(productId)).slice(0, 4));
+                        }
+                    })
+                    .catch((boughtErr) => {
+                        console.error("Lỗi khi tải sản phẩm mua kèm:", boughtErr);
+                    });
+            } catch (err) {
                 if (!isMounted) return;
                 console.error("Lỗi khi tải chi tiết sản phẩm:", err);
                 setError("Không thể tải thông tin sản phẩm. Vui lòng thử lại sau.");
-            })
-            .finally(() => {
-                if (isMounted) setLoading(false);
-            });
+                setLoading(false);
+            }
+        };
+
+        void loadProduct();
 
         return () => {
             isMounted = false;
@@ -194,16 +223,15 @@ export default function ProductDetailPage() {
                     { label: product.name },
                 ]} />
 
-                <div className="bg-white rounded-4 shadow-sm p-4 mb-5">
-                    <div className="row g-5">
+                <div className="product-detail-card bg-white rounded-4 shadow-sm p-3 p-lg-4 mb-5">
+                    <div className="product-detail-main row g-4 g-xl-5">
                         {/* Thư viện hình ảnh sản phẩm */}
-                        <div className="col-12 col-lg-5">
-                            <div className="mb-3 rounded-4 overflow-hidden border bg-light d-flex align-items-center justify-content-center">
+                        <div className="col-12 col-lg-6">
+                            <div className="product-detail-image-frame mb-3 rounded-4 overflow-hidden border bg-light d-flex align-items-center justify-content-center">
                                 <img
                                     src={currentImage}
                                     alt={product.name}
-                                    className="w-100 object-fit-cover"
-                                    style={{ height: "450px" }}
+                                    className="product-detail-main-image"
                                     onError={(e) => {
                                         (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
                                     }}
@@ -261,33 +289,20 @@ export default function ProductDetailPage() {
                         </div>
 
                         {/* Thông tin chi tiết sản phẩm */}
-                        <div className="col-12 col-lg-7 d-flex flex-column">
-                            <div className="d-flex align-items-center gap-3 mb-2 fs-7 flex-wrap">
-                                {product.factoryName && (
-                                    <span className="badge text-success bg-success bg-opacity-10 rounded-pill px-3 py-1 fw-bold border border-success border-opacity-25">
-                                        <FontAwesomeIcon icon={faLeaf} className="me-1" /> {product.factoryName}
-                                    </span>
-                                )}
-                                <span className="text-muted fw-bold">MÃ SP: #{product.id.toString().padStart(5, "0")}</span>
-                                {product.categoryName && (
-                                    <span className="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-1">
-                                        {product.categoryName}
-                                    </span>
-                                )}
-                            </div>
-
-                            <div className="d-flex justify-content-between align-items-start mb-3">
-                                <h1 className="h2 fw-bold text-dark mb-0">{product.name}</h1>
+                        <div className="col-12 col-lg-6 d-flex flex-column">
+                            <div className="product-detail-info">
+                                <div className="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                <h1 className="product-detail-title fw-bold text-dark mb-0">{product.name}</h1>
                                 <button
-                                    className="btn btn-light bg-light rounded-circle shadow-sm d-flex align-items-center justify-content-center text-muted fav-btn ms-3 flex-shrink-0 border-0"
-                                    style={{ width: "42px", height: "42px" }}
+                                    className="btn product-detail-favorite rounded-circle d-flex align-items-center justify-content-center text-muted flex-shrink-0"
                                     title="Thêm vào yêu thích"
+                                    aria-label="Thêm vào yêu thích"
                                 >
                                     <FontAwesomeIcon icon={faHeart} className="fs-5" />
                                 </button>
                             </div>
 
-                            <div className="d-flex align-items-center gap-2 mb-3">
+                            <div className="product-detail-rating d-flex align-items-center gap-2 mb-3">
                                 <div className="d-flex text-warning fs-7 gap-1">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <FontAwesomeIcon
@@ -303,12 +318,19 @@ export default function ProductDetailPage() {
                                 </span>
                             </div>
 
-                            <p className="text-muted mb-4 fs-6 lh-lg">
+                            <p className="product-detail-description text-muted mb-3 lh-lg">
                                 {product.description || "Sản phẩm tinh dầu thiên nhiên cao cấp, chiết xuất nguyên chất đem lại hương thơm dịu mát và thư giãn tối đa."}
                             </p>
 
+                            {product.factoryName && (
+                                <div className="product-detail-factory d-flex align-items-center gap-2 mb-4 text-success fw-bold">
+                                    <FontAwesomeIcon icon={faLeaf} />
+                                    <span>{product.factoryName}</span>
+                                </div>
+                            )}
+
                             {/* Khung hiển thị giá và tình trạng tồn kho */}
-                            <div className="bg-light rounded-4 p-4 mb-4 d-flex align-items-center justify-content-between border flex-wrap gap-3">
+                            <div className="product-detail-price-row rounded-3 p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
                                 <div className="d-flex align-items-center gap-3 flex-wrap">
                                     <span className="fs-2 fw-black text-dark lh-1">
                                         {currentPrice.toLocaleString("vi-VN")}đ
@@ -331,7 +353,7 @@ export default function ProductDetailPage() {
 
                             {/* Bộ chọn dung tích (variants) */}
                             {product.variants && product.variants.length > 0 && (
-                                <div className="mb-4">
+                                <div className="product-detail-variants mb-4">
                                     <div className="d-flex justify-content-between align-items-center mb-3">
                                         <span className="fw-bold text-dark">Dung tích khả dụng</span>
                                         {selectedVariant && (
@@ -346,13 +368,15 @@ export default function ProductDetailPage() {
 
                                             return (
                                                 <div className="col-4" key={v.id}>
-                                                    <div
+                                                    <button
+                                                        type="button"
                                                         className={`variant-box rounded-3 p-3 border cursor-pointer transition-all position-relative ${
                                                             isSelected
                                                                 ? "border-primary bg-primary bg-opacity-10 shadow-sm"
                                                                 : "bg-white hover-border-primary"
                                                         }`}
                                                         onClick={() => { setSelectedVariant(v); setQuantity(1); }}
+                                                        disabled={!v.isActive || v.stockQuantity <= 0}
                                                     >
                                                         <div className={`fw-bold mb-1 ${isSelected ? "text-primary" : "text-dark"}`}>
                                                             {v.mil}ml
@@ -360,7 +384,7 @@ export default function ProductDetailPage() {
                                                         <div className={`fs-7 ${isSelected ? "text-primary fw-bold" : "text-muted"}`}>
                                                             {(v.price ?? 0).toLocaleString("vi-VN")}đ
                                                         </div>
-                                                    </div>
+                                                    </button>
                                                 </div>
                                             );
                                         })}
@@ -369,9 +393,9 @@ export default function ProductDetailPage() {
                             )}
 
                             {/* Bộ chọn số lượng và nút thao tác thêm giỏ / mua ngay */}
-                            <div className="row g-3 mb-4 mt-auto">
-                                <div className="col-12 col-xl-3">
-                                    <div className="d-flex align-items-center justify-content-between border rounded-3 px-3 py-2 bg-white h-100">
+                            <div className="product-detail-actions row g-2 mb-4 mt-auto">
+                                <div className="col-12 col-sm-3 col-xl-3">
+                                    <div className="product-detail-quantity d-flex align-items-center justify-content-between border rounded-3 px-3 py-2 bg-white h-100">
                                         <button
                                             className="btn btn-link text-muted p-0 text-decoration-none"
                                             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -389,7 +413,7 @@ export default function ProductDetailPage() {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="col-6 col-xl-4">
+                                <div className="col-6 col-sm-4 col-xl-4">
                                     <button
                                         className="btn btn-outline-primary w-100 fw-bold h-100 d-flex align-items-center justify-content-center gap-2 py-3 bg-white"
                                         onClick={handleAddToCart}
@@ -403,7 +427,7 @@ export default function ProductDetailPage() {
                                         Thêm vào giỏ
                                     </button>
                                 </div>
-                                <div className="col-6 col-xl-5">
+                                <div className="col-6 col-sm-5 col-xl-5">
                                     <button
                                         className="btn btn-primary w-100 fw-bold h-100 d-flex align-items-center justify-content-center gap-2 py-3"
                                         onClick={handleBuyNow}
@@ -424,6 +448,7 @@ export default function ProductDetailPage() {
                                 </div>
                                 <div className="d-flex align-items-center gap-2 text-primary fw-bold fs-7">
                                     <FontAwesomeIcon icon={faTruckFast} /> Giao hỏa tốc 2H
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -550,11 +575,79 @@ export default function ProductDetailPage() {
                     </div>
                 </div>
 
+                {/* Danh sản phẩm mua kèm thường xuyên */}
+                {boughtTogetherProducts.length > 0 && (
+                    <>
+                        <div className="d-flex justify-content-between align-items-end mb-4">
+                            <h3 className="fw-black mb-0 d-flex align-items-center gap-2">
+                                <FontAwesomeIcon icon={faCartShopping} className="text-primary" />
+                                <span>Thường mua kèm cùng</span>
+                            </h3>
+                        </div>
+                        <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-5">
+                            {boughtTogetherProducts.map((btProduct) => (
+                                <div className="col" key={btProduct.id}>
+                                    <div className="card h-100 product-card border-0 shadow-sm rounded-4 overflow-hidden">
+                                        <div className="position-relative">
+                                            <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`}>
+                                                <img
+                                                    src={btProduct.thumbnailUrl || FALLBACK_IMAGE}
+                                                    className="card-img-top product-img"
+                                                    alt={btProduct.name}
+                                                    onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_IMAGE; }}
+                                                />
+                                            </Link>
+                                            <button className="btn btn-light bg-white rounded-circle position-absolute top-0 end-0 m-3 p-2 shadow-sm d-flex align-items-center justify-content-center text-muted fav-btn">
+                                                <FontAwesomeIcon icon={faHeart} />
+                                            </button>
+                                        </div>
+                                        <div className="card-body p-4 d-flex flex-column">
+                                            <div className="d-flex align-items-center gap-1 mb-2">
+                                                <FontAwesomeIcon icon={faStar} className="text-warning fs-7" />
+                                                <span className="fw-bold fs-7">{btProduct.avgRating.toFixed(1)}</span>
+                                                <span className="text-muted fs-7">({btProduct.totalSold}+ đã bán)</span>
+                                            </div>
+                                            <h5 className="card-title fs-6 fw-bold mb-1 product-title">
+                                                <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`} className="text-dark text-decoration-none">
+                                                    {btProduct.name}
+                                                </Link>
+                                            </h5>
+                                            <p className="card-text text-muted fs-7 mb-3 product-desc">{btProduct.description}</p>
+                                            <div className="mt-auto">
+                                                {btProduct.factoryName && (
+                                                    <div className="d-flex align-items-center gap-2 mb-3 text-success fs-7 fw-bold">
+                                                        <FontAwesomeIcon icon={faLeaf} />
+                                                        <span>{btProduct.factoryName}</span>
+                                                    </div>
+                                                )}
+                                                <div className="d-flex justify-content-between align-items-end mb-1">
+                                                    <span className="fs-5 fw-bold text-dark">{(btProduct.price ?? 0).toLocaleString("vi-VN")}đ</span>
+                                                    <span className="badge rounded-pill fw-normal px-2 py-1 stock-green">{btProduct.stockStatus}</span>
+                                                </div>
+                                                <div className="row g-2 mt-2">
+                                                    <div className="col-12">
+                                                        <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`} className="btn btn-outline-primary w-100 fw-bold bg-white text-primary">
+                                                            Xem chi tiết
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
+
                 {/* Danh sách sản phẩm gợi ý liên quan */}
                 {relatedProducts.length > 0 && (
                     <>
                         <div className="d-flex justify-content-between align-items-end mb-4">
-                            <h3 className="fw-black mb-0">Gợi ý sản phẩm tương tự</h3>
+                            <h3 className="fw-black mb-0 d-flex align-items-center gap-2">
+                                <FontAwesomeIcon icon={faLeaf} className="text-success" />
+                                <span>Gợi ý sản phẩm tương tự</span>
+                            </h3>
                             <Link to={ROUTES.PRODUCTS} className="text-primary text-decoration-none fw-bold fs-7 hover-underline">
                                 Xem tất cả sản phẩm &rarr;
                             </Link>

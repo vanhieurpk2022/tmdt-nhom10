@@ -29,7 +29,8 @@ except Exception as e:
 
 def get_or_create_vectorstore():
     """Tải FAISS vectorstore nếu đã có, hoặc tạo mới trực tiếp từ file SQL."""
-    if os.path.exists(config.INDEX_DIR):
+    index_path = Path(config.INDEX_DIR)
+    if (index_path / "index.faiss").is_file() and (index_path / "index.pkl").is_file():
         return FAISS.load_local(
             config.INDEX_DIR, embeddings, allow_dangerous_deserialization=True
         )
@@ -55,6 +56,29 @@ def get_or_create_vectorstore():
 # Khởi tạo vector store và retriever
 vectorstore = get_or_create_vectorstore()
 retriever = vectorstore.as_retriever(search_kwargs={"k": config.TOP_K})
+
+def find_similar_product_ids(product_id: int, limit: int) -> List[int]:
+    """Tìm sản phẩm tương đồng bằng vector FAISS của sản phẩm được chọn."""
+    document = next(
+        (
+            doc
+            for doc in vectorstore.docstore._dict.values()
+            if doc.metadata.get("id") == product_id
+        ),
+        None,
+    )
+    if document is None:
+        return []
+
+    matches = vectorstore.similarity_search(document.page_content, k=max(limit + 1, 2))
+    result: List[int] = []
+    for match in matches:
+        match_id = match.metadata.get("id")
+        if isinstance(match_id, int) and match_id != product_id and match_id not in result:
+            result.append(match_id)
+        if len(result) >= limit:
+            break
+    return result
 
 # Prompt tư vấn
 prompt_template = (
