@@ -174,14 +174,6 @@ public class ProductService {
         }
         int topK = (limit != null && limit > 0) ? limit : 4;
         List<Product> result = boughtTogetherService.findBoughtTogether(productId, topK);
-        if (result.isEmpty()) {
-            result = productRepo.findAll().stream()
-                    .filter(p -> p.getProductType() == null || p.getProductType() == com.nhom10.tmdt.enums.ProductType.NORMAL)
-                    .filter(p -> p.getId() != null && !p.getId().equals(productId))
-                    .sorted(this::compareBySales)
-                    .limit(topK)
-                    .toList();
-        }
         return result.stream().map(this::toCard).toList();
     }
 

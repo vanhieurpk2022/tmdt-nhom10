@@ -579,7 +579,10 @@ export default function ProductDetailPage() {
                 {boughtTogetherProducts.length > 0 && (
                     <>
                         <div className="d-flex justify-content-between align-items-end mb-4">
-                            <h3 className="fw-black mb-0">🛒 Thường mua kèm cùng</h3>
+                            <h3 className="fw-black mb-0 d-flex align-items-center gap-2">
+                                <FontAwesomeIcon icon={faCartShopping} className="text-primary" />
+                                <span>Thường mua kèm cùng</span>
+                            </h3>
                         </div>
                         <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-5">
                             {boughtTogetherProducts.map((btProduct) => (
@@ -641,7 +644,10 @@ export default function ProductDetailPage() {
                 {relatedProducts.length > 0 && (
                     <>
                         <div className="d-flex justify-content-between align-items-end mb-4">
-                            <h3 className="fw-black mb-0">Gợi ý sản phẩm tương tự</h3>
+                            <h3 className="fw-black mb-0 d-flex align-items-center gap-2">
+                                <FontAwesomeIcon icon={faLeaf} className="text-success" />
+                                <span>Gợi ý sản phẩm tương tự</span>
+                            </h3>
                             <Link to={ROUTES.PRODUCTS} className="text-primary text-decoration-none fw-bold fs-7 hover-underline">
                                 Xem tất cả sản phẩm &rarr;
                             </Link>

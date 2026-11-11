@@ -21,11 +21,6 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
-        '/api/recommendations': {
-          target: env.RECOMMENDATION_PROXY_TARGET || 'http://localhost:8001',
-          changeOrigin: true,
-          secure: false,
-        },
         '/api': {
           target: env.BACKEND_PROXY_TARGET || 'http://localhost:8080',
           changeOrigin: true,
