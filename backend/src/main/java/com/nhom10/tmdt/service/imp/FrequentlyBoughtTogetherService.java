@@ -92,3 +92,4 @@ public class FrequentlyBoughtTogetherService {
                 .anyMatch(m -> m.isActive() && m.getStockQuantity() > 0);
     }
 }
+

@@ -19,14 +19,12 @@ public class FaissRecommendationClient {
 
     private static final Logger log = LoggerFactory.getLogger(FaissRecommendationClient.class);
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final String baseUrl;
 
     public FaissRecommendationClient(
-            ObjectMapper objectMapper,
             @Value("${chatbot.base-url:http://localhost:8000}") String baseUrl
     ) {
-        this.objectMapper = objectMapper;
         this.baseUrl = baseUrl.replaceAll("/+$", "");
     }
 
