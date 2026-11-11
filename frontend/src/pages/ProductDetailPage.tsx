@@ -94,26 +94,37 @@ export default function ProductDetailPage() {
                 setSelectedImageIndex(0);
                 setLoading(false);
 
-                try {
-                    let relatedData = await productService.getSimilarProducts(productId, 4);
-                    if (!relatedData || relatedData.length === 0) {
-                        relatedData = await productService.getNewestProducts(4);
-                    }
-                    if (isMounted) {
-                        setRelatedProducts(relatedData.filter((p) => p.id !== Number(productId)).slice(0, 4));
-                    }
-                } catch (relatedError) {
-                    console.error("Lỗi khi tải sản phẩm gợi ý:", relatedError);
-                }
+                // Tải sản phẩm tương tự và sản phẩm mua kèm song song trong nền
+                void productService.getSimilarProducts(productId, 4)
+                    .then(async (relatedData) => {
+                        if (!relatedData || relatedData.length === 0) {
+                            relatedData = await productService.getNewestProducts(4);
+                        }
+                        if (isMounted) {
+                            setRelatedProducts(relatedData.filter((p) => p.id !== Number(productId)).slice(0, 4));
+                        }
+                    })
+                    .catch(async (relatedError) => {
+                        console.error("Lỗi khi tải sản phẩm gợi ý:", relatedError);
+                        try {
+                            const fallbackData = await productService.getNewestProducts(4);
+                            if (isMounted) {
+                                setRelatedProducts(fallbackData.filter((p) => p.id !== Number(productId)).slice(0, 4));
+                            }
+                        } catch {
+                            // ignore
+                        }
+                    });
 
-                try {
-                    const boughtTogether = await productService.getBoughtTogetherProducts(productId, 4);
-                    if (isMounted) {
-                        setBoughtTogetherProducts(boughtTogether.filter((p) => p.id !== Number(productId)).slice(0, 4));
-                    }
-                } catch (boughtErr) {
-                    console.error("Lỗi khi tải sản phẩm mua kèm:", boughtErr);
-                }
+                void productService.getBoughtTogetherProducts(productId, 4)
+                    .then((boughtTogether) => {
+                        if (isMounted && boughtTogether && boughtTogether.length > 0) {
+                            setBoughtTogetherProducts(boughtTogether.filter((p) => p.id !== Number(productId)).slice(0, 4));
+                        }
+                    })
+                    .catch((boughtErr) => {
+                        console.error("Lỗi khi tải sản phẩm mua kèm:", boughtErr);
+                    });
             } catch (err) {
                 if (!isMounted) return;
                 console.error("Lỗi khi tải chi tiết sản phẩm:", err);

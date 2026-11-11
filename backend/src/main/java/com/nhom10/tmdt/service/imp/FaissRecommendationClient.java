@@ -32,7 +32,7 @@ public class FaissRecommendationClient {
         try {
             URI uri = URI.create(baseUrl + "/api/recommendations/" + productId + "?limit=" + limit);
             HttpRequest request = HttpRequest.newBuilder(uri)
-                    .timeout(java.time.Duration.ofSeconds(10))
+                    .timeout(java.time.Duration.ofMillis(800))
                     .GET()
                     .build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
