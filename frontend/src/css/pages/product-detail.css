@@ -11,6 +11,91 @@
     font-size: 0.75rem;
 }
 
+.product-detail-card {
+    max-width: 1240px;
+    margin-inline: auto;
+}
+
+.product-detail-image-frame {
+    aspect-ratio: 1 / 1;
+    min-height: 360px;
+    background: #f8fafc;
+}
+
+.product-detail-main-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 18px;
+}
+
+.product-detail-title {
+    font-size: clamp(1.5rem, 2.2vw, 2.15rem);
+    line-height: 1.2;
+}
+
+.product-detail-favorite {
+    width: 42px;
+    height: 42px;
+    background: #fff1f2;
+    border: 1px solid #ffe4e6;
+}
+
+.product-detail-favorite:hover {
+    color: var(--bs-primary) !important;
+    background: #ffe4e6;
+}
+
+.product-detail-rating {
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.product-detail-description {
+    max-width: 680px;
+    font-size: 0.98rem;
+}
+
+.product-detail-factory {
+    font-size: 0.9rem;
+}
+
+.product-detail-price-row {
+    background: #fff7f8;
+    border: 1px solid #ffe4e6;
+}
+
+.product-detail-price-row .fs-2 {
+    color: #be123c !important;
+}
+
+.variant-box {
+    width: 100%;
+    min-height: 72px;
+    text-align: left;
+    font: inherit;
+}
+
+.variant-box:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background: #f8fafc !important;
+}
+
+.product-detail-quantity {
+    min-height: 50px;
+}
+
+.product-detail-actions .btn {
+    min-height: 50px;
+    border-radius: 10px;
+}
+
+.product-detail-actions .btn-primary {
+    box-shadow: 0 8px 18px rgba(225, 29, 72, 0.18);
+}
+
 .fw-black {
     font-weight: 900;
 }
@@ -88,4 +173,37 @@
 
 .hover-underline:hover {
     text-decoration: underline !important;
+}
+
+@media (max-width: 991.98px) {
+    .product-detail-image-frame {
+        min-height: 0;
+    }
+
+    .product-detail-info {
+        padding-top: 0.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .product-detail-page {
+        padding-top: 0.75rem !important;
+    }
+
+    .product-detail-card {
+        border-radius: 18px !important;
+    }
+
+    .product-detail-main-image {
+        padding: 10px;
+    }
+
+    .product-detail-rating {
+        align-items: flex-start !important;
+        flex-wrap: wrap;
+    }
+
+    .product-detail-price-row {
+        padding: 0.85rem !important;
+    }
 }

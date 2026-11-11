@@ -20,3 +20,6 @@ class HealthResponse(BaseModel):
     status: str
     ollama_url: str
     faiss_index_exists: bool
+
+class RecommendationResponse(BaseModel):
+    product_ids: List[int]

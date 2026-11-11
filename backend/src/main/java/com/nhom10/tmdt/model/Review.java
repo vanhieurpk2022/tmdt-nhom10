@@ -3,6 +3,7 @@ package com.nhom10.tmdt.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @BatchSize(size = 32)
     private User user;
 
     @OneToMany(mappedBy = "review")

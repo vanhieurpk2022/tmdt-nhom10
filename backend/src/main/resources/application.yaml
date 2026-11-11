@@ -29,6 +29,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+        default_batch_fetch_size: 32
+        jdbc.batch_size: 32
     show-sql: true
 server:
   port: ${SERVER_PORT:8080}
@@ -37,6 +39,8 @@ server:
       enabled: true
       charset: UTF-8
       force: true
+chatbot:
+  base-url: ${CHATBOT_BASE_URL:http://localhost:8000}
 jwt:
   secret: ${JWT_SECRET}
   expiration-ms: 1800000

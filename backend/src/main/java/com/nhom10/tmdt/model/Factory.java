@@ -4,6 +4,7 @@ import com.nhom10.tmdt.enums.FactoryStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.cglib.core.Local;
 
@@ -85,5 +86,6 @@ public class Factory {
     private List<Product> products;
 
     @OneToMany(mappedBy = "factory")
+    @BatchSize(size = 32)
     private List<FactoryImage> factoryImages;
 }
