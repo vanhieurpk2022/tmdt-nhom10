@@ -9,6 +9,7 @@ import {
     faHeadset,
     faArrowRightFromBracket,
     faDroplet,
+    faHandHoldingDollar,
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { Link, useNavigate } from "react-router";
@@ -20,6 +21,7 @@ interface SidebarFactoryProps {
     isDashboard?: boolean;
     isProduct?: boolean;
     isOrder?: boolean;
+    isSettlement?: boolean;
     isStaff?: boolean;
     isVoucher?: boolean;
     isSupport?: boolean;
@@ -61,15 +63,19 @@ function NavItem({ to, icon, label, isActive, badge }: NavItemProps) {
                 }
             }}
         >
-            <FontAwesomeIcon
-                icon={icon}
-                style={{
-                    width: "16px",
-                    color: isActive ? "#ffffff" : "#94a3b8",
-                    fontSize: "14px",
-                    flexShrink: 0,
-                }}
-            />
+            <span
+                className="d-flex align-items-center justify-content-center flex-shrink-0"
+                style={{ width: "18px", height: "18px" }}
+            >
+                <FontAwesomeIcon
+                    icon={icon}
+                    style={{
+                        width: "16px",
+                        color: isActive ? "#ffffff" : "#94a3b8",
+                        fontSize: "14px",
+                    }}
+                />
+            </span>
             <span className="text-truncate">{label}</span>
 
             {/* Chấm tròn báo hiệu mục đang active */}
@@ -108,6 +114,7 @@ export function SideBarFactory({
     isDashboard = false,
     isProduct = false,
     isOrder = false,
+    isSettlement = false,
     isStaff = false,
     isVoucher = false,
     isSupport = false,
@@ -225,6 +232,12 @@ export function SideBarFactory({
                     icon={faReceipt}
                     label="Quản lý Đơn hàng"
                     isActive={isOrder}
+                />
+                <NavItem
+                    to={ROUTES.FACTORY_SETTLEMENT}
+                    icon={faHandHoldingDollar}
+                    label="Quản lý Giải ngân"
+                    isActive={isSettlement}
                 />
                 <NavItem
                     to={ROUTES.FACTORY_STAFF}

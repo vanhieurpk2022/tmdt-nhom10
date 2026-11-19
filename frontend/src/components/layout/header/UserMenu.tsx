@@ -1,4 +1,4 @@
-import { faBox, faCircleInfo, faGear, faHeart, faRightFromBracket, faSadTear, faSignature, faUser, } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faCircleInfo, faComputer, faGear, faHeart, faRightFromBracket, faSadTear, faSignature, faUser, } from "@fortawesome/free-solid-svg-icons";
 import UserMenuItem from "./UserMenuItem/UserMenuItem";
 import UserNav from "./UserMenuItem/UserNav";
 import { authService } from "../../../api/AuthService";
@@ -34,6 +34,7 @@ export default function UserMenu({ fullname, avatar, email, roles }: UserMenuPro
                 <UserMenuItem to={ROUTES.PROFILE} icon={faUser} content="Hồ sơ cá nhân" active />
                 <UserMenuItem to={ROUTES.ORDERS} icon={faBox} content="Đơn hàng của tôi" badge="3 đang giao" />
                 {roles.some(role => role === "FACTORY") && <UserMenuItem to={ROUTES.FACTORY_DASHBOARD} icon={faSadTear} content="Quản lí xưởng" />}
+                {roles.some(role => role === "ADMIN") && <UserMenuItem to={ROUTES.ADMIN_DASHBOARD} icon={faComputer} content="Quản lí hệ thống" />}
                 {!roles.some(role => role === "FACTORY") && (
                     <UserMenuItem
                         to={ROUTES.FACTORY_FORM}

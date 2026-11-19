@@ -32,6 +32,7 @@ export const ROUTES = {
 
   // Admin
   ADMIN_DASHBOARD: "/admin-dashboard",
+  ADMIN_SETTLEMENT: "/admin-settlements",
   ADMIN_WORKSHOP: "/admin-workshop",
   ADMIN_CUSTOMER: "/admin-customer",
   ADMIN_ORDER: "/admin-order",
@@ -46,6 +47,7 @@ export const ROUTES = {
   FACTORY_PROFILE: "/factory-profile",
   FACTORY_SALE: "/factory-sale",
   FACTORY_PRODUCT: "/factory-product",
+  FACTORY_SETTLEMENT: "/factory-settlement",
   FACTORY_SUPPORT: "/factory-support",
   FACTORY_FORM: "/factory-register",
   FACTORY_PRODUCT_DETAILS: "/factory-product"

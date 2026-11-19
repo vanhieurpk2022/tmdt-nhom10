@@ -40,7 +40,12 @@ export interface DashboardOverview {
         reasons: { code: string; count: number }[];
     };
     revenue: {
-        total: number;
+        total: number;             // Tổng giá trị đơn hàng khách đặt (Gross)
+        netRevenue?: number;       // Doanh thu thực tế nhận được (sau trừ phí sàn)
+        platformFee?: number;      // Phí sàn chiết khấu (8%)
+        disbursedAmount?: number;  // Tiền sàn đã giải ngân về tài khoản
+        pendingAmount?: number;    // Tiền đang chờ sàn giải ngân
+        platformFeeRate?: number;  // Tỷ lệ phí sàn (0.08)
         breakdown: { code: string; amount: number }[];
     };
 }
