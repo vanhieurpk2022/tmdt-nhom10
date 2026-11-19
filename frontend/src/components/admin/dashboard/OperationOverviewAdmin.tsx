@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../../routes/routes";
 import {
     faBagShopping,
     faTruckFast,
@@ -36,6 +38,7 @@ function OperationsOverviewAdmin({
     data = [],
     onChanged,
 }: OperationsOverviewAdminProps) {
+    const navigate = useNavigate();
     const [showApprove, setShowApprove] = useState(false);
     const [loadingOverview, setLoadingOverview] = useState(false);
     const [overview, setOverview] = useState<AdminDashboardOverview | null>(null);
@@ -84,7 +87,9 @@ function OperationsOverviewAdmin({
     }, [fetchDashboardData]);
 
     const totalRev = overview?.totalRevenue ?? 0;
+    const actualPlatformRev = overview?.actualPlatformRevenue ?? Math.round(totalRev * 0.08);
     const settledRev = overview?.settledRevenue ?? 0;
+    const pendingDisbursed = overview?.pendingSettlementRevenue ?? 0;
     const totalOrders = overview?.totalOrders ?? 0;
     const pendingOrders = overview?.pendingOrders ?? 0;
     const processingOrders = overview?.processingOrders ?? 0;
@@ -200,14 +205,16 @@ function OperationsOverviewAdmin({
             </section>
 
             <section className="row g-3">
-                {/* Thẻ 1: Doanh thu toàn sàn  */}
+                {/* Thẻ 1: Doanh thu thực nhận của Sàn (Phí sàn) */}
                 <div className="col-12 col-md-6 col-xl-3">
                     <StatCard
-                        label="Doanh thu Toàn sàn "
-                        value={formatVnd(totalRev)}
+                        label="Doanh thu Thực nhận (Phí sàn)"
+                        value={formatVnd(actualPlatformRev)}
                         icon={faCoins}
                         tone="danger"
-                        note={`Đã giải ngân: ${formatVnd(settledRev)}`}
+                        note={`Phí sàn 8% • GMV toàn sàn: ${formatVnd(totalRev)}`}
+                        actionText="Đối soát & Giải ngân xưởng →"
+                        onAction={() => navigate(ROUTES.ADMIN_SETTLEMENT)}
                     />
                 </div>
 

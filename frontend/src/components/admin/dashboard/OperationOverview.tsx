@@ -11,6 +11,10 @@ import {
     faTriangleExclamation,
     faChevronLeft,
     faChevronRight,
+    faCoins,
+    faMoneyBillWave,
+    faReceipt,
+    faHandHoldingDollar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
@@ -22,6 +26,7 @@ import type { AppTable } from "../../table/features";
 import { PieChartStatistics } from "../statistics/PieChartStatistics";
 import { BarChartStatistic } from "../statistics/BarChartStatistic";
 import { FactoryServiceManager } from "../../../api/factory/FactoryService";
+import { formatVnd } from "../../format/FormatMoney";
 
 /* ---------- Props dành riêng cho Factory Dashboard ---------- */
 interface OperationsOverviewProps<TData extends RowData> {
@@ -62,6 +67,12 @@ function OperationsOverview<TData extends RowData>({
     const hasRows = table.getRowModel().rows.length > 0;
     const isSearching = search.trim() !== "";
 
+    const grossTotal = overview?.revenue?.total ?? 0;
+    const netRevenue = overview?.revenue?.netRevenue ?? Math.round(grossTotal * 0.92);
+    const platformFee = overview?.revenue?.platformFee ?? Math.round(grossTotal * 0.08);
+    const disbursedAmount = overview?.revenue?.disbursedAmount ?? 0;
+    const pendingAmount = overview?.revenue?.pendingAmount ?? Math.max(0, netRevenue - disbursedAmount);
+
     return (
         <main
             className="p-4 d-flex flex-column gap-4"
@@ -72,6 +83,65 @@ function OperationsOverview<TData extends RowData>({
                 title="Kênh Người Bán & Đối Tác Gia Công - Mộc Perfume Lab"
                 isShow={isShow}
             />
+
+            {/* Dải Thống Kê Doanh Thu & Dòng Tiền Thực Tế Của Xưởng */}
+            <section className="card border-0 shadow-sm rounded-4 bg-white p-3 p-lg-4">
+                <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3 pb-3 border-bottom">
+                    <div className="d-flex align-items-center gap-3">
+                        <span className="badge rounded-circle p-3 bg-success-subtle text-success fs-5">
+                            <FontAwesomeIcon icon={faCoins} />
+                        </span>
+                        <div>
+                            <div className="text-secondary small fw-semibold text-uppercase">
+                                Doanh thu Thực tế Nhận được (Net Revenue)
+                            </div>
+                            <div className="d-flex align-items-baseline gap-2">
+                                <h3 className="fw-bold text-success mb-0">
+                                    {formatVnd(netRevenue)}
+                                </h3>
+                                <span className="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small">
+                                    Sau khi trừ 8% phí sàn
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="d-flex flex-wrap align-items-center gap-2">
+                        <span className="badge bg-light text-secondary border px-3 py-2 small">
+                            Tổng tiền hàng (Gross): <strong className="text-dark">{formatVnd(grossTotal)}</strong>
+                        </span>
+                        <span className="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 small">
+                            Phí sàn chiết khấu (8%): <strong>-{formatVnd(platformFee)}</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div className="row g-3">
+                    <div className="col-12 col-md-6">
+                        <div className="p-3 rounded-3 bg-light border border-light-subtle d-flex justify-content-between align-items-center">
+                            <div>
+                                <div className="text-secondary small fw-semibold">Đã được sàn giải ngân về tài khoản</div>
+                                <div className="fs-5 fw-bold text-dark mt-1">{formatVnd(disbursedAmount)}</div>
+                            </div>
+                            <span className="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-1 fw-semibold small">
+                                Đã thanh toán
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <div className="p-3 rounded-3 bg-light border border-light-subtle d-flex justify-content-between align-items-center">
+                            <div>
+                                <div className="text-secondary small fw-semibold">Số tiền sàn đang giữ (Chờ giải ngân)</div>
+                                <div className="fs-5 fw-bold text-danger mt-1">{formatVnd(pendingAmount)}</div>
+                            </div>
+                            <span className={`badge rounded-pill ${pendingAmount > 0 ? "bg-warning-subtle text-warning-emphasis border border-warning-subtle" : "bg-light text-secondary border"} px-3 py-1 fw-semibold small`}>
+                                {pendingAmount > 0 ? "Chờ đợt đối soát kế tiếp" : "Đã thanh toán đủ"}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* Statistic cards */}
             <section className="row g-3">

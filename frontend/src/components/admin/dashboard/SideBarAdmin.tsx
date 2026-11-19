@@ -8,6 +8,7 @@ import {
     faBoxesStacked,
     faArrowRightFromBracket,
     faBars,
+    faHandHoldingDollar,
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { Link, useNavigate } from "react-router";
@@ -22,6 +23,7 @@ interface SidebarAdminProps {
     isCustomer?: boolean;
     isOrder?: boolean;
     isProduct?: boolean;
+    isSettlement?: boolean;
     isRefund?: boolean;
     isVoucher?: boolean;
     isSupport?: boolean;
@@ -67,15 +69,19 @@ function NavItem({ to, icon, label, isActive, badge, badgeTone = "dark", isColla
                 }
             }}
         >
-            <FontAwesomeIcon
-                icon={icon}
-                style={{
-                    width: "16px",
-                    color: isActive ? "#ffffff" : "#94a3b8",
-                    fontSize: "14px",
-                    flexShrink: 0,
-                }}
-            />
+            <span
+                className="d-flex align-items-center justify-content-center flex-shrink-0"
+                style={{ width: "18px", height: "18px" }}
+            >
+                <FontAwesomeIcon
+                    icon={icon}
+                    style={{
+                        width: "16px",
+                        color: isActive ? "#ffffff" : "#94a3b8",
+                        fontSize: "14px",
+                    }}
+                />
+            </span>
             {!isCollapsed && <span className="text-truncate">{label}</span>}
 
             {/* Chấm tròn báo hiệu mục đang active khi mở rộng */}
@@ -130,6 +136,7 @@ function SidebarAdmin({
     isCustomer = false,
     isOrder = false,
     isProduct = false,
+    isSettlement = false,
     isRefund = false,
     collapsed,
     onToggleCollapse,
@@ -304,6 +311,13 @@ function SidebarAdmin({
                     isCollapsed={isCollapsed}
                 />
                 <NavItem
+                    to={ROUTES.ADMIN_SETTLEMENT}
+                    icon={faHandHoldingDollar}
+                    label="Quản lý Giải ngân"
+                    isActive={isSettlement}
+                    isCollapsed={isCollapsed}
+                />
+                <NavItem
                     to={ROUTES.REFUNDS}
                     icon={faReceipt}
                     label="Hoàn tiền VNPay"
@@ -349,7 +363,12 @@ function SidebarAdmin({
                         e.currentTarget.style.color = "#94a3b8";
                     }}
                 >
-                    <FontAwesomeIcon icon={faGear} style={{ width: "16px", color: "#94a3b8", fontSize: "14px", flexShrink: 0 }} />
+                    <span
+                        className="d-flex align-items-center justify-content-center flex-shrink-0"
+                        style={{ width: "18px", height: "18px" }}
+                    >
+                        <FontAwesomeIcon icon={faGear} style={{ width: "16px", color: "#94a3b8", fontSize: "14px" }} />
+                    </span>
                     {!isCollapsed && <span className="text-truncate">Cài đặt hệ thống</span>}
                 </Link>
             </div>

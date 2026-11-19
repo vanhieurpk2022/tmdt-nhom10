@@ -48,6 +48,7 @@ import WorkshopManagement from './pages/WorkshopManagement';
 import UserManager from './pages/UserManager';
 import AdminOrder from './pages/AdminOrder';
 import AdminProductPage from './pages/AdminProductPage';
+import AdminSettlementPage from './pages/AdminSettlementPage';
 import { AdminSale } from './pages/AdminSale';
 import { AdminSupport } from './pages/AdminSupport';
 import { FactoryDashBoard } from './pages/FactoryDashBoard';
@@ -60,6 +61,7 @@ import { RegisterFactoryForm } from './pages/RegisterFactoryForm';
 import { FactoryProductDetails } from './components/admin/factory/product-variant/FactoryProductDetails';
 import { ToastProvider } from './components/toasts/ToastContext';
 import FactoryProductPage from './pages/FactoryProductPage';
+import FactorySettlementPage from './pages/FactorySettlementPage';
 import { Chatbot } from './components/chatbot';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy-google-client-id';
@@ -87,6 +89,9 @@ createRoot(document.getElementById('root')!).render(
                   <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProtectedRoute><FactoryProfile /></FactoryProtectedRoute>} />
                   <Route path={ROUTES.FACTORY_SUPPORT} element={<FactoryProtectedRoute><FactorySupport /></FactoryProtectedRoute>} />
                   <Route path={ROUTES.FACTORY_ORDER} element={<FactoryProtectedRoute><FactoryOrder /></FactoryProtectedRoute>} />
+                  <Route path={ROUTES.FACTORY_SETTLEMENT} element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
+                  <Route path="/factory-settlements" element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
+                  <Route path="/factory/settlements" element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
                   <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProtectedRoute><FactoryProductPage /></FactoryProtectedRoute>} />
                   <Route path={ROUTES.FACTORY_STAFF} element={<FactoryProtectedRoute><FactoryStaff /></FactoryProtectedRoute>} />
                   <Route path={ROUTES.FACTORY_SALE} element={<FactoryProtectedRoute><FactorySale /></FactoryProtectedRoute>} />
@@ -98,6 +103,9 @@ createRoot(document.getElementById('root')!).render(
                   <Route path={ROUTES.ADMIN_CUSTOMER} element={<ProtectedRoute requiredRole="ADMIN"><UserManager /></ProtectedRoute>} />
                   <Route path={ROUTES.ADMIN_ORDER} element={<ProtectedRoute requiredRole="ADMIN"><AdminOrder /></ProtectedRoute>} />
                   <Route path={ROUTES.ADMIN_PRODUCT} element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                  <Route path={ROUTES.ADMIN_SETTLEMENT} element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
+                  <Route path="/admin-settlements" element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
+                  <Route path="/admin/settlements" element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
                   <Route path="/admin-products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
                   <Route path="/admin/products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
                   <Route path="/admin/product" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />

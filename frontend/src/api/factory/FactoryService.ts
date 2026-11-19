@@ -266,7 +266,49 @@ export const FactoryServiceManager = {
         const res = await api.delete<ApiResponse<void>>(`/manager/staffs/${id}`);
         return res.data;
     },
+    getProfile: async () => {
+        const res = await api.get<ApiResponse<FactoryProfileDto>>(`/manager/profile`);
+        return res.data;
+    },
+    updateProfile: async (data: FactoryProfileUpdateRequest) => {
+        const res = await api.put<ApiResponse<FactoryProfileDto>>(`/manager/profile`, data);
+        return res.data;
+    },
 };
+
+export interface FactoryProfileDto {
+    id: number;
+    code: string;
+    name: string;
+    owner: string;
+    email: string;
+    phone: string;
+    address: string;
+    description: string;
+    status: "ACTIVE" | "INACTIVE" | "SUSPENDED" | "PENDING";
+    rating: number;
+    ratingCount: number;
+    totalOrders: number;
+    totalProducts: number;
+    joinedAt: string;
+    taxCode: string;
+    businessLicense: string;
+    website: string;
+    avatarUrl?: string;
+    kycVerified: boolean;
+}
+
+export interface FactoryProfileUpdateRequest {
+    name: string;
+    owner?: string;
+    phone?: string;
+    address?: string;
+    description?: string;
+    taxCode?: string;
+    businessLicense?: string;
+    website?: string;
+    avatarUrl?: string;
+}
 
 export interface FactoryStaffItem {
     id: number;

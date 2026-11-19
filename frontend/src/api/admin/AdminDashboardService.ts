@@ -1,9 +1,12 @@
 import api, { type ApiResponse } from "../api";
 
 export interface AdminDashboardOverview {
-    totalRevenue: number;
-    settledRevenue: number;
-    pendingSettlementRevenue: number;
+    totalRevenue: number;              // Tổng giá trị giao dịch hàng hóa (GMV)
+    actualPlatformRevenue?: number;    // Doanh thu thực tế nhận được của sàn (Phí sàn thu được)
+    settledRevenue: number;            // Tiền đã giải ngân cho xưởng
+    pendingSettlementRevenue: number;  // Tiền đang giữ chờ giải ngân cho xưởng
+    totalDeliveredGross?: number;      // Tiền hàng các đơn hoàn tất
+    platformFeeRate?: number;          // Tỷ lệ phí sàn (0.08)
     totalOrders: number;
     pendingOrders: number;
     processingOrders: number;
