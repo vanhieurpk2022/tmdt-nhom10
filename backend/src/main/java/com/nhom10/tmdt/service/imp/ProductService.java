@@ -28,7 +28,6 @@ public class ProductService {
     private final FactoryRepository factoryRepo;
     private final PurchaseItemService purchases;
     private final ProductRecommendationService recommendationService;
-    private final FaissRecommendationClient faissRecommendationClient;
     private final FrequentlyBoughtTogetherService boughtTogetherService;
 
     public ProductService(
@@ -37,7 +36,6 @@ public class ProductService {
             FactoryRepository factoryRepo,
             PurchaseItemService purchases,
             ProductRecommendationService recommendationService,
-            FaissRecommendationClient faissRecommendationClient,
             FrequentlyBoughtTogetherService boughtTogetherService
     ) {
         this.productRepo = productRepo;
@@ -45,7 +43,6 @@ public class ProductService {
         this.factoryRepo = factoryRepo;
         this.purchases = purchases;
         this.recommendationService = recommendationService;
-        this.faissRecommendationClient = faissRecommendationClient;
         this.boughtTogetherService = boughtTogetherService;
     }
 
@@ -136,27 +133,14 @@ public class ProductService {
     }
 
     /**
-     * Gợi ý sản phẩm tương tự bằng FAISS; dùng TF-IDF nội bộ khi chatbot không khả dụng.
+     * Đọc dữ liệu hiện tại, vector hóa TF-IDF và xếp hạng bằng Cosine Similarity.
      */
     public List<ProductCardResponse> getSimilarProducts(Long productId, Integer limit) {
         Product target = productRepo.findById(productId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + productId));
 
-        List<Product> candidates = productRepo.findAll().stream()
-                .filter(p -> p.getProductType() == null || p.getProductType() == com.nhom10.tmdt.enums.ProductType.NORMAL)
-                .toList();
-
-        int topK = (limit != null && limit > 0) ? limit : 4;
-        List<Long> faissIds = faissRecommendationClient.findSimilarProductIds(productId, topK);
-        Map<Long, Product> productsById = candidates.stream()
-                .collect(Collectors.toMap(Product::getId, product -> product));
-        List<Product> similar = faissIds.stream()
-                .map(productsById::get)
-                .filter(Objects::nonNull)
-                .toList();
-        if (similar.isEmpty()) {
-            similar = recommendationService.findSimilarProducts(target, candidates, topK);
-        }
+        List<Product> similar = recommendationService.findSimilarProducts(
+                target, productRepo.findAll(), normalizeHomeProductLimit(limit));
 
         return similar.stream()
                 .map(this::toCard)
@@ -164,14 +148,14 @@ public class ProductService {
     }
 
     /**
-     * Gợi ý sản phẩm mua kèm thường xuyên bằng Association Rule Mining.
-     * Fallback: nếu không có dữ liệu đơn hàng → trả sản phẩm bán chạy nhất.
+     * Gợi ý mua kèm từ luật kết hợp đủ support, confidence và lift.
+     * Không đủ lịch sử mua chung thì trả danh sách rỗng.
      */
     public List<ProductCardResponse> getBoughtTogetherProducts(Long productId, Integer limit) {
         if (productRepo.findById(productId).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + productId);
         }
-        int topK = (limit != null && limit > 0) ? limit : 4;
+        int topK = normalizeHomeProductLimit(limit);
         List<Product> result = boughtTogetherService.findBoughtTogether(productId, topK);
         return result.stream().map(this::toCard).toList();
     }
@@ -318,6 +302,7 @@ public class ProductService {
         int totalStock = 0;
         if (p.getProductMils() != null) {
             totalStock = p.getProductMils().stream()
+                    .filter(RecommendationEligibility::isAvailableVariant)
                     .mapToInt(ProductMil::getStockQuantity).sum();
         }
         String stockStatus = totalStock > 10 ? "Còn hàng" : totalStock > 0 ? "Sắp hết" : "Hết hàng";

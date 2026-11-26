@@ -153,30 +153,21 @@ export const productService = {
      * và tính toán độ đo tương đồng Cosine trực tiếp từ cơ sở dữ liệu.
      */
     getSimilarProducts: async (id: number | string, limit = 4): Promise<ProductCard[]> => {
-        try {
-            const res = await api.get<ApiResponse<ProductCard[]>>(`/products/${id}/similar`, {
-                params: { limit },
-            });
-            return res.data.data;
-        } catch {
-            return [];
-        }
+        const res = await api.get<ApiResponse<ProductCard[]>>(`/products/${id}/similar`, {
+            params: { limit },
+        });
+        return res.data.data;
     },
 
     /**
-     * Gợi ý sản phẩm mua kèm thường xuyên bằng Association Rule Mining.
-     * Confidence = (số đơn chứa cả A và B) / (số đơn chứa A).
-     * Fallback tự động sang sản phẩm bán chạy nếu chưa đủ dữ liệu.
+     * Gợi ý mua kèm bằng Apriori từ đơn mua thành công.
+     * Backend chỉ trả luật đủ support, confidence và lift.
      */
     getBoughtTogetherProducts: async (id: number | string, limit = 4): Promise<ProductCard[]> => {
-        try {
-            const res = await api.get<ApiResponse<ProductCard[]>>(`/products/${id}/bought-together`, {
-                params: { limit },
-            });
-            return res.data.data;
-        } catch {
-            return [];
-        }
+        const res = await api.get<ApiResponse<ProductCard[]>>(`/products/${id}/bought-together`, {
+            params: { limit },
+        });
+        return res.data.data;
     },
 
     /** Lấy thông tin chi tiết một sản phẩm theo ID */

@@ -102,9 +102,9 @@ public class ProductController {
 
     /**
      * GET /products/{id}/bought-together
-     * Gợi ý sản phẩm mua kèm thường xuyên dựa trên Association Rule Mining từ lịch sử đơn hàng.
+     * Gợi ý mua kèm bằng Apriori cho cặp sản phẩm từ đơn đã giao và đã thanh toán.
      * Confidence = (số đơn chứa cả A và B) / (số đơn chứa A).
-     * Fallback: sản phẩm bán chạy nếu chưa có đủ dữ liệu đơn hàng.
+     * Chỉ trả luật đủ support, confidence và lift; thiếu dữ liệu thì trả danh sách rỗng.
      */
     @GetMapping("/{id}/bought-together")
     public ApiResponse<List<ProductCardResponse>> getBoughtTogetherProducts(

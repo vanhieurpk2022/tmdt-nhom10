@@ -1,13 +1,8 @@
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faStar, faSliders, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSliders, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
-import { useAuth } from "../api/AuthContext";
-import { useCart } from "../api/CartContext";
-import { cartService } from "../api/CartService";
-import { getBuyNowUrl, getPurchaseErrorMessage } from "../api/CheckoutSelection";
-import { ROUTES } from "../routes/routes";
+import { useLocation, useSearchParams } from "react-router";
+import CatalogProductCard from "../components/product/CatalogProductCard";
 import "../css/pages/products.css";
 import {
     productService,
@@ -25,9 +20,6 @@ const PRODUCT_SORT_OPTIONS = [
     { value: "price-asc", label: "Giá: Thấp đến Cao" },
     { value: "price-desc", label: "Giá: Cao đến Thấp" },
 ] as const;
-
-const stockBadgeClass = (s: string) =>
-    s === "Còn hàng" ? "stock-green" : s === "Sắp hết" ? "stock-yellow" : "stock-red";
 
 const getPaginationItems = (currentPage: number, totalPages: number): (number | string)[] => {
     if (totalPages <= 7) {
@@ -78,11 +70,7 @@ export default function ProductsPage() {
     const currentPage = Math.max(0, (Number(pageParam) || 1) - 1);
     const sort = PRODUCT_SORT_OPTIONS.find((option) => option.value === searchParams.get("sort"))?.value ?? "popular";
 
-    const navigate = useNavigate();
     const location = useLocation();
-    const { user, loading: authLoading } = useAuth();
-    const { applyCart, showCartNotice } = useCart();
-    const [addingProductIds, setAddingProductIds] = useState<number[]>([]);
 
     const cacheKey = getCacheKey(location.search);
     const scrollKey = getScrollKey(location.search);
@@ -117,33 +105,6 @@ export default function ProductsPage() {
             return nextParams;
         });
         window.scrollTo({ top: 80, behavior: "smooth" });
-    };
-
-    const handleAddToCart = async (product: ProductCard) => {
-        if (!user) {
-            navigate(ROUTES.LOGIN, { state: { from: location } });
-            return;
-        }
-        if (addingProductIds.includes(product.id)) return;
-        setAddingProductIds((ids) => [...ids, product.id]);
-        try {
-            const cart = await cartService.addItem({ productId: product.id, quantity: 1 });
-            applyCart(cart);
-            showCartNotice(`Đã thêm ${product.name} vào giỏ hàng.`);
-        } catch (error) {
-            showCartNotice(getPurchaseErrorMessage(error, "Chưa thêm được sản phẩm vào giỏ hàng."), "error");
-        } finally {
-            setAddingProductIds((ids) => ids.filter((id) => id !== product.id));
-        }
-    };
-
-    const handleBuyNow = (product: ProductCard) => {
-        const checkoutUrl = getBuyNowUrl({ productId: product.id, quantity: 1 });
-        if (!user) {
-            navigate(ROUTES.LOGIN, { state: { from: checkoutUrl } });
-            return;
-        }
-        navigate(checkoutUrl);
     };
 
     // Filter meta (sidebar data)
@@ -486,77 +447,9 @@ export default function ProductsPage() {
                             </div>
                         ) : (
                             <div className="products-grid">
-                                {products.map((product) => {
-                                    return (
-                                        <div className="products-grid-item" key={product.id}>
-                                            <article className="product-card">
-                                                {/* Ảnh sản phẩm - click để xem chi tiết */}
-                                                <div className="product-image-wrap">
-                                                    <Link to={`/product-detail/${product.id}`}>
-                                                        <img
-                                                            src={product.thumbnailUrl ?? "/images/home/lavender-france.png"}
-                                                            className="card-img-top product-img"
-                                                            alt={product.name}
-                                                            loading="lazy"
-                                                            decoding="async"
-                                                            onError={(e) => { (e.target as HTMLImageElement).src = "/images/home/lavender-france.png"; }}
-                                                        />
-                                                    </Link>
-                                                    <button type="button" className="fav-btn" aria-label={`Yêu thích ${product.name}`}>
-                                                        <FontAwesomeIcon icon={faHeart} />
-                                                    </button>
-                                                </div>
-                                                <div className="product-card-body">
-                                                    <h2 className="product-title">
-                                                        <Link to={`/product-detail/${product.id}`}>
-                                                            {product.name}
-                                                        </Link>
-                                                    </h2>
-                                                    {product.factoryName && (
-                                                        <div className="product-factory">
-                                                            <FontAwesomeIcon icon={faLeaf} className="text-success" />
-                                                            <span>{product.factoryName}</span>
-                                                        </div>
-                                                    )}
-                                                    <div className="product-rating">
-                                                        <FontAwesomeIcon icon={faStar} className="text-warning" />
-                                                        <strong>{product.avgRating.toFixed(1)}</strong>
-                                                        <span>· Đã bán {product.totalSold.toLocaleString("vi-VN")}</span>
-                                                    </div>
-                                                    <div className="product-card-bottom">
-                                                        <div className="product-price-row">
-                                                            <span className="product-price">
-                                                                {product.price ? `${product.price.toLocaleString("vi-VN")}đ` : "Liên hệ"}{" "}
-                                                                {product.price > 0 && <small>/10ml</small>}
-                                                            </span>
-                                                            <span className={`product-stock ${stockBadgeClass(product.stockStatus)}`}>
-                                                                {product.stockStatus}
-                                                            </span>
-                                                        </div>
-                                                        <div className="product-card-actions">
-                                                            <button
-                                                                className="btn btn-outline-primary btn-add-cart"
-                                                                aria-label={`Thêm ${product.name} vào giỏ hàng`}
-                                                                onClick={() => handleAddToCart(product)}
-                                                                disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
-                                                            >
-                                                                <FontAwesomeIcon icon={addingProductIds.includes(product.id) ? faSpinner : faBagShopping} spin={addingProductIds.includes(product.id)} />
-                                                                <span>Thêm giỏ</span>
-                                                            </button>
-                                                            <button
-                                                                className="btn btn-primary btn-buy-now"
-                                                                onClick={() => handleBuyNow(product)}
-                                                                disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
-                                                            >
-                                                                Mua ngay
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    );
-                                })}
+                                {products.map((product) => (
+                                    <CatalogProductCard key={product.id} product={product} />
+                                ))}
                             </div>
                         )}
 

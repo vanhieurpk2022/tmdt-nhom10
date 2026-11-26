@@ -13,9 +13,11 @@ import {
     faSpinner,
     faComments,
     faCheck,
+    faMagnifyingGlassPlus,
+    faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router";
 import { useAuth } from "../api/AuthContext";
 import { getBuyNowUrl, getPurchaseErrorMessage } from "../api/CheckoutSelection";
@@ -29,6 +31,7 @@ import {
 } from "../api/ProductService";
 import { ROUTES } from "../routes/routes";
 import Breadcrumb from "../components/layout/Breadcrumb";
+import ProductRecommendations from "../components/product/ProductRecommendations";
 import "../css/pages/product-detail.css";
 
 const FALLBACK_IMAGE = "/images/home/grapefruit-cold-pressed.png";
@@ -47,11 +50,13 @@ export default function ProductDetailPage() {
     const [relatedProducts, setRelatedProducts] = useState<ProductCard[]>([]);
     const [boughtTogetherProducts, setBoughtTogetherProducts] = useState<ProductCard[]>([]);
     const [loading, setLoading] = useState(true);
+    const [recommendationsLoading, setRecommendationsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const [quantity, setQuantity] = useState(1);
     const [selectedVariant, setSelectedVariant] = useState<ProductMilItem | null>(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const imageDialogRef = useRef<HTMLDialogElement>(null);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
 
     const [expandedAccordion, setExpandedAccordion] = useState<Record<string, boolean>>({
@@ -78,6 +83,9 @@ export default function ProductDetailPage() {
         let isMounted = true;
         setLoading(true);
         setError(null);
+        setRelatedProducts([]);
+        setBoughtTogetherProducts([]);
+        setRecommendationsLoading(true);
 
         const loadProduct = async () => {
             try {
@@ -94,37 +102,20 @@ export default function ProductDetailPage() {
                 setSelectedImageIndex(0);
                 setLoading(false);
 
-                // Tải sản phẩm tương tự và sản phẩm mua kèm song song trong nền
-                void productService.getSimilarProducts(productId, 4)
-                    .then(async (relatedData) => {
-                        if (!relatedData || relatedData.length === 0) {
-                            relatedData = await productService.getNewestProducts(4);
-                        }
-                        if (isMounted) {
-                            setRelatedProducts(relatedData.filter((p) => p.id !== Number(productId)).slice(0, 4));
-                        }
-                    })
-                    .catch(async (relatedError) => {
-                        console.error("Lỗi khi tải sản phẩm gợi ý:", relatedError);
-                        try {
-                            const fallbackData = await productService.getNewestProducts(4);
-                            if (isMounted) {
-                                setRelatedProducts(fallbackData.filter((p) => p.id !== Number(productId)).slice(0, 4));
-                            }
-                        } catch {
-                            // ignore
-                        }
-                    });
+                // Hai nguồn độc lập; không dùng sản phẩm mới nhất để thay cho kết quả thuật toán.
+                const [similarResult, boughtResult] = await Promise.allSettled([
+                    productService.getSimilarProducts(productId, 4),
+                    productService.getBoughtTogetherProducts(productId, 4),
+                ]);
+                if (!isMounted) return;
 
-                void productService.getBoughtTogetherProducts(productId, 4)
-                    .then((boughtTogether) => {
-                        if (isMounted && boughtTogether && boughtTogether.length > 0) {
-                            setBoughtTogetherProducts(boughtTogether.filter((p) => p.id !== Number(productId)).slice(0, 4));
-                        }
-                    })
-                    .catch((boughtErr) => {
-                        console.error("Lỗi khi tải sản phẩm mua kèm:", boughtErr);
-                    });
+                setRelatedProducts(similarResult.status === "fulfilled"
+                    ? similarResult.value.filter((item) => item.id !== Number(productId)).slice(0, 4)
+                    : []);
+                setBoughtTogetherProducts(boughtResult.status === "fulfilled"
+                    ? boughtResult.value.filter((item) => item.id !== Number(productId)).slice(0, 4)
+                    : []);
+                setRecommendationsLoading(false);
             } catch (err) {
                 if (!isMounted) return;
                 console.error("Lỗi khi tải chi tiết sản phẩm:", err);
@@ -212,8 +203,8 @@ export default function ProductDetailPage() {
     const isOutOfStock = currentStock <= 0 || !selectedVariant?.isActive;
 
     return (
-        <main className="product-detail-page bg-light py-4">
-            <div className="container-fluid px-4 px-lg-5">
+        <main className="product-detail-page">
+            <div className="product-detail-container">
                 <Breadcrumb items={[
                     { label: "Trang chủ", to: ROUTES.HOME },
                     { label: product.categoryName || "Sản phẩm", onClick: () => {
@@ -223,11 +214,17 @@ export default function ProductDetailPage() {
                     { label: product.name },
                 ]} />
 
-                <div className="product-detail-card bg-white rounded-4 shadow-sm p-3 p-lg-4 mb-5">
-                    <div className="product-detail-main row g-4 g-xl-5">
+                <div className="product-detail-card">
+                    <div className="product-detail-main">
                         {/* Thư viện hình ảnh sản phẩm */}
-                        <div className="col-12 col-lg-6">
-                            <div className="product-detail-image-frame mb-3 rounded-4 overflow-hidden border bg-light d-flex align-items-center justify-content-center">
+                        <div className="product-detail-gallery">
+                            <button
+                                type="button"
+                                className="product-detail-image-frame"
+                                aria-label={`Phóng to ảnh ${product.name}`}
+                                aria-haspopup="dialog"
+                                onClick={() => imageDialogRef.current?.showModal()}
+                            >
                                 <img
                                     src={currentImage}
                                     alt={product.name}
@@ -236,13 +233,44 @@ export default function ProductDetailPage() {
                                         (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
                                     }}
                                 />
-                            </div>
+                                <span className="product-detail-image-zoom">
+                                    <FontAwesomeIcon icon={faMagnifyingGlassPlus} /> Xem ảnh lớn
+                                </span>
+                            </button>
+
+                            <dialog
+                                ref={imageDialogRef}
+                                className="product-detail-image-dialog"
+                                aria-label={`Ảnh phóng to: ${product.name}`}
+                                onClick={(event) => {
+                                    if (event.target === event.currentTarget) event.currentTarget.close();
+                                }}
+                            >
+                                <button
+                                    type="button"
+                                    className="product-detail-image-close"
+                                    aria-label="Đóng ảnh phóng to"
+                                    onClick={() => imageDialogRef.current?.close()}
+                                >
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </button>
+                                <img
+                                    src={currentImage}
+                                    alt={product.name}
+                                    onError={(event) => {
+                                        if (!event.currentTarget.src.endsWith(FALLBACK_IMAGE)) {
+                                            event.currentTarget.src = FALLBACK_IMAGE;
+                                        }
+                                    }}
+                                />
+                            </dialog>
 
                             {images.length > 1 && (
-                                <div className="d-flex align-items-center gap-2">
+                                <div className="product-detail-gallery-controls">
                                     <button
-                                        className="btn btn-sm btn-light border rounded-circle flex-shrink-0 d-flex justify-content-center align-items-center"
-                                        style={{ width: "32px", height: "32px" }}
+                                        type="button"
+                                        className="product-detail-gallery-arrow"
+                                        aria-label="Ảnh trước"
                                         onClick={() =>
                                             setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1))
                                         }
@@ -250,17 +278,14 @@ export default function ProductDetailPage() {
                                         <FontAwesomeIcon icon={faChevronLeft} className="text-muted" />
                                     </button>
 
-                                    <div
-                                        className="d-flex gap-3 justify-content-center overflow-auto pb-2 gallery-thumbnails flex-grow-1"
-                                        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                                    >
+                                    <div className="gallery-thumbnails">
                                         {images.map((img, idx) => (
-                                            <div
+                                            <button
                                                 key={idx}
-                                                className={`rounded-3 border overflow-hidden flex-shrink-0 cursor-pointer ${
-                                                    selectedImageIndex === idx ? "border-primary border-2 shadow-sm" : "opacity-75 hover-opacity-100"
-                                                }`}
-                                                style={{ width: "80px", height: "80px" }}
+                                                type="button"
+                                                className={`product-detail-thumbnail${selectedImageIndex === idx ? " is-selected" : ""}`}
+                                                aria-label={`Xem ảnh ${idx + 1} của ${product.name}`}
+                                                aria-pressed={selectedImageIndex === idx}
                                                 onClick={() => setSelectedImageIndex(idx)}
                                             >
                                                 <img
@@ -271,13 +296,14 @@ export default function ProductDetailPage() {
                                                         (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
                                                     }}
                                                 />
-                                            </div>
+                                            </button>
                                         ))}
                                     </div>
 
                                     <button
-                                        className="btn btn-sm btn-light border rounded-circle flex-shrink-0 d-flex justify-content-center align-items-center"
-                                        style={{ width: "32px", height: "32px" }}
+                                        type="button"
+                                        className="product-detail-gallery-arrow"
+                                        aria-label="Ảnh tiếp theo"
                                         onClick={() =>
                                             setSelectedImageIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0))
                                         }
@@ -289,21 +315,20 @@ export default function ProductDetailPage() {
                         </div>
 
                         {/* Thông tin chi tiết sản phẩm */}
-                        <div className="col-12 col-lg-6 d-flex flex-column">
-                            <div className="product-detail-info">
-                                <div className="d-flex justify-content-between align-items-start gap-3 mb-3">
+                        <div className="product-detail-information">
+                            <div className="product-detail-heading">
                                 <h1 className="product-detail-title fw-bold text-dark mb-0">{product.name}</h1>
                                 <button
                                     className="btn product-detail-favorite rounded-circle d-flex align-items-center justify-content-center text-muted flex-shrink-0"
                                     title="Thêm vào yêu thích"
                                     aria-label="Thêm vào yêu thích"
                                 >
-                                    <FontAwesomeIcon icon={faHeart} className="fs-5" />
+                                    <FontAwesomeIcon icon={faHeart} />
                                 </button>
                             </div>
 
-                            <div className="product-detail-rating d-flex align-items-center gap-2 mb-3">
-                                <div className="d-flex text-warning fs-7 gap-1">
+                            <div className="product-detail-rating">
+                                <div className="d-flex text-warning gap-1">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <FontAwesomeIcon
                                             key={star}
@@ -312,80 +337,71 @@ export default function ProductDetailPage() {
                                         />
                                     ))}
                                 </div>
-                                <span className="fw-bold text-dark fs-7">{product.avgRating.toFixed(1)}</span>
-                                <span className="text-muted fs-7">
-                                    • ({product.reviewCount} đánh giá • Đã bán {product.totalSold >= 1000 ? `${(product.totalSold / 1000).toFixed(1)}k+` : product.totalSold} • {(product.views ?? 0).toLocaleString("vi-VN")} lượt xem)
+                                <span className="fw-bold text-dark">{product.avgRating.toFixed(1)}</span>
+                                <span className="text-muted">
+                                    · {product.reviewCount} đánh giá · {(product.views ?? 0).toLocaleString("vi-VN")} lượt xem
                                 </span>
                             </div>
 
-                            <p className="product-detail-description text-muted mb-3 lh-lg">
+                            <p className="product-detail-description">
                                 {product.description || "Sản phẩm tinh dầu thiên nhiên cao cấp, chiết xuất nguyên chất đem lại hương thơm dịu mát và thư giãn tối đa."}
                             </p>
 
                             {product.factoryName && (
-                                <div className="product-detail-factory d-flex align-items-center gap-2 mb-4 text-success fw-bold">
+                                <div className="product-detail-factory">
                                     <FontAwesomeIcon icon={faLeaf} />
                                     <span>{product.factoryName}</span>
                                 </div>
                             )}
 
                             {/* Khung hiển thị giá và tình trạng tồn kho */}
-                            <div className="product-detail-price-row rounded-3 p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
-                                <div className="d-flex align-items-center gap-3 flex-wrap">
-                                    <span className="fs-2 fw-black text-dark lh-1">
+                            <div className="product-detail-price-row">
+                                <div className="product-detail-current-price">
+                                    <strong>
                                         {currentPrice.toLocaleString("vi-VN")}đ
-                                    </span>
+                                    </strong>
                                     {selectedVariant && (
-                                        <span className="text-muted fs-6">/ {selectedVariant.mil}ml</span>
+                                        <span>/ {selectedVariant.mil}ml</span>
                                     )}
                                 </div>
-                                <span className={`badge rounded-pill px-3 py-2 fw-bold fs-7 ${
+                                <span className={`product-detail-stock ${
                                     isOutOfStock
-                                        ? "text-danger bg-danger bg-opacity-10 border border-danger border-opacity-25"
-                                        : "text-success bg-success bg-opacity-10 border border-success border-opacity-25"
+                                        ? "is-unavailable"
+                                        : "is-available"
                                 }`}>
-                                    <div className="d-flex align-items-center gap-2">
-                                        <div className={`stock-dot rounded-circle ${isOutOfStock ? "bg-danger" : "bg-success"}`}></div>
-                                        {isOutOfStock ? "Hết hàng" : product.stockStatus}
-                                    </div>
+                                    {isOutOfStock ? "Hết hàng" : currentStock <= 10 ? "Sắp hết" : "Còn hàng"}
                                 </span>
                             </div>
 
                             {/* Bộ chọn dung tích (variants) */}
                             {product.variants && product.variants.length > 0 && (
-                                <div className="product-detail-variants mb-4">
-                                    <div className="d-flex justify-content-between align-items-center mb-3">
-                                        <span className="fw-bold text-dark">Dung tích khả dụng</span>
+                                <div className="product-detail-variants">
+                                    <div className="product-detail-variant-heading">
+                                        <span>Dung tích</span>
                                         {selectedVariant && (
-                                            <span className="text-muted fs-7 fw-bold text-uppercase">
-                                                Đã chọn: {selectedVariant.mil}ml ({selectedVariant.stockQuantity > 0 ? `Còn ${selectedVariant.stockQuantity}` : "Hết hàng"})
-                                            </span>
+                                            <small>{selectedVariant.stockQuantity > 0 ? `Còn ${selectedVariant.stockQuantity} sản phẩm` : "Hết hàng"}</small>
                                         )}
                                     </div>
-                                    <div className="row g-3">
+                                    <div className="product-detail-variant-options">
                                         {product.variants.map((v) => {
                                             const isSelected = selectedVariant?.id === v.id;
 
                                             return (
-                                                <div className="col-4" key={v.id}>
-                                                    <button
-                                                        type="button"
-                                                        className={`variant-box rounded-3 p-3 border cursor-pointer transition-all position-relative ${
-                                                            isSelected
-                                                                ? "border-primary bg-primary bg-opacity-10 shadow-sm"
-                                                                : "bg-white hover-border-primary"
-                                                        }`}
-                                                        onClick={() => { setSelectedVariant(v); setQuantity(1); }}
-                                                        disabled={!v.isActive || v.stockQuantity <= 0}
-                                                    >
-                                                        <div className={`fw-bold mb-1 ${isSelected ? "text-primary" : "text-dark"}`}>
-                                                            {v.mil}ml
-                                                        </div>
-                                                        <div className={`fs-7 ${isSelected ? "text-primary fw-bold" : "text-muted"}`}>
-                                                            {(v.price ?? 0).toLocaleString("vi-VN")}đ
-                                                        </div>
-                                                    </button>
-                                                </div>
+                                                <button
+                                                    key={v.id}
+                                                    type="button"
+                                                    className={`variant-box${isSelected ? " is-selected" : ""}`}
+                                                    aria-pressed={isSelected}
+                                                    onClick={() => { setSelectedVariant(v); setQuantity(1); }}
+                                                    disabled={!v.isActive || v.stockQuantity <= 0}
+                                                >
+                                                    <strong>
+                                                        {v.mil}ml
+                                                    </strong>
+                                                    <span>
+                                                        {(v.price ?? 0).toLocaleString("vi-VN")}đ
+                                                    </span>
+                                                </button>
                                             );
                                         })}
                                     </div>
@@ -393,69 +409,66 @@ export default function ProductDetailPage() {
                             )}
 
                             {/* Bộ chọn số lượng và nút thao tác thêm giỏ / mua ngay */}
-                            <div className="product-detail-actions row g-2 mb-4 mt-auto">
-                                <div className="col-12 col-sm-3 col-xl-3">
-                                    <div className="product-detail-quantity d-flex align-items-center justify-content-between border rounded-3 px-3 py-2 bg-white h-100">
-                                        <button
-                                            className="btn btn-link text-muted p-0 text-decoration-none"
-                                            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                                            disabled={quantity <= 1 || isOutOfStock}
-                                        >
-                                            <FontAwesomeIcon icon={faMinus} />
-                                        </button>
-                                        <span className="fw-bold">{quantity}</span>
-                                        <button
-                                            className="btn btn-link text-muted p-0 text-decoration-none"
-                                            onClick={() => setQuantity((q) => q + 1)}
-                                            disabled={isOutOfStock || quantity >= currentStock}
-                                        >
-                                            <FontAwesomeIcon icon={faPlus} />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="col-6 col-sm-4 col-xl-4">
+                            <div className="product-detail-actions">
+                                <div className="product-detail-quantity" role="group" aria-label="Số lượng sản phẩm">
                                     <button
-                                        className="btn btn-outline-primary w-100 fw-bold h-100 d-flex align-items-center justify-content-center gap-2 py-3 bg-white"
-                                        onClick={handleAddToCart}
-                                        disabled={authLoading || isAddingToCart || isOutOfStock || quantity > currentStock}
+                                        type="button"
+                                        aria-label="Giảm số lượng"
+                                        onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                                        disabled={quantity <= 1 || isOutOfStock}
                                     >
-                                        {isAddingToCart ? (
-                                            <FontAwesomeIcon icon={faSpinner} spin />
-                                        ) : (
-                                            <FontAwesomeIcon icon={faCartShopping} />
-                                        )}
-                                        Thêm vào giỏ
+                                        <FontAwesomeIcon icon={faMinus} />
+                                    </button>
+                                    <span className="fw-bold">{quantity}</span>
+                                    <button
+                                        type="button"
+                                        aria-label="Tăng số lượng"
+                                        onClick={() => setQuantity((q) => q + 1)}
+                                        disabled={isOutOfStock || quantity >= currentStock}
+                                    >
+                                        <FontAwesomeIcon icon={faPlus} />
                                     </button>
                                 </div>
-                                <div className="col-6 col-sm-5 col-xl-5">
-                                    <button
-                                        className="btn btn-primary w-100 fw-bold h-100 d-flex align-items-center justify-content-center gap-2 py-3"
-                                        onClick={handleBuyNow}
-                                        disabled={authLoading || isAddingToCart || isOutOfStock || quantity > currentStock}
-                                    >
-                                        <FontAwesomeIcon icon={faBolt} />
-                                        Mua ngay
-                                    </button>
-                                </div>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-primary"
+                                    onClick={handleAddToCart}
+                                    disabled={authLoading || isAddingToCart || isOutOfStock || quantity > currentStock}
+                                >
+                                    {isAddingToCart ? (
+                                        <FontAwesomeIcon icon={faSpinner} spin />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faCartShopping} />
+                                    )}
+                                    Thêm vào giỏ
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handleBuyNow}
+                                    disabled={authLoading || isAddingToCart || isOutOfStock || quantity > currentStock}
+                                >
+                                    <FontAwesomeIcon icon={faBolt} />
+                                    Mua ngay
+                                </button>
                             </div>
 
-                            <div className="d-flex justify-content-between border-top pt-4 px-2 flex-wrap gap-2">
-                                <div className="d-flex align-items-center gap-2 text-success fw-bold fs-7">
+                            <div className="product-detail-benefits">
+                                <div>
                                     <FontAwesomeIcon icon={faLeaf} /> 100% Tự nhiên
                                 </div>
-                                <div className="d-flex align-items-center gap-2 text-danger fw-bold fs-7">
+                                <div>
                                     <FontAwesomeIcon icon={faShieldHalved} /> Đổi trả 15 ngày
                                 </div>
-                                <div className="d-flex align-items-center gap-2 text-primary fw-bold fs-7">
+                                <div>
                                     <FontAwesomeIcon icon={faTruckFast} /> Giao hỏa tốc 2H
-                                </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Các khối thông tin mở rộng (Accordion) */}
-                    <div className="mt-5 border-top pt-4">
+                    <div className="product-detail-sections">
                         <div className="accordion custom-accordion" id="productAccordion">
                             <div className="accordion-item border-0 border-bottom mb-2">
                                 <h2 className="accordion-header">
@@ -575,151 +588,16 @@ export default function ProductDetailPage() {
                     </div>
                 </div>
 
-                {/* Danh sản phẩm mua kèm thường xuyên */}
-                {boughtTogetherProducts.length > 0 && (
-                    <>
-                        <div className="d-flex justify-content-between align-items-end mb-4">
-                            <h3 className="fw-black mb-0 d-flex align-items-center gap-2">
-                                <FontAwesomeIcon icon={faCartShopping} className="text-primary" />
-                                <span>Thường mua kèm cùng</span>
-                            </h3>
-                        </div>
-                        <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-5">
-                            {boughtTogetherProducts.map((btProduct) => (
-                                <div className="col" key={btProduct.id}>
-                                    <div className="card h-100 product-card border-0 shadow-sm rounded-4 overflow-hidden">
-                                        <div className="position-relative">
-                                            <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`}>
-                                                <img
-                                                    src={btProduct.thumbnailUrl || FALLBACK_IMAGE}
-                                                    className="card-img-top product-img"
-                                                    alt={btProduct.name}
-                                                    onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_IMAGE; }}
-                                                />
-                                            </Link>
-                                            <button className="btn btn-light bg-white rounded-circle position-absolute top-0 end-0 m-3 p-2 shadow-sm d-flex align-items-center justify-content-center text-muted fav-btn">
-                                                <FontAwesomeIcon icon={faHeart} />
-                                            </button>
-                                        </div>
-                                        <div className="card-body p-4 d-flex flex-column">
-                                            <div className="d-flex align-items-center gap-1 mb-2">
-                                                <FontAwesomeIcon icon={faStar} className="text-warning fs-7" />
-                                                <span className="fw-bold fs-7">{btProduct.avgRating.toFixed(1)}</span>
-                                                <span className="text-muted fs-7">({btProduct.totalSold}+ đã bán)</span>
-                                            </div>
-                                            <h5 className="card-title fs-6 fw-bold mb-1 product-title">
-                                                <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`} className="text-dark text-decoration-none">
-                                                    {btProduct.name}
-                                                </Link>
-                                            </h5>
-                                            <p className="card-text text-muted fs-7 mb-3 product-desc">{btProduct.description}</p>
-                                            <div className="mt-auto">
-                                                {btProduct.factoryName && (
-                                                    <div className="d-flex align-items-center gap-2 mb-3 text-success fs-7 fw-bold">
-                                                        <FontAwesomeIcon icon={faLeaf} />
-                                                        <span>{btProduct.factoryName}</span>
-                                                    </div>
-                                                )}
-                                                <div className="d-flex justify-content-between align-items-end mb-1">
-                                                    <span className="fs-5 fw-bold text-dark">{(btProduct.price ?? 0).toLocaleString("vi-VN")}đ</span>
-                                                    <span className="badge rounded-pill fw-normal px-2 py-1 stock-green">{btProduct.stockStatus}</span>
-                                                </div>
-                                                <div className="row g-2 mt-2">
-                                                    <div className="col-12">
-                                                        <Link to={`${ROUTES.PRODUCT_DETAIL}/${btProduct.id}`} className="btn btn-outline-primary w-100 fw-bold bg-white text-primary">
-                                                            Xem chi tiết
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </>
-                )}
-
-                {/* Danh sách sản phẩm gợi ý liên quan */}
-                {relatedProducts.length > 0 && (
-                    <>
-                        <div className="d-flex justify-content-between align-items-end mb-4">
-                            <h3 className="fw-black mb-0 d-flex align-items-center gap-2">
-                                <FontAwesomeIcon icon={faLeaf} className="text-success" />
-                                <span>Gợi ý sản phẩm tương tự</span>
-                            </h3>
-                            <Link to={ROUTES.PRODUCTS} className="text-primary text-decoration-none fw-bold fs-7 hover-underline">
-                                Xem tất cả sản phẩm &rarr;
-                            </Link>
-                        </div>
-
-                        <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-4">
-                            {relatedProducts.map((relProduct) => (
-                                <div className="col" key={relProduct.id}>
-                                    <div className="card h-100 product-card border-0 shadow-sm rounded-4 overflow-hidden">
-                                        <div className="position-relative">
-                                            <Link to={`${ROUTES.PRODUCT_DETAIL}/${relProduct.id}`}>
-                                                <img
-                                                    src={relProduct.thumbnailUrl || FALLBACK_IMAGE}
-                                                    className="card-img-top product-img"
-                                                    alt={relProduct.name}
-                                                    onError={(e) => {
-                                                        (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
-                                                    }}
-                                                />
-                                            </Link>
-                                            <button className="btn btn-light bg-white rounded-circle position-absolute top-0 end-0 m-3 p-2 shadow-sm d-flex align-items-center justify-content-center text-muted fav-btn">
-                                                <FontAwesomeIcon icon={faHeart} />
-                                            </button>
-                                        </div>
-                                        <div className="card-body p-4 d-flex flex-column">
-                                            <div className="d-flex align-items-center gap-1 mb-2">
-                                                <FontAwesomeIcon icon={faStar} className="text-warning fs-7" />
-                                                <span className="fw-bold fs-7">{relProduct.avgRating.toFixed(1)}</span>
-                                                <span className="text-muted fs-7">({relProduct.totalSold}+ đã bán)</span>
-                                            </div>
-                                            <h5 className="card-title fs-6 fw-bold mb-1 product-title">
-                                                <Link to={`${ROUTES.PRODUCT_DETAIL}/${relProduct.id}`} className="text-dark text-decoration-none">
-                                                    {relProduct.name}
-                                                </Link>
-                                            </h5>
-                                            <p className="card-text text-muted fs-7 mb-3 product-desc">{relProduct.description}</p>
-
-                                            <div className="mt-auto">
-                                                {relProduct.factoryName && (
-                                                    <div className="d-flex align-items-center gap-2 mb-3 text-success fs-7 fw-bold">
-                                                        <FontAwesomeIcon icon={faLeaf} />
-                                                        <span>{relProduct.factoryName}</span>
-                                                    </div>
-                                                )}
-
-                                                <div className="d-flex justify-content-between align-items-end mb-1">
-                                                    <span className="fs-5 fw-bold text-dark">
-                                                        {(relProduct.price ?? 0).toLocaleString("vi-VN")}đ
-                                                    </span>
-                                                    <span className="badge rounded-pill fw-normal px-2 py-1 stock-green">
-                                                        {relProduct.stockStatus}
-                                                    </span>
-                                                </div>
-
-                                                <div className="row g-2 mt-2">
-                                                    <div className="col-12">
-                                                        <Link
-                                                            to={`${ROUTES.PRODUCT_DETAIL}/${relProduct.id}`}
-                                                            className="btn btn-outline-primary w-100 fw-bold bg-white text-primary"
-                                                        >
-                                                            Xem chi tiết
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </>
-                )}
+                <ProductRecommendations
+                    kind="bought-together"
+                    products={boughtTogetherProducts}
+                    loading={recommendationsLoading}
+                />
+                <ProductRecommendations
+                    kind="similar"
+                    products={relatedProducts}
+                    loading={recommendationsLoading}
+                />
             </div>
         </main>
     );
