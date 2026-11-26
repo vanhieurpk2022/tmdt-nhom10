@@ -60,7 +60,7 @@ public class ProductService {
                 .filter(c -> c.productCount() > 0)
                 .toList();
 
-        // Đếm sản phẩm theo factory
+        // Hiển thị cả xưởng mới chưa có sản phẩm trong bộ lọc.
         Map<Long, Long> facCount = productRepo.countByFactory().stream()
                 .collect(Collectors.toMap(r -> (Long) r[0], r -> (Long) r[1]));
 
@@ -76,7 +76,6 @@ public class ProductService {
                     }
                     return new FactoryDto(f.getId(), f.getName(), facCount.getOrDefault(f.getId(), 0L), avatarUrl);
                 })
-                .filter(f -> f.productCount() > 0)
                 .toList();
 
         return new FilterMetaResponse(categories, factories);

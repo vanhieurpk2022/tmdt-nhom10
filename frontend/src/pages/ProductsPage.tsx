@@ -1,8 +1,8 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faStar, faFire, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faSliders, faLeaf, faBagShopping, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useNavigationType, useSearchParams } from "react-router";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "../api/AuthContext";
 import { useCart } from "../api/CartContext";
 import { cartService } from "../api/CartService";
@@ -158,6 +158,7 @@ export default function ProductsPage() {
     const [priceRange, setPriceRange] = useState({ min: "", max: "" });
     const [pricePreset, setPricePreset] = useState<string>("");
     const [minRating, setMinRating] = useState<number | undefined>(undefined);
+    const [filtersOpen, setFiltersOpen] = useState(false);
 
     // Products state
     const [products, setProducts] = useState<ProductCard[]>(() => cachedData?.products || []);
@@ -202,9 +203,32 @@ export default function ProductsPage() {
         setSelectedFactories(next);
     }, [factoryParam]);
 
-    // Load sidebar metadata một lần
+    // Tải lại bộ lọc khi quay về tab để nhận các xưởng mới được thêm.
     useEffect(() => {
-        productService.getFilterMeta().then(setMeta).catch(console.error);
+        let active = true;
+        let loadingMeta = false;
+
+        const loadMeta = async () => {
+            if (loadingMeta || document.visibilityState !== "visible") return;
+            loadingMeta = true;
+            try {
+                const nextMeta = await productService.getFilterMeta();
+                if (active) setMeta(nextMeta);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                loadingMeta = false;
+            }
+        };
+
+        void loadMeta();
+        window.addEventListener("focus", loadMeta);
+        document.addEventListener("visibilitychange", loadMeta);
+        return () => {
+            active = false;
+            window.removeEventListener("focus", loadMeta);
+            document.removeEventListener("visibilitychange", loadMeta);
+        };
     }, []);
 
     // Lọc & lấy dữ liệu sản phẩm
@@ -273,6 +297,7 @@ export default function ProductsPage() {
         );
 
     const handleApplyFilters = () => {
+        setFiltersOpen(false);
         setSearchParams((previousParams) => {
             const nextParams = new URLSearchParams(previousParams);
             nextParams.delete("page");
@@ -292,26 +317,41 @@ export default function ProductsPage() {
         setSearchParams(new URLSearchParams());
     };
 
+    const activeFilterCount = selectedCategories.length + selectedFactories.length
+        + (pricePreset || priceRange.min || priceRange.max ? 1 : 0)
+        + (minRating ? 1 : 0);
+
     // Render
     return (
-        <main className="products-page bg-light py-4">
-            <div className="container-fluid px-4 px-lg-5">
-                <div className="row g-4">
+        <main className="products-page">
+            <div className="products-container">
+                <button
+                    type="button"
+                    className="products-filter-toggle"
+                    aria-expanded={filtersOpen}
+                    aria-controls="products-filters"
+                    onClick={() => setFiltersOpen((open) => !open)}
+                >
+                    <FontAwesomeIcon icon={faSliders} />
+                    Bộ lọc{activeFilterCount > 0 && <span>{activeFilterCount}</span>}
+                </button>
+                <div className="products-layout">
 
                     {/* Sidebar bộ lọc */}
-                    <aside className="col-12 col-lg-3">
-                        <div className="bg-white p-4 rounded-3 shadow-sm products-sidebar">
-                            <div className="d-flex align-items-center mb-4">
-                                <h5 className="mb-0 fw-bold d-flex align-items-center gap-2">
-                                    <svg className="text-primary" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                                    Bộ lọc tìm kiếm
-                                </h5>
+                    <aside id="products-filters" className={`products-filters${filtersOpen ? " is-open" : ""}`}>
+                        <div className="products-sidebar">
+                            <div className="products-sidebar-heading">
+                                <h2><FontAwesomeIcon icon={faSliders} /> Bộ lọc</h2>
+                                <button type="button" className="products-reset-filters" onClick={handleReset}>Xóa lọc</button>
                             </div>
 
                             {/* Danh mục */}
-                            <div className="filter-group mb-4">
-                                <h6 className="filter-title fs-7 text-uppercase text-muted fw-bold mb-3">Danh mục</h6>
-                                <div className="d-flex flex-column gap-2">
+                            <details className="filter-group" open>
+                                <summary>
+                                    <span>Danh mục</span>
+                                    {selectedCategories.length > 0 && <span className="filter-summary-value">{selectedCategories.length} đã chọn</span>}
+                                </summary>
+                                <div className="filter-options">
                                     {meta.categories.map((cat) => (
                                         <label key={cat.id} className="d-flex align-items-center custom-checkbox">
                                             <input
@@ -324,12 +364,15 @@ export default function ProductsPage() {
                                         </label>
                                     ))}
                                 </div>
-                            </div>
+                            </details>
 
                             {/* Khoảng giá */}
-                            <div className="filter-group mb-4">
-                                <h6 className="filter-title fs-7 text-uppercase text-muted fw-bold mb-3">Khoảng giá (VNĐ)</h6>
-                                <div className="d-flex flex-column gap-2 mb-3">
+                            <details className="filter-group">
+                                <summary>
+                                    <span>Khoảng giá</span>
+                                    <span className="filter-summary-value">{pricePreset || priceRange.min || priceRange.max ? "Đã chọn" : "Tất cả"}</span>
+                                </summary>
+                                <div className="filter-options filter-price-options">
                                     {[
                                         { val: "under250", label: "Dưới 250.000đ" },
                                         { val: "250to500", label: "250.000đ - 500.000đ" },
@@ -347,46 +390,46 @@ export default function ProductsPage() {
                                         </label>
                                     ))}
                                 </div>
-                                <div className="d-flex align-items-center gap-2">
-                                    <input type="text" className="form-control form-control-sm" placeholder="Từ"
+                                <div className="filter-price-inputs">
+                                    <input type="text" inputMode="numeric" aria-label="Giá thấp nhất" className="form-control form-control-sm" placeholder="Từ"
                                         value={priceRange.min}
                                         onChange={(e) => { setPriceRange({ ...priceRange, min: e.target.value }); setPricePreset(""); }}
                                     />
                                     <span className="text-muted">-</span>
-                                    <input type="text" className="form-control form-control-sm" placeholder="Đến"
+                                    <input type="text" inputMode="numeric" aria-label="Giá cao nhất" className="form-control form-control-sm" placeholder="Đến"
                                         value={priceRange.max}
                                         onChange={(e) => { setPriceRange({ ...priceRange, max: e.target.value }); setPricePreset(""); }}
                                     />
                                 </div>
-                            </div>
+                            </details>
 
                             {/* Đánh giá sao */}
-                            <div className="filter-group mb-4">
-                                <h6 className="filter-title fs-7 text-uppercase text-muted fw-bold mb-3">Đánh giá sao</h6>
-                                <div className="d-flex flex-column gap-2">
+                            <details className="filter-group">
+                                <summary>
+                                    <span>Đánh giá</span>
+                                    <span className="filter-summary-value">{minRating ? `Từ ${minRating} sao` : "Tất cả"}</span>
+                                </summary>
+                                <select
+                                    id="products-min-rating"
+                                    aria-label="Đánh giá tối thiểu"
+                                    className="form-select form-select-sm"
+                                    value={minRating ?? ""}
+                                    onChange={(event) => setMinRating(event.target.value ? Number(event.target.value) : undefined)}
+                                >
+                                    <option value="">Tất cả đánh giá</option>
                                     {[5, 4, 3, 2, 1].map((star) => (
-                                        <label key={star} className="d-flex align-items-center gap-2 custom-checkbox">
-                                            <input
-                                                type="checkbox"
-                                                className="form-check-input"
-                                                checked={minRating === star}
-                                                onChange={() => setMinRating(minRating === star ? undefined : star)}
-                                            />
-                                            <div className="text-warning fs-7">
-                                                {Array.from({ length: 5 }).map((_, i) => (
-                                                    <FontAwesomeIcon key={i} icon={faStar} className={i < star ? "text-warning" : "text-muted opacity-25"} />
-                                                ))}
-                                            </div>
-                                            <span className="text-muted fs-7">({star} sao)</span>
-                                        </label>
+                                        <option key={star} value={star}>{star === 5 ? "5 sao" : `Từ ${star} sao trở lên`}</option>
                                     ))}
-                                </div>
-                            </div>
+                                </select>
+                            </details>
 
-                            {/* Gian hàng */}
-                            <div className="filter-group mb-4">
-                                <h6 className="filter-title fs-7 text-uppercase text-muted fw-bold mb-3">Gian hàng</h6>
-                                <div className="d-flex flex-column gap-2">
+                            {/* Xưởng sản xuất */}
+                            <details className="filter-group">
+                                <summary>
+                                    <span>Xưởng sản xuất</span>
+                                    <span className="filter-summary-value">{selectedFactories.length > 0 ? `${selectedFactories.length} đã chọn` : `${meta.factories.length} xưởng`}</span>
+                                </summary>
+                                <div className="filter-options products-factory-options">
                                     {meta.factories.map((fac) => (
                                         <label key={fac.id} className="d-flex align-items-center custom-checkbox">
                                             <input
@@ -399,39 +442,28 @@ export default function ProductsPage() {
                                         </label>
                                     ))}
                                 </div>
-                            </div>
+                            </details>
 
-                            <div className="d-flex gap-2 products-sidebar-footer">
-                                <button className="btn btn-primary flex-grow-1 fw-bold" onClick={handleApplyFilters} disabled={loading}>
-                                    {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Áp dụng"}
+                            <div className="products-sidebar-footer">
+                                <button className="btn btn-primary w-100 fw-bold" onClick={handleApplyFilters} disabled={loading}>
+                                    {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Lọc sản phẩm"}
                                 </button>
-                                <button className="btn btn-light border fw-bold text-muted" onClick={handleReset}>Đặt lại</button>
                             </div>
                         </div>
                     </aside>
 
                     {/* Danh sách sản phẩm */}
-                    <section className="col-12 col-lg-9">
-                        {/* Search tags */}
-                        <div className="d-flex align-items-center gap-2 mb-4 flex-wrap">
-                            <span className="text-muted fs-7"><FontAwesomeIcon icon={faFire} className="text-warning me-1" /> Gợi ý tìm kiếm:</span>
-                            <div className="d-flex gap-2 flex-wrap search-tags">
-                                {["Ngủ ngon", "Đuổi muỗi", "Trị liệu stress", "Sả Java", "Máy khuếch tán gốm"].map((tag) => (
-                                    <span key={tag} className="badge bg-white text-dark border rounded-pill px-3 py-2 fw-normal">{tag}</span>
-                                ))}
-                            </div>
-                        </div>
-
+                    <section className="products-results" aria-label="Danh sách sản phẩm">
                         {/* Sort & count */}
-                        <div className="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center gap-3 mb-4">
-                            <p className="text-muted fs-7 mb-0">
-                                Hiển thị <strong>{products.length}</strong> / <strong>{totalElements}</strong> sản phẩm phù hợp tiêu chí
+                        <div className="products-toolbar">
+                            <p className="products-result-count" role="status">
+                                Hiển thị <strong>{products.length}</strong> / <strong>{totalElements}</strong> sản phẩm
                             </p>
-                            <div className="d-flex align-items-center gap-2">
-                                <span className="text-muted fs-7 text-nowrap">Sắp xếp:</span>
+                            <div className="products-sort">
+                                <label htmlFor="products-sort">Sắp xếp:</label>
                                 <select
-                                    className="form-select form-select-sm border-0 bg-white shadow-sm fw-semibold text-dark px-3 py-2 rounded-pill"
-                                    style={{ minWidth: "180px", cursor: "pointer" }}
+                                    id="products-sort"
+                                    className="form-select form-select-sm"
                                     value={sort}
                                     onChange={(e) => handleSortChange(e.target.value)}
                                 >
@@ -453,79 +485,75 @@ export default function ProductsPage() {
                                 <button className="btn btn-outline-primary" onClick={handleReset}>Xóa bộ lọc</button>
                             </div>
                         ) : (
-                            <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                            <div className="products-grid">
                                 {products.map((product) => {
                                     return (
-                                        <div className="col" key={product.id}>
-                                            <div className="card h-100 product-card border-0 shadow-sm rounded-4 overflow-hidden">
+                                        <div className="products-grid-item" key={product.id}>
+                                            <article className="product-card">
                                                 {/* Ảnh sản phẩm - click để xem chi tiết */}
-                                                <div className="position-relative">
+                                                <div className="product-image-wrap">
                                                     <Link to={`/product-detail/${product.id}`}>
                                                         <img
                                                             src={product.thumbnailUrl ?? "/images/home/lavender-france.png"}
                                                             className="card-img-top product-img"
                                                             alt={product.name}
+                                                            loading="lazy"
+                                                            decoding="async"
                                                             onError={(e) => { (e.target as HTMLImageElement).src = "/images/home/lavender-france.png"; }}
                                                         />
                                                     </Link>
-                                                    <button className="btn btn-light bg-white rounded-circle position-absolute top-0 end-0 m-3 p-2 shadow-sm d-flex align-items-center justify-content-center text-muted fav-btn">
+                                                    <button type="button" className="fav-btn" aria-label={`Yêu thích ${product.name}`}>
                                                         <FontAwesomeIcon icon={faHeart} />
                                                     </button>
                                                 </div>
-                                                <div className="card-body p-4 d-flex flex-column">
-                                                    <div className="d-flex align-items-center gap-1 mb-2">
-                                                        <FontAwesomeIcon icon={faStar} className="text-warning fs-7" />
-                                                        <span className="fw-bold fs-7">{product.avgRating.toFixed(1)}</span>
-                                                        <span className="text-muted fs-7">
-                                                            ({product.totalSold}+ đã bán{product.views ? ` • ${product.views.toLocaleString("vi-VN")} lượt xem` : ""})
-                                                        </span>
-                                                    </div>
-                                                    <h5 className="card-title fs-6 fw-bold mb-1 product-title">
-                                                        <Link to={`/product-detail/${product.id}`} className="text-dark text-decoration-none hover-primary">
+                                                <div className="product-card-body">
+                                                    <h2 className="product-title">
+                                                        <Link to={`/product-detail/${product.id}`}>
                                                             {product.name}
                                                         </Link>
-                                                    </h5>
-                                                    <p className="card-text text-muted fs-7 mb-3 product-desc">{product.description}</p>
-
-                                                    <div className="mt-auto">
-                                                        {product.factoryName && (
-                                                            <div className="d-flex align-items-center gap-2 mb-3 text-muted fs-7">
-                                                                <FontAwesomeIcon icon={faLeaf} className="text-success" />
-                                                                <span>{product.factoryName}</span>
-                                                            </div>
-                                                        )}
-                                                        <div className="d-flex justify-content-between align-items-end mb-1">
-                                                            <span className="fs-5 fw-bold text-dark">
+                                                    </h2>
+                                                    {product.factoryName && (
+                                                        <div className="product-factory">
+                                                            <FontAwesomeIcon icon={faLeaf} className="text-success" />
+                                                            <span>{product.factoryName}</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="product-rating">
+                                                        <FontAwesomeIcon icon={faStar} className="text-warning" />
+                                                        <strong>{product.avgRating.toFixed(1)}</strong>
+                                                        <span>· Đã bán {product.totalSold.toLocaleString("vi-VN")}</span>
+                                                    </div>
+                                                    <div className="product-card-bottom">
+                                                        <div className="product-price-row">
+                                                            <span className="product-price">
                                                                 {product.price ? `${product.price.toLocaleString("vi-VN")}đ` : "Liên hệ"}{" "}
-                                                                <span className="fs-7 fw-normal text-muted">/10ml</span>
+                                                                {product.price > 0 && <small>/10ml</small>}
                                                             </span>
-                                                            <span className={`badge rounded-pill fw-normal px-2 py-1 ${stockBadgeClass(product.stockStatus)}`}>
+                                                            <span className={`product-stock ${stockBadgeClass(product.stockStatus)}`}>
                                                                 {product.stockStatus}
                                                             </span>
                                                         </div>
-                                                        <div className="row g-2">
-                                                            <div className="col-6">
-                                                                <button
-                                                                    className="btn btn-outline-primary w-100 fw-bold bg-white text-primary btn-add-cart d-flex align-items-center justify-content-center gap-2"
-                                                                    onClick={() => handleAddToCart(product)}
-                                                                    disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
-                                                                >
-                                                                    <FontAwesomeIcon icon={addingProductIds.includes(product.id) ? faSpinner : faBagShopping} spin={addingProductIds.includes(product.id)} /> Thêm giỏ
-                                                                </button>
-                                                            </div>
-                                                            <div className="col-6">
-                                                                <button
-                                                                    className="btn btn-primary w-100 fw-bold btn-buy-now"
-                                                                    onClick={() => handleBuyNow(product)}
-                                                                    disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
-                                                                >
-                                                                    Mua ngay
-                                                                </button>
-                                                            </div>
+                                                        <div className="product-card-actions">
+                                                            <button
+                                                                className="btn btn-outline-primary btn-add-cart"
+                                                                aria-label={`Thêm ${product.name} vào giỏ hàng`}
+                                                                onClick={() => handleAddToCart(product)}
+                                                                disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
+                                                            >
+                                                                <FontAwesomeIcon icon={addingProductIds.includes(product.id) ? faSpinner : faBagShopping} spin={addingProductIds.includes(product.id)} />
+                                                                <span>Thêm giỏ</span>
+                                                            </button>
+                                                            <button
+                                                                className="btn btn-primary btn-buy-now"
+                                                                onClick={() => handleBuyNow(product)}
+                                                                disabled={authLoading || addingProductIds.includes(product.id) || product.stockStatus === "Hết hàng"}
+                                                            >
+                                                                Mua ngay
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </article>
                                         </div>
                                     );
                                 })}
