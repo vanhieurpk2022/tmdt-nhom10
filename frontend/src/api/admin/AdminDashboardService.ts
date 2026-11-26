@@ -1,4 +1,5 @@
-import api, { type ApiResponse } from "../api";
+import type { ApiResponse } from "../api";
+import api from "../api";
 
 export interface AdminDashboardOverview {
     totalRevenue: number;              // Tổng giá trị giao dịch hàng hóa (GMV)
@@ -82,36 +83,36 @@ export const AdminDashboardService = {
      * Lấy các chỉ số KPI tóm tắt đầu trang tổng quan
      */
     getOverview: async (): Promise<AdminDashboardOverview> => {
-        const res = await api.get<any>("/admin/dashboard/overview");
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        const res = await api.get<ApiResponse<AdminDashboardOverview>>("/admin/dashboard/overview");
+        return res.data.data;
     },
 
     /**
      * Lấy dữ liệu biểu đồ cột theo thời gian
      */
     getBarChart: async (params?: BarChartQueryParams): Promise<AdminBarChartResponse> => {
-        const res = await api.get<any>("/admin/dashboard/bar-chart", {
+        const res = await api.get<ApiResponse<AdminBarChartResponse>>("/admin/dashboard/bar-chart", {
             params,
         });
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        return res.data.data;
     },
 
     /**
      * Lấy dữ liệu các biểu đồ tròn (Trạng thái đơn, Danh mục, Loại sản phẩm, Lý do hủy, v.v.)
      */
     getPieCharts: async (): Promise<AdminPieChartData> => {
-        const res = await api.get<any>("/admin/dashboard/pie-charts");
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        const res = await api.get<ApiResponse<AdminPieChartData>>("/admin/dashboard/pie-charts");
+        return res.data.data;
     },
 
     /**
      * Lấy trọn bộ dữ liệu trang tổng quan (KPIs + Biểu đồ cột + Các biểu đồ tròn) trong 1 request
      */
     getFullDashboard: async (params?: BarChartQueryParams): Promise<AdminDashboardFullResponse> => {
-        const res = await api.get<any>("/admin/dashboard/full", {
+        const res = await api.get<ApiResponse<AdminDashboardFullResponse>>("/admin/dashboard/full", {
             params,
         });
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        return res.data.data;
     },
 };
 

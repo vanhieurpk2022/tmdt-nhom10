@@ -18,5 +18,10 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
+    rules: {
+      // Đây là khuyến cáo hiệu năng của Compiler, không phải vi phạm quy tắc Hook.
+      // Giữ cảnh báo cho các form đồng bộ props và trạng thái tải dữ liệu hiện hữu.
+      'react-hooks/set-state-in-effect': 'warn',
+    },
   },
 ])

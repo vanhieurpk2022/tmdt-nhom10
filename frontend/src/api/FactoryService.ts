@@ -1,4 +1,5 @@
 import api from "./api";
+import type { CartResponse } from "./CartService";
 import type { CategoryMeta } from "./ProductService";
 
 export interface FactoryItem {
@@ -127,6 +128,10 @@ export interface BottleSampleItem {
 }
 
 export const FactoryApiService = {
+    quoteCustom: async (payload: CreateCustomScentPayload): Promise<{ price: number; stockQuantity: number }> => {
+        const res = await api.post<ApiResponse<{ price: number; stockQuantity: number }>>("/custom-scent/quote", payload);
+        return res.data.data;
+    },
     /** Lấy danh sách tất cả xưởng đối tác */
     getAllFactories: async (): Promise<FactoryItem[]> => {
         const res = await api.get<ApiResponse<FactoryItem[]>>("/factories");
@@ -169,8 +174,8 @@ export const FactoryApiService = {
     },
 
     /** Thêm công thức phối hương trực tiếp vào giỏ hàng của user */
-    addCustomScentToCart: async (payload: CreateCustomScentPayload): Promise<any> => {
-        const res = await api.post<ApiResponse<any>>("/custom-scent/add-to-cart", payload);
+    addCustomScentToCart: async (payload: CreateCustomScentPayload): Promise<CartResponse> => {
+        const res = await api.post<ApiResponse<CartResponse>>("/custom-scent/add-to-cart", payload);
         return res.data.data;
     },
 

@@ -15,17 +15,13 @@ public class MigrationConfiguration {
                 .dataSource(dataSource)
                 .locations("classpath:db/migration")
                 .baselineOnMigrate(true)
-                .validateOnMigrate(false)
+                .validateOnMigrate(true)
                 .load();
     }
 
     @Bean
     public ApplicationRunner runFlyway(Flyway flyway) {
         return args -> {
-            try {
-                flyway.repair();
-            } catch (Exception ignored) {
-            }
             flyway.migrate();
         };
     }

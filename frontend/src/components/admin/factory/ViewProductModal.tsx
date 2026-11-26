@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { FactoryProductItem } from "../../../dto/factory/FactoryProductRes";
 import { formatVnd } from "../../../components/format/FormatMoney";
-import { ProductStatusBadge } from "../../../pages/FactoryProductPage";
+import { ProductStatusBadge } from "../../../utils/productBadges";
 
 interface ViewProductModalProps {
     show: boolean;

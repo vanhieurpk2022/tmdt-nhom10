@@ -1,5 +1,3 @@
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DataTableApprove } from "./DataTableApprove";
 import { ShieldCheck } from "react-bootstrap-icons";
 import { Modal } from "react-bootstrap";

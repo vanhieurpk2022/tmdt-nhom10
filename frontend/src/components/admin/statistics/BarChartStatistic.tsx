@@ -109,7 +109,9 @@ const DEFAULT_DATA: BarDataItem[] = [
 ];
 
 /* ---------- Custom Tooltip ---------- */
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: {
+    active?: boolean; payload?: Array<{ dataKey?: string; value: number; color?: string; name?: string }>; label?: string;
+}) => {
     if (!active || !payload?.length) return null;
 
     return (
@@ -118,7 +120,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             style={{ fontSize: '12px', minWidth: '160px' }}
         >
             <div className="fw-bold mb-1 text-dark">{label}</div>
-            {payload.map((entry: any, i: number) => (
+            {payload.map((entry, i) => (
                 <div key={i} className="d-flex justify-content-between gap-3">
                     <span style={{ color: entry.color }}>{entry.name}:</span>
                     <span className="fw-semibold text-dark">

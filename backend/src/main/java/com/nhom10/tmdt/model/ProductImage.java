@@ -55,4 +55,8 @@ public class ProductImage {
     @JoinColumn(name="product_id")
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_factory_id")
+    private Factory ownerFactory;
+
 }

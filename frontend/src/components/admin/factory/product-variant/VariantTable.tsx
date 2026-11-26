@@ -8,10 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FactoryServiceManager } from "../../../../api/factory/FactoryService";
-import { useEffect, useState } from "react";
-import type { FactoryProductVariantItem } from "../../../../dto/factory/FactoryProductRes";
-import { ProductMil } from "../../../../models/ProductMil";
+import { useState } from "react";
 import type { RowData } from "@tanstack/react-table";
 import type { AppTable } from "../../../table/features";
 

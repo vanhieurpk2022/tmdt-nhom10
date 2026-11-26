@@ -1,3 +1,5 @@
+import { OrderStatusBadge } from "../utils/orderBadges";
+import { toApiError } from "../utils/apiError";
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,60 +33,6 @@ import {
 } from "../api/AdminOrderService";
 import AdminOrderDetailModal from "../components/admin/order/AdminOrderDetailModal";
 import "../css/pages/user-admin.css";
-
-export const OrderStatusBadge: Record<OrderStatus, { label: string; badge: string }> = {
-    [OrderStatus.PENDING_PAYMENT]: {
-        label: "Chờ thanh toán",
-        badge: "bg-warning-subtle text-warning-emphasis",
-    },
-    [OrderStatus.PENDING]: {
-        label: "Chờ xác nhận",
-        badge: "bg-warning-subtle text-warning-emphasis",
-    },
-    [OrderStatus.CONFIRMED]: {
-        label: "Đã xác nhận",
-        badge: "bg-primary-subtle text-primary-emphasis",
-    },
-    [OrderStatus.PROCESSING]: {
-        label: "Đang đóng gói",
-        badge: "bg-info-subtle text-info-emphasis",
-    },
-    [OrderStatus.DELIVERING]: {
-        label: "Đang giao hàng",
-        badge: "bg-primary-subtle text-primary-emphasis",
-    },
-    [OrderStatus.SHIPPED]: {
-        label: "Đã gửi hàng",
-        badge: "bg-info-subtle text-info-emphasis",
-    },
-    [OrderStatus.DELIVERED]: {
-        label: "Đã giao thành công",
-        badge: "bg-success-subtle text-success-emphasis",
-    },
-    [OrderStatus.CANCELLED]: {
-        label: "Đã hủy đơn",
-        badge: "bg-danger-subtle text-danger-emphasis",
-    },
-    [OrderStatus.RETURNED]: {
-        label: "Đã trả hàng",
-        badge: "bg-secondary-subtle text-secondary-emphasis",
-    },
-    [OrderStatus.REFUNDED]: {
-        label: "Đã hoàn tiền",
-        badge: "bg-dark-subtle text-dark-emphasis",
-    },
-};
-
-export const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
-    [ProductType.CUSTOM]: {
-        label: "Phối hương",
-        badge: "bg-purple-subtle text-purple-emphasis",
-    },
-    [ProductType.NORMAL]: {
-        label: "Tiêu chuẩn",
-        badge: "bg-primary-subtle text-primary-emphasis",
-    },
-};
 
 const getInitials = (name?: string) => {
     if (!name || !name.trim()) return "KH";
@@ -168,7 +116,8 @@ export default function AdminOrder() {
             setOrders(res.content || []);
             setTotalPages(res.totalPages || 1);
             setTotalElements(res.totalElements || 0);
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi tải danh sách đơn hàng:", err);
             setError(err?.response?.data?.message || "Không thể tải danh sách đơn hàng từ máy chủ.");
         } finally {
@@ -200,7 +149,8 @@ export default function AdminOrder() {
         try {
             const detail = await AdminOrderService.getOrderDetail(id);
             setDetailOrder(detail);
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi xem chi tiết đơn hàng:", err);
             showToast(err?.response?.data?.message || "Không thể lấy chi tiết đơn hàng.", "danger");
         } finally {

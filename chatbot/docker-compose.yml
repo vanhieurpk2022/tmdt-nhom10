@@ -9,6 +9,7 @@ services:
       - ollama_data:/root/.ollama
 
   ollama-pull:
+    profiles: ["models"]
     image: ollama/ollama:latest
     container_name: oilia-ollama-pull
     depends_on:
@@ -39,10 +40,7 @@ services:
       - LLM_MODEL=qwen2.5:3b
       - TOP_K=4
     volumes:
-      - ./data:/app/data
-      - ./faiss_index:/app/faiss_index
       - ./app:/app/app
-      - ./build_index.py:/app/build_index.py
     depends_on:
       - ollama
 

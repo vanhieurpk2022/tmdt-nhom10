@@ -29,4 +29,8 @@ public class ProductCustomItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")
     private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ingredient_mil_id")
+    private ProductMil ingredientMil;
 }

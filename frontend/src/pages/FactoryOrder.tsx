@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { toApiError } from "../utils/apiError";
+import { useState, useEffect, useCallback } from "react";
 import {
     createColumnHelper,
     useTable,
@@ -40,7 +41,7 @@ import type {
 import AdminOrderDetailModal from "../components/admin/order/AdminOrderDetailModal";
 import AdminUpdateOrderStatusModal from "../components/admin/order/AdminUpdateOrderStatusModal";
 import { useToastContext } from "../components/toasts/ToastContext";
-import { OrderStatusBadge } from "./AdminOrder";
+import { OrderStatusBadge } from "../utils/orderBadges";
 import { features } from "../components/table/features";
 import "../css/pages/dashboard/admin.css";
 import "../css/pages/dashboard/dashboard.css";
@@ -96,7 +97,8 @@ export default function FactoryOrder() {
                 setTotalPages(res.data.totalPages || 1);
                 setTotalElements(res.data.totalElements || 0);
             }
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi tải danh sách đơn hàng xưởng:", err);
             showToast("Lỗi", err?.response?.data?.message || "Không thể tải danh sách đơn hàng xưởng.", "danger");
         } finally {
@@ -111,7 +113,8 @@ export default function FactoryOrder() {
             if (res.data) {
                 setStats(res.data);
             }
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi tải thống kê đơn hàng:", err);
         }
     }, []);
@@ -132,7 +135,8 @@ export default function FactoryOrder() {
             if (res.data) {
                 setDetailOrder(res.data);
             }
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi lấy chi tiết đơn hàng:", err);
             showToast("Lỗi", err?.response?.data?.message || "Không thể lấy chi tiết đơn hàng.", "danger");
         } finally {
@@ -161,7 +165,8 @@ export default function FactoryOrder() {
                 handleViewDetail(id);
                 setReopenDetailId(null);
             }
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi cập nhật trạng thái:", err);
             showToast("Lỗi", err?.response?.data?.message || "Không thể cập nhật trạng thái đơn hàng.", "danger");
             throw err;
@@ -178,7 +183,8 @@ export default function FactoryOrder() {
             showToast("Thành công", `Đã chuyển đơn hàng #${order.id} sang trạng thái Đã hủy.`, "success");
             fetchOrders();
             fetchStats();
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi hủy đơn hàng:", err);
             showToast("Lỗi", err?.response?.data?.message || "Không thể hủy đơn hàng.", "danger");
         }
@@ -216,9 +222,7 @@ export default function FactoryOrder() {
     };
 
     // Columns config for TanStack Table
-    const columns = useMemo(
-        () =>
-            columnHelper.columns([
+    const columns = columnHelper.columns([
                 columnHelper.accessor("code", {
                     header: "Mã đơn",
                     cell: (info) => (
@@ -378,9 +382,7 @@ export default function FactoryOrder() {
                     },
                     enableSorting: false,
                 }),
-            ]),
-        []
-    );
+            ]);
 
     // Initialize TanStack Table instance
     const table = useTable({

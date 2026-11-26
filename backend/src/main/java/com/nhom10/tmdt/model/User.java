@@ -28,6 +28,8 @@ public class User {
     private Long id;
     private String fullname;
     private String username;
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     private String password;
     private String email;
     private String phone;
@@ -79,6 +81,8 @@ public class User {
     private boolean isVerify = false;
 
     @Column(name="code_active")
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ToString.Exclude
     private String codeActive;
 
     @Column(name="avatar_url")

@@ -20,10 +20,8 @@ import { ROUTES } from "../routes/routes";
 import Breadcrumb from "../components/layout/Breadcrumb";
 import { ProductType } from "../enums/ProductType";
 import { ProductStatus } from "../enums/ProductStatus";
-import AdminProductDetailModal, {
-    type AdminProductDetail,
-    AdminProductStatusBadge,
-} from "../components/admin/product/AdminProductDetailModal";
+import { AdminProductStatusBadge } from "../utils/adminProductBadges";
+import AdminProductDetailModal, { type AdminProductDetail } from "../components/admin/product/AdminProductDetailModal";
 import {
     AdminProductService,
     type AdminProductStats,
@@ -32,17 +30,6 @@ import { FactoryApiService, type FactoryItem } from "../api/FactoryService";
 import "../css/pages/user-admin.css";
 
 const formatVnd = (val?: number) => (val || 0).toLocaleString("vi-VN") + "đ";
-
-export const ProductTypeBadge: Record<ProductType, { label: string; badge: string }> = {
-    [ProductType.CUSTOM]: {
-        label: "Phối hương",
-        badge: "bg-purple-subtle text-purple-emphasis",
-    },
-    [ProductType.NORMAL]: {
-        label: "Tiêu chuẩn",
-        badge: "bg-primary-subtle text-primary-emphasis",
-    },
-};
 
 // Dữ liệu mẫu sản phẩm toàn sàn đa dạng cho Admin, thể hiện rõ từng xưởng sản xuất
 const INITIAL_ADMIN_PRODUCTS: AdminProductDetail[] = [

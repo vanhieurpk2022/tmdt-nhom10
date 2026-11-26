@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Eye, EyeSlash, BoxArrowInRight } from 'react-bootstrap-icons';
+import { toApiError } from "../../../utils/apiError";
+import React, { useCallback, useState } from 'react';
+import { Eye, EyeSlash } from 'react-bootstrap-icons';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { authService } from '../../../api/AuthService';
 import { ROUTES } from '../../../routes/routes';
-import { useAuth } from "../../../api/AuthContext";
+import { useAuth, type UserResponse } from "../../../api/AuthContext";
 import { useGoogleLogin, useGoogleOAuth } from '@react-oauth/google';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
@@ -20,22 +21,23 @@ export function LoginForm() {
     const [password, setPasssword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const [successMessage, setSuccessMessage] = useState<string>(location.state?.message || '');
+    const [successMessage] = useState<string>(location.state?.message || '');
     const [googleLoading, setGoogleLoading] = useState(false);
     const [facebookLoading, setFacebookLoading] = useState(false);
 
-    const redirectAfterLogin = (loggedInUser: any) => {
+    const redirectAfterLogin = useCallback((loggedInUser: UserResponse) => {
         const roles = Array.isArray(loggedInUser?.role)
             ? loggedInUser.role
             : (loggedInUser?.role ? [loggedInUser.role] : []);
-        const isAdmin = roles.some((r: any) =>
+        const isAdmin = roles.some((r) =>
             typeof r === "string" && (r === "ADMIN" || r === "ROLE_ADMIN" || r.toUpperCase().includes("ADMIN"))
         );
-        const isFactory = roles.some((r: any) =>
+        const isFactory = roles.some((r) =>
             typeof r === "string" && (r === "FACTORY" || r === "ROLE_FACTORY" || r.toUpperCase().includes("FACTORY"))
         );
 
-        const fromPath = (location.state as any)?.from?.pathname || (location.state as any)?.from;
+        const state = location.state as { from?: string | { pathname?: string } } | null;
+        const fromPath = typeof state?.from === 'string' ? state.from : state?.from?.pathname;
 
         if (isAdmin) {
             if (fromPath && typeof fromPath === "string" && fromPath.startsWith("/admin")) {
@@ -52,13 +54,13 @@ export function LoginForm() {
         } else {
             navigate(fromPath && typeof fromPath === "string" && !fromPath.startsWith("/admin") ? fromPath : ROUTES.HOME, { replace: true });
         }
-    };
+    }, [location.state, navigate]);
 
     React.useEffect(() => {
         if (user && !loading) {
             redirectAfterLogin(user);
         }
-    }, [user, loading]);
+    }, [user, loading, redirectAfterLogin]);
 
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
@@ -109,7 +111,8 @@ export function LoginForm() {
                     : from?.pathname ? `${from.pathname}${from.search || ""}${from.hash || ""}` : ROUTES.HOME;
                 navigate(destination.startsWith("/") && !destination.startsWith("//") ? destination : ROUTES.HOME, { replace: true });
             }
-        } catch (error: any) {
+        } catch (caught: unknown) {
+            const error = toApiError(caught);
             console.error("Facebook login error:", error);
             if (axios.isAxiosError(error)) {
                 setErrorMessage(error.response?.data?.message || "Đăng nhập Facebook thất bại");

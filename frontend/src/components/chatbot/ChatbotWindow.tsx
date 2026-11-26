@@ -32,7 +32,7 @@ export const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
     <div
       className={`oilia-chat-window oilia-animate-in ${isMinimized ? 'minimized' : ''}`}
       role="region"
-      aria-label="Cửa sổ trò chuyện trợ lý Oilia"
+      aria-labelledby="oilia-chat-heading"
     >
       <ChatbotHeader
         isMinimized={isMinimized}
@@ -46,18 +46,16 @@ export const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
           <ChatMessageList
             messages={messages}
             isTyping={isTyping}
-            onSelectQuickReply={onSelectQuickReply}
           />
 
-          <ChatQuickReplies
-            options={quickReplyOptions}
-            onSelect={onSelectQuickReply}
-          />
-
-          <ChatbotInput
-            onSend={onSend}
-            disabled={isTyping}
-          />
+          <div className="oilia-chat-composer">
+            <ChatQuickReplies
+              options={quickReplyOptions}
+              disabled={isTyping}
+              onSelect={onSelectQuickReply}
+            />
+            <ChatbotInput onSend={onSend} disabled={isTyping} />
+          </div>
         </>
       )}
     </div>

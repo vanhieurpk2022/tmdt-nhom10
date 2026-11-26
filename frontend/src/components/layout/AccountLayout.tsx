@@ -109,6 +109,7 @@ export default function AccountLayout({ children, breadcrumbCurrent }: AccountLa
                                         Thông báo
                                     </NavLink>
                                 </li>
+                                <li><NavLink to="/support" className="text-decoration-none d-block px-3 py-2 rounded-3 fw-bold mb-2 text-muted">Hỗ trợ đơn hàng</NavLink></li>
                             </ul>
                             
                             <hr className="text-muted opacity-25" />

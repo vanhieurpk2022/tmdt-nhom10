@@ -274,7 +274,7 @@ export default function AdminBarChartOverTime() {
                                     tickFormatter={formatYAxis}
                                 />
                                 <Tooltip
-                                    formatter={(value: any, name: any) => {
+                                    formatter={(value, name) => {
                                         const num = Number(value) || 0;
                                         if (name === "Doanh thu" || name === "Hàng tiêu chuẩn" || name === "Phối hương Bespoke") {
                                             return [formatVnd(num), name];

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router";
-import { EnvelopeCheck, ArrowLeft, CheckCircleFill } from "react-bootstrap-icons";
+import { Link, useSearchParams } from "react-router";
+import { CheckCircleFill } from "react-bootstrap-icons";
 import { ROUTES } from "../routes/routes";
 import { authService } from "../api/AuthService";
 import axios from "axios";
@@ -11,7 +11,7 @@ export function VerifyEmailSuccess() {
     const [searchParam] = useSearchParams();
     const [success, setSuccess] = useState<string>('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [, setError] = useState('');
 
     useEffect(() => {
         const verify = async () => {

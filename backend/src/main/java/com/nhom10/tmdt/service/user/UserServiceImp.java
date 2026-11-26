@@ -51,6 +51,7 @@ public class UserServiceImp implements UserService {
                         new AppException(ErrorCode.NOT_FOUND)
                 );
 
+        if (user.getStatus() != com.nhom10.tmdt.enums.UserStatus.ACTIVE) throw new AppException(ErrorCode.FORBIDDEN);
         List<String> roles = user.getRoles().stream().map(Role::getName).toList();
 
         return new LoginResponse.UserResponse(
@@ -94,9 +95,10 @@ public class UserServiceImp implements UserService {
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() ->new AppException(ErrorCode.INVALID_CREDENTIALS));
+        if (user.getStatus() != com.nhom10.tmdt.enums.UserStatus.ACTIVE) throw new AppException(ErrorCode.FORBIDDEN);
 
         if(!user.isVerify()){
-            if(user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())){
+            if(user.getVerifyCodeExpiresAt() == null || user.getVerifyCodeExpiresAt().isBefore(LocalDateTime.now())){
                 // họ quên xác thực cần gửi mail lại
                 String getCode = emailSevice.generateToken();
                 emailSevice.sendActiveAccount(user.getEmail(),getCode);
@@ -111,9 +113,10 @@ public class UserServiceImp implements UserService {
             throw new AppException(ErrorCode.INVALID_CREDENTIALS);
         }
 
+        if (user.getStatus() != com.nhom10.tmdt.enums.UserStatus.ACTIVE) throw new AppException(ErrorCode.FORBIDDEN);
         List<String> roles = user.getRoles().stream().map(Role::getName).toList();
 
-        String accessToken = jwtService.generateToken(user.getEmail(),"", user.getFullname(),user.isVerify(),roles);
+        String accessToken = jwtService.generateToken(user.getEmail(),"", user.getFullname(),user.isVerify(),roles,request.rememberMe(),user.getPassword());
         long expiresIn = jwtService.getExpirationSeconds(request.rememberMe());
         LoginResponse.UserResponse userDto = new LoginResponse.UserResponse(
                 user.getId(),
@@ -162,11 +165,12 @@ public class UserServiceImp implements UserService {
         }
 
         // 3. Tạo JWT và trả về
+        if (user.getStatus() != com.nhom10.tmdt.enums.UserStatus.ACTIVE) throw new AppException(ErrorCode.FORBIDDEN);
         List<String> roles = user.getRoles().stream().map(Role::getName).toList();
 
         String accessToken = jwtService.generateToken(
                 user.getEmail(), user.getAvatarUrl() != null ? user.getAvatarUrl() : "",
-                user.getFullname(), user.isVerify(), roles);
+                user.getFullname(), user.isVerify(), roles, request.rememberMe(), user.getPassword());
         long expiresIn = jwtService.getExpirationSeconds(request.rememberMe());
 
         LoginResponse.UserResponse userDto = new LoginResponse.UserResponse(
@@ -217,11 +221,12 @@ public class UserServiceImp implements UserService {
             userRepository.save(user);
         }
 
+        if (user.getStatus() != com.nhom10.tmdt.enums.UserStatus.ACTIVE) throw new AppException(ErrorCode.FORBIDDEN);
         List<String> roles = user.getRoles().stream().map(Role::getName).toList();
 
         String accessToken = jwtService.generateToken(
                 user.getEmail(), user.getAvatarUrl() != null ? user.getAvatarUrl() : "",
-                user.getFullname(), user.isVerify(), roles);
+                user.getFullname(), user.isVerify(), roles, request.rememberMe(), user.getPassword());
         long expiresIn = jwtService.getExpirationSeconds(request.rememberMe());
 
         LoginResponse.UserResponse userDto = new LoginResponse.UserResponse(

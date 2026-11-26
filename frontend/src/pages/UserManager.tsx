@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { toApiError } from "../utils/apiError";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router";
 import "../css/pages/user-admin.css";
@@ -50,8 +51,7 @@ export default function UserManager() {
     });
     const [createLoading, setCreateLoading] = useState(false);
     const [createError, setCreateError] = useState<string | null>(null);
-    const [showVoucherModal, setShowVoucherModal] = useState(false);
-    const [selectedVoucher, setSelectedVoucher] = useState("SCENT20");
+    const [, setShowVoucherModal] = useState(false);
 
     useEffect(() => {
         if (!authLoading) {
@@ -60,7 +60,7 @@ export default function UserManager() {
                 return;
             }
             const roles = Array.isArray(user.role) ? user.role : [user.role];
-            const isAdmin = roles.some((r: any) =>
+            const isAdmin = roles.some((r) =>
                 typeof r === "string" && (r === "ADMIN" || r === "ROLE_ADMIN" || r.toUpperCase().includes("ADMIN"))
             );
             if (!isAdmin) {
@@ -71,7 +71,7 @@ export default function UserManager() {
     }, [user, authLoading, navigate]);
 
     // ─── 2. LẤY DỮ LIỆU TỪ BACKEND ───
-    const fetchData = async (currentPage = page, currentSearch = search, currentStatus = statusFilter) => {
+    const fetchData = useCallback(async (currentPage = 1, currentSearch = '', currentStatus = 'Tất cả') => {
         setLoading(true);
         setApiError(null);
         try {
@@ -98,7 +98,8 @@ export default function UserManager() {
             if (statsData) {
                 setStats(statsData);
             }
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             const status = err?.response?.status;
             if (status === 401 || status === 403) {
                 navigate(ROUTES.LOGIN, { replace: true, state: { from: ROUTES.ADMIN_CUSTOMER } });
@@ -109,7 +110,7 @@ export default function UserManager() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [navigate, pageSize]);
 
     // Tự động tìm kiếm & đổi trạng thái
     useEffect(() => {
@@ -120,7 +121,7 @@ export default function UserManager() {
             }, 300);
             return () => clearTimeout(timer);
         }
-    }, [search, statusFilter, authLoading, user]);
+    }, [search, statusFilter, authLoading, user, fetchData]);
 
     // Lọc theo phân hạng, hành vi, chi tiêu ở frontend
     const filteredCustomers = useMemo(() => {
@@ -257,12 +258,13 @@ export default function UserManager() {
                 phone: createForm.phone,
                 password: createForm.password,
                 verifyPassword: createForm.password,
-            } as any);
+            });
             alert("Tạo tài khoản khách hàng thành công!");
             setShowCreateModal(false);
             setCreateForm({ fullname: "", email: "", phone: "", password: "Password123@" });
             fetchData(1, search, statusFilter);
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             setCreateError(err?.response?.data?.message || "Không thể tạo tài khoản. Vui lòng kiểm tra lại thông tin.");
         } finally {
             setCreateLoading(false);

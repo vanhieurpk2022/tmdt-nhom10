@@ -18,6 +18,7 @@ export interface CancelOrderRequest {
 }
 
 export interface CreateOrderRequest {
+    voucherCode?: string;
     addressId: number;
     cartItemIds?: number[];
     buyNow?: BuyNowSelection;
@@ -166,6 +167,10 @@ export function toCartItemsFromOrder(order: OrderResponse): CartItem[] {
 }
 
 export const orderService = {
+    previewVoucher: async (code: string, selection: Pick<CreateOrderRequest, 'buyNow' | 'cartItemIds'>): Promise<number> => {
+        const res = await api.post<ApiResponse<{ discount: number }>>("/vouchers/preview", { code, ...selection });
+        return res.data.data.discount;
+    },
     vnpayAvailability: async (): Promise<PaymentAvailability> => {
         const res = await api.get<ApiResponse<PaymentAvailability>>("/payments/vnpay/availability");
         return res.data.data;

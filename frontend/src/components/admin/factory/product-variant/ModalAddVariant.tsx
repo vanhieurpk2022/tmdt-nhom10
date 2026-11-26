@@ -1,9 +1,9 @@
-import { faBoxesStacked, faBoxOpen, faCloudArrowUp, faDroplet, faFlask, faFloppyDisk, faMoneyBillWave, faTag } from "@fortawesome/free-solid-svg-icons";
+import { faBoxesStacked, faBoxOpen, faFlask, faFloppyDisk, faMoneyBillWave, faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { FactoryServiceManager } from "../../../../api/factory/FactoryService";
-import type { EditableVariant, FactoryProductMil, FactoryProductVariantItem } from "../../../../dto/factory/FactoryProductRes";
+import type { EditableVariant, FactoryProductMil } from "../../../../dto/factory/FactoryProductRes";
 import { NumericFormat } from "react-number-format";
 import { useToastContext } from "../../../toasts/ToastContext";
 

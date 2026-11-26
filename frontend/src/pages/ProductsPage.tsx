@@ -1,3 +1,4 @@
+import { clearProductsCache } from "../api/productsCache";
 import { faSliders, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -47,21 +48,6 @@ const getPaginationItems = (currentPage: number, totalPages: number): (number | 
 const getCacheKey = (search: string) => `products_cache_${search}`;
 const getScrollKey = (search: string) => `products_scroll_${search}`;
 
-export function clearProductsCache() {
-    try {
-        const keysToRemove: string[] = [];
-        for (let i = 0; i < sessionStorage.length; i++) {
-            const k = sessionStorage.key(i);
-            if (k && (k.startsWith("products_cache_") || k.startsWith("products_scroll_"))) {
-                keysToRemove.push(k);
-            }
-        }
-        keysToRemove.forEach((k) => sessionStorage.removeItem(k));
-    } catch {
-        // ignore
-    }
-}
-
 // Component
 export default function ProductsPage() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -79,7 +65,7 @@ export default function ProductsPage() {
         try {
             const raw = sessionStorage.getItem(cacheKey);
             if (raw) return JSON.parse(raw);
-        } catch { }
+        } catch { /* Bộ nhớ trình duyệt không khả dụng; vẫn tải dữ liệu từ API. */ }
         return null;
     })();
 
@@ -120,6 +106,7 @@ export default function ProductsPage() {
     const [pricePreset, setPricePreset] = useState<string>("");
     const [minRating, setMinRating] = useState<number | undefined>(undefined);
     const [filtersOpen, setFiltersOpen] = useState(false);
+    const [applied, setApplied] = useState({ selectedCategories, selectedFactories, priceRange, pricePreset, minRating });
 
     // Products state
     const [products, setProducts] = useState<ProductCard[]>(() => cachedData?.products || []);
@@ -162,6 +149,7 @@ export default function ProductsPage() {
             ? factoryParam.split(",").map((id) => Number(id.trim())).filter((id) => !isNaN(id) && id > 0)
             : [];
         setSelectedFactories(next);
+        setApplied(previous => ({ ...previous, selectedFactories: next }));
     }, [factoryParam]);
 
     // Tải lại bộ lọc khi quay về tab để nhận các xưởng mới được thêm.
@@ -193,7 +181,8 @@ export default function ProductsPage() {
     }, []);
 
     // Lọc & lấy dữ liệu sản phẩm
-    const fetchProducts = useCallback(async (page: number, overrideFactories?: number[]) => {
+    const fetchProducts = useCallback(async (page: number) => {
+        const { selectedCategories, selectedFactories, priceRange, pricePreset, minRating } = applied;
         const requestId = ++productRequestId.current;
         setLoading(true);
         try {
@@ -208,7 +197,7 @@ export default function ProductsPage() {
                 if (priceRange.max) maxPrice = Number(priceRange.max.replace(/\D/g, ""));
             }
 
-            const factoriesToUse = overrideFactories !== undefined ? overrideFactories : selectedFactories;
+            const factoriesToUse = selectedFactories;
 
             const params: ProductFilterParams = {
                 categoryIds: selectedCategories.length ? selectedCategories : undefined,
@@ -233,18 +222,18 @@ export default function ProductsPage() {
                     totalElements: result.totalElements,
                     totalPages: result.totalPages,
                 }));
-            } catch { }
+            } catch { /* Bộ nhớ trình duyệt không khả dụng; vẫn tải dữ liệu từ API. */ }
         } catch (err) {
             console.error(err);
         } finally {
             if (requestId === productRequestId.current) setLoading(false);
         }
-    }, [selectedCategories, selectedFactories, priceRange, pricePreset, minRating, sort, cacheKey]);
+    }, [applied, sort, cacheKey]);
 
     // Tự động fetch lại khi currentPage, sort hoặc factoryParam thay đổi
     useEffect(() => {
         fetchProducts(currentPage);
-    }, [currentPage, sort, factoryParam]);
+    }, [currentPage, fetchProducts]);
 
     // Toggle helpers
     const toggleCategory = (id: number) =>
@@ -264,7 +253,7 @@ export default function ProductsPage() {
             nextParams.delete("page");
             return nextParams;
         });
-        fetchProducts(0);
+        setApplied({ selectedCategories, selectedFactories, priceRange, pricePreset, minRating });
         window.scrollTo({ top: 80, behavior: "smooth" });
     };
 
@@ -275,6 +264,7 @@ export default function ProductsPage() {
         setPriceRange({ min: "", max: "" });
         setPricePreset("");
         setMinRating(undefined);
+        setApplied({ selectedCategories: [], selectedFactories: [], priceRange: { min: "", max: "" }, pricePreset: "", minRating: undefined });
         setSearchParams(new URLSearchParams());
     };
 

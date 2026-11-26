@@ -4,9 +4,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { Header } from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import { BrowserRouter, Route, Routes, Outlet } from 'react-router';
+import MainLayout from './components/layout/MainLayout';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -34,9 +33,9 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import VerifyRecoveryCodePage from './pages/VerifyRecoveryCodePage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import { ROUTES } from './routes/routes';
-import { AuthProvider } from './api/AuthContext';
-import { CartProvider } from './api/CartContext';
-import { AdminSidebarProvider } from './api/AdminSidebarContext';
+import { AuthProvider } from './api/AuthProvider';
+import { CartProvider } from './api/CartProvider';
+import { AdminSidebarProvider } from './api/AdminSidebarProvider';
 import ProtectedRoute from './api/ProtectedRoute';
 import FactoryProtectedRoute from './api/protected/FactoryProtectedRoute';
 import { VerifyAccount } from './pages/VerifyAccount';
@@ -59,27 +58,20 @@ import FactorySale from './pages/FactorySale';
 import FactoryStaff from './pages/FactoryStaff';
 import { RegisterFactoryForm } from './pages/RegisterFactoryForm';
 import { FactoryProductDetails } from './components/admin/factory/product-variant/FactoryProductDetails';
-import { ToastProvider } from './components/toasts/ToastContext';
+import { ToastProvider } from './components/toasts/ToastProvider';
 import FactoryProductPage from './pages/FactoryProductPage';
 import FactorySettlementPage from './pages/FactorySettlementPage';
-import { Chatbot } from './components/chatbot';
+import { FavoriteProvider } from './api/FavoriteProvider';
+import SupportPage from './pages/SupportPage';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy-google-client-id';
-
-const MainLayout = () => (
-  <>
-    <Header />
-    <Outlet />
-    <Footer />
-    <Chatbot />
-  </>
-);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <BrowserRouter>
         <AuthProvider>
+          <FavoriteProvider>
           <CartProvider>
             <ToastProvider>
               <AdminSidebarProvider>
@@ -137,6 +129,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path={ROUTES.ADDRESSES} element={<ProtectedRoute><AddressBookPage /></ProtectedRoute>} />
                     <Route path={ROUTES.FAVORITES} element={<ProtectedRoute><FavoriteProductsPage /></ProtectedRoute>} />
                     <Route path={ROUTES.NOTIFICATIONS} element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+                    <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
                     <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
                     <Route path={ROUTES.REGISTER_FACTORY} element={<ProtectedRoute><RegisterFactoryPage /></ProtectedRoute>} />
                     <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
@@ -154,6 +147,7 @@ createRoot(document.getElementById('root')!).render(
               </AdminSidebarProvider>
             </ToastProvider>
           </CartProvider>
+          </FavoriteProvider>
         </AuthProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>

@@ -58,23 +58,6 @@ function parseRecipeFromDescription(description?: string): {
     return { components: [], userNotes: cleanNotes };
 }
 
-/**
- * Đóng gói danh sách thành phần và ghi chú vào description
- */
-export function formatRecipeToDescription(
-    components: CustomProductComponent[],
-    userNotes: string
-): string {
-    const jsonTag = `<!--RECIPE_JSON:${JSON.stringify(components)}-->`;
-    const formulaStr = components
-        .filter((c) => c.productId > 0)
-        .map((c) => `${c.percentage}% ${c.productName}${c.note ? ` (${c.note})` : ""}`)
-        .join(" + ");
-
-    const recipeText = formulaStr ? `[Công thức phối hương]: ${formulaStr}` : "";
-    return [jsonTag, recipeText, userNotes].filter(Boolean).join("\n");
-}
-
 export function CustomProductRecipeConfig({
     productId,
     productInfo,
@@ -244,7 +227,7 @@ export function CustomProductRecipeConfig({
     const handleUpdateComponent = (
         index: number,
         field: keyof CustomProductComponent,
-        val: any
+        val: string | number
     ) => {
         setComponents((prev) =>
             prev.map((c, i) => {

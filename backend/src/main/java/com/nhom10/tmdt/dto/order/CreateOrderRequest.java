@@ -19,6 +19,13 @@ public record CreateOrderRequest(
         @Size(max = 255, message = "Ghi chú không được vượt quá 255 ký tự")
         String note,
 
-        @Valid BuyNowRequest buyNow
+        @Valid BuyNowRequest buyNow,
+        @Size(max = 32) String voucherCode
 ) {
+    public CreateOrderRequest {
+        voucherCode = voucherCode == null || voucherCode.isBlank() ? null : voucherCode.trim().toUpperCase(java.util.Locale.ROOT);
+    }
+    public CreateOrderRequest(Long addressId, List<Long> cartItemIds, PaymentMethod paymentMethod, String note, BuyNowRequest buyNow) {
+        this(addressId, cartItemIds, paymentMethod, note, buyNow, null);
+    }
 }

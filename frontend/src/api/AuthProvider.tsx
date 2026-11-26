@@ -1,29 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { authService } from "./AuthService";
-
-export interface LoginResponse {
-    accessToken: string;
-    tokenType: string;
-    expiresIn: number;
-    user: UserResponse;
-}
-
-export interface UserResponse {
-    id: string;
-    email: string;
-    fullName: string;
-    avatar?: string;
-    role: string[]
-}
-
-interface AuthContextType {
-    user: UserResponse | null;
-    loading: boolean;
-    setUser: React.Dispatch<React.SetStateAction<UserResponse | null>>;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const AuthContext = createContext<AuthContextType | null>(null);
+import { type UserResponse, AuthContext } from "./AuthContext";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<UserResponse | null>(null);
@@ -81,14 +58,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             {children}
         </AuthContext.Provider>
     );
-}
-
-export function useAuth() {
-    const context = useContext(AuthContext);
-
-    if (!context) {
-        throw new Error("useAuth phải được sử dụng bên trong AuthProvider");
-    }
-
-    return context;
 }

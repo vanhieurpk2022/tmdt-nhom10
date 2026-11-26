@@ -21,10 +21,12 @@ import java.util.Arrays;
 public class SecurityConfiguration {
     private final JwtFilter jwtFilter;
     private final VnPayProperties vnPayProperties;
+    private final AuthRateLimitFilter authRateLimitFilter;
 
-    public SecurityConfiguration(JwtFilter jwtFilter, VnPayProperties vnPayProperties) {
+    public SecurityConfiguration(JwtFilter jwtFilter, VnPayProperties vnPayProperties, AuthRateLimitFilter authRateLimitFilter) {
         this.jwtFilter = jwtFilter;
         this.vnPayProperties = vnPayProperties;
+        this.authRateLimitFilter = authRateLimitFilter;
     }
 
     @Bean
@@ -47,6 +49,9 @@ public class SecurityConfiguration {
                 .requestMatchers("/error").permitAll()
                 .requestMatchers(HttpMethod.GET, Endpoints.PUBLIC_GET).permitAll()
                 .requestMatchers(HttpMethod.POST, Endpoints.PUBLIC_POST).permitAll()
+                .requestMatchers(HttpMethod.POST, "/custom-scent/quote").permitAll()
+                .requestMatchers("/v1/**").denyAll()
+                .requestMatchers("/manager/**").hasAnyRole("FACTORY", "STAFF")
                 .requestMatchers(Endpoints.FACTORY_ENDPOINT).hasAnyRole("FACTORY", "STAFF")
                 .requestMatchers(Endpoints.ADMIN_ENDPOINT).hasRole("ADMIN")
                 .anyRequest().authenticated());
@@ -63,7 +68,8 @@ public class SecurityConfiguration {
                             res.getWriter().write("{\"code\":403,\"message\":\"Không đủ quyền truy cập\"}");
                         }))
 
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authRateLimitFilter, JwtFilter.class);
 
 
         // Cấu hình cors

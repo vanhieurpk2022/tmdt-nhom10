@@ -44,13 +44,14 @@ export const Chatbot: React.FC<ChatbotProps> = ({
         />
       )}
 
-      <ChatbotToggle
-        isOpen={isOpen}
-        hasUnread={hasUnread}
-        showTooltip={showTooltip}
-        onToggle={() => toggleChat()}
-        onDismissTooltip={dismissTooltip}
-      />
+      {!isOpen && (
+        <ChatbotToggle
+          hasUnread={hasUnread}
+          showTooltip={showTooltip}
+          onToggle={() => toggleChat()}
+          onDismissTooltip={dismissTooltip}
+        />
+      )}
     </div>
   );
 };

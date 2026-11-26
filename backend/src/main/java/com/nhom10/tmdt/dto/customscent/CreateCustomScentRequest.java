@@ -10,10 +10,10 @@ public record CreateCustomScentRequest(
         String name,
         @NotBlank String bottleType,
         String labelDesign,
-        @NotNull @Positive @Max(2147483647) @Digits(integer = 10, fraction = 0) Double totalVolumeMl,
-        @NotNull @PositiveOrZero Double price,
+        @NotNull @Positive @Max(1000) @Digits(integer = 4, fraction = 0) Double totalVolumeMl,
+        @PositiveOrZero Double price,
         String customNote,
-        Integer quantity,
+        @Positive @Max(100) Integer quantity,
         @NotEmpty List<@NotNull @Valid ScentTierItemRequest> items
 ) {
     public CreateCustomScentRequest(

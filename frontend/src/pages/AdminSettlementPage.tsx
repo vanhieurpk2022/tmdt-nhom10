@@ -1,3 +1,4 @@
+import { toApiError } from "../utils/apiError";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NumericFormat } from "react-number-format";
@@ -8,7 +9,6 @@ import {
     faMoneyBillWave,
     faRotate,
     faBuilding,
-    faCreditCard,
     faReceipt,
     faCheckCircle,
     faClock,
@@ -18,7 +18,6 @@ import {
     faCheck,
     faFileInvoiceDollar,
     faSpinner,
-    faXmark,
     faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import SidebarAdmin from "../components/admin/dashboard/SideBarAdmin";
@@ -232,11 +231,15 @@ export default function AdminSettlementPage() {
             return;
         }
 
-        if (disburseAmount > selectedFactoryForDisburse.remainingAmount + 500) {
+        if (!Number.isSafeInteger(disburseAmount) || disburseAmount > selectedFactoryForDisburse.remainingAmount) {
             setDisburseError(`Số tiền giải ngân không được vượt quá số dư còn lại (${formatVnd(selectedFactoryForDisburse.remainingAmount)})`);
             return;
         }
 
+        if (![disburseBankName, disburseAccNumber, disburseAccHolder, disburseTxCode].every(value => value.trim())) {
+            setDisburseError('Vui lòng nhập đủ ngân hàng, tài khoản, người nhận và mã giao dịch đã chuyển tiền.');
+            return;
+        }
         setSubmittingDisburse(true);
         setDisburseError("");
 
@@ -253,13 +256,14 @@ export default function AdminSettlementPage() {
             });
 
             showToast(
-                "Giải ngân thành công",
-                `Đã giải ngân thành công ${formatVnd(disburseAmount)} cho ${selectedFactoryForDisburse.factoryName}`,
+                "Đã ghi nhận chuyển tiền",
+                `Đã lưu biên nhận ${formatVnd(disburseAmount)} cho ${selectedFactoryForDisburse.factoryName}`,
                 "success"
             );
             setSelectedFactoryForDisburse(null);
             await loadData();
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             const msg = err.response?.data?.message || err.message || "Giải ngân thất bại, vui lòng thử lại";
             setDisburseError(msg);
             showToast("Thao tác thất bại", msg, "danger");
@@ -905,6 +909,9 @@ export default function AdminSettlementPage() {
                                         </div>
                                     </div>
 
+                                    <p className="alert alert-info small mb-3">
+                                        Chỉ ghi nhận khoản đã chuyển qua ngân hàng. Nhập đúng số tiền và mã giao dịch trên biên nhận trước khi lưu.
+                                    </p>
                                     {disburseError && (
                                         <div className="alert alert-danger py-2 px-3 small rounded-3 mb-0">
                                             <FontAwesomeIcon icon={faCircleExclamation} className="me-2" />

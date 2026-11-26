@@ -15,6 +15,14 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler{
+    @ExceptionHandler(org.springframework.orm.ObjectOptimisticLockingFailureException.class)
+    public ResponseEntity<ApiResponse<Void>> staleData(org.springframework.orm.ObjectOptimisticLockingFailureException ex) {
+        return ResponseEntity.status(409).body(new ApiResponse<>(409, "Dữ liệu vừa thay đổi. Vui lòng tải lại và thử lại."));
+    }
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<ApiResponse<Void>> conflict(org.springframework.dao.DataIntegrityViolationException ex) {
+        return ResponseEntity.status(409).body(new ApiResponse<>(409, "Dữ liệu bị trùng hoặc đang được sử dụng. Vui lòng kiểm tra lại."));
+    }
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ApiResponse<Void>> handleResponseStatus(ResponseStatusException ex) {

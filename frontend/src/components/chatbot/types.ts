@@ -1,3 +1,5 @@
+import type { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 export interface ChatProductItem {
   id: number | string;
   name: string;
@@ -6,6 +8,8 @@ export interface ChatProductItem {
   imageUrl?: string;
   category?: string;
   link?: string;
+  factoryName?: string;
+  volumeMl?: number;
 }
 
 export interface ChatMessage {
@@ -13,7 +17,6 @@ export interface ChatMessage {
   sender: 'bot' | 'user';
   text: string;
   timestamp: Date | string;
-  quickReplies?: string[];
   products?: ChatProductItem[];
 }
 
@@ -21,6 +24,6 @@ export interface QuickReplyOption {
   id: string;
   label: string;
   prompt: string;
-  icon?: string;
+  icon?: IconProp;
 }
 

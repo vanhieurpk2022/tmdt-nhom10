@@ -8,7 +8,6 @@ import {
     faChevronRight,
     faBoxOpen,
     faFlask,
-    faFilter,
     faCircleXmark,
     faWineBottle,
     faEye,

@@ -11,7 +11,7 @@ import { ROUTES } from "../../routes/routes";
 import { useAuth } from "../../api/AuthContext";
 import { useCart } from "../../api/CartContext";
 import CartToast from "../cart/CartToast";
-import { clearProductsCache } from "../../pages/ProductsPage";
+import { clearProductsCache } from "../../api/productsCache";
 
 export function Header() {
     const location = useLocation();

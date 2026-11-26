@@ -1,4 +1,5 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useFavorites } from "../api/FavoriteContext";
 import {
     faStar,
     faLeaf,
@@ -37,6 +38,7 @@ import "../css/pages/product-detail.css";
 const FALLBACK_IMAGE = "/images/home/grapefruit-cold-pressed.png";
 
 export default function ProductDetailPage() {
+    const favorites = useFavorites();
     const { id: paramId } = useParams<{ id: string }>();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -322,6 +324,8 @@ export default function ProductDetailPage() {
                                     className="btn product-detail-favorite rounded-circle d-flex align-items-center justify-content-center text-muted flex-shrink-0"
                                     title="Thêm vào yêu thích"
                                     aria-label="Thêm vào yêu thích"
+                                    aria-pressed={favorites.products.some(p => p.id === product.id)}
+                                    onClick={() => { void favorites.toggle(product.id); }}
                                 >
                                     <FontAwesomeIcon icon={faHeart} />
                                 </button>

@@ -74,7 +74,7 @@ public class ProductController {
             @RequestParam(defaultValue = "12") int size
     ) {
         ProductFilterRequest req = new ProductFilterRequest(
-                categoryIds, factoryIds, minPrice, maxPrice, minRating, sort, page, size
+                categoryIds, factoryIds, minPrice, maxPrice, minRating, sort, Math.max(0, Math.min(page, 100000)), Math.max(1, Math.min(size, 60))
         );
         return new ApiResponse<>(200, "Lấy danh sách sản phẩm thành công", productService.filterProducts(req));
     }

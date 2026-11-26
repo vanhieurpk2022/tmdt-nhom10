@@ -1,17 +1,14 @@
 import {
     faArrowLeft,
-    faPlus,
-    faStar
-} from "@fortawesome/free-solid-svg-icons";
+    faPlus} from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { ProductImage } from "../../../../models/ProductImage";
 import { useCallback, useEffect, useState } from "react";
-import { FactoryServiceManager, type HalProductImages } from "../../../../api/factory/FactoryService";
-import { Link, Routes } from "react-router";
+import { FactoryServiceManager } from "../../../../api/factory/FactoryService";
+import { Link } from "react-router";
 import { ROUTES } from "../../../../routes/routes";
-import { Button, CloseButton } from "react-bootstrap";
-import { ModalAddVariant } from "./ModalAddVariant";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useToastContext } from "../../../toasts/ToastContext";
 import Breadcrumb from "../../../layout/Breadcrumb";
@@ -83,15 +80,13 @@ export function VariantHeader({ productId, onVariants, isCustom, productName }: 
                 <div className="d-flex align-items-center gap-3">
 
                     {/* Back */}
-                    <Button
-                        as={Link as any}
+                    <Link
                         to={ROUTES.FACTORY_PRODUCT}
-                        variant="outline-secondary"
-                        className="d-flex align-items-center gap-2 px-3 py-2"
+                        className="btn btn-outline-secondary d-flex align-items-center gap-2 px-3 py-2"
                     >
                         <FontAwesomeIcon icon={faArrowLeft} />
                         Quay lại
-                    </Button>
+                    </Link>
 
                     {/* Title */}
                     <div>

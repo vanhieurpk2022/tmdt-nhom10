@@ -1,3 +1,4 @@
+import { toApiError } from "../../../utils/apiError";
 import { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -101,7 +102,8 @@ export default function ModalEditStaff({ show, staff, onHide, onSuccess }: Modal
             showToast("Thành công", `Đã cập nhật thông tin nhân viên ${fullname.trim()}`, "success");
             onSuccess();
             onHide();
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             const msg = err?.response?.data?.message || "Không thể cập nhật nhân viên. Vui lòng thử lại.";
             showToast("Lỗi cập nhật", msg, "danger");
         } finally {
@@ -241,7 +243,7 @@ export default function ModalEditStaff({ show, staff, onHide, onSuccess }: Modal
                                 <Form.Label className="fw-semibold small">Trạng thái làm việc</Form.Label>
                                 <Form.Select
                                     value={status}
-                                    onChange={(e) => setStatus(e.target.value as any)}
+                                    onChange={(e) => setStatus(e.target.value as "ACTIVE" | "INACTIVE" | "ON_LEAVE")}
                                 >
                                     <option value="ACTIVE">Đang làm việc (ACTIVE)</option>
                                     <option value="ON_LEAVE">Nghỉ phép (ON_LEAVE)</option>

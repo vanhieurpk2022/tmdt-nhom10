@@ -163,7 +163,7 @@ export const FactoryServiceManager = {
     },
     getProductImages: async (productId: number) => {
         const res = await api.get<HalProductImages>(
-            `/v1/product-image/search/byProductId?productId=${productId}`
+            `/manager/products/${productId}/images`
         );
         return res.data;
     },

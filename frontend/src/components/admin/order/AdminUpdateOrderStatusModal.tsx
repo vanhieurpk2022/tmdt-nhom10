@@ -1,3 +1,4 @@
+import { toApiError } from "../../../utils/apiError";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,7 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { OrderStatus } from "../../../enums/OrderStatus";
 import type { AdminOrderListItem, AdminOrderDetail } from "../../../api/AdminOrderService";
-import { OrderStatusBadge } from "../../../pages/AdminOrder";
+import { OrderStatusBadge } from "../../../utils/orderBadges";
 import CustomBadge from "../badge/CustomBadge";
 
 interface Props {
@@ -30,7 +31,7 @@ const STATUS_OPTIONS: Array<{
     value: OrderStatus;
     label: string;
     desc: string;
-    icon: any;
+    icon: import('@fortawesome/fontawesome-svg-core').IconProp;
     colorClass: string;
     activeBorder: string;
     activeBg: string;
@@ -146,7 +147,8 @@ export default function AdminUpdateOrderStatusModal({ order, show, onClose, onSa
                 selectedStatus === OrderStatus.CANCELLED ? cancelReason : undefined
             );
             onClose();
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi cập nhật trạng thái đơn hàng:", err);
             setError(err?.response?.data?.message || "Không thể cập nhật trạng thái đơn hàng. Vui lòng thử lại!");
         } finally {

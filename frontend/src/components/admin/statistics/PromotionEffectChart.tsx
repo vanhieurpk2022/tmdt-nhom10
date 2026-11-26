@@ -27,19 +27,21 @@ const data: PromotionData[] = [
 const formatBillion = (value: number) =>
     `${value.toLocaleString("vi-VN")} tỷ đ`;
 
-function CustomTooltip({ active, payload, label }: any) {
+function CustomTooltip({ active, payload, label }: {
+    active?: boolean; payload?: Array<{ dataKey?: string; value?: number }>; label?: string;
+}) {
     if (!active || !payload?.length) return null;
 
     const revenue = payload.find(
-        (item: any) => item.dataKey === "revenue"
+        (item) => item.dataKey === "revenue"
     )?.value;
 
     const forecast = payload.find(
-        (item: any) => item.dataKey === "forecast"
+        (item) => item.dataKey === "forecast"
     )?.value;
 
     const budget = payload.find(
-        (item: any) => item.dataKey === "budget"
+        (item) => item.dataKey === "budget"
     )?.value;
 
     return (

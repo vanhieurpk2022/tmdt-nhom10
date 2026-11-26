@@ -30,7 +30,7 @@ import {
     faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "../../../css/pages/dashboard/modal.css";
 import type { FactoryRegisterResponse } from "../../../dto/factory/FactoryRegister";
@@ -119,9 +119,7 @@ export function DataTableApprove({ list, onChanged }: DataTableProps) {
         }
     };
 
-    const columns = useMemo(
-        () =>
-            columnHelper.columns([
+    const columns = columnHelper.columns([
                 columnHelper.display({
                     id: "select",
                     header: ({ table }) => (
@@ -259,9 +257,7 @@ export function DataTableApprove({ list, onChanged }: DataTableProps) {
                     },
                     enableSorting: false,
                 }),
-            ]),
-        [loadingId, onChanged]
-    );
+            ]);
 
     const table = useTable({
         data: list,
@@ -274,7 +270,7 @@ export function DataTableApprove({ list, onChanged }: DataTableProps) {
         },
     });
 
-    const { pageIndex, pageSize } = pagination;
+    const { pageIndex } = pagination;
 
     return (
         <section className="card border-0 shadow-sm rounded-4 overflow-hidden">

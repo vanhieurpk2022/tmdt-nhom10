@@ -21,23 +21,27 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductMilServiceImp implements ProductMilService{
+    private final com.nhom10.tmdt.security.FactoryAccess access;
     private final ProductMilRepository productMilRepository;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     @Override
     public List<ProductMil> productMils(Long productId) {
+        access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
         return productMilRepository.findByProductId((productId));
     }
 
     @Override
     @Transactional
     public ProductCreateMilResponse createProductMil(Long productId, ProductCreateMilRequest request) {
+        access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
         Product product = productRepository.getReferenceById(productId);
         ProductMil productMil = ProductMil.builder()
                 .mil(request.mil())
                 .price(request.price())
                 .basePrice(request.basePrice())
                 .stockQuantity(request.stockQuantity())
+                .isActive(true)
                 .product(product)
                 .build();
         productMilRepository.save(productMil);
@@ -54,6 +58,7 @@ public class ProductMilServiceImp implements ProductMilService{
     @Override
     @Transactional
     public void deleteProductMil( Long milId) {
+        access.variant(productMilRepository.findById(milId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
         if (!productMilRepository.existsById(milId)) {
             throw new AppException(ErrorCode.NOT_FOUND);
         }
@@ -62,6 +67,7 @@ public class ProductMilServiceImp implements ProductMilService{
 
     @Override
     public ToggleMilStatusResponse toggleStatusProductMil(Long productId, Long milId, ToggleMilStatusRequest request) {
+        access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
         ProductMil productMil = productMilRepository.findByProductIdAndId(productId,milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
         productMil.setActive(request.isActive());
         productMilRepository.save(productMil);
@@ -75,6 +81,7 @@ public class ProductMilServiceImp implements ProductMilService{
     }
     @Override
 public ProductCreateMilResponse updateProductMil(Long productId, Long milId, ProductCreateMilRequest request) {
+        access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
     ProductMil productMil = productMilRepository.findByProductIdAndId(productId, milId)
             .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     

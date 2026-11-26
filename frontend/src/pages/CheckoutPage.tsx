@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "../api/AuthContext";
 import { beginCheckout, clearPendingCheckout, getPendingCheckout, isDefinitiveCheckoutFailure, type PendingCheckout } from "../api/CheckoutSession";
 import { checkoutCartItemIdsKey, getBuyNowSelection, getPurchaseErrorMessage } from "../api/CheckoutSelection";
@@ -93,6 +93,9 @@ export default function CheckoutPage() {
     const [addresses, setAddresses] = useState<AddressItem[]>([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(paymentMethods[0]?.id ?? "cod");
     const [deliveryNote, setDeliveryNote] = useState(defaultDeliveryNote);
+    const [voucherCode, setVoucherCode] = useState('');
+    const [voucher, setVoucher] = useState<{ code: string; discount: number } | null>(null);
+    const [checkingVoucher, setCheckingVoucher] = useState(false);
     const [shippingFee, setShippingFee] = useState(0);
     const [isShippingFeeLoading, setIsShippingFeeLoading] = useState(false);
     const [shippingFeeError, setShippingFeeError] = useState("");
@@ -150,6 +153,18 @@ export default function CheckoutPage() {
         buyNow: { ...buyNow, productMilId: checkoutItems[0]?.productMilId ?? buyNow.productMilId },
     } : { cartItemIds: checkoutItems.map((item) => item.id) }, [buyNow, checkoutItems]);
 
+    useEffect(() => { setVoucher(null); }, [checkoutItems]);
+    const checkVoucher = async () => {
+        if (checkingVoucher || isSubmitting) return;
+        setCheckingVoucher(true); setErrorMessage('');
+        try {
+            const code = voucherCode.trim().toUpperCase();
+            const discount = await orderService.previewVoucher(code, purchaseSelection);
+            setVoucher({ code, discount });
+        } catch (error) { setVoucher(null); setErrorMessage(getCheckoutErrorMessage(error)); }
+        finally { setCheckingVoucher(false); }
+    };
+
     useLayoutEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }, [searchParams]);
@@ -162,6 +177,10 @@ export default function CheckoutPage() {
         }
         if (checkoutItems.length === 0) {
             setErrorMessage("Vui lòng chọn sản phẩm trong giỏ hàng trước khi đặt hàng.");
+            return;
+        }
+        if (checkingVoucher || new Set(checkoutItems.map(item => item.factoryName)).size > 1) {
+            setErrorMessage('Vui lòng chờ kiểm tra mã và chọn sản phẩm của một xưởng cho mỗi đơn.');
             return;
         }
 
@@ -192,6 +211,7 @@ export default function CheckoutPage() {
                 ...purchaseSelection,
                 paymentMethod,
                 note: deliveryNote.trim() || undefined,
+                voucherCode: voucher?.code,
             };
             pending = beginCheckout(user.id, request);
             const result = await orderService.submitCheckout(pending);
@@ -212,6 +232,8 @@ export default function CheckoutPage() {
         }
     }, [
         checkoutItems,
+        voucher,
+        checkingVoucher,
         completeCheckout,
         purchaseSelection,
         deliveryNote,
@@ -383,7 +405,21 @@ export default function CheckoutPage() {
                                 vnpayMessage={vnpayAvailability.message}
                             />
                         </section>
+                        <div>
+                        {new Set(checkoutItems.map(item => item.factoryName)).size > 1 && <div role="alert" className="alert alert-warning small">
+                            Mỗi đơn gồm sản phẩm của một xưởng. <Link to={ROUTES.CART}>Quay lại giỏ hàng</Link> và chọn sản phẩm của xưởng muốn đặt trước.
+                        </div>}
+                        <div className="bg-white rounded-3 p-3 mb-3">
+                            <label htmlFor="checkout-voucher" className="form-label small">Mã giảm giá</label>
+                            <div className="d-flex gap-2"><input id="checkout-voucher" className="form-control" value={voucherCode}
+                                maxLength={32} disabled={checkingVoucher || isSubmitting}
+                                onChange={event => { setVoucherCode(event.target.value); setVoucher(null); }} />
+                                <button type="button" className="btn btn-outline-primary" disabled={!voucherCode.trim() || checkingVoucher || isSubmitting || !checkoutItems.length}
+                                    onClick={() => { void checkVoucher(); }}>Áp dụng</button></div>
+                            {voucher && <small className="text-success">Đã áp dụng {voucher.code}</small>}
+                        </div>
                         <CheckoutSummary
+                            discount={voucher?.discount ?? 0}
                             items={checkoutItems}
                             shippingFee={selectedAddress && checkoutItems.length > 0 ? shippingFee : 0}
                             isLoading={isLoading}
@@ -392,15 +428,16 @@ export default function CheckoutPage() {
                             isSubmitting={isSubmitting || recoveryRequired}
                             hasAddress={Boolean(selectedAddress)}
                             paymentMethod={selectedPaymentMethod}
-                            paymentUnavailable={selectedPaymentMethod === "vnpay" && !vnpayAvailability.available}
+                            paymentUnavailable={checkingVoucher || new Set(checkoutItems.map(item => item.factoryName)).size > 1 || selectedPaymentMethod === "vnpay" && !vnpayAvailability.available}
                             onContinue={handleContinue}
                         />
+                        </div>
                     </div>
                 </div>
             </div>
             <CodConfirmationModal
                 show={showCodConfirmation}
-                total={checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0) + shippingFee}
+                total={checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0) + shippingFee - (voucher?.discount ?? 0)}
                 isSubmitting={isSubmitting}
                 errorMessage={errorMessage}
                 onCancel={handleCancelConfirmation}

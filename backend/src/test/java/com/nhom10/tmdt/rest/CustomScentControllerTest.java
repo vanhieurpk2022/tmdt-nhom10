@@ -38,6 +38,7 @@ class CustomScentControllerTest {
     @Mock ProductCustomItemRepository productCustomItemRepo;
     @Mock UserRepository userRepo;
     @Mock CartService cartService;
+    @org.mockito.Spy com.nhom10.tmdt.service.imp.CustomScentPricing pricing = new com.nhom10.tmdt.service.imp.CustomScentPricing();
     @InjectMocks CustomScentController controller;
 
     private final Factory factory = Factory.builder().id(1L).name("Xưởng thử nghiệm").build();
@@ -51,13 +52,15 @@ class CustomScentControllerTest {
     }
 
     private Product ingredient(long id) {
-        return Product.builder().id(id).name("Tinh dầu " + id).factory(factory)
+        Product product = Product.builder().id(id).name("Tinh dầu " + id).factory(factory)
                 .productType(ProductType.NORMAL).status(ProductStatus.ACTIVE).price(100000.0).build();
+        product.setProductMils(List.of(ProductMil.builder().id(id + 100).product(product).mil(10).price(100000.0).stockQuantity(10).isActive(true).build()));
+        return product;
     }
 
     private CreateCustomScentRequest request(List<ScentTierItemRequest> items) {
         return new CreateCustomScentRequest(1L, "Hổ Phách Hoàng Gia", "1", 30.0,
-                545000.0, "Khắc tên An Nhiên", 2, items);
+                435000.0, "Khắc tên An Nhiên", 2, items);
     }
 
     private CreateCustomScentRequest validRequest() {
@@ -109,7 +112,7 @@ class CustomScentControllerTest {
         assertEquals(product.getName(), recipe.getName());
         assertEquals("Khắc tên An Nhiên", recipe.getNotes());
         assertEquals(30.0, recipe.getTotalVolumeMl());
-        assertEquals(545000.0, recipe.getPrice());
+        assertEquals(435000.0, recipe.getPrice());
         assertEquals("Hổ Phách Hoàng Gia", recipe.getBottleType());
         assertEquals("1", recipe.getLabelDesign());
         assertEquals(3, recipe.getItems().size());
@@ -123,6 +126,17 @@ class CustomScentControllerTest {
         assertEquals(20L, response.productCustomId());
         assertEquals(2, response.quantity());
         assertFalse(product.getDescription().contains("Tên từ client"));
+    }
+
+    @Test
+    void refusesTamperedClientPriceBeforeSavingAnything() {
+        stubCustomerAndFactory();
+        for (long id = 10; id <= 12; id++) when(productRepo.findById(id)).thenReturn(Optional.of(ingredient(id)));
+        var request = new CreateCustomScentRequest(1L, "Chai", null, 30.0, 1.0, null, 1, validRequest().items());
+        var error = assertThrows(ResponseStatusException.class, () -> controller.createCustomProduct(request, principal));
+        assertEquals(409, error.getStatusCode().value());
+        verify(productRepo, never()).save(any());
+        verify(productCustomRepo, never()).save(any());
     }
 
     @Test

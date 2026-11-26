@@ -177,7 +177,7 @@ public class EmailServieImp implements EmailSevice {
 
     @Override
     public String generateCode() {
-        return new Random().ints(6,1,10)
+        return new java.security.SecureRandom().ints(6,0,10)
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining());
     }

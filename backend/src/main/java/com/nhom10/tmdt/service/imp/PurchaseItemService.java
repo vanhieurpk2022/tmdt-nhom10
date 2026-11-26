@@ -93,7 +93,13 @@ public class PurchaseItemService {
 
     public int stock(CartItem item) {
         ProductMil variant = variant(item);
-        return variant.isActive() ? variant.getStockQuantity() : 0;
+        int stock = variant.isActive() ? variant.getStockQuantity() : 0;
+        if (item.getProduct().getProductType() == com.nhom10.tmdt.enums.ProductType.CUSTOM) {
+            for (var entry : CustomScentPricing.requirements(item.getProduct()).entrySet()) {
+                stock = Math.min(stock, entry.getKey().getStockQuantity() / entry.getValue());
+            }
+        }
+        return stock;
     }
 
     public void validate(CartItem item) {
@@ -109,6 +115,16 @@ public class PurchaseItemService {
     }
 
     private void validateProduct(Product product) {
+        if (product.getFactory() == null || (product.getFactory().getFactoryStatus() != null
+                && product.getFactory().getFactoryStatus() != com.nhom10.tmdt.enums.FactoryStatus.ACTIVE)) {
+            throw error("Xưởng hiện không nhận đơn hàng");
+        }
+        if (product.getProductCustom() != null && product.getProductCustom().getUser() != null) {
+            var auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+            if (auth == null || !product.getProductCustom().getUser().getEmail().equals(auth.getName())) {
+                throw error("Công thức này thuộc tài khoản khác");
+            }
+        }
         if (product.getStatus() != null && product.getStatus() != ProductStatus.ACTIVE) {
             throw error("Sản phẩm không còn mở bán: " + product.getName());
         }

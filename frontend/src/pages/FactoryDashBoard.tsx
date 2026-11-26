@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createColumnHelper, useTable, type PaginationState } from "@tanstack/react-table";
 import { addDays, formatDistanceToNow } from "date-fns";
-import { tr, vi } from "date-fns/locale";
+import { vi } from "date-fns/locale";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,7 +9,7 @@ import OperationsOverview from "../components/admin/dashboard/OperationOverview"
 import SideBarFactory from "../components/admin/factory/SideBarFactory";
 import { features } from "../components/table/features";
 import type { FactoryOrderDashBoard } from "../dto/factory/FactoryDashBoard";
-import { OrderStatusBadge } from "./AdminOrder";
+import { OrderStatusBadge } from "../utils/orderBadges";
 import CustomBadge from "../components/admin/badge/CustomBadge";
 import { formatVnd } from "../components/format/FormatMoney";
 import { FactoryServiceManager } from "../api/factory/FactoryService";

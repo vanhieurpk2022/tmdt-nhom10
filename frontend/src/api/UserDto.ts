@@ -1,10 +1,4 @@
-import type { User } from "../models/User";
 
-interface UserResponse {
-    _embedded: {
-        users: User[];
-    };
-}
 
 export interface LoginRequest {
     email: string;
@@ -16,9 +10,7 @@ export interface LoginResponse {
     // user?: User;
 }
 
-export interface RegisterRequest{
-
-}
+export type RegisterRequest = RegisterResponse;
 
 export interface RegisterResponse{
     fullname:string;

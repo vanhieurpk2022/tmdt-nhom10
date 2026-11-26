@@ -1,14 +1,13 @@
 
-import VariantToolbar from "./VariantToolbar";
 import SideBarFactory from "../SideBarFactory";
 import { VariantHeader } from "./VariantHeader";
 import { useParams } from "react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createColumnHelper, useTable, type PaginationState } from "@tanstack/react-table";
 import { features } from "../../../table/features";
 import type { EditableVariant, FactoryProductEditRes, FactoryProductVariantItem } from "../../../../dto/factory/FactoryProductRes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faPenToSquare, faTag, faToggleOff, faToggleOn, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faToggleOff, faToggleOn, faTrash } from "@fortawesome/free-solid-svg-icons";
 import CustomBadge from "../../badge/CustomBadge";
 import { VariantTable } from "./VariantTable";
 import { FactoryServiceManager } from "../../../../api/factory/FactoryService";
@@ -29,7 +28,7 @@ export function FactoryProductDetails() {
     const [editingVariant, setEditingVariant] = useState<EditableVariant | null>(null);
 
     const [productInfo, setProductInfo] = useState<FactoryProductEditRes | null>(null);
-    const [loadingInfo, setLoadingInfo] = useState(false);
+    const [, setLoadingInfo] = useState(false);
 
     const fetchProductInfo = useCallback(async () => {
         try {
@@ -67,7 +66,7 @@ export function FactoryProductDetails() {
             if (res.status === 200) {
                 setVariant(res.data);
             }
-        } catch (error) {
+        } catch {
             console.log("Lỗi getVariant");
         }
     }, [productId]);
@@ -78,7 +77,7 @@ export function FactoryProductDetails() {
             setVariant(prev =>
                 prev.map(v => (v.id === id ? { ...v, isActive: !v.isActive } : v))
             );
-        } catch (error) {
+        } catch {
             console.log("Lỗi active Variant");
         }
     }, []);
@@ -87,7 +86,7 @@ export function FactoryProductDetails() {
         try {
             await FactoryServiceManager.deleteProductMil(id);
             setVariant(prev => prev.filter(v => v.id !== id));
-        } catch (error) {
+        } catch {
             console.log("Lỗi Xóa Variant");
         }
     }, []);
@@ -96,9 +95,7 @@ export function FactoryProductDetails() {
         getVariant();
         fetchProductInfo();
     }, [getVariant, fetchProductInfo]);
-    const columns = useMemo(
-        () =>
-            columnHelper.columns([
+    const columns = columnHelper.columns([
                 columnHelper.accessor("id", {
                     header: "Mã SP",
                     cell: info => <b>#{info.getValue()}</b>,
@@ -216,9 +213,7 @@ export function FactoryProductDetails() {
                         );
                     },
                 }),
-            ]),
-        []
-    );
+            ]);
 
 
     const table = useTable({

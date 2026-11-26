@@ -13,13 +13,13 @@ interface DonutChartProps {
 
 // Dùng pathLength=100 nên strokeDasharray tính trực tiếp theo %
 function DonutChart({ segments, centerLabel, centerValue, size = 160 }: DonutChartProps) {
-    let offset = 0;
 
     return (
         <div className="position-relative" style={{ width: size, height: size }}>
             <svg viewBox="0 0 100 100" width={size} height={size} role="img" aria-label="Cơ cấu doanh thu">
                 <g transform="rotate(-90 50 50)">
-                    {segments.map((s) => {
+                    {segments.map((s, index) => {
+                        const offset = segments.slice(0, index).reduce((sum, segment) => sum + segment.percent, 0);
                         const circle = (
                             <circle
                                 key={s.label}
@@ -32,7 +32,6 @@ function DonutChart({ segments, centerLabel, centerValue, size = 160 }: DonutCha
                                 strokeDashoffset={-offset}
                             />
                         );
-                        offset += s.percent;
                         return circle;
                     })}
                 </g>

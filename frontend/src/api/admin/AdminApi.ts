@@ -9,7 +9,7 @@ export const AdminService = {
         );
         return res.data;
     },
-    updateStatusFactory: async (id: Number, factoryStatus: FactoryStatus) => {
+    updateStatusFactory: async (id: number, factoryStatus: FactoryStatus) => {
         const res = await api.patch(
             `/admin/update-role`, { id, factoryStatus }
         );

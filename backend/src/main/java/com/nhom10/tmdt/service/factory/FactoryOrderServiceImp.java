@@ -173,6 +173,7 @@ public class FactoryOrderServiceImp implements FactoryOrderService {
         if (!belongsToFactory) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Bạn không có quyền xem đơn hàng này");
         }
+        requireSingleFactory(order, factoryId);
 
         return mapToDetail(order);
     }
@@ -192,6 +193,7 @@ public class FactoryOrderServiceImp implements FactoryOrderService {
         if (!belongsToFactory) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Bạn không có quyền cập nhật đơn hàng này");
         }
+        requireSingleFactory(order, factoryId);
 
         cancellations.updateStatus(order, request.getStatus(), request.getCancelReason(), request.getNote(),
                 userDetails == null ? "FACTORY" : userDetails.getUsername());
@@ -209,6 +211,14 @@ public class FactoryOrderServiceImp implements FactoryOrderService {
     public void deleteOrder(UserDetails userDetails, Long id) {
         updateOrderStatus(userDetails, id, UpdateOrderStatusRequest.builder().status(OrderStatus.CANCELLED)
                 .cancelReason(CancelReason.CUSTOMER_CHANGED_MIND).build());
+    }
+
+    private void requireSingleFactory(Order order, Long factoryId) {
+        if (order.getOrderItems().stream().anyMatch(item -> item.getProduct() == null
+                || item.getProduct().getFactory() == null
+                || !factoryId.equals(item.getProduct().getFactory().getId()))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Đơn cũ chứa nhiều xưởng cần quản trị viên xử lý");
+        }
     }
 
     private AdminOrderListItemResponse mapToListItem(Order order) {

@@ -1,3 +1,4 @@
+import type { ApiResponse } from "../api";
 import api from "../api";
 
 export interface AdminSettlementOverview {
@@ -83,34 +84,34 @@ export interface SettlementHistoryItem {
 
 export const AdminSettlementService = {
     getOverview: async (feeRate?: number): Promise<AdminSettlementOverview> => {
-        const res = await api.get<any>("/admin/settlements/overview", {
+        const res = await api.get<ApiResponse<AdminSettlementOverview>>("/admin/settlements/overview", {
             params: feeRate !== undefined ? { feeRate } : {},
         });
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        return res.data.data;
     },
 
     getFactorySummaries: async (feeRate?: number): Promise<FactorySettlementSummary[]> => {
-        const res = await api.get<any>("/admin/settlements/factories", {
+        const res = await api.get<ApiResponse<FactorySettlementSummary[]>>("/admin/settlements/factories", {
             params: feeRate !== undefined ? { feeRate } : {},
         });
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        return res.data.data;
     },
 
     getFactoryOrders: async (factoryId: number, feeRate?: number): Promise<FactoryOrderSettlement[]> => {
-        const res = await api.get<any>(`/admin/settlements/factories/${factoryId}/orders`, {
+        const res = await api.get<ApiResponse<FactoryOrderSettlement[]>>(`/admin/settlements/factories/${factoryId}/orders`, {
             params: feeRate !== undefined ? { feeRate } : {},
         });
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        return res.data.data;
     },
 
     disburse: async (payload: DisbursementRequest): Promise<SettlementHistoryItem> => {
-        const res = await api.post<any>("/admin/settlements/disburse", payload);
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        const res = await api.post<ApiResponse<SettlementHistoryItem>>("/admin/settlements/disburse", payload);
+        return res.data.data;
     },
 
     getHistory: async (): Promise<SettlementHistoryItem[]> => {
-        const res = await api.get<any>("/admin/settlements/history");
-        return res.data?.data !== undefined ? res.data.data : res.data;
+        const res = await api.get<ApiResponse<SettlementHistoryItem[]>>("/admin/settlements/history");
+        return res.data.data;
     },
 };
 

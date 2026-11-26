@@ -3,7 +3,6 @@ import {
     tableFeatures, createSortedRowModel, createFilteredRowModel, createPaginatedRowModel,
     rowSortingFeature, rowPaginationFeature, columnFilteringFeature, globalFilteringFeature,
     filterFn_includesString, sortFn_alphanumeric, sortFn_basic,
-    type Table,
     type RowData,
     useTable,
 } from "@tanstack/react-table";

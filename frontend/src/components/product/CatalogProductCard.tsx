@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../api/AuthContext";
+import { useFavorites } from "../../api/FavoriteContext";
 import { useCart } from "../../api/CartContext";
 import { cartService } from "../../api/CartService";
 import { getBuyNowUrl, getPurchaseErrorMessage } from "../../api/CheckoutSelection";
@@ -19,6 +20,8 @@ export default function CatalogProductCard({ product }: { product: ProductCard }
     const { user, loading: authLoading } = useAuth();
     const { applyCart, showCartNotice } = useCart();
     const [adding, setAdding] = useState(false);
+    const favorites = useFavorites();
+    const isFavorite = favorites.products.some(p => p.id === product.id);
 
     const detailUrl = `${ROUTES.PRODUCT_DETAIL}/${product.id}`;
     const unavailable = authLoading || adding || product.stockStatus === "Hết hàng";
@@ -69,11 +72,13 @@ export default function CatalogProductCard({ product }: { product: ProductCard }
                         }}
                     />
                 </Link>
-                <button type="button" className="fav-btn" aria-label={`Yêu thích ${product.name}`}>
+                <button type="button" className={`fav-btn ${isFavorite ? 'text-danger' : ''}`} aria-pressed={isFavorite}
+                    onClick={() => { void favorites.toggle(product.id); }} aria-label={`Yêu thích ${product.name}`}>
                     <FontAwesomeIcon icon={faHeart} />
                 </button>
             </div>
             <div className="product-card-body">
+                {favorites.error && <small role="alert" className="text-danger">{favorites.error}</small>}
                 <h3 className="product-title"><Link to={detailUrl}>{product.name}</Link></h3>
                 {product.factoryName && (
                     <div className="product-factory">

@@ -18,10 +18,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Comparator;
 
 @Service
 @RequiredArgsConstructor
 public class FactoryDashboardServiceImp implements FactoryDashboardService {
+    private final com.nhom10.tmdt.security.FactoryAccess access;
     private final OrderRepository orderRepository;
     private final ReviewRepository reviewRepository;
     private final RefundRepository refundRepository;
@@ -192,7 +194,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             int cnt = o.getOrderItems().size();
             res.add(new FactoryOrderDashBoardResponse(
                     o.getId(),
-                    o.getExpectedDeliveryAt().toString(),
+                    o.getExpectedDeliveryAt() == null ? null : o.getExpectedDeliveryAt().toString(),
                     o.getUser().getFullname(),
                     cnt,
                     o.getTotalPrice(),
@@ -222,16 +224,21 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
         List<FactoryChartOrderResponse> res = new ArrayList<>();
         for (Order o : orders) {
             int totalQty = 0;
+            double factoryTotal = 0;
             if (o.getOrderItems() != null) {
                 for (OrderItem it : o.getOrderItems()) {
-                    totalQty += it.getQuantity();
+                    if (it.getProduct() != null && it.getProduct().getFactory() != null
+                            && factoryId.equals(it.getProduct().getFactory().getId())) {
+                        totalQty += it.getQuantity();
+                        factoryTotal += it.getQuantity() * it.getUnitPrice();
+                    }
                 }
             }
             res.add(new FactoryChartOrderResponse(
                     o.getId(),
                     o.getCreatedAt().toString(),
                     totalQty > 0 ? totalQty : 1,
-                    o.getTotalPrice(),
+                    factoryTotal,
                     o.getStatus()));
         }
         return res;
@@ -300,6 +307,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
      */
     private Long calculateCustomProductStock(Long customProductId) {
         Product product = productRepository.findById(customProductId).orElse(null);
+        access.product(product);
         if (product == null || product.getProductCustom() == null) {
             return 0L;
         }
@@ -327,6 +335,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
 
     @Override
     public List<FactoryVariantRes> getProductMil(Long productId) {
+        access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
         List<ProductMil> productMil = productMilRepository.findByProductId(productId);
         List<FactoryVariantRes> variantRes =  new ArrayList<>();
         for(ProductMil p: productMil){
@@ -394,7 +403,9 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     @Override
     // imageid
     public void updateThumbnail(Long id, Long productId) {
+        access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
         List<ProductImage> productImage = productImageRepository.findByProductId(productId);
+        if (productImage.stream().noneMatch(image -> image.getId().equals(id))) throw new AppException(ErrorCode.NOT_FOUND);
         productImage.forEach((p)->p.setThumbnail(p.getId().equals(id)));
         productImageRepository.saveAll(productImage);
     }
@@ -404,6 +415,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public void deleteThumbnail(Long id) {
         ProductImage image = productImageRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        access.image(image);
         if(image.isThumbnail()){
             throw new AppException(ErrorCode.CANNOT_DELETE_THUMBNAIL);
         }
@@ -413,6 +425,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     @Transactional
     public void updateFactoryProductMil(Long milId, FactoryVariantRequest request) {
         ProductMil productMil = productMilRepository.findById(milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+        access.variant(productMil);
         productMil.setBasePrice(request.basePrice());
         productMil.setMil(request.mil());
         productMil.setStockQuantity(request.stockQuantity());
@@ -423,7 +436,8 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     @Override
     public FactoryProductEditRes getProductEdit(Long productId) {
         Product p = productRepository.findById(productId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND_PRODUCT));
-        String category = categoryRepository.findById(p.getCategory().getId()).orElseThrow(()-> new AppException(ErrorCode.NOT_FOUND_CATEGORY)).getName();
+        access.product(p);
+        String category = p.getCategory() == null ? "" : p.getCategory().getName();
 
         return new FactoryProductEditRes(p.getId(),p.getName(),category,p.getProductType(),p.getStatus(),p.getDescription());
     }
@@ -432,14 +446,20 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     @Transactional
     public void changeStatusProductMils(Long milId) {
         ProductMil productMil = productMilRepository.findById(milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+        access.variant(productMil);
         productMil.setActive(!productMil.isActive());
     }
 
     @Override
     public void updateProductEdit(Long id, FactoryProductEditRequest request) {
         Product p = productRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        access.product(p);
         p.setDescription(request.description());
-        p.setCategory(p.getCategory());
+        if (request.category() != null && !request.category().isBlank()) {
+            Category category = categoryRepository.findByName(request.category());
+            if (category == null) throw new AppException(ErrorCode.NOT_FOUND_CATEGORY);
+            p.setCategory(category);
+        }
         p.setName(request.name());
         p.setProductType(request.type());
 
@@ -457,12 +477,16 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     @Transactional
     public void changeStatusProducts(Long id, ChangeStatusProduct req) {
         Product product = productRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        access.product(product);
         product.setStatus(req.status());
     }
 
     @Override
     public void DeleteProduct(Long id) {
-        productRepository.delete(productRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
+        access.product(productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
+        Product product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        product.setStatus(ProductStatus.INACTIVE);
+        productRepository.save(product);
     }
 
     @Override
@@ -470,6 +494,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public FactoryCustomRecipeDto getCustomRecipe(Long productId) {
         Product p = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        access.product(p);
 
         // Nếu sản phẩm CUSTOM chưa có ProductCustom, tự tạo và liên kết
         if (p.getProductType() == ProductType.CUSTOM && p.getProductCustom() == null) {
@@ -511,6 +536,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public FactoryCustomRecipeDto saveCustomRecipe(Long productId, FactoryCustomRecipeSaveRequest request) {
         Product p = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        access.product(p);
 
         // Đảm bảo ProductCustom tồn tại
         if (p.getProductCustom() == null) {
@@ -548,10 +574,15 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             for (FactoryCustomRecipeSaveRequest.Item it : request.items()) {
                 Product scentProduct = productRepository.findById(it.productId())
                         .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+                access.product(scentProduct);
+                if (!com.nhom10.tmdt.service.imp.RecommendationEligibility.isAvailable(scentProduct)) throw new AppException(ErrorCode.BAD_REQUEST);
+                if (it.volumeMl() == null || !Double.isFinite(it.volumeMl()) || it.volumeMl() <= 0) throw new AppException(ErrorCode.BAD_REQUEST);
+                ProductMil ingredientMil = com.nhom10.tmdt.service.imp.CustomScentPricing.selectVariant(scentProduct, it.volumeMl());
 
                 ProductCustomItem pci = ProductCustomItem.builder()
                         .productCustom(pc)
                         .product(scentProduct)
+                        .ingredientMil(ingredientMil)
                         .percentage(it.percentage() != null ? it.percentage() : 0.0)
                         .volumeM1(it.volumeMl() != null ? it.volumeMl() : 0.0)
                         .note(it.note())
@@ -601,6 +632,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
 
     @Override
     public FactoryStaffResponse createStaff(String email, FactoryStaffCreateRequest request) {
+        access.owner();
         User manager = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         Factory factory = manager.getFactory();
         if (factory == null) {
@@ -646,6 +678,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
 
     @Override
     public FactoryStaffResponse updateStaff(String email, Long staffId, FactoryStaffUpdateRequest request) {
+        access.owner();
         User manager = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         Factory factory = manager.getFactory();
         if (factory == null) {
@@ -657,6 +690,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             throw new AppException(ErrorCode.FORBIDDEN);
         }
 
+        if (staff.getFactoryRole() == FactoryRole.OWNER) throw new AppException(ErrorCode.FORBIDDEN);
         if (request.getFullname() != null) {
             staff.setFullname(request.getFullname().trim());
         }
@@ -676,6 +710,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
 
     @Override
     public void deleteStaff(String email, Long staffId) {
+        access.owner();
         User manager = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         Factory factory = manager.getFactory();
         if (factory == null) {
@@ -691,6 +726,8 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
 
+        staff.getRoles().removeIf(r -> r.getName().equals("FACTORY") || r.getName().equals("STAFF"));
+        staff.setFactoryRole(null);
         staff.setFactory(null);
         staff.setStatus(UserStatus.INACTIVE);
         userRepository.save(staff);
@@ -729,7 +766,10 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
 
     @Override
     public List<CustomBottleSampleResponse> getCustomBottleSamples() {
+        Long factoryId = access.currentUser().getFactory().getId();
         return productImageRepository.findByIsCustomSample(true).stream()
+                .filter(img -> img.getOwnerFactory() != null ? factoryId.equals(img.getOwnerFactory().getId())
+                        : img.getProduct() == null || img.getProduct().getFactory() != null && factoryId.equals(img.getProduct().getFactory().getId()))
                 .map(img -> CustomBottleSampleResponse.builder()
                         .id(img.getId())
                         .imageUrl(img.getImageUrl())
@@ -751,7 +791,8 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
 
         Product product = null;
         if (request.getProductId() != null) {
-            product = productRepository.findById(request.getProductId()).orElse(null);
+            product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+            access.product(product);
         }
 
         ProductImage image = ProductImage.builder()
@@ -760,6 +801,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
                 .isThumbnail(false)
                 .uploadedAt(LocalDateTime.now())
                 .product(product)
+                .ownerFactory(access.currentUser().getFactory())
                 .build();
 
         ProductImage saved = productImageRepository.save(image);
@@ -780,6 +822,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public void deleteCustomBottleSample(Long id) {
         ProductImage image = productImageRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        access.image(image);
         productImageRepository.delete(image);
     }
 
@@ -788,6 +831,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public void deleteDefaultBottleLabel(Long id) {
         ProductImage image = productImageRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        access.image(image);
         productImageRepository.delete(image);
     }
 
@@ -796,6 +840,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public void deleteProductCustomLabelDesign(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        access.product(product);
         ProductCustom pc = product.getProductCustom();
         if (pc != null) {
             pc.setLabelDesign(null);

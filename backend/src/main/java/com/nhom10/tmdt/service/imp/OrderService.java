@@ -46,6 +46,7 @@ public class OrderService {
     private final PurchaseItemService purchaseItems;
     private final InventoryReservationService inventory;
     private final UserRepository userRepository;
+    private final com.nhom10.tmdt.service.order.VoucherService vouchers;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public OrderResponse createOrderFromCart(String email, CreateOrderRequest request, String key) {
@@ -85,13 +86,20 @@ public class OrderService {
                 ? List.of(purchaseItems.resolve(request.buyNow()))
                 : purchaseItems.selectCartItems(email, request.cartItemIds());
 
-        inventory.reserve(selectedCartItems);
+        // Mỗi đơn do một xưởng thực hiện; không để một xưởng đổi trạng thái hàng của xưởng khác.
+        long factoryCount = selectedCartItems.stream().map(item -> item.getProduct().getFactory() == null
+                ? null : item.getProduct().getFactory().getId()).distinct().count();
+        if (factoryCount != 1 || selectedCartItems.stream().anyMatch(item -> item.getProduct().getFactory() == null)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng đặt sản phẩm của từng xưởng trong một đơn riêng");
+        }
+        var allocations = inventory.reserve(selectedCartItems);
         long subtotal = 0;
         for (CartItem item : selectedCartItems) {
             subtotal = Math.addExact(subtotal, Math.multiplyExact(VndMoney.exact(purchaseItems.price(item)), item.getQuantity()));
         }
         long shippingFee = VndMoney.exact((double) shippingFeeService.calculateFee(address, selectedCartItems, subtotal));
-        long total = Math.addExact(subtotal, shippingFee);
+        var discount = vouchers.reserve(request.voucherCode(), subtotal, selectedCartItems.getFirst().getProduct().getFactory().getId());
+        long total = Math.addExact(subtotal - discount.amount(), shippingFee);
         if (total <= 0 || total > VnPayGateway.MAX_AMOUNT_VND) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Số tiền đơn hàng vượt giới hạn thanh toán");
         }
@@ -106,7 +114,8 @@ public class OrderService {
                 .checkoutKey(checkoutKey)
                 .checkoutFingerprint(fingerprint)
                 .subtotalPrice((double) subtotal)
-                .discountAmount(0.0)
+                .discountAmount((double) discount.amount())
+                .appliedVoucher(discount.voucher())
                 .shippingFee((double) shippingFee)
                 .totalPrice((double) total)
                 .paymentMethod(request.paymentMethod())
@@ -116,6 +125,8 @@ public class OrderService {
                 .note(normalizeNote(request.note()))
                 .build();
 
+        allocations.forEach(allocation -> allocation.setOrder(order));
+        order.setInventoryAllocations(allocations);
         Order savedOrder = orderRepository.saveAndFlush(order);
         List<OrderItem> savedItems = orderItemRepository.saveAllAndFlush(selectedCartItems.stream()
                 .map(item -> toOrderItem(savedOrder, item))

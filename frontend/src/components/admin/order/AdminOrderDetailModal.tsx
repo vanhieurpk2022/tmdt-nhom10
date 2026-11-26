@@ -19,7 +19,7 @@ import {
 import type { AdminOrderDetail } from "../../../api/AdminOrderService";
 import { getPaymentStatusLabel } from "../../../api/OrderService";
 import { cancelReasonLabels } from "../../../data/orderDetailsData";
-import { OrderStatusBadge, ProductTypeBadge } from "../../../pages/AdminOrder";
+import { OrderStatusBadge, ProductTypeBadge } from "../../../utils/orderBadges";
 import CustomBadge from "../badge/CustomBadge";
 import { OrderStatus } from "../../../enums/OrderStatus";
 

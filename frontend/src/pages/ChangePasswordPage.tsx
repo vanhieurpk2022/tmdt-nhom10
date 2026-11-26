@@ -1,3 +1,4 @@
+import { toApiError } from "../utils/apiError";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faShieldHalved, faSpinner, faCheckCircle, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -71,7 +72,8 @@ export default function ChangePasswordPage() {
             setCurrentPassword("");
             setNewPassword("");
             setConfirmPassword("");
-        } catch (error: any) {
+        } catch (caught: unknown) {
+            const error = toApiError(caught);
             console.error("Lỗi khi đổi mật khẩu:", error);
             const serverMessage = error.response?.data?.message || "Đổi mật khẩu thất bại. Vui lòng kiểm tra lại mật khẩu hiện tại.";
             setMessage({ text: serverMessage, type: "danger" });

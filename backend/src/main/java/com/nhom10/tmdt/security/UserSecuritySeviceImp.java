@@ -33,7 +33,7 @@ public class UserSecuritySeviceImp implements UserSecutiryService {
                 .password(user.getPassword())
                 .authorities(rolesToAuthorities(user.getRoles()))
                 .accountLocked(user.getStatus() == UserStatus.BANNED)
-                .disabled(!user.isVerify())
+                .disabled(!user.isVerify() || user.getStatus() != UserStatus.ACTIVE)
                 .build();
     }
 

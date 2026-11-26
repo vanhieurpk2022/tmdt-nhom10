@@ -1,25 +1,45 @@
-from typing import Optional, List
-from pydantic import BaseModel, Field
+from typing import Literal
+from pydantic import BaseModel, Field, field_validator
+
+
+class HistoryMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=2000)
+
 
 class ChatRequest(BaseModel):
-    message: str = Field(..., min_length=1, description="Câu hỏi của khách hàng", example="Gợi ý tinh dầu hoa hồng")
+    message: str = Field(min_length=1, max_length=2000)
+    history: list[HistoryMessage] = Field(default_factory=list, max_length=8)
+
+    @field_validator("message")
+    @classmethod
+    def not_blank(cls, value):
+        value = value.strip()
+        if not value:
+            raise ValueError("Câu hỏi không được để trống")
+        return value
+
 
 class ProductItem(BaseModel):
     id: int
     name: str
     price: float
-    imageUrl: Optional[str] = None
-    link: Optional[str] = None
-    category: Optional[str] = None
+    imageUrl: str | None = None
+    link: str | None = None
+    category: str | None = None
+    factoryName: str | None = None
+    volumeMl: int | None = None
+
 
 class ChatResponse(BaseModel):
-    reply: str = Field(..., description="Câu trả lời từ trợ lý tư vấn")
-    products: Optional[List[ProductItem]] = Field(default=None, description="Danh sách sản phẩm gợi ý kèm hình ảnh")
+    reply: str
+    products: list[ProductItem] = Field(default_factory=list)
+
 
 class HealthResponse(BaseModel):
     status: str
-    ollama_url: str
-    faiss_index_exists: bool
-
-class RecommendationResponse(BaseModel):
-    product_ids: List[int]
+    catalog_ready: bool
+    catalog_count: int
+    model_ready: bool
+    chat_model_ready: bool
+    embedding_model_ready: bool

@@ -73,7 +73,10 @@ public class OrderCancellationService {
             throw conflict("Trạng thái đơn hàng hoặc thanh toán không cho phép chuyển trạng thái này");
         }
         order.setStatus(status);
-        if (status == OrderStatus.DELIVERED) order.setDeliveredAt(LocalDateTime.now(clock));
+        if (status == OrderStatus.DELIVERED) {
+            order.setDeliveredAt(LocalDateTime.now(clock));
+            if (order.getPaymentMethod() == PaymentMethod.COD) order.setPaymentStatus(PaymentStatus.PAID);
+        }
         if (status == OrderStatus.CANCELLED) order.setCancelReason(reason == null ? CancelReason.CUSTOMER_CHANGED_MIND : reason);
     }
 

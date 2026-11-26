@@ -9,7 +9,7 @@ import type { FactoryProductStats } from "../../../dto/factory/FactoryProductRes
 
 interface ProductHeaderProps {
     stats: FactoryProductStats;
-    onProduct?: (type?: any) => void;
+    onProduct?: (type?: string) => void;
     onExportCsv?: () => void;
 }
 

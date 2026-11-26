@@ -1,3 +1,4 @@
+import { toApiError } from "../../../utils/apiError";
 import { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -113,7 +114,8 @@ export default function ModalAddStaff({ show, onHide, onSuccess }: ModalAddStaff
             resetForm();
             onSuccess();
             onHide();
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             const msg = err?.response?.data?.message || "Không thể tạo tài khoản nhân viên. Vui lòng thử lại.";
             showToast("Lỗi tạo nhân viên", msg, "danger");
         } finally {
@@ -295,7 +297,7 @@ export default function ModalAddStaff({ show, onHide, onSuccess }: ModalAddStaff
                                 <Form.Label className="fw-semibold small">Trạng thái ban đầu</Form.Label>
                                 <Form.Select
                                     value={status}
-                                    onChange={(e) => setStatus(e.target.value as any)}
+                                    onChange={(e) => setStatus(e.target.value as "ACTIVE" | "INACTIVE" | "ON_LEAVE")}
                                 >
                                     <option value="ACTIVE">Đang làm việc (ACTIVE)</option>
                                     <option value="ON_LEAVE">Nghỉ phép (ON_LEAVE)</option>

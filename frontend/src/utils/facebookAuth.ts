@@ -1,13 +1,22 @@
+interface FacebookLoginResponse {
+  status: string;
+  authResponse?: { accessToken?: string };
+}
+interface FacebookSdk {
+  init: (options: { appId: string; cookie: boolean; xfbml: boolean; version: string }) => void;
+  login: (callback: (response: FacebookLoginResponse) => void, options: { scope: string }) => void;
+}
+
 declare global {
   interface Window {
     fbAsyncInit?: () => void;
-    FB?: any;
+    FB?: FacebookSdk;
   }
 }
 
-let fbInitPromise: Promise<any> | null = null;
+let fbInitPromise: Promise<FacebookSdk> | null = null;
 
-export const initFacebookSdk = (): Promise<any> => {
+export const initFacebookSdk = (): Promise<FacebookSdk> => {
   if (fbInitPromise) {
     return fbInitPromise;
   }
@@ -23,6 +32,7 @@ export const initFacebookSdk = (): Promise<any> => {
 
     window.fbAsyncInit = function () {
       try {
+        if (!window.FB) throw new Error('Facebook SDK chưa sẵn sàng');
         window.FB.init({
           appId: appId,
           cookie: true,
@@ -61,7 +71,7 @@ export const loginWithFacebookPopup = async (): Promise<string> => {
 
   return new Promise((resolve, reject) => {
     FB.login(
-      (response: any) => {
+      (response) => {
         if (response.authResponse && response.authResponse.accessToken) {
           resolve(response.authResponse.accessToken);
         } else if (response.status === 'not_authorized') {

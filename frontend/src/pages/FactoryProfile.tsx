@@ -1,3 +1,4 @@
+import { toApiError } from "../utils/apiError";
 import { useState, useEffect, useCallback } from "react";
 import {
     faBuilding,
@@ -80,7 +81,8 @@ export default function FactoryProfile() {
                     avatarUrl: res.data.avatarUrl || "",
                 });
             }
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi tải thông tin hồ sơ xưởng:", err);
             setErrorMessage(
                 err?.response?.data?.message ||
@@ -142,7 +144,8 @@ export default function FactoryProfile() {
                 showToast("Cập nhật thông tin gian hàng thành công!", "success");
                 setIsEditing(false);
             }
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             console.error("Lỗi khi lưu hồ sơ:", err);
             showToast(
                 err?.response?.data?.message || "Không thể cập nhật hồ sơ gian hàng. Vui lòng thử lại!",

@@ -104,7 +104,6 @@ export default function AddProductModal({
     onSuccess,
     product,
     defaultType,
-    availableProducts: _availableProducts = [],
     onHide,
 }: AddProductModalProps) {
     const [categoryOption, setCategoryOption] = useState<Category[]>([]);
@@ -146,7 +145,7 @@ export default function AddProductModal({
                 category: product.category ?? "",
                 type: product.type ?? ProductType.NORMAL,
                 description: product.description ?? "",
-                imageUrls: ("imageUrls" in product && Array.isArray((product as any).imageUrls)) ? (product as any).imageUrls : [],
+                imageUrls: 'imageUrls' in product && Array.isArray(product.imageUrls) ? product.imageUrls : [],
             });
         } else {
             setForm({

@@ -1,9 +1,9 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 interface ChatbotToggleProps {
-  isOpen: boolean;
   hasUnread: boolean;
   showTooltip: boolean;
   onToggle: () => void;
@@ -11,7 +11,6 @@ interface ChatbotToggleProps {
 }
 
 export const ChatbotToggle: React.FC<ChatbotToggleProps> = ({
-  isOpen,
   hasUnread,
   showTooltip,
   onToggle,
@@ -20,9 +19,9 @@ export const ChatbotToggle: React.FC<ChatbotToggleProps> = ({
   return (
     <>
       {/* Tooltip / Bubble notification */}
-      {showTooltip && !isOpen && (
+      {showTooltip && (
         <div className="oilia-chat-tooltip" role="alert">
-          <span>🌿 Bạn cần tư vấn chọn hương nước hoa? Nhắn cho mình nhé!</span>
+          <span>Bạn cần tư vấn chọn mùi hương? Nhắn cho mình nhé!</span>
           <button
             type="button"
             className="oilia-chat-tooltip-close"
@@ -42,12 +41,12 @@ export const ChatbotToggle: React.FC<ChatbotToggleProps> = ({
         type="button"
         className="oilia-chat-toggle-btn"
         onClick={onToggle}
-        aria-label={isOpen ? 'Đóng hộp thoại tư vấn' : 'Mở hộp thoại tư vấn Oilia'}
-        title={isOpen ? 'Đóng hộp thoại' : 'Tư vấn mùi hương trực tuyến'}
+        aria-label="Mở hộp thoại tư vấn Oilia"
+        title="Tư vấn mùi hương"
       >
-        <FontAwesomeIcon icon={isOpen ? faXmark : faCommentDots} />
+        <FontAwesomeIcon icon={faComment} />
         
-        {hasUnread && !isOpen && (
+        {hasUnread && (
           <span className="oilia-chat-badge">1</span>
         )}
       </button>

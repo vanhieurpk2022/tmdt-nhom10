@@ -1,3 +1,4 @@
+import { toApiError } from "../utils/apiError";
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation, useSearchParams, useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -181,22 +182,26 @@ export default function CustomScentCustomizerPage() {
         return Math.abs(currentSumMl - totalVolumeMl) <= 0.01;
     }, [currentSumMl, totalVolumeMl, recipeRows.length]);
 
-    // Tính giá tiền động dựa trên công thức
-    const unitPrice = useMemo(() => {
-        if (!recipeRows.length || !totalVolumeMl) return 150000;
-        let weightedPriceSum = 0;
-        recipeRows.forEach((row) => {
-            const scent = factoryScents.find((s) => s.id === row.productId);
-            const price = scent ? scent.price : 150000;
-            const rowMl = Number(row.volumeMl) || 0;
-            weightedPriceSum += price * (rowMl / totalVolumeMl);
-        });
-
-        const volumeFactor = totalVolumeMl / 30;
-        const calculated = weightedPriceSum * volumeFactor;
-        return Math.max(120000, Math.round(calculated / 1000) * 1000);
-    }, [recipeRows, factoryScents, totalVolumeMl]);
-
+    const [quote, setQuote] = useState<{ price: number; stockQuantity: number } | null>(null);
+    const [quoteError, setQuoteError] = useState('');
+    const [quoteVersion, setQuoteVersion] = useState(0);
+    useEffect(() => {
+        let active = true;
+        setQuote(null);
+        setQuoteError('');
+        if (!selectedFactoryId || !isSumValid || recipeRows.some(row => !row.productId)) return;
+        const timer = setTimeout(() => {
+            void FactoryApiService.quoteCustom({
+                factoryId: selectedFactoryId, bottleType: 'Chai phối hương', labelDesign: '', totalVolumeMl,
+                price: 0, quantity: 1,
+                items: recipeRows.map(row => ({ productId: row.productId!, volumeMl: row.volumeMl,
+                    percentage: row.volumeMl / totalVolumeMl * 100 })),
+            }).then(result => { if (active) setQuote(result); })
+              .catch(() => { if (active) setQuoteError('Chưa lấy được báo giá hoặc nguyên liệu không đủ. Bạn kiểm tra lại công thức nhé.'); });
+        }, 300);
+        return () => { active = false; clearTimeout(timer); };
+    }, [selectedFactoryId, isSumValid, recipeRows, totalVolumeMl, quoteVersion]);
+    const unitPrice = quote?.price ?? 0;
     const totalPrice = unitPrice * quantity;
 
     // Thêm dòng nguyên liệu mới
@@ -262,7 +267,8 @@ export default function CustomScentCustomizerPage() {
             const uploaded = await cloudinaryService.upload(file);
             setCustomLabelUrl(uploaded.url);
             setActiveBottleIndex(0); // Tự động chọn nhãn riêng
-        } catch (error: any) {
+        } catch (caught: unknown) {
+            const error = toApiError(caught);
             console.error("Lỗi upload nhãn:", error);
             alert(error.message || "Không thể tải lên ảnh nhãn, vui lòng thử lại.");
         } finally {
@@ -279,7 +285,7 @@ export default function CustomScentCustomizerPage() {
             return {
                 productId: r.productId!,
                 scentName: scent ? scent.name : undefined,
-                percentage: Number(pct.toFixed(1)),
+                percentage: pct,
                 volumeMl: Number(r.volumeMl.toFixed(1)),
             };
         });
@@ -321,6 +327,10 @@ export default function CustomScentCustomizerPage() {
             );
             return false;
         }
+        if (!quote || quantity > quote.stockQuantity) {
+            alert(quoteError || "Vui lòng chờ báo giá hợp lệ và kiểm tra lượng nguyên liệu còn lại.");
+            return false;
+        }
         if (!user) {
             navigate(ROUTES.LOGIN, { state: { from: location } });
             return false;
@@ -338,8 +348,10 @@ export default function CustomScentCustomizerPage() {
             await FactoryApiService.addCustomScentToCart(payload);
             await refreshCart();
             showCartNotice(`Đã thêm lọ tinh dầu phối hương "${customProductName || 'Bespoke'}" vào giỏ hàng!`);
-        } catch (error: any) {
+        } catch (caught: unknown) {
+            const error = toApiError(caught);
             console.error("Lỗi thêm vào giỏ hàng:", error);
+            if (error.response?.status === 409) setQuoteVersion(version => version + 1);
             alert(error.response?.data?.message || "Không thể thêm vào giỏ hàng, vui lòng thử lại.");
         } finally {
             setIsSubmitting(false);
@@ -361,8 +373,10 @@ export default function CustomScentCustomizerPage() {
                 quantity: res.quantity,
             });
             navigate(checkoutUrl);
-        } catch (error: any) {
+        } catch (caught: unknown) {
+            const error = toApiError(caught);
             console.error("Lỗi đặt hàng phối hương:", error);
+            if (error.response?.status === 409) setQuoteVersion(version => version + 1);
             alert(error.response?.data?.message || "Không thể tạo đơn hàng, vui lòng thử lại.");
         } finally {
             setIsSubmitting(false);
@@ -370,9 +384,7 @@ export default function CustomScentCustomizerPage() {
     };
 
     // Danh sách mẫu lọ từ product_image có is_custom_example
-    const availableBottleSamples = useMemo(() => {
-        return bottleSamples.length > 0 ? bottleSamples : DEFAULT_BOTTLE_SAMPLES;
-    }, [bottleSamples]);
+    const availableBottleSamples = bottleSamples.length > 0 ? bottleSamples : DEFAULT_BOTTLE_SAMPLES;
 
     // Xác định ảnh preview cho Lọ/Nhãn (lấy mẫu từ product_image có is_custom_example)
     const previewImageUrl = useMemo(() => {
@@ -669,7 +681,7 @@ export default function CustomScentCustomizerPage() {
                                     <button
                                         type="button"
                                         className="btn-stepper"
-                                        onClick={() => setQuantity((q) => q + 1)}
+                                        onClick={() => setQuantity((q) => Math.min(q + 1, 100, quote?.stockQuantity ?? 100))}
                                     >
                                         <FontAwesomeIcon icon={faPlus} />
                                     </button>
@@ -679,17 +691,18 @@ export default function CustomScentCustomizerPage() {
                                 <div className="recipe-price-total">
                                     <span className="price-total-label">Tổng tiền</span>
                                     <span className="price-total-value">
-                                        {totalPrice.toLocaleString("vi-VN")} đ
+                                        {quote ? `${totalPrice.toLocaleString("vi-VN")} đ` : "Chờ báo giá"}
                                     </span>
                                 </div>
 
                                 {/* Các nút hành động */}
+                                <small>{quoteError || "Giá gồm nguyên liệu xuất kho theo chai, chai đựng và công phối."}</small>
                                 <div className="recipe-footer-actions">
                                     <button
                                         type="button"
                                         className="btn-add-cart-custom"
                                         onClick={handleAddToCart}
-                                        disabled={isSubmitting || !isSumValid}
+                                        disabled={isSubmitting || !isSumValid || !quote || quantity > quote.stockQuantity}
                                     >
                                         <FontAwesomeIcon icon={faCartShopping} />
                                         Thêm giỏ hàng
@@ -699,7 +712,7 @@ export default function CustomScentCustomizerPage() {
                                         type="button"
                                         className="btn-buy-now-custom"
                                         onClick={handleBuyNow}
-                                        disabled={isSubmitting || !isSumValid}
+                                        disabled={isSubmitting || !isSumValid || !quote || quantity > quote.stockQuantity}
                                     >
                                         <FontAwesomeIcon icon={faBolt} />
                                         Đặt hàng Ngay

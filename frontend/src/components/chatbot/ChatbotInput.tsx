@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 
 interface ChatbotInputProps {
   onSend: (text: string) => void;
@@ -38,6 +38,7 @@ export const ChatbotInput: React.FC<ChatbotInputProps> = ({
           type="text"
           className="oilia-chat-input"
           placeholder="Nhập câu hỏi của bạn..."
+          aria-label="Câu hỏi cho trợ lý Oilia"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={handleKeyDown}

@@ -1,6 +1,5 @@
 
 
-import SearchBox from "../../../layout/header/SearchBox";
 
 const VariantToolbar = () => {
 

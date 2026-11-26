@@ -221,15 +221,6 @@ public class FactoryDashboardController {
     }
 
     /**
-     * API xóa ảnh nhãn chai mặc định theo image ID (từ bảng product_image)
-     */
-    @DeleteMapping("/default-bottle-labels/{id}")
-    public ApiResponse<Void> deleteDefaultBottleLabel(@PathVariable Long id) {
-        factoryDashboard.deleteDefaultBottleLabel(id);
-        return new ApiResponse<>(200, "Xóa ảnh nhãn chai mặc định thành công");
-    }
-
-    /**
      * API xóa ảnh nhãn chai mặc định (labelDesign) của sản phẩm Custom
      */
     @DeleteMapping("/products/{productId}/default-label")

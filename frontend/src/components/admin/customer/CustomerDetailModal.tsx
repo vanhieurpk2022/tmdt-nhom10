@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faKey,
     faBan,
-    faXmark,
     faStar,
-    faLock,
     faUnlock,
     faClock,
     faBoxesPacking,
     faLocationDot,
     faShieldHalved,
     faPlus,
-    faCoins,
-    faTicket,
     faCircleCheck,
-    faRotate,
-    faUserCheck,
-    faPhone,
-    faEnvelope,
     faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { CustomerAdminService, type CustomerDetail, type CustomerItem } from "../../../api/CustomerAdminService";
@@ -40,7 +32,7 @@ export default function CustomerDetailModal({
     onToggleStatus,
     onUpdateCustomer,
 }: CustomerDetailModalProps) {
-    const { customer, addresses = [], recentOrders = [], disputes = [], formulas = [] } = detail;
+    const { customer, addresses = [], recentOrders = [], disputes = [] } = detail;
     const [activeTab, setActiveTab] = useState<TabKey>("info");
 
     // Form states

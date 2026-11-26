@@ -1,7 +1,7 @@
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
 import LoginSideBar from '../components/layout/login/LoginSideBar';
-import { use, useState, type FormEvent } from 'react';
-import { Link, Navigate, replace, useNavigate } from 'react-router';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import { authService } from '../api/AuthService';
 import { ROUTES } from '../routes/routes';
 import axios from 'axios';

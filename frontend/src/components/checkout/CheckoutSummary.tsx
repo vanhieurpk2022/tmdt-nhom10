@@ -4,6 +4,7 @@ import type { PaymentMethod } from "../../data/checkoutData";
 interface CheckoutSummaryProps {
     items: CartItem[];
     shippingFee: number;
+    discount?: number;
     isLoading?: boolean;
     isShippingFeeLoading?: boolean;
     shippingFeeError?: string;
@@ -23,6 +24,7 @@ function formatPrice(price: number) {
 export default function CheckoutSummary({
     items,
     shippingFee,
+    discount = 0,
     isLoading = false,
     isShippingFeeLoading = false,
     shippingFeeError = "",
@@ -33,7 +35,7 @@ export default function CheckoutSummary({
     onContinue,
 }: CheckoutSummaryProps) {
     const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
-    const total = subtotal + shippingFee;
+    const total = subtotal + shippingFee - discount;
     const isDisabled = isLoading || isShippingFeeLoading || isSubmitting || paymentUnavailable || items.length === 0 || !hasAddress || Boolean(shippingFeeError);
 
     return (
@@ -60,6 +62,7 @@ export default function CheckoutSummary({
             </div>
 
             <div className="checkout-summary-adjustments">
+                {discount > 0 && <div><span>Giảm giá</span><strong>-{formatPrice(discount)}</strong></div>}
                 <div>
                     <span>Tạm tính</span>
                     <strong>{formatPrice(subtotal)}</strong>

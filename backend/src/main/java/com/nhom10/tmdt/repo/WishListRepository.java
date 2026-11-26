@@ -6,4 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(path = "wish-list")
 public interface WishListRepository extends JpaRepository<WishList,Long> {
+    java.util.List<WishList> findByUserEmailOrderByIdDesc(String email);
+    boolean existsByUserEmailAndProductId(String email, Long productId);
+    void deleteByUserEmailAndProductId(String email, Long productId);
 }

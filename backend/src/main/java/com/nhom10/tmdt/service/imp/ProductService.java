@@ -62,6 +62,7 @@ public class ProductService {
                 .collect(Collectors.toMap(r -> (Long) r[0], r -> (Long) r[1]));
 
         List<FactoryDto> factories = factoryRepo.findAll().stream()
+                .filter(f -> f.getFactoryStatus() == null || f.getFactoryStatus() == com.nhom10.tmdt.enums.FactoryStatus.ACTIVE)
                 .map(f -> {
                     String avatarUrl = null;
                     if (f.getFactoryImages() != null && !f.getFactoryImages().isEmpty()) {
@@ -109,8 +110,8 @@ public class ProductService {
 
     // Product sections for the home page
     public List<ProductCardResponse> getNewestProducts(Integer limit) {
-        Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
-        return productRepo.findNewestProducts(pageable).stream()
+        return productRepo.findAll().stream().filter(RecommendationEligibility::isPublic)
+                .sorted(Comparator.comparing(Product::getId).reversed()).limit(normalizeHomeProductLimit(limit))
                 .map(this::toCard)
                 .toList();
     }
@@ -118,7 +119,7 @@ public class ProductService {
     public List<ProductCardResponse> getBestSellerProducts(Integer limit) {
         int productLimit = normalizeHomeProductLimit(limit);
         return productRepo.findAll().stream()
-                .filter(p -> p.getProductType() == null || p.getProductType() == com.nhom10.tmdt.enums.ProductType.NORMAL)
+                .filter(RecommendationEligibility::isPublic)
                 .sorted(this::compareBySales)
                 .limit(productLimit)
                 .map(this::toCard)
@@ -126,8 +127,9 @@ public class ProductService {
     }
 
     public List<ProductCardResponse> getMostViewedProducts(Integer limit) {
-        Pageable pageable = PageRequest.of(0, normalizeHomeProductLimit(limit));
-        return productRepo.findMostViewedProducts(pageable).stream()
+        return productRepo.findAll().stream().filter(RecommendationEligibility::isPublic)
+                .sorted(Comparator.comparingLong((Product p) -> p.getViews() == null ? 0 : p.getViews()).reversed())
+                .limit(normalizeHomeProductLimit(limit))
                 .map(this::toCard)
                 .toList();
     }
@@ -200,6 +202,9 @@ public class ProductService {
     private Specification<Product> buildSpec(ProductFilterRequest req) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.or(cb.isNull(root.get("status")), cb.equal(root.get("status"), com.nhom10.tmdt.enums.ProductStatus.ACTIVE)));
+            Join<Product, Factory> factoryJoin = root.join("factory", JoinType.LEFT);
+            predicates.add(cb.or(cb.isNull(factoryJoin.get("factoryStatus")), cb.equal(factoryJoin.get("factoryStatus"), com.nhom10.tmdt.enums.FactoryStatus.ACTIVE)));
 
             // Chỉ lấy sản phẩm thông thường (NORMAL), loại trừ sản phẩm đã phối hương (CUSTOM).
             predicates.add(cb.or(
@@ -269,15 +274,11 @@ public class ProductService {
             return product.getTotalSold();
         }
 
-        long productId = product.getId() == null ? 0 : product.getId();
-        long reviewCount = product.getReviews() == null ? 0 : product.getReviews().size();
-        return reviewCount > 0
-                ? reviewCount * 35L + ((productId * 11) % 40)
-                : 15L + (productId % 20);
+        return 0;
     }
 
     // Chuyển Product entity sang DTO ProductCardResponse
-    private ProductCardResponse toCard(Product p) {
+    public ProductCardResponse toCard(Product p) {
         // Ảnh thumbnail: ưu tiên ảnh đánh dấu isThumbnail, fallback ảnh đầu tiên
         String thumbnail = null;
         if (p.getProductImages() != null && !p.getProductImages().isEmpty()) {
@@ -330,6 +331,11 @@ public class ProductService {
     public ProductDetailResponse getProductDetail(Long id) {
         Product p = productRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + id));
+        if (p.getStatus() != null && p.getStatus() != com.nhom10.tmdt.enums.ProductStatus.ACTIVE
+                || p.getFactory() != null && p.getFactory().getFactoryStatus() != null
+                && p.getFactory().getFactoryStatus() != com.nhom10.tmdt.enums.FactoryStatus.ACTIVE) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sản phẩm hiện chưa mở bán");
+        }
 
         long currentViews = (p.getViews() != null ? p.getViews() : 0L) + 1L;
         p.setViews(currentViews);

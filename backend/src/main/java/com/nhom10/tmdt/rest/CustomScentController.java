@@ -38,6 +38,18 @@ public class CustomScentController {
     private final ProductCustomItemRepository productCustomItemRepo;
     private final UserRepository userRepo;
     private final CartService cartService;
+    private final com.nhom10.tmdt.service.imp.CustomScentPricing pricing;
+
+    public record PriceQuote(double price, int stockQuantity) {}
+
+    @PostMapping("/quote")
+    @Transactional(readOnly = true)
+    public ApiResponse<PriceQuote> quote(@Valid @RequestBody CreateCustomScentRequest request) {
+        var ingredients = request.items().stream().map(item -> productRepo.findById(item.productId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy nguyên liệu"))).toList();
+        var quote = pricing.quote(ingredients, request);
+        return new ApiResponse<>(200, "Giá gồm nguyên liệu xuất kho, chai và công phối", new PriceQuote(quote.price(), quote.stockQuantity()));
+    }
 
     /**
      * Lấy danh sách mùi hương tinh dầu có sẵn của một xưởng cụ thể
@@ -51,12 +63,13 @@ public class CustomScentController {
         List<Product> products = productRepo.findByFactoryId(factoryId);
 
         List<ScentProductItem> scents = products.stream()
-                .filter(this::isAvailableIngredient)
+                .filter(com.nhom10.tmdt.service.imp.RecommendationEligibility::isAvailable)
                 .map(p -> new ScentProductItem(
                         p.getId(),
                         p.getName(),
                         p.getDescription(),
-                        p.getPrice() != null ? p.getPrice() : 150000.0,
+                        p.getProductMils().stream().filter(com.nhom10.tmdt.service.imp.RecommendationEligibility::isAvailableVariant)
+                                .mapToDouble(v -> v.getBasePrice() == null ? v.getPrice() : v.getBasePrice()).min().orElse(0),
                         factory.getId(),
                         factory.getName(),
                         null))
@@ -216,6 +229,13 @@ public class CustomScentController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tổng tỷ lệ phối hương phải bằng 100%");
         }
 
+        var quote = pricing.quote(ingredients, req);
+        if (req.price() == null || !Double.isFinite(req.price()) || Math.abs(req.price() - quote.price()) > 0.5) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Giá nguyên liệu đã thay đổi. Vui lòng lấy lại báo giá trước khi đặt hàng");
+        }
+        if (req.quantity() != null && req.quantity() > quote.stockQuantity()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Số lượng vượt quá lượng nguyên liệu đang có");
+        }
         Category category = categoryRepo.findByName("Tinh dầu phối");
         if (category == null) {
             category = categoryRepo.findAll().stream().findFirst().orElse(null);
@@ -236,7 +256,7 @@ public class CustomScentController {
                 .bottleType(req.bottleType())
                 .labelDesign(req.labelDesign())
                 .totalVolumeMl(req.totalVolumeMl())
-                .price(req.price())
+                .price(quote.price())
                 .build();
         ProductCustom savedPc = productCustomRepo.save(pc);
 
@@ -249,6 +269,7 @@ public class CustomScentController {
             customItems.add(ProductCustomItem.builder()
                     .productCustom(savedPc)
                     .product(scentProduct)
+                    .ingredientMil(quote.ingredients().get(i))
                     .percentage(itemReq.percentage())
                     .volumeM1(req.totalVolumeMl() * itemReq.percentage() / 100)
                     .build());
@@ -267,8 +288,8 @@ public class CustomScentController {
         Product product = Product.builder()
                 .name(customName)
                 .description(customDesc)
-                .price(req.price())
-                .minBasePrice(req.price())
+                .price(quote.price())
+                .minBasePrice(quote.price())
                 .productType(ProductType.CUSTOM)
                 .productCustom(savedPc)
                 .factory(factory)
@@ -283,9 +304,9 @@ public class CustomScentController {
         ProductMil mil = ProductMil.builder()
                 .product(savedProduct)
                 .mil(req.totalVolumeMl().intValue())
-                .price(req.price())
-                .basePrice(req.price())
-                .stockQuantity(999)
+                .price(quote.price())
+                .basePrice(quote.price())
+                .stockQuantity(quote.stockQuantity())
                 .isActive(true)
                 .build();
         ProductMil savedMil = productMilRepo.saveAndFlush(mil);

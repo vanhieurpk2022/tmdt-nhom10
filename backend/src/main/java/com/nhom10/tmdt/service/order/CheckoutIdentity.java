@@ -13,7 +13,9 @@ import java.util.HexFormat;
 public record CheckoutIdentity(String key, String fingerprint) {
     public static CheckoutIdentity from(String key, CreateOrderRequest request) {
         validateKey(key);
-        return new CheckoutIdentity(key, digest(request.toString()));
+        String content = request.toString();
+        if (request.voucherCode() == null) content = content.replace(", voucherCode=null]", "]");
+        return new CheckoutIdentity(key, digest(content));
     }
 
     public static void validateKey(String key) {

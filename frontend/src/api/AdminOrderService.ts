@@ -116,7 +116,7 @@ export const AdminOrderService = {
         sortBy: string = "createdAt",
         sortDir: string = "desc"
     ): Promise<AdminOrderPageResult> => {
-        const params: Record<string, any> = { page, size, sortBy, sortDir };
+        const params: Record<string, string | number> = { page, size, sortBy, sortDir };
         if (search && search.trim()) params.search = search.trim();
         if (status && status !== "ALL" && status !== "Tất cả") params.status = status;
         if (factoryId && factoryId !== "ALL") params.factoryId = factoryId;

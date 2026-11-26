@@ -1,50 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { cartService, type CartResponse } from "./CartService";
 import { useAuth } from "./AuthContext";
-
-interface CartSummary {
-    totalItems: number;
-    total: number;
-}
-
-type CartNoticeType = "success" | "error";
-
-interface CartNotice {
-    id: number;
-    type: CartNoticeType;
-    message: string;
-}
-
-interface CartContextType {
-    summary: CartSummary;
-    isLoading: boolean;
-    notice: CartNotice | null;
-    applyCart: (cart: CartResponse) => void;
-    refreshCart: () => Promise<void>;
-    showCartNotice: (message: string, type?: CartNoticeType) => void;
-    clearCartNotice: () => void;
-}
-
-const emptySummary: CartSummary = {
-    totalItems: 0,
-    total: 0,
-};
-
-const CartContext = createContext<CartContextType | null>(null);
-
-function toCartSummary(cart: CartResponse): CartSummary {
-    const totalItems = cart.items.reduce((total, item) => total + item.quantity, 0);
-    const total = cart.items.reduce((sum, item) => {
-        const fallbackLineTotal = (item.price ?? 0) * item.quantity;
-        return sum + (item.lineTotal ?? fallbackLineTotal);
-    }, 0);
-
-    return {
-        totalItems,
-        total,
-    };
-}
+import { type CartSummary, type CartNoticeType, type CartNotice, emptySummary, CartContext, toCartSummary } from "./CartContext";
 
 export function CartProvider({ children }: { children: ReactNode }) {
     const { user, loading: isAuthLoading } = useAuth();
@@ -115,14 +73,4 @@ export function CartProvider({ children }: { children: ReactNode }) {
             {children}
         </CartContext.Provider>
     );
-}
-
-export function useCart() {
-    const context = useContext(CartContext);
-
-    if (!context) {
-        throw new Error("useCart phải được sử dụng bên trong CartProvider");
-    }
-
-    return context;
 }

@@ -6,13 +6,11 @@ import {
     faPercent,
     faReceipt,
     faRotate,
-    faBuilding,
     faCreditCard,
     faCheckCircle,
     faClock,
     faLock,
     faSpinner,
-    faBoxesStacked,
     faChevronDown,
     faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";

@@ -1,99 +1,101 @@
-import os
-import sys
+import asyncio
+import logging
+from collections import OrderedDict, deque
+from time import monotonic
 
-# Đảm bảo in tiếng Việt trên console Windows không bị lỗi
-if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
-
-from typing import List
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 
 from app import config
-from app.schemas import ChatRequest, ChatResponse, HealthResponse, ProductItem, RecommendationResponse
-from app.rag import ask_question, stream_question, find_similar_product_ids, PRODUCTS_MAP
+from app.schemas import ChatRequest, ChatResponse, HealthResponse, ProductItem
+from app.rag import CatalogUnavailable, ask_question, json_request, load_catalog, lookup_products, installed_models, has_model
 
-app = FastAPI(
-    title="Oilia Chatbot RAG API",
-    description="API tư vấn sản phẩm tinh dầu tích hợp FAISS và Ollama",
-    version="1.0.0",
-)
+logger = logging.getLogger(__name__)
+app = FastAPI(title="Oilia Assistant", version="2.0.0")
+app.add_middleware(CORSMiddleware, allow_origins=config.ALLOWED_ORIGINS,
+                   allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
+_clients = OrderedDict()
 
-# Cấu hình CORS để Web Frontend (React/Vite) gọi được không bị chặn
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Cho phép tất cả các nguồn hoặc chỉ định http://localhost:5173
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
-@app.get("/", tags=["General"])
+@app.middleware("http")
+async def limit_chat_requests(request: Request, call_next):
+    if request.method == "POST" and request.url.path.startswith("/api/chat"):
+        address = request.client.host if request.client else "unknown"
+        now = monotonic()
+        timestamps = _clients.setdefault(address, deque())
+        _clients.move_to_end(address)
+        while timestamps and now - timestamps[0] > 60:
+            timestamps.popleft()
+        if len(timestamps) >= 30:
+            return JSONResponse(status_code=429, content={"detail": "Bạn gửi hơi nhanh. Vui lòng thử lại sau một phút."})
+        timestamps.append(now)
+        if len(_clients) > 1024:
+            _clients.popitem(last=False)
+    return await call_next(request)
+
+
+@app.exception_handler(CatalogUnavailable)
+async def catalog_error(request: Request, exc: CatalogUnavailable):
+    return JSONResponse(status_code=503, content={"detail": str(exc)})
+
+
+@app.get("/")
 async def root():
-    return {
-        "message": "Oilia Chatbot API đang hoạt động!",
-        "documentation": "/docs",
-        "health_check": "/health",
-    }
+    return {"message": "Oilia Assistant", "health_check": "/health"}
 
-@app.get("/health", response_model=HealthResponse, tags=["General"])
-async def health_check():
-    return HealthResponse(
-        status="ok",
-        ollama_url=config.OLLAMA_BASE_URL,
-        faiss_index_exists=os.path.exists(config.INDEX_DIR),
-    )
 
-@app.get("/api/recommendations/{product_id}", response_model=RecommendationResponse, tags=["Recommendations"])
+@app.get("/health", response_model=HealthResponse)
+async def health():
+    async def catalog_status():
+        try:
+            return True, len(await load_catalog())
+        except CatalogUnavailable:
+            return False, 0
+
+    async def model_status():
+        names = await installed_models()
+        return has_model(names, config.LLM_MODEL), has_model(names, config.EMBEDDING_MODEL)
+
+    (ready, count), (chat_ready, embedding_ready) = await asyncio.gather(catalog_status(), model_status())
+    body = HealthResponse(status="ok" if ready else "degraded", catalog_ready=ready,
+                          catalog_count=count, model_ready=chat_ready or embedding_ready,
+                          chat_model_ready=chat_ready, embedding_model_ready=embedding_ready)
+    return JSONResponse(status_code=200 if ready else 503, content=body.model_dump())
+
+
+@app.post("/api/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest):
+    reply, products = await ask_question(request.message, [m.model_dump() for m in request.history])
+    return ChatResponse(reply=reply, products=[ProductItem(**p) for p in products])
+
+
+@app.post("/api/chat/stream")
+async def stream(request: ChatRequest):
+    # Xử lý trước khi gửi headers để lỗi BE trả 503, không thành stream rỗng 200.
+    reply, _ = await ask_question(request.message, [m.model_dump() for m in request.history])
+
+    async def chunks():
+        for line in reply.splitlines(keepends=True):
+            yield line
+
+    return StreamingResponse(chunks(), media_type="text/plain; charset=utf-8")
+
+
+@app.get("/api/products/lookup", response_model=list[ProductItem])
+async def lookup(ids: str = Query(max_length=200)):
+    parts = ids.split(",")
+    if len(parts) > 12 or any(not p.strip().isdigit() for p in parts):
+        raise HTTPException(422, "Danh sách ID không hợp lệ")
+    return await lookup_products({int(p.strip()) for p in parts})
+
+
+@app.get("/api/recommendations/{product_id}")
 async def recommendations(product_id: int, limit: int = Query(default=4, ge=1, le=12)):
-    return RecommendationResponse(
-        product_ids=find_similar_product_ids(product_id, limit)
-    )
-
-@app.post("/api/chat", response_model=ChatResponse, tags=["Chat"])
-async def chat_endpoint(request: ChatRequest):
-    """
-    Endpoint chat thông thường: Nhận câu hỏi, trả về câu trả lời kèm danh sách sản phẩm có hình ảnh.
-    """
+    # Một nguồn thuật toán duy nhất ở BE, không giữ thêm bản FAISS cũ.
+    base = config.CATALOG_URL.rsplit("/products/", 1)[0]
     try:
-        reply, products = await ask_question(request.message)
-        return ChatResponse(
-            reply=reply,
-            products=[ProductItem(**p) for p in products] if products else None
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Lỗi xử lý câu hỏi: {str(e)}",
-        )
-
-@app.post("/api/chat/stream", tags=["Chat"])
-async def chat_stream_endpoint(request: ChatRequest):
-    """
-    Endpoint chat dạng Streaming (SSE): Trả về từng token theo thời gian thực (giống ChatGPT).
-    """
-    try:
-        async def event_generator():
-            async for token in stream_question(request.message):
-                yield token
-
-        return StreamingResponse(event_generator(), media_type="text/plain; charset=utf-8")
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Lỗi streaming: {str(e)}",
-        )
-
-@app.get("/api/products/lookup", response_model=List[ProductItem], tags=["Products"])
-async def lookup_products(ids: str = Query(..., description="Danh sách ID sản phẩm cách nhau bởi dấu phẩy, vd: 1,2,3")):
-    """
-    Tra cứu danh sách sản phẩm (kèm hình ảnh, giá) theo danh sách ID.
-    Dùng cho Frontend sau khi nhận kết quả stream.
-    """
-    id_list = [i.strip() for i in ids.split(",") if i.strip()]
-    matched = [ProductItem(**PRODUCTS_MAP[pid]) for pid in id_list if pid in PRODUCTS_MAP]
-    return matched
+        result = await asyncio.to_thread(json_request, f"{base}/products/{product_id}/similar?limit={limit}")
+        return {"product_ids": [p["id"] for p in result.get("data", [])]}
+    except (OSError, ValueError) as exc:
+        raise HTTPException(503, "Chưa lấy được gợi ý sản phẩm") from exc

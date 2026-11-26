@@ -60,8 +60,15 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<Voucher> vouchers;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "applied_voucher_id")
+    private Voucher appliedVoucher;
+
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<InventoryAllocation> inventoryAllocations;
 
     @OneToMany(mappedBy = "order")
     private List<Refund> refunds;

@@ -36,16 +36,26 @@ public class JwtService {
         }
     }
 
-        public String generateToken(String username,String avatar,String fullname,boolean verify, List<String> roles){
-        return Jwts.builder().claims(Map.of("roles",roles,"email",fullname,"avatar",avatar, "verify",verify))
+    public String generateToken(String username, String avatar, String fullname, boolean verify, List<String> roles) {
+        return generateToken(username, avatar, fullname, verify, roles, false);
+    }
+
+    public String generateToken(String username, String avatar, String fullname, boolean verify, List<String> roles, boolean rememberMe) {
+        return generateToken(username, avatar, fullname, verify, roles, rememberMe, null);
+    }
+
+    public String generateToken(String username, String avatar, String fullname, boolean verify, List<String> roles, boolean rememberMe, String passwordHash) {
+        return Jwts.builder().claims(Map.of("roles", roles, "email", username, "fullName", fullname == null ? "" : fullname,
+                        "avatar", avatar == null ? "" : avatar, "verify", verify))
+                .claim("credential", passwordHash == null ? null : fingerprint(passwordHash))
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationMs))
+                .expiration(new Date(System.currentTimeMillis() + getExpirationSeconds(rememberMe) * 1000))
                 .signWith(key)
                 .compact();
     }
     public long getExpirationSeconds(boolean checkbox) {
-        return  checkbox?(30L*24*60*60):(15L*60);
+        return checkbox ? 30L * 24 * 60 * 60 : expirationMs / 1000;
 
     }
     private Claims extractAllClaims(String token){
@@ -72,6 +82,15 @@ public class JwtService {
 
     public boolean validateToken(String token, UserDetails userDetails){
         String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        String credential = extractClaim(token, claims -> claims.get("credential", String.class));
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token) && credential != null
+                && java.security.MessageDigest.isEqual(credential.getBytes(StandardCharsets.UTF_8), fingerprint(userDetails.getPassword()).getBytes(StandardCharsets.UTF_8));
+    }
+
+    private String fingerprint(String encodedPassword) {
+        try {
+            return java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(encodedPassword.getBytes(StandardCharsets.UTF_8)));
+        } catch (java.security.NoSuchAlgorithmException ex) { throw new IllegalStateException(ex); }
     }
 }

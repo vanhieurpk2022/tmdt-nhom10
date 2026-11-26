@@ -1,3 +1,4 @@
+import { toApiError } from "../utils/apiError";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
     faUsers,
@@ -92,7 +93,8 @@ export default function FactoryStaff() {
         try {
             const res = await FactoryServiceManager.getStaffs();
             setStaffs(res.data || []);
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             const msg = err?.response?.data?.message || "Không thể tải danh sách nhân viên";
             showToast("Lỗi", msg, "danger");
         } finally {
@@ -142,7 +144,8 @@ export default function FactoryStaff() {
             await FactoryServiceManager.deleteStaff(staff.id);
             showToast("Thành công", `Đã xóa nhân viên ${staff.fullname || staff.email}`, "success");
             loadStaffs();
-        } catch (err: any) {
+        } catch (caught: unknown) {
+            const err = toApiError(caught);
             const msg = err?.response?.data?.message || "Không thể xóa nhân viên.";
             showToast("Lỗi", msg, "danger");
         }

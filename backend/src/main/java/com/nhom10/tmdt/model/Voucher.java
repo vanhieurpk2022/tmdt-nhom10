@@ -21,6 +21,10 @@ public class Voucher {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Version
+    @Column(nullable = false, columnDefinition = "bigint default 0")
+    private long version;
+
     @Column(unique = true)
     private String code;
 
@@ -54,4 +58,8 @@ public class Voucher {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "factory_id")
+    private Factory factory;
 }

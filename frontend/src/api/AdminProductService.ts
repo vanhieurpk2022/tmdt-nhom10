@@ -65,7 +65,7 @@ export const AdminProductService = {
         sortBy: string = "createdAt",
         sortDir: "asc" | "desc" = "desc"
     ): Promise<AdminProductPageResult> => {
-        const params: Record<string, any> = { page, size, sortBy, sortDir };
+        const params: Record<string, string | number> = { page, size, sortBy, sortDir };
 
         if (search && search.trim()) params.search = search.trim();
         if (factoryId && factoryId !== "ALL") params.factoryId = factoryId;

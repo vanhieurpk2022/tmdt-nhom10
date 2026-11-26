@@ -44,7 +44,7 @@ function OperationsOverviewAdmin({
     const [overview, setOverview] = useState<AdminDashboardOverview | null>(null);
     const [pieData, setPieData] = useState<AdminPieChartData | null>(null);
     const [loadingPie, setLoadingPie] = useState(false);
-    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [, setErrorMsg] = useState<string | null>(null);
 
     const fetchDashboardData = useCallback(async () => {
         setLoadingOverview(true);
@@ -88,8 +88,6 @@ function OperationsOverviewAdmin({
 
     const totalRev = overview?.totalRevenue ?? 0;
     const actualPlatformRev = overview?.actualPlatformRevenue ?? Math.round(totalRev * 0.08);
-    const settledRev = overview?.settledRevenue ?? 0;
-    const pendingDisbursed = overview?.pendingSettlementRevenue ?? 0;
     const totalOrders = overview?.totalOrders ?? 0;
     const pendingOrders = overview?.pendingOrders ?? 0;
     const processingOrders = overview?.processingOrders ?? 0;

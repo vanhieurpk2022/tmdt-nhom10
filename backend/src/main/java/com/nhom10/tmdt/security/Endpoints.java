@@ -28,9 +28,7 @@ public class Endpoints {
             "/payments/vnpay/ipn",
             "/payments/vnpay/return",
             // Spring Data REST GET công khai mà FE đang dùng
-            "/v1/category",
-            "/v1/category/**",
-            "/v1/product-image/search/byProductId"
+            "/v1/category"
     };
 
 

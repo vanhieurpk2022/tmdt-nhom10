@@ -7,11 +7,8 @@ import {
     Search,
     ArrowClockwise,
     Download,
-    Plus,
     ShieldCheck,
     StarFill,
-    ChevronRight,
-    X,
     Percent,
 } from "react-bootstrap-icons";
 import "../css/pages/factory/workshop-manager.css";
@@ -186,7 +183,8 @@ export function WorkshopManagement() {
     const toggleOne = (code: string) =>
         setSelected((prev) => {
             const next = new Set(prev);
-            next.has(code) ? next.delete(code) : next.add(code);
+            if (next.has(code)) next.delete(code);
+            else next.add(code);
             return next;
         });
 

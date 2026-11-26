@@ -10,6 +10,7 @@ services:
 
   # Tự động pull model khi khởi động lần đầu
   ollama-pull:
+    profiles: ["models"]
     image: ollama/ollama:latest
     container_name: oilia-ollama-pull
     depends_on:
@@ -41,10 +42,7 @@ services:
       - LLM_MODEL=qwen2.5:3b
       - TOP_K=4
     volumes:
-      - ./chatbot/data:/app/data
-      - ./chatbot/faiss_index:/app/faiss_index
       - ./chatbot/app:/app/app
-      - ./chatbot/build_index.py:/app/build_index.py
     depends_on:
       - ollama
 

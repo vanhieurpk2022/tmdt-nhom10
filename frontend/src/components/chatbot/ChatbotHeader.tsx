@@ -1,9 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faSprayCanSparkles,
+  faLeaf,
   faRotateRight,
   faMinus,
+  faChevronUp,
   faXmark
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,14 +25,11 @@ export const ChatbotHeader: React.FC<ChatbotHeaderProps> = ({
     <div className="oilia-chat-header">
       <div className="oilia-chat-header-info">
         <div className="oilia-chat-avatar">
-          <FontAwesomeIcon icon={faSprayCanSparkles} />
-          <span className="oilia-chat-online-dot" />
+          <FontAwesomeIcon icon={faLeaf} />
         </div>
         <div>
-          <h3 className="oilia-chat-title">Oilia Perfume Assistant</h3>
-          <p className="oilia-chat-status">
-            <span>●</span> Trực tuyến • Sẵn sàng hỗ trợ
-          </p>
+          <h3 id="oilia-chat-heading" className="oilia-chat-title">Tư vấn Oilia</h3>
+          <p className="oilia-chat-status">Trợ lý tinh dầu & phối hương</p>
         </div>
       </div>
 
@@ -53,9 +51,10 @@ export const ChatbotHeader: React.FC<ChatbotHeaderProps> = ({
           className="oilia-chat-header-btn"
           title={isMinimized ? 'Mở rộng' : 'Thu nhỏ'}
           aria-label={isMinimized ? 'Mở rộng' : 'Thu nhỏ'}
+          aria-expanded={!isMinimized}
           onClick={onMinimize}
         >
-          <FontAwesomeIcon icon={faMinus} />
+          <FontAwesomeIcon icon={isMinimized ? faChevronUp : faMinus} />
         </button>
 
         <button
