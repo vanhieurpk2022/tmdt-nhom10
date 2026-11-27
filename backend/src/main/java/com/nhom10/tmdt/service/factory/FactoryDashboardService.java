@@ -12,6 +12,7 @@ public interface FactoryDashboardService {
     List<FactoryOrderDashBoardResponse> factoryGetUser(String email);
     List<FactoryChartOrderResponse> getChartOrders(String email, LocalDate from, LocalDate to);
     List<FactoryOrderStatusCount> getOrderStatusCounts(String email);
+    List<FactoryOrderStatusCount> getOrderStatusCounts(String email, LocalDate from, LocalDate to);
 
     FactoryProductResponse factoryProductRes(String email);
     List<FactoryVariantRes> getProductMil( Long productId);

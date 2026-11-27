@@ -217,8 +217,14 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
         }
         Long factoryId = user.getFactory().getId();
 
-        LocalDateTime fromDateTime = from.atStartOfDay();
-        LocalDateTime toDateTime = to.atTime(23, 59, 59);
+        LocalDate effectiveFrom = from != null ? from : LocalDate.of(2000, 1, 1);
+        LocalDate effectiveTo = to != null ? to : LocalDate.now();
+        if (effectiveFrom.isAfter(effectiveTo)) {
+            return List.of();
+        }
+
+        LocalDateTime fromDateTime = effectiveFrom.atStartOfDay();
+        LocalDateTime toDateTime = effectiveTo.atTime(23, 59, 59, 999_999_999);
 
         List<Order> orders = orderRepository.findOrdersByFactoryIdAndDateRange(
                 factoryId, fromDateTime, toDateTime);
@@ -238,7 +244,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             }
             res.add(new FactoryChartOrderResponse(
                     o.getId(),
-                    o.getCreatedAt().toString(),
+                    o.getCreatedAt() != null ? o.getCreatedAt().toString() : "",
                     totalQty > 0 ? totalQty : 1,
                     factoryTotal,
                     o.getStatus()));
@@ -248,6 +254,11 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
 
     @Override
     public List<FactoryOrderStatusCount> getOrderStatusCounts(String email) {
+        return getOrderStatusCounts(email, null, null);
+    }
+
+    @Override
+    public List<FactoryOrderStatusCount> getOrderStatusCounts(String email, LocalDate from, LocalDate to) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
@@ -256,7 +267,22 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
         }
         Long factoryId = user.getFactory().getId();
 
-        List<Object[]> rows = orderRepository.countOrdersGroupByStatus(factoryId);
+        List<Object[]> rows;
+        if (from != null || to != null) {
+            LocalDate effectiveFrom = from != null ? from : LocalDate.of(2000, 1, 1);
+            LocalDate effectiveTo = to != null ? to : LocalDate.now();
+            if (effectiveFrom.isAfter(effectiveTo)) {
+                return List.of();
+            }
+            rows = orderRepository.countOrdersGroupByStatusInDateRange(
+                    factoryId,
+                    effectiveFrom.atStartOfDay(),
+                    effectiveTo.atTime(23, 59, 59, 999_999_999)
+            );
+        } else {
+            rows = orderRepository.countOrdersGroupByStatus(factoryId);
+        }
+
         List<FactoryOrderStatusCount> res = new ArrayList<>();
         for (Object[] r : rows) {
             if (r[0] != null) {

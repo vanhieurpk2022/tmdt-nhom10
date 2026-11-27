@@ -1,9 +1,12 @@
 package com.nhom10.tmdt.service.imp;
 
 import com.nhom10.tmdt.dto.product.*;
+import com.nhom10.tmdt.enums.OrderStatus;
+import com.nhom10.tmdt.enums.PaymentStatus;
 import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.CategoryRepository;
 import com.nhom10.tmdt.repo.FactoryRepository;
+import com.nhom10.tmdt.repo.OrderItemRepository;
 import com.nhom10.tmdt.repo.ProductRepository;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.domain.*;
@@ -22,10 +25,15 @@ public class ProductService {
 
     private static final int DEFAULT_HOME_PRODUCT_LIMIT = 4;
     private static final int MAX_HOME_PRODUCT_LIMIT = 12;
+    private static final EnumSet<OrderStatus> EXCLUDED_SOLD_ORDER_STATUSES = EnumSet.of(
+            OrderStatus.PENDING_PAYMENT, OrderStatus.CANCELLED, OrderStatus.RETURNED, OrderStatus.REFUNDED);
+    private static final EnumSet<PaymentStatus> EXCLUDED_SOLD_PAYMENT_STATUSES = EnumSet.of(
+            PaymentStatus.FAILED, PaymentStatus.REFUND_PENDING, PaymentStatus.REFUNDED);
 
     private final ProductRepository productRepo;
     private final CategoryRepository categoryRepo;
     private final FactoryRepository factoryRepo;
+    private final OrderItemRepository orderItemRepo;
     private final PurchaseItemService purchases;
     private final ProductRecommendationService recommendationService;
     private final FrequentlyBoughtTogetherService boughtTogetherService;
@@ -34,6 +42,7 @@ public class ProductService {
             ProductRepository productRepo,
             CategoryRepository categoryRepo,
             FactoryRepository factoryRepo,
+            OrderItemRepository orderItemRepo,
             PurchaseItemService purchases,
             ProductRecommendationService recommendationService,
             FrequentlyBoughtTogetherService boughtTogetherService
@@ -41,6 +50,7 @@ public class ProductService {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.factoryRepo = factoryRepo;
+        this.orderItemRepo = orderItemRepo;
         this.purchases = purchases;
         this.recommendationService = recommendationService;
         this.boughtTogetherService = boughtTogetherService;
@@ -91,7 +101,7 @@ public class ProductService {
         Specification<Product> spec = buildSpec(req);
 
         // Thứ tự bán chạy phải dùng cùng một giá trị với totalSold hiển thị trên card.
-        // Một số dữ liệu cũ chưa có product.total_sold nên không thể sắp xếp trực tiếp bằng SQL.
+        // Một số dữ liệu cũ chưa đồng bộ cột product.total_sold nên tổng hợp trực tiếp từ order_item.
         if ("bestseller".equalsIgnoreCase(req.sort())) {
             return filterBySales(spec, req);
         }
@@ -101,37 +111,36 @@ public class ProductService {
 
         Page<Product> page = productRepo.findAll(spec, pageable);
 
-        List<ProductCardResponse> cards = page.getContent().stream()
-                .map(this::toCard)
-                .toList();
+        List<ProductCardResponse> cards = toCards(page.getContent());
 
         return new ProductPageResponse(cards, page.getTotalElements(), page.getTotalPages(), page.getNumber());
     }
 
     // Product sections for the home page
     public List<ProductCardResponse> getNewestProducts(Integer limit) {
-        return productRepo.findAll().stream().filter(RecommendationEligibility::isPublic)
+        List<Product> products = productRepo.findAll().stream().filter(RecommendationEligibility::isPublic)
                 .sorted(Comparator.comparing(Product::getId).reversed()).limit(normalizeHomeProductLimit(limit))
-                .map(this::toCard)
                 .toList();
+        return toCards(products);
     }
 
     public List<ProductCardResponse> getBestSellerProducts(Integer limit) {
         int productLimit = normalizeHomeProductLimit(limit);
+        Map<Long, Long> soldMap = loadSoldMap();
         return productRepo.findAll().stream()
                 .filter(RecommendationEligibility::isPublic)
-                .sorted(this::compareBySales)
+                .sorted((left, right) -> compareBySales(left, right, soldMap))
                 .limit(productLimit)
-                .map(this::toCard)
+                .map(p -> toCard(p, soldMap))
                 .toList();
     }
 
     public List<ProductCardResponse> getMostViewedProducts(Integer limit) {
-        return productRepo.findAll().stream().filter(RecommendationEligibility::isPublic)
+        List<Product> products = productRepo.findAll().stream().filter(RecommendationEligibility::isPublic)
                 .sorted(Comparator.comparingLong((Product p) -> p.getViews() == null ? 0 : p.getViews()).reversed())
                 .limit(normalizeHomeProductLimit(limit))
-                .map(this::toCard)
                 .toList();
+        return toCards(products);
     }
 
     /**
@@ -144,9 +153,7 @@ public class ProductService {
         List<Product> similar = recommendationService.findSimilarProducts(
                 target, productRepo.findAll(), normalizeHomeProductLimit(limit));
 
-        return similar.stream()
-                .map(this::toCard)
-                .toList();
+        return toCards(similar);
     }
 
     /**
@@ -159,12 +166,13 @@ public class ProductService {
         }
         int topK = normalizeHomeProductLimit(limit);
         List<Product> result = boughtTogetherService.findBoughtTogether(productId, topK);
-        return result.stream().map(this::toCard).toList();
+        return toCards(result);
     }
 
     private ProductPageResponse filterBySales(Specification<Product> spec, ProductFilterRequest req) {
+        Map<Long, Long> soldMap = loadSoldMap();
         List<Product> filteredProducts = productRepo.findAll(spec).stream()
-                .sorted(this::compareBySales)
+                .sorted((left, right) -> compareBySales(left, right, soldMap))
                 .toList();
 
         int page = Math.max(req.page(), 0);
@@ -173,15 +181,15 @@ public class ProductService {
         int toIndex = Math.min(fromIndex + size, filteredProducts.size());
 
         List<ProductCardResponse> cards = filteredProducts.subList(fromIndex, toIndex).stream()
-                .map(this::toCard)
+                .map(p -> toCard(p, soldMap))
                 .toList();
         int totalPages = (int) Math.ceil((double) filteredProducts.size() / size);
 
         return new ProductPageResponse(cards, filteredProducts.size(), totalPages, page);
     }
 
-    private int compareBySales(Product left, Product right) {
-        int salesComparison = Long.compare(resolveTotalSold(right), resolveTotalSold(left));
+    private int compareBySales(Product left, Product right, Map<Long, Long> soldMap) {
+        int salesComparison = Long.compare(resolveTotalSold(right, soldMap), resolveTotalSold(left, soldMap));
         if (salesComparison != 0) {
             return salesComparison;
         }
@@ -265,20 +273,61 @@ public class ProductService {
         };
     }
 
+    private Map<Long, Long> loadSoldMap() {
+        return toSoldMap(orderItemRepo.sumSoldGroupedByProduct(
+                EXCLUDED_SOLD_ORDER_STATUSES, EXCLUDED_SOLD_PAYMENT_STATUSES));
+    }
+
+    private Map<Long, Long> loadSoldMap(Collection<Product> products) {
+        if (products == null || products.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        List<Long> ids = products.stream()
+                .map(Product::getId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .toList();
+        if (ids.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return toSoldMap(orderItemRepo.sumSoldByProductIds(
+                ids, EXCLUDED_SOLD_ORDER_STATUSES, EXCLUDED_SOLD_PAYMENT_STATUSES));
+    }
+
+    private Map<Long, Long> toSoldMap(List<Object[]> rows) {
+        Map<Long, Long> result = new HashMap<>();
+        for (Object[] row : rows) {
+            if (row[0] instanceof Number id && row[1] instanceof Number qty) {
+                result.put(id.longValue(), qty.longValue());
+            }
+        }
+        return result;
+    }
+
     /**
      * Dùng chung cho xếp hạng và số liệu hiển thị trên card.
-     * Dữ liệu cũ chưa có total_sold nên giữ fallback hiện tại để không làm mất số liệu giao diện.
+     * Tổng hợp số lượng từ order_item hợp lệ để luôn khớp đơn hàng thực tế, giữ giá trị total_sold cũ nếu lớn hơn.
      */
-    private long resolveTotalSold(Product product) {
-        if (product.getTotalSold() != null && product.getTotalSold() > 0) {
-            return product.getTotalSold();
-        }
+    private long resolveTotalSold(Product product, Map<Long, Long> soldMap) {
+        long fromOrders = product.getId() != null ? soldMap.getOrDefault(product.getId(), 0L) : 0L;
+        long stored = (product.getTotalSold() != null && product.getTotalSold() > 0) ? product.getTotalSold() : 0L;
+        return Math.max(fromOrders, stored);
+    }
 
-        return 0;
+    public List<ProductCardResponse> toCards(Collection<Product> products) {
+        if (products == null || products.isEmpty()) {
+            return List.of();
+        }
+        Map<Long, Long> soldMap = loadSoldMap(products);
+        return products.stream().map(p -> toCard(p, soldMap)).toList();
     }
 
     // Chuyển Product entity sang DTO ProductCardResponse
     public ProductCardResponse toCard(Product p) {
+        return toCard(p, loadSoldMap(List.of(p)));
+    }
+
+    private ProductCardResponse toCard(Product p, Map<Long, Long> soldMap) {
         // Ảnh thumbnail: ưu tiên ảnh đánh dấu isThumbnail, fallback ảnh đầu tiên
         String thumbnail = null;
         if (p.getProductImages() != null && !p.getProductImages().isEmpty()) {
@@ -297,7 +346,7 @@ public class ProductService {
         }
 
         // Tổng số đã bán
-        long totalSold = resolveTotalSold(p);
+        long totalSold = resolveTotalSold(p, soldMap);
 
         // Tình trạng kho: tổng stockQuantity từ tất cả ProductMil
         int totalStock = 0;
@@ -356,7 +405,7 @@ public class ProductService {
         }
 
         // Tính tổng số lượng đã bán
-        long totalSold = resolveTotalSold(p);
+        long totalSold = resolveTotalSold(p, loadSoldMap(List.of(p)));
 
         // Danh sách các variant dung tích (10ml, 50ml, ...) sắp xếp tăng dần
         List<ProductMilResponse> variants = (p.getProductMils() != null)

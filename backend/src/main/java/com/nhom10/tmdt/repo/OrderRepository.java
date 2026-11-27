@@ -178,6 +178,24 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
             """)
     List<Object[]> countOrdersGroupByStatus(@Param("factoryId") Long factoryId);
 
+    /**
+     * Đếm đơn hàng theo từng trạng thái của factory trong khoảng thời gian [from, to].
+     */
+    @Query("""
+            SELECT o.status, COUNT(DISTINCT o) FROM Order o
+            JOIN o.orderItems oi
+            JOIN oi.product p
+            WHERE p.factory.id = :factoryId
+              AND o.createdAt >= :from
+              AND o.createdAt <= :to
+            GROUP BY o.status
+            """)
+    List<Object[]> countOrdersGroupByStatusInDateRange(
+            @Param("factoryId") Long factoryId,
+            @Param("from") LocalDateTime from,
+            @Param("to") LocalDateTime to
+    );
+
     // ==========================================
     // THỐNG KÊ TOÀN SÀN DÀNH CHO ADMIN DASHBOARD
     // ==========================================
