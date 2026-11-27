@@ -19,16 +19,17 @@ export const FactoryServiceManager = {
         );
         return res.data;
     },
-    getChartData: async (from: string, to: string) => {
+    getChartData: async (from?: string, to?: string) => {
         const res = await api.get<ApiResponse<FactoryChartOrder[]>>(
             `/manager/dashboard/chart`,
-            { params: { from, to } }
+            { params: from && to ? { from, to } : undefined }
         );
         return res.data;
     },
-    getPieData: async () => {
+    getPieData: async (from?: string, to?: string) => {
         const res = await api.get<ApiResponse<FactoryOrderStatusCount[]>>(
-            `/manager/dashboard/pie`
+            `/manager/dashboard/pie`,
+            { params: from && to ? { from, to } : undefined }
         );
         return res.data;
     },

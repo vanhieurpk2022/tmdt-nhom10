@@ -10,10 +10,16 @@ import {
     Legend,
 } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartColumn, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faChartColumn } from '@fortawesome/free-solid-svg-icons';
 import { formatVnd } from '../../format/FormatMoney';
 import type { FactoryOrderDashBoard, FactoryChartOrder } from '../../../dto/factory/FactoryDashBoard';
 import { FactoryServiceManager } from '../../../api/factory/FactoryService';
+import {
+    DateRangeFilter,
+    parseLocalDate,
+    resolvePresetRange,
+    type DateRangeValue,
+} from './DateRangeFilter';
 
 /* ---------- Kiểu dữ liệu nội bộ ---------- */
 interface BarDataItem {
@@ -31,16 +37,6 @@ interface BarChartStatisticProps {
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;
-
-/* ---------- Helpers ---------- */
-
-/** Format Date → YYYY-MM-DD cho input[type=date] */
-function toInputDate(d: Date): string {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
-}
 
 /** Đầu ngày (00:00:00.000) */
 function startOfDay(d: Date): Date {
@@ -68,9 +64,9 @@ function inclusiveDays(startDate: Date, endDate: Date): number {
 function pickGranularity(days: number): Granularity {
     if (days <= 1) return 'hour';
     if (days <= 31) return 'day';
-    if (days <= 182) return 'week';
-    if (days <= 730) return 'month';
-    if (days <= 1826) return 'quarter';
+    if (days <= 183) return 'week';
+    if (days <= 731) return 'month';
+    if (days <= 1827) return 'quarter';
     return 'year';
 }
 
@@ -149,6 +145,39 @@ function seedBuckets(granularity: Granularity, startDate: Date, endDate: Date): 
     return map;
 }
 
+/** Xác định khoảng [startDate, endDate] thực tế dùng để vẽ cột */
+function resolveEffectiveBounds(
+    dateRange: DateRangeValue,
+    sourceOrders: (FactoryOrderDashBoard | FactoryChartOrder)[],
+): { start: Date; end: Date } | null {
+    if (dateRange.preset !== 'all') {
+        const start = parseLocalDate(dateRange.fromDate);
+        const end = parseLocalDate(dateRange.toDate);
+        if (!start || !end || start > end) return null;
+        return { start, end };
+    }
+
+    const today = startOfDay(new Date());
+    const validTimes = sourceOrders
+        .map((o) => new Date(o.time).getTime())
+        .filter((t) => !Number.isNaN(t));
+
+    if (validTimes.length === 0) {
+        const fallback = resolvePresetRange('7days');
+        return {
+            start: parseLocalDate(fallback.fromDate) ?? today,
+            end: parseLocalDate(fallback.toDate) ?? today,
+        };
+    }
+
+    const minTime = Math.min(...validTimes);
+    const maxTime = Math.max(...validTimes, today.getTime());
+    return {
+        start: startOfDay(new Date(minTime)),
+        end: startOfDay(new Date(maxTime)),
+    };
+}
+
 /**
  * Nhóm orders trong khoảng [startDate, endDate] theo đơn vị phù hợp
  * với độ dài khoảng chọn (giờ/ngày/tuần/tháng/quý/năm).
@@ -183,16 +212,13 @@ function buildChartData(
     return Array.from(map.values());
 }
 
-/* ---------- Dữ liệu mặc định khi chưa có orders ---------- */
-const DEFAULT_DATA: BarDataItem[] = [
-    { label: '20/10', soLuong: 5, doanhThu: 12500000, sanLuong: 250 },
-    { label: '21/10', soLuong: 8, doanhThu: 22000000, sanLuong: 400 },
-    { label: '22/10', soLuong: 3, doanhThu: 8500000, sanLuong: 150 },
-    { label: '23/10', soLuong: 10, doanhThu: 28000000, sanLuong: 520 },
-    { label: '24/10', soLuong: 6, doanhThu: 16000000, sanLuong: 300 },
-    { label: '25/10', soLuong: 12, doanhThu: 35000000, sanLuong: 680 },
-    { label: '26/10', soLuong: 4, doanhThu: 11000000, sanLuong: 200 },
-];
+/** Rút gọn số tiền cho nhãn trục: 1.5tr, 250k... */
+function formatMoneyShort(value: number): string {
+    if (value >= 1_000_000_000) return `${+(value / 1_000_000_000).toFixed(1)}tỷ`;
+    if (value >= 1_000_000) return `${+(value / 1_000_000).toFixed(1)}tr`;
+    if (value >= 1_000) return `${+(value / 1_000).toFixed(0)}k`;
+    return String(value);
+}
 
 /* ---------- Custom Tooltip ---------- */
 const CustomTooltip = ({ active, payload, label }: {
@@ -228,53 +254,61 @@ const CustomTooltip = ({ active, payload, label }: {
 export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
     orders = [],
 }) => {
-    // Mặc định: 7 ngày gần nhất
-    const today = new Date();
-    const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-    const [fromDate, setFromDate] = useState<string>(toInputDate(sevenDaysAgo));
-    const [toDate, setToDate] = useState<string>(toInputDate(today));
+    const [dateRange, setDateRange] = useState<DateRangeValue>(() => resolvePresetRange('7days'));
     const [chartOrders, setChartOrders] = useState<FactoryChartOrder[]>([]);
+    const [hasLoaded, setHasLoaded] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     /* ---------- Gọi API lấy dữ liệu biểu đồ theo khoảng ngày ---------- */
     React.useEffect(() => {
         let isMounted = true;
+        const { preset, fromDate, toDate } = dateRange;
+
+        if (preset !== 'all') {
+            const start = parseLocalDate(fromDate);
+            const end = parseLocalDate(toDate);
+            if (!start || !end || start > end) return;
+        }
+
         const fetchChart = async () => {
-            if (!fromDate || !toDate) return;
-            if (new Date(fromDate) > new Date(toDate)) return;
             setIsLoading(true);
+            setHasError(false);
             try {
-                const res = await FactoryServiceManager.getChartData(fromDate, toDate);
+                const res = await FactoryServiceManager.getChartData(
+                    preset === 'all' ? undefined : fromDate,
+                    preset === 'all' ? undefined : toDate,
+                );
                 if (isMounted && res.status === 200 && Array.isArray(res.data)) {
                     setChartOrders(res.data);
+                    setHasLoaded(true);
                 }
             } catch (error) {
-                console.error("Lỗi khi tải dữ liệu biểu đồ:", error);
+                console.error('Lỗi khi tải dữ liệu biểu đồ:', error);
+                if (isMounted) setHasError(true);
             } finally {
                 if (isMounted) setIsLoading(false);
             }
         };
 
-        fetchChart();
+        void fetchChart();
         return () => {
             isMounted = false;
         };
-    }, [fromDate, toDate]);
+    }, [dateRange]);
+
+    const sourceOrders = hasLoaded && !hasError ? chartOrders : orders;
+
+    const effectiveBounds = useMemo(
+        () => resolveEffectiveBounds(dateRange, sourceOrders),
+        [dateRange, sourceOrders],
+    );
 
     /* ---------- Tính dữ liệu biểu đồ ---------- */
     const chartData = useMemo(() => {
-        const start = new Date(fromDate);
-        const end = new Date(toDate);
-
-        // Đảm bảo fromDate <= toDate
-        if (start > end) return DEFAULT_DATA;
-
-        // Ưu tiên dữ liệu lấy từ API, nếu không có thì dùng orders truyền vào, cuối cùng fallback DEFAULT_DATA
-        const sourceOrders = chartOrders.length > 0 ? chartOrders : orders;
-        const computed = buildChartData(sourceOrders, start, end);
-        return computed.length > 0 ? computed : DEFAULT_DATA;
-    }, [chartOrders, orders, fromDate, toDate]);
+        if (!effectiveBounds) return [];
+        return buildChartData(sourceOrders, effectiveBounds.start, effectiveBounds.end);
+    }, [sourceOrders, effectiveBounds]);
 
     /* ---------- Tổng hợp ---------- */
     const summary = useMemo(() => {
@@ -286,7 +320,8 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
 
     /* ---------- Nhãn tự động: đơn vị gom nhóm theo độ dài khoảng chọn ---------- */
     const rangeLabel = useMemo(() => {
-        const granularity = pickGranularity(inclusiveDays(new Date(fromDate), new Date(toDate)));
+        if (!effectiveBounds) return 'theo ngày';
+        const granularity = pickGranularity(inclusiveDays(effectiveBounds.start, effectiveBounds.end));
         const labels: Record<Granularity, string> = {
             hour: 'theo giờ',
             day: 'theo ngày',
@@ -296,7 +331,9 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
             year: 'theo năm',
         };
         return labels[granularity];
-    }, [fromDate, toDate]);
+    }, [effectiveBounds]);
+
+    const dynamicBarSize = chartData.length > 18 ? 8 : chartData.length > 10 ? 12 : 18;
 
     return (
         <div className="card h-100 shadow-sm border-0 rounded-4 p-4">
@@ -315,43 +352,14 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
                         </div>
                     </div>
 
-                    {/* Bộ lọc ngày: Từ ngày → Đến ngày */}
-                    <div className="d-flex align-items-center flex-wrap gap-2 mb-3">
-                        <FontAwesomeIcon icon={faCalendarDays} className="text-muted" />
-                        <div className="d-flex align-items-center gap-1">
-                            <label htmlFor="bar-from-date" className="text-muted small mb-0 text-nowrap">
-                                Từ:
-                            </label>
-                            <input
-                                id="bar-from-date"
-                                type="date"
-                                className="form-control form-control-sm bg-light border-secondary-subtle"
-                                style={{ width: 'auto', fontSize: '0.85rem' }}
-                                value={fromDate}
-                                max={toDate}
-                                onChange={(e) => setFromDate(e.target.value)}
-                            />
-                        </div>
-                        <div className="d-flex align-items-center gap-1">
-                            <label htmlFor="bar-to-date" className="text-muted small mb-0 text-nowrap">
-                                Đến:
-                            </label>
-                            <input
-                                id="bar-to-date"
-                                type="date"
-                                className="form-control form-control-sm bg-light border-secondary-subtle"
-                                style={{ width: 'auto', fontSize: '0.85rem' }}
-                                value={toDate}
-                                min={fromDate}
-                                onChange={(e) => setToDate(e.target.value)}
-                            />
-                        </div>
-                        {isLoading && (
-                            <div className="spinner-border spinner-border-sm text-success ms-1" role="status">
-                                <span className="visually-hidden">Đang tải...</span>
-                            </div>
-                        )}
-                    </div>
+                    {/* Bộ lọc thời gian */}
+                    <DateRangeFilter
+                        idPrefix="bar"
+                        value={dateRange}
+                        onChange={setDateRange}
+                        tone="success"
+                        isLoading={isLoading}
+                    />
 
                     {/* Tổng hợp nhanh */}
                     <div className="row g-2 mb-3">
@@ -398,6 +406,7 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
                                     tick={{ fontSize: 10, fill: '#6c757d' }}
                                     axisLine={false}
                                     tickLine={false}
+                                    minTickGap={8}
                                 />
                                 <YAxis
                                     yAxisId="left"
@@ -414,6 +423,15 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
                                     tickLine={false}
                                     width={40}
                                 />
+                                <YAxis
+                                    yAxisId="revenue"
+                                    orientation="right"
+                                    tick={{ fontSize: 10, fill: '#b58105' }}
+                                    axisLine={false}
+                                    tickLine={false}
+                                    width={48}
+                                    tickFormatter={formatMoneyShort}
+                                />
                                 <Tooltip content={<CustomTooltip />} />
                                 <Legend
                                     wrapperStyle={{ fontSize: '11px' }}
@@ -426,7 +444,8 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
                                     name="Sản lượng (chai)"
                                     fill="#0d6efd"
                                     radius={[4, 4, 0, 0]}
-                                    barSize={18}
+                                    barSize={dynamicBarSize}
+                                    maxBarSize={18}
                                     isAnimationActive={false}
                                 />
                                 <Bar
@@ -435,7 +454,18 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
                                     name="Số đơn"
                                     fill="#198754"
                                     radius={[4, 4, 0, 0]}
-                                    barSize={18}
+                                    barSize={dynamicBarSize}
+                                    maxBarSize={18}
+                                    isAnimationActive={false}
+                                />
+                                <Bar
+                                    yAxisId="revenue"
+                                    dataKey="doanhThu"
+                                    name="Doanh thu (₫)"
+                                    fill="#ffc107"
+                                    radius={[4, 4, 0, 0]}
+                                    barSize={dynamicBarSize}
+                                    maxBarSize={18}
                                     isAnimationActive={false}
                                 />
                             </BarChart>
