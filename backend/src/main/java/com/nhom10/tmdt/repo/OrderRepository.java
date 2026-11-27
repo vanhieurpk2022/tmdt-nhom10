@@ -270,4 +270,47 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
             WHERE o.status = com.nhom10.tmdt.enums.OrderStatus.DELIVERED
             """)
     Double sumDeliveredRevenue();
+
+    /**
+     * Doanh thu các đơn hàng ĐÃ GIAO THÀNH CÔNG (DELIVERED) nhóm theo Xưởng chế tác
+     * Dùng cho đối soát và giải ngân tiền cho xưởng
+     */
+    @Query("""
+            SELECT f.id, f.name, COALESCE(SUM(oi.quantity * oi.unitPrice), 0.0), COUNT(DISTINCT o)
+            FROM OrderItem oi
+            JOIN oi.order o
+            JOIN oi.product p
+            JOIN p.factory f
+            WHERE o.status = com.nhom10.tmdt.enums.OrderStatus.DELIVERED
+            GROUP BY f.id, f.name
+            ORDER BY SUM(oi.quantity * oi.unitPrice) DESC
+            """)
+    List<Object[]> findDeliveredRevenueGroupByFactory();
+
+    /**
+     * Doanh thu các đơn hàng ĐANG XỬ LÝ / ĐANG GIAO (chưa DELIVERED) nhóm theo Xưởng chế tác
+     * Dùng để biết số tiền đang giữ hộ (escrow) chờ giải ngân sau
+     */
+    @Query("""
+            SELECT f.id, f.name, COALESCE(SUM(oi.quantity * oi.unitPrice), 0.0), COUNT(DISTINCT o)
+            FROM OrderItem oi
+            JOIN oi.order o
+            JOIN oi.product p
+            JOIN p.factory f
+            WHERE o.status IN (com.nhom10.tmdt.enums.OrderStatus.PENDING_PAYMENT, com.nhom10.tmdt.enums.OrderStatus.PENDING, com.nhom10.tmdt.enums.OrderStatus.CONFIRMED, com.nhom10.tmdt.enums.OrderStatus.PROCESSING, com.nhom10.tmdt.enums.OrderStatus.SHIPPED, com.nhom10.tmdt.enums.OrderStatus.DELIVERING)
+            GROUP BY f.id, f.name
+            """)
+    List<Object[]> findPendingRevenueGroupByFactory();
+
+    /**
+     * Lấy các đơn hàng DELIVERED thuộc xưởng để drill-down chi tiết từng đơn
+     */
+    @Query("""
+            SELECT DISTINCT o FROM Order o
+            JOIN o.orderItems oi
+            JOIN oi.product p
+            WHERE p.factory.id = :factoryId AND o.status = com.nhom10.tmdt.enums.OrderStatus.DELIVERED
+            ORDER BY o.createdAt DESC
+            """)
+    List<Order> findDeliveredOrdersByFactoryId(@Param("factoryId") Long factoryId);
 }
