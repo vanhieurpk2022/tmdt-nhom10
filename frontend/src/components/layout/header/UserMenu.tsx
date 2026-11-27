@@ -1,4 +1,4 @@
-import { faBox, faCircleInfo, faComputer, faGear, faHeart, faRightFromBracket, faSadTear, faSignature, faUser, } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faCircleInfo, faComputer, faFileContract, faGear, faHeart, faRightFromBracket, faSadTear, faSignature, faUser, } from "@fortawesome/free-solid-svg-icons";
 import UserMenuItem from "./UserMenuItem/UserMenuItem";
 import UserNav from "./UserMenuItem/UserNav";
 import { authService } from "../../../api/AuthService";
@@ -44,6 +44,7 @@ export default function UserMenu({ fullname, avatar, email, roles }: UserMenuPro
                 )}
                 <UserMenuItem to={ROUTES.FAVORITES} icon={faHeart} content="Sản phẩm yêu thích" />
                 <UserMenuItem to={ROUTES.CHANGE_PASSWORD} icon={faGear} content="Cài đặt tài khoản" />
+                <UserMenuItem to={ROUTES.COMMITMENTS} icon={faFileContract} content="Chính sách & Quy định" />
                 <UserMenuItem to="#" icon={faCircleInfo} content="Trung tâm hỗ trợ" badge="24/7" />
                 <UserMenuItem to="" action={handleLogout} icon={faRightFromBracket} content="Đăng xuất" danger />
             </ul>
