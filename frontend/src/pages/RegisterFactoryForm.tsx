@@ -1,8 +1,14 @@
+<<<<<<< Updated upstream
 import { useState } from "react";
+=======
+import { useState, useEffect, use } from "react";
+>>>>>>> Stashed changes
 import { FactoryApiService, type RegisterFactoryRequest } from "../api/FactoryService";
 import { cloudinaryService, type UploadedAsset } from "../api/UploadApi";
 import axios from "axios";
 import { useToastContext } from "../components/toasts/ToastContext";
+import { Link } from "react-router";
+import { ROUTES } from "../routes/routes";
 
 export function RegisterFactoryForm() {
 
@@ -30,6 +36,9 @@ export function RegisterFactoryForm() {
 
     const { showToast } = useToastContext();
     const [loading, setLoading] = useState(false);
+
+    const [commitments, setCommitments] = useState(false);
+    const [policy, setPolicy] = useState(false);
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -427,11 +436,30 @@ export function RegisterFactoryForm() {
                             />
                         </div>
                     </fieldset>
+                    <div className="d-flex flex-column justify-content-center mb-2">
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="checkDefault" checked={policy} onChange={(e) => setPolicy(e.target.checked)} />
+                            <label className="form-check-label" htmlFor="checkDefault">
+                                <span>Tôi đã đọc và đồng ý với <Link to={ROUTES.FACTORY_POLICY} target="_blank">Điều khoản dịch vụ, Chính sách người bán và Chính sách bảo mật</Link> của sàn.</span>
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="checkArge" checked={commitments} onChange={(e) => setCommitments(e.target.checked)} />
+                            <label className="form-check-label" htmlFor="checkArge">
+                                <span>
+                                    Tôi đồng ý với{' '}
+                                    <Link to={ROUTES.COMMITMENTS} target="_blank" rel="noopener noreferrer">  Chính sách cam kết người bán</Link>, xác nhận mọi thông tin đăng ký là chính xác, trung thực và hoàn toàn chịu trách nhiệm về nguồn gốc, chất lượng hàng hóa kinh doanh theo quy định pháp luật.
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+
 
                     <button
                         type="submit"
                         className="btn btn-danger w-100 py-3 fw-bold text-uppercase fs-6"
-                        disabled={loading}
+                        disabled={loading || !policy || !commitments}
                     >
                         {loading ? (
                             <>

@@ -50,5 +50,10 @@ export const ROUTES = {
   FACTORY_SETTLEMENT: "/factory-settlement",
   FACTORY_SUPPORT: "/factory-support",
   FACTORY_FORM: "/factory-register",
-  FACTORY_PRODUCT_DETAILS: "/factory-product"
+  FACTORY_PRODUCT_DETAILS: "/factory-product",
+
+
+  // policy
+  FACTORY_POLICY: "/factory-policy",
+  COMMITMENTS: "/commiments"
 }

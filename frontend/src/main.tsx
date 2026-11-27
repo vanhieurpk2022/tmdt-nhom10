@@ -61,8 +61,14 @@ import { FactoryProductDetails } from './components/admin/factory/product-varian
 import { ToastProvider } from './components/toasts/ToastProvider';
 import FactoryProductPage from './pages/FactoryProductPage';
 import FactorySettlementPage from './pages/FactorySettlementPage';
+<<<<<<< Updated upstream
 import { FavoriteProvider } from './api/FavoriteProvider';
 import SupportPage from './pages/SupportPage';
+=======
+import { Chatbot } from './components/chatbot';
+import FactoryPolicyPage from './pages/FactoryPolicyPage';
+import CommitmentPage from './pages/CommitmentPage';
+>>>>>>> Stashed changes
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy-google-client-id';
 
@@ -136,6 +142,9 @@ createRoot(document.getElementById('root')!).render(
                     <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
                     <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
                     <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+                    <Route path={ROUTES.FACTORY_POLICY} element={<FactoryPolicyPage />} />
+                    <Route path={ROUTES.COMMITMENTS} element={<CommitmentPage />} />
+
                     <Route element={<RequireVerifyEmail />}>
                       <Route path={ROUTES.VERIFY_SUCCESS} element={<VerifyEmailSuccess />} />
                     </Route>
