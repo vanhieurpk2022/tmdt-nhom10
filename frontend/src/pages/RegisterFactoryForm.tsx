@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-import { useState } from "react";
-=======
+
 import { useState, useEffect, use } from "react";
->>>>>>> Stashed changes
 import { FactoryApiService, type RegisterFactoryRequest } from "../api/FactoryService";
 import { cloudinaryService, type UploadedAsset } from "../api/UploadApi";
 import axios from "axios";

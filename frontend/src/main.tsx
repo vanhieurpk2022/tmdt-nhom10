@@ -61,14 +61,11 @@ import { FactoryProductDetails } from './components/admin/factory/product-varian
 import { ToastProvider } from './components/toasts/ToastProvider';
 import FactoryProductPage from './pages/FactoryProductPage';
 import FactorySettlementPage from './pages/FactorySettlementPage';
-<<<<<<< Updated upstream
 import { FavoriteProvider } from './api/FavoriteProvider';
 import SupportPage from './pages/SupportPage';
-=======
 import { Chatbot } from './components/chatbot';
 import FactoryPolicyPage from './pages/FactoryPolicyPage';
 import CommitmentPage from './pages/CommitmentPage';
->>>>>>> Stashed changes
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy-google-client-id';
 
@@ -78,84 +75,84 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <AuthProvider>
           <FavoriteProvider>
-          <CartProvider>
-            <ToastProvider>
-              <AdminSidebarProvider>
-                <Routes>
-                  {/* Dashboard routes without MainLayout */}
-                  <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryProtectedRoute><FactoryDashBoard /></FactoryProtectedRoute>} />
-                  <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProtectedRoute><FactoryProfile /></FactoryProtectedRoute>} />
-                  <Route path={ROUTES.FACTORY_SUPPORT} element={<FactoryProtectedRoute><FactorySupport /></FactoryProtectedRoute>} />
-                  <Route path={ROUTES.FACTORY_ORDER} element={<FactoryProtectedRoute><FactoryOrder /></FactoryProtectedRoute>} />
-                  <Route path={ROUTES.FACTORY_SETTLEMENT} element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
-                  <Route path="/factory-settlements" element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
-                  <Route path="/factory/settlements" element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
-                  <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProtectedRoute><FactoryProductPage /></FactoryProtectedRoute>} />
-                  <Route path={ROUTES.FACTORY_STAFF} element={<FactoryProtectedRoute><FactoryStaff /></FactoryProtectedRoute>} />
-                  <Route path={ROUTES.FACTORY_SALE} element={<FactoryProtectedRoute><FactorySale /></FactoryProtectedRoute>} />
-                  <Route path={`${ROUTES.FACTORY_PRODUCT_DETAILS}/:id`} element={<FactoryProtectedRoute><FactoryProductDetails /></FactoryProtectedRoute>} />
+            <CartProvider>
+              <ToastProvider>
+                <AdminSidebarProvider>
+                  <Routes>
+                    {/* Dashboard routes without MainLayout */}
+                    <Route path={ROUTES.FACTORY_DASHBOARD} element={<FactoryProtectedRoute><FactoryDashBoard /></FactoryProtectedRoute>} />
+                    <Route path={ROUTES.FACTORY_PROFILE} element={<FactoryProtectedRoute><FactoryProfile /></FactoryProtectedRoute>} />
+                    <Route path={ROUTES.FACTORY_SUPPORT} element={<FactoryProtectedRoute><FactorySupport /></FactoryProtectedRoute>} />
+                    <Route path={ROUTES.FACTORY_ORDER} element={<FactoryProtectedRoute><FactoryOrder /></FactoryProtectedRoute>} />
+                    <Route path={ROUTES.FACTORY_SETTLEMENT} element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
+                    <Route path="/factory-settlements" element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
+                    <Route path="/factory/settlements" element={<FactoryProtectedRoute><FactorySettlementPage /></FactoryProtectedRoute>} />
+                    <Route path={ROUTES.FACTORY_PRODUCT} element={<FactoryProtectedRoute><FactoryProductPage /></FactoryProtectedRoute>} />
+                    <Route path={ROUTES.FACTORY_STAFF} element={<FactoryProtectedRoute><FactoryStaff /></FactoryProtectedRoute>} />
+                    <Route path={ROUTES.FACTORY_SALE} element={<FactoryProtectedRoute><FactorySale /></FactoryProtectedRoute>} />
+                    <Route path={`${ROUTES.FACTORY_PRODUCT_DETAILS}/:id`} element={<FactoryProtectedRoute><FactoryProductDetails /></FactoryProtectedRoute>} />
 
-                  <Route path={ROUTES.AdMIN_SALE} element={<ProtectedRoute requiredRole="ADMIN"><AdminSale /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_DASHBOARD} element={<ProtectedRoute requiredRole="ADMIN"><Admin /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_WORKSHOP} element={<ProtectedRoute requiredRole="ADMIN"><WorkshopManagement /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_CUSTOMER} element={<ProtectedRoute requiredRole="ADMIN"><UserManager /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_ORDER} element={<ProtectedRoute requiredRole="ADMIN"><AdminOrder /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_PRODUCT} element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_SETTLEMENT} element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
-                  <Route path="/admin-settlements" element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
-                  <Route path="/admin/settlements" element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
-                  <Route path="/admin-products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
-                  <Route path="/admin/products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
-                  <Route path="/admin/product" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
-                  <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute requiredRole="ADMIN"><PaymentReviewsPage /></ProtectedRoute>} />
-                  <Route path={ROUTES.REFUNDS} element={<ProtectedRoute requiredRole="ADMIN"><RefundsPage /></ProtectedRoute>} />
-                  <Route path={ROUTES.ADMIN_SUPPORT} element={<ProtectedRoute requiredRole="ADMIN"><AdminSupport /></ProtectedRoute>} />
+                    <Route path={ROUTES.AdMIN_SALE} element={<ProtectedRoute requiredRole="ADMIN"><AdminSale /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADMIN_DASHBOARD} element={<ProtectedRoute requiredRole="ADMIN"><Admin /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADMIN_WORKSHOP} element={<ProtectedRoute requiredRole="ADMIN"><WorkshopManagement /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADMIN_CUSTOMER} element={<ProtectedRoute requiredRole="ADMIN"><UserManager /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADMIN_ORDER} element={<ProtectedRoute requiredRole="ADMIN"><AdminOrder /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADMIN_PRODUCT} element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADMIN_SETTLEMENT} element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
+                    <Route path="/admin-settlements" element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
+                    <Route path="/admin/settlements" element={<ProtectedRoute requiredRole="ADMIN"><AdminSettlementPage /></ProtectedRoute>} />
+                    <Route path="/admin-products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                    <Route path="/admin/products" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                    <Route path="/admin/product" element={<ProtectedRoute requiredRole="ADMIN"><AdminProductPage /></ProtectedRoute>} />
+                    <Route path={ROUTES.PAYMENT_REVIEWS} element={<ProtectedRoute requiredRole="ADMIN"><PaymentReviewsPage /></ProtectedRoute>} />
+                    <Route path={ROUTES.REFUNDS} element={<ProtectedRoute requiredRole="ADMIN"><RefundsPage /></ProtectedRoute>} />
+                    <Route path={ROUTES.ADMIN_SUPPORT} element={<ProtectedRoute requiredRole="ADMIN"><AdminSupport /></ProtectedRoute>} />
 
-                  {/* Main shop routes with MainLayout */}
-                  <Route element={<MainLayout />}>
-                    <Route path={ROUTES.FACTORY_FORM} element={<ProtectedRoute><RegisterFactoryForm /></ProtectedRoute>} />
-                    <Route path={ROUTES.CUSTOM_SCENT} element={<CustomScentPage />} />
-                    <Route path={ROUTES.CUSTOM_SCENT_CUSTOMIZER} element={<CustomScentCustomizerPage />} />
-                    <Route path={`${ROUTES.CUSTOM_SCENT_CUSTOMIZER}/:id`} element={<CustomScentCustomizerPage />} />
-                    <Route path={ROUTES.HOME} element={<HomePage />} />
-                    <Route path={ROUTES.CART} element={<CartPage />} />
-                    <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
-                    <Route path={ROUTES.FACTORIES} element={<FactoriesPage />} />
-                    <Route path={`${ROUTES.FACTORY_DETAIL}/:id`} element={<FactoryDetailPage />} />
-                    <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.ORDER_SUCCESS} element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.ORDER_DETAIL} element={<ProtectedRoute><OrderSuccessPage detail /></ProtectedRoute>} />
-                    <Route path={ROUTES.ORDER_CANCEL} element={<ProtectedRoute><OrderCancellationPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.VNPAY_RESULT} element={<ProtectedRoute><VnPayResultPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.ORDERS} element={<ProtectedRoute><OrderHistoryPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
-                    <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetailPage />} />
-                    <Route path={ROUTES.PROFILE} element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-                    <Route path={ROUTES.CHANGE_PASSWORD} element={<ProtectedRoute><ChangePasswordPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.ADDRESSES} element={<ProtectedRoute><AddressBookPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.FAVORITES} element={<ProtectedRoute><FavoriteProductsPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.NOTIFICATIONS} element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
-                    <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-                    <Route path={ROUTES.REGISTER_FACTORY} element={<ProtectedRoute><RegisterFactoryPage /></ProtectedRoute>} />
-                    <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-                    <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
-                    <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
-                    <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-                    <Route path={ROUTES.FACTORY_POLICY} element={<FactoryPolicyPage />} />
-                    <Route path={ROUTES.COMMITMENTS} element={<CommitmentPage />} />
+                    {/* Main shop routes with MainLayout */}
+                    <Route element={<MainLayout />}>
+                      <Route path={ROUTES.FACTORY_FORM} element={<ProtectedRoute><RegisterFactoryForm /></ProtectedRoute>} />
+                      <Route path={ROUTES.CUSTOM_SCENT} element={<CustomScentPage />} />
+                      <Route path={ROUTES.CUSTOM_SCENT_CUSTOMIZER} element={<CustomScentCustomizerPage />} />
+                      <Route path={`${ROUTES.CUSTOM_SCENT_CUSTOMIZER}/:id`} element={<CustomScentCustomizerPage />} />
+                      <Route path={ROUTES.HOME} element={<HomePage />} />
+                      <Route path={ROUTES.CART} element={<CartPage />} />
+                      <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
+                      <Route path={ROUTES.FACTORIES} element={<FactoriesPage />} />
+                      <Route path={`${ROUTES.FACTORY_DETAIL}/:id`} element={<FactoryDetailPage />} />
+                      <Route path={ROUTES.CHECKOUT} element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.ORDER_SUCCESS} element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.ORDER_DETAIL} element={<ProtectedRoute><OrderSuccessPage detail /></ProtectedRoute>} />
+                      <Route path={ROUTES.ORDER_CANCEL} element={<ProtectedRoute><OrderCancellationPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.VNPAY_RESULT} element={<ProtectedRoute><VnPayResultPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.ORDERS} element={<ProtectedRoute><OrderHistoryPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
+                      <Route path={`${ROUTES.PRODUCT_DETAIL}/:id`} element={<ProductDetailPage />} />
+                      <Route path={ROUTES.PROFILE} element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                      <Route path={ROUTES.CHANGE_PASSWORD} element={<ProtectedRoute><ChangePasswordPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.ADDRESSES} element={<ProtectedRoute><AddressBookPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.FAVORITES} element={<ProtectedRoute><FavoriteProductsPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.NOTIFICATIONS} element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+                      <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+                      <Route path={ROUTES.REGISTER_FACTORY} element={<ProtectedRoute><RegisterFactoryPage /></ProtectedRoute>} />
+                      <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+                      <Route path={ROUTES.VERIFY_RECOVERY} element={<VerifyRecoveryCodePage />} />
+                      <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
+                      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+                      <Route path={ROUTES.FACTORY_POLICY} element={<FactoryPolicyPage />} />
+                      <Route path={ROUTES.COMMITMENTS} element={<CommitmentPage />} />
 
-                    <Route element={<RequireVerifyEmail />}>
-                      <Route path={ROUTES.VERIFY_SUCCESS} element={<VerifyEmailSuccess />} />
+                      <Route element={<RequireVerifyEmail />}>
+                        <Route path={ROUTES.VERIFY_SUCCESS} element={<VerifyEmailSuccess />} />
+                      </Route>
+                      <Route element={<RequireVerifyState />}>
+                        <Route path={ROUTES.VERIFY_ACCOUNT} element={<VerifyAccount />} />
+                      </Route>
                     </Route>
-                    <Route element={<RequireVerifyState />}>
-                      <Route path={ROUTES.VERIFY_ACCOUNT} element={<VerifyAccount />} />
-                    </Route>
-                  </Route>
-                </Routes>
-              </AdminSidebarProvider>
-            </ToastProvider>
-          </CartProvider>
+                  </Routes>
+                </AdminSidebarProvider>
+              </ToastProvider>
+            </CartProvider>
           </FavoriteProvider>
         </AuthProvider>
       </BrowserRouter>
