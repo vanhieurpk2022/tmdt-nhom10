@@ -23,17 +23,16 @@ interface BarDataItem {
     sanLuong: number; // Tổng số chai
 }
 
+type Granularity = 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
+
 interface BarChartStatisticProps {
     orders?: (FactoryOrderDashBoard | FactoryChartOrder)[];
     totalRevenue?: string;
 }
 
-/* ---------- Helpers ---------- */
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Tính số ngày chênh lệch giữa 2 Date */
-function diffDays(a: Date, b: Date): number {
-    return Math.round(Math.abs(b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24));
-}
+/* ---------- Helpers ---------- */
 
 /** Format Date → YYYY-MM-DD cho input[type=date] */
 function toInputDate(d: Date): string {
@@ -43,58 +42,145 @@ function toInputDate(d: Date): string {
     return `${y}-${m}-${day}`;
 }
 
+/** Đầu ngày (00:00:00.000) */
+function startOfDay(d: Date): Date {
+    const x = new Date(d);
+    x.setHours(0, 0, 0, 0);
+    return x;
+}
+
+/** Số ngày của khoảng chọn, tính cả hai đầu (from = to → 1 ngày) */
+function inclusiveDays(startDate: Date, endDate: Date): number {
+    const start = startOfDay(startDate).getTime();
+    const end = startOfDay(endDate).getTime();
+    return Math.max(1, Math.floor((end - start) / DAY_MS) + 1);
+}
+
 /**
- * Nhóm orders trong khoảng [startDate, endDate].
- * - Nếu khoảng ≤ 60 ngày → nhóm theo ngày (DD/MM)
- * - Nếu khoảng > 60 ngày → nhóm theo tháng (MM/YYYY)
+ * Chọn đơn vị gom nhóm theo độ dài khoảng chọn:
+ * - 1 ngày      → giờ   (24 cột)
+ * - ≤ 31 ngày   → ngày  (≤ 31 cột)
+ * - ≤ ~6 tháng  → tuần  (≤ 26 cột)
+ * - ≤ ~2 năm    → tháng (≤ 24 cột)
+ * - ≤ ~5 năm    → quý   (≤ 20 cột)
+ * - trên 5 năm  → năm
+ */
+function pickGranularity(days: number): Granularity {
+    if (days <= 1) return 'hour';
+    if (days <= 31) return 'day';
+    if (days <= 182) return 'week';
+    if (days <= 730) return 'month';
+    if (days <= 1826) return 'quarter';
+    return 'year';
+}
+
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
+/** Chuẩn hóa một thời điểm về khóa + nhãn của đơn vị gom nhóm */
+function bucketOf(date: Date, granularity: Granularity): { key: number; label: string } {
+    const d = new Date(date);
+    switch (granularity) {
+        case 'hour': {
+            d.setMinutes(0, 0, 0);
+            return { key: d.getTime(), label: `${pad2(d.getHours())}:00` };
+        }
+        case 'day': {
+            d.setHours(0, 0, 0, 0);
+            return { key: d.getTime(), label: `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}` };
+        }
+        case 'week': {
+            d.setHours(0, 0, 0, 0);
+            const offset = (d.getDay() + 6) % 7; // Thứ 2 là đầu tuần
+            d.setDate(d.getDate() - offset);
+            return { key: d.getTime(), label: `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}` };
+        }
+        case 'quarter': {
+            const quarter = Math.floor(d.getMonth() / 3);
+            d.setMonth(quarter * 3, 1);
+            d.setHours(0, 0, 0, 0);
+            return { key: d.getTime(), label: `Q${quarter + 1}/${d.getFullYear()}` };
+        }
+        case 'year': {
+            d.setMonth(0, 1);
+            d.setHours(0, 0, 0, 0);
+            return { key: d.getTime(), label: String(d.getFullYear()) };
+        }
+        case 'month':
+        default: {
+            d.setDate(1);
+            d.setHours(0, 0, 0, 0);
+            return { key: d.getTime(), label: `${pad2(d.getMonth() + 1)}/${d.getFullYear()}` };
+        }
+    }
+}
+
+/** Tạo sẵn đủ các cột (kể cả cột trống) cho khoảng đã chọn */
+function seedBuckets(granularity: Granularity, startDate: Date, endDate: Date): Map<number, BarDataItem> {
+    const map = new Map<number, BarDataItem>();
+    const add = (d: Date) => {
+        const bucket = bucketOf(d, granularity);
+        if (!map.has(bucket.key)) {
+            map.set(bucket.key, { label: bucket.label, soLuong: 0, doanhThu: 0, sanLuong: 0 });
+        }
+    };
+
+    // 1 ngày → luôn đủ 24 giờ
+    if (granularity === 'hour') {
+        const day = startOfDay(startDate);
+        for (let h = 0; h < 24; h += 1) {
+            add(new Date(day.getTime() + h * 60 * 60 * 1000));
+        }
+        return map;
+    }
+
+    const endTime = startOfDay(endDate).getTime();
+    const cursor = new Date(bucketOf(startDate, granularity).key);
+
+    while (cursor.getTime() <= endTime) {
+        add(cursor);
+
+        if (granularity === 'day') cursor.setDate(cursor.getDate() + 1);
+        else if (granularity === 'week') cursor.setDate(cursor.getDate() + 7);
+        else if (granularity === 'month') cursor.setMonth(cursor.getMonth() + 1);
+        else if (granularity === 'quarter') cursor.setMonth(cursor.getMonth() + 3);
+        else cursor.setFullYear(cursor.getFullYear() + 1);
+    }
+
+    return map;
+}
+
+/**
+ * Nhóm orders trong khoảng [startDate, endDate] theo đơn vị phù hợp
+ * với độ dài khoảng chọn (giờ/ngày/tuần/tháng/quý/năm).
  */
 function buildChartData(
     orders: (FactoryOrderDashBoard | FactoryChartOrder)[],
     startDate: Date,
     endDate: Date,
 ): BarDataItem[] {
-    const days = diffDays(startDate, endDate);
-    const groupByMonth = days > 60;
+    const granularity = pickGranularity(inclusiveDays(startDate, endDate));
+    const map = seedBuckets(granularity, startDate, endDate);
 
-    // Chuẩn hóa endDate → cuối ngày
-    const endOfDay = new Date(endDate);
-    endOfDay.setHours(23, 59, 59, 999);
+    const rangeStart = startOfDay(startDate).getTime();
+    const rangeEnd = new Date(endDate);
+    rangeEnd.setHours(23, 59, 59, 999);
 
-    // Lọc orders trong khoảng thời gian
-    const filtered = orders.filter((o) => {
-        const d = new Date(o.time);
-        return d >= startDate && d <= endOfDay;
-    });
+    orders.forEach((o) => {
+        const time = new Date(o.time);
+        const timeValue = time.getTime();
 
-    const map = new Map<string, BarDataItem>();
+        if (Number.isNaN(timeValue)) return;
+        if (timeValue < rangeStart || timeValue > rangeEnd.getTime()) return;
 
-    filtered.forEach((o) => {
-        const d = new Date(o.time);
-        const key = groupByMonth
-            ? `${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
-            : `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const entry = map.get(bucketOf(time, granularity).key);
+        if (!entry) return;
 
-        if (!map.has(key)) {
-            map.set(key, { label: key, soLuong: 0, doanhThu: 0, sanLuong: 0 });
-        }
-
-        const entry = map.get(key)!;
         entry.soLuong += 1;
         entry.doanhThu += o.price || 0;
         entry.sanLuong += o.totalQuantity || 0;
     });
 
-    // Sắp xếp theo thời gian
-    return Array.from(map.values()).sort((a, b) => {
-        const aParts = a.label.split('/').map(Number);
-        const bParts = b.label.split('/').map(Number);
-        if (groupByMonth) {
-            // MM/YYYY
-            return aParts[1] !== bParts[1] ? aParts[1] - bParts[1] : aParts[0] - bParts[0];
-        }
-        // DD/MM
-        return aParts[1] !== bParts[1] ? aParts[1] - bParts[1] : aParts[0] - bParts[0];
-    });
+    return Array.from(map.values());
 }
 
 /* ---------- Dữ liệu mặc định khi chưa có orders ---------- */
@@ -198,10 +284,18 @@ export const BarChartStatistic: React.FC<BarChartStatisticProps> = ({
         return { tongDon, tongDoanhThu, tongSanLuong };
     }, [chartData]);
 
-    /* ---------- Nhãn tự động: nhóm theo ngày hay tháng ---------- */
+    /* ---------- Nhãn tự động: đơn vị gom nhóm theo độ dài khoảng chọn ---------- */
     const rangeLabel = useMemo(() => {
-        const days = diffDays(new Date(fromDate), new Date(toDate));
-        return days > 60 ? 'theo tháng' : 'theo ngày';
+        const granularity = pickGranularity(inclusiveDays(new Date(fromDate), new Date(toDate)));
+        const labels: Record<Granularity, string> = {
+            hour: 'theo giờ',
+            day: 'theo ngày',
+            week: 'theo tuần',
+            month: 'theo tháng',
+            quarter: 'theo quý',
+            year: 'theo năm',
+        };
+        return labels[granularity];
     }, [fromDate, toDate]);
 
     return (
