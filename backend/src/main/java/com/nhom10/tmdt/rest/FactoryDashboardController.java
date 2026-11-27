@@ -228,4 +228,23 @@ public class FactoryDashboardController {
         factoryDashboard.deleteProductCustomLabelDesign(productId);
         return new ApiResponse<>(200, "Xóa ảnh nhãn chai mặc định của sản phẩm thành công");
     }
+
+    @GetMapping("/profile")
+    public ApiResponse<FactoryProfileDto> getFactoryProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        return new ApiResponse<>(200, "Lấy thông tin gian hàng thành công", factoryDashboard.getFactoryProfile(userDetails.getUsername()));
+    }
+
+    @PutMapping("/profile")
+    public ApiResponse<FactoryProfileDto> updateFactoryProfile(
+            @RequestBody FactoryProfileUpdateRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        if (userDetails == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        return new ApiResponse<>(200, "Cập nhật thông tin gian hàng thành công", factoryDashboard.updateFactoryProfile(userDetails.getUsername(), request));
+    }
 }

@@ -37,6 +37,8 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     private final ProductCustomItemRepository productCustomItemRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FactoryRepository factoryRepository;
+    private final FactoryImageRepository factoryImageRepository;
 
     public DashboardOverviewResponse getOverview(String email) {
         User user = userRepository.findByEmail(email).orElseThrow( () -> new AppException(ErrorCode.NOT_FOUND));
@@ -382,12 +384,14 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
                 ? List.of()
                 : Arrays.asList(request.imageUrls());
 
-        List<ProductImage> images = urls.stream()
-                .map(url -> ProductImage.builder()
-                        .product(saved)
-                        .imageUrl(url)
-                        .build())
-                .toList();
+        List<ProductImage> images = new ArrayList<>();
+        for (int i = 0; i < urls.size(); i++) {
+            images.add(ProductImage.builder()
+                    .product(saved)
+                    .imageUrl(urls.get(i))
+                    .isThumbnail(i == 0)
+                    .build());
+        }
         productImageRepository.saveAll(images);
 
         return FactoryProductModalResponse.builder()
@@ -464,9 +468,15 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
         p.setProductType(request.type());
 
         if (request.imageUrls() != null && request.imageUrls().length > 0) {
+            boolean hasThumbnail = productImageRepository.findByProductId(id).stream()
+                    .anyMatch(ProductImage::isThumbnail);
             List<ProductImage> productImages = new ArrayList<>();
-            for(String s: request.imageUrls()){
-                productImages.add(ProductImage.builder().imageUrl(s).product(p).build());
+            for (int i = 0; i < request.imageUrls().length; i++) {
+                productImages.add(ProductImage.builder()
+                        .imageUrl(request.imageUrls()[i])
+                        .product(p)
+                        .isThumbnail(!hasThumbnail && i == 0)
+                        .build());
             }
             productImageRepository.saveAll(productImages);
         }
@@ -846,6 +856,130 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             pc.setLabelDesign(null);
             productCustomRepository.save(pc);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public FactoryProfileDto getFactoryProfile(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if (user.getFactory() == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        Factory factory = user.getFactory();
+        Long factoryId = factory.getId();
+
+        Double avgRating = reviewRepository.findAverageRatingByFactoryId(factoryId);
+        double rating = avgRating != null ? Math.round(avgRating * 10.0) / 10.0 : 5.0;
+        long ratingCount = reviewRepository.countByFactoryId(factoryId);
+
+        long totalOrders = orderRepository.countByFactoryId(factoryId, LocalDateTime.of(2000, 1, 1, 0, 0));
+        long totalProducts = productRepository.countByFactoryId(factoryId);
+
+        String avatarUrl = null;
+        if (factory.getFactoryImages() != null && !factory.getFactoryImages().isEmpty()) {
+            for (FactoryImage img : factory.getFactoryImages()) {
+                if (img.isAvatar() && img.getImageUrl() != null && !img.getImageUrl().isBlank()) {
+                    avatarUrl = img.getImageUrl();
+                    break;
+                }
+            }
+            if (avatarUrl == null && !factory.getFactoryImages().isEmpty()) {
+                avatarUrl = factory.getFactoryImages().get(0).getImageUrl();
+            }
+        }
+
+        boolean kycVerified = (factory.getIdentity() != null && !factory.getIdentity().isBlank())
+                || (factory.getLicenseUrl() != null && !factory.getLicenseUrl().isBlank());
+
+        String ownerName = factory.getFullNameRepre();
+        if (ownerName == null || ownerName.isBlank()) {
+            ownerName = factory.getAccountHolder();
+        }
+        if (ownerName == null || ownerName.isBlank()) {
+            ownerName = user.getFullname();
+        }
+
+        return FactoryProfileDto.builder()
+                .id(factory.getId())
+                .code("WS-" + factory.getId())
+                .name(factory.getName() != null ? factory.getName() : "Xưởng " + factory.getId())
+                .owner(ownerName != null ? ownerName : "Chủ xưởng")
+                .email(user.getEmail())
+                .phone(factory.getShopPhone() != null ? factory.getShopPhone() : (user.getPhone() != null ? user.getPhone() : ""))
+                .address(factory.getAddress() != null ? factory.getAddress() : "")
+                .description(factory.getDescription() != null ? factory.getDescription() : "")
+                .status(factory.getFactoryStatus() != null ? factory.getFactoryStatus().name() : "ACTIVE")
+                .rating(rating)
+                .ratingCount(ratingCount)
+                .totalOrders(totalOrders)
+                .totalProducts(totalProducts)
+                .joinedAt(factory.getCreatedAt() != null ? factory.getCreatedAt() : (user.getCreatedAt() != null ? user.getCreatedAt() : LocalDateTime.now()))
+                .taxCode(factory.getIdentity() != null ? factory.getIdentity() : "")
+                .businessLicense(factory.getLicenseUrl() != null ? factory.getLicenseUrl() : "")
+                .website(factory.getBrandAuthorizationUrl() != null ? factory.getBrandAuthorizationUrl() : "")
+                .avatarUrl(avatarUrl)
+                .kycVerified(kycVerified)
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public FactoryProfileDto updateFactoryProfile(String email, FactoryProfileUpdateRequest request) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        if (user.getFactory() == null) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        Factory factory = user.getFactory();
+
+        if (request.name() != null && !request.name().isBlank()) {
+            factory.setName(request.name().trim());
+        }
+        if (request.owner() != null) {
+            factory.setFullNameRepre(request.owner().trim());
+        }
+        if (request.phone() != null) {
+            factory.setShopPhone(request.phone().trim());
+        }
+        if (request.address() != null) {
+            factory.setAddress(request.address().trim());
+        }
+        if (request.description() != null) {
+            factory.setDescription(request.description().trim());
+        }
+        if (request.taxCode() != null) {
+            factory.setIdentity(request.taxCode().trim());
+        }
+        if (request.businessLicense() != null) {
+            factory.setLicenseUrl(request.businessLicense().trim());
+        }
+        if (request.website() != null) {
+            factory.setBrandAuthorizationUrl(request.website().trim());
+        }
+
+        if (request.avatarUrl() != null && !request.avatarUrl().isBlank()) {
+            List<FactoryImage> images = factoryImageRepository.findByFactoryId(factory.getId());
+            boolean updated = false;
+            for (FactoryImage img : images) {
+                if (img.isAvatar()) {
+                    img.setImageUrl(request.avatarUrl().trim());
+                    factoryImageRepository.save(img);
+                    updated = true;
+                    break;
+                }
+            }
+            if (!updated) {
+                FactoryImage newAvatar = FactoryImage.builder()
+                        .factory(factory)
+                        .imageUrl(request.avatarUrl().trim())
+                        .isAvatar(true)
+                        .isBanner(false)
+                        .build();
+                factoryImageRepository.save(newAvatar);
+            }
+        }
+
+        factoryRepository.save(factory);
+        return getFactoryProfile(email);
     }
 }
 
