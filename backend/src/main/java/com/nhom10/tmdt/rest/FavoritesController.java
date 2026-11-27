@@ -22,8 +22,9 @@ public class FavoritesController {
 
     @GetMapping @Transactional(readOnly = true)
     public ApiResponse<List<ProductCardResponse>> list(Principal principal) {
-        return new ApiResponse<>(200, "Sản phẩm yêu thích", favorites.findByUserEmailOrderByIdDesc(principal.getName()).stream()
-                .map(WishList::getProduct).filter(RecommendationEligibility::isPublic).distinct().map(catalog::toCard).toList());
+        return new ApiResponse<>(200, "Sản phẩm yêu thích", catalog.toCards(
+                favorites.findByUserEmailOrderByIdDesc(principal.getName()).stream()
+                        .map(WishList::getProduct).filter(RecommendationEligibility::isPublic).distinct().toList()));
     }
 
     @PutMapping("/{id}") @Transactional

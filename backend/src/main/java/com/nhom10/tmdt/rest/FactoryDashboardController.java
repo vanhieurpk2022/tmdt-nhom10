@@ -54,8 +54,8 @@ public class FactoryDashboardController {
     @GetMapping("/dashboard/chart")
     public ApiResponse<List<FactoryChartOrderResponse>> getChartData(
             @AuthenticationPrincipal UserDetails user,
-            @RequestParam("from") LocalDate from,
-            @RequestParam("to") LocalDate to) {
+            @RequestParam(value = "from", required = false) LocalDate from,
+            @RequestParam(value = "to", required = false) LocalDate to) {
         String email = user.getUsername();
         List<FactoryChartOrderResponse> data = factoryDashboard.getChartOrders(email, from, to);
         return new ApiResponse<>(200, "Lấy dữ liệu biểu đồ thành công", data);
@@ -63,9 +63,11 @@ public class FactoryDashboardController {
 
     @GetMapping("/dashboard/pie")
     public ApiResponse<List<FactoryOrderStatusCount>> getPieChartData(
-            @AuthenticationPrincipal UserDetails user) {
+            @AuthenticationPrincipal UserDetails user,
+            @RequestParam(value = "from", required = false) LocalDate from,
+            @RequestParam(value = "to", required = false) LocalDate to) {
         String email = user.getUsername();
-        List<FactoryOrderStatusCount> data = factoryDashboard.getOrderStatusCounts(email);
+        List<FactoryOrderStatusCount> data = factoryDashboard.getOrderStatusCounts(email, from, to);
         return new ApiResponse<>(200, "Lấy dữ liệu trạng thái đơn thành công", data);
     }
 
