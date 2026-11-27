@@ -89,7 +89,10 @@ WHERE f.id = :factoryId
             p.productType,
             p.createdAt,
             c.name,
-            (SELECT MIN(image.imageUrl) FROM ProductImage image WHERE image.product = p AND image.isThumbnail = true)
+            COALESCE(
+                (SELECT MIN(image.imageUrl) FROM ProductImage image WHERE image.product = p AND image.isThumbnail = true),
+                (SELECT MIN(image.imageUrl) FROM ProductImage image WHERE image.product = p)
+            )
         )
         FROM Product p
         LEFT JOIN p.category c
@@ -104,4 +107,6 @@ WHERE f.id = :factoryId
 
     @Query("SELECT COUNT(DISTINCT p.factory.id) FROM Product p WHERE p.factory IS NOT NULL")
     long countDistinctFactories();
+
+    long countByFactoryId(Long factoryId);
 }

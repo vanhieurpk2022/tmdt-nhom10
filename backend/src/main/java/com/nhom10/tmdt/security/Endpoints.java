@@ -64,7 +64,12 @@ public class Endpoints {
             "/manager/default-bottle-labels/**",
             // Quản lý đơn hàng của xưởng
             "/manager/orders/**",
+            // Quản lý đối soát & giải ngân của xưởng (chỉ xem)
+            "/manager/settlements/**",
             // Quản lý nhân viên xưởng (cân nhắc giới hạn riêng cho OWNER / ROLE_FACTORY nếu tách quyền STAFF)
-            "/manager/staffs/**"
+            "/manager/staffs/**",
+            // Hồ sơ thông tin xưởng
+            "/manager/profile",
+            "/manager/profile/**"
     };
 }

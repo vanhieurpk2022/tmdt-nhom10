@@ -82,4 +82,23 @@ public class TmdtApplication {
 				+ "."
 				+ lowerKey.substring(firstSeparatorIndex + 1).replace('_', '-');
 	}
+
+	@org.springframework.context.annotation.Bean
+	@org.springframework.transaction.annotation.Transactional
+	org.springframework.boot.CommandLineRunner initFactoryAccount(
+			com.nhom10.tmdt.repo.UserRepository userRepo,
+			com.nhom10.tmdt.repo.FactoryRepository factoryRepo,
+			org.springframework.security.crypto.password.PasswordEncoder encoder
+	) {
+		return args -> {
+			userRepo.findByEmail("factory@labcos.vn").ifPresent(user -> {
+				user.setVerify(true);
+				user.setPassword(encoder.encode("Factory@123"));
+				if (user.getFactory() == null) {
+					factoryRepo.findById(1L).ifPresent(user::setFactory);
+				}
+				userRepo.save(user);
+			});
+		};
+	}
 }

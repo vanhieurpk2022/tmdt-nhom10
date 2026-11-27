@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -84,10 +84,17 @@ function ImageCard({
     );
 }
 
-/* ---------- Ảnh mới: tạo / hủy object URL đúng lúc ---------- */
+/* ---------- Ảnh mới: tạo / hủy object URL đúng vòng đời (tương thích StrictMode) ---------- */
 function NewImagePreview({ file, onRemove }: { file: File; onRemove: () => void }) {
-    const url = useMemo(() => URL.createObjectURL(file), [file]);
-    useEffect(() => () => URL.revokeObjectURL(url), [url]);
+    const [url, setUrl] = useState<string>("");
+
+    useEffect(() => {
+        const objectUrl = URL.createObjectURL(file);
+        setUrl(objectUrl);
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [file]);
+
+    if (!url) return null;
 
     return (
         <ImageCard

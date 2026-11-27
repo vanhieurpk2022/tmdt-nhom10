@@ -50,5 +50,9 @@ public interface FactoryDashboardService {
     void deleteDefaultBottleLabel(Long id);
 
     void deleteProductCustomLabelDesign(Long productId);
+
+    FactoryProfileDto getFactoryProfile(String email);
+
+    FactoryProfileDto updateFactoryProfile(String email, FactoryProfileUpdateRequest request);
 }
 
