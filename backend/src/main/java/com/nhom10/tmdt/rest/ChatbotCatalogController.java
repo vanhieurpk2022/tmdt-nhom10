@@ -10,6 +10,7 @@ import com.nhom10.tmdt.service.imp.RecommendationEligibility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
@@ -28,9 +29,9 @@ public class ChatbotCatalogController {
 
     @GetMapping("/products/chatbot-catalog")
     @Transactional(readOnly = true)
-    public ApiResponse<List<CatalogItem>> catalog() {
+    public ApiResponse<List<CatalogItem>> catalog(@RequestParam(defaultValue = "false") boolean includeUnavailable) {
         List<CatalogItem> items = products.findAll().stream()
-                .filter(RecommendationEligibility::isAvailable)
+                .filter(includeUnavailable ? RecommendationEligibility::isPublic : RecommendationEligibility::isAvailable)
                 .sorted(Comparator.comparing(Product::getId))
                 .map(p -> new CatalogItem(p.getId(), p.getName(), p.getDescription(),
                         p.getCategory() == null ? "" : p.getCategory().getName(),
@@ -41,7 +42,10 @@ public class ChatbotCatalogController {
                                 .map(ProductImage::getImageUrl).filter(u -> u != null && !u.isBlank())
                                 .findFirst().orElse(null),
                         "/product-detail/" + p.getId(),
-                        p.getProductMils().stream().filter(RecommendationEligibility::isAvailableVariant)
+                        (p.getProductMils() == null ? java.util.stream.Stream.<com.nhom10.tmdt.model.ProductMil>empty() : p.getProductMils().stream())
+                                .filter(v -> includeUnavailable
+                                        ? v.isActive() && v.getStockQuantity() >= 0 && Double.isFinite(purchases.price(v)) && purchases.price(v) > 0
+                                        : RecommendationEligibility.isAvailableVariant(v))
                                 .map(v -> new ProductMilResponse(v.getId(), v.getMil(), purchases.price(v),
                                         v.getStockQuantity(), true)).toList()))
                 .toList();

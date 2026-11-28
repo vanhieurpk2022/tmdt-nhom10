@@ -3,6 +3,10 @@ services:
     image: ollama/ollama:latest
     container_name: oilia-ollama
     restart: unless-stopped
+    environment:
+      OLLAMA_MAX_LOADED_MODELS: "2"
+      OLLAMA_NUM_PARALLEL: "1"
+      LLAMA_ARG_REPACK: "0"
     ports:
       - "11434:11434"
     volumes:
@@ -21,7 +25,7 @@ services:
       - |
         echo "Đang đợi Ollama server khởi động..."
         sleep 5
-        ollama pull bge-m3
+        ollama pull embeddinggemma:300m-qat-q8_0
         ollama pull qwen2.5:3b
         echo "Tải model hoàn tất!"
     restart: "no"
@@ -38,9 +42,11 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - BASE_PRODUCT_URL=http://localhost:5173/product-detail
       - LLM_MODEL=qwen2.5:3b
+      - EMBEDDING_MODEL=embeddinggemma:300m-qat-q8_0
       - TOP_K=4
     volumes:
       - ./app:/app/app
+      - ./runtime:/app/runtime
     depends_on:
       - ollama
 

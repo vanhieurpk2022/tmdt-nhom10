@@ -374,8 +374,14 @@
   animation: oilia-typing-bounce 1.4s infinite ease-in-out both;
 }
 
-.oilia-chat-typing-dot:nth-child(1) { animation-delay: -0.32s; }
-.oilia-chat-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.oilia-chat-progress-label {
+  font-size: 12px;
+  color: #64756a;
+  margin-right: 6px;
+}
+
+.oilia-chat-typing-dot:nth-of-type(1) { animation-delay: -0.32s; }
+.oilia-chat-typing-dot:nth-of-type(2) { animation-delay: -0.16s; }
 
 /* One composer surface for both suggested questions and the input. */
 .oilia-chat-composer {
@@ -538,4 +544,10 @@
     transition: none;
     scroll-behavior: auto;
   }
+}
+.oilia-chat-product-reason {
+  display: block;
+  margin-top: 4px;
+  line-height: 1.45;
+  color: #506557;
 }

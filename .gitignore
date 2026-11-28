@@ -93,3 +93,4 @@ venv/
 env/
 ENV/
 faiss_index/
+chatbot/runtime/

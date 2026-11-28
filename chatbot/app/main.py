@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from app import config
+from app.events import chat_events
 from app.schemas import ChatRequest, ChatResponse, HealthResponse, ProductItem
 from app.rag import CatalogUnavailable, ask_question, json_request, load_catalog, lookup_products, installed_models, has_model
 
@@ -55,11 +56,11 @@ async def health():
 
     async def model_status():
         names = await installed_models()
-        return has_model(names, config.LLM_MODEL), has_model(names, config.EMBEDDING_MODEL)
+        return config.LLM_ENABLED and has_model(names, config.LLM_MODEL), has_model(names, config.EMBEDDING_MODEL)
 
     (ready, count), (chat_ready, embedding_ready) = await asyncio.gather(catalog_status(), model_status())
-    body = HealthResponse(status="ok" if ready else "degraded", catalog_ready=ready,
-                          catalog_count=count, model_ready=chat_ready or embedding_ready,
+    body = HealthResponse(status=("ok" if chat_ready else "limited") if ready else "degraded", catalog_ready=ready,
+                          catalog_count=count, model_ready=chat_ready,
                           chat_model_ready=chat_ready, embedding_model_ready=embedding_ready)
     return JSONResponse(status_code=200 if ready else 503, content=body.model_dump())
 
@@ -80,6 +81,19 @@ async def stream(request: ChatRequest):
             yield line
 
     return StreamingResponse(chunks(), media_type="text/plain; charset=utf-8")
+
+
+@app.post("/api/chat/events")
+async def events(request: ChatRequest):
+    async def answer():
+        try:
+            reply, products = await ask_question(request.message, [m.model_dump() for m in request.history])
+            return ChatResponse(reply=reply, products=[ProductItem(**p) for p in products]).model_dump()
+        except CatalogUnavailable as exc:
+            return {"reply": str(exc), "products": []}
+
+    return StreamingResponse(chat_events(answer), media_type="application/x-ndjson",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
 @app.get("/api/products/lookup", response_model=list[ProductItem])

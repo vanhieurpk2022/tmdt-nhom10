@@ -63,7 +63,6 @@ import FactoryProductPage from './pages/FactoryProductPage';
 import FactorySettlementPage from './pages/FactorySettlementPage';
 import { FavoriteProvider } from './api/FavoriteProvider';
 import SupportPage from './pages/SupportPage';
-import { Chatbot } from './components/chatbot';
 import FactoryPolicyPage from './pages/FactoryPolicyPage';
 import CommitmentPage from './pages/CommitmentPage';
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { ChatMessage, QuickReplyOption } from './types';
 import { sendChatMessage, type HistoryMessage } from '../../api/chatbotService';
+import { validateChatResponse, type ChatPhase } from '../../api/chatbotStream';
 import { faLeaf, faTag, faFlask, faIndustry } from '@fortawesome/free-solid-svg-icons';
 
 export const INITIAL_QUICK_REPLIES: QuickReplyOption[] = [
@@ -25,6 +26,7 @@ export function useChatbot() {
   const [showTooltip, setShowTooltip] = useState(true);
   const [hasUnread, setHasUnread] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [phase, setPhase] = useState<ChatPhase>('understanding');
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     try {
       const saved: unknown = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
@@ -32,7 +34,10 @@ export function useChatbot() {
         const valid = saved.filter((m): m is ChatMessage => !!m && typeof m === 'object'
           && typeof m.id === 'string' && typeof m.text === 'string'
           && (m.sender === 'bot' || m.sender === 'user'));
-        if (valid.length) return valid.slice(-40);
+        if (valid.length) return valid.slice(-40).map(message => ({
+          ...message,
+          products: validateChatResponse({ reply: message.text, products: message.products }).products,
+        }));
       }
     } catch { /* Khởi tạo hội thoại mới khi dữ liệu lưu không hợp lệ. */ }
     return INITIAL_MESSAGES;
@@ -71,8 +76,11 @@ export function useChatbot() {
       id: crypto.randomUUID(), sender: 'user', text: content, timestamp: new Date(),
     }]);
     setIsTyping(true);
+    setPhase('understanding');
     try {
-      const result = await sendChatMessage(content, history, controller.signal);
+      const result = await sendChatMessage(content, history, controller.signal, nextPhase => {
+        if (request.current === controller && !controller.signal.aborted) setPhase(nextPhase);
+      });
       if (!controller.signal.aborted) setMessages(previous => [...previous, {
         id: crypto.randomUUID(), sender: 'bot', text: result.reply,
         products: result.products, timestamp: new Date(),
@@ -92,7 +100,7 @@ export function useChatbot() {
     }
   };
   return {
-    isOpen, isMinimized, showTooltip, hasUnread, isTyping, messages, toggleChat, clearChat, sendMessage,
+    isOpen, isMinimized, showTooltip, hasUnread, isTyping, phase, messages, toggleChat, clearChat, sendMessage,
     minimizeChat: () => setIsMinimized(previous => !previous),
     closeChat: () => { setIsOpen(false); setIsMinimized(false); },
     dismissTooltip: () => setShowTooltip(false),

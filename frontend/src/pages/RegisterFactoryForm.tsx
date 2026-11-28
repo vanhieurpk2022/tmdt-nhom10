@@ -1,5 +1,5 @@
 
-import { useState, useEffect, use } from "react";
+import { useState } from "react";
 import { FactoryApiService, type RegisterFactoryRequest } from "../api/FactoryService";
 import { cloudinaryService, type UploadedAsset } from "../api/UploadApi";
 import axios from "axios";

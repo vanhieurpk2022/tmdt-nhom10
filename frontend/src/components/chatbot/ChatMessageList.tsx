@@ -2,15 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import type { ChatMessage } from './types';
 import { ChatMessageItem } from './ChatMessageItem';
 import { ChatbotTypingIndicator } from './ChatbotTypingIndicator';
+import { CHAT_PHASE_LABELS, type ChatPhase } from '../../api/chatbotStream';
 
 interface ChatMessageListProps {
   messages: ChatMessage[];
   isTyping: boolean;
+  phase: ChatPhase;
 }
 
 export const ChatMessageList: React.FC<ChatMessageListProps> = ({
   messages,
   isTyping,
+  phase,
 }) => {
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +37,7 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
         <ChatMessageItem key={message.id} message={message} />
       ))}
 
-      {isTyping && <ChatbotTypingIndicator />}
+      {isTyping && <ChatbotTypingIndicator label={CHAT_PHASE_LABELS[phase]} />}
     </div>
   );
 };

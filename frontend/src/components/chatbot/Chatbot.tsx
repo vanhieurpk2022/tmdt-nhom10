@@ -18,6 +18,7 @@ export const Chatbot: React.FC<ChatbotProps> = ({
     showTooltip,
     hasUnread,
     isTyping,
+    phase,
     messages,
     toggleChat,
     minimizeChat,
@@ -35,6 +36,7 @@ export const Chatbot: React.FC<ChatbotProps> = ({
           isMinimized={isMinimized}
           messages={messages}
           isTyping={isTyping}
+          phase={phase}
           quickReplyOptions={customQuickReplies}
           onMinimize={minimizeChat}
           onClose={closeChat}

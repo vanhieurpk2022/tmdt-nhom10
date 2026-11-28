@@ -4,11 +4,13 @@ import { ChatMessageList } from './ChatMessageList';
 import { ChatQuickReplies } from './ChatQuickReplies';
 import { ChatbotInput } from './ChatbotInput';
 import type { ChatMessage, QuickReplyOption } from './types';
+import type { ChatPhase } from '../../api/chatbotStream';
 
 interface ChatbotWindowProps {
   isMinimized: boolean;
   messages: ChatMessage[];
   isTyping: boolean;
+  phase: ChatPhase;
   quickReplyOptions: QuickReplyOption[];
   onMinimize: () => void;
   onClose: () => void;
@@ -21,6 +23,7 @@ export const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
   isMinimized,
   messages,
   isTyping,
+  phase,
   quickReplyOptions,
   onMinimize,
   onClose,
@@ -46,6 +49,7 @@ export const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
           <ChatMessageList
             messages={messages}
             isTyping={isTyping}
+            phase={phase}
           />
 
           <div className="oilia-chat-composer">

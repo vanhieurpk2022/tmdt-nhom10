@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import type { ChatMessage } from './types';
+import { chatPresentation } from './chatPresentation';
 
 interface ChatMessageItemProps {
   message: ChatMessage;
@@ -12,6 +13,7 @@ export const ChatMessageItem: React.FC<ChatMessageItemProps> = ({
   message,
 }) => {
   const isBot = message.sender === 'bot';
+  const presentation = isBot ? chatPresentation(message.text, message.products) : { text: message.text, reasons: {} as Record<string, string> };
 
   // Format timestamp (e.g., 14:32)
   const formatTime = (time: Date | string) => {
@@ -154,7 +156,7 @@ export const ChatMessageItem: React.FC<ChatMessageItemProps> = ({
     >
       <div className="oilia-chat-msg-content-wrap">
         <div className="oilia-chat-msg-bubble">
-          {renderFormattedText(message.text)}
+          {presentation.text && renderFormattedText(presentation.text)}
 
           {/* Product recommendations with real images & prices */}
           {message.products && message.products.length > 0 && (
@@ -190,6 +192,9 @@ export const ChatMessageItem: React.FC<ChatMessageItemProps> = ({
                         </span>
                       )}
                     </p>
+                    {presentation.reasons[String(product.id)] && (
+                      <small className="oilia-chat-product-reason">{presentation.reasons[String(product.id)]}</small>
+                    )}
                   </div>
 
                   <span className="oilia-chat-product-btn" aria-hidden="true">
