@@ -23,7 +23,8 @@ export const authService = {
     login: async (data: LoginRequest) => {
         const response = await api.post<ApiResponse<LoginResponse>>(
             "/auth/login",
-            data
+            data,
+            { timeout: 30_000 } // Tài khoản chưa xác thực có thể cần gửi lại email.
         );
 
         return response.data;
@@ -46,14 +47,14 @@ export const authService = {
     },
      register: async (data:RegisterRequest) => {
         const response = await api.post<ApiResponse<void>>(
-            "/auth/register", data
+            "/auth/register", data, { timeout: 30_000 }
         );
 
         return response.data;
     },
       resendEmail: async (email:string) => {
         const response = await api.post<ApiResponse<void>>
-            ("/auth/resend", {email});
+            ("/auth/resend", {email}, { timeout: 30_000 });
 
         return response.data;
     },

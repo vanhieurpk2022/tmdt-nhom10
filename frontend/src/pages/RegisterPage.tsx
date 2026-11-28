@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { authService } from '../api/AuthService';
 import { ROUTES } from '../routes/routes';
-import axios from 'axios';
+import { registrationErrorMessage } from './registrationErrors';
 
 export default function RegisterPage() {
     const [fullname, setFullName] = useState("");
@@ -22,6 +22,8 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMessage('');
+        setSuccessMessage('');
         setLoading(true);
         try {
             const res = await authService.register({
@@ -40,15 +42,10 @@ export default function RegisterPage() {
             }
 
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                if (!error.response) {
-                    setErrorMessage("Không kết nối được máy chủ, vui lòng thử lại");
-                } else {
-                    setErrorMessage(error.response.data?.message);
-                }
-            }
+            setErrorMessage(registrationErrorMessage(error));
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     }
 
     return (

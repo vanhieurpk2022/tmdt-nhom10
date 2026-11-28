@@ -1,12 +1,16 @@
 package com.nhom10.tmdt.service.imp;
 
 import com.nhom10.tmdt.security.Endpoints;
+import com.nhom10.tmdt.config.AppException;
+import com.nhom10.tmdt.enums.ErrorCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailServieImp implements EmailSevice {
 
     private final JavaMailSender emailSender;
@@ -27,18 +32,18 @@ public class EmailServieImp implements EmailSevice {
 
     @Override
     public void sendMessage(String from, String to, String subject, String text) {
-        MimeMessage message = emailSender.createMimeMessage();
-
         try {
+            MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,true);
             helper.setFrom(from);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text,true);
-        }catch (MessagingException e){
-            throw new RuntimeException(e);
+            emailSender.send(message);
+        } catch (MessagingException | MailException e) {
+            log.warn("Không gửi được email: {}", e.getClass().getSimpleName());
+            throw new AppException(ErrorCode.EMAIL_SERVICE_UNAVAILABLE);
         }
-        emailSender.send(message);
     }
 
     @Override
