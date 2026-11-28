@@ -12,6 +12,7 @@ import com.nhom10.tmdt.model.ProductMil;
 import com.nhom10.tmdt.repo.ProductImageRepository;
 import com.nhom10.tmdt.repo.ProductMilRepository;
 import com.nhom10.tmdt.repo.ProductRepository;
+import com.nhom10.tmdt.service.imp.ProductPublication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,7 @@ public class ProductMilServiceImp implements ProductMilService{
     public ProductCreateMilResponse createProductMil(Long productId, ProductCreateMilRequest request) {
         access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
         Product product = productRepository.getReferenceById(productId);
+        ProductPublication.validateVariant(request.mil(), request.price(), request.basePrice(), request.stockQuantity());
         ProductMil productMil = ProductMil.builder()
                 .mil(request.mil())
                 .price(request.price())
@@ -84,6 +86,7 @@ public ProductCreateMilResponse updateProductMil(Long productId, Long milId, Pro
         access.product(productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT)));
     ProductMil productMil = productMilRepository.findByProductIdAndId(productId, milId)
             .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+    ProductPublication.validateVariant(request.mil(), request.price(), request.basePrice(), request.stockQuantity());
     
     productMil.setMil(request.mil());
     productMil.setPrice(request.price());

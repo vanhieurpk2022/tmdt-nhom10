@@ -7,6 +7,7 @@ import com.nhom10.tmdt.model.ProductImage;
 import com.nhom10.tmdt.repo.ProductRepository;
 import com.nhom10.tmdt.service.imp.PurchaseItemService;
 import com.nhom10.tmdt.service.imp.RecommendationEligibility;
+import com.nhom10.tmdt.service.imp.ProductPublication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ public class ChatbotCatalogController {
                         "/product-detail/" + p.getId(),
                         (p.getProductMils() == null ? java.util.stream.Stream.<com.nhom10.tmdt.model.ProductMil>empty() : p.getProductMils().stream())
                                 .filter(v -> includeUnavailable
-                                        ? v.isActive() && v.getStockQuantity() >= 0 && Double.isFinite(purchases.price(v)) && purchases.price(v) > 0
+                                        ? ProductPublication.isConfiguredVariant(v)
                                         : RecommendationEligibility.isAvailableVariant(v))
                                 .map(v -> new ProductMilResponse(v.getId(), v.getMil(), purchases.price(v),
                                         v.getStockQuantity(), true)).toList()))

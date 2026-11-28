@@ -6,6 +6,7 @@ import { FactoryServiceManager } from "../../../../api/factory/FactoryService";
 import type { EditableVariant, FactoryProductMil } from "../../../../dto/factory/FactoryProductRes";
 import { NumericFormat } from "react-number-format";
 import { useToastContext } from "../../../toasts/ToastContext";
+import axios from "axios";
 
 
 
@@ -21,6 +22,7 @@ const initialForm: FactoryProductMil = { mil: null, basePrice: null, price: null
 
 export function ModalAddVariant({ show, onHide, onSuccess, productId, variant }: ModalAddVariantProps) {
     const [form, setForm] = useState<FactoryProductMil>(initialForm);
+    const [submitting, setSubmitting] = useState(false);
     const { showToast } = useToastContext();
     const isEdit = !!variant;
 
@@ -37,22 +39,32 @@ export function ModalAddVariant({ show, onHide, onSuccess, productId, variant }:
     }, [show, variant])
 
     const handleAddVariant = async () => {
-        if (!form.mil || !form.basePrice || !form.price || !form.stockQuantity) {
-            showToast("Lỗi", "Vui lòng nhập đủ form", "danger");
+        if (submitting) return;
+        if (form.mil == null || !Number.isInteger(form.mil) || form.mil <= 0
+            || form.basePrice == null || !Number.isFinite(form.basePrice) || form.basePrice <= 0
+            || form.price == null || !Number.isFinite(form.price) || form.price <= 0
+            || form.stockQuantity == null || !Number.isInteger(form.stockQuantity) || form.stockQuantity < 0) {
+            showToast("Thông tin chưa hợp lệ", "Nhập dung tích và giá lớn hơn 0, số lượng là số nguyên từ 0 trở lên.", "danger");
             return;
         }
-        if (isEdit) {
-            await FactoryServiceManager.updateProductMil(variant?.id, form);
-            showToast("Thành công", "Cập nhật thành công", "success");
-
-        } else {
-            await FactoryServiceManager.createProductMil(productId, form);
-            showToast("Thành công", "Thêm thành công", "success");
-
+        try {
+            setSubmitting(true);
+            if (isEdit) {
+                await FactoryServiceManager.updateProductMil(variant.id, form);
+            } else {
+                await FactoryServiceManager.createProductMil(productId, form);
+            }
+            showToast("Thành công", isEdit ? "Đã cập nhật biến thể" : "Đã thêm biến thể. Kiểm tra thông tin trước khi mở bán.", "success");
+            setForm(initialForm);
+            onSuccess?.();
+            onHide();
+        } catch (error) {
+            showToast("Không lưu được biến thể", axios.isAxiosError(error)
+                ? error.response?.data?.message ?? "Vui lòng thử lại."
+                : "Vui lòng thử lại.", "danger");
+        } finally {
+            setSubmitting(false);
         }
-        setForm(initialForm);
-        onSuccess?.();
-        onHide();
     }
 
     return (<>
@@ -76,10 +88,10 @@ export function ModalAddVariant({ show, onHide, onSuccess, productId, variant }:
                     </span>
                     <div>
                         <Modal.Title as="h5" className="fw-bold mb-0">
-                            Thêm loại sản phẩm
+                            {isEdit ? "Chỉnh sửa biến thể" : "Thêm biến thể"}
                         </Modal.Title>
                         <div className="small text-secondary">
-                            Nhập thông tin để đăng sản phẩm mới lên gian hàng.
+                            Thiết lập dung tích, giá và số lượng. Sản phẩm chỉ công khai sau khi mở bán.
                         </div>
                     </div>
                 </div>
@@ -192,17 +204,19 @@ export function ModalAddVariant({ show, onHide, onSuccess, productId, variant }:
                     type="button"
                     className="btn btn-light border fw-semibold"
                     onClick={onHide}
+                    disabled={submitting}
                 >
                     Hủy
                 </button>
                 <button
                     type="button"
                     onClick={handleAddVariant}
+                    disabled={submitting}
                     className="btn btn-danger fw-semibold"
                 >
 
                     <FontAwesomeIcon icon={faFloppyDisk} className="me-2" />
-                    Lưu sản phẩm
+                    {submitting ? "Đang lưu..." : "Lưu biến thể"}
                 </button>
             </Modal.Footer>
         </Modal>

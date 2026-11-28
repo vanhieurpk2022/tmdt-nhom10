@@ -23,6 +23,7 @@ import { useToastContext } from "../../toasts/ToastContext";
 interface AddProductModalProps {
     show: boolean;
     onSuccess?: () => void;
+    onCreated?: (id: number) => void;
     product: FactoryProductCreateRequest | FactoryProductEditRes | null;
     defaultType?: ProductType;
     availableProducts?: FactoryProductItem[];
@@ -109,6 +110,7 @@ function NewImagePreview({ file, onRemove }: { file: File; onRemove: () => void 
 export default function AddProductModal({
     show,
     onSuccess,
+    onCreated,
     product,
     defaultType,
     onHide,
@@ -210,8 +212,13 @@ export default function AddProductModal({
                 await FactoryServiceManager.updateProduct(form.id, payload);
                 showToast("Thành công", "Cập nhật sản phẩm thành công", "success");
             } else {
-                await FactoryServiceManager.createProduct(payload);
-                showToast("Thành công", "Thêm sản phẩm thành công", "success");
+                const res = await FactoryServiceManager.createProduct(payload);
+                if (form.type === ProductType.NORMAL) {
+                    showToast("Đã lưu bản nháp", "Thêm biến thể, giá và số lượng, sau đó chọn Mở bán để công khai sản phẩm.", "success");
+                    if (res.data.id != null) onCreated?.(res.data.id);
+                } else {
+                    showToast("Thành công", "Thêm sản phẩm thành công", "success");
+                }
             }
 
             onSuccess?.();
@@ -478,7 +485,7 @@ export default function AddProductModal({
                     ) : (
                         <>
                             <FontAwesomeIcon icon={faFloppyDisk} className="me-2" />
-                            {isEdit ? "Cập nhật" : "Lưu sản phẩm"}
+                            {isEdit ? "Cập nhật" : form.type === ProductType.NORMAL ? "Lưu và thêm biến thể" : "Lưu sản phẩm"}
                         </>
                     )}
                 </button>

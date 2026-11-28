@@ -30,6 +30,7 @@ import type {
     FactoryProductStats,
 } from "../dto/factory/FactoryProductRes";
 import ConfirmDeleteModal from "../components/toasts/Confirmdeletemodal";
+import axios from "axios";
 
 const PLACEHOLDER_IMG = "https://placehold.co/80x80";
 
@@ -129,7 +130,9 @@ export default function FactoryProductPage() {
             showToast("Thành công", "Đã cập nhật trạng thái sản phẩm.", "success");
         } catch (error) {
             console.log("Lỗi đổi trạng thái", error);
-            showToast("Lỗi", "Không đổi được trạng thái sản phẩm", "danger");
+            showToast("Chưa thể cập nhật", axios.isAxiosError(error)
+                ? error.response?.data?.message ?? "Không đổi được trạng thái sản phẩm"
+                : "Không đổi được trạng thái sản phẩm", "danger");
         } finally {
             getProducts();
         }
@@ -458,6 +461,7 @@ export default function FactoryProductPage() {
                 show={stateModal}
                 onHide={() => setStateModal(false)}
                 onSuccess={getProducts}
+                onCreated={handleView}
             />
 
             <ConfirmDeleteModal

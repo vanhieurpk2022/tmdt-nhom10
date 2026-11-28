@@ -159,6 +159,8 @@ public class AdminProductServiceImp implements AdminProductService {
         Product p = productRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + id));
 
+        if (request.getStatus() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng chọn trạng thái sản phẩm");
+        if (request.getStatus() == ProductStatus.ACTIVE) com.nhom10.tmdt.service.imp.ProductPublication.requireReadyToPublish(p);
         p.setStatus(request.getStatus());
         Product saved = productRepository.save(p);
         return mapToDetail(saved);

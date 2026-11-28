@@ -15,6 +15,9 @@ import { formatVnd } from "../../../format/FormatMoney";
 import { ModalAddVariant } from "./ModalAddVariant";
 import { ProductType } from "../../../../enums/ProductType";
 import { CustomProductRecipeConfig } from "./CustomProductRecipeConfig";
+import { ProductStatus } from "../../../../enums/ProductStatus";
+import { useToastContext } from "../../../toasts/ToastContext";
+import axios from "axios";
 
 
 const columnHelper = createColumnHelper<typeof features, FactoryProductVariantItem>();
@@ -26,6 +29,8 @@ export function FactoryProductDetails() {
 
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingVariant, setEditingVariant] = useState<EditableVariant | null>(null);
+    const [publishing, setPublishing] = useState(false);
+    const { showToast } = useToastContext();
 
     const [productInfo, setProductInfo] = useState<FactoryProductEditRes | null>(null);
     const [, setLoadingInfo] = useState(false);
@@ -55,6 +60,25 @@ export function FactoryProductDetails() {
     };
 
     const [variant, setVariant] = useState<FactoryProductVariantItem[]>([]);
+    const configuredVariants = variant.filter(v => v.isActive && v.mil > 0 && v.stockQuantity >= 0
+        && Number.isFinite(v.basePrice ?? v.price) && (v.basePrice ?? v.price) > 0);
+    const readyToPublish = configuredVariants.some(v => v.stockQuantity > 0);
+    const isPublished = productInfo?.status === ProductStatus.ACTIVE && configuredVariants.length > 0;
+    const publishProduct = async () => {
+        if (publishing || !readyToPublish) return;
+        try {
+            setPublishing(true);
+            await FactoryServiceManager.changeStatusOfProduct(productId, ProductStatus.ACTIVE);
+            await fetchProductInfo();
+            showToast("Đã mở bán", "Sản phẩm đã có thể hiển thị trên trang chủ và danh sách sản phẩm.", "success");
+        } catch (error) {
+            showToast("Chưa thể mở bán", axios.isAxiosError(error)
+                ? error.response?.data?.message ?? "Vui lòng thử lại."
+                : "Vui lòng thử lại.", "danger");
+        } finally {
+            setPublishing(false);
+        }
+    };
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 10,
@@ -72,15 +96,15 @@ export function FactoryProductDetails() {
     }, [productId]);
 
     const handleActive = useCallback(async (id: number) => {
+        const target = variant.find(v => v.id === id);
+        if (!target) return;
         try {
-            await FactoryServiceManager.changeStatusProductMils(id);
-            setVariant(prev =>
-                prev.map(v => (v.id === id ? { ...v, isActive: !v.isActive } : v))
-            );
+            await FactoryServiceManager.toggleStatusProductMil(productId, id, !target.isActive);
+            await getVariant();
         } catch {
-            console.log("Lỗi active Variant");
+            showToast("Lỗi", "Không đổi được trạng thái biến thể. Vui lòng thử lại.", "danger");
         }
-    }, []);
+    }, [variant, productId, getVariant, showToast]);
 
     const handleDelete = useCallback(async (id: number) => {
         try {
@@ -245,6 +269,27 @@ export function FactoryProductDetails() {
                     isCustom={productInfo?.type === ProductType.CUSTOM}
                     productName={productInfo?.name}
                 />
+
+                {productInfo && productInfo.type !== ProductType.CUSTOM && (
+                    <div className="border rounded-3 bg-white p-3 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                        <div>
+                            <div className="fw-semibold mb-1">
+                                {isPublished ? "Sản phẩm đang mở bán" : "Sản phẩm chưa công khai"}
+                            </div>
+                            <div className="small text-secondary">
+                                {isPublished
+                                    ? "Giữ ít nhất một biến thể đang bật với dung tích và giá hợp lệ để sản phẩm được hiển thị."
+                                    : "Thêm biến thể, giá và số lượng lớn hơn 0, sau đó bấm Mở bán để hiển thị sản phẩm cho khách hàng."}
+                            </div>
+                        </div>
+                        {!isPublished && (
+                            <button className="btn btn-success fw-semibold" type="button"
+                                disabled={!readyToPublish || publishing} onClick={publishProduct}>
+                                {publishing ? "Đang mở bán..." : "Mở bán sản phẩm"}
+                            </button>
+                        )}
+                    </div>
+                )}
 
                 {productInfo?.type === ProductType.CUSTOM && (
                     <CustomProductRecipeConfig

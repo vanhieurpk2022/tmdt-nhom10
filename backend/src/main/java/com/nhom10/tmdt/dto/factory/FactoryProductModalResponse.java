@@ -6,6 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record FactoryProductModalResponse(
+      Long id,
       String name,
                                           Long categoryId,
                                           ProductType type,

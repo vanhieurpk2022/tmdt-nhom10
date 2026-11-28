@@ -208,17 +208,8 @@ public class ProductService {
 
     // Build JPA Specification từ filter request
     private Specification<Product> buildSpec(ProductFilterRequest req) {
-        return (root, query, cb) -> {
+        return ProductPublication.publicProducts().and((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
-            predicates.add(cb.or(cb.isNull(root.get("status")), cb.equal(root.get("status"), com.nhom10.tmdt.enums.ProductStatus.ACTIVE)));
-            Join<Product, Factory> factoryJoin = root.join("factory", JoinType.LEFT);
-            predicates.add(cb.or(cb.isNull(factoryJoin.get("factoryStatus")), cb.equal(factoryJoin.get("factoryStatus"), com.nhom10.tmdt.enums.FactoryStatus.ACTIVE)));
-
-            // Chỉ lấy sản phẩm thông thường (NORMAL), loại trừ sản phẩm đã phối hương (CUSTOM).
-            predicates.add(cb.or(
-                    cb.isNull(root.get("productType")),
-                    cb.equal(root.get("productType"), com.nhom10.tmdt.enums.ProductType.NORMAL)
-            ));
 
             // Lọc theo danh mục
             if (req.categoryIds() != null && !req.categoryIds().isEmpty()) {
@@ -234,7 +225,8 @@ public class ProductService {
             Root<ProductMil> variant = variantPrice.from(ProductMil.class);
             Expression<Double> listedPrice = cb.coalesce(variant.<Double>get("basePrice"), variant.<Double>get("price"));
             variantPrice.select(cb.min(listedPrice)).where(
-                    cb.equal(variant.get("product"), root), cb.isTrue(variant.get("isActive")), cb.greaterThan(listedPrice, 0.0));
+                    cb.equal(variant.get("product"), root), cb.isTrue(variant.get("isActive")),
+                    cb.greaterThan(variant.get("mil"), 0), cb.ge(variant.get("stockQuantity"), 0), cb.greaterThan(listedPrice, 0.0));
             Expression<Double> productPrice = cb.coalesce(variantPrice,
                     cb.coalesce(root.<Double>get("minBasePrice"), root.<Double>get("price")));
             if (req.minPrice() != null) {
@@ -259,7 +251,7 @@ public class ProductService {
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
-        };
+        });
     }
 
     // Build Sort từ tham số sort
@@ -359,7 +351,7 @@ public class ProductService {
 
         Double fallbackPrice = p.getMinBasePrice() != null ? p.getMinBasePrice() : p.getPrice();
         Double displayPrice = p.getProductMils() == null ? fallbackPrice : p.getProductMils().stream()
-                .filter(ProductMil::isActive).map(purchases::price).filter(price -> price > 0)
+                .filter(ProductPublication::isConfiguredVariant).map(purchases::price).filter(price -> price > 0)
                 .min(Double::compareTo).orElse(fallbackPrice);
 
         return new ProductCardResponse(
@@ -380,7 +372,8 @@ public class ProductService {
     public ProductDetailResponse getProductDetail(Long id) {
         Product p = productRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy sản phẩm với id: " + id));
-        if (p.getStatus() != null && p.getStatus() != com.nhom10.tmdt.enums.ProductStatus.ACTIVE
+        if (p.getProductType() != com.nhom10.tmdt.enums.ProductType.CUSTOM && !ProductPublication.isPublic(p)
+                || p.getStatus() != null && p.getStatus() != com.nhom10.tmdt.enums.ProductStatus.ACTIVE
                 || p.getFactory() != null && p.getFactory().getFactoryStatus() != null
                 && p.getFactory().getFactoryStatus() != com.nhom10.tmdt.enums.FactoryStatus.ACTIVE) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sản phẩm hiện chưa mở bán");

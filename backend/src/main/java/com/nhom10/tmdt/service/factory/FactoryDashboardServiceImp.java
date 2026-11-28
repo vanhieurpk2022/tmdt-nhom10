@@ -5,6 +5,7 @@ import com.nhom10.tmdt.dto.factory.*;
 import com.nhom10.tmdt.enums.*;
 import com.nhom10.tmdt.model.*;
 import com.nhom10.tmdt.repo.*;
+import com.nhom10.tmdt.service.imp.ProductPublication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
@@ -379,8 +380,9 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
             User user = userRepository.findByEmail(email).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
         Category category = categoryRepository.findById(request.categoryId()).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
 
-        ProductStatus status = request.status() != null ? request.status() : ProductStatus.ACTIVE;
         ProductType type = request.type() != null ? request.type() : ProductType.NORMAL;
+        ProductStatus status = type == ProductType.NORMAL ? ProductStatus.DRAFT
+                : request.status() != null ? request.status() : ProductStatus.ACTIVE;
 
         Product p = Product.builder()
                     .factory(user.getFactory())
@@ -421,6 +423,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
         productImageRepository.saveAll(images);
 
         return FactoryProductModalResponse.builder()
+                .id(saved.getId())
                 .name(saved.getName())
                 .categoryId(category.getId())
                 .type(saved.getProductType())
@@ -456,6 +459,7 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public void updateFactoryProductMil(Long milId, FactoryVariantRequest request) {
         ProductMil productMil = productMilRepository.findById(milId).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
         access.variant(productMil);
+        ProductPublication.validateVariant(request.mil(), request.price(), request.basePrice(), request.stockQuantity());
         productMil.setBasePrice(request.basePrice());
         productMil.setMil(request.mil());
         productMil.setStockQuantity(request.stockQuantity());
@@ -514,6 +518,9 @@ public class FactoryDashboardServiceImp implements FactoryDashboardService {
     public void changeStatusProducts(Long id, ChangeStatusProduct req) {
         Product product = productRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND_PRODUCT));
         access.product(product);
+        if (req.status() == null) throw new org.springframework.web.server.ResponseStatusException(
+                org.springframework.http.HttpStatus.BAD_REQUEST, "Vui lòng chọn trạng thái sản phẩm");
+        if (req.status() == ProductStatus.ACTIVE) ProductPublication.requireReadyToPublish(product);
         product.setStatus(req.status());
     }
 

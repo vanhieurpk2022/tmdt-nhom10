@@ -19,32 +19,40 @@ import java.util.Optional;
 
 @RepositoryRestResource(path = "product")
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
+    // Cùng điều kiện với ProductPublication.publicProducts(), lọc trước khi đếm hoặc phân trang.
+    String PUBLIC_RETAIL = """
+        (p.productType = 'NORMAL' OR p.productType IS NULL)
+        AND (p.status = 'ACTIVE' OR p.status IS NULL)
+        AND (p.factory IS NULL OR p.factory.factoryStatus IS NULL OR p.factory.factoryStatus = 'ACTIVE')
+        AND EXISTS (SELECT 1 FROM ProductMil pm WHERE pm.product = p AND pm.isActive = true
+            AND pm.mil > 0 AND pm.stockQuantity >= 0 AND COALESCE(pm.basePrice, pm.price) > 0)
+        """;
 
     // Đếm số sản phẩm theo từng category để hiển thị (18), (12)... trong bộ lọc (chỉ tính sản phẩm bán lẻ thông thường)
-    @Query("SELECT p.category.id, COUNT(p) FROM Product p WHERE p.category IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.category.id")
+    @Query("SELECT p.category.id, COUNT(p) FROM Product p WHERE p.category IS NOT NULL AND " + PUBLIC_RETAIL + " GROUP BY p.category.id")
     List<Object[]> countByCategory();
 
     @Query("""
         SELECT new com.nhom10.tmdt.dto.product.CategoryDto(c.id, c.name, COUNT(p))
         FROM Product p JOIN p.category c
-        WHERE p.factory.id = :factoryId
-          AND (p.productType = 'NORMAL' OR p.productType IS NULL)
+        WHERE p.factory.id = :factoryId AND
+        """ + PUBLIC_RETAIL + """
         GROUP BY c.id, c.name
         ORDER BY c.name
         """)
     List<CategoryDto> findCategoriesByFactoryId(@Param("factoryId") Long factoryId);
 
     // Đếm số sản phẩm theo từng factory (chỉ tính sản phẩm bán lẻ thông thường)
-    @Query("SELECT p.factory.id, COUNT(p) FROM Product p WHERE p.factory IS NOT NULL AND (p.productType = 'NORMAL' OR p.productType IS NULL) GROUP BY p.factory.id")
+    @Query("SELECT p.factory.id, COUNT(p) FROM Product p WHERE p.factory IS NOT NULL AND " + PUBLIC_RETAIL + " GROUP BY p.factory.id")
     List<Object[]> countByFactory();
 
-    @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) ORDER BY p.createdAt DESC, p.id DESC")
+    @Query("SELECT p FROM Product p WHERE " + PUBLIC_RETAIL + " ORDER BY p.createdAt DESC, p.id DESC")
     List<Product> findNewestProducts(Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) ORDER BY COALESCE(p.views, 0L) DESC, p.id DESC")
+    @Query("SELECT p FROM Product p WHERE " + PUBLIC_RETAIL + " ORDER BY COALESCE(p.views, 0L) DESC, p.id DESC")
     List<Product> findMostViewedProducts(Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE (p.productType = 'NORMAL' OR p.productType IS NULL) AND p.status = 'ACTIVE' ORDER BY COALESCE(p.totalSold, 0L) DESC, p.id DESC")
+    @Query("SELECT p FROM Product p WHERE " + PUBLIC_RETAIL + " ORDER BY COALESCE(p.totalSold, 0L) DESC, p.id DESC")
     List<Product> findBestSellerProducts(Pageable pageable);
 
     List<Product> findByFactoryId(Long factoryId);
