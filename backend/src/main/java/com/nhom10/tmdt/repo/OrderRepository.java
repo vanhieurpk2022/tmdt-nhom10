@@ -214,6 +214,9 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
             @Param("to") LocalDateTime to
     );
 
+    @Query("SELECT MIN(o.createdAt) FROM Order o")
+    LocalDateTime findEarliestOrderTime();
+
     /**
      * Phân bổ trạng thái toàn bộ đơn hàng trên sàn — dùng cho biểu đồ tròn
      */

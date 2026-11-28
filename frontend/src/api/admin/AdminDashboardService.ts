@@ -37,10 +37,12 @@ export interface AdminBarChartItem {
     normalRevenue: number;
 }
 
+export type AdminChartGrouping = "HOUR" | "DAY" | "MONTH" | "YEAR";
+
 export interface AdminBarChartResponse {
     fromDate: string;
     toDate: string;
-    groupBy: "DAY" | "MONTH";
+    groupBy: AdminChartGrouping;
     totalPeriodRevenue: number;
     totalPeriodOrders: number;
     totalPeriodQuantity: number;
@@ -75,7 +77,7 @@ export interface BarChartQueryParams {
     from?: string;
     to?: string;
     period?: "7days" | "30days" | "90days" | "year" | "all" | string;
-    groupBy?: "DAY" | "MONTH" | string;
+    groupBy?: AdminChartGrouping | "AUTO";
 }
 
 export const AdminDashboardService = {
@@ -90,9 +92,10 @@ export const AdminDashboardService = {
     /**
      * Lấy dữ liệu biểu đồ cột theo thời gian
      */
-    getBarChart: async (params?: BarChartQueryParams): Promise<AdminBarChartResponse> => {
+    getBarChart: async (params?: BarChartQueryParams, signal?: AbortSignal): Promise<AdminBarChartResponse> => {
         const res = await api.get<ApiResponse<AdminBarChartResponse>>("/admin/dashboard/bar-chart", {
             params,
+            signal,
         });
         return res.data.data;
     },

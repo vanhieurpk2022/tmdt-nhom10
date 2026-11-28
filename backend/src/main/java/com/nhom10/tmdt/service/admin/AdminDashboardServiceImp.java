@@ -12,12 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -103,99 +102,64 @@ public class AdminDashboardServiceImp implements AdminDashboardService {
     public AdminBarChartResponseDto getBarChartStats(LocalDate from, LocalDate to, String period, String groupBy) {
         LocalDate today = LocalDate.now();
 
-        if (period != null && !period.isBlank()) {
-            switch (period.toLowerCase()) {
+        if ((from == null) != (to == null)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng chọn đủ ngày bắt đầu và kết thúc");
+        }
+        if (from == null && period != null && !period.isBlank()) {
+            switch (period.toLowerCase(Locale.ROOT)) {
+                case "today" -> {
+                    from = today;
+                    to = today;
+                }
                 case "7days" -> {
                     from = today.minusDays(6);
                     to = today;
-                    if (groupBy == null || groupBy.isBlank()) groupBy = "DAY";
                 }
                 case "30days" -> {
                     from = today.minusDays(29);
                     to = today;
-                    if (groupBy == null || groupBy.isBlank()) groupBy = "DAY";
                 }
                 case "90days" -> {
                     from = today.minusDays(89);
                     to = today;
-                    if (groupBy == null || groupBy.isBlank()) groupBy = "DAY";
                 }
-                case "year" -> {
-                    from = today.minusMonths(11).withDayOfMonth(1);
+                case "6months" -> {
+                    from = today.minusMonths(6).plusDays(1);
                     to = today;
-                    if (groupBy == null || groupBy.isBlank()) groupBy = "MONTH";
+                }
+                case "year", "1year" -> {
+                    from = today.minusYears(1).plusDays(1);
+                    to = today;
                 }
                 case "all" -> {
-                    from = today.minusYears(2).withDayOfMonth(1);
+                    LocalDateTime earliest = orderRepository.findEarliestOrderTime();
+                    from = earliest == null ? today.minusDays(6) : earliest.toLocalDate();
                     to = today;
-                    if (groupBy == null || groupBy.isBlank()) groupBy = "MONTH";
                 }
-                default -> {}
+                default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Khoảng thời gian không hợp lệ");
             }
         }
 
         if (from == null) from = today.minusDays(29);
         if (to == null) to = today;
         if (from.isAfter(to)) {
-            LocalDate tmp = from;
-            from = to;
-            to = tmp;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc");
         }
 
         // 2. Xác định cách gom nhóm
-        long daysDiff = ChronoUnit.DAYS.between(from, to);
-        boolean isMonthGrouping = "MONTH".equalsIgnoreCase(groupBy) ||
-                (groupBy == null && daysDiff > 62);
-
-        String effectiveGroupBy = isMonthGrouping ? "MONTH" : "DAY";
+        DashboardChartGrouping grouping = DashboardChartGrouping.resolve(from, to, groupBy);
 
         // 3. Khởi tạo sẵn tất cả các mốc thời gian liên tục với giá trị 0
         Map<String, AdminBarChartItemDto> bucketMap = new LinkedHashMap<>();
 
-        if (isMonthGrouping) {
-            YearMonth startMonth = YearMonth.from(from);
-            YearMonth endMonth = YearMonth.from(to);
-            DateTimeFormatter keyFmt = DateTimeFormatter.ofPattern("yyyy-MM");
-            DateTimeFormatter labelFmt = DateTimeFormatter.ofPattern("MM/yyyy");
-
-            YearMonth cur = startMonth;
-            while (!cur.isAfter(endMonth)) {
-                String key = cur.format(keyFmt);
-                String label = cur.format(labelFmt);
-                bucketMap.put(key, AdminBarChartItemDto.builder()
-                        .date(key)
-                        .label(label)
-                        .revenue(0.0)
-                        .orderCount(0L)
-                        .totalQuantity(0L)
-                        .completedOrders(0L)
-                        .cancelledOrders(0L)
-                        .customRevenue(0.0)
-                        .normalRevenue(0.0)
-                        .build());
-                cur = cur.plusMonths(1);
-            }
-        } else {
-            DateTimeFormatter keyFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DateTimeFormatter labelFmt = DateTimeFormatter.ofPattern("dd/MM");
-
-            LocalDate cur = from;
-            while (!cur.isAfter(to)) {
-                String key = cur.format(keyFmt);
-                String label = cur.format(labelFmt);
-                bucketMap.put(key, AdminBarChartItemDto.builder()
-                        .date(key)
-                        .label(label)
-                        .revenue(0.0)
-                        .orderCount(0L)
-                        .totalQuantity(0L)
-                        .completedOrders(0L)
-                        .cancelledOrders(0L)
-                        .customRevenue(0.0)
-                        .normalRevenue(0.0)
-                        .build());
-                cur = cur.plusDays(1);
-            }
+        LocalDateTime cursor = grouping.startOfBucket(from.atStartOfDay());
+        LocalDateTime end = to.atTime(LocalTime.MAX);
+        while (!cursor.isAfter(end)) {
+            bucketMap.put(grouping.key(cursor), AdminBarChartItemDto.builder()
+                    .date(grouping.key(cursor))
+                    .label(grouping.label(cursor))
+                    .build());
+            cursor = grouping.next(cursor);
         }
 
         // 4. Lấy đơn hàng trong khoảng và phân bổ vào các mốc thời gian
@@ -203,17 +167,15 @@ public class AdminDashboardServiceImp implements AdminDashboardService {
         LocalDateTime toDateTime = to.atTime(LocalTime.MAX);
         List<Order> orders = orderRepository.findAllOrdersInDateRange(fromDateTime, toDateTime);
 
-        DateTimeFormatter matchFmt = isMonthGrouping
-                ? DateTimeFormatter.ofPattern("yyyy-MM")
-                : DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
         double totalPeriodRev = 0.0;
         long totalPeriodOrd = 0L;
         long totalPeriodQty = 0L;
 
         for (Order o : orders) {
             if (o.getCreatedAt() == null) continue;
-            String key = o.getCreatedAt().format(matchFmt);
+            // Các cột tháng/năm có thể chứa phần nằm ngoài khoảng ngày đã chọn.
+            if (o.getCreatedAt().isBefore(fromDateTime) || o.getCreatedAt().isAfter(toDateTime)) continue;
+            String key = grouping.key(o.getCreatedAt());
             AdminBarChartItemDto item = bucketMap.get(key);
             if (item == null) continue;
 
@@ -252,7 +214,7 @@ public class AdminDashboardServiceImp implements AdminDashboardService {
         return AdminBarChartResponseDto.builder()
                 .fromDate(from)
                 .toDate(to)
-                .groupBy(effectiveGroupBy)
+                .groupBy(grouping.name())
                 .totalPeriodRevenue(totalPeriodRev)
                 .totalPeriodOrders(totalPeriodOrd)
                 .totalPeriodQuantity(totalPeriodQty)

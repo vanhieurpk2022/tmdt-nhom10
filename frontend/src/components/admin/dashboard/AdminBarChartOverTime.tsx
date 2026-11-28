@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
     BarChart,
     Bar,
@@ -12,7 +13,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChartColumn,
-    faCalendarDays,
     faCoins,
     faBagShopping,
     faBoxesStacked,
@@ -25,43 +25,55 @@ import {
     type AdminBarChartResponse,
     type BarChartQueryParams,
 } from "../../../api/admin/AdminDashboardService";
+import { DateRangeFilter, formatDisplayDate, parseLocalDate, resolvePresetRange,
+    type DateRangeValue } from "../statistics/DateRangeFilter";
 
 type ChartMetric = "revenue" | "orders" | "quantity" | "productType";
 
 export default function AdminBarChartOverTime() {
-    const [period, setPeriod] = useState<string>("30days");
-    const [customFrom, setCustomFrom] = useState<string>("");
-    const [customTo, setCustomTo] = useState<string>("");
-    const [isCustomDate, setIsCustomDate] = useState<boolean>(false);
+    const [dateRange, setDateRange] = useState<DateRangeValue>(() => resolvePresetRange("30days"));
+    const [refreshVersion, setRefreshVersion] = useState(0);
     const [metric, setMetric] = useState<ChartMetric>("revenue");
-    const [loading, setLoading] = useState<boolean>(false);
-    const [chartData, setChartData] = useState<AdminBarChartResponse | null>(null);
-
-    const fetchChart = useCallback(async () => {
-        setLoading(true);
-        try {
-            const params: BarChartQueryParams = {};
-            if (isCustomDate && customFrom && customTo) {
-                params.from = customFrom;
-                params.to = customTo;
-            } else {
-                params.period = period;
-            }
-
-            const data = await AdminDashboardService.getBarChart(params);
-            setChartData(data);
-        } catch (err) {
-            console.error("Lỗi khi tải dữ liệu biểu đồ cột Admin:", err);
-        } finally {
-            setLoading(false);
-        }
-    }, [period, isCustomDate, customFrom, customTo]);
+    const [requestLoading, setLoading] = useState<boolean>(false);
+    const [chartResponse, setChartData] = useState<AdminBarChartResponse | null>(null);
+    const [requestError, setErrorMessage] = useState("");
+    const from = parseLocalDate(dateRange.fromDate);
+    const to = parseLocalDate(dateRange.toDate);
+    const validRange = dateRange.preset === "all" || !!(from && to && from <= to);
+    const chartData = validRange ? chartResponse : null;
+    const loading = validRange && requestLoading;
+    const errorMessage = validRange ? requestError
+        : "Vui lòng chọn khoảng ngày hợp lệ: ngày bắt đầu không sau ngày kết thúc.";
 
     useEffect(() => {
-        fetchChart();
-    }, [fetchChart]);
+        const { preset, fromDate, toDate } = dateRange;
+        if (!validRange) return;
+        const controller = new AbortController();
+        const fetchChart = async () => {
+            setLoading(true);
+            setErrorMessage("");
+            try {
+                const params: BarChartQueryParams = preset === "all"
+                    ? { period: "all" }
+                    : { from: fromDate, to: toDate };
+                const data = await AdminDashboardService.getBarChart(params, controller.signal);
+                if (!controller.signal.aborted) setChartData(data);
+            } catch (error) {
+                if (controller.signal.aborted) return;
+                setChartData(null);
+                setErrorMessage(axios.isAxiosError(error)
+                    ? error.response?.data?.message ?? "Không tải được biểu đồ. Vui lòng thử lại."
+                    : "Không tải được biểu đồ. Vui lòng thử lại.");
+            } finally {
+                if (!controller.signal.aborted) setLoading(false);
+            }
+        };
+        void fetchChart();
+        return () => controller.abort();
+    }, [dateRange, refreshVersion, validRange]);
 
     const items = chartData?.items || [];
+    const groupingLabel = chartData ? { HOUR: "giờ", DAY: "ngày", MONTH: "tháng", YEAR: "năm" }[chartData.groupBy] : "";
 
     // Format giá trị hiển thị trên trục Y và tooltip
     const formatYAxis = (val: number) => {
@@ -96,81 +108,27 @@ export default function AdminBarChartOverTime() {
                         </div>
                     </div>
 
-                    {/* Bộ lọc khoảng thời gian */}
-                    <div className="d-flex flex-wrap align-items-center gap-2">
-                        <div className="btn-group btn-group-sm" role="group">
-                            {[
-                                { key: "7days", label: "7 ngày" },
-                                { key: "30days", label: "30 ngày" },
-                                { key: "90days", label: "90 ngày" },
-                                { key: "year", label: "1 năm" },
-                                { key: "all", label: "Toàn bộ" },
-                            ].map((p) => (
-                                <button
-                                    key={p.key}
-                                    type="button"
-                                    className={`btn ${!isCustomDate && period === p.key
-                                            ? "btn-danger fw-bold"
-                                            : "btn-outline-secondary"
-                                        }`}
-                                    onClick={() => {
-                                        setIsCustomDate(false);
-                                        setPeriod(p.key);
-                                    }}
-                                >
-                                    {p.label}
-                                </button>
-                            ))}
-                            <button
-                                type="button"
-                                className={`btn ${isCustomDate ? "btn-danger fw-bold" : "btn-outline-secondary"
-                                    }`}
-                                onClick={() => setIsCustomDate(true)}
-                            >
-                                <FontAwesomeIcon icon={faCalendarDays} className="me-1" />
-                                Tùy chọn
-                            </button>
-                        </div>
-
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                            onClick={fetchChart}
-                            title="Làm mới biểu đồ"
-                        >
-                            <FontAwesomeIcon icon={faRotate} className={loading ? "fa-spin" : ""} />
-                        </button>
-                    </div>
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-outline-secondary"
+                        onClick={() => setRefreshVersion(value => value + 1)}
+                        disabled={loading || !validRange}
+                        title="Làm mới biểu đồ"
+                    >
+                        <FontAwesomeIcon icon={faRotate} className={loading ? "fa-spin" : ""} />
+                    </button>
                 </div>
 
-                {/* 2. Bộ lọc ngày tùy chọn (nếu bật) */}
-                {isCustomDate && (
-                    <div className="d-flex flex-wrap align-items-center gap-2 mb-3 p-2 bg-light rounded-3">
-                        <span className="small text-secondary fw-semibold">Từ ngày:</span>
-                        <input
-                            type="date"
-                            className="form-control form-control-sm"
-                            style={{ width: "auto" }}
-                            value={customFrom}
-                            onChange={(e) => setCustomFrom(e.target.value)}
-                        />
-                        <span className="small text-secondary fw-semibold">Đến ngày:</span>
-                        <input
-                            type="date"
-                            className="form-control form-control-sm"
-                            style={{ width: "auto" }}
-                            value={customTo}
-                            onChange={(e) => setCustomTo(e.target.value)}
-                        />
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-danger px-3"
-                            onClick={fetchChart}
-                            disabled={!customFrom || !customTo}
-                        >
-                            Áp dụng
-                        </button>
+                <DateRangeFilter idPrefix="admin-bar" value={dateRange} onChange={setDateRange}
+                    isLoading={loading} />
+                {chartData && (
+                    <div className="small text-secondary mb-3">
+                        {formatDisplayDate(chartData.fromDate)} – {formatDisplayDate(chartData.toDate)}
+                        {" · "}Mỗi cột tương ứng một {groupingLabel}
                     </div>
+                )}
+                {errorMessage && (
+                    <div className="alert alert-warning py-2 small" role="alert">{errorMessage}</div>
                 )}
 
                 {/*  Tóm tắt số liệu trong kỳ */}
@@ -263,6 +221,8 @@ export default function AdminBarChartOverTime() {
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                 <XAxis
                                     dataKey="label"
+                                    interval="preserveStartEnd"
+                                    minTickGap={18}
                                     stroke="#94a3b8"
                                     tick={{ fontSize: 11 }}
                                     tickLine={false}
